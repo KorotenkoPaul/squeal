@@ -1,0 +1,122 @@
+Nom: Clinique de l’Amour
+
+Auteur: Asjad Ullah
+
+Description: Le docteur Rick, un psychiatre émotionnellement perturbé, tombe éperdument amoureux de sa patiente Sarah. Cependant l'amour aveugle de Rick le conduit à une réalité qu'il ne veut pas accepter.
+
+|  |  |
+| :-: | :-: |
+| Dr. Rick: | Comment tu vas mon bébé? |
+| Sarah: | Salut, bien. Et toi? |
+| Dr. Rick:  | Bien aussi \! |
+| Dr. Rick: | Je ne peux attendre notre prochaine session.  |
+| Sarah: | Hummm. |
+| Dr. Rick: | Tu n’es pas impatiente? |
+| Sarah: | Je ne sais pas trop, Rick. |
+| Dr. Rick:  | Tu ne sais pas quoi? |
+| Dr. Rick: | Tu es à nouveau toi-même.  |
+| Dr. Rick: | Rater tes séances de thérapie n’aidera pas.  |
+| Sarah: | Je veux te dire quelque chose d’important.  |
+| Dr. Rick: | Qu’est-ce qu’il y a mon cœur ? Tu peux tout me dire.  |
+| Dr. Rick: | Après tout, je suis ton docteur ;)  |
+| Sarah: | Rick, on ne doit plus continuer notre thérapie.  |
+| Sarah: | On doit arrêter.  |
+| Dr. Rick: | Quoi? Qu’est-ce que tu veux dire par arrêter? |
+| Dr. Rick: | C’est un traitement, pourquoi devrait-on arrêter? |
+| Sarah: | C’est compliqué. |
+| Dr. Rick: | Qu’est-ce qui est compliqué ma chérie? |
+| Dr. Rick: | Tu ne prends plus tes pilules? |
+| Dr. Rick: | Tu agissais comme ça au début du traitement. |
+| Dr. Rick: | Allez Sarah, qu’est-ce qui ne va pas? |
+| Dr. Rick: | Tu peux parler mon amour. |
+| Sarah: | Je ne veux pas briser ton cœur. |
+| Dr. Rick: | Ok, Sarah tu me fais peur maintenant.  |
+| Dr. Rick: | Je vais venir te voir. |
+| Sarah: | Ne viens pas. |
+| Sarah: | J’ai peur que tu n’acceptes pas la réalité.  |
+| Dr. Rick: | Quelle réalité Sarah? |
+| Dr. Rick: | Nous nous aimons, n’est-ce pas la réalité ? |
+| Sarah: | Ce n’est pas vrai. |
+| Dr. Rick: | Notre amour n’est pas vrai? Qu’est-ce que tu racontes? |
+| Sarah: | Ce n’est pas ce que tu penses. |
+| Dr. Rick: | Alors c’est quoi ? Explique moi? |
+| Sarah: | C’est plus profond que ça.  |
+| Dr. Rick: | Sarah\! Sois directe s’il-te-plaît. |
+| Sarah: | Je ne peux pas. |
+| Sarah: | J’ai peur que tu fasses une dépression nerveuse. |
+| Dr. Rick: | Woaw… A ce point? |
+| Sarah: | C’est pire. |
+| Dr. Rick: | Ça suffit Sarah; parle maintenant.  |
+| Sarah: | Comment est-ce que tu pourras me pardonner?  |
+| Sarah: | C’était mon idée. |
+| Sarah: | Et maintenant, je ne sais même pas quoi faire.  |
+| Dr. Rick: | Ecoute Sarah, tu ne me sembles pas dans ton état normal là.  |
+| Dr. Rick: | Tu devrais te reposer et nous parlerons plus tard.  |
+| Sarah: | Je vais parfaitement bien. |
+| Sarah: | C’est toi Rick. |
+| Sarah: | C’est toi qui ne vas pas bien. |
+| Dr. Rick: | Qu’est-ce que tu veux dire par « je ne vais pas bien »? |
+| Dr. Rick: | On est ensemble depuis plusieurs mois maintenant. |
+| Dr. Rick: | Et qu’est-ce que tu fais de toutes ces soirées passées ensemble ? |
+| Dr. Rick: | Et les sessions Sarah? |
+| Sarah: | Les apparences sont trompeuses. |
+| Dr. Rick: | Qu’est-ce que ça signifie ? |
+| Dr. Rick: | Tu m’as perdu Sarah. |
+| Sarah: | S’il-te-plait retiens-toi. |
+| Sarah: | Je suis sur le point de te dire quelque chose de vraiment choquant.  |
+| Sarah: | Je ne sais pas comment tu vas réagir.  |
+| Dr. Rick: | Je suis tout ouïe Sarah, arrête le suspense. |
+| Sarah: | Toutes ces sessions de thérapie Rick. |
+| Dr. Rick:  | Oui qu’est-ce qu’elles ont? |
+| Sarah: | Ce n’était pas mes sessions de thérapies. |
+| Dr. Rick: | Je ne comprends pas ce que tu essaies de dire Sarah.  |
+| Dr. Rick: | Comment ça ce n’était pas tes sessions de thérapie? |
+| Sarah: | Oui Rick, je dis la vérité. |
+| Sarah: | Tu n’es pas un docteur Rick. Plus maintenant.  |
+| Dr. Rick:  | Sarah je suis perdu. |
+| Sarah: | Tu étais psychiatre avant l’accident.  |
+| Dr. Rick: | Quel accident? |
+| Sarah: | Tu as eu un accident grave l’année dernière. |
+| Dr. Rick:  | Un accident? Pourquoi est-ce que je ne me rappelle de rien? |
+| Sarah: | Tu as perdu la mémoire dans l’accident. |
+| Sarah: | Ta mémoire et tes émotions. |
+| Sarah: | Tout était parti. |
+| Dr. Rick:  | Et après qu’est-il arrivé? |
+| Sarah: | Tu devais être mis sous un traitement spécial.  |
+| Sarah: | Tu devais être mis dans des situations extrêmes émotionnellement et d’excitation pour que tu retrouves tes émotions.  |
+| Dr. Rick: | Mais si j’étais incapable de ressentir des émotions, comment puis-je t’aimer? |
+| Dr. Rick:  | L’amour n’est-ce pas des émotions? |
+| Sarah: | Tu as récupéré ta capacité à avoir des émotions. |
+| Sarah: | Mais pas ta mémoire. |
+| Dr. Rick: | Et à propos de notre amour? |
+| Sarah: | Tu ne sais même pas qui je suis. |
+| Dr. Rick: | Pourquoi devrais-je te croire ?  |
+| Dr. Rick: | Tu es une malade mentale, une patiente souffrant d’une perte de mémoire.  |
+| Sarah: | Non Rick, je ne suis pas une patiente. |
+| Dr. Rick: | Tu mens; j’ai vu ton dossier à plusieurs reprises.  |
+| Dr. Rick:  | Oh mon Dieu\! |
+| Dr. Rick: | Je comprends tout maintenant, c’est ton histoire.  |
+| Dr. Rick: | Tu as eu un accident, suivi d’une perte de mémoire.  |
+| Sarah: | Tout a été inventé pour que tu récupères ta mémoire.  |
+| Dr. Rick: | Tu mens. Pourquoi devrais-je croire une patiente d’hôpital psychiatrique ? |
+| Sarah: | Je ne suis pas une patiente. |
+| Dr. Rick: | Tu ne peux même pas le prouver Sarah. |
+| Sarah: | Je me sens désolée pour toi |
+| Dr. Rick:  | Ne t’inquiète pas Sarah, tu seras bientôt guérie.  |
+| Sarah: | A la base c’était mon idée. |
+| Sarah: | D’essayer cette thérapie sur toi.  |
+| Dr. Rick:  | Je suis ton docteur, Sarah. |
+| Dr. Rick:  | Je suis un psychiatre brillant |
+| Dr. Rick:  | Et on s’aime.  |
+| Sarah: | Non Rick. Je suis ton docteur et tu es un patient mental.  |
+| Sarah: | Et notre amour faisait parti du traitement.  |
+| Sarah: | Je suis désolée, je n’ai pas réussi à te faire redevenir celui que étais. |
+| Dr. Rick:  | Tu ne m’aimes pas Sarah? |
+| Sarah: | Mon nom est Dr. Martha.  |
+| Martha: | Sarah était le nom de ta femme. |
+| Martha: | Cela a été fait en sorte de stimuler ta mémoire avec ce prénom pour la faire revenir.  |
+| Dr. Rick: | Quoi ? Et où est-elle à présent? |
+| Martha: | Elle est décédée Rick. |
+| Martha: | Elle conduisait, quand vous avez eu l’accident. |
+| Dr. Rick: | Et à propos de mon amour Sarah? |
+| Martha: | Ce n’était pas de l’amour Rick, c’était ton traitement. |

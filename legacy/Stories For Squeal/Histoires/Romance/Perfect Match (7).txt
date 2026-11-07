@@ -1,0 +1,99 @@
+Titre: Un match parfait
+
+Auteur: Asjad Ullah
+
+Description: Sam pense qu'il n'aime plus sa femme, il commence à chercher quelqu’un pour pimenter un peu sa vie, en utilisant une fausse carte d'identité sur un site de rencontre. Enfin, il trouve un match parfait, mais il s'avère que ce match est juste trop parfait pour qu'il continue.
+
+|  |  |
+| :-: | :-: |
+| Sam: | Salut \! Ça va ?  |
+| Eve:  | Salut, je vais bien.  |
+| Eve: | Et toi? |
+| Sam: | Je vais bien aussi.  |
+| Sam: | Je parcourais les profils et |
+| Sam: | J’ai trouvé le tien très intéressant.  |
+| Eve: | Merci.  |
+| Eve: | Donc, Dis-moi en plus sur toi.  |
+| Sam:  | Bien, je sui un homme simple, j’ai un boulot dans le privé.  |
+| Eve: | Donc tu cherches ici quelqu’un pour sortir avec ?  |
+| Sam: | Oui, c’est ce que je cherche. |
+| Sam:  | Je cherche quelqu’un d’intéressant et délicieux. |
+| Eve: | C’est cool.  |
+| Eve:  | Je suis aussi à la recherche de quelqu’un d’intéressant. |
+| Eve:  | Donc quel type de personnalité as-tu ?  |
+| Sam: | Je suis extraverti, j’adore sortir, aller dans des endroits.  |
+| Sam | Manger dehors, danser, faire du sport et la liste est longue.  |
+| Eve: | Oh sympa. |
+| Sam: | Et toi? |
+| Eve: | Eh bien, je suis ambiverte.  |
+| Eve:  | J’aime sortir, mais j’ai besoin de recharger mes batteries de temps en temps.  |
+| Sam: | Qu’est-ce qui t’intéresse ?  |
+| Eve:  | Euuuh. J’adore cuisiner, peindre et l’art en général. |
+| Sam: | Wow, c’est vraiment cool.  |
+| Eve:  | Merci. |
+| Sam:  | On pourrait se rencontrer un jour ?  |
+| Eve:  | Ouais bien sûr. |
+| Sam:  | Et où devrions-nous aller ?  |
+| Sam: | Tu as un restaurant préféré ?  |
+| Eve: | J’adore manger chez Shack Stone. |
+| Sam: | Wow\! |
+| Eve: | Quoi ? Tu n’aimes pas cette place? |
+| Sam:  | Non c’est pas ça, j’apprécie aussi cet endroit. |
+| Eve: | Alors quoi ? |
+| Sam: | En fait, une idée folle m’est venue à l’esprit. |
+| Sam: | Oublie |
+| Eve: | Humm |
+| Eve:  | C’est difficile d’oublier. |
+| Eve: | Mais allons là-bas |
+| Sam: | Très bien, samedi soir à 8h ?  |
+| Eve: | Humm. Je pensais à quelque chose d’autre. |
+| Sam: | Quoi? |
+| Eve: | Quel est ton endroit préféré ?  |
+| Sam:  | Pourquoi c’est important? |
+| Eve: | Je pense que tu n’aimes pas Shack Stone.  |
+| Sam: | Non ce n’est pas ça. |
+| Sam: | C’est juste quelqu’un que je connaissais |
+| Sam: | Elle aimait aussi Shack Stone. |
+| Eve: | Ok, et qui est-elle ?  |
+| Eve: | Si ce n’est pas trop personnel ;p  |
+| Sam: | Lol. Rien de cela.  |
+| Sam: | Juste une vieille amie. |
+| Eve: | Humm. |
+| Eve: | J'aimerais quand même connaître votre restaurant préféré. |
+| Sam: | J’adore manger chez Wao Tang. |
+| Eve: | Quoi? Sérieusement? |
+| Sam:  | Ouais, tu aimes aussi? |
+| Eve: | Ça me convient, mais genre sérieusement ?  |
+| Eve: | Tu aimes Wao Tang? |
+| Sam: | Ouais, pourquoi tu parais si surprise ?  |
+| Eve: | Est-ce que tu me croiras? |
+| Eve:  | Quelqu’un que je connaissais adorait manger chez Wao Tang. |
+| Sam: | Mon tour maintenant. :p |
+| Sam: | Et qui était-il?  |
+| Eve:  | Nan, juste un vieil ami. :p |
+| Sam: | Il semble que nous ayons un passé lié.  |
+| Eve: | Ouais, dans notre vie précédente nous étions en couple.  |
+| Sam: | Lol.  |
+| Eve:  | Rencontrons-nous alors. |
+| Sam:  | Bien sûr, je viendrai te chercher chez Tiffany.  |
+| Eve: | Super.  |
+| Sam: | J’ai une berline grise. |
+| Eve: | Wow. Je suis vraiment confuse maintenant. |
+| Sam: | Pourquoi, qu’est-ce qu’il se passe ?  |
+| Eve:  | Je ne sais pas si je devrais demander ou pas. |
+| Eve: | Ce sera très embarrassant si je me trompe.  |
+| Sam:  | Te trompe sur quoi ?  |
+| Eve: | Est-ce que tu peux répondre à une autre question ?  |
+| Sam: | Oui bien sûr, vas-y. |
+| Eve: | Est-ce que tu travailles chez Smith ?  |
+| Sam: | Mon Dieu \! Comment tu sais ? |
+| Eve: | Jack? |
+| Jack: | Comment tu connais mon vrai nom ?  |
+| Jack: | Merde. Cela signifie que tu es… |
+| Jack: | Tu es Maria. |
+| Maria: | Oui Jack et cette fois tu es parti. |
+| Maria: | Tu devrais avoir honte. |
+| Jack: | Maria, sois rationnelle mon cœur. |
+| Jack: | Nous avons tous les deux été pris la main dans le sac sur la même plateforme.  |
+| Maria: | Qu’est-ce que tu faisais ici bon dieu ?  |
+| Jack: | Mon cœur, parlons-en à la maison quand je rentrerai. |

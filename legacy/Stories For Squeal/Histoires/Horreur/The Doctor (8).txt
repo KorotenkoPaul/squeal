@@ -1,0 +1,217 @@
+
+Nom: Le docteur
+Auteur: Rich Samuels
+Description: Josh fait du camping tout seul et est à des kilomètres de toute civilisation.  Malheureusement, il s’est blessé et a besoin de soins médicaux d’urgence. Incapable de faire de la randonnée en toute sécurité pour le secourir, son ami a pris ses dispositions pour qu'un médecin l’aide et le conseille par message.
+
+
+Docteur
+Bonjour Josh, C’est le Docteur Beslow
+Josh
+Bonjour Doc, merci de me contacter. 
+Docteur
+Votre ami Johnny m’a parlé de vous et m’a dit que vous aviez un problème.
+Josh
+Ouais, un gros problème. Je suis en train de camper. Je suis un peu au milieu de nulle part.
+Josh
+Je veux dire  que je suis vraiment loin de tout. 
+Josh
+Je crois que je me suis blessé.
+Docteur
+Comment ?
+Josh
+Je n’en suis pas sûr. Je ne suis pas sûr, c'est comme si, j’avais quelque chose aux côtes.
+Docteur
+Et personne ne peut vous aider?
+Josh
+Je suis seul. On ne pourrait pas arriver ici avant plusieurs jours. 
+Josh
+Et cela fait très mal.
+Josh
+C’est pour cela que Johnny vous a contacté.
+Docteur
+Vous dites que c’est à vos côtes ? 
+Josh
+Tout est meurtri. 
+Docteur
+Ce n’est pas bon.
+Josh
+Ouais, je sais. Qu’est ce que je dois faire ? 
+Docteur
+Eh bien déjà, c'est une bonne chose que vous n'ayez pas essayé de faire de la randonnée pour vous en sortir tout seul.
+Josh
+Mais c’est toujours douloureux.
+Docteur
+Je dois y voir de plus près. 
+Josh
+C’est-à-dire ?
+Docteur
+Avez-vous un couteau ? 
+Josh
+J’ai mon couteau de chasse…pourquoi?
+Docteur
+Vous allez devoir faire quelque chose pour moi. 
+Josh
+Qu’est-ce que vous voulez dire par « faire quelque chose » ?
+Docteur
+Vous allez effectuer une incision.
+Josh
+QUOI ? Je ne peux pas faire ça !
+Docteur
+Vous voulez mourir là-bas ?
+Josh
+Non.
+Docteur
+Alors vous allez faire une incision. 
+Josh
+Et si ça saigne ?
+Docteur
+Ne vous inquiétez pas à propos de cela.
+Josh
+Comment ça ?
+Docteur
+Qui est le docteur ici ?
+Josh
+Vous, mais je ne vais pas saigner ? 
+Docteur
+Bien sûr que cela va saigner, mais c’est mon problème. 
+Docteur
+Faites l’incision.
+Docteur
+De la gauche vers la droite. 
+Docteur
+Trois…non, quatre centimètres de longueur.
+Docteur
+Ensuite, montrez-moi quand vous aurez fini.
+Josh
+Vous êtes sûr de cela ?
+Docteur
+Très sûr. Je suis un docteur, souvenez-vous en.
+Josh
+Vous êtes sûr qu’il n’y a pas d’autres moyens ?
+Docteur
+Faites l’incision, Josh.
+Josh
+Je vais essayer
+Josh
+Ok, j’ai fait l’incision.
+Docteur
+Très bien.
+Docteur
+Maintenant tirer. 
+Josh
+Quoi ?
+Docteur
+Tirer la peau pour que je puisse voir ce qu’il y a en dessous.
+Josh
+Mais cela va faire mal !
+Docteur
+Vous préférez mourir ?
+Josh
+Non.
+Docteur
+Retirez la peau. 
+Josh
+Cela va être très douloureux.
+Docteur
+Vous préférez mourir ?
+Josh
+Non.
+Docteur
+Retirez-là.
+Docteur
+Autant que possible !
+Josh
+Cela ne s’ouvre pas tant que ça. 
+Docteur
+Alors vous devez faire une incision plus grande. 
+Josh
+PLUS GRANDE ???
+Docteur
+À peu près le double.
+Josh
+Je vous en prie, Je ne préférerais pas.
+Docteur
+Vous devez le faire.
+Docteur
+Juste faites-le rapidement.
+Josh
+Je saigne de partout.
+Docteur
+Vous l’avez fait ?
+Josh
+Ouais.
+Docteur
+Bien.
+Josh
+Dites moi ce qui ne va pas chez moi, docteur ? 
+Docteur
+Vous avez une blessure grave. 
+Josh
+Je sais, mais, que puis-je faire ?
+Docteur
+Je crois que nous allons devoir opérer. 
+Josh
+Opérer ? Comment ? 
+Docteur
+Vous allez vous opérer vous-même. 
+Josh
+Quoi ???
+Docteur
+Je pense que vous en êtes capable.
+Docteur
+Vous n’avez pas le choix. Avec une plaie comme cela vous pouvez saigner jusqu’à en mourir.
+Josh
+Mais c’est vous qui m’avez dit de le faire !
+Docteur
+Et maintenant, je veux que vous continuez à faire ce que je dis. 
+Josh
+Je ne peux pas m’opérer moi-même.
+Josh
+Vous ne pouvez pas prendre un transport aérien et venir le faire vous-même ? 
+Docteur
+Ne soyez pas ridicule.
+Josh
+Qu’est-ce qui est plus ridicule que de m’opérer moi-même ?
+Docteur
+Vous allez simplement devoir vous concentrer. 
+Josh
+Cela va me demander BEAUCOUP PLUS que de la concentration ! 
+Docteur
+Faites ce que je dis ! Je suis le médecin ici !
+John
+Quel genre de docteur êtes-vous ? 
+Docteur
+Maintenant vous me remettez en question ?
+John
+Ouais. Quel genre de docteur êtes-vous ?
+Docteur
+Peut-être que je devrais juste vous laisser comme ça. 
+John
+Vous le feriez ?
+Docteur
+Je suis un médecin.
+John
+Je ne crois pas que vous le soyez.
+Docteur
+Vous avez une grande incision dans votre estomac. 
+Docteur
+Donc il vaut mieux pour vous que je sois un médecin. 
+John
+Êtes-vous un docteur ?
+Docteur
+Je suis la seule chance que vous avez.
+John
+Mais vous êtes médecin?
+Docteur
+Maintenant, envoyez moi une autre photo.
+John
+Pourquoi vous ne répondez pas ?
+Docteur
+Sinon pourquoi vous aurais-je demande de vous couper ? 
+John
+S’IL-VOUS-PLAIT dites moi que vous êtes un médecin 
+John
+Allo ?
+John
+Allo ?
+

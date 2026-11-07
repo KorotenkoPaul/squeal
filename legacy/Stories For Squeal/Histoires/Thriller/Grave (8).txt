@@ -1,0 +1,205 @@
+
+Nom: La Tombe
+Auteur: Rich Samuels
+Description: Aaron reçoit un message de Jenna, une fille qu’il ne connaît et qui clame être captive dans un cercueil enterré. Elle va supplier Aaron de l’aider. 
+
+
+Jenna
+Aidez-moi
+Aaron
+Je crois que tu t’es trompée de destinataire.
+Jenna
+Je t’en prie, aide moi.
+Aaron
+Sérieusement, tu t’es trompée de personne. 
+Jenna
+Je suis piégée, j’ai besoin d’aide. 
+Aaron
+Qui essayais-tu de contacter ?
+Jenna
+J’ai juste besoin d’aide, c’est tout !
+Aaron
+Tu fait erreur.
+Jenna
+S’il-te-plaît !
+Aaron
+Mais je ne te connais même pas!
+Jenna
+Tu peux m’aider à sortir de là !
+Aaron
+Te sortir d’où ? 
+Jenna
+Ils m’ont enterré !
+Aaron
+Qui t’a enterré ?
+Jenna
+Ces personnes…ils m’ont enterré.
+Aaron
+Ils t’ont enterré où ?
+Jenna
+Je ne sais pas. Dans un sous-sol.
+Aaron
+Comment tu peux envoyer des messages alors ? 
+Jenna
+Je suis dans une boîte.
+Aaron
+Ils t’ont mis dans une boîte ?
+Jenna
+Une sorte de cercueil.
+Aaron
+Attends, tu es dans un cercueil ?
+Jenna
+Dans un cercueil.
+Aaron
+Mais qui ferait ça ? 
+Jenna
+Je ne sais pas qui ils sont. 
+Aaron
+Et ils t’ont juste enterrée vivante au hasard. 
+Jenna
+Oui, ils m’ont fait ça. Et je ne sais pas pourquoi. 
+Aaron
+Tu essaies de m’arnaquer ?
+Aaron
+C’est une farce ?
+Jenna
+Je suis piégée là.
+Jenna
+Tu es mon seul espoir !
+Jenna
+JE T’EN SUPPLIE!
+Aaron
+Qu’est-ce que je suis supposé faire ?
+Aaron
+Déjà, où es-tu?
+Jenna
+En souterrain.
+Aaron
+Non, je veux dire où en souterrain ?
+Aaron
+Genre, dans un cimetière?
+Jenna
+Je ne sais pas.
+Aaron
+Comment je peux t’aider alors?
+Jenna
+Je ne suis pas sûre.
+Aaron
+Tu es sûre que ce n’est pas une blague?
+Jenna
+Ce n’est pas une blague.
+Aaron
+Si je ne sais pas où tu es enterrée, je ne peux pas t’aider!
+Aaron
+Tu veux que j’appelle la police?
+Jenna
+Non, cela ne servira à rien.
+Jenna
+Je pense qu’il y a des rails de train à côté. Parfois, j’entends des trains passer. 
+Aaron
+Ce sont des trains, tu en es sûre ?
+Jenna
+Est-ce que tu peux vérifier s’il y a un cimetière près de rails ?
+Aaron
+Comment ça ?
+Jenna
+Genre, sur google ?
+Aaron
+Ok je vais voir.
+Aaron
+Apparemment il y en a un au nord de la ville .
+Jenna
+Tu dois y aller !
+Aaron
+Et faire quoi ?
+Jenna
+Me déterrer! Me sauver!
+
+Au cimetière
+Aaron
+Comment je peux te trouver ? 
+Jenna
+Regarde autour 
+Aaron
+Je ne sais même pas ce que je suis sensé regarder ! 
+Jenna
+Regarde les tombes fraîchement creusées. 
+Aaron
+Je n’ai pas pelle.
+Jenna
+Continue de chercher…
+Jenna
+Il y en a toujours une quelque part.
+Aaron
+Ok, c’est bon, j’en ai trouvé une…J’ai trouvé une pelle.
+Jenna
+Tu as trouvé la tombe?
+Aaron
+Je pense que oui.
+Jenna
+Creuse.
+Aaron
+Je ne crois pas non, c’est un cimetière.
+Jenna
+S’il-te-plaît creuse! Je ne pense pas que je puisse tenir encore longtemps. 
+Aaron
+Je vais prévenir la police.
+Jenna
+Je serai déjà morte !
+Aaron
+Ok, très bien. Je vais creuser. 
+Aaron
+Mais quand la police sera là, je partirai. 
+Jenna
+Tu creuses ?
+Aaron
+Je creuse.
+Jenna
+Je t’entends ! Dieu merci tu es là ! 
+Aaron
+Tu as entendu ? Je suis arrivé au cercueil. 
+Jenna
+Ouvre-le.
+Aaron
+Ouvrir le cercueil ?
+Jenna
+Je suis coincée dedans !
+Jenna
+Tu dois me sortir de là !
+Aaron
+Ok, Ok. Je vais le faire.
+Jenna
+Merci beaucoup.
+Aaron
+Qu’est-ce que c’est que ça ?
+Jenna
+Qu’est-ce que tu veux dire ?
+Aaron
+J’ai ouvert le couvercle.
+Jenna
+Non tu ne l’as pas fait.
+Aaron
+Si je l’ai fait.
+Aaron
+Il y a un corps mort. En décomposition.
+Jenna
+Tu as dû ouvrir la mauvaise tombe.
+Aaron
+Je n’ai pas ouvert la mauvaise tombe.
+Jenna
+Comment tu sais ?
+Aaron
+Parce que sur le couvercle il y a écrit quelque chose.
+Jenna
+Il y a écrit quoi ?
+Aaron
+“A notre Jenna adorée.”
+Aaron
+Tu es morte.
+Jenna
+Non, je suis coincée.
+Aaron
+Je suis en train de te regarder en ce moment même.
+Aaron
+Tu es vraiment, vraiment morte.
+

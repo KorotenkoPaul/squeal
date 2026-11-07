@@ -1,3 +1,4 @@
-# Old 2018 sources being imported from Google Drive. Committed only after a
-# secret check (GoogleService-Info.plist, API keys are never committed).
-legacy/
+# Firebase config with API keys: never commit
+GoogleService-Info.plist
+*.orig
+xcuserdata/
