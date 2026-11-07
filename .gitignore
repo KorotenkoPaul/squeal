@@ -1,0 +1,3 @@
+# Old 2018 sources being imported from Google Drive. Committed only after a
+# secret check (GoogleService-Info.plist, API keys are never committed).
+legacy/
