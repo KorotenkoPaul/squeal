@@ -1,0 +1,383 @@
+{
+ "id": "reunion",
+ "title": "Reunion",
+ "author": "",
+ "description": "",
+ "left": "Mike",
+ "right": "Emily",
+ "messages": [
+  {
+   "from": "Mike",
+   "text": "Emily! I haven’t heard from you in forever!"
+  },
+  {
+   "from": "Emily",
+   "text": "Hey, Mike. I just HAD to tell you…"
+  },
+  {
+   "from": "Emily",
+   "text": "You are NOT going to believe who I ran into at lunch today."
+  },
+  {
+   "from": "Mike",
+   "text": "Who?"
+  },
+  {
+   "from": "Emily",
+   "text": "Guess!"
+  },
+  {
+   "from": "Mike",
+   "text": "I have no idea."
+  },
+  {
+   "from": "Emily",
+   "text": "No, Guess!"
+  },
+  {
+   "from": "Mike",
+   "text": "Charlie?"
+  },
+  {
+   "from": "Emily",
+   "text": "Huh? No, why would it be Charlie?"
+  },
+  {
+   "from": "Mike",
+   "text": "I don’t know. He works downtown."
+  },
+  {
+   "from": "Emily",
+   "text": "Not Charlie."
+  },
+  {
+   "from": "Emily",
+   "text": "Guess again."
+  },
+  {
+   "from": "Mike",
+   "text": "Why are you making such a big thing out of this?"
+  },
+  {
+   "from": "Emily",
+   "text": "Because it’s amazing. I’m having him over at the party tonight."
+  },
+  {
+   "from": "Mike",
+   "text": "WHO?"
+  },
+  {
+   "from": "Emily",
+   "text": "Remember little Kenny…in middle school? The dorky kid?"
+  },
+  {
+   "from": "Mike",
+   "text": "WHAT?"
+  },
+  {
+   "from": "Emily",
+   "text": "I ran into him!"
+  },
+  {
+   "from": "Emily",
+   "text": "Isn’t that amazing?"
+  },
+  {
+   "from": "Mike",
+   "text": "No, it’s NOT amazing."
+  },
+  {
+   "from": "Mike",
+   "text": "You don’t know about him, do you?"
+  },
+  {
+   "from": "Emily",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Mike",
+   "text": "I thought you would have heard."
+  },
+  {
+   "from": "Mike",
+   "text": "It’s all over the news: he’s wanted."
+  },
+  {
+   "from": "Emily",
+   "text": "What do you mean, “wanted?”"
+  },
+  {
+   "from": "Mike",
+   "text": "By the police. FBI."
+  },
+  {
+   "from": "Emily",
+   "text": "That’s crazy!"
+  },
+  {
+   "from": "Mike",
+   "text": "How can you NOT know this?"
+  },
+  {
+   "from": "Emily",
+   "text": "You’re joking."
+  },
+  {
+   "from": "Mike",
+   "text": "Emily, they want him for murder."
+  },
+  {
+   "from": "Emily",
+   "text": "That’s crazy. I know he was weird, but that was a long time ago."
+  },
+  {
+   "from": "Mike",
+   "text": "I’m serious! It was on the news!"
+  },
+  {
+   "from": "Emily",
+   "text": "I don’t watch the news."
+  },
+  {
+   "from": "Mike",
+   "text": "You’re seriously having him over?"
+  },
+  {
+   "from": "Mike",
+   "text": "He knows where you live?"
+  },
+  {
+   "from": "Emily",
+   "text": "I told you, I’m having a party. In a couple of hours."
+  },
+  {
+   "from": "Emily",
+   "text": "And anyway, He didn’t look like someone who’s wanted."
+  },
+  {
+   "from": "Emily",
+   "text": "So maybe you’re wrong."
+  },
+  {
+   "from": "Emily",
+   "text": "Maybe it was just someone with the same name."
+  },
+  {
+   "from": "Mike",
+   "text": "It was HIM. Don’t you remember how weird he was?"
+  },
+  {
+   "from": "Emily",
+   "text": "Hold on…front door."
+  },
+  {
+   "from": "Mike",
+   "text": "Is it him???"
+  },
+  {
+   "from": "Mike",
+   "text": "He’s there already?"
+  },
+  {
+   "from": "Mike",
+   "text": "I thought he wasn’t coming until later!!"
+  },
+  {
+   "from": "Emily",
+   "text": "Well…he came early."
+  },
+  {
+   "from": "Mike",
+   "text": "He’s there?"
+  },
+  {
+   "from": "Emily",
+   "text": "Yes."
+  },
+  {
+   "from": "Mike",
+   "text": "Emily, you have to get away!"
+  },
+  {
+   "from": "Emily",
+   "text": "Are you sure about him?"
+  },
+  {
+   "from": "Mike",
+   "text": "Yes!"
+  },
+  {
+   "from": "Emily",
+   "text": "I really think you’re wrong. He’s sitting right across from me."
+  },
+  {
+   "from": "Mike",
+   "text": "Can you get out of there?"
+  },
+  {
+   "from": "Emily",
+   "text": "Don’t try to get me excited."
+  },
+  {
+   "from": "Mike",
+   "text": "Stay calm. What’s he saying?"
+  },
+  {
+   "from": "Emily",
+   "text": "He’s asking how I am."
+  },
+  {
+   "from": "Mike",
+   "text": "Tell him you’re okay."
+  },
+  {
+   "from": "Emily",
+   "text": "I did, and I told him I’m texting my mom."
+  },
+  {
+   "from": "Emily",
+   "text": "I don’t think he liked you back then."
+  },
+  {
+   "from": "Mike",
+   "text": "I’m going to call the police"
+  },
+  {
+   "from": "Emily",
+   "text": "He hasn’t done anything."
+  },
+  {
+   "from": "Mike",
+   "text": "Except murder! Get out while you still can!"
+  },
+  {
+   "from": "Emily",
+   "text": "I’m not doing that."
+  },
+  {
+   "from": "Emily",
+   "text": "He’s being polite."
+  },
+  {
+   "from": "Emily",
+   "text": "He said it’s good to see me. See, he’s nice."
+  },
+  {
+   "from": "Mike",
+   "text": "Huh?"
+  },
+  {
+   "from": "Emily",
+   "text": "He’s saying he hasn’t seen a lot of people from middle school."
+  },
+  {
+   "from": "Emily",
+   "text": "He says it wasn’t a good time for him."
+  },
+  {
+   "from": "Mike",
+   "text": "Yeah. He was a dork."
+  },
+  {
+   "from": "Emily",
+   "text": "He says nobody liked him."
+  },
+  {
+   "from": "Emily",
+   "text": "Mike…he’s getting mad talking about it."
+  },
+  {
+   "from": "Mike",
+   "text": "Stay calm."
+  },
+  {
+   "from": "Emily",
+   "text": "I can see it in his face."
+  },
+  {
+   "from": "Mike",
+   "text": "See what?"
+  },
+  {
+   "from": "Emily",
+   "text": "How mad he is. His face is all red."
+  },
+  {
+   "from": "Emily",
+   "text": "He said he hated everyone."
+  },
+  {
+   "from": "Emily",
+   "text": "But he said he won’t hate anymore."
+  },
+  {
+   "from": "Mike",
+   "text": "What does he mean?"
+  },
+  {
+   "from": "Emily",
+   "text": "Well…"
+  },
+  {
+   "from": "Emily",
+   "text": "He said its getting better."
+  },
+  {
+   "from": "Emily",
+   "text": "He got rid of the bad people he says."
+  },
+  {
+   "from": "Emily",
+   "text": "…most of the bad people"
+  },
+  {
+   "from": "Mike",
+   "text": "Got RID of them?"
+  },
+  {
+   "from": "Emily",
+   "text": "That’s what he said."
+  },
+  {
+   "from": "Emily",
+   "text": "“Most.”"
+  },
+  {
+   "from": "Emily",
+   "text": "He said he has a few left."
+  },
+  {
+   "from": "Mike",
+   "text": "A few…"
+  },
+  {
+   "from": "Emily",
+   "text": "People he didn’t like. From middle school."
+  },
+  {
+   "from": "Mike",
+   "text": "Which people?"
+  },
+  {
+   "from": "Mike",
+   "text": "We were nice to him, weren’t we?"
+  },
+  {
+   "from": "Mike",
+   "text": "I can’t really remember."
+  },
+  {
+   "from": "Mike",
+   "text": "Emily?"
+  },
+  {
+   "from": "Mike",
+   "text": "Weren’t we  nice to him?"
+  },
+  {
+   "from": "Mike",
+   "text": "Emily?"
+  }
+ ],
+ "genre": "thriller"
+}

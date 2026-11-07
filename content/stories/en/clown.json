@@ -1,0 +1,307 @@
+{
+ "id": "clown",
+ "title": "Clown",
+ "author": "",
+ "description": "",
+ "left": "Zippo",
+ "right": "Michael",
+ "messages": [
+  {
+   "from": "Zippo",
+   "text": "Hello!"
+  },
+  {
+   "from": "Michael",
+   "text": "Who is this?"
+  },
+  {
+   "from": "Zippo",
+   "text": "PIC OF CLOWN"
+  },
+  {
+   "from": "Michael",
+   "text": "Ha, ha. Very funny."
+  },
+  {
+   "from": "Zippo",
+   "text": "Yes, very funny!"
+  },
+  {
+   "from": "Zippo",
+   "text": "SAME PIC OF CLOWN."
+  },
+  {
+   "from": "Michael",
+   "text": "Alright, stop it!"
+  },
+  {
+   "from": "Michael",
+   "text": "I don’t like clowns."
+  },
+  {
+   "from": "Zippo",
+   "text": "You don’t like clowns?"
+  },
+  {
+   "from": "Zippo",
+   "text": "SAME PIC OF CLOWN"
+  },
+  {
+   "from": "Zippo",
+   "text": "You don’t like ME?"
+  },
+  {
+   "from": "Michael",
+   "text": "This isn’t funny."
+  },
+  {
+   "from": "Zippo",
+   "text": "But you just said this was very funny!"
+  },
+  {
+   "from": "Michael",
+   "text": "Who is this? Eric?"
+  },
+  {
+   "from": "Zippo",
+   "text": "I’m Zippo the Clown!"
+  },
+  {
+   "from": "Michael",
+   "text": "You’re Zippo the Annoying."
+  },
+  {
+   "from": "Zippo",
+   "text": "Awwww, why don’t you like clowns?"
+  },
+  {
+   "from": "Michael",
+   "text": "Because they’re creepy."
+  },
+  {
+   "from": "Zippo",
+   "text": "SAME PIC OF CLOWN"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo isn’t creepy!"
+  },
+  {
+   "from": "Michael",
+   "text": "I hate the way they look, too."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo is sad."
+  },
+  {
+   "from": "Michael",
+   "text": "Stop texting me."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo’s feelings are hurt."
+  },
+  {
+   "from": "Zippo",
+   "text": "What did clowns ever do to you?"
+  },
+  {
+   "from": "Michael",
+   "text": "Leave me alone!"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo thinks you’re being rude."
+  },
+  {
+   "from": "Michael",
+   "text": "Stop texting me!!!"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo is getting angry."
+  },
+  {
+   "from": "Michael",
+   "text": "You can’t force me to like clowns."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo only wants to be friends."
+  },
+  {
+   "from": "Michael",
+   "text": "I don’t care, leave me alone!"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo is MAD at Michael."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo is a good clown."
+  },
+  {
+   "from": "Michael",
+   "text": "Why can’t you just stop?"
+  },
+  {
+   "from": "Michael",
+   "text": "I NEVER WANT TO SEE ANOTHER CLOWN AGAIN!"
+  },
+  {
+   "from": "Zippo",
+   "text": "You will see another clown."
+  },
+  {
+   "from": "Michael",
+   "text": "Never."
+  },
+  {
+   "from": "Michael",
+   "text": "I HATE Clowns."
+  },
+  {
+   "from": "Zippo",
+   "text": "You will see one today."
+  },
+  {
+   "from": "Michael",
+   "text": "I’m not going anywhere."
+  },
+  {
+   "from": "Zippo",
+   "text": "You will still see one today."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo will come to your house."
+  },
+  {
+   "from": "Michael",
+   "text": "Stay AWAY from my house."
+  },
+  {
+   "from": "Zippo",
+   "text": "And Zippo will kill you."
+  },
+  {
+   "from": "Michael",
+   "text": "You don’t even know where I live."
+  },
+  {
+   "from": "Zippo",
+   "text": "2712 Jazzman Drive."
+  },
+  {
+   "from": "Michael",
+   "text": "Fine, so you do."
+  },
+  {
+   "from": "Michael",
+   "text": "Don’t you DARE come to my door, clown."
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo wants to meet Michael."
+  },
+  {
+   "from": "Zippo",
+   "text": "And teach him a lesson."
+  },
+  {
+   "from": "Michael",
+   "text": "What?"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo wants to kill Michael."
+  },
+  {
+   "from": "Michael",
+   "text": "KILL me?"
+  },
+  {
+   "from": "Zippo",
+   "text": "Zippo doesn’t like those who are rude to clowns."
+  },
+  {
+   "from": "Michael",
+   "text": "If I see you outside my door, I’m calling the police."
+  },
+  {
+   "from": "Zippo",
+   "text": "That will not be possible, Michael."
+  },
+  {
+   "from": "Michael",
+   "text": "Why?"
+  },
+  {
+   "from": "Zippo",
+   "text": "Because Zippo is already in your  house."
+  },
+  {
+   "from": "Zippo",
+   "text": "…and Zippo will not allow it."
+  },
+  {
+   "from": "Michael",
+   "text": "You’re NOT in my house."
+  },
+  {
+   "from": "Zippo",
+   "text": "Yellow kitchen tile is very unusual."
+  },
+  {
+   "from": "Michael",
+   "text": "Get your clown face OUT of my house."
+  },
+  {
+   "from": "Zippo",
+   "text": "But Zippo has something to do first."
+  },
+  {
+   "from": "Michael",
+   "text": "You don’t belong here."
+  },
+  {
+   "from": "Zippo",
+   "text": "Clowns are everyone’s friend."
+  },
+  {
+   "from": "Zippo",
+   "text": "Except Michael"
+  },
+  {
+   "from": "Michael",
+   "text": "Just go away!"
+  },
+  {
+   "from": "Zippo",
+   "text": "When Zippo kills Michael…"
+  },
+  {
+   "from": "Zippo",
+   "text": "Clowns will be everyone’s friend again."
+  },
+  {
+   "from": "Michael",
+   "text": "Are you still in the house?"
+  },
+  {
+   "from": "Zippo",
+   "text": "Turn around, Michael…"
+  },
+  {
+   "from": "Zippo",
+   "text": "…and see."
+  },
+  {
+   "from": "Zippo",
+   "text": "SAME PIC OF CLOWN"
+  }
+ ],
+ "genre": "thriller"
+}

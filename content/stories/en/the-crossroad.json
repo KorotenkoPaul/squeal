@@ -1,0 +1,555 @@
+{
+ "id": "the-crossroad",
+ "title": "The crossroad",
+ "author": "Asjad Ullah",
+ "description": "Mia wants to exploit a pre-marriage contract with her millionaire husband, Jones. She sets him up, so she could grab all his wealth, and enjoy life with her boyfriend Dan. But things go out of control, leaving everyone flabbergasted\\!",
+ "left": "| :-: | :-: |",
+ "right": "|  |  |",
+ "messages": [
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Hey baby. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I’ve set the trap for my husband. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | You’re such a bitch. ;P |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | I’m impressed. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I couldn’t have done it without you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | I just added the toppings.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Yeah, but that bombshell Sandy you recommended.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I bet my husband will start drooling the moment he sees her.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Hahaha… |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Yeah, he’s such a loser. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Sandy is the best in the business. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | We’re so near to our dream Dan. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I can’t wait to get my hands on that hag’s money.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Yeah, all the money will be ours.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Yeah, once we catch him with his pants down, literally. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | You know what I think at times? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | What? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | What a douche your husband is. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | He’s a millionaire and still signed such a contract. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | He was blinded by my love back then.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia:  | We agreed that we won’t cheat. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | And when we catch him cheating…wham\\! |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Here comes the money. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | How much did you pay Sandy? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | We agreed upon 50 grand.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Have you made the payments? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I was hesitant to pay in full. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | But I had to, there was no choice. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Ok.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | And what about your lawyer? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | She’s ready too. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Oh my, I’m so excited.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | So am I dear, So am I\\! |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | So here’s the plan. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Sandy has set-up a meeting with him tomorrow. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | They will meet in a hotel.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Sandy will seduce Jones, and take some pictures as evidence.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | She’ll send us his pictures the day after. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Then it’ll be your job. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | I’ll be ready with our transport. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | And we’ll head straight to the Island. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | And my lawyer will do the cleaning up. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | I guess we’ve nailed it then.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Mia: | Just a matter of time now. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Yeah, Jones will be nailed. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | In every way possible. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "Jones – Sandy"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Hi, Jones. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Who is this? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Someone your wife, Mia, just paid a 100 grand.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | To have an affair with you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | What nonsense. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Don’t worry.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I have a plan that will turn the tables on her.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | I don’t believe you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Why are you telling me all this? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I work for money, Jones  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Your wife just paid 30 grand of the total amount. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | And I’m not too confident she will pay the remaining sum. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | So what are you suggesting? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I can turn the tables. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | How?  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | And At what cost? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | With discount..150 Grand. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | You whore. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Tch Tch.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I wouldn’t say this if I were you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | What do you mean? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I know you’ve signed a contract with your wife.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | The one who is caught cheating...gives up everything. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | And if I’m not mistaken, she has a large chunk of your estate. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | What are you suggesting? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | All I’m saying is, what if you catch her cheating? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You will get everything back. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | How can I? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | First I’ll have to find a guy; then frame her. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | That’s the point jones. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You don’t have to find a guy. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You just need to find “the” guy. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones:  | You mean there’s already someone? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Yeah, and I’m already in contact with him.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | And I can get all the evidence for the courts. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Why should I trust a woman like you? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You don’t have a choice dear. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | I don’t trust you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | The clock is ticking, Jones darling\\! |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | 150 grand is peanuts compared to her estate. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | What if I say no. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | I know her plan now, you’re exposed.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | I have already won\\! |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Without spending a dime. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy:  | Hahahaha. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You are so naive jones. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy:  | Now which ones you want me to send you? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | You don’t have anything against me. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I’ve compromising pictures of you having fun. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Emily, Sandra, Kylie, Jane…. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Which ones would you like to see? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Oh God\\! I should have known. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Jones: | Ok, You’ll get your money. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | 150 grand, by 8 tonight. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "Sandy – Dan"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Hey, baby, how’s the act going? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Great\\! Both of them are fools. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I have 200 grand in my account. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Perfect. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | I’ve been missing you so badly. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Why?  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | So I see Mia is failing to satisfy you ;P. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Yeah, you’re wonderful. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | So when should we meet? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | Now, this world is cruel Dan. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Yeah, I know. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | They’re husband and wife, and all they care about is money. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | No, you don’t get it.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I was just thinking how bad it would be for you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | What hon? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | That you’ll have to live with that boring Mia. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | But that’s temporary, and then I’ll be with you. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | The world is so cruel Dan.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | You’ll never see me again darling. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | I’m at the airport. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | You’re such a whore. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy:  | Lol…a proud and successful one. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan:  | You were right Sandy. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan:  | This world is a cruel place. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | A whore will always be a whore. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | So I had done my homework. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Sandy: | What do you mean? |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Look around you, sweetie. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | You’re surrounded by security personnel. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan:  | Jones planned it all wonderfully. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Got rid of his unfaithful wife, saved his empire and cleared all the dirt on him. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | And all of this was free of cost. |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Have a nice time in jail sweetheart.  |"
+  },
+  {
+   "from": "| :-: | :-: |",
+   "text": "| Dan: | Truly the world is a cruel place. |"
+  }
+ ],
+ "genre": "romance"
+}

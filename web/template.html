@@ -1,0 +1,186 @@
+<title>Squeal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&display=swap">
+<style>
+/* Layout: a phone-shaped reading app — library of stories, then a full-height chat that advances one message per tap. */
+:root {
+  --ink: #0b0c10;          /* page, the dark room */
+  --surface: #14161b;      /* cards, header */
+  --line: #252830;
+  --them: #22252c;         /* incoming bubble */
+  --me: #5a161c;           /* outgoing bubble, dried blood */
+  --text: #ebe7e0;
+  --muted: #8d919b;
+  --accent: #c0333c;
+  --display: "IM Fell English SC", "Iowan Old Style", Georgia, serif;
+  --story: "IM Fell English", "Iowan Old Style", Georgia, serif;
+  --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--ink); color: var(--text); font-family: var(--ui); font-size: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+button:focus-visible, .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Library */
+.lib { overflow-y: auto; padding-block: 20px 32px; display: flex; flex-direction: column; gap: 18px; }
+.brand { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.brand h1 { font-family: var(--display); font-weight: 400; font-size: 44px; letter-spacing: .02em; margin: 0; }
+.brand h1 span { color: var(--accent); }
+.brand p { margin: 0; color: var(--muted); font-size: 13px; }
+.tag { color: var(--muted); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--text); }
+.cards { display: flex; flex-direction: column; gap: 12px; }
+.card { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px;
+  display: flex; flex-direction: column; gap: 8px; }
+.card h2 { font-family: var(--story); font-weight: 400; font-size: 22px; margin: 0; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.meta b { color: var(--accent); font-weight: 600; }
+.bar { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); width: 0; }
+.note { color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+/* Chat */
+.chat { height: 100%; display: flex; flex-direction: column; }
+.head { display: flex; align-items: center; gap: 12px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+.back { font-size: 26px; line-height: 1; padding: 4px 8px 4px 0; color: var(--accent); }
+.who { display: flex; flex-direction: column; min-width: 0; }
+.who b { font-weight: 600; }
+.who small { color: var(--muted); font-size: 12px; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--them); display: grid; place-items: center;
+  font-family: var(--display); font-size: 18px; flex: none; }
+.ep { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.log { flex: 1; overflow-y: auto; padding-block: 16px 8px; display: flex; flex-direction: column; gap: 6px; }
+.day { align-self: center; color: var(--muted); font-size: 12px; margin-bottom: 8px; text-align: center; max-width: 34ch; line-height: 1.5; }
+.msg { max-width: 78%; padding: 9px 13px; border-radius: 18px; line-height: 1.38; font-size: 16px; word-wrap: break-word;
+  animation: rise .22s ease-out both; }
+.them { align-self: flex-start; background: var(--them); border-bottom-left-radius: 5px; }
+.me { align-self: flex-end; background: var(--me); border-bottom-right-radius: 5px; }
+.typing { align-self: flex-start; background: var(--them); border-radius: 18px; padding: 12px 14px; display: flex; gap: 4px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
+.foot { padding-block: 10px 14px; display: flex; flex-direction: column; gap: 10px; }
+.tap { width: 100%; padding: 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line);
+  color: var(--muted); font-size: 15px; }
+.row { display: flex; gap: 10px; }
+.row .tap { flex: 1; }
+.end { align-self: center; text-align: center; padding: 18px 8px 4px; display: flex; flex-direction: column; gap: 6px; }
+.end strong { font-family: var(--display); font-weight: 400; font-size: 30px; color: var(--accent); }
+.end span { color: var(--muted); font-size: 13px; }
+@keyframes rise { from { opacity: .0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+@keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .msg { animation: none } .typing i { animation: none; opacity: .7 } }
+</style>
+
+<div class="app" id="app"></div>
+
+<script>
+const STORIES = /*STORIES*/[];
+const GENRES = { all: "Все", horror: "Ужасы", thriller: "Триллер" };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("squeal:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("squeal:" + k, JSON.stringify(v)); } catch {} },
+};
+const app = document.getElementById("app");
+let genre = store.get("genre", "all");
+const minutes = s => Math.max(1, Math.round(s.episodes.reduce((n, e) => n + e.messages.length, 0) * 4 / 60));
+const esc = t => t.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function library() {
+  const list = STORIES.filter(s => genre === "all" || s.genre === genre);
+  app.innerHTML = `
+    <section class="lib">
+      <div class="brand"><h1>Sque<span>a</span>l</h1><p>истории в переписке</p></div>
+      <div class="chips" role="group" aria-label="Жанр">${Object.entries(GENRES).map(([k, v]) =>
+        `<button class="chip" id="g-${k}" aria-pressed="${k === genre}" data-g="${k}">${v}</button>`).join("")}</div>
+      <div class="cards">${list.map(s => {
+        const p = progress(s);
+        return `<button class="card" id="s-${s.id}" data-id="${s.id}">
+          <span class="tag">${GENRES[s.genre] || s.genre}</span>
+          <h2>${esc(s.title)}</h2>
+          <p>${esc(s.description)}</p>
+          <span class="meta"><span>${s.episodes.length > 1 ? s.episodes.length + " части" : "1 часть"}</span><span>~${minutes(s)} мин</span>${p.done ? "<b>прочитано</b>" : p.pct ? `<b>${p.pct}%</b>` : ""}</span>
+          <span class="bar"><i style="width:${p.pct}%"></i></span>
+        </button>`; }).join("")}</div>
+      <p class="note">Тестовая веб-версия приложения Squeal. Истории — из архива 2018 года, текст на английском. Тапайте, чтобы получить следующее сообщение.</p>
+    </section>`;
+  app.querySelectorAll(".chip").forEach(b => b.onclick = () => { genre = b.dataset.g; store.set("genre", genre); library(); });
+  app.querySelectorAll(".card").forEach(b => b.onclick = () => openStory(b.dataset.id));
+}
+
+function progress(s) {
+  const st = store.get("p:" + s.id, { ep: 0, i: 0 });
+  const total = s.episodes.reduce((n, e) => n + e.messages.length, 0);
+  const read = s.episodes.slice(0, st.ep).reduce((n, e) => n + e.messages.length, 0) + st.i;
+  return { pct: Math.min(100, Math.round(read * 100 / total)), done: read >= total };
+}
+
+let timer = null;
+function openStory(id, epIndex) {
+  const s = STORIES.find(x => x.id === id);
+  let st = store.get("p:" + id, { ep: 0, i: 0 });
+  if (epIndex != null) st = { ep: epIndex, i: 0 };
+  if (st.ep >= s.episodes.length) st = { ep: 0, i: 0 };
+  const ep = s.episodes[st.ep];
+  app.innerHTML = `
+    <section class="chat">
+      <div class="head"><button class="back" id="back" aria-label="К историям">‹</button>
+        <div class="avatar">${esc(ep.left[0])}</div>
+        <div class="who"><b>${esc(ep.left)}</b><small id="status">в сети</small></div>
+        <span class="ep">${s.episodes.length > 1 ? "Часть " + (st.ep + 1) + " из " + s.episodes.length : ""}</span></div>
+      <div class="log" id="log" aria-live="polite"><div class="day">${esc(ep.description || s.description)}</div></div>
+      <div class="foot" id="foot"></div>
+    </section>`;
+  const log = document.getElementById("log"), foot = document.getElementById("foot"), status = document.getElementById("status");
+  document.getElementById("back").onclick = () => { clearTimeout(timer); library(); };
+  const add = m => {
+    const d = document.createElement("div");
+    d.className = "msg " + (m.from === ep.right ? "me" : "them");
+    d.textContent = m.text;
+    log.appendChild(d);
+  };
+  for (let k = 0; k < st.i; k++) add(ep.messages[k]);
+  log.scrollTop = log.scrollHeight;
+  let busy = false;
+  const save = () => store.set("p:" + id, st);
+
+  function controls() {
+    if (st.i >= ep.messages.length) {
+      const last = st.ep + 1 >= s.episodes.length;
+      log.insertAdjacentHTML("beforeend", `<div class="end"><strong>${last ? "Конец" : "Продолжение следует"}</strong><span>${esc(s.title)}${s.episodes.length > 1 ? " · часть " + (st.ep + 1) : ""}</span></div>`);
+      log.scrollTop = log.scrollHeight;
+      foot.innerHTML = `<div class="row">${last ? "" : `<button class="tap" id="next">Следующая часть</button>`}<button class="tap" id="again">${last ? "Читать заново" : "С начала"}</button></div>`;
+      const next = document.getElementById("next");
+      if (next) next.onclick = () => { store.set("p:" + id, { ep: st.ep + 1, i: 0 }); openStory(id, st.ep + 1); };
+      document.getElementById("again").onclick = () => { store.set("p:" + id, { ep: 0, i: 0 }); openStory(id, 0); };
+      if (last) { st = { ep: s.episodes.length, i: 0 }; save(); }
+      return;
+    }
+    foot.innerHTML = `<button class="tap" id="tap">Нажмите, чтобы продолжить</button>`;
+    document.getElementById("tap").onclick = step;
+  }
+
+  function step() {
+    if (busy || st.i >= ep.messages.length) return;
+    const m = ep.messages[st.i];
+    if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
+    busy = true;
+    status.textContent = "печатает…";
+    const t = document.createElement("div");
+    t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
+    log.appendChild(t); log.scrollTop = log.scrollHeight;
+    const delay = matchMedia("(prefers-reduced-motion: reduce)").matches ? 150 : Math.min(1800, 450 + m.text.length * 22);
+    timer = setTimeout(() => { t.remove(); add(m); st.i++; save(); status.textContent = "в сети"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
+  }
+  log.onclick = step;
+  controls();
+}
+
+library();
+</script>

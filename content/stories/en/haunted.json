@@ -1,0 +1,503 @@
+{
+ "id": "haunted",
+ "title": "Haunted",
+ "author": "",
+ "description": "",
+ "left": "David",
+ "right": "Carl",
+ "messages": [
+  {
+   "from": "David",
+   "text": "How hard could it be? It’s just an old house."
+  },
+  {
+   "from": "Carl",
+   "text": "A haunted house."
+  },
+  {
+   "from": "Carl",
+   "text": "PIC: EXTERIOR OF HAUNTED HOUSE"
+  },
+  {
+   "from": "David",
+   "text": "It’s just an old house. If we stay all night, we get $200."
+  },
+  {
+   "from": "Carl",
+   "text": "Nobody’s ever stayed here all night"
+  },
+  {
+   "from": "David",
+   "text": "That’s because they’re scared."
+  },
+  {
+   "from": "David",
+   "text": "And there’s nothing to be scared of."
+  },
+  {
+   "from": "Carl",
+   "text": "I hope not."
+  },
+  {
+   "from": "David",
+   "text": "Do you see anything."
+  },
+  {
+   "from": "Carl",
+   "text": "It’s not nighttime yet."
+  },
+  {
+   "from": "Carl",
+   "text": "I don’t see why we can’t be together. Why do you have to be all the way upstairs?"
+  },
+  {
+   "from": "David",
+   "text": "It makes it fun."
+  },
+  {
+   "from": "Carl",
+   "text": "Fun? I don’t think so."
+  },
+  {
+   "from": "David",
+   "text": "You really do think it’s haunted, don’t you?"
+  },
+  {
+   "from": "Carl",
+   "text": "I don’t want to take any chances."
+  },
+  {
+   "from": "David",
+   "text": "Well, don’t worry."
+  },
+  {
+   "from": "Carl",
+   "text": "I’ll worry if I want."
+  },
+  {
+   "from": "David",
+   "text": "You’re going to feel really stupid in the morning."
+  },
+  {
+   "from": "Carl",
+   "text": "If there is a morning."
+  },
+  {
+   "from": "Carl",
+   "text": "9pm"
+  },
+  {
+   "from": "David",
+   "text": "Still alive"
+  },
+  {
+   "from": "Carl",
+   "text": "Shut up."
+  },
+  {
+   "from": "David",
+   "text": "I told you."
+  },
+  {
+   "from": "Carl",
+   "text": "It’s only nine o’clock."
+  },
+  {
+   "from": "Carl",
+   "text": "A long way to go."
+  },
+  {
+   "from": "David",
+   "text": "I’ve got some nice moonlight coming through the window.  Kind of cool."
+  },
+  {
+   "from": "Carl",
+   "text": "You put me in the basement, so it’s totally dark."
+  },
+  {
+   "from": "David",
+   "text": "I didn’t put you anywhere."
+  },
+  {
+   "from": "Carl",
+   "text": "Except for the phone, it’s totally dark."
+  },
+  {
+   "from": "David",
+   "text": "I hear there are rats in the basement."
+  },
+  {
+   "from": "Carl",
+   "text": "Don’t say that."
+  },
+  {
+   "from": "David",
+   "text": "Probably true."
+  },
+  {
+   "from": "Carl",
+   "text": "Well, don’t remind me."
+  },
+  {
+   "from": "Carl",
+   "text": "And I haven’t seen any rates, just so you know."
+  },
+  {
+   "from": "David",
+   "text": "$200, just remember."
+  },
+  {
+   "from": "David",
+   "text": "12 Midnight"
+  },
+  {
+   "from": "David",
+   "text": "It’s midnight Carl."
+  },
+  {
+   "from": "Carl",
+   "text": "I know."
+  },
+  {
+   "from": "David",
+   "text": "Still alive?"
+  },
+  {
+   "from": "Carl",
+   "text": "Very funny."
+  },
+  {
+   "from": "David",
+   "text": "Anything weird happen?"
+  },
+  {
+   "from": "Carl",
+   "text": "Very funny."
+  },
+  {
+   "from": "David",
+   "text": "See, nothing weird."
+  },
+  {
+   "from": "Carl",
+   "text": "Except your little pranks."
+  },
+  {
+   "from": "Carl",
+   "text": "You think I don’t know?"
+  },
+  {
+   "from": "David",
+   "text": "Know what?"
+  },
+  {
+   "from": "Carl",
+   "text": "That it’s you?"
+  },
+  {
+   "from": "David",
+   "text": "That what’s me?"
+  },
+  {
+   "from": "Carl",
+   "text": "All the noises, the tapping."
+  },
+  {
+   "from": "David",
+   "text": "You’re imagining things."
+  },
+  {
+   "from": "Carl",
+   "text": "Yeah, right. Whatever you say."
+  },
+  {
+   "from": "David",
+   "text": "You’re really spooked about this."
+  },
+  {
+   "from": "Carl",
+   "text": "You’re not going to scare me."
+  },
+  {
+   "from": "David",
+   "text": "Looks like you’re doing that yourself lol."
+  },
+  {
+   "from": "Carl",
+   "text": "Hardly. Your pranks don’t scare me."
+  },
+  {
+   "from": "David",
+   "text": "You’re so pathetic."
+  },
+  {
+   "from": "David",
+   "text": "2 am"
+  },
+  {
+   "from": "Carl",
+   "text": "Okay, you can stop now."
+  },
+  {
+   "from": "Carl",
+   "text": "David?"
+  },
+  {
+   "from": "David",
+   "text": "What? I’m trying to sleep."
+  },
+  {
+   "from": "Carl",
+   "text": "Sure you are."
+  },
+  {
+   "from": "David",
+   "text": "What else would I do? It’s two in the morning."
+  },
+  {
+   "from": "Carl",
+   "text": "Oh, I don’t know. Sneak downstairs. Knock on my door. Blow on me."
+  },
+  {
+   "from": "David",
+   "text": "That would be funny, but no lol"
+  },
+  {
+   "from": "Carl",
+   "text": "Don’t even try to pretend."
+  },
+  {
+   "from": "David",
+   "text": "I’m not pretending. You really should calm down."
+  },
+  {
+   "from": "Carl",
+   "text": "Don’t you get bored?"
+  },
+  {
+   "from": "David",
+   "text": "That’s why I’m sleeping."
+  },
+  {
+   "from": "Carl",
+   "text": "I mean, trying to scare me all night."
+  },
+  {
+   "from": "David",
+   "text": "Why would I do that? $200, remember? You leave, we both lose."
+  },
+  {
+   "from": "Carl",
+   "text": "Though, I don’t know how you’re blowing on me."
+  },
+  {
+   "from": "David",
+   "text": "I’m not blowing on you."
+  },
+  {
+   "from": "Carl",
+   "text": "The door’s locked."
+  },
+  {
+   "from": "David",
+   "text": "I’m not blowing on you."
+  },
+  {
+   "from": "Carl",
+   "text": "Maybe there’s a secret passageway."
+  },
+  {
+   "from": "Carl",
+   "text": "Is there?"
+  },
+  {
+   "from": "David",
+   "text": "You’re making me laugh up here. I’m not doing anything to you."
+  },
+  {
+   "from": "David",
+   "text": "You’re imagining it."
+  },
+  {
+   "from": "David",
+   "text": "2:25 am"
+  },
+  {
+   "from": "David",
+   "text": "Very funny."
+  },
+  {
+   "from": "Carl",
+   "text": "What?"
+  },
+  {
+   "from": "David",
+   "text": "Now I get it, saying all that was a set up."
+  },
+  {
+   "from": "Carl",
+   "text": "What are you talking about?"
+  },
+  {
+   "from": "David",
+   "text": "Everything that you said I was doing, now  you’re doing to me."
+  },
+  {
+   "from": "Carl",
+   "text": "I am not. Stop pranking me, already."
+  },
+  {
+   "from": "David",
+   "text": "What’s all the whispering?"
+  },
+  {
+   "from": "Carl",
+   "text": "The what?"
+  },
+  {
+   "from": "David",
+   "text": "The scary whispering. I can hear what you’re saying."
+  },
+  {
+   "from": "Carl",
+   "text": "Nothing"
+  },
+  {
+   "from": "David",
+   "text": "You’re right outside my door."
+  },
+  {
+   "from": "David",
+   "text": "Trying to act like a ghost, obviously."
+  },
+  {
+   "from": "Carl",
+   "text": "I’m downstairs. In the basement, remember?"
+  },
+  {
+   "from": "Carl",
+   "text": "Unlike you, I’m not sneaking around this creepy house."
+  },
+  {
+   "from": "David",
+   "text": "Don’t even try."
+  },
+  {
+   "from": "David",
+   "text": "You’re doing it right now."
+  },
+  {
+   "from": "Carl",
+   "text": "Doing what?"
+  },
+  {
+   "from": "David",
+   "text": "Whispering."
+  },
+  {
+   "from": "Carl",
+   "text": "I’m not."
+  },
+  {
+   "from": "David",
+   "text": "We’ll see."
+  },
+  {
+   "from": "Carl",
+   "text": "Fine."
+  },
+  {
+   "from": "David",
+   "text": "How did you do that?"
+  },
+  {
+   "from": "Carl",
+   "text": "Do what?"
+  },
+  {
+   "from": "David",
+   "text": "How did you move that fast?"
+  },
+  {
+   "from": "Carl",
+   "text": "What are you talking about?"
+  },
+  {
+   "from": "David",
+   "text": "I opened the door."
+  },
+  {
+   "from": "David",
+   "text": "You were whispering, right on the other side."
+  },
+  {
+   "from": "David",
+   "text": "And there’s nothing there."
+  },
+  {
+   "from": "David",
+   "text": "How did you even know I was going to open it?"
+  },
+  {
+   "from": "Carl",
+   "text": "I wasn’t up there."
+  },
+  {
+   "from": "Carl",
+   "text": "And I couldn’t be whispering outside your door at the same second you’re blowing on me."
+  },
+  {
+   "from": "David",
+   "text": "I wasn’t blowing on you."
+  },
+  {
+   "from": "Carl",
+   "text": "And I wasn’t whispering outside your door."
+  },
+  {
+   "from": "David",
+   "text": "Well SOMEBODY was!"
+  },
+  {
+   "from": "David",
+   "text": "I’m coming down there."
+  },
+  {
+   "from": "Carl",
+   "text": "Yeah, that would be a good idea."
+  },
+  {
+   "from": "Carl",
+   "text": "$200 isn’t worth this."
+  },
+  {
+   "from": "Carl",
+   "text": "David?"
+  },
+  {
+   "from": "Carl",
+   "text": "Where are you, David?"
+  },
+  {
+   "from": "Carl",
+   "text": "Is that you?"
+  },
+  {
+   "from": "Carl",
+   "text": "David? Say something."
+  },
+  {
+   "from": "Carl",
+   "text": "Don’t just knock."
+  },
+  {
+   "from": "Carl",
+   "text": "Say something."
+  },
+  {
+   "from": "Carl",
+   "text": "Please."
+  }
+ ],
+ "genre": "horror"
+}

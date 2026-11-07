@@ -1,0 +1,327 @@
+{
+ "id": "nobodys-home-part-2",
+ "title": "Nobody’s Home Part 2",
+ "author": "Rich Samuels",
+ "description": "Terrified, Patrick returns to his own home, and finds that the house dark and the street deserted. James comes to help, but though they’re both standing in front of the house, they can’t see each other.",
+ "left": "Patrick",
+ "right": "James",
+ "messages": [
+  {
+   "from": "Patrick",
+   "text": "This makes no sense."
+  },
+  {
+   "from": "James",
+   "text": "Maybe you’re on the wrong street."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m not."
+  },
+  {
+   "from": "Patrick",
+   "text": "This is weird. Everything’s so quiet."
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t even see any cars driving."
+  },
+  {
+   "from": "James",
+   "text": "I think you’re having some mental thing. Seriously."
+  },
+  {
+   "from": "Patrick",
+   "text": "Tell me where the party is."
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t like this."
+  },
+  {
+   "from": "James",
+   "text": "I’ll come pick you up."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m right in front of my house."
+  },
+  {
+   "from": "James",
+   "text": "Are you sure?"
+  },
+  {
+   "from": "Patrick",
+   "text": "Yeah, I’m sure. We have a red mailbox, remember?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m right in front of it."
+  },
+  {
+   "from": "Patrick",
+   "text": "I haven’t seen one car drive by."
+  },
+  {
+   "from": "James",
+   "text": "I’m on my way."
+  },
+  {
+   "from": "Patrick",
+   "text": "Hurry up."
+  },
+  {
+   "from": "Patrick",
+   "text": "Please."
+  },
+  {
+   "from": "Patrick",
+   "text": "-----"
+  },
+  {
+   "from": "Patrick",
+   "text": "Are you here?"
+  },
+  {
+   "from": "James",
+   "text": "Where are YOU?"
+  },
+  {
+   "from": "Patrick",
+   "text": "In front of my house!"
+  },
+  {
+   "from": "James",
+   "text": "You’re sure you’re not on drugs?"
+  },
+  {
+   "from": "Patrick",
+   "text": "You know me."
+  },
+  {
+   "from": "Patrick",
+   "text": "Maybe I’m insane."
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t know."
+  },
+  {
+   "from": "James",
+   "text": "I’m standing in front of your mailbox."
+  },
+  {
+   "from": "James",
+   "text": "PHOTO: James’ photo of Patrick’s red mailbox"
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m standing in front of the mailbox."
+  },
+  {
+   "from": "Patrick",
+   "text": "PHOTO: Patrick’s photo of Patrick’s red mailbox (the same mailbox)"
+  },
+  {
+   "from": "Patrick",
+   "text": "This can’t be happening."
+  },
+  {
+   "from": "James",
+   "text": "But if you’re not here, then where are you?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I DON’T KNOW!"
+  },
+  {
+   "from": "James",
+   "text": "I just told your parents."
+  },
+  {
+   "from": "Patrick",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "James",
+   "text": "That’s you’re lost!"
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m not, though!"
+  },
+  {
+   "from": "James",
+   "text": "They’re calling the police."
+  },
+  {
+   "from": "Patrick",
+   "text": "But I’m right in front of my house."
+  },
+  {
+   "from": "James",
+   "text": "What if you’re imagining it?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m NOT."
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t think."
+  },
+  {
+   "from": "Patrick",
+   "text": "Anyway, you saw the picture."
+  },
+  {
+   "from": "Patrick",
+   "text": "I took the picture."
+  },
+  {
+   "from": "Patrick",
+   "text": "You KNOW I’m right here."
+  },
+  {
+   "from": "James",
+   "text": "Can you hear the sirens?"
+  },
+  {
+   "from": "Patrick",
+   "text": "What sirens?"
+  },
+  {
+   "from": "James",
+   "text": "The police."
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t hear anything."
+  },
+  {
+   "from": "Patrick",
+   "text": "Are there lights on at my house?"
+  },
+  {
+   "from": "James",
+   "text": "Yeah."
+  },
+  {
+   "from": "Patrick",
+   "text": "Not here."
+  },
+  {
+   "from": "Patrick",
+   "text": "And the streetlights just went out."
+  },
+  {
+   "from": "Patrick",
+   "text": "I guess you still have streetlights?"
+  },
+  {
+   "from": "James",
+   "text": "Everything’s normal."
+  },
+  {
+   "from": "Patrick",
+   "text": "No lights, no cars, no people."
+  },
+  {
+   "from": "Patrick",
+   "text": "You have no idea how quiet it is."
+  },
+  {
+   "from": "James",
+   "text": "The police are asking, what’s the last time you remember seeing people?"
+  },
+  {
+   "from": "Patrick",
+   "text": "Idk, I guess my family, before I left? Or maybe walking there?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m not sure."
+  },
+  {
+   "from": "James",
+   "text": "They’re sending people to look for you."
+  },
+  {
+   "from": "Patrick",
+   "text": "But I’m right in front of the house."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m touching the mailbox."
+  },
+  {
+   "from": "Patrick",
+   "text": "It’s real."
+  },
+  {
+   "from": "James",
+   "text": "Maybe that’s what you think."
+  },
+  {
+   "from": "Patrick",
+   "text": "BUT YOU SAW THE PHOTO!"
+  },
+  {
+   "from": "Patrick",
+   "text": "It’s REAL!"
+  },
+  {
+   "from": "James",
+   "text": "The police just told us something."
+  },
+  {
+   "from": "Patrick",
+   "text": "What?"
+  },
+  {
+   "from": "James",
+   "text": "Somebody found you."
+  },
+  {
+   "from": "Patrick",
+   "text": "Huh? Nobody’s here."
+  },
+  {
+   "from": "James",
+   "text": "In a ditch by the side of the road."
+  },
+  {
+   "from": "Patrick",
+   "text": "Obviously, it’s not me."
+  },
+  {
+   "from": "James",
+   "text": "They said you were hit by a car."
+  },
+  {
+   "from": "Patrick",
+   "text": "It’s not me!"
+  },
+  {
+   "from": "James",
+   "text": "It is you."
+  },
+  {
+   "from": "Patrick",
+   "text": "OBVIOUSLY, it’s not me."
+  },
+  {
+   "from": "James",
+   "text": "It’s obvious it’s you."
+  },
+  {
+   "from": "Patrick",
+   "text": "“It?”"
+  },
+  {
+   "from": "James",
+   "text": "They say you’re dead."
+  }
+ ],
+ "genre": "horror"
+}

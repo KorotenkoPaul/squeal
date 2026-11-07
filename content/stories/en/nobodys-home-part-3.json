@@ -1,0 +1,291 @@
+{
+ "id": "nobodys-home-part-3",
+ "title": "Nobody’s Home Part 3",
+ "author": "Rich Samuels",
+ "description": "Patrick insists that he isn’t dead, despite all of the evidence, and sets off back to Sandra’s house to find everyone and reveal the prank once and for all. He finds something else, entirely.",
+ "left": "Patrick",
+ "right": "James",
+ "messages": [
+  {
+   "from": "Patrick",
+   "text": "I’m not dead."
+  },
+  {
+   "from": "Patrick",
+   "text": "PHOTO: Selfie of Patrick"
+  },
+  {
+   "from": "Patrick",
+   "text": "Do I look dead?"
+  },
+  {
+   "from": "Patrick",
+   "text": "They made a mistake."
+  },
+  {
+   "from": "Patrick",
+   "text": "I wasn’t hit by a car."
+  },
+  {
+   "from": "James",
+   "text": "It’s you."
+  },
+  {
+   "from": "Patrick",
+   "text": "It’s not."
+  },
+  {
+   "from": "James",
+   "text": "It’s your clothes, your ID."
+  },
+  {
+   "from": "Patrick",
+   "text": "Dead people can’t text, James."
+  },
+  {
+   "from": "Patrick",
+   "text": "And they can’t take pictures."
+  },
+  {
+   "from": "Patrick",
+   "text": "I mean, maybe I’m insane, but I’m not dead."
+  },
+  {
+   "from": "James",
+   "text": "They showed us a picture"
+  },
+  {
+   "from": "Patrick",
+   "text": "Of what?"
+  },
+  {
+   "from": "James",
+   "text": "Of you."
+  },
+  {
+   "from": "Patrick",
+   "text": "PHOTO: Selfie of Patrick (Same as previous)"
+  },
+  {
+   "from": "Patrick",
+   "text": "That’s me."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m still here."
+  },
+  {
+   "from": "James",
+   "text": "Where?"
+  },
+  {
+   "from": "Patrick",
+   "text": "In front of my house?"
+  },
+  {
+   "from": "James",
+   "text": "That you can’t get in?"
+  },
+  {
+   "from": "James",
+   "text": "Maybe that’s why you couldn’t get in the party."
+  },
+  {
+   "from": "Patrick",
+   "text": "This is one big prank, isn’t it?"
+  },
+  {
+   "from": "Patrick",
+   "text": "You guys are hiding behind the bushes aren’t you?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I don’t know how you turned the power off, but I bet you did."
+  },
+  {
+   "from": "James",
+   "text": "It’s not a prank."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m alive."
+  },
+  {
+   "from": "Patrick",
+   "text": "I must be seeing things, though."
+  },
+  {
+   "from": "Patrick",
+   "text": "I mean, I can’t even see stars in the sky, how weird is that?"
+  },
+  {
+   "from": "Patrick",
+   "text": "I bet you’re still at the party. I’m going back there."
+  },
+  {
+   "from": "James",
+   "text": "It’s not going to do any good."
+  },
+  {
+   "from": "James",
+   "text": "We’re still not going to be th ere."
+  },
+  {
+   "from": "Patrick",
+   "text": "That’s what you say."
+  },
+  {
+   "from": "Patrick",
+   "text": "Well, I’m coming back anyway."
+  },
+  {
+   "from": "James",
+   "text": "It’s not going to do any good."
+  },
+  {
+   "from": "James",
+   "text": "I’m sick of your stupid prank."
+  },
+  {
+   "from": "James",
+   "text": "Just to let you know, I’m on my way back."
+  },
+  {
+   "from": "James",
+   "text": "I’m going to break in what I get there, if I have to."
+  },
+  {
+   "from": "James",
+   "text": "If you don’t let me in."
+  },
+  {
+   "from": "Patrick",
+   "text": "We can’t do anything. I told you!"
+  },
+  {
+   "from": "Patrick",
+   "text": "We’re just not in the same place anymore"
+  },
+  {
+   "from": "Patrick",
+   "text": "If no one opens the door, I’m going to break the window."
+  },
+  {
+   "from": "Patrick",
+   "text": "Just to warn you."
+  },
+  {
+   "from": "Patrick",
+   "text": "You’re probably all hiding in there."
+  },
+  {
+   "from": "James",
+   "text": "No one’s hiding."
+  },
+  {
+   "from": "Patrick",
+   "text": "Good. Because I’ll find you if you are."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m right outside."
+  },
+  {
+   "from": "Patrick",
+   "text": "The house is dark, I bet you warned everyone I was coming back."
+  },
+  {
+   "from": "James",
+   "text": "Nobody’s hiding, and I didn’t warn anyone."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m going to break in."
+  },
+  {
+   "from": "Patrick",
+   "text": "I’m going to get to the party."
+  },
+  {
+   "from": "Patrick",
+   "text": "Either someone opens the door or I break the window."
+  },
+  {
+   "from": "James",
+   "text": "You can’t come to the party."
+  },
+  {
+   "from": "Patrick",
+   "text": "PHOTO: Hand holding a rock (night)"
+  },
+  {
+   "from": "Patrick",
+   "text": "This is coming through the window"
+  },
+  {
+   "from": "Patrick",
+   "text": "Did you hear that? I just broke the window."
+  },
+  {
+   "from": "Patrick",
+   "text": "You better come out of your hiding places, because I’m coming."
+  },
+  {
+   "from": "James",
+   "text": "No one’s hiding."
+  },
+  {
+   "from": "Patrick",
+   "text": "I hear something."
+  },
+  {
+   "from": "Patrick",
+   "text": "Finally. I knew it."
+  },
+  {
+   "from": "James",
+   "text": "Knew what? There’s nothing."
+  },
+  {
+   "from": "Patrick",
+   "text": "I just found the party."
+  },
+  {
+   "from": "James",
+   "text": "You did?"
+  },
+  {
+   "from": "Patrick",
+   "text": "Yeah, see?"
+  },
+  {
+   "from": "Patrick",
+   "text": "PHOTO: Teens at a party"
+  },
+  {
+   "from": "James",
+   "text": "What are they?"
+  },
+  {
+   "from": "James",
+   "text": "They’re not anyone I know"
+  },
+  {
+   "from": "James",
+   "text": "But if YOU can see them…"
+  },
+  {
+   "from": "Patrick",
+   "text": "If I can see them what?"
+  },
+  {
+   "from": "Patrick",
+   "text": "WHAT?"
+  },
+  {
+   "from": "James",
+   "text": "…then they’re just like you."
+  }
+ ],
+ "genre": "horror"
+}

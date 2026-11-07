@@ -1,0 +1,407 @@
+{
+ "id": "grave",
+ "title": "Grave",
+ "author": "",
+ "description": "",
+ "left": "Jenna",
+ "right": "Aaron",
+ "messages": [
+  {
+   "from": "Jenna",
+   "text": "Help me"
+  },
+  {
+   "from": "Aaron",
+   "text": "I think you texted the wrong person."
+  },
+  {
+   "from": "Jenna",
+   "text": "Please help me."
+  },
+  {
+   "from": "Aaron",
+   "text": "Seriously, you texted the wrong person."
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m trapped, I need help."
+  },
+  {
+   "from": "Aaron",
+   "text": "Who were you trying to text?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I just need help, that’s all!"
+  },
+  {
+   "from": "Aaron",
+   "text": "You made a mistake."
+  },
+  {
+   "from": "Jenna",
+   "text": "Please!"
+  },
+  {
+   "from": "Aaron",
+   "text": "I don’t even know who you are!"
+  },
+  {
+   "from": "Jenna",
+   "text": "You have to help me get out of here!"
+  },
+  {
+   "from": "Aaron",
+   "text": "Get out of where?"
+  },
+  {
+   "from": "Jenna",
+   "text": "They buried me!"
+  },
+  {
+   "from": "Aaron",
+   "text": "Who buried you?"
+  },
+  {
+   "from": "Jenna",
+   "text": "These people…they buried me."
+  },
+  {
+   "from": "Aaron",
+   "text": "Buried you where?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I don’t know. Underground."
+  },
+  {
+   "from": "Aaron",
+   "text": "How could you even text then?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m in a box."
+  },
+  {
+   "from": "Aaron",
+   "text": "They put you in a box?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Like a coffin."
+  },
+  {
+   "from": "Aaron",
+   "text": "You’re in a coffin?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m in a coffin."
+  },
+  {
+   "from": "Aaron",
+   "text": "Who would do that?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I don’t know who they were."
+  },
+  {
+   "from": "Aaron",
+   "text": "And they just randomly buried you."
+  },
+  {
+   "from": "Jenna",
+   "text": "They buried me, yes. And I don’t know why."
+  },
+  {
+   "from": "Aaron",
+   "text": "Are you trying to scam me?"
+  },
+  {
+   "from": "Aaron",
+   "text": "Is this some sort of a joke?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m trapped here."
+  },
+  {
+   "from": "Jenna",
+   "text": "You’re my only hope!"
+  },
+  {
+   "from": "Jenna",
+   "text": "PLEASE!"
+  },
+  {
+   "from": "Aaron",
+   "text": "Well, what am I supposed to do?"
+  },
+  {
+   "from": "Aaron",
+   "text": "Where are you, anyway?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Underground."
+  },
+  {
+   "from": "Aaron",
+   "text": "No, I mean where underground."
+  },
+  {
+   "from": "Aaron",
+   "text": "Like, what cemetery?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I don’t know."
+  },
+  {
+   "from": "Aaron",
+   "text": "Well how am I supposed to help you then?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m not sure."
+  },
+  {
+   "from": "Aaron",
+   "text": "Are you sure this isn’t a joke?"
+  },
+  {
+   "from": "Jenna",
+   "text": "It’s not a joke."
+  },
+  {
+   "from": "Aaron",
+   "text": "If I don’t know where you’re buried, I can’t help you!"
+  },
+  {
+   "from": "Aaron",
+   "text": "You want me to call the police?"
+  },
+  {
+   "from": "Jenna",
+   "text": "No, that won’t help."
+  },
+  {
+   "from": "Jenna",
+   "text": "I think there’s a train track near here. I can hear trains sometimes."
+  },
+  {
+   "from": "Aaron",
+   "text": "There are trains?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Can you see a cemetery near a train track?"
+  },
+  {
+   "from": "Aaron",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Like, on Google?"
+  },
+  {
+   "from": "Aaron",
+   "text": "I guess I can look."
+  },
+  {
+   "from": "Aaron",
+   "text": "I guess there is one, north side of town."
+  },
+  {
+   "from": "Jenna",
+   "text": "You have to go there!"
+  },
+  {
+   "from": "Aaron",
+   "text": "And do what?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Dig me up! Save me!"
+  },
+  {
+   "from": "Jenna",
+   "text": "At the Cemetery"
+  },
+  {
+   "from": "Aaron",
+   "text": "How am I supposed to even find you?"
+  },
+  {
+   "from": "Jenna",
+   "text": "Look around"
+  },
+  {
+   "from": "Aaron",
+   "text": "I don’t even know what to look for!"
+  },
+  {
+   "from": "Jenna",
+   "text": "Look for a freshly dug grave"
+  },
+  {
+   "from": "Aaron",
+   "text": "I don’t have a shovel."
+  },
+  {
+   "from": "Jenna",
+   "text": "Keep looking…"
+  },
+  {
+   "from": "Jenna",
+   "text": "There’s always one around."
+  },
+  {
+   "from": "Aaron",
+   "text": "Okay, I found one…I found a shovel."
+  },
+  {
+   "from": "Jenna",
+   "text": "Did you find the grave?"
+  },
+  {
+   "from": "Aaron",
+   "text": "I think so."
+  },
+  {
+   "from": "Jenna",
+   "text": "Dig it up."
+  },
+  {
+   "from": "Aaron",
+   "text": "I don’t think so. This is a cemetery."
+  },
+  {
+   "from": "Jenna",
+   "text": "Please dig it up! I don’t think I can hold on."
+  },
+  {
+   "from": "Aaron",
+   "text": "I’ll get the police."
+  },
+  {
+   "from": "Jenna",
+   "text": "I’ll be dead by then."
+  },
+  {
+   "from": "Aaron",
+   "text": "Okay, fine. I’ll dig."
+  },
+  {
+   "from": "Aaron",
+   "text": "But once the police are here, I’m gone."
+  },
+  {
+   "from": "Jenna",
+   "text": "Are you digging?"
+  },
+  {
+   "from": "Aaron",
+   "text": "I’m digging."
+  },
+  {
+   "from": "Jenna",
+   "text": "I can hear you! Thank god you’re here!"
+  },
+  {
+   "from": "Aaron",
+   "text": "Did you hear that? I just reached the coffin."
+  },
+  {
+   "from": "Jenna",
+   "text": "Open it up."
+  },
+  {
+   "from": "Aaron",
+   "text": "Open up a coffin?"
+  },
+  {
+   "from": "Jenna",
+   "text": "I’m trapped in here!"
+  },
+  {
+   "from": "Jenna",
+   "text": "You have to let me out!"
+  },
+  {
+   "from": "Aaron",
+   "text": "Okay, Okay. I’ll do it."
+  },
+  {
+   "from": "Jenna",
+   "text": "Thank you so much."
+  },
+  {
+   "from": "Aaron",
+   "text": "What’s going on here?"
+  },
+  {
+   "from": "Jenna",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Aaron",
+   "text": "I opened the lid."
+  },
+  {
+   "from": "Jenna",
+   "text": "No you didn’t."
+  },
+  {
+   "from": "Aaron",
+   "text": "Yes I did."
+  },
+  {
+   "from": "Aaron",
+   "text": "It’s a dead body. A rotting body."
+  },
+  {
+   "from": "Jenna",
+   "text": "Maybe you opened the wrong grave."
+  },
+  {
+   "from": "Aaron",
+   "text": "I didn’t open the wrong grave."
+  },
+  {
+   "from": "Jenna",
+   "text": "How do you know?"
+  },
+  {
+   "from": "Aaron",
+   "text": "Because it says something on the lid."
+  },
+  {
+   "from": "Jenna",
+   "text": "Says what?"
+  },
+  {
+   "from": "Aaron",
+   "text": "“Our Darling Jenna.”"
+  },
+  {
+   "from": "Aaron",
+   "text": "You’re dead."
+  },
+  {
+   "from": "Jenna",
+   "text": "No, I’m trapped."
+  },
+  {
+   "from": "Aaron",
+   "text": "I’m looking right at you."
+  },
+  {
+   "from": "Aaron",
+   "text": "You’re really, really dead."
+  }
+ ],
+ "genre": "thriller"
+}

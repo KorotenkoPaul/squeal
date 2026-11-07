@@ -1,0 +1,471 @@
+{
+ "id": "the-doctor",
+ "title": "The Doctor",
+ "author": "",
+ "description": "",
+ "left": "Doctor",
+ "right": "Josh",
+ "messages": [
+  {
+   "from": "Doctor",
+   "text": "Hello, Josh. I’m Doctor Beslow"
+  },
+  {
+   "from": "Josh",
+   "text": "Hi Doc – thanks for texting me."
+  },
+  {
+   "from": "Doctor",
+   "text": "Your friend Johnny told me about you, that you have a problem."
+  },
+  {
+   "from": "Josh",
+   "text": "Yeah, a bad problem. I’m out camping. I’m kind of in the middle of nowhere."
+  },
+  {
+   "from": "Josh",
+   "text": "I mean really far."
+  },
+  {
+   "from": "Josh",
+   "text": "I guess I got hurt."
+  },
+  {
+   "from": "Doctor",
+   "text": "How so?"
+  },
+  {
+   "from": "Josh",
+   "text": "I’m not sure, it’s like, in my ribs somewhere."
+  },
+  {
+   "from": "Doctor",
+   "text": "And no one can help you?"
+  },
+  {
+   "from": "Josh",
+   "text": "I’m alone. Like you couldn’t get here for days."
+  },
+  {
+   "from": "Josh",
+   "text": "And this really hurts bad."
+  },
+  {
+   "from": "Josh",
+   "text": "That’s why Johnny found you."
+  },
+  {
+   "from": "Doctor",
+   "text": "You say it’s around your ribs?"
+  },
+  {
+   "from": "Josh",
+   "text": "It’s all bruised."
+  },
+  {
+   "from": "Doctor",
+   "text": "Sounds pretty bad."
+  },
+  {
+   "from": "Josh",
+   "text": "Yeah, I know. What do I do."
+  },
+  {
+   "from": "Doctor",
+   "text": "Well, it was a good thing you didn’t try to hike out."
+  },
+  {
+   "from": "Josh",
+   "text": "But it still hurts."
+  },
+  {
+   "from": "Doctor",
+   "text": "I’m going to have to take a better look at it."
+  },
+  {
+   "from": "Josh",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Do you have a knife."
+  },
+  {
+   "from": "Josh",
+   "text": "My hunting knife…why?"
+  },
+  {
+   "from": "Doctor",
+   "text": "You’re going to have to do something for me."
+  },
+  {
+   "from": "Josh",
+   "text": "What do you mean, “do something?”"
+  },
+  {
+   "from": "Doctor",
+   "text": "You’re going to have to make an incision."
+  },
+  {
+   "from": "Josh",
+   "text": "WHAT? I can’t do that!"
+  },
+  {
+   "from": "Doctor",
+   "text": "You want to die there?"
+  },
+  {
+   "from": "Josh",
+   "text": "No."
+  },
+  {
+   "from": "Doctor",
+   "text": "Then you’re going to have to make an incision."
+  },
+  {
+   "from": "Josh",
+   "text": "What if it bleeds?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Don’t worry about that."
+  },
+  {
+   "from": "Josh",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Who’s the doctor here?"
+  },
+  {
+   "from": "Josh",
+   "text": "You, but won’t it bleed?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Of course it will bleed, but that’s my concern."
+  },
+  {
+   "from": "Doctor",
+   "text": "Make the incision."
+  },
+  {
+   "from": "Doctor",
+   "text": "From left to right."
+  },
+  {
+   "from": "Doctor",
+   "text": "Three…no, four inches long."
+  },
+  {
+   "from": "Doctor",
+   "text": "Then show me what you’ve done."
+  },
+  {
+   "from": "Josh",
+   "text": "Are you sure about this?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Very sure. I’m a doctor, remember."
+  },
+  {
+   "from": "Josh",
+   "text": "You sure there isn’t another way?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Make the incision, Josh."
+  },
+  {
+   "from": "Josh",
+   "text": "I’ll try"
+  },
+  {
+   "from": "Josh",
+   "text": "Ok, I made the incision."
+  },
+  {
+   "from": "Doctor",
+   "text": "Very good."
+  },
+  {
+   "from": "Doctor",
+   "text": "Now pull it apart."
+  },
+  {
+   "from": "Josh",
+   "text": "What?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Pull it apart, so you can see under the skin."
+  },
+  {
+   "from": "Josh",
+   "text": "But that’s going to hurt!"
+  },
+  {
+   "from": "Doctor",
+   "text": "Would you rather die?"
+  },
+  {
+   "from": "Josh",
+   "text": "No."
+  },
+  {
+   "from": "Doctor",
+   "text": "Pull the skin apart."
+  },
+  {
+   "from": "Josh",
+   "text": "It’s going to hurt so much."
+  },
+  {
+   "from": "Doctor",
+   "text": "Would you rather die?"
+  },
+  {
+   "from": "Josh",
+   "text": "No."
+  },
+  {
+   "from": "Doctor",
+   "text": "Pull it apart."
+  },
+  {
+   "from": "Doctor",
+   "text": "As wide as you can!"
+  },
+  {
+   "from": "Josh",
+   "text": "It doesn’t open that much."
+  },
+  {
+   "from": "Doctor",
+   "text": "You need to make a bigger incision."
+  },
+  {
+   "from": "Josh",
+   "text": "BIGGER???"
+  },
+  {
+   "from": "Doctor",
+   "text": "About twice as long."
+  },
+  {
+   "from": "Josh",
+   "text": "Please, I’d rather not."
+  },
+  {
+   "from": "Doctor",
+   "text": "You have to."
+  },
+  {
+   "from": "Doctor",
+   "text": "Just do it quickly."
+  },
+  {
+   "from": "Josh",
+   "text": "I’m bleeding all over the place."
+  },
+  {
+   "from": "Doctor",
+   "text": "Did you do it?"
+  },
+  {
+   "from": "Josh",
+   "text": "Yeah."
+  },
+  {
+   "from": "Doctor",
+   "text": "Good."
+  },
+  {
+   "from": "Josh",
+   "text": "What do you think is wrong with me, Doctor?"
+  },
+  {
+   "from": "Doctor",
+   "text": "You’ve got a pretty bad injury."
+  },
+  {
+   "from": "Josh",
+   "text": "I know, but, like, what do I do?"
+  },
+  {
+   "from": "Doctor",
+   "text": "I think we may have to operate."
+  },
+  {
+   "from": "Josh",
+   "text": "Operate? How?"
+  },
+  {
+   "from": "Doctor",
+   "text": "You’re going to have to operate on yourself."
+  },
+  {
+   "from": "Josh",
+   "text": "What???"
+  },
+  {
+   "from": "Doctor",
+   "text": "I think you can."
+  },
+  {
+   "from": "Doctor",
+   "text": "You don’t have a choice. With a wound like that, you can bleed to death."
+  },
+  {
+   "from": "Josh",
+   "text": "But you told me to do it!"
+  },
+  {
+   "from": "Doctor",
+   "text": "And now I want you to do what I’m saying."
+  },
+  {
+   "from": "Josh",
+   "text": "I can’t operate on myself!"
+  },
+  {
+   "from": "Josh",
+   "text": "Can’t you airlift in and do it yourself?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Don’t be ridiculous."
+  },
+  {
+   "from": "Josh",
+   "text": "More ridiculous than me operating on myself?"
+  },
+  {
+   "from": "Doctor",
+   "text": "It’s just going to take some concentration."
+  },
+  {
+   "from": "Josh",
+   "text": "It’s going to take a LOT more than that!"
+  },
+  {
+   "from": "Doctor",
+   "text": "Do what I say! I’m the doctor!"
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "What kind of a doctor?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Are you questioning me?"
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "Yeah. What kind of a doctor?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Maybe I should just leave you like that."
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "You would do that?"
+  },
+  {
+   "from": "Doctor",
+   "text": "I’m a doctor."
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "I don’t think you are."
+  },
+  {
+   "from": "Doctor",
+   "text": "You have a big incision in your stomach."
+  },
+  {
+   "from": "Doctor",
+   "text": "So you better hope I’m a doctor."
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "Are you a doctor?"
+  },
+  {
+   "from": "Doctor",
+   "text": "I’m the only chance you have."
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "But are you a doctor?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Now send me another picture."
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "How come you’re not answering me?"
+  },
+  {
+   "from": "Doctor",
+   "text": "Why else would I be asking you to cut yourself open?"
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "PLEASE tell me you’re a doctor"
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "Hello?"
+  },
+  {
+   "from": "Doctor",
+   "text": "John"
+  },
+  {
+   "from": "Doctor",
+   "text": "Hello?"
+  }
+ ],
+ "genre": "horror"
+}
