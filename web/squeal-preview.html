@@ -285,7 +285,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet.still .parts { flex-direction: row; }
 .sheet.still .part { flex: 1; justify-content: center; padding: 13px 8px; font-weight: 700; font-size: 15px; }
 .sheet.still .part small { font-size: 12px; }
-.sheet.still .read { padding: 14px; }
+/* Read is exactly the size and shape of the picked random-story box: page-wide, 84 px tall, 16 px corners */
+.sheet.still .read { padding: 0 14px; height: 84px; border-radius: 16px; flex: none; }
 .sheet.still .demo { display: none; }
 .sheet .pv-cover img.cover, .sheet .pv-cover svg.cover { position: absolute; will-change: transform; }
 
@@ -322,7 +323,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .reel .row small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
 /* colours match the genre chips on Home: while spinning the box is an unselected chip, once picked it turns
    into a selected one (accent); no glow */
-.reel.chosen { transform: scale(1.04); background: var(--accent); }
+.reel.chosen { background: var(--accent); animation: picked .5s cubic-bezier(.25,.8,.25,1); }
+@keyframes picked { 50% { transform: scale(1.04); } }   /* steps forward and settles back: ends exactly the size of the Read button */
 .reel .row small { transition: color .45s ease; }
 .reel.chosen .row small { color: rgba(255,255,255,.78); }
 .view.lift { transition: none; }
