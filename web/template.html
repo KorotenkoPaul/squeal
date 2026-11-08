@@ -1261,18 +1261,28 @@ function search() {
   const showDial = () => { clearTimeout(outT); fear.classList.remove("out"); requestAnimationFrame(() => fear.classList.remove("gone")); };
   /* tapping the field clears the screen at once: no fade, so the dial never flashes back into view
      when the list above it collapses */
-  const bar = document.querySelector(".sbar");
-  q.onfocus = () => { bar.classList.add("active"); clearTimeout(outT); fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; document.getElementById("view").scrollTop = 0; };
-  q.onblur = () => { if (!query) { bar.classList.remove("active"); showDial(); showLevel(); } };
+  const bar = document.querySelector(".sbar"), view = document.getElementById("view");
+  /* the place you had scrolled to when you tapped the field: Cancel, or a tap on an empty spot, brings you
+     back there (not to the top) */
+  let backY = null;
+  const backToPlace = () => { if (backY === null) return; const y = backY; backY = null;
+    view.scrollTop = y; requestAnimationFrame(() => { view.scrollTop = y; }); };
+  q.onfocus = () => { if (backY === null) backY = view.scrollTop;
+    bar.classList.add("active"); clearTimeout(outT); fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; view.scrollTop = 0; };
+  q.onblur = () => { if (!query) { bar.classList.remove("active"); showDial(); showLevel(); backToPlace(); } };
   document.getElementById("s-cancel").onclick = () => {
     query = ""; q.value = ""; bar.classList.remove("active");
-    if (document.activeElement === q) q.blur(); else { showDial(); showLevel(); }
+    if (document.activeElement === q) q.blur(); else { showDial(); showLevel(); backToPlace(); }
   };
   q.oninput = () => { query = q.value; query ? showSearch() : (results.innerHTML = ""); };
   /* tap anywhere but the field: the keyboard goes away (and, with nothing typed, the dial comes back) */
-  document.getElementById("view").addEventListener("pointerdown", e => {
-    if (document.activeElement === q && !e.target.closest(".sbar")) { e.preventDefault(); q.blur(); }
+  /* that tap only puts the keyboard away: the list comes back under the finger, and the same tap must not
+     open the story that is now there */
+  let eatClick = false;
+  view.addEventListener("pointerdown", e => {
+    if (document.activeElement === q && !e.target.closest(".sbar")) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700); q.blur(); }
   });
+  view.addEventListener("click", e => { if (eatClick) { eatClick = false; e.preventDefault(); e.stopPropagation(); } }, true);
   pickLevel(fearLevel, false);
   if (query) showSearch();
 }
