@@ -370,19 +370,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
-/* Free taps: a quiet counter beside "Tap to continue"; each tap rolls the number down by one (old digit
-   slides up and out, new one comes up from below); it turns red at 10 and under. Subscribers don't see it. */
-.foot.hint { position: relative; }
-.taps { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; display: flex; align-items: baseline; gap: 3px; color: var(--muted);
-  font-size: 15px; font-weight: 600; opacity: .8; transform: translateY(-50%); }
-.taps .num { position: relative; display: inline-block; height: 1.25em; min-width: 1.9em; overflow: hidden; text-align: right;
-  font-variant-numeric: tabular-nums; line-height: 1.25; }
-.taps .num i { position: absolute; right: 0; top: 0; font-style: normal; }
-.taps .num i.out { animation: tapOut .35s cubic-bezier(.4,0,.2,1) forwards; }
-.taps .num i.in { animation: tapIn .35s cubic-bezier(.25,.8,.25,1) both; }
-.taps.low { color: var(--red); opacity: .85; }
-@keyframes tapOut { to { transform: translateY(-110%); opacity: 0; } }
-@keyframes tapIn { from { transform: translateY(110%); opacity: 0; } }
+/* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
 .paywall { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
 .paywall span { color: var(--muted); font-size: 14px; }
 .paywall button { padding: 13px 28px; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 16px; }
@@ -1618,7 +1606,7 @@ function openStory(id, epIndex) {
     }
     foot.classList.add("hint");
     if (!premium() && freeTaps() <= 0) return showPaywall();
-    foot.innerHTML = `<span class="cont">Tap to continue</span>${premium() ? "" : `<span class="taps${freeTaps() <= 10 ? " low" : ""}" aria-label="${freeTaps()} free taps left"><span class="num"><i>${freeTaps()}</i></span></span>`}`;
+    foot.innerHTML = `<span class="cont">Tap to continue</span>`;   // free taps are counted quietly, never shown
     foot.onclick = step;
     nudge();
   }
@@ -1627,18 +1615,12 @@ function openStory(id, epIndex) {
     foot.innerHTML = `<div class="paywall"><span>You've used your free taps</span><button id="pay">Subscribe to keep reading</button></div>`;
     foot.querySelector("#pay").onclick = e => { e.stopPropagation(); toast("Subscription — in the iPhone app"); };
   }
-  /* one free tap is spent per message shown; the counter rolls down */
+  /* one free tap is spent per message shown, silently */
   function spendTap() {
     if (premium()) return true;
     const left = freeTaps();
     if (left <= 0) { showPaywall(); return false; }
     store.set("taps", left - 1);
-    const box = foot.querySelector(".taps .num");
-    if (box && !reduce()) {
-      const old = box.querySelector("i"); old.classList.add("out");
-      box.insertAdjacentHTML("beforeend", `<i class="in">${left - 1}</i>`); setTimeout(() => old.remove(), 360);
-      box.parentElement.classList.toggle("low", left - 1 <= 10);
-    }
     return true;
   }
   function step() {
