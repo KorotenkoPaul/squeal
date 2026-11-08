@@ -26,7 +26,7 @@ COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "clinical-love": "clinical-love", "frenemy": "frenemy", "perfect-match": "perfect-match",
     "the-crushing-love": "the-crushing-love", "mystery-girlfriend": "mystery-girlfriend",
     "the-reunion-affair": "the-reunion-affair", "under-wrong-hands": "under-wrong-hands",
-    "two-knocks": "two-knocks",   # drawn for the story (design/covers/two-knocks.html)
+    "two-knocks": "two-knocks",   # OpenAI photo, two doors (design/covers/openai-clean/two-knocks-2-two-doors-openai.png)
 }
 # content version: a short fingerprint of what the reader actually reads (messages, branches). When a story's
 # text changes, its version changes, and saved progress for the old text is reset (see prog() in the app).
