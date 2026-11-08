@@ -95,11 +95,18 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 3px 8px; border-radius: 999px; }
 .tile .fav { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
 .tile .fav svg { width: 14px; height: 14px; }
+.tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
+.tile .fav.out { animation: favOut .2s ease-in both; }
+@keyframes favPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes favOut { to { transform: scale(0); opacity: 0; } }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes toastOut { to { opacity: 0; transform: translate(-50%, 6px); } }
+.grid.swap .tile { animation: up .32s cubic-bezier(.25,.8,.25,1) both; }
 .hint { color: var(--muted); font-size: 13px; text-align: center; }
 
 /* Favourites */
 .row-card { position: relative; border-radius: 14px; overflow: hidden; touch-action: pan-y; }
-.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; padding: 0; visibility: hidden; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
 .row-card .remove span { display: block; flex: none; }
 .row-card.snap .face, .row-card.snap .remove, .row-card.snap .remove span { transition: transform .34s cubic-bezier(.32,.72,0,1), width .34s cubic-bezier(.32,.72,0,1), opacity .2s; }
 .row-card.gone { transition: height .26s ease, margin .26s ease, opacity .2s; overflow: hidden; }
@@ -137,10 +144,13 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Overlay layers: the story sheet grows out of its card; the chat slides in over it. */
 #layer { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
 #layer > * { pointer-events: auto; }
-.sheet { position: fixed; overflow: hidden; background: var(--bg); will-change: left, top, width, height; contain: layout paint; }
+.sheet { position: fixed; overflow: hidden; background: var(--bg); will-change: clip-path, transform; contain: layout paint; }
+.sheet.morph .pv-cover { overflow: visible; }
 .sheet .pv-body { contain: layout paint; }
-.sheet .ghost-shade { position: absolute; inset: 0; pointer-events: none; }
-.sheet .ghost { position: absolute; left: 0; bottom: 0; pointer-events: none; }
+/* moving parts are their own GPU layers: they glide by fractions of a pixel instead of snapping */
+.sheet .pv-body, .sheet .cap, .sheet .chrome, .sheet .ghost, .sheet .ghost-shade, .sheet .shade, .screen { will-change: transform, opacity; backface-visibility: hidden; }
+.sheet .ghost-shade { position: absolute; pointer-events: none; transform-origin: 0 0; }
+.sheet .ghost { position: absolute; pointer-events: none; }
 .sheet .ghost > * { position: relative !important; width: 100% !important; height: 100% !important; min-height: 0 !important; background: none !important; transform: none !important; }
 .sheet { -webkit-user-select: none; user-select: none; }
 .sheet .pv-body > * { animation: none; }
@@ -157,11 +167,18 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
 .screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
 /* Pull to refresh (home) */
-.ptr { position: absolute; left: 0; right: 0; top: 0; height: 64px; display: grid; place-items: center; pointer-events: none; opacity: 0; z-index: 0; }
-.ptr svg { width: 28px; height: 28px; }
-.ptr.spin svg { animation: ptrspin .8s steps(8) infinite; }
-@keyframes ptrspin { to { transform: rotate(360deg); } }
-.view.pulling { transition: none; }
+.ptr { position: absolute; left: 0; right: 0; top: 0; height: 68px; transition: opacity .3s ease, transform .38s cubic-bezier(.32,.72,0,1); display: grid; place-items: center; pointer-events: none; opacity: 0; z-index: 0; }
+.owl { position: relative; width: 46px; height: 46px; border-radius: 13px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.owl img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* closed-eyes layer shows from the top down to the lid line: 25% = eyes open, 58% = shut */
+.owl .lid { clip-path: inset(0 0 calc(100% - var(--lid, 58%)) 0); }
+.ptr.spin .owl { animation: owlbob 1.4s ease-in-out infinite; }
+.ptr.spin .owl .lid { animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 0%, 38%, 62%, 100% { clip-path: inset(0 0 75% 0); } 48%, 52% { clip-path: inset(0 0 42% 0); } }
+@keyframes owlbob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-2px) rotate(-4deg); } 75% { transform: translateY(-2px) rotate(4deg); } }
+.ptr.live { transition: none; }
+.ptr.live .owl, .ptr.live .lid { transition: none; }
+.owl { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
@@ -188,7 +205,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .end { align-self: center; text-align: center; padding: 16px 8px 4px; display: flex; flex-direction: column; gap: 4px; }
 .end strong { font-size: 26px; font-weight: 700; }
 .end span { color: var(--muted); font-size: 13px; }
-.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
+.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
 @media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
@@ -246,9 +263,10 @@ function progress(s) {
   return Math.min(100, Math.round(read * 100 / totalOf(s)));
 }
 function toast(text) {
-  document.querySelector(".toast")?.remove();
+  const gone = el => { el.style.animation = "toastOut .2s ease-in both"; setTimeout(() => el.remove(), 200); };
+  document.querySelectorAll(".toast").forEach(gone);
   const t = document.createElement("div"); t.className = "toast"; t.textContent = text; app.appendChild(t);
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 1800);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => gone(t), 1800);
 }
 function toggleFav(id) {
   const f = favs(), on = f.includes(id);
@@ -271,45 +289,84 @@ function shell(content) {
   app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
 }
 
+function tilesHTML(list, f) {
+  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
+      ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
+      <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${progress(s) ? progress(s) + "%" : "~" + Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min"}</span></span></div></button>`).join("");
+}
+/* tap opens; hold toggles favourite, and the tile's heart pops in or shrinks away in place */
+function wireCards(root) {
+  root.querySelectorAll("[data-id]").forEach(b => {
+    const pressed = longPress(b, () => {
+      toggleFav(b.dataset.id);
+      document.querySelectorAll(`.tile[data-id="${b.dataset.id}"]`).forEach(t => {
+        const h = t.querySelector(".fav");
+        if (h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+        else { t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`); }
+      });
+    });
+    b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
+  });
+}
+
+/* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
+function syncHearts() {
+  const f = favs();
+  document.querySelectorAll(".tile[data-id]").forEach(t => {
+    const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
+    if (on && !h) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
+    if (!on && h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+  });
+}
+
 function home() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
   shell(`<span class="label">Top rated</span>
     <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
     <div class="dots" id="dots">${TOP.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
-    <div class="grid">${list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
-      ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
-      <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${progress(s) ? progress(s) + "%" : "~" + Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min"}</span></span></div></button>`).join("")}</div>
+    <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint">Hold your finger on a story to add it to favourites</p>`);
-  app.querySelectorAll(".chip").forEach(b => b.onclick = () => { genre = b.dataset.g; home(); });
-  app.querySelectorAll("[data-id]").forEach(b => {
-    const pressed = longPress(b, () => { toggleFav(b.dataset.id); home(); });
-    b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
+  /* a genre change swaps only the grid: old tiles fade, new ones rise in; the slider is not touched */
+  app.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+    if (genre === b.dataset.g) return;
+    genre = b.dataset.g;
+    app.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.g === genre));
+    const grid = document.getElementById("grid");
+    grid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: "ease-in", fill: "forwards" }).onfinish = () => {
+      grid.innerHTML = tilesHTML(STORIES.filter(s => genre === "all" || s.genre === genre), favs());
+      grid.getAnimations().forEach(a => a.cancel());
+      grid.classList.remove("swap"); void grid.offsetWidth; grid.classList.add("swap");
+      wireCards(grid);
+    };
   });
+  wireCards(app);
   startSlider();
   pullToRefresh();
 }
 
 /* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
-const SPOKES = `<svg viewBox="0 0 28 28" aria-hidden="true">${Array.from({ length: 8 }, (_, i) =>
-  `<rect x="12.75" y="2" width="2.5" height="7" rx="1.25" fill="#fff" opacity="${(.25 + i * .75 / 7).toFixed(2)}" transform="rotate(${i * 45 - 315} 14 14)"/>`).join("")}</svg>`;
+const OWL_PTR = `<div class="owl"><img src="brand/owl-open.png" alt=""><img class="lid" src="brand/owl-closed.png" alt=""></div>`;
 function pullToRefresh() {
-  const view = document.getElementById("view"), LINE = 64, REST = 56;
+  const view = document.getElementById("view"), LINE = 68, REST = 68;
   app.style.position = "relative";
-  const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = SPOKES; ptr.setAttribute("aria-hidden", "true");
+  const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = OWL_PTR; ptr.setAttribute("aria-hidden", "true");
   app.prepend(ptr); view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
-  const spokes = [...ptr.querySelectorAll("rect")];
+  const owl = ptr.querySelector(".owl"), lid = ptr.querySelector(".lid");
   let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
   const show = d => {
     view.style.transform = d ? `translateY(${d}px)` : "";
     const k = Math.min(1, d / LINE);
     ptr.style.opacity = Math.min(1, d / 24);
-    ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 18}px)`;
-    if (!ptr.classList.contains("spin")) spokes.forEach((r, i) => r.style.display = i < Math.ceil(k * 8) ? "" : "none");
+    ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 34}px)`;
+    if (!ptr.classList.contains("spin")) {          // the owl wakes up as you pull: grows, eyes open
+      owl.style.transform = `scale(${.55 + .45 * k}) rotate(${(1 - k) * -10}deg)`;
+      lid.style.setProperty("--lid", (58 - 33 * k) + "%");
+    }
   };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
-  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); ptr.classList.add("live"); };
   const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
@@ -326,18 +383,20 @@ function pullToRefresh() {
   };
   const end = () => {
     if (y0 == null) return; y0 = null;
+    ptr.classList.remove("live");
     if (!locked) return;
     const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
     window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
     view.classList.add("settle");
-    if (d < LINE) { show(d = 0); setTimeout(() => ptr.style.opacity = 0, 380); return; }
-    busy = true; show(d = REST); ptr.classList.add("spin"); spokes.forEach(r => r.style.display = "");
+    if (d < LINE) { show(d = 0); return; }        // owl shrinks and fades while the page glides back
+    busy = true; show(d = REST); owl.style.transform = ""; lid.style.setProperty("--lid", "25%"); ptr.classList.add("spin");
     setTimeout(() => {
+      owl.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(.6)", opacity: 0 }], { duration: 260, easing: "ease-in", fill: "forwards" });
       /* Reload: back to the first slide, fresh progress and favourites, the page glides back up and its sections rise in. */
       clearInterval(slideTimer); show(0);
       setTimeout(() => { home(); const v = document.getElementById("view"); v.classList.add("refreshed");
         setTimeout(() => v.classList.remove("refreshed"), 700); }, 260);
-    }, 900);
+    }, 1400);
   };
   view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
@@ -388,7 +447,7 @@ function favourites() {
     card._x = x;
     card.querySelector(".face").style.transform = x ? `translateX(${x}px)` : "";
     const w = Math.max(0, -x - GAP), btn = card.querySelector(".remove"), label = btn.firstElementChild;
-    btn.style.width = w + "px";
+    btn.style.width = w + "px"; btn.style.visibility = w > 0 ? "visible" : "";
     const k = Math.min(1, Math.max(0, (w - 24) / 56));
     label.style.opacity = k; label.style.transform = `scale(${.85 + .15 * k})`;
   };
@@ -459,26 +518,29 @@ function menu() {
 const layer = document.createElement("div"); layer.id = "layer"; document.body.appendChild(layer);
 const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const EASE = "cubic-bezier(.25,.8,.25,1)", OPEN_MS = 400, CLOSE_MS = 340;
-/* The card's own dressing (its gradient, chips, heart) rides on the growing sheet and fades out,
-   so the first and last frames are exactly the card: nothing pops in or out at the small size. */
-function addGhost(sheet, geo) {
-  const coverEl = sheet.querySelector(".pv-cover"), shade = geo.el.querySelector(".shade");
-  const out = [];
-  if (shade) { const g = document.createElement("span"); g.className = "ghost-shade"; g.style.background = getComputedStyle(shade).backgroundImage; coverEl.insertBefore(g, coverEl.querySelector(".cap")); out.push(g); }
-  if (geo.el.classList.contains("thumb")) return out;
-  const box = document.createElement("div"); box.className = "ghost" + (geo.el.parentElement.classList.contains("row-card") ? " row-card" : "");
-  Object.assign(box.style, { width: geo.frame.width + "px", height: geo.frame.height + "px" });
-  const c = geo.el.cloneNode(true); c.removeAttribute("id"); c.removeAttribute("data-id"); c.removeAttribute("data-open"); c.style.visibility = "visible";
-  c.querySelectorAll(".cover, .shade").forEach(n => n.remove());
-  const t = c.querySelector("b"); if (t) t.style.visibility = "hidden";
-  box.appendChild(c); coverEl.insertBefore(box, coverEl.querySelector(".cap")); out.push(box);
-  return out;
-}
 const px = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
 let lastCard = null;
 document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
 
 function appRect() { const a = app.getBoundingClientRect(); return { left: a.left, top: 0, width: a.width, height: innerHeight }; }
+/* The card's own dressing (its gradient, chips, heart) is laid over the card's spot on the sheet
+   and fades while the sheet opens, so the first and last frames are exactly the card. */
+function addGhost(sheet, geo, at) {
+  const coverEl = sheet.querySelector(".pv-cover"), shade = geo.el.querySelector(".shade"), cap = coverEl.querySelector(".cap");
+  const out = {};
+  if (shade) {
+    const g = document.createElement("span"); g.className = "ghost-shade"; g.style.background = getComputedStyle(shade).backgroundImage;
+    Object.assign(g.style, px(at)); coverEl.insertBefore(g, cap); out.shade = g;
+  }
+  const box = document.createElement("div"); box.className = "ghost" + (geo.el.parentElement.classList.contains("row-card") ? " row-card" : "");
+  Object.assign(box.style, px(at));
+  const c = geo.el.cloneNode(true); c.removeAttribute("id"); c.removeAttribute("data-id"); c.removeAttribute("data-open"); c.style.visibility = "visible";
+  c.querySelectorAll(".cover, .shade").forEach(n => n.remove());
+  c.querySelectorAll(".thumb").forEach(n => n.style.visibility = "hidden");
+  const t = c.querySelector("b"); if (t) t.style.visibility = "hidden";
+  box.appendChild(c); coverEl.insertBefore(box, cap); out.box = box;
+  return out;
+}
 /* The drawn picture inside a box under object-fit: cover, as a rect relative to the box. */
 function drawnRect(box, img) {
   const nw = img.naturalWidth, nh = img.naturalHeight;
@@ -511,16 +573,19 @@ function unclip(photo) {
 }
 /* Geometry of a card: its photo, the title and its offset from the card edge. */
 function cardGeometry(card) {
+  if (card.classList.contains("thumb")) card = card.closest(".item") || card;
+  /* a search row opens as a whole row: its little photo grows, its title flies */
   const thumb = card.querySelector(".thumb");
-  const frame = (thumb || card).getBoundingClientRect();
-  const img = (thumb || card).querySelector(".cover")?.getBoundingClientRect() || frame;
-  const title = thumb ? null : card.querySelector("b");
+  const frame = card.getBoundingClientRect();
+  const img = card.querySelector(".cover")?.getBoundingClientRect() || frame;
+  const title = card.querySelector("b");   // a search row's title flies into the page title too
   const t = title?.getBoundingClientRect();
   if (t) { t.w = t.width + 2; t.one = t.height < parseFloat(getComputedStyle(title).fontSize) * 1.7; }
+  const hide = [card];
   return { frame, img: { left: img.left - frame.left, top: img.top - frame.top, width: img.width, height: img.height },
-    radius: parseFloat(getComputedStyle(thumb || card).borderTopLeftRadius) || 14,
+    radius: thumb ? 12 : parseFloat(getComputedStyle(card).borderTopLeftRadius) || 14,
     title: t ? { size: parseFloat(getComputedStyle(title).fontSize), left: t.left - frame.left, bottom: frame.bottom - t.bottom, width: t.w, one: t.one } : null,
-    el: thumb || card };
+    el: card, hide };
 }
 
 function sheetHTML(s) {
@@ -546,6 +611,50 @@ function sheetHTML(s) {
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
 
+/* One morph, played forwards to open and backwards to close. Nothing inside the sheet is laid out
+   again while it runs: the page sits where it ends up and is revealed through a rounded window
+   (clip-path) that grows from the card; only the photo, title and the card's dressing move, by
+   transform. So text never snaps by a pixel and nothing jumps on a slow phone. */
+function morph(sheet, geo, opening, o, from) {
+  const full = appRect(), coverEl = sheet.querySelector(".pv-cover"), photo = coverEl.querySelector(".cover");
+  const cap = sheet.querySelector(".cap"), COVER_H = coverEl.offsetHeight, W = full.width, H = full.height;
+  const f = geo.frame, at = { left: f.left - full.left, top: f.top, width: f.width, height: f.height };
+  const card = { clipPath: `inset(${at.top}px ${W - at.left - at.width}px ${H - at.top - at.height}px ${at.left}px round ${geo.radius}px)`, transform: "none" };
+  const page = from || { clipPath: "inset(0px 0px 0px 0px round 0px)", transform: "none" };
+  const play = (el, a, b) => el.animate(opening ? [a, b] : [b, a], o);
+  /* fades are written for opening; closing runs them mirrored on the same progress */
+  const fade = (el, frames) => el.animate(opening ? frames : frames.map(k => ({ ...k, offset: 1 - k.offset })).reverse(), o);
+  sheet.classList.add("morph");
+  const anims = [play(sheet, card, page)];
+  const imgBox = { left: at.left + geo.img.left, top: at.top + geo.img.top, width: geo.img.width, height: geo.img.height };
+  anims.push(opening ? morphPhoto(photo, imgBox, { left: 0, top: 0, width: W, height: COVER_H }, o)
+                     : morphPhoto(photo, { left: 0, top: 0, width: W, height: COVER_H }, imgBox, o));
+  /* the title: same text, moved and scaled from the card's title to the page's */
+  let shift = { x: 0, y: 0 };
+  if (geo.title) {
+    const k = geo.title.size / 32;
+    if (geo.title.one) cap.classList.add("one");
+    const start = { x: at.left + geo.title.left, y: at.top + at.height - geo.title.bottom }, end = { x: 18, y: COVER_H - 18 };
+    shift = { x: start.x - end.x, y: start.y - end.y };
+    anims.push(play(cap, { transform: `translate(${shift.x}px, ${shift.y}px) scale(${k})` }, { transform: "translate(0px, 0px) scale(1)" }));
+    anims.push(fade(cap.querySelector("small"), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .45 }, { opacity: 1, offset: 1 }]));
+  } else anims.push(fade(cap, [{ opacity: 0, transform: "translateY(10px)", offset: 0 }, { opacity: 0, transform: "translateY(10px)", offset: .45 }, { opacity: 1, transform: "none", offset: 1 }]));
+  /* the card's gradient stretches with the window and hands over to the page's; chips ride with the title */
+  const g = addGhost(sheet, geo, at);
+  if (g.shade) {
+    anims.push(play(g.shade, { transform: "none" }, { transform: `translate(${-at.left}px, ${-at.top}px) scale(${W / at.width}, ${COVER_H / at.height})` }));
+    anims.push(fade(g.shade, [{ opacity: 1, offset: 0 }, { opacity: 1, offset: .2 }, { opacity: 0, offset: .7 }, { opacity: 0, offset: 1 }]));
+  }
+  if (g.box) {
+    anims.push(play(g.box, { transform: "none" }, { transform: `translate(${-shift.x}px, ${-shift.y}px)` }));
+    anims.push(fade(g.box, [{ opacity: 1, offset: 0 }, { opacity: 0, offset: .35 }, { opacity: 0, offset: 1 }]));
+  }
+  anims.push(fade(coverEl.querySelector(".shade"), [{ opacity: 0, offset: 0 }, { opacity: 1, offset: .5 }, { opacity: 1, offset: 1 }]));
+  anims.push(fade(sheet.querySelector(".pv-body"), [{ opacity: 0, transform: "translateY(16px)", offset: 0 }, { opacity: 0, transform: "translateY(16px)", offset: .55 }, { opacity: 1, transform: "none", offset: 1 }]));
+  anims.push(fade(sheet.querySelector(".chrome"), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .5 }, { opacity: 1, offset: 1 }]));
+  return Promise.all(anims.map(a => a.finished)).then(() => g, () => g);
+}
+
 function preview(id) {
   if (layer.querySelector(".sheet")) return;
   const s = STORIES.find(x => x.id === id);
@@ -555,79 +664,47 @@ function preview(id) {
   sheet.innerHTML = sheetHTML(s);
   sheet.querySelector("img.cover")?.removeAttribute("loading");
   layer.appendChild(sheet);
-  const full = appRect(), coverEl = sheet.querySelector(".pv-cover"), photo = coverEl.querySelector(".cover");
-  const scroller = sheet.querySelector(".scroll"), cap = sheet.querySelector(".cap"), body = sheet.querySelector(".pv-body"), chrome = sheet.querySelector(".chrome");
-  const COVER_H = coverEl.offsetHeight;
+  const full = appRect(), photo = sheet.querySelector(".pv-cover .cover");
   Object.assign(sheet.style, px(full));
   Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
   const geo = card ? cardGeometry(card) : null;
-  sheet._origin = geo ? geo.el : null; sheet._story = s; sheet._sig = sig(s);
+  sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s);
   wire(sheet, s);
-
   if (!geo || !sheet.animate || reduce()) {
     if (sheet.animate && !reduce()) sheet.animate([{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: EASE });
     return;
   }
-  /* Everything below is one element growing: frame, photo, title and the page under it. */
-  geo.el.style.visibility = "hidden";
-  const f = geo.frame, o = { duration: OPEN_MS, easing: EASE, fill: "both" };
-  sheet.animate([{ ...px(f), borderRadius: geo.radius + "px" }, { ...px(full), borderRadius: "0px" }], o);
-  const ghosts = addGhost(sheet, geo), shadeEl = coverEl.querySelector(".shade");
-  ghosts.forEach(g => g.animate([{ opacity: 1 }, { opacity: 0, offset: .45 }, { opacity: 0 }], { ...o, easing: "linear" }));
-  shadeEl.animate([{ opacity: 0 }, { opacity: 1, offset: .6 }, { opacity: 1 }], { ...o, easing: "linear" });
-  coverEl.animate([{ height: f.height + "px" }, { height: COVER_H + "px" }], o);
-  morphPhoto(photo, geo.img, { left: 0, top: 0, width: full.width, height: COVER_H }, o);
-  scroller.style.width = full.width + "px";
-  if (geo.title) {
-    const k = geo.title.size / 32;
-    if (geo.title.one) cap.classList.add("one");
-    cap.animate([{ left: geo.title.left + "px", bottom: geo.title.bottom + "px", right: "auto", width: geo.title.width / k + "px", transform: `scale(${k})` },
-                 { left: "18px", bottom: "18px", right: "auto", width: full.width - 36 + "px", transform: "scale(1)" }], o);
-    cap.querySelector("small").animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 0, offset: .45 }, { opacity: 1, transform: "none" }], o);
-  } else {
-    cap.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 0, offset: .45 }, { opacity: 1, transform: "none" }], o);
-  }
-  body.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 0, offset: .3 }, { opacity: 1, transform: "none" }], o);
-  chrome.animate([{ opacity: 0 }, { opacity: 0, offset: .5 }, { opacity: 1 }], o);
-  /* Clean up only when every part has really finished (a slow phone must not cut it short). */
-  const anims = sheet.getAnimations({ subtree: true });
-  Promise.all(anims.map(a => a.finished)).then(() => {
-    ghosts.forEach(g => g.remove()); unclip(photo); anims.forEach(a => a.cancel()); cap.classList.remove("one"); scroller.style.width = "";
-  }).catch(() => {});
+  geo.hide.forEach(e => e.style.visibility = "hidden");
+  morph(sheet, geo, true, { duration: OPEN_MS, easing: EASE, fill: "both" }).then(g => {
+    /* settle: drop the helpers only once every part has really finished */
+    if (sheet._closing) return;
+    g.shade?.remove(); g.box?.remove(); unclip(photo); sheet.classList.remove("morph");
+    sheet.querySelector(".cap").classList.remove("one");
+    sheet.getAnimations({ subtree: true }).forEach(a => a.cancel());
+  });
 }
 
-function closeSheet(sheet, fromRect) {
+function closeSheet(sheet, dragged) {
   if (sheet._closing) return; sheet._closing = true;
   const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
-  const finish = () => { if (origin) origin.style.visibility = ""; sheet.remove(); if (sheet._sig !== sig(sheet._story)) refresh(); };
-  const scroller = sheet.querySelector(".scroll"); scroller.scrollTop = 0;
+  const finish = () => { (sheet._hide || []).forEach(e => e.style.visibility = ""); sheet.remove();
+    if (sheet._sig === sig(sheet._story)) return;
+    if (tab === "home") syncHearts(); else refresh(); };
+  sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
+  sheet.querySelector(".scroll").scrollTop = 0;
   if (!sheet.animate || reduce()) return finish();
-  const now = fromRect || sheet.getBoundingClientRect();
-  const scaleNow = now.width / appRect().width;
-  sheet.style.transform = ""; Object.assign(sheet.style, px(now));
-  const coverEl = sheet.querySelector(".pv-cover"), photo = coverEl.querySelector(".cover"), cap = sheet.querySelector(".cap");
-  const COVER_H = coverEl.offsetHeight * scaleNow;
   const vis = r => r.width > 0 && r.bottom > 0 && r.top < innerHeight;
   if (!origin || !vis(origin.getBoundingClientRect())) {
-    sheet.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(60px) scale(.94)" }], { duration: 260, easing: "ease-in", fill: "forwards" }).onfinish = finish;
+    sheet.style.transition = "";
+    sheet.animate([{ opacity: 1, transform: sheet.style.transform || "none" }, { opacity: 0, transform: "translateY(60px) scale(.94)" }], { duration: 260, easing: "ease-in", fill: "forwards" }).onfinish = finish;
     return;
   }
-  const geo = cardGeometry(origin), f = geo.frame, o = { duration: CLOSE_MS, easing: EASE, fill: "forwards" };
-  scroller.style.width = now.width + "px";
-  if (geo.title?.one) cap.classList.add("one");
-  sheet.animate([{ ...px(now), borderRadius: (fromRect ? 22 : 0) + "px" }, { ...px(f), borderRadius: geo.radius + "px" }], o).onfinish = finish;
-  addGhost(sheet, geo).forEach(g => g.animate([{ opacity: 0 }, { opacity: 0, offset: .55 }, { opacity: 1 }], { ...o, easing: "linear" }));
-  coverEl.querySelector(".shade").animate([{ opacity: 1 }, { opacity: 1, offset: .4 }, { opacity: 0 }], { ...o, easing: "linear" });
-  coverEl.animate([{ height: COVER_H + "px" }, { height: f.height + "px" }], o);
-  morphPhoto(photo, { left: 0, top: 0, width: now.width, height: COVER_H }, geo.img, o);
-  if (geo.title) {
-    const k = geo.title.size / 32;
-    cap.animate([{ left: 18 * scaleNow + "px", bottom: 18 * scaleNow + "px", right: "auto", width: appRect().width - 36 + "px", transform: `scale(${scaleNow})` },
-                 { left: geo.title.left + "px", bottom: geo.title.bottom + "px", right: "auto", width: geo.title.width / k + "px", transform: `scale(${k})` }], o);
-    cap.querySelector("small").animate([{ opacity: 1 }, { opacity: 0, offset: .35 }, { opacity: 0 }], o);
-  } else cap.animate([{ opacity: 1 }, { opacity: 0, offset: .4 }, { opacity: 0 }], o);
-  sheet.querySelector(".pv-body").animate([{ opacity: 1 }, { opacity: 0, offset: .3 }, { opacity: 0 }], { ...o, easing: "linear" });
-  sheet.querySelector(".chrome").animate([{ opacity: 1 }, { opacity: 0, offset: .2 }, { opacity: 0 }], { ...o, easing: "linear" });
+  /* a drag-down hands over its current shape, so the shrink continues from under the finger */
+  const from = dragged ? { clipPath: `inset(0px 0px 0px 0px round ${parseFloat(sheet.style.borderRadius) || 0}px)`, transform: sheet.style.transform || "none" } : null;
+  sheet.style.transition = ""; sheet.style.borderRadius = "";
+  const p = morph(sheet, cardGeometry(origin), false, { duration: CLOSE_MS, easing: EASE, fill: "forwards" }, from);
+  sheet.style.transform = "";
+  p.then(finish);
 }
 
 function wire(sheet, s) {
@@ -648,7 +725,7 @@ function wire(sheet, s) {
   };
   const end = () => {
     if (y0 == null) return; y0 = null;
-    if (dy > 100) return closeSheet(sheet, sheet.getBoundingClientRect());
+    if (dy > 100) return closeSheet(sheet, true);
     sheet.style.transition = "transform .32s " + EASE + ", border-radius .32s"; sheet.style.transform = ""; sheet.style.borderRadius = "";
   };
   sheet.addEventListener("touchstart", e => start(e.touches[0].clientY), { passive: true });
