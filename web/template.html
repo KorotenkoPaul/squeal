@@ -1691,6 +1691,8 @@ function openStory(id, epIndex) {
      own message. The path is saved with the progress, so you come back to where you were. */
   const base = s.episodes[st.ep], ep = { ...base };
   let path = base.nodes ? (st.i > 0 && pr.path ? pr.path.slice() : [base.start]) : null;
+  /* a saved path from an older version of the story (branches renamed or removed): start fresh */
+  if (path && (path[0] !== base.start || path.some((n, k) => !base.nodes[n] || (k && !(base.nodes[path[k - 1]].choices || []).some(c => c.next === n))))) { path = [base.start]; st.i = 0; }
   const flatten = () => {
     const seq = [];
     path.forEach((n, k) => { if (k) { const c = base.nodes[path[k - 1]].choices.find(c => c.next === n); seq.push({ from: base.right, text: c.text }); }
