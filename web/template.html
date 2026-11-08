@@ -1020,14 +1020,13 @@ function openStory(id, epIndex) {
   layer.appendChild(scr);
   if (scr.animate && !reduce()) scr.animate([prev ? { opacity: 0 } : { transform: "translateX(100%)" }, prev ? { opacity: 1 } : { transform: "none" }], { duration: prev ? 200 : 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
+  /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   scr.querySelector("#back").onclick = () => {
     clearTimeout(timer);
-    const sheet = layer.querySelector(".sheet");
-    const done = () => { scr.remove(); if (sheet) { const sc = sheet.querySelector(".scroll"), y = sc.scrollTop; const story = STORIES.find(x => x.id === id);
-      sheet.innerHTML = sheetHTML(story); const photo = sheet.querySelector(".pv-cover .cover"); Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
-      wire(sheet, story); sheet.querySelector(".scroll").scrollTop = y; } };
-    if (!scr.animate || reduce()) return done();
-    scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 280, easing: "cubic-bezier(.4,0,.6,1)", fill: "forwards" }).onfinish = done;
+    const finish = () => { scr.remove(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
+    const sh = layer.querySelector(".sheet"); if (sh) sh.style.visibility = "hidden";
+    if (!scr.animate || reduce()) return finish();
+    scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 300, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = finish;
   };
   /* part switch: the lit disc glides to the tapped number, then that part opens */
   scr.querySelectorAll(".ep-seg [data-ep]").forEach(btn => btn.onclick = e => {
