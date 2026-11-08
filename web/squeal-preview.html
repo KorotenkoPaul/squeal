@@ -99,14 +99,16 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 
 /* Favourites */
 .row-card { position: relative; border-radius: 14px; overflow: hidden; touch-action: pan-y; }
-.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 96px; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; }
-.row-card .face { position: relative; display: flex; align-items: center; min-height: 110px; padding: 20px; background: var(--deep); border-radius: 14px; transition: transform .2s; width: 100%; text-align: left; overflow: hidden; }
+.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+.row-card.armed .remove { justify-content: flex-start; padding-left: 24px; }
+.row-card.snap .face, .row-card.snap .remove { transition: transform .32s cubic-bezier(.32,.72,0,1), width .32s cubic-bezier(.32,.72,0,1); }
+.row-card.gone { transition: height .26s ease, margin .26s ease, opacity .2s; overflow: hidden; }
+.row-card .face { position: relative; display: flex; align-items: center; min-height: 110px; padding: 20px; background: var(--deep); border-radius: 14px; width: 100%; text-align: left; overflow: hidden; will-change: transform; }
 .row-card .face svg.cover { left: 40%; width: 60%; }
 .row-card .face .shade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--deep) 42%, rgba(23,18,44,0) 85%); }
 .row-card .face div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .row-card b { font-size: 24px; font-weight: 600; }
 .row-card small { color: var(--muted); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
-.row-card.open .face { transform: translateX(-108px); }
 
 /* Search */
 .search { display: flex; align-items: center; gap: 8px; background: var(--field); border-radius: 12px; padding: 10px 12px; color: var(--muted); }
@@ -308,17 +310,59 @@ function favourites() {
   if (!list.length) return shell(`<div class="empty"><svg viewBox="0 0 150 120" aria-hidden="true"><rect x="10" y="20" width="56" height="56" rx="10" fill="#5f5b7d"/><rect x="10" y="84" width="56" height="34" rx="10" fill="#5f5b7d"/><rect x="74" y="84" width="56" height="34" rx="10" fill="#5f5b7d"/><rect x="72" y="2" width="74" height="74" rx="12" fill="#a7a3bb"/><circle cx="92" cy="40" r="7" fill="#8e8aa6"/><circle cx="106" cy="30" r="7" fill="#8e8aa6"/><circle cx="128" cy="40" r="11" fill="#7b57c9"/><path d="M128 46s-6-3.5-6-7.2c0-2 1.4-3.3 3-3.3 1.2 0 2.2.7 3 1.8.8-1.1 1.8-1.8 3-1.8 1.6 0 3 1.3 3 3.3 0 3.7-6 7.2-6 7.2z" fill="#fff"/></svg><b>It's empty in here :(</b><span>Hold your finger on a story</span></div>`);
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
   shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
-    `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}">Remove</button>
+    `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
       <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span><div><b>${esc(s.title)}</b><small>Completed ${progress(s)}%</small></div></button></div>`).join("")).join("") +
     `<p class="hint">Swipe a story left to remove it</p>`);
-  app.querySelectorAll(".row-card").forEach(card => {
-    let x0 = null;
-    card.addEventListener("pointerdown", e => { x0 = e.clientX; });
-    card.addEventListener("pointerup", e => { if (x0 != null) { const dx = e.clientX - x0; if (dx < -40) card.classList.add("open"); else if (dx > 40) card.classList.remove("open"); } x0 = null; });
+  /* iPhone-style swipe: the row follows the finger, the red button stretches with it;
+     pull past ~60% and let go to remove at once, or stop halfway to leave the button open. */
+  const OPEN = 96, GAP = 8;
+  const set = (card, x) => {
+    card._x = x;
+    card.querySelector(".face").style.transform = x ? `translateX(${x}px)` : "";
+    const w = Math.max(0, -x - GAP), btn = card.querySelector(".remove");
+    btn.style.width = w + "px";
+    card.classList.toggle("armed", -x > card.offsetWidth * .6);
+  };
+  const snap = (card, x) => { card.classList.add("snap"); set(card, x); setTimeout(() => card.classList.remove("snap"), 340); };
+  const removeRow = card => {
+    snap(card, -card.offsetWidth - GAP);
+    setTimeout(() => {
+      card.style.height = card.offsetHeight + "px"; card.classList.add("gone");
+      requestAnimationFrame(() => { card.style.height = "0px"; card.style.marginTop = card.style.marginBottom = "-6px"; card.style.opacity = "0"; });
+      setTimeout(() => { toggleFav(card.dataset.id); refresh(); }, 280);
+    }, 220);
+  };
+  const cards = [...app.querySelectorAll(".row-card")];
+  cards.forEach(card => {
+    card._x = 0;
+    let x0 = null, y0 = 0, base = 0, dragging = false;
+    card.addEventListener("pointerdown", e => {
+      cards.forEach(c => c !== card && c._x && snap(c, 0));
+      x0 = e.clientX; y0 = e.clientY; base = card._x; dragging = false; card._moved = false;
+    });
+    card.addEventListener("pointermove", e => {
+      if (x0 == null) return;
+      const dx = e.clientX - x0, dy = e.clientY - y0;
+      if (!dragging) { if (Math.abs(dx) < 8) return; if (Math.abs(dy) > Math.abs(dx)) { x0 = null; return; } dragging = true; card._moved = true; card.setPointerCapture?.(e.pointerId); }
+      let x = base + dx;
+      if (x > 0) x = x / 4;                     // a little resistance to the right
+      set(card, x);
+    });
+    const end = () => {
+      if (x0 == null) return; x0 = null;
+      if (!dragging) return;
+      const x = card._x;
+      if (-x > card.offsetWidth * .6) return removeRow(card);
+      snap(card, -x > OPEN / 2 ? -(OPEN + GAP) : 0);
+    };
+    card.addEventListener("pointerup", end); card.addEventListener("pointercancel", end);
   });
-  app.querySelectorAll("[data-open]").forEach(b => b.onclick = () => {
-    const card = b.closest(".row-card"); if (card.classList.contains("open")) return card.classList.remove("open"); preview(b.dataset.open); });
-  app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => { toggleFav(b.dataset.remove); favourites(); });
+  app.querySelectorAll("[data-open]").forEach(b => b.onclick = e => {
+    const card = b.closest(".row-card");
+    if (card._moved) { card._moved = false; return; }
+    if (card._x) return snap(card, 0);
+    preview(b.dataset.open); });
+  app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => removeRow(b.closest(".row-card")));
 }
 
 function search() {
@@ -415,7 +459,7 @@ function preview(id) {
   Object.assign(sheet.style, px(full));
   Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
   const geo = card ? cardGeometry(card) : null;
-  sheet._origin = geo ? geo.el : null;
+  sheet._origin = geo ? geo.el : null; sheet._story = s; sheet._sig = sig(s);
   wire(sheet, s);
 
   if (!geo || !sheet.animate || reduce()) {
@@ -450,7 +494,7 @@ function preview(id) {
 function closeSheet(sheet, fromRect) {
   if (sheet._closing) return; sheet._closing = true;
   const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
-  const finish = () => { if (origin) origin.style.visibility = ""; sheet.remove(); refresh(); };
+  const finish = () => { if (origin) origin.style.visibility = ""; sheet.remove(); if (sheet._sig !== sig(sheet._story)) refresh(); };
   const scroller = sheet.querySelector(".scroll"); scroller.scrollTop = 0;
   if (!sheet.animate || reduce()) return finish();
   const now = fromRect || sheet.getBoundingClientRect();
@@ -510,6 +554,9 @@ function wire(sheet, s) {
   sheet.addEventListener("mousemove", e => move(e.clientY, e));
   sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
 }
+
+/* What the tab underneath shows about a story; if it did not change, the tab is left untouched. */
+const sig = s => tab === "fav" ? JSON.stringify([favs(), progress(s)]) : tab === "home" ? JSON.stringify(favs()) : "";
 
 /* Re-render the tab underneath without losing its scroll position. */
 function refresh() {
