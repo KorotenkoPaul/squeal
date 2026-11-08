@@ -75,7 +75,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .parts { display: flex; flex-direction: column; gap: 8px; }
 .part { display: flex; justify-content: space-between; align-items: center; background: var(--field); border-radius: 12px; padding: 12px 14px; text-align: left; }
 .part small { color: var(--muted); }
-.read { padding: 16px; border-radius: 14px; background: var(--accent); font-weight: 700; font-size: 17px; }
+.read { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px; border-radius: 14px; background: var(--accent); font-weight: 700; font-size: 17px; }
+.read::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.16); transform-origin: left; transform: scaleX(var(--f, 0)); }
+.read svg, .read span { position: relative; } .read svg { width: 16px; height: 16px; }
+.part { position: relative; overflow: hidden; }
+.part::before { content: ""; position: absolute; inset: 0; background: rgba(155,127,240,.22); transform-origin: left; transform: scaleX(var(--f, 0)); }
+.part > * { position: relative; }
+.part.here { box-shadow: inset 0 0 0 1.5px #9b7ff0; }
+.part .ok { font-style: normal; color: #b9a3ff; font-size: 12px; }
 .demo { color: #6f6b8c; font-size: 11px; text-align: center; }
 .hero { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
 .hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.95) 10%, rgba(23,18,44,0) 75%); }
@@ -275,10 +282,21 @@ const app = document.getElementById("app");
 let tab = store.get("tab", "home"), genre = "all", query = "", toastTimer;
 const favs = () => store.get("favs", []);
 const totalOf = s => s.episodes.reduce((n, e) => n + e.messages.length, 0);
+/* Reading progress: every part keeps its own place ({ ep: part being read, pos: [messages read per part] }).
+   Old saves ({ ep, i }) are read the same way: parts before ep count as read. */
+function prog(s) {
+  const n = s.episodes.length, len = k => s.episodes[k].messages.length;
+  let p = store.get("p:" + s.id, null) || { ep: 0, pos: [] };
+  if (!Array.isArray(p.pos)) p = { ep: Math.min(p.ep || 0, n - 1), pos: s.episodes.map((e, k) => k < p.ep ? len(k) : k === p.ep ? p.i || 0 : 0) };
+  p.pos = s.episodes.map((e, k) => Math.max(0, Math.min(len(k), p.pos[k] || 0)));
+  p.ep = Math.max(0, Math.min(n - 1, p.ep || 0));
+  return p;
+}
+const setProg = (s, p) => store.set("p:" + s.id, p);
+const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
 function progress(s) {
-  const st = store.get("p:" + s.id, { ep: 0, i: 0 });
-  const read = s.episodes.slice(0, st.ep).reduce((n, e) => n + e.messages.length, 0) + st.i;
-  return Math.min(100, Math.round(read * 100 / totalOf(s)));
+  const p = prog(s);
+  return Math.min(100, Math.round(p.pos.reduce((a, b) => a + b, 0) * 100 / totalOf(s)));
 }
 function toast(text) {
   const gone = el => { el.style.animation = "toastOut .2s ease-in both"; setTimeout(() => el.remove(), 200); };
@@ -717,7 +735,13 @@ function cardGeometry(card) {
 }
 
 function sheetHTML(s) {
-  const pct = progress(s), total = totalOf(s), liked = favs().includes(s.id), st = store.get("p:" + s.id, { ep: 0, i: 0 });
+  const pct = progress(s), total = totalOf(s), liked = favs().includes(s.id), pr = prog(s), multi = s.episodes.length > 1;
+  /* the part a tap on the main button opens: the current one, or the next unfinished */
+  let at = pr.ep; while (at < s.episodes.length - 1 && partPct(s, pr, at) >= 1) at++;
+  const fillAt = partPct(s, pr, at) >= 1 ? 0 : partPct(s, pr, at);
+  const PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
+  const AGAIN = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const readLabel = pct >= 100 ? `${AGAIN}<span>Read again</span>` : `${PLAY}<span>${multi ? "Part " + (at + 1) : "Read"}</span>`;
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
       <div class="cap"><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
@@ -730,8 +754,8 @@ function sheetHTML(s) {
       </div>
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
-      ${s.episodes.length > 1 ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part" data-ep="${i}"><span>Part ${i + 1}</span><small>${e.messages.length} messages${i < st.ep ? " · read" : ""}</small></button>`).join("")}</div>` : ""}
-      <button class="read" id="pv-read">${pct >= 100 ? "Read again" : pct ? "Continue · " + pct + "%" : "Start reading"}</button>
+      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}"><span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
+      <button class="read" id="pv-read" style="--f:${pct >= 100 ? 0 : fillAt}">${readLabel}</button>
       <p class="demo">Rating is a sample value in this preview.</p>
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
@@ -861,7 +885,7 @@ function wire(sheet, s) {
     closeSheet(sheet);
   };
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
-  sheet.querySelector("#pv-read").onclick = () => { const pct = progress(s); openStory(id, pct >= 100 ? 0 : undefined); };
+  sheet.querySelector("#pv-read").onclick = () => openStory(id);
   sheet.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
   /* Swipe down from the top: the sheet follows the finger and shrinks; let go far enough and it returns to its card. */
   let y0 = null, dy = 0;
@@ -906,9 +930,14 @@ let timer = null;
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
   store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
-  let st = store.get("p:" + id, { ep: 0, i: 0 });
-  if (epIndex != null) st = { ep: epIndex, i: 0 };
-  if (st.ep >= s.episodes.length) st = { ep: 0, i: 0 };
+  const pr = prog(s), N = s.episodes.length, len = k => s.episodes[k].messages.length;
+  let k0 = epIndex;
+  if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
+    k0 = pr.ep; while (k0 < N - 1 && pr.pos[k0] >= len(k0)) k0++;
+    if (pr.pos.every((n, k) => n >= len(k))) { pr.pos = pr.pos.map(() => 0); k0 = 0; }   // all read: from the top
+  }                                                   // a finished part opened on purpose shows whole, still marked read
+  pr.ep = k0; setProg(s, pr);
+  let st = { ep: k0, i: pr.pos[k0] };
   const ep = s.episodes[st.ep];
   const prev = layer.querySelector(".screen"); prev?.remove();
   const scr = document.createElement("section");
@@ -939,14 +968,14 @@ function openStory(id, epIndex) {
     clearTimeout(timer);
     scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", x === btn));
     scr.querySelector(".ep-ind").style.transform = `translateX(${k * 34}px)`;
-    store.set("p:" + id, { ep: k, i: 0 });
     setTimeout(() => openStory(id, k), reduce() ? 0 : 260);
   });
   const add = m => { const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them"); d.textContent = m.text; log.appendChild(d); };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);
   log.scrollTop = log.scrollHeight;
+  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
   let busy = false;
-  const save = () => store.set("p:" + id, st);
+  const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i; setProg(s, p); };
   /* the hint stays still; only after 10 s with no tap does it start to breathe */
   let idleT = null;
   const nudge = () => { clearTimeout(idleT); foot.classList.remove("idle"); idleT = setTimeout(() => { if (scr.isConnected) foot.classList.add("idle"); }, 10000); };
@@ -959,9 +988,12 @@ function openStory(id, epIndex) {
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${last ? "Read again" : "Restart"}</button>`;
       const next = foot.querySelector("#next");
-      if (next) next.onclick = () => { store.set("p:" + id, { ep: st.ep + 1, i: 0 }); openStory(id, st.ep + 1); };
-      foot.querySelector("#again").onclick = () => { store.set("p:" + id, { ep: 0, i: 0 }); openStory(id, 0); };
-      if (last) { st = { ep: s.episodes.length, i: 0 }; save(); }
+      if (next) next.onclick = () => openStory(id, st.ep + 1);
+      foot.querySelector("#again").onclick = () => {
+        const p = prog(s);
+        if (last) { p.pos = p.pos.map(() => 0); p.ep = 0; } else p.pos[st.ep] = 0;   // the end: whole story again; else this part
+        setProg(s, p); openStory(id, last ? 0 : st.ep);
+      };
       return;
     }
     foot.classList.add("hint");
