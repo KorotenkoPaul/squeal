@@ -261,8 +261,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ep-seg button[aria-selected="true"] .pl { background: rgba(255,255,255,.3); }
 .ep-seg button[aria-selected="true"] .pl i { background: #fff; }
 .tile .fav.pop { animation: favIn .3s ease-out both; }
-.bigheart { position: absolute; left: 50%; top: 50%; z-index: 4; width: 64px; height: 64px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; pointer-events: none; }
-.bigheart svg { width: 34px; height: 34px; }
+
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
 
@@ -488,7 +487,7 @@ function toggleFav(id) {
 }
 function longPress(el, fn) {
   let t, fired = false, x0 = 0, y0 = 0;
-  el.addEventListener("pointerdown", e => { fired = false; x0 = e.clientX; y0 = e.clientY; t = setTimeout(() => { fired = true; fn(); }, 550); });
+  el.addEventListener("pointerdown", e => { fired = false; x0 = e.clientX; y0 = e.clientY; t = setTimeout(() => { fired = true; fn(); }, 380); });
   el.addEventListener("pointermove", e => { if (Math.hypot(e.clientX - x0, e.clientY - y0) > 8) clearTimeout(t); });   // a drag is not a long press
   ["pointerup", "pointerleave", "pointercancel"].forEach(e => el.addEventListener(e, () => clearTimeout(t)));
   el.addEventListener("contextmenu", e => e.preventDefault());
@@ -549,23 +548,21 @@ function wireCards(root) {
   });
 }
 
-/* Liked: the card springs back from the press, a big heart beats in its middle and then flies into the
-   corner, where it stays as the small badge. Unliked: the card springs back and the badge shrinks away. */
+/* Liked: the card swells clearly and settles back; the heart badge bursts into its corner (overshoots,
+   wobbles, settles). Unliked: the card swells a little and the badge shrinks away. */
 function favBeat(card, on) {
-  if (reduce() || !card.animate) { if (on && card.matches(".tile") && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`); return; }
-  card.animate([{ transform: "scale(.96)" }, { transform: "scale(1.03)" }, { transform: "none" }], { duration: 420, easing: "cubic-bezier(.3,1.4,.5,1)" });
-  if (!on) return;
-  const big = document.createElement("span"); big.className = "bigheart"; big.innerHTML = ICON.heart; card.appendChild(big);
-  const r = card.getBoundingClientRect(), S = 64, s = 26 / S;
-  const tx = card.matches(".tile") ? r.width / 2 - 10 - 13 : 0, ty = card.matches(".tile") ? -(r.height / 2 - 10 - 13) : 0;
-  const a = big.animate([
-    { transform: "translate(-50%,-50%) scale(.2)", opacity: 0 },
-    { transform: "translate(-50%,-50%) scale(1.15)", opacity: 1, offset: .22 },
-    { transform: "translate(-50%,-50%) scale(.95)", opacity: 1, offset: .36 },
-    { transform: "translate(-50%,-50%) scale(1)", opacity: 1, offset: .5 },
-    card.matches(".tile") ? { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${s})`, opacity: 1 } : { transform: "translate(-50%,-50%) scale(1)", opacity: 0 },
-  ], { duration: 900, easing: "cubic-bezier(.45,0,.25,1)", fill: "forwards" });
-  a.onfinish = () => { big.remove(); if (card.matches(".tile") && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`); };
+  const tile = card.matches(".tile");
+  if (on && tile && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`);
+  if (reduce() || !card.animate) return;
+  card.animate([{ transform: "scale(.96)" }, { transform: `scale(${on ? 1.08 : 1.03})`, offset: .4 }, { transform: "none" }], { duration: 480, easing: "cubic-bezier(.3,1.2,.5,1)" });
+  const h = tile && on && card.querySelector(".fav");
+  h?.animate([
+    { transform: "scale(0) rotate(-30deg)", opacity: 0 },
+    { transform: "scale(1.5) rotate(12deg)", opacity: 1, offset: .35 },
+    { transform: "scale(.85) rotate(-6deg)", offset: .6 },
+    { transform: "scale(1.1) rotate(2deg)", offset: .8 },
+    { transform: "none" },
+  ], { duration: 560, easing: "ease-out" });
 }
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
