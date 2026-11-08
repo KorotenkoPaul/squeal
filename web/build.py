@@ -24,8 +24,16 @@ COPY = {  # store-style descriptions written for the preview (originals stay in 
                     "His friend James keeps texting him from somewhere else — and James is starting to notice "
                     "things about that house that Patrick can't see. Three parts. Read it with the lights on.",
 }
+COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
+    "nobodys-home": "legs-doorway", "first-impressions": "laptop-dark", "the-doctor": "forest-path",
+    "skinless": "dark-body", "last-train-out": "night-train", "clown": "clown-hush", "grave": "rising-hand",
+    "haunted": "foggy-cabin", "reunion": "streetlight-man", "slice": "half-lit-face",
+    "unwanted-guest": "behind-blinds", "the-crossroad": "night-couple",
+}
 for st in stories:
     st["description"] = COPY.get(st["id"], st["description"])
+    if st["id"] in COVERS:
+        st["cover"] = "covers/%s.jpg" % COVERS[st["id"]]
 html = (ROOT / "web" / "template.html").read_text().replace("/*STORIES*/[]", json.dumps(stories, ensure_ascii=False))
 (ROOT / "web" / "squeal-preview.html").write_text(html)
 print(len(stories), "stories,", len(html) // 1024, "KB")
