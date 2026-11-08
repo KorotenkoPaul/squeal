@@ -173,27 +173,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
 
 /* Menu */
-/* Menu: one glowing card for the subscription, then the other six as square tiles, two by two.
-   Same items, no extra words. Nothing shrinks, so nothing overlaps. */
-.view.menu { gap: 12px; padding-top: 22px; }
-.m-sub { flex: none; position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 22px 20px; border-radius: 20px; text-align: left;
-  background: radial-gradient(120% 140% at 0% 0%, #8a6ae6 0%, #5b3fa8 45%, #2e2558 100%); box-shadow: 0 10px 30px rgba(91,63,168,.35);
-  transition: transform .2s cubic-bezier(.25,.8,.25,1); }
-.m-sub::after { content: ""; position: absolute; right: -40px; top: -60px; width: 180px; height: 180px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,.18), transparent 65%); pointer-events: none; }
-.m-sub .m-ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; flex: none; background: rgba(255,255,255,.16); color: #fff; }
-.m-sub .m-ic svg { width: 24px; height: 24px; }
-.m-sub b { font-size: 20px; font-weight: 800; }
-.m-sub .m-chev { margin-left: auto; width: 8px; height: 14px; color: #fff; opacity: .8; }
-.m-grid { flex: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.m-grid { grid-auto-rows: 1fr; }
-.m-tile { min-width: 0; overflow-wrap: anywhere; min-height: 112px; gap: 12px; }
-.m-tile { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 16px; border-radius: 18px;
-  background: #2e2b50; text-align: left; font-size: 15px; font-weight: 700; line-height: 1.2; transition: transform .2s cubic-bezier(.25,.8,.25,1), background .2s; }
-.m-tile .m-ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(123,87,201,.22); color: #cdbcff; }
-.m-tile .m-ic svg { width: 19px; height: 19px; }
-.m-sub:active, .m-tile:active { transform: scale(.97); }
-.m-tile:active { background: #343060; }
+/* Menu: minimal. Plain rows straight on the page with hairlines between them; groups are set apart
+   by space, not boxes. Subscription is the only row in the accent colour. Nothing shrinks. */
+.view.menu { gap: 26px; padding-top: 26px; }
+.m-list { flex: none; display: flex; flex-direction: column; }
+.m-row { flex: none; display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 2px; text-align: left; font-size: 17px; font-weight: 600; color: var(--text); }
+.m-row + .m-row { box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+.m-row svg { width: 19px; height: 19px; flex: none; color: var(--muted); }
+.m-row:active { opacity: .6; }
+.m-row.accent, .m-row.accent svg { color: #b9a3ff; }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -746,10 +734,10 @@ function menu() {
     mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>'),
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
-  const chev = '<svg class="m-chev" viewBox="0 0 8 13" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const tile = (k, name) => `<button class="m-tile" id="m-${k}" data-m="${name}"><span class="m-ic">${ic[k]}</span><span>${name}</span></button>`;
-  shell(`<button class="m-sub" id="m-sub" data-m="Subscription"><span class="m-ic">${ic.sub}</span><b>Subscription</b>${chev}</button>
-    <div class="m-grid">${tile("restore", "Restore Purchases")}${tile("lang", "Language")}${tile("rate", "Rate the App")}${tile("share", "Share the App")}${tile("idea", "Suggest a Story")}${tile("mail", "E-mail Support")}</div>`);
+  const row = (k, name, cls = "") => `<button class="m-row ${cls}" id="m-${k}" data-m="${name}">${ic[k]}<span>${name}</span></button>`;
+  shell(`<div class="m-list">${row("sub", "Subscription", "accent")}${row("restore", "Restore Purchases")}</div>
+    <div class="m-list">${row("lang", "Language")}${row("rate", "Rate the App")}${row("share", "Share the App")}</div>
+    <div class="m-list">${row("idea", "Suggest a Story")}${row("mail", "E-mail Support")}</div>`);
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
 
