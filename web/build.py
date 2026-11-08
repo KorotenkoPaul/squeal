@@ -33,6 +33,10 @@ COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "skinless": "dark-body", "last-train-out": "night-train", "clown": "clown-hush", "grave": "rising-hand",
     "haunted": "foggy-cabin", "reunion": "streetlight-man", "slice": "half-lit-face",
     "unwanted-guest": "behind-blinds", "the-crossroad": "night-couple", "love-till-death": "teal-face",
+    # added 2026-11-08 from the owner's Drive (app covers of the 2018 app)
+    "clinical-love": "clinical-love", "frenemy": "frenemy", "perfect-match": "perfect-match",
+    "the-crushing-love": "the-crushing-love", "mystery-girlfriend": "mystery-girlfriend",
+    "the-reunion-affair": "the-reunion-affair", "under-wrong-hands": "under-wrong-hands",
 }
 for st in stories:
     st["description"] = COPY.get(st["id"], st["description"])

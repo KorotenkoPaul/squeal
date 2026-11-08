@@ -1,0 +1,635 @@
+{
+ "id": "under-wrong-hands",
+ "title": "Under Wrong Hands",
+ "author": "Rutaba Shahzad",
+ "description": "Amy is wrongly accused of the murder of her husband. In between the desperation of proving her innocence and determining the identity of the killer, she finds herself making the wrong choices; unconsciously at first, but deliberately later onwards.",
+ "left": "Amy",
+ "right": "Winona",
+ "messages": [
+  {
+   "from": "Amy",
+   "text": "Winona, are you there?"
+  },
+  {
+   "from": "Winona",
+   "text": "Yes, I am. Where are you?"
+  },
+  {
+   "from": "Amy",
+   "text": "I can’t say that! You must have heard."
+  },
+  {
+   "from": "Winona",
+   "text": "Yes, I did. I am so terribly sorry for the death of your husband."
+  },
+  {
+   "from": "Winona",
+   "text": "Why aren’t you here?"
+  },
+  {
+   "from": "Amy",
+   "text": "Okay, I know what this looks like but I did not kill him."
+  },
+  {
+   "from": "Winona",
+   "text": "Come on Amy! You are on the run; you are even using a burner phone."
+  },
+  {
+   "from": "Winona",
+   "text": "You were there on the night of the murder, sleeping beside him."
+  },
+  {
+   "from": "Amy",
+   "text": "How do you know that?"
+  },
+  {
+   "from": "Winona",
+   "text": "Well, I saw you guys come home so there is my testimony."
+  },
+  {
+   "from": "Amy",
+   "text": "And that of many other people."
+  },
+  {
+   "from": "Winona",
+   "text": "I am not doing anything illegal."
+  },
+  {
+   "from": "Amy",
+   "text": "Hey, I am not asking you to do anything like that."
+  },
+  {
+   "from": "Winona",
+   "text": "It is a crime to omit or alter testimony, I hope you know that."
+  },
+  {
+   "from": "Amy",
+   "text": "You tell them what you have to. That is not why I have messaged you."
+  },
+  {
+   "from": "Winona",
+   "text": "Yes, why is it that you have messaged me?"
+  },
+  {
+   "from": "Winona",
+   "text": "You know I can show these messages to the police?"
+  },
+  {
+   "from": "Amy",
+   "text": "Yes, I know you can but I also know that you won’t."
+  },
+  {
+   "from": "Winona",
+   "text": "And why is that?"
+  },
+  {
+   "from": "Amy",
+   "text": "Because I am innocent, that is why!"
+  },
+  {
+   "from": "Winona",
+   "text": "Look, whether or not you committed this crime, you are a suspect."
+  },
+  {
+   "from": "Winona",
+   "text": "And I ought not to be talking to a suspect for long."
+  },
+  {
+   "from": "Amy",
+   "text": "So you are going to cut me off at this time of need?"
+  },
+  {
+   "from": "Winona",
+   "text": "No, I am asking you to get to the point quickly so I can delete this conversation."
+  },
+  {
+   "from": "Amy",
+   "text": "I need you to retrieve something from my apartment and bring it to me."
+  },
+  {
+   "from": "Winona",
+   "text": "OH MY GOD! So, you are not asking me to lie to the cop."
+  },
+  {
+   "from": "Winona",
+   "text": "But you are asking me to steal evidence? :O"
+  },
+  {
+   "from": "Amy",
+   "text": "OH GOD! This sounds so bad!"
+  },
+  {
+   "from": "Amy",
+   "text": "And I know you don’t owe me anything but please, only you can help me."
+  },
+  {
+   "from": "Winona",
+   "text": "How do you expect me to cross all the cops and get what you need?"
+  },
+  {
+   "from": "Winona",
+   "text": "Wouldn’t that put me in a great deal of danger?"
+  },
+  {
+   "from": "Amy",
+   "text": "Are they collecting evidence right now?"
+  },
+  {
+   "from": "Winona",
+   "text": "No, they are waiting for their head detective to arrive."
+  },
+  {
+   "from": "Amy",
+   "text": "This is your chance, use the window that we share in the bedroom and enter inside."
+  },
+  {
+   "from": "Winona",
+   "text": "Is it locked?"
+  },
+  {
+   "from": "Amy",
+   "text": "Yes it is, but you wriggle it, it would unlock."
+  },
+  {
+   "from": "Winona",
+   "text": "Won’t that make a lot of noise?"
+  },
+  {
+   "from": "Winona",
+   "text": "What is it that you want anyway?"
+  },
+  {
+   "from": "Amy",
+   "text": "Is it possible that I don’t tell you what it is?"
+  },
+  {
+   "from": "Amy",
+   "text": "It is my top drawer by the bed and I want you to retrieve it."
+  },
+  {
+   "from": "Winona",
+   "text": "How dumb do you think I am?"
+  },
+  {
+   "from": "Winona",
+   "text": "What if it is the murder weapon?"
+  },
+  {
+   "from": "Amy",
+   "text": "It is not the murder weapon!"
+  },
+  {
+   "from": "Winona",
+   "text": "Oh yea! The murder weapon was already found on the kitchen table!"
+  },
+  {
+   "from": "Winona",
+   "text": "I was not surprised to see your prints on it."
+  },
+  {
+   "from": "Amy",
+   "text": "It is my house! Of course, there will be my prints on it!"
+  },
+  {
+   "from": "Amy",
+   "text": "How do you know that there is a murder weapon at the scene?"
+  },
+  {
+   "from": "Winona",
+   "text": "I heard the coppers talk."
+  },
+  {
+   "from": "Amy",
+   "text": "So whoever wanted to set me up must have left it there"
+  },
+  {
+   "from": "Amy",
+   "text": "They knew full well that it was my kitchen so naturally, it will have my prints."
+  },
+  {
+   "from": "Winona",
+   "text": "I don’t even know if you did not do it, Amy, I am not convinced."
+  },
+  {
+   "from": "Amy",
+   "text": "Well don’t be if it makes you feel better just get me the box."
+  },
+  {
+   "from": "Winona",
+   "text": "Not until you tell me what is inside that box."
+  },
+  {
+   "from": "Amy",
+   "text": "Okay fine! It is a baby monitor."
+  },
+  {
+   "from": "Winona",
+   "text": "So you took Sally with you?"
+  },
+  {
+   "from": "Amy",
+   "text": "I had to. She could not see the condition her father was in."
+  },
+  {
+   "from": "Winona",
+   "text": "And now you need the monitor for your baby?"
+  },
+  {
+   "from": "Winona",
+   "text": "Somehow, I feel you are hiding something."
+  },
+  {
+   "from": "Amy",
+   "text": "It is a baby monitor and I need."
+  },
+  {
+   "from": "Winona",
+   "text": "Oh I believe you on both counts, but something is amiss."
+  },
+  {
+   "from": "Winona",
+   "text": "You can always buy a new one from the market."
+  },
+  {
+   "from": "Amy",
+   "text": "I want the one I already have."
+  },
+  {
+   "from": "Winona",
+   "text": "Unless, the monitor had covered you committing the whole crime."
+  },
+  {
+   "from": "Winona",
+   "text": "And now you are worried about the feed."
+  },
+  {
+   "from": "Amy",
+   "text": "You don’t understand! It is completely the opposite of what you are thinking."
+  },
+  {
+   "from": "Winona",
+   "text": "Oh, please enlighten me."
+  },
+  {
+   "from": "Winona",
+   "text": "But hurry or the cops would be here any moment."
+  },
+  {
+   "from": "Amy",
+   "text": "Can’t you just go get the box and we will discuss this later!"
+  },
+  {
+   "from": "Amy",
+   "text": "You can even watch what is on it as long as you keep the box to yourself."
+  },
+  {
+   "from": "Winona",
+   "text": "I don’t think I would be able to keep the box back if I saw you killing your husband."
+  },
+  {
+   "from": "Winona",
+   "text": "The box would have my fingerprints on it."
+  },
+  {
+   "from": "Amy",
+   "text": "Argh!"
+  },
+  {
+   "from": "Winona",
+   "text": "Also, I won’t be able to explain to the cops why I was trying to smuggle out evidence."
+  },
+  {
+   "from": "Winona",
+   "text": "For God’s sake, the house that had been marked as a crime scene."
+  },
+  {
+   "from": "Amy",
+   "text": "Allright! I am not on the video, but another person is!"
+  },
+  {
+   "from": "Amy",
+   "text": "If someone murdered my husband while he was in the nursery, the camera would catch it for sure!"
+  },
+  {
+   "from": "Winona",
+   "text": "So this is a hunch you are following?"
+  },
+  {
+   "from": "Amy",
+   "text": "I am sure! Will you just get it for me?"
+  },
+  {
+   "from": "Winona",
+   "text": "Okay, wait."
+  },
+  {
+   "from": "Amy",
+   "text": "Ok thankyouuuuu soooo much."
+  },
+  {
+   "from": "Amy",
+   "text": "Just message me and we can meet at Garden Square ate 6 in the evening."
+  },
+  {
+   "from": "Amy",
+   "text": "I don’t want to be in an open space so meet me at a restaurant named Giovanni."
+  },
+  {
+   "from": "Amy",
+   "text": "Did you get it?"
+  },
+  {
+   "from": "Winona",
+   "text": "Yes I did."
+  },
+  {
+   "from": "Amy",
+   "text": "What is wrong?"
+  },
+  {
+   "from": "Winona",
+   "text": "I can see clearly who committed the murder!"
+  },
+  {
+   "from": "Amy",
+   "text": "OH GOSH YOU OPENED IT! WHY WOULD YOU OPEN IT?"
+  },
+  {
+   "from": "Winona",
+   "text": "I needed to know if I was helping a murderer if you were framed."
+  },
+  {
+   "from": "Amy",
+   "text": "God things are so messed up."
+  },
+  {
+   "from": "Amy",
+   "text": "Whoever did this will not stop at anything to get rid of the loose ends!"
+  },
+  {
+   "from": "Amy",
+   "text": "And you just became one by watching the video"
+  },
+  {
+   "from": "Winona",
+   "text": "Although I can say surely that the killer isn’t you, I still cannot see her face clearly."
+  },
+  {
+   "from": "Amy",
+   "text": "She? Is it a she?"
+  },
+  {
+   "from": "Winona",
+   "text": "Tell me, was he having an affair with anyone?"
+  },
+  {
+   "from": "Amy",
+   "text": "By God no. Mark was not that kind of a man."
+  },
+  {
+   "from": "Winona",
+   "text": "I am sorry to say Hun, but I think differently."
+  },
+  {
+   "from": "Amy",
+   "text": "What?! Really?!"
+  },
+  {
+   "from": "Winona",
+   "text": "I am sorry to speak ill of the dead."
+  },
+  {
+   "from": "Winona",
+   "text": "You are probably suffering enough on your own but I saw something the other night."
+  },
+  {
+   "from": "Amy",
+   "text": "What was it?"
+  },
+  {
+   "from": "Winona",
+   "text": "Please don’t judge me for not going to the police with this."
+  },
+  {
+   "from": "Winona",
+   "text": "I knew you people were suffering financially and I did not want him to go to jail."
+  },
+  {
+   "from": "Amy",
+   "text": "Oh Lord! JAIL?!"
+  },
+  {
+   "from": "Winona",
+   "text": "I shouldn’t tell you anyway."
+  },
+  {
+   "from": "Amy",
+   "text": "No please tell me, I need to know if he was cheating."
+  },
+  {
+   "from": "Winona",
+   "text": "Not just cheating but harassing."
+  },
+  {
+   "from": "Amy",
+   "text": "Harassing other women? God no!"
+  },
+  {
+   "from": "Amy",
+   "text": "That must be why I was receiving the phone calls of complaints."
+  },
+  {
+   "from": "Winona",
+   "text": "But you never batted your eye, did you?"
+  },
+  {
+   "from": "Amy",
+   "text": "Well it sounded so ridiculous at that time and I asked him and he said no."
+  },
+  {
+   "from": "Winona",
+   "text": "So that is it for you? Did you ask him?"
+  },
+  {
+   "from": "Winona",
+   "text": "Will you ask someone if he harassed your daughter?"
+  },
+  {
+   "from": "Amy",
+   "text": "Look, Winona, you know if I had any notion that he was doing this."
+  },
+  {
+   "from": "Amy",
+   "text": "If I did, I would have left him immediately."
+  },
+  {
+   "from": "Winona",
+   "text": "Oh you did not want to know."
+  },
+  {
+   "from": "Winona",
+   "text": "You always trusted him blindly even when he was harassing kids."
+  },
+  {
+   "from": "Amy",
+   "text": "Kids and women?"
+  },
+  {
+   "from": "Winona",
+   "text": "Female children!"
+  },
+  {
+   "from": "Amy",
+   "text": "omg"
+  },
+  {
+   "from": "Winona",
+   "text": "If only you would had listened to the complaints."
+  },
+  {
+   "from": "Winona",
+   "text": "And if only the police had taken the little girl seriously."
+  },
+  {
+   "from": "Amy",
+   "text": "I am so sorry that a little girl had to go through this."
+  },
+  {
+   "from": "Amy",
+   "text": "I looked into his eyes and…"
+  },
+  {
+   "from": "Winona",
+   "text": "Oh you disgust me!"
+  },
+  {
+   "from": "Amy",
+   "text": "Why are you feeling so strongly about this?"
+  },
+  {
+   "from": "Winona",
+   "text": "This baby monitor would never see the light of the day again."
+  },
+  {
+   "from": "Amy",
+   "text": "WHAT?! NOOO! Think about the baby!"
+  },
+  {
+   "from": "Winona",
+   "text": "Did you think about the children when they were being harassed?"
+  },
+  {
+   "from": "Amy",
+   "text": "Children? Oh God no!"
+  },
+  {
+   "from": "Amy",
+   "text": "I am so sorry Winona, but I did not play any part in that!"
+  },
+  {
+   "from": "Winona",
+   "text": "You could have given your statement and sent him to jail."
+  },
+  {
+   "from": "Winona",
+   "text": "Instead it will be you who goes to jail this time."
+  },
+  {
+   "from": "Amy",
+   "text": "Why would I go to jail for a crime that I did not commit?"
+  },
+  {
+   "from": "Winona",
+   "text": "Same way a baby committed suicide for a crime she did not commit!"
+  },
+  {
+   "from": "Amy",
+   "text": "OMG! Winona, if I had known!"
+  },
+  {
+   "from": "Winona",
+   "text": "Oh, I can’t help you even if I wanted to."
+  },
+  {
+   "from": "Winona",
+   "text": "Because the baby monitor is long burnt in my fireplace."
+  },
+  {
+   "from": "Amy",
+   "text": "No!! Who will take care of Sally?"
+  },
+  {
+   "from": "Winona",
+   "text": "You know I had pity on you for months but now I don’t think you deserve it."
+  },
+  {
+   "from": "Amy",
+   "text": "Wait; did not your daughter passed away four months ago?"
+  },
+  {
+   "from": "Winona",
+   "text": "What does that have to do with anything?"
+  },
+  {
+   "from": "Amy",
+   "text": "You just mentioned suicide."
+  },
+  {
+   "from": "Winona",
+   "text": "Cant two people commit suicide?"
+  },
+  {
+   "from": "Amy",
+   "text": "The police don’t talk about the proceedings of the case to citizens!"
+  },
+  {
+   "from": "Amy",
+   "text": "How do you know the knife was on the kitchen table?"
+  },
+  {
+   "from": "Winona",
+   "text": "I was making that up!"
+  },
+  {
+   "from": "Amy",
+   "text": "Were you also making it up when you said I had pity on you for months?"
+  },
+  {
+   "from": "Winona",
+   "text": "I don’t have time for this! I am out of here!"
+  },
+  {
+   "from": "Amy",
+   "text": "You did not see anything last night, did you?"
+  },
+  {
+   "from": "Winona",
+   "text": "Doesn’t mean it isn’t true."
+  },
+  {
+   "from": "Amy",
+   "text": "It was you! And you already knew that the window could be opened even if it was locked!"
+  },
+  {
+   "from": "Amy",
+   "text": "You must have been planning this for months!"
+  },
+  {
+   "from": "Winona",
+   "text": "Tell that to the cops! With any luck, they would let you meet your daughter in prison."
+  },
+  {
+   "from": "Amy",
+   "text": "My daughter! What have you done to her?"
+  },
+  {
+   "from": "Winona",
+   "text": "Sally? Nothing yet but you don’t need to worry about your baby."
+  },
+  {
+   "from": "Winona",
+   "text": "I would personally go forward to adopt her."
+  }
+ ],
+ "genre": "thriller"
+}

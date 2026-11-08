@@ -1,0 +1,467 @@
+{
+ "id": "clinical-love",
+ "title": "Clinical Love",
+ "author": "Asjad Ullah",
+ "description": "Emotionally troubled psychiatrist Dr. Rick falls madly in love with his patient Sarah. Rick’s blind love leads him to a reality he doesn’t want to accept.",
+ "left": "Dr. Rick",
+ "right": "Sarah",
+ "messages": [
+  {
+   "from": "Dr. Rick",
+   "text": "How you doing baby?"
+  },
+  {
+   "from": "Sarah",
+   "text": "Hey, I am good. What about you?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am great."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Just can’t wait for the next session."
+  },
+  {
+   "from": "Sarah",
+   "text": "Hmmm."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Aren’t you excited?"
+  },
+  {
+   "from": "Sarah",
+   "text": "I am not so sure Rick."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Not so sure?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You are nearly back to being yourself."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Missing therapy sessions won’t help."
+  },
+  {
+   "from": "Sarah",
+   "text": "I want to tell you something important."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What is it sweetheart? You can share anything with me."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "After all, I am your Doctor. ;)"
+  },
+  {
+   "from": "Sarah",
+   "text": "Rick, we can’t have the therapy sessions any more."
+  },
+  {
+   "from": "Sarah",
+   "text": "We have to stop."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What? What do you mean by stop?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "It’s a treatment, why should we stop?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s complicated."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What is complicated darling?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Have you been skipping your medicines?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You are just acting like at the start of your treatment."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "C’mon Sarah, what’s bothering you?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Speak up love."
+  },
+  {
+   "from": "Sarah",
+   "text": "I didn’t want to break your heart."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Okay, Sarah you are scaring me now."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am coming over right now."
+  },
+  {
+   "from": "Sarah",
+   "text": "No don’t come over."
+  },
+  {
+   "from": "Sarah",
+   "text": "I am afraid, you won’t be able to accept the reality."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What reality Sarah?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "We both love each other, isn’t that the reality?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s not true."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Our love is not true? What are you saying?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s not what you think."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Then what? Explain it to me?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s deeper than that."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Sarah! Will you please give it to me straight."
+  },
+  {
+   "from": "Sarah",
+   "text": "I can’t."
+  },
+  {
+   "from": "Sarah",
+   "text": "I am afraid you might have a nervous breakdown."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Woah…Is it that hard?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s worse."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Enough of the drama Sarah; speak up now."
+  },
+  {
+   "from": "Sarah",
+   "text": "How will you ever forgive me? "
+  },
+  {
+   "from": "Sarah",
+   "text": "It was my idea."
+  },
+  {
+   "from": "Sarah",
+   "text": "And now, I don’t even know what to do."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Look Sarah, you don’t seem ok to me right now."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Take some rest and we will talk later."
+  },
+  {
+   "from": "Sarah",
+   "text": "I am perfectly fine."
+  },
+  {
+   "from": "Sarah",
+   "text": "It’s you Rick."
+  },
+  {
+   "from": "Sarah",
+   "text": "You are not fine."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What do you mean I am not fine?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "We have been together for months now."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What about the evenings we spent together?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What about the sessions Sarah?"
+  },
+  {
+   "from": "Sarah",
+   "text": "Nothing is as it seems."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What do you mean?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You have lost it Sarah."
+  },
+  {
+   "from": "Sarah",
+   "text": "Please hold on tight."
+  },
+  {
+   "from": "Sarah",
+   "text": "I am about to tell you something really shocking."
+  },
+  {
+   "from": "Sarah",
+   "text": "And I am not sure how you will react."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am all ears Sarah, just cut out the suspense."
+  },
+  {
+   "from": "Sarah",
+   "text": "All those therapy sessions Rick."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Yeah what about them?"
+  },
+  {
+   "from": "Sarah",
+   "text": "They were not my therapy sessions."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am not getting what you are saying Sarah."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What do you mean they were not my sessions?"
+  },
+  {
+   "from": "Sarah",
+   "text": "Yes Rick, I am speaking the truth."
+  },
+  {
+   "from": "Sarah",
+   "text": "You are not a doctor. Not anymore."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Sarah I am not getting any of this."
+  },
+  {
+   "from": "Sarah",
+   "text": "You were a Psychiatrist before the accident."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What accident?"
+  },
+  {
+   "from": "Sarah",
+   "text": "You had a major accident last year."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "An accident? Why don’t I remember anything about it?"
+  },
+  {
+   "from": "Sarah",
+   "text": "You lost your memory in the accident."
+  },
+  {
+   "from": "Sarah",
+   "text": "You lost your memory and emotions."
+  },
+  {
+   "from": "Sarah",
+   "text": "Everything was gone."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "And then what happened?"
+  },
+  {
+   "from": "Sarah",
+   "text": "You were supposed to undergo a special treatment."
+  },
+  {
+   "from": "Sarah",
+   "text": "You were to be emotionally excited to bring back your emotions."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "But if I was so emotionless, how do I love you?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Isn’t love an emotion too?"
+  },
+  {
+   "from": "Sarah",
+   "text": "You have recovered emotionally."
+  },
+  {
+   "from": "Sarah",
+   "text": "But your memory has not returned."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "And what about our love Sarah?"
+  },
+  {
+   "from": "Sarah",
+   "text": "You don’t even know who I am."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Why should I believe a single word from you?"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You are a mental patient suffering from memory loss."
+  },
+  {
+   "from": "Sarah",
+   "text": "No Rick, I am not a mental patient."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You are lying; I have seen your files so many times."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Oh my God!"
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I get it now, this is your story."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You had an accident, followed by a memory loss."
+  },
+  {
+   "from": "Sarah",
+   "text": "That was all made up to bring your memory back."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You are lying. Why should I believe a mental patient?"
+  },
+  {
+   "from": "Sarah",
+   "text": "I am not a mental patient."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You can’t even prove this Sarah."
+  },
+  {
+   "from": "Sarah",
+   "text": "I feel so sorry for you."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "Don’t worry Sarah you will recover soon."
+  },
+  {
+   "from": "Sarah",
+   "text": "It was basically my idea."
+  },
+  {
+   "from": "Sarah",
+   "text": "To try this therapy with you."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am your doctor, Sarah."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "I am a successful psychiatrist."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "And we love each other."
+  },
+  {
+   "from": "Sarah",
+   "text": "No Rick. I am your doctor and you are a mental patient."
+  },
+  {
+   "from": "Sarah",
+   "text": "And our love, it was a part of the treatment."
+  },
+  {
+   "from": "Sarah",
+   "text": "I am sorry, I couldn’t bring you back."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "You don’t love me Sarah?"
+  },
+  {
+   "from": "Sarah",
+   "text": "My name is Dr. Martha."
+  },
+  {
+   "from": "Sarah",
+   "text": "Sarah was your wife’s name."
+  },
+  {
+   "from": "Sarah",
+   "text": "It was a made up name to help bring back your memory."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What? And where is she now?"
+  },
+  {
+   "from": "Sarah",
+   "text": "She passed away Rick."
+  },
+  {
+   "from": "Sarah",
+   "text": "She was driving, when you two suffered the accident."
+  },
+  {
+   "from": "Dr. Rick",
+   "text": "What about my love Sarah?"
+  },
+  {
+   "from": "Sarah",
+   "text": "It was not love Rick, it was your treatment."
+  }
+ ],
+ "genre": "romance"
+}

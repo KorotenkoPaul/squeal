@@ -48,22 +48,43 @@ def parse_table(body):
     return out
 
 
+COLON = re.compile(r"^([A-Z][\w.'’ ]{0,20}?)\s*:\s*(.+)$")
+
+
+def parse_colon(body):
+    """Stories saved as "Name: message" lines. Other lines (e.g. "1 hour later") are skipped."""
+    out = []
+    for line in body:
+        m = COLON.match(line)
+        if m and not re.match(r"^(Title|Name|Author|Description)$", m.group(1)):
+            out.append((m.group(1).strip(), clean(m.group(2)), 0))
+    return out if len(out) >= 6 else []
+
+
+# Characters who reveal their real name (or a typo of a name) mid-chat stay on their side of the chat
+ALIASES = {"Jack": "Sam", "Maria": "Eve", "Martha": "Sarah", "Alan": "Alana"}
+
+
 def parse(path):
     lines = [l.strip() for l in path.read_text(encoding="utf-8").splitlines()]
     meta = {}
     body = []
     for line in lines:
-        m = re.match(r"^(Title|Author|Description)\s*:\s*(.*)$", line)
-        if m and not body:
-            meta[m.group(1).lower()] = clean(m.group(2))
+        m = re.match(r"^(Title|Name|Author|Description)\s*:\s*(.*)$", line)
+        if m and not body:                             # the Title/Name, Author, Description header
+            key = "title" if m.group(1) in ("Title", "Name") else m.group(1).lower()
+            meta[key] = clean(m.group(2))
         elif line:
             body.append(line)
     rows = parse_table(body)
+    if len(rows) < 3:                                  # "Name: message" on one line
+        rows = parse_colon(body)
     if len(rows) >= 3:                                 # table layout; each chat becomes a part
         parts = []
         for sc in sorted({r[2] for r in rows}):
             sub = [r for r in rows if r[2] == sc]
             names = []
+            sub = [(ALIASES.get(n, n), t, sc_) for n, t, sc_ in sub]
             for n, *_ in sub:
                 if n not in names:
                     names.append(n)

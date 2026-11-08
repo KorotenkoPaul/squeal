@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
 <!-- slider titles: each story's name is drawn in its own lettering -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Major+Mono+Display&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&display=swap">
 <style>
 /* Layout: the original 2018 Squeal design — indigo night, four tabs (menu, home, favourites, search) and a full-screen chat reader. */
 :root {
@@ -896,6 +896,27 @@ const LETTERING = {
   // seen through the blinds: "unwanted" across the card, "guest" peeking in from the edge
   "unwanted-guest": { box: "left:0;right:0;top:50%;transform:translateY(-50%)", css: "font-family:'Monoton',sans-serif;color:#f2e6dd;line-height:1.15;display:block",
     html: () => `<span style="display:block;text-align:center;font-size:26px;letter-spacing:.12em">UNWANTED</span><span style="display:block;text-align:right;font-size:40px;padding-right:18px">GUEST</span>` },
+  // cold clinical label over a warm handwritten word
+  "clinical-love": { box: "left:22px;bottom:20px", css: "color:#eef1f4;line-height:1",
+    html: () => `<span style="display:block;font-family:'Major Mono Display',monospace;font-size:14px;letter-spacing:.32em;opacity:.75;margin-bottom:2px">clinical</span><span style="display:block;font-family:'Pinyon Script',cursive;font-size:52px;color:#f6d6dc">Love</span>` },
+  // a friend with an enemy inside
+  "frenemy": { box: "left:0;right:0;top:50%;transform:translateY(-50%);text-align:center", css: "font-family:'Anton',sans-serif;font-size:58px;letter-spacing:.06em;color:#f3f0f5",
+    html: () => `FREN<span style="color:#d4606b">EMY</span>` },
+  // a match too perfect: the word mirrored beneath itself
+  "perfect-match": { box: "left:22px;top:22px", css: "font-family:'DM Serif Display',serif;font-style:italic;font-size:40px;color:#f3e9df;line-height:.9",
+    html: () => `<span style="display:block">Perfect Match</span><span style="display:block;transform:scaleY(-1);opacity:.28;-webkit-mask-image:linear-gradient(to top,#000,transparent 80%);mask-image:linear-gradient(to top,#000,transparent 80%)">Perfect Match</span>` },
+  // the word is crushed together
+  "the-crushing-love": { box: "right:20px;bottom:18px;text-align:right", css: "color:#f1e4ea;line-height:.95",
+    html: () => `<span style="display:block;font-family:'Cormorant SC',serif;font-size:14px;letter-spacing:.4em;opacity:.7">the</span><span style="display:block;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:52px;text-transform:uppercase;letter-spacing:-.06em;transform:scaleX(.82);transform-origin:right">Crushing</span><span style="display:block;font-family:'Pinyon Script',cursive;font-size:34px;color:#e9b4bb;margin-top:-4px">Love</span>` },
+  // some letters out of focus: you can't quite see her
+  "mystery-girlfriend": { box: "left:22px;bottom:20px", css: "color:#f4ece4;line-height:1",
+    html: () => `<span style="display:block;font-family:'Cinzel',serif;font-weight:600;font-size:30px;letter-spacing:.18em">${letters("MYSTERY", k => k % 2 ? "filter:blur(2.2px);opacity:.8" : "")}</span><span style="display:block;font-family:'Caveat',cursive;font-weight:700;font-size:40px;margin-top:2px">girlfriend</span>` },
+  // an old wartime love: engraved capitals and a letter's signature
+  "the-reunion-affair": { box: "left:0;right:0;bottom:18px;text-align:center", css: "color:#efe6d6;line-height:1",
+    html: () => `<span style="display:block;font-family:'Cormorant SC',serif;font-weight:500;font-size:24px;letter-spacing:.34em;margin-right:-.34em">The Reunion</span><span style="display:block;font-family:'Pinyon Script',cursive;font-size:44px;margin-top:-2px">Affair</span>` },
+  // the middle word is the wrong way up
+  "under-wrong-hands": { box: "left:22px;top:50%;transform:translateY(-50%)", css: "font-family:'Anton',sans-serif;font-size:36px;letter-spacing:.06em;color:#f2eef4;line-height:1.05;text-transform:uppercase",
+    html: () => `<span style="display:block">Under</span><span style="display:block;width:max-content;transform:rotate(180deg);color:#d4606b">Wrong</span><span style="display:block">Hands</span>` },
 };
 /* Guard: a title must always fit inside its card, whatever the font, word length or screen width. After
    the fonts load, each title is measured (with all its tilted and shifted letters) and, if any part

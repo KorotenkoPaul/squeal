@@ -1,0 +1,299 @@
+{
+ "id": "the-crushing-love",
+ "title": "The Crushing Love",
+ "author": "Asjad Ullah",
+ "description": "Henna confides in her best friend Ben to share a secret about her twisted love story. Only to discover there are more twists to her relationship than she knows.",
+ "left": "Henna",
+ "right": "Ben",
+ "messages": [
+  {
+   "from": "Henna",
+   "text": "Hi Ben how are you doing?"
+  },
+  {
+   "from": "Ben",
+   "text": "Hi Henna, I am fine."
+  },
+  {
+   "from": "Ben",
+   "text": "What about you?"
+  },
+  {
+   "from": "Henna",
+   "text": "I am fine too."
+  },
+  {
+   "from": "Henna",
+   "text": "So what’s up?"
+  },
+  {
+   "from": "Ben",
+   "text": "Nothing much."
+  },
+  {
+   "from": "Ben",
+   "text": "I was just heading out to meet Harry."
+  },
+  {
+   "from": "Henna",
+   "text": "Hmm. Harry your tall friend right?"
+  },
+  {
+   "from": "Ben",
+   "text": "Yeah, do you know him?"
+  },
+  {
+   "from": "Henna",
+   "text": "Umm. Yes."
+  },
+  {
+   "from": "Henna",
+   "text": "I mean No."
+  },
+  {
+   "from": "Henna",
+   "text": "I mean yes, I know he is your friend."
+  },
+  {
+   "from": "Ben",
+   "text": "You seem a bit off."
+  },
+  {
+   "from": "Ben",
+   "text": "What is it Henna?"
+  },
+  {
+   "from": "Henna",
+   "text": "Nothing much."
+  },
+  {
+   "from": "Ben",
+   "text": "C’mon, I am your best friend."
+  },
+  {
+   "from": "Henna",
+   "text": "Thanks, Ben."
+  },
+  {
+   "from": "Henna",
+   "text": "I am not sure about it."
+  },
+  {
+   "from": "Ben",
+   "text": "Sure about what Henna?"
+  },
+  {
+   "from": "Henna",
+   "text": "I am hurt, Ben."
+  },
+  {
+   "from": "Henna",
+   "text": "But first promise me you won’t tell anyone."
+  },
+  {
+   "from": "Ben",
+   "text": "Of course Henna, we have been friends for two years now."
+  },
+  {
+   "from": "Henna",
+   "text": "But I haven’t told anyone about this."
+  },
+  {
+   "from": "Henna",
+   "text": "Not even my sister."
+  },
+  {
+   "from": "Ben",
+   "text": "Then it must be something very serious."
+  },
+  {
+   "from": "Henna",
+   "text": "Yes."
+  },
+  {
+   "from": "Henna",
+   "text": "I am afraid this information can cause a divorce."
+  },
+  {
+   "from": "Ben",
+   "text": "Woah!"
+  },
+  {
+   "from": "Ben",
+   "text": "That’s quite serious."
+  },
+  {
+   "from": "Henna",
+   "text": "Yeah, I know."
+  },
+  {
+   "from": "Henna",
+   "text": "That is why I am so scared."
+  },
+  {
+   "from": "Ben",
+   "text": "Let it all out, dear."
+  },
+  {
+   "from": "Ben",
+   "text": "You will feel much better."
+  },
+  {
+   "from": "Henna",
+   "text": "Ok, here goes."
+  },
+  {
+   "from": "Henna",
+   "text": "I met a guy a few months back."
+  },
+  {
+   "from": "Henna",
+   "text": "And I liked him."
+  },
+  {
+   "from": "Henna",
+   "text": "We had common interests."
+  },
+  {
+   "from": "Ben",
+   "text": "Alright, AND."
+  },
+  {
+   "from": "Henna",
+   "text": "We started hanging out after college."
+  },
+  {
+   "from": "Henna",
+   "text": "The relationship grew and we started dating."
+  },
+  {
+   "from": "Ben",
+   "text": "Finally, you were having an affair. Good to know."
+  },
+  {
+   "from": "Henna",
+   "text": "Yes. And then we really fell for each other."
+  },
+  {
+   "from": "Henna",
+   "text": "Our relationship was very passionate."
+  },
+  {
+   "from": "Henna",
+   "text": "We just couldn’t get enough of each other."
+  },
+  {
+   "from": "Ben",
+   "text": "If that’s the case, why are you so upset?"
+  },
+  {
+   "from": "Henna",
+   "text": "Something nasty came up."
+  },
+  {
+   "from": "Ben",
+   "text": "What?"
+  },
+  {
+   "from": "Henna",
+   "text": "He told me he was already married."
+  },
+  {
+   "from": "Ben",
+   "text": "WHAT?"
+  },
+  {
+   "from": "Ben",
+   "text": "I will kill that jackass."
+  },
+  {
+   "from": "Ben",
+   "text": "What’s his name?"
+  },
+  {
+   "from": "Henna",
+   "text": "No, Ben, I don’t want the word to spread."
+  },
+  {
+   "from": "Ben",
+   "text": "Just tell me his name."
+  },
+  {
+   "from": "Ben",
+   "text": "I won’t let him live in peace."
+  },
+  {
+   "from": "Henna",
+   "text": "I can’t tell you his name."
+  },
+  {
+   "from": "Ben",
+   "text": "WHY? GIVE ME THE NAME Henna."
+  },
+  {
+   "from": "Henna",
+   "text": "First, promise me you won’t hurt him."
+  },
+  {
+   "from": "Henna",
+   "text": "He said his spouse is a psychopath."
+  },
+  {
+   "from": "Henna",
+   "text": "And that he still loves me."
+  },
+  {
+   "from": "Ben",
+   "text": "JUST GIVE ME THE NAME, Henna."
+  },
+  {
+   "from": "Henna",
+   "text": "I knew I should never have told you."
+  },
+  {
+   "from": "Henna",
+   "text": "Please don’t hurt him."
+  },
+  {
+   "from": "Henna",
+   "text": "It’s your friend Harry."
+  },
+  {
+   "from": "Ben",
+   "text": "WHAT?"
+  },
+  {
+   "from": "Ben",
+   "text": "HOW THE HELL?"
+  },
+  {
+   "from": "Henna",
+   "text": "I know I should have told you when I got to know you are his friend."
+  },
+  {
+   "from": "Henna",
+   "text": "I am so sorry Ben."
+  },
+  {
+   "from": "Ben",
+   "text": "How could he even do this to me?"
+  },
+  {
+   "from": "Henna",
+   "text": "To you? I am the betrayed one here."
+  },
+  {
+   "from": "Ben",
+   "text": "Psychopath spouse? Did he call me a psychopath?"
+  },
+  {
+   "from": "Ben",
+   "text": "Didn’t he ever tell you that he is a homo?"
+  },
+  {
+   "from": "Ben",
+   "text": "Both of you will pay for what you have done."
+  }
+ ],
+ "genre": "romance"
+}
