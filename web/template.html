@@ -96,9 +96,20 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .read::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.16); transform-origin: left; transform: scaleX(var(--f, 0)); }
 .read svg, .read span { position: relative; } .read svg { width: 16px; height: 16px; }
 .part { position: relative; overflow: hidden; }
-.part::before { content: ""; position: absolute; inset: 0; background: rgba(155,127,240,.22); transform-origin: left; transform: scaleX(var(--f, 0)); }
 .part > * { position: relative; }
+/* water: the part fills from the bottom up to how much of it is read; a wave rolls on the surface */
+.part .water { position: absolute; inset: 0; pointer-events: none; }
+.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: rgba(155,127,240,.32);
+  animation: rise .9s cubic-bezier(.25,.8,.25,1) both; }
+.part .water i::before { content: ""; position: absolute; left: 0; bottom: 100%; width: 200%; height: 7px; margin-bottom: -1px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'><path d='M0 4 Q10 0 20 4 T40 4 V8 H0Z' fill='rgba(155,127,240,0.32)'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear infinite; }
+.part.done .water i::before { display: none; }
+@keyframes rise { from { height: 0; } }
+@keyframes wave { to { transform: translateX(-40px); } }
+@media (prefers-reduced-motion: reduce) { .part .water i, .part .water i::before { animation: none; } }
 .part.here { box-shadow: inset 0 0 0 1.5px #9b7ff0; }
+.part { transition: box-shadow .2s, transform .15s; }
+.part:active { transform: scale(.97); }
 .part .ok { font-style: normal; color: #b9a3ff; font-size: 12px; }
 .demo { color: #6f6b8c; font-size: 11px; text-align: center; }
 .hero { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
@@ -193,7 +204,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet.still .demo { display: none; }
 .sheet .pv-cover img.cover, .sheet .pv-cover svg.cover { position: absolute; will-change: transform; }
 
-.sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 4px; transform-origin: 0 100%; }
+.sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 10px; transform-origin: 0 100%; }
 .sheet .cap small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .sheet .cap h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
 .sheet .chrome { position: absolute; inset: 0 0 auto; height: 60px; pointer-events: none; }
@@ -770,7 +781,7 @@ function sheetHTML(s) {
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
-      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}"><span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
+      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms"></i></span>` : ""}<span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
       <button class="read" id="pv-read" style="--f:${pct >= 100 ? 0 : fillAt}">${readLabel}</button>
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
@@ -931,8 +942,20 @@ function wire(sheet, s) {
     };
   }
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
-  sheet.querySelector("#pv-read").onclick = () => openStory(id);
-  sheet.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
+  /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
+  const read = sheet.querySelector("#pv-read"), parts = [...sheet.querySelectorAll(".part[data-ep]")];
+  let sel = parts.length ? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep) : null;
+  const selectPart = k => {
+    sel = k;
+    parts.forEach(b => b.classList.toggle("here", +b.dataset.ep === k));
+    const p = prog(s), f = partPct(s, p, k);
+    const icon = f >= 1 ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
+    read.innerHTML = `${icon}<span>Part ${k + 1}</span>`;
+    read.style.setProperty("--f", f >= 1 ? 0 : f);
+  };
+  read.onclick = () => openStory(id, sel == null ? undefined : sel);
+  parts.forEach(b => b.onclick = e => { e.stopPropagation(); selectPart(+b.dataset.ep); });
   /* Swipe down from the top: the sheet follows the finger and shrinks; let go far enough and it returns to its card. */
   let y0 = null, dy = 0;
   const start = y => { if (scroller.scrollTop <= 0 && !sheet._closing) { y0 = y; dy = 0; } };
