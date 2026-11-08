@@ -244,18 +244,21 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .item div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .item b { font-size: 18px; font-weight: 600; }
 .item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
-/* Fear dial: a half-round gauge; drag along it or tap a mark, the needle swings, the arc warms from violet
-   to red, and the stories of that fear level appear below. It fades away while you type a search. */
-.fear { flex: none; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; transition: opacity .25s, transform .25s; }
+/* Fear filter: one row of the five level names. Swipe it left or right; the name that stops in the middle
+   is the filter, a little bigger and in its own colour, with one neighbour faintly on each side. It fades
+   away while you type a search. (The half-round dial it replaced: see git, 2026-11-08.) */
+.fear { flex: none; margin-top: -6px; transition: opacity .25s, transform .25s; }   /* same gap above the row (to the field) as below it (to the first story) */
 .fear.gone { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 .fear.out { display: none; }
-.fear svg { width: min(290px, 100%); height: auto; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
-.fear svg:focus { outline: none; }
-.fear .needle { transform-origin: 120px 124px; transition: transform .45s cubic-bezier(.3,1.4,.5,1); }
-.fear.drag .needle { transition: none; }
-.fear .mark { cursor: pointer; }
-.fear-name { font-size: 22px; font-weight: 800; letter-spacing: .02em; transition: color .3s; margin-top: -6px; }
-.fear-sub { color: var(--muted); font-size: 13px; }
+.fear .lv { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
+  margin-inline: calc(-1 * max(18px, env(safe-area-inset-left, 0px))); padding-inline: calc(50% - 66px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent); mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+  -webkit-user-select: none; user-select: none; }
+.fear .lv::-webkit-scrollbar { display: none; }
+.fear .lv:focus { outline: none; }
+.fear .lv:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
+.fear .lv button { flex: 0 0 132px; height: 50px; padding: 0; scroll-snap-align: center; display: grid; place-items: center; white-space: nowrap;
+  font-size: 24px; font-weight: 800; letter-spacing: .01em; color: var(--muted); transform: scale(var(--s, .66)); opacity: var(--o, .55); transition: color .25s; }
 #results { display: flex; flex-direction: column; gap: 14px; }
 
 /* Menu */
@@ -1200,65 +1203,52 @@ function searchStories(q) {
 
 function search() {
   const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button>`;
-  /* the dial: arc from 180° (left) to 0° (right), centre (120,124), radius 100 */
-  const C = [120, 124], R = 100, pt = (deg, r = R) => [C[0] + r * Math.cos(deg * Math.PI / 180), C[1] - r * Math.sin(deg * Math.PI / 180)];
-  const degOf = lvl => 180 - (lvl - 1) * 45;
-  const marks = FEAR.map((n, i) => { const [x, y] = pt(degOf(i + 1), R + 2); const [x2, y2] = pt(degOf(i + 1), R - 16);
-    return `<g class="mark" data-lvl="${i + 1}"><line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/></g>`; }).join("");
-  const [ax, ay] = pt(180), [bx, by] = pt(0);
   shell(`<div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">Cancel</button></div>
-    <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="Choose how scary">
-      <svg viewBox="0 0 240 140" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">
-        <defs><linearGradient id="fg" x1="0" x2="1"><stop offset="0" stop-color="#7b57c9"/><stop offset=".55" stop-color="#a0608f"/><stop offset="1" stop-color="#b5525b"/></linearGradient></defs>
-        <path d="M${ax} ${ay} A${R} ${R} 0 0 1 ${bx} ${by}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="16" stroke-linecap="round"/>
-        <path id="fear-arc" d="M${ax} ${ay} A${R} ${R} 0 0 1 ${bx} ${by}" fill="none" stroke="url(#fg)" stroke-width="16" stroke-linecap="round" pathLength="100"/>
-        ${marks}
-        <g class="needle" id="needle"><line x1="120" y1="124" x2="120" y2="40" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
-        <circle cx="120" cy="124" r="9" fill="#fff"/><circle cx="120" cy="124" r="4" fill="var(--bg)"/>
-      </svg>
-      <span class="fear-name" id="fear-name"></span><span class="fear-sub" id="fear-sub"></span>
+    <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="How scary">
+      <div class="lv" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">${FEAR.map((n, i) => `<button tabindex="-1" data-lvl="${i + 1}">${n}</button>`).join("")}</div>
     </section>
     <div id="results"></div>`);
-  const fear = document.getElementById("fear"), svg = fear.querySelector("svg"), needle = document.getElementById("needle"), arc = document.getElementById("fear-arc");
+  const fear = document.getElementById("fear"), lv = fear.querySelector(".lv"), names = [...lv.children];
   const results = document.getElementById("results");
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
   const showLevel = () => {
     const list = STORIES.filter(s => fearOf(s) === fearLevel);
     results.innerHTML = list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">No stories this scary yet</p>`;   // only this level
-    document.getElementById("fear-name").textContent = FEAR[fearLevel - 1];
-    document.getElementById("fear-name").style.color = FEAR_COL[fearLevel - 1];
-    document.getElementById("fear-sub").textContent = list.length + (list.length === 1 ? " story" : " stories");
-    svg.setAttribute("aria-valuenow", fearLevel); svg.setAttribute("aria-valuetext", FEAR[fearLevel - 1]);
+    lv.setAttribute("aria-valuenow", fearLevel); lv.setAttribute("aria-valuetext", FEAR[fearLevel - 1]);
     wire();
-  };
-  /* needle angle: 0 = straight up; the arc fills up to the needle */
-  const setNeedle = deg => {                   // deg: 180 (left) .. 0 (right)
-    needle.style.transform = `rotate(${90 - deg}deg)`;
-    arc.style.strokeDasharray = `${((180 - deg) / 180) * 100} 100`;
-  };
-  const pickLevel = (lvl, animate = true) => {
-    fearLevel = lvl; fear.classList.toggle("drag", !animate); setNeedle(degOf(lvl)); showLevel();
   };
   const showSearch = () => {
     const found = searchStories(query);
     results.innerHTML = `<div class="list">${found.map(row).join("") || '<p class="hint">Nothing found</p>'}</div>`; wire();
   };
-  /* drag along the dial: the needle follows the finger, and on letting go it settles on the nearest level */
-  const angleAt = e => { const r = svg.getBoundingClientRect(), k = r.width / 240;
-    const x = (e.clientX - r.left) / k - C[0], y = C[1] - (e.clientY - r.top) / k;
-    return Math.max(0, Math.min(180, Math.atan2(Math.max(y, 0), x) * 180 / Math.PI)); };
-  let dragging = false;
-  svg.addEventListener("pointerdown", e => { dragging = true; svg.setPointerCapture(e.pointerId); fear.classList.add("drag"); setNeedle(angleAt(e)); });
-  svg.addEventListener("pointermove", e => { if (!dragging) return; const d = angleAt(e); setNeedle(d);
-    const lvl = Math.round((180 - d) / 45) + 1; if (lvl !== fearLevel) { fearLevel = lvl; showLevel(); } });
-  const drop = e => { if (!dragging) return; dragging = false; fear.classList.remove("drag"); pickLevel(Math.round((180 - angleAt(e)) / 45) + 1); };
-  svg.addEventListener("pointerup", drop); svg.addEventListener("pointercancel", () => { dragging = false; fear.classList.remove("drag"); pickLevel(fearLevel); });
-  svg.addEventListener("keydown", e => { if (e.key === "ArrowRight" || e.key === "ArrowUp") pickLevel(Math.min(5, fearLevel + 1)); if (e.key === "ArrowLeft" || e.key === "ArrowDown") pickLevel(Math.max(1, fearLevel - 1)); });
+  /* the row of names: each grows and brightens as it nears the middle; the one in the middle wears its colour.
+     When the row comes to rest, that level becomes the filter. */
+  let near = fearLevel, settleT = null;
+  const paint = () => {
+    const mid = lv.scrollLeft + lv.clientWidth / 2;
+    let best = 0, bestD = Infinity;
+    names.forEach((n, i) => {
+      const d = Math.abs(n.offsetLeft + n.offsetWidth / 2 - mid) / n.offsetWidth, k = Math.min(d, 1);
+      n.style.setProperty("--s", (1 - .34 * k).toFixed(3)); n.style.setProperty("--o", (1 - .45 * k).toFixed(3));
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    near = best + 1;
+    names.forEach((n, i) => { n.style.color = i === best ? FEAR_COL[i] : ""; });
+  };
+  const centreTo = (lvl, smooth) => { const n = names[lvl - 1];
+    lv.scrollTo({ left: n.offsetLeft + n.offsetWidth / 2 - lv.clientWidth / 2, behavior: smooth ? "smooth" : "instant" }); paint(); };
+  const settle = () => { if (near !== fearLevel) { fearLevel = near; showLevel(); } };
+  lv.addEventListener("scroll", () => { requestAnimationFrame(paint); clearTimeout(settleT); settleT = setTimeout(settle, 140); }, { passive: true });
+  names.forEach(n => n.onclick = () => centreTo(+n.dataset.lvl, true));     // tap a neighbour: it slides to the middle
+  lv.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") { e.preventDefault(); centreTo(Math.min(5, near + 1), true); }
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") { e.preventDefault(); centreTo(Math.max(1, near - 1), true); }
+  });
   /* typing hides the dial and lists matches; clearing brings it back */
   const q = document.getElementById("q");
   let outT = null;
   const hideDial = () => { clearTimeout(outT); fear.classList.add("gone"); outT = setTimeout(() => fear.classList.add("out"), 250); };
-  const showDial = () => { clearTimeout(outT); fear.classList.remove("out"); requestAnimationFrame(() => fear.classList.remove("gone")); };
+  const showDial = () => { clearTimeout(outT); fear.classList.remove("out"); centreTo(fearLevel, false); requestAnimationFrame(() => fear.classList.remove("gone")); };
   /* tapping the field clears the screen at once: no fade, so the dial never flashes back into view
      when the list above it collapses */
   const bar = document.querySelector(".sbar"), view = document.getElementById("view");
@@ -1283,7 +1273,7 @@ function search() {
     if (document.activeElement === q && !e.target.closest(".sbar")) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700); q.blur(); }
   });
   view.addEventListener("click", e => { if (eatClick) { eatClick = false; e.preventDefault(); e.stopPropagation(); } }, true);
-  pickLevel(fearLevel, false);
+  if (!query) { centreTo(fearLevel, false); showLevel(); }
   if (query) showSearch();
 }
 
