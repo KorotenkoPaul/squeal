@@ -147,7 +147,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hint { color: var(--muted); font-size: 13px; text-align: center; }
 
 /* Favourites */
-.row-card { position: relative; border-radius: 14px; overflow: hidden; touch-action: pan-y; }
+.row-card { position: relative; border-radius: 14px; overflow: visible; touch-action: pan-y; }   /* the whole card slides, not its picture inside a frame */
 .row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; padding: 0; visibility: hidden; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
 .row-card .remove span { display: block; flex: none; }
 .row-card.snap .face, .row-card.snap .remove, .row-card.snap .remove span { transition: transform .34s cubic-bezier(.32,.72,0,1), width .34s cubic-bezier(.32,.72,0,1), opacity .2s; }
