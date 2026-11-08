@@ -470,12 +470,15 @@ const totalOf = s => s.episodes.reduce((n, e) => n + e.messages.length, 0);
 function prog(s) {
   const n = s.episodes.length, len = k => s.episodes[k].messages.length;
   let p = store.get("p:" + s.id, null) || { ep: 0, pos: [] };
+  /* the story was updated since this progress was saved: start it from the beginning (20% of the old
+     text is not 20% of the new one). Progress saved before versions existed is kept as is. */
+  if (p.v && s.v && p.v !== s.v) p = { ep: 0, pos: [] };
   if (!Array.isArray(p.pos)) p = { ep: Math.min(p.ep || 0, n - 1), pos: s.episodes.map((e, k) => k < p.ep ? len(k) : k === p.ep ? p.i || 0 : 0) };
   p.pos = s.episodes.map((e, k) => Math.max(0, Math.min(len(k), p.pos[k] || 0)));
   p.ep = Math.max(0, Math.min(n - 1, p.ep || 0));
   return p;
 }
-const setProg = (s, p) => store.set("p:" + s.id, p);
+const setProg = (s, p) => store.set("p:" + s.id, { ...p, v: s.v });
 const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
 /* Reading time as the chat really plays: the other side "types" before each of its messages
    (the same delay the chat uses), plus about a second to read each message and tap on. */

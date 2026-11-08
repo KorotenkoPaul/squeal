@@ -27,6 +27,12 @@ COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "the-reunion-affair": "the-reunion-affair", "under-wrong-hands": "under-wrong-hands",
     "two-knocks": "two-knocks",   # drawn for the story (design/covers/two-knocks.html)
 }
+# content version: a short fingerprint of what the reader actually reads (messages, branches). When a story's
+# text changes, its version changes, and saved progress for the old text is reset (see prog() in the app).
+import hashlib
+for st in stories:
+    body = json.dumps([[e["messages"], e.get("nodes")] for e in st["episodes"]], ensure_ascii=False, sort_keys=True)
+    st["v"] = hashlib.sha1(body.encode()).hexdigest()[:10]
 for st in stories:
     if st["id"] in COVERS:
         st["cover"] = "covers/%s.jpg" % COVERS[st["id"]]
