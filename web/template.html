@@ -45,7 +45,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
 /* Slider dots: a "worm". The active pill stretches its head to the next dot as the slide moves,
    then pulls its tail after it; inside, a bright fill runs out the time to the next slide. */
-.dots { flex: none; position: relative; display: flex; justify-content: center; gap: 14px; height: 6px; margin-top: -2px; }
+.dots { flex: none; position: relative; display: flex; justify-content: center; gap: 10px; height: 6px; margin-top: -2px; }
+.dots i { flex: none; }
 .dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
 .dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
   overflow: hidden; will-change: transform, width; }
@@ -59,7 +60,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
 .pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
-.cap small .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 8px; vertical-align: middle; opacity: .7; }
+.sheet .cap small { display: flex; align-items: center; line-height: 1; }
+.cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
 /* start over: a round button by the heart; first tap opens it to ask, second tap clears the progress */
 .chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); height: 38px; min-width: 38px; padding: 0 10px;
   border-radius: 19px; background: rgba(23,18,44,.6); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 0;
@@ -558,7 +560,7 @@ function startSlider() {
   const el = document.getElementById("slider"), box = document.getElementById("dots");
   if (!el || !box) return;
   const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");
-  const W = 22, DOT = 6, STEP = 20, SLIDE = 4000, n = dots.length;
+  const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let at = 0, since = performance.now(), last = since, held = false;
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
@@ -568,11 +570,15 @@ function startSlider() {
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
     const p = Math.max(0, Math.min(n - 1, el.scrollLeft / step));
     const i = Math.min(n - 2, Math.floor(p)), f = n > 1 ? p - i : 0;
-    /* the worm between dot i and i+1: head leads over the first half, tail follows over the second */
-    const x0 = box.clientWidth / 2 - ((n - 1) * STEP) / 2;             // centre of dot 0
-    const c = x0 + i * STEP;
-    const left = c - W / 2 + Math.max(0, (f - .5) * 2) * STEP;
-    const right = c + W / 2 + Math.min(1, f * 2) * STEP;
+    /* the slot under the pill is as wide as the pill, so every gap (dot-dot and pill-dot) is the same;
+       slots trade width as the slide moves */
+    const ws = dots.map((d, k) => DOT + (W - DOT) * Math.max(0, 1 - Math.abs(p - k)));
+    const total = ws.reduce((a, b) => a + b, 0) + GAP * (n - 1);
+    const L = [], R = []; let x = (box.clientWidth - total) / 2;
+    ws.forEach((w, k) => { dots[k].style.width = w + "px"; L.push(x); R.push(x + w); x += w + GAP; });
+    /* the worm between slot i and i+1: head leads over the first half, tail follows over the second */
+    const right = n > 1 ? lerp(R[i], R[i + 1], Math.min(1, f * 2)) : R[0];
+    const left = n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
     worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
     const cur = Math.round(p);
     if (cur !== at) { at = cur; since = now; }
@@ -764,7 +770,7 @@ function sheetHTML(s) {
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
       <button class="back" id="pv-back" aria-label="Close" style="position:absolute;top:10px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(23,18,44,.6);display:grid;place-items:center;padding-bottom:3px">‹</button>
-      ${pct > 0 ? `<button class="reset" id="pv-reset" aria-label="Start this story over"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Start over?</span></button>` : ""}
+      <button class="reset" id="pv-reset" aria-label="Start this story over"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Start over?</span></button>
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
 
