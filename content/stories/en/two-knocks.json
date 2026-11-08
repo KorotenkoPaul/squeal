@@ -107,27 +107,23 @@
       },
       {
        "from": "Lily",
-       "text": "Sam"
-      },
-      {
-       "from": "Lily",
        "text": "there's no one there"
       },
       {
        "from": "Lily",
-       "text": "Mrs Hale's door is open. it smells like wet soil in there"
+       "text": "Mrs Hale's door is open. smells like wet soil"
       },
       {
        "from": "Lily",
-       "text": "something behind me just said thank you"
-      },
-      {
-       "from": "Lily",
-       "text": "in your voice"
+       "text": "behind me"
       },
       {
        "from": "Sam",
        "text": "Lily?"
+      },
+      {
+       "from": "Sam",
+       "text": "Lily what's behind you"
       },
       {
        "from": "Sam",
@@ -201,24 +197,28 @@
        "text": "running"
       },
       {
-       "from": "Lily",
-       "text": "hallway's dark. Mrs Hale's door is wide open"
+       "from": "Sam",
+       "text": "Lily?"
+      },
+      {
+       "from": "Sam",
+       "text": "Lil, answer me"
+      },
+      {
+       "from": "Sam",
+       "text": "please"
       },
       {
        "from": "Lily",
-       "text": "there's a hole in her wall. right where my bed is"
-      },
-      {
-       "from": "Lily",
-       "text": "stairs. four floors. go go go"
-      },
-      {
-       "from": "Lily",
-       "text": "I'm outside"
+       "text": "outside"
       },
       {
        "from": "Lily",
        "text": "I'm outside Sam. I'm ok"
+      },
+      {
+       "from": "Lily",
+       "text": "her door was wide open. I saw her wall. there's a hole in it. right where my bed is"
       },
       {
        "from": "Sam",
@@ -391,24 +391,28 @@
      "text": "running"
     },
     {
-     "from": "Lily",
-     "text": "hallway's dark. Mrs Hale's door is wide open"
+     "from": "Sam",
+     "text": "Lily?"
+    },
+    {
+     "from": "Sam",
+     "text": "Lil, answer me"
+    },
+    {
+     "from": "Sam",
+     "text": "please"
     },
     {
      "from": "Lily",
-     "text": "there's a hole in her wall. right where my bed is"
-    },
-    {
-     "from": "Lily",
-     "text": "stairs. four floors. go go go"
-    },
-    {
-     "from": "Lily",
-     "text": "I'm outside"
+     "text": "outside"
     },
     {
      "from": "Lily",
      "text": "I'm outside Sam. I'm ok"
+    },
+    {
+     "from": "Lily",
+     "text": "her door was wide open. I saw her wall. there's a hole in it. right where my bed is"
     },
     {
      "from": "Sam",
