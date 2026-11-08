@@ -700,7 +700,7 @@ function pullForRandom() {
     pick = pool[Math.floor(Math.random() * pool.length)];
     list = [...(shelf.length > 2 ? shelf : STORIES)].sort(() => Math.random() - .5);
     const rows = Array.from({ length: LOOPS }, () => list).flat();
-    strip.innerHTML = rows.map(s => `<div class="row"><span class="th">${cover(s)}${tileProgress(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${GENRES[s.genre]}</small></span></div>`).join("");
+    strip.innerHTML = rows.map(s => `<div class="row"><span class="th">${cover(s)}${tileProgress(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}</small></span></div>`).join("");
     offset = 0; setStrip(0);
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
@@ -887,7 +887,7 @@ function favourites() {
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
   shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
     `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
-      <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}<div><b>${esc(s.title)}</b><small>${progress(s) >= 100 ? "Read" : progress(s) > 0 ? progress(s) + "% read" : readMin(s)}</small></div></button></div>`).join("")).join("") +
+      <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}<div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}</small></div></button></div>`).join("")).join("") +
     `<p class="hint">Swipe a story left to remove it</p>`);
   /* iPhone-style swipe: the row follows the finger, the red button stretches with it;
      pull past ~60% and let go to remove at once, or stop halfway to leave the button open. */
@@ -987,7 +987,7 @@ function searchStories(q) {
 }
 
 function search() {
-  const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${FEAR[fearOf(s) - 1]}</small></div></button>`;
+  const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}</small></div></button>`;
   /* the dial: arc from 180° (left) to 0° (right), centre (120,124), radius 100 */
   const C = [120, 124], R = 100, pt = (deg, r = R) => [C[0] + r * Math.cos(deg * Math.PI / 180), C[1] - r * Math.sin(deg * Math.PI / 180)];
   const degOf = lvl => 180 - (lvl - 1) * 45;
