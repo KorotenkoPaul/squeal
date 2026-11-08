@@ -336,7 +336,26 @@ function cover(story) {
 }
 
 const rating = s => +(4.2 + ([...s.id].reduce((a, c) => a + c.charCodeAt(0), 0) % 8) / 10).toFixed(1);
-const TOP = [...STORIES].sort((a, b) => rating(b) - rating(a) || a.title.localeCompare(b.title)).slice(0, 5);
+/* Top of the week: every time a chat of a story is opened (any part) its weekly count goes up; the
+   count starts again each week (Monday). The slider shows the five most read this week; ties (and
+   an empty new week) fall back to the rating order. In the app these counts come from the server
+   and add up every reader; here, in the preview, they are this device's own. */
+function weekKey(d = new Date()) {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())), day = t.getUTCDay() || 7;
+  t.setUTCDate(t.getUTCDate() + 4 - day);
+  const y = t.getUTCFullYear(), w = Math.ceil(((t - Date.UTC(y, 0, 1)) / 864e5 + 1) / 7);
+  return y + "-W" + String(w).padStart(2, "0");
+}
+function weekReads() {
+  let r = store.get("reads", null);
+  if (!r || r.week !== weekKey()) r = { week: weekKey(), n: {} };
+  return r;
+}
+function countRead(id) { const r = weekReads(); r.n[id] = (r.n[id] || 0) + 1; store.set("reads", r); }
+function topOfWeek() {
+  const n = weekReads().n;
+  return [...STORIES].sort((a, b) => (n[b.id] || 0) - (n[a.id] || 0) || rating(b) - rating(a) || a.title.localeCompare(b.title)).slice(0, 5);
+}
 const app = document.getElementById("app");
 let tab = store.get("tab", "home"), genre = "all", query = "", toastTimer;
 const favs = () => store.get("favs", []);
@@ -446,9 +465,10 @@ function home() {
 }
 
 function homeContent() {
-  const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
-  return (`<span class="label">Top rated</span>
-    <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
+  const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
+  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
+  return (`<span class="label">Top this week</span>
+    <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
@@ -618,6 +638,8 @@ function startSlider() {
   const el = document.getElementById("slider"), box = document.getElementById("dots");
   if (!el || !box) return;
   const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");
+  /* a copy of the first card sits after the last: the slider always moves one step right, and on
+     reaching the copy it quietly jumps back to the real first card (they look the same) */
   const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let at = 0, since = performance.now(), last = since, held = false;
@@ -626,19 +648,25 @@ function startSlider() {
   const frame = now => {
     if (!document.body.contains(el)) return;
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
-    const p = Math.max(0, Math.min(n - 1, el.scrollLeft / step));
-    const i = Math.min(n - 2, Math.floor(p)), f = n > 1 ? p - i : 0;
+    let p = Math.max(0, Math.min(n, el.scrollLeft / step));
+    if (p >= n - .001 && !held) { el.scrollLeft -= n * step; p = 0; }                     // on the copy: back to the real first
+    const wrap = p > n - 1;                                                               // between the last card and the copy
+    const i = Math.min(n - 2, Math.floor(Math.min(p, n - 1))), f = n > 1 ? Math.min(p, n - 1) - i : 0;
     /* the slot under the pill is as wide as the pill, so every gap (dot-dot and pill-dot) is the same;
        slots trade width as the slide moves */
-    const ws = dots.map((d, k) => DOT + (W - DOT) * Math.max(0, 1 - Math.abs(p - k)));
+    const ws = dots.map((d, k) => DOT + (W - DOT) * Math.max(0, 1 - Math.abs(p - k), k === 0 ? 1 - Math.abs(p - n) : 0));
     const total = ws.reduce((a, b) => a + b, 0) + GAP * (n - 1);
     const L = [], R = []; let x = (box.clientWidth - total) / 2;
     ws.forEach((w, k) => { dots[k].style.width = w + "px"; L.push(x); R.push(x + w); x += w + GAP; });
-    /* the worm between slot i and i+1: head leads over the first half, tail follows over the second */
+    /* the worm between slot i and i+1: head leads over the first half, tail follows over the second.
+       From the last card to the first it does not crawl back: the last pill shrinks to a dot while the
+       first dot grows into the pill (dots light up with their share) */
+    dots.forEach((d, k) => d.style.background = wrap && (k === n - 1 || k === 0) ? `color-mix(in srgb, #5d5888 ${Math.round((k === 0 ? p - (n - 1) : n - p) * 100)}%, #4a4670)` : "");
+    worm.style.opacity = wrap ? 0 : 1;
     const right = n > 1 ? lerp(R[i], R[i + 1], Math.min(1, f * 2)) : R[0];
     const left = n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
     worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
-    const cur = Math.round(p);
+    const cur = Math.round(p) % n;
     if (cur !== at) { at = cur; since = now; }
     /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
     const settled = Math.abs(p - cur) < .02;
@@ -647,7 +675,7 @@ function startSlider() {
     last = now;
     const t = Math.min(1, (now - since) / SLIDE);
     fill.style.transform = `scaleX(${settled ? t : 0})`;
-    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: ((cur + 1) % n) * step, behavior: "smooth" }); }
+    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
   slideTimer = requestAnimationFrame(frame);
@@ -1054,6 +1082,7 @@ let timer = null;
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
   store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
+  countRead(id);
   const pr = prog(s), N = s.episodes.length, len = k => s.episodes[k].messages.length;
   let k0 = epIndex;
   if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
