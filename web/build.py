@@ -21,7 +21,7 @@ for sid, files in PICK:
     title = _re.sub(r"\s+Part 1$", "", first["title"])
     stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""),
                     "episodes": [{"left": e["left"], "right": e["right"], "description": e["description"],
-                                  "messages": e["messages"]} for e in eps]})
+                                  "messages": e["messages"], **({"wallpaper": e["wallpaper"]} if e.get("wallpaper") else {})} for e in eps]})
 COPY = {  # store-style descriptions written for the preview (originals stay in content/)
     "nobodys-home": "Patrick is late to Sandra's party, but when he finally pulls up, the house is dark. "
                     "The front door is wide open. No music, no cars, no one answers. "

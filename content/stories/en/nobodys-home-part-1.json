@@ -331,5 +331,17 @@
    "text": "I can’t get in my own house!"
   }
  ],
- "genre": "horror"
+ "genre": "horror",
+ "wallpaper": [
+  "house",
+  "key",
+  "balloon",
+  "music",
+  "bulb",
+  "moon",
+  "door",
+  "phone",
+  "sign143",
+  "lamp"
+ ]
 }

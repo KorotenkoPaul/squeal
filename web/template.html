@@ -361,6 +361,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
   background: var(--accent); transition: transform .32s cubic-bezier(.32,.72,0,1); }
 .ep-seg { touch-action: none; }
 .ep-seg.drag .ep-ind { transition: none; }
+/* chat wallpaper: a part's doodles, very faint, behind the messages; it stays put while they scroll */
+.chat.doodles { background-repeat: repeat; background-size: 280px 280px; }
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 .msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; animation: rise .2s ease-out both; }
@@ -1562,6 +1564,45 @@ function render() { cancelAnimationFrame(slideTimer); ({ menu, home, fav: favour
 /* Free readers get a number of taps (one per message); subscribers read without limit. In the web preview
    the Menu's "Subscription" switches a demo subscription on and off. In the app: the same rule, with the
    subscription from the App Store and the tap balance kept on the device (and server). */
+/* Chat wallpaper, WhatsApp-style doodles, but not random: each part lists in its metadata
+   ("wallpaper") the small objects drawn behind its chat, hints from that part's own story and never its
+   ending. The layout is fixed for each part (seeded by the story and part), so it looks the same every
+   time it opens. Icons are thin line drawings on a 24x24 grid. */
+const DOODLE = {
+  house: '<path d="M3 11 12 4l9 7M5 10v10h14V10"/><path d="M10 20v-5h4v5"/><path d="M8 13h2M14 13h2"/>',
+  key: '<circle cx="7.5" cy="12" r="3.5"/><path d="M11 12h10M17 12v3M20 12v2"/>',
+  balloon: '<path d="M12 3c3.6 0 6 2.8 6 6.3 0 3.8-3 6.7-6 6.7s-6-2.9-6-6.7C6 5.8 8.4 3 12 3z"/><path d="M11 16l1 1.5 1-1.5M12 17.5c-1 1.5 1 2.5 0 4"/>',
+  music: '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+  bulb: '<path d="M9 17h6M10 20h4"/><path d="M8.5 14C7 12.8 6 11.2 6 9.3 6 6 8.7 3.5 12 3.5S18 6 18 9.3c0 1.9-1 3.5-2.5 4.7V17h-7z"/><path d="M4 4l16 16"/>',
+  moon: '<path d="M15 3.5A8.5 8.5 0 1 0 20.5 15 7 7 0 0 1 15 3.5z"/>',
+  door: '<path d="M6 21V3h12v18M4 21h16"/><circle cx="15" cy="12" r=".8"/>',
+  phone: '<rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/>',
+  sign143: '<rect x="4" y="7" width="16" height="9" rx="1.5"/><path d="M12 16v5"/><text x="12" y="14" text-anchor="middle" font-size="6" font-family="sans-serif" stroke="none" fill="#fff" fill-opacity=".075">143</text>',
+  lamp: '<path d="M12 21V8M9 21h6"/><path d="M8 8h8l-1.5-4h-5z"/>',
+  mailbox: '<path d="M4 12a4 4 0 0 1 8 0v6H4z"/><path d="M8 8h9a3 3 0 0 1 3 3v7h-8"/><path d="M8 18v3M16 8V4h3v2h-3"/>',
+  camera: '<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>',
+  road: '<path d="M8 3 4 21M16 3l4 18M12 4v3M12 10v4M12 17v3"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>',
+  question: '<path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.2-1.5 2.4"/><circle cx="12" cy="18" r=".8"/>',
+  rock: '<path d="M4 16l2-6 5-3 6 2 3 5-2 4H7z"/><path d="M9 11l2 2M14 10l1 3"/>',
+  shards: '<path d="M4 4h16v16H4z"/><path d="M12 4l-2 6 4 3-3 7M10 10 4 12M14 13l6-2"/>',
+  cup: '<path d="M6 5h12l-2 15H8z"/><path d="M6.7 10h10.6"/>',
+  nostar: '<path d="M12 3l2.6 5.6 6 .7-4.5 4 1.3 6L12 16.4 6.6 19.3l1.3-6-4.5-4 6-.7z" stroke-dasharray="2 2.4"/>',
+};
+function wallpaper(names, seed) {
+  if (!names || !names.length) return "";
+  let x = [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const rnd = () => (x = (x * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const T = 280, N = 5, C = T / N; let g = "";
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+    const name = names[(r * N + c + r * 2) % names.length], s = 22 + rnd() * 10;
+    const px = c * C + (C - s) / 2 + (rnd() - .5) * 18 + (r % 2) * C / 2, py = r * C + (C - s) / 2 + (rnd() - .5) * 18, rot = (rnd() - .5) * 50;
+    const k = s / 24;
+    for (const dx of [0, -T]) g += `<g transform="translate(${(px + dx).toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(0)} ${s / 2} ${s / 2}) scale(${k.toFixed(3)})">${DOODLE[name] || ""}</g>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${T}" height="${T}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
 const FREE_TAPS = 100;
 const premium = () => store.get("premium", false);
 const freeTaps = () => store.get("taps", FREE_TAPS);
@@ -1591,6 +1632,8 @@ function openStory(id, epIndex) {
   layer.appendChild(scr);
   if (scr.animate && !reduce()) scr.animate([prev ? { opacity: 0 } : { transform: "translateX(100%)" }, prev ? { opacity: 1 } : { transform: "none" }], { duration: prev ? 200 : 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
+  const wp = wallpaper(ep.wallpaper, s.id + ":" + st.ep);
+  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles"); c.style.backgroundImage = wp; }
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   scr.querySelector("#back").onclick = () => {
     clearTimeout(timer);

@@ -323,5 +323,17 @@
    "text": "They say you’re dead."
   }
  ],
- "genre": "horror"
+ "genre": "horror",
+ "wallpaper": [
+  "mailbox",
+  "camera",
+  "lamp",
+  "road",
+  "house",
+  "key",
+  "phone",
+  "clock",
+  "question",
+  "moon"
+ ]
 }
