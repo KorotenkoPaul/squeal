@@ -2,6 +2,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<!-- slider titles: each story's name is drawn in its own lettering -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&display=swap">
 <style>
 /* Layout: the original 2018 Squeal design — indigo night, four tabs (menu, home, favourites, search) and a full-screen chat reader. */
 :root {
@@ -136,6 +138,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.95) 10%, rgba(23,18,44,0) 75%); }
 .hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .hero b { font-size: 26px; font-weight: 600; text-wrap: balance; }
+/* slider: the title is lettering, not a label; no rating, genre or time */
+.hero b.art { font-weight: 400; line-height: 1.05; text-shadow: 0 2px 14px rgba(0,0,0,.55); }
+.hero b.sliced { position: relative; }
+.hero b.sliced::after { content: attr(data-t); position: absolute; inset: 0; color: inherit; clip-path: polygon(0 52%, 100% 38%, 100% 100%, 0 100%); transform: translate(5px, 3px); }
+.hero b.sliced { clip-path: none; }
+.hero b.sliced > span { clip-path: polygon(0 0, 100% 0, 100% 37%, 0 51%); display: block; }
 .hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .chips { flex: none; display: flex; gap: 8px; overflow-x: auto; }
 .chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; }
@@ -585,7 +593,8 @@ function home() {
 
 function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
-  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
+  const heroHTML = h => { const L = LETTERING[h.id] || {}; const cls = "art" + (L.sliced ? " sliced" : "");
+    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span><div><b class="${cls}" style="${L.css || ""}" data-t="${esc(h.title)}">${L.sliced ? `<span>${esc(h.title)}</span>` : esc(h.title)}</b></div></button>`; };
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
@@ -840,6 +849,22 @@ let slideTimer = null;
 /* the slider lives its own life: its clock keeps running while you are on other tabs, so coming back
    to Home it is wherever it has got to, not back at the first slide */
 const SL = { at: 0, elapsed: 0, seen: 0 };
+/* Each story's title in the slider is drawn in lettering that carries its mood */
+const LETTERING = {
+  "nobodys-home": { css: "font-family:'Cormorant SC',serif;font-weight:500;font-size:30px;letter-spacing:.22em;color:#d9d4e8" },   // a quiet, empty house
+  "clown": { css: "font-family:'Rubik Wet Paint',cursive;font-size:44px;color:#e9eef8" },                                          // face paint, still wet
+  "first-impressions": { css: "font-family:'DM Serif Display',serif;font-style:italic;font-size:34px;color:#f1e6dc" },             // a dinner, best manners
+  "grave": { css: "font-family:'Cinzel',serif;font-weight:600;font-size:38px;letter-spacing:.24em;color:#d8d6d2" },                // cut into stone
+  "haunted": { css: "font-family:'IM Fell English',serif;font-style:italic;font-size:40px;color:#dcd7ea;opacity:.92" },             // old print, faded
+  "last-train-out": { css: "font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:40px;text-transform:uppercase;letter-spacing:.06em;color:#f0e7c8" },   // station board
+  "love-till-death": { css: "font-family:'Pinyon Script',cursive;font-size:44px;color:#fbd3d8" },                                  // a love letter, in blood-pink ink
+  "reunion": { css: "font-family:'Caveat',cursive;font-weight:700;font-size:42px;color:#f3ecdf;transform:rotate(-3deg);transform-origin:left bottom" },   // written in a yearbook
+  "skinless": { css: "font-family:'Rubik Distressed',sans-serif;font-size:40px;color:#e8d9d6" },                                   // torn, raw
+  "slice": { css: "font-family:'Anton',sans-serif;font-size:46px;text-transform:uppercase;letter-spacing:.04em;color:#f2f0f5", sliced: true },   // cut through
+  "the-crossroad": { css: "font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:34px;color:#f4e3ea" },  // a contract, a romance
+  "the-doctor": { css: "font-family:'Special Elite',monospace;font-size:32px;color:#dfe8e6" },                                      // a typed case file
+  "unwanted-guest": { css: "font-family:'Monoton',sans-serif;font-size:30px;line-height:1.2;color:#efe4dc" },                       // seen through the blinds
+};
 function startSlider() {
   cancelAnimationFrame(slideTimer);
   const el = document.getElementById("slider"), box = document.getElementById("dots");
