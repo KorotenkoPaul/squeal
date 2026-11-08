@@ -170,6 +170,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .search input { flex: 1; min-width: 0; color: var(--text); outline: none; }
 .search { transition: box-shadow .2s; }
 .search:focus-within { box-shadow: 0 0 0 1.5px #9b7ff0; }
+/* the search field stays put at the top; the dial and the stories scroll away underneath it */
+.sbar { position: sticky; top: -18px; z-index: 3; margin-top: -18px; padding-top: 18px; padding-bottom: 6px; background: var(--bg); }
+.sbar::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; background: linear-gradient(var(--bg), rgba(38,36,63,0)); pointer-events: none; }
 .search input::placeholder { color: var(--muted); }
 .list { display: flex; flex-direction: column; gap: 12px; }
 .item { display: flex; align-items: center; gap: 14px; text-align: left; }
@@ -780,7 +783,7 @@ function search() {
   const marks = FEAR.map((n, i) => { const [x, y] = pt(degOf(i + 1), R + 2); const [x2, y2] = pt(degOf(i + 1), R - 16);
     return `<g class="mark" data-lvl="${i + 1}"><line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/></g>`; }).join("");
   const [ax, ay] = pt(180), [bx, by] = pt(0);
-  shell(`<label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label>
+  shell(`<div class="sbar"><label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label></div>
     <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="Choose how scary">
       <svg viewBox="0 0 240 140" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">
         <defs><linearGradient id="fg" x1="0" x2="1"><stop offset="0" stop-color="#7b57c9"/><stop offset=".55" stop-color="#a0608f"/><stop offset="1" stop-color="#b5525b"/></linearGradient></defs>
@@ -835,9 +838,9 @@ function search() {
   let outT = null;
   const hideDial = () => { clearTimeout(outT); fear.classList.add("gone"); outT = setTimeout(() => fear.classList.add("out"), 250); };
   const showDial = () => { clearTimeout(outT); fear.classList.remove("out"); requestAnimationFrame(() => fear.classList.remove("gone")); };
-  q.onfocus = () => { hideDial(); if (!query) showSearch(); };              // tapping the field is enough
+  q.onfocus = () => { hideDial(); if (!query) results.innerHTML = ""; };    // tapping the field clears the screen
   q.onblur = () => { if (!query) { showDial(); showLevel(); } };
-  q.oninput = () => { query = q.value; showSearch(); };
+  q.oninput = () => { query = q.value; query ? showSearch() : (results.innerHTML = ""); };
   pickLevel(fearLevel, false);
   if (query) showSearch();
 }
