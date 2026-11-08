@@ -43,15 +43,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
 .slider::-webkit-scrollbar { display: none; }
 .slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
-.dots { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
-.dots { flex: none; }
-.dots i { position: relative; width: 6px; height: 6px; border-radius: 3px; background: var(--field); overflow: hidden;
-  transition: width .45s cubic-bezier(.2,.9,.2,1), background .3s; }
-.dots i.on { width: 28px; background: rgba(255,255,255,.22); }
-.dots i.on::after { content: ""; position: absolute; inset: 0; background: var(--text); border-radius: 3px; transform-origin: left;
-  animation: fill var(--slide, 4s) linear forwards; }
-.dots.manual i.on::after { animation: none; transform: scaleX(1); }
-@keyframes fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+/* Slider dots: a "worm". The active pill stretches its head to the next dot as the slide moves,
+   then pulls its tail after it; inside, a bright fill runs out the time to the next slide. */
+.dots { flex: none; position: relative; display: flex; justify-content: center; gap: 14px; height: 6px; margin-top: -2px; }
+.dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
+.dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
+  overflow: hidden; will-change: transform, width; }
+.dots .worm b { position: absolute; inset: 0 auto 0 0; width: 100%; border-radius: 3px; transform-origin: left;
+  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); transform: scaleX(0); }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
 .pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
@@ -329,7 +328,7 @@ function reloadStories() { return new Promise(r => setTimeout(r, 300 + Math.rand
 
 /* Swap the home page's content in place while it is pulled down; the eyes above are not touched. */
 function refreshHome(view) {
-  clearInterval(slideTimer);
+  cancelAnimationFrame(slideTimer);
   view.innerHTML = homeContent();
   view.classList.remove("refreshed"); void view.offsetWidth; view.classList.add("refreshed");
   setTimeout(() => view.classList.remove("refreshed"), 700);
@@ -346,7 +345,7 @@ function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
   return (`<span class="label">Top rated</span>
     <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
-    <div class="dots" id="dots">${TOP.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
+    <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint">Hold your finger on a story to add it to favourites</p>`);
@@ -495,7 +494,7 @@ function pullToRefresh() {
     await wait(380);
     await eyes.blink(loaded, () => refreshHome(view));
     await wait(500);
-    clearInterval(slideTimer); startSlider();
+    cancelAnimationFrame(slideTimer); startSlider();
     show(0);
     await wait(380);
     eyes.reset();
@@ -508,31 +507,42 @@ function pullToRefresh() {
   window.onmousemove = e => move(e.clientX, e.clientY, e); window.onmouseup = end;
 }
 
-/* Featured slider: swipe by hand, auto-advances every 4 s, pauses while touched. */
+/* Featured slider: swipe by hand or let it turn every 4 s; touching it does not stop it. */
 let slideTimer = null;
 function startSlider() {
-  clearInterval(slideTimer);
-  const el = document.getElementById("slider"), dots = [...document.querySelectorAll("#dots i")];
-  if (!el) return;
-  const index = () => Math.round(el.scrollLeft / el.clientWidth);
-  let shown = 0;
-  const mark = () => { const i = index(); if (i === shown) return; shown = i;
-    dots.forEach((d, k) => { d.classList.remove("on"); if (k === i) { void d.offsetWidth; d.classList.add("on"); } }); };
-  const dotsBox = document.getElementById("dots");
-  el.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let pausedUntil = 0;
-  ["pointerdown", "touchstart", "wheel"].forEach(e => el.addEventListener(e, () => { pausedUntil = Date.now() + 6000; dotsBox.classList.add("manual"); }, { passive: true }));
-  let lastMove = Date.now();
-  slideTimer = setInterval(() => {
-    if (!document.body.contains(el)) return clearInterval(slideTimer);
-    if (Date.now() < pausedUntil || document.hidden || layer.childElementCount) { lastMove = Date.now(); return; }
-    if (dotsBox.classList.contains("manual")) {   // resume: restart the fill on the current dot
-      dotsBox.classList.remove("manual"); const d = dots[shown]; d.classList.remove("on"); void d.offsetWidth; d.classList.add("on"); lastMove = Date.now(); return; }
-    if (Date.now() - lastMove < 3950) return;
-    lastMove = Date.now();
-    el.scrollTo({ left: ((index() + 1) % dots.length) * el.clientWidth, behavior: "smooth" });
-  }, 250);
+  cancelAnimationFrame(slideTimer);
+  const el = document.getElementById("slider"), box = document.getElementById("dots");
+  if (!el || !box) return;
+  const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");
+  const W = 22, DOT = 6, STEP = 20, SLIDE = 4000, n = dots.length;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let at = 0, since = performance.now(), last = since, held = false;
+  ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
+  ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach(e => el.addEventListener(e, () => held = false, { passive: true }));
+  const frame = now => {
+    if (!document.body.contains(el)) return;
+    const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
+    const p = Math.max(0, Math.min(n - 1, el.scrollLeft / step));
+    const i = Math.min(n - 2, Math.floor(p)), f = n > 1 ? p - i : 0;
+    /* the worm between dot i and i+1: head leads over the first half, tail follows over the second */
+    const x0 = box.clientWidth / 2 - ((n - 1) * STEP) / 2;             // centre of dot 0
+    const c = x0 + i * STEP;
+    const left = c - W / 2 + Math.max(0, (f - .5) * 2) * STEP;
+    const right = c + W / 2 + Math.min(1, f * 2) * STEP;
+    worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
+    const cur = Math.round(p);
+    if (cur !== at) { at = cur; since = now; }
+    /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
+    const settled = Math.abs(p - cur) < .02;
+    const busy = document.hidden || layer.childElementCount || held;
+    if (busy) since += now - last;                                     // hidden, covered or held: time stands still
+    last = now;
+    const t = Math.min(1, (now - since) / SLIDE);
+    fill.style.transform = `scaleX(${settled ? t : 0})`;
+    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: ((cur + 1) % n) * step, behavior: "smooth" }); }
+    slideTimer = requestAnimationFrame(frame);
+  };
+  slideTimer = requestAnimationFrame(frame);
 }
 
 function favourites() {
@@ -867,7 +877,7 @@ function refresh() {
   if (v2) v2.scrollTop = y; if (s2) s2.scrollLeft = x;
 }
 
-function render() { clearInterval(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
+function render() { cancelAnimationFrame(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
 
 /* ---------- Chat: slides in from the right over the sheet, slides back out. ---------- */
 let timer = null;
