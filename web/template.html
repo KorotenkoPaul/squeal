@@ -317,11 +317,13 @@ function menu() {
 }
 
 /* Story preview: cover, numbers, description, parts. Rating is a demo value until real reviews exist. */
-let lastRect = null;
-document.addEventListener("pointerdown", e => { const c = e.target.closest("[data-id],[data-open]"); lastRect = c ? c.getBoundingClientRect() : null; }, true);
+let lastCard = null;
+document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
 function preview(id) {
   clearInterval(slideTimer);
-  const from = lastRect; lastRect = null;
+  const card = lastCard && document.body.contains(lastCard) ? lastCard : null; lastCard = null;
+  const from = card ? card.getBoundingClientRect() : null;
+  const ghost = card ? card.cloneNode(true) : null;
   const s = STORIES.find(x => x.id === id), pct = progress(s), total = totalOf(s), liked = favs().includes(id);
   const st = store.get("p:" + id, { ep: 0, i: 0 });
   app.innerHTML = `<section class="preview">
@@ -342,17 +344,25 @@ function preview(id) {
       <button class="read" id="pv-read">${pct >= 100 ? "Read again" : pct ? "Continue · " + pct + "%" : "Start reading"}</button>
       <p class="demo">Rating is a sample value in this preview.</p>
     </div></section>`;
-  const sheet = app.querySelector(".preview");
-  if (from && sheet.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const a = app.getBoundingClientRect();
-    const t = Math.max(0, from.top - a.top), l = Math.max(0, from.left - a.left);
-    const r = Math.max(0, a.right - from.right), btm = Math.max(0, a.bottom - from.bottom);
-    sheet.animate([{ clipPath: `inset(${t}px ${r}px ${btm}px ${l}px round 14px)`, opacity: .6 },
-                   { clipPath: "inset(0px 0px 0px 0px round 0px)", opacity: 1 }],
-                  { duration: 420, easing: "cubic-bezier(.2,.9,.2,1)" });
+  const sheet = app.querySelector(".preview"), head = sheet.querySelector(".pv-cover");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (from && ghost && sheet.animate && !still) {
+    /* The tapped card grows into the preview cover, then the page settles under it. */
+    const to = head.getBoundingClientRect(), dur = 460, ease = "cubic-bezier(.2,.85,.25,1)";
+    Object.assign(ghost.style, { position: "fixed", left: from.left + "px", top: from.top + "px", width: from.width + "px",
+      height: from.height + "px", margin: 0, zIndex: 50, pointerEvents: "none", borderRadius: "14px", overflow: "hidden", aspectRatio: "auto" });
+    ghost.removeAttribute("id"); ghost.querySelectorAll("[id]").forEach(n => n.removeAttribute("id"));
+    document.body.appendChild(ghost);
+    head.style.opacity = "0";
+    sheet.animate([{ opacity: 0 }, { opacity: 1 }], { duration: dur * .7, delay: dur * .3, easing: "ease-out", fill: "backwards" });
+    ghost.animate([
+      { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px", borderRadius: "14px" },
+      { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px", borderRadius: "0px" }],
+      { duration: dur, easing: ease, fill: "forwards" }).onfinish = () => {
+        head.style.opacity = ""; ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160 }).onfinish = () => ghost.remove(); };
   }
   document.getElementById("pv-back").onclick = () => {
-    if (!sheet.animate || matchMedia("(prefers-reduced-motion: reduce)").matches) return render();
+    if (!sheet.animate || still) return render();
     sheet.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(24px)" }], { duration: 200, easing: "ease-in" }).onfinish = render;
   };
   document.getElementById("pv-like").onclick = () => { toggleFav(id); preview(id); };

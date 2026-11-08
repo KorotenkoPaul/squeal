@@ -18,6 +18,14 @@ for sid, files in PICK:
     stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""),
                     "episodes": [{"left": e["left"], "right": e["right"], "description": e["description"],
                                   "messages": e["messages"]} for e in eps]})
+COPY = {  # store-style descriptions written for the preview (originals stay in content/)
+    "nobodys-home": "Patrick is late to Sandra's party, but when he finally pulls up, the house is dark. "
+                    "The front door is wide open. No music, no cars, no one answers. "
+                    "His friend James keeps texting him from somewhere else — and James is starting to notice "
+                    "things about that house that Patrick can't see. Three parts. Read it with the lights on.",
+}
+for st in stories:
+    st["description"] = COPY.get(st["id"], st["description"])
 html = (ROOT / "web" / "template.html").read_text().replace("/*STORIES*/[]", json.dumps(stories, ensure_ascii=False))
 (ROOT / "web" / "squeal-preview.html").write_text(html)
 print(len(stories), "stories,", len(html) // 1024, "KB")
