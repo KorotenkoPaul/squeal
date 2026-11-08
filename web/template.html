@@ -198,6 +198,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ep-btn { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px 7px 12px; border-radius: 999px;
   background: rgba(255,255,255,.07); color: var(--text); font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s; }
 .ep-btn small { color: var(--muted); font-weight: 600; }
+.ep-btn { gap: 9px; padding: 8px 10px 8px 13px; }
+.ep-btn .lbl { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; line-height: 1; }
+.ep-btn .lbl em { font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.segs { display: flex; gap: 3px; }
+.segs i { position: relative; width: 16px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.14); overflow: hidden; }
+.segs i::after { content: ""; position: absolute; inset: 0; border-radius: 2px; background: linear-gradient(90deg, #8f74e6, #d9ccff);
+  transform-origin: left; transform: scaleX(var(--f, 0)); transition: transform .45s cubic-bezier(.32,.72,0,1); }
+.segs i.cur { box-shadow: 0 0 8px rgba(185,163,255,.45); }
 .ep-btn svg { width: 12px; height: 12px; color: var(--muted); transition: transform .25s cubic-bezier(.32,.72,0,1); }
 .ep-btn[aria-expanded="true"] { background: rgba(123,87,201,.35); }
 .ep-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
@@ -226,8 +234,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
-.foot.hint { justify-content: center; padding-top: 14px; padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
-.cont { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; animation: breathe 2.4s ease-in-out infinite; }
+.foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
+.cont { color: var(--muted); font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: .45 } 50% { opacity: .9 } }
 .tap { flex: 1; padding: 14px; border-radius: 14px; background: var(--field); color: var(--muted); font-weight: 600; }
 .tap.primary { background: var(--accent); color: var(--text); }
@@ -942,7 +950,7 @@ function openStory(id, epIndex) {
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back">‹</button><div class="avatar">${esc(ep.left[0])}</div>
         <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
-        ${s.episodes.length > 1 ? `<button class="ep-btn" id="ep-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Part ${st.ep + 1} of ${s.episodes.length}, choose part">Part ${st.ep + 1}<small>/ ${s.episodes.length}</small><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>` : ""}</div>
+        ${s.episodes.length > 1 ? `<button class="ep-btn" id="ep-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Part ${st.ep + 1} of ${s.episodes.length}, choose part"><span class="lbl"><em>Part ${st.ep + 1} of ${s.episodes.length}</em><span class="segs">${s.episodes.map((e, k) => `<i class="${k === st.ep ? "cur" : ""}" style="--f:${k < st.ep ? 1 : 0}"></i>`).join("")}</span></span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>` : ""}</div>
       ${s.episodes.length > 1 ? `<div class="ep-shade" id="ep-shade" hidden></div><div class="ep-menu" id="ep-menu" role="menu" hidden>${partsMenu(s, st)}</div>` : ""}
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
       <div class="foot" id="foot"></div></section>`;
@@ -984,9 +992,11 @@ function openStory(id, epIndex) {
   }
   const add = m => { const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them"); d.textContent = m.text; log.appendChild(d); };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);
+  scr.querySelector(".segs i.cur")?.style.setProperty("--f", Math.min(1, st.i / ep.messages.length));
   log.scrollTop = log.scrollHeight;
   let busy = false;
-  const save = () => store.set("p:" + id, st);
+  const curSeg = scr.querySelector(".segs i.cur");
+  const save = () => { store.set("p:" + id, st); curSeg?.style.setProperty("--f", Math.min(1, st.i / ep.messages.length)); };
   function controls() {
     if (st.i >= ep.messages.length) {
       const last = st.ep + 1 >= s.episodes.length;
@@ -1014,8 +1024,52 @@ function openStory(id, epIndex) {
     const delay = reduce() ? 150 : Math.min(1800, 450 + m.text.length * 22);
     timer = setTimeout(() => { t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
   }
-  log.onclick = step;
+  log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
+  swipeBack(scr);
+}
+
+/* Messenger-style swipe back: drag the chat to the right; it follows the finger and, let go far enough
+   (or with a flick), slides away and drops you on the screen you opened the story from (the story
+   page under it closes too). The page behind is shown while you drag. */
+function swipeBack(scr) {
+  let x0 = null, y0 = 0, dx = 0, locked = false, lastX = 0, lastT = 0, vx = 0;
+  const W = () => scr.offsetWidth;
+  const sheetOf = () => layer.querySelector(".sheet");
+  const setX = x => { scr.style.transform = x ? `translateX(${x}px)` : ""; };
+  const start = (x, y) => { if (scr._leaving) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
+  const move = (x, y, e) => {
+    if (x0 == null) return;
+    const ddx = x - x0, ddy = y - y0;
+    if (!locked) {
+      if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
+      if (ddx <= 0 || Math.abs(ddy) > Math.abs(ddx)) { x0 = null; return; }      // vertical scroll or leftwards: not ours
+      locked = true; scr._dragged = true; clearTimeout(timer);
+      const sh = sheetOf(); if (sh) sh.style.visibility = "hidden";             // show the screen you came from
+      scr.style.transition = "none";
+    }
+    if (e.cancelable) e.preventDefault();
+    const now = performance.now(); vx = .7 * vx + .3 * (x - lastX) / Math.max(1, now - lastT); lastX = x; lastT = now;
+    dx = Math.max(0, ddx); setX(dx);
+  };
+  const end = () => {
+    if (x0 == null) return; x0 = null;
+    if (!locked) return;
+    const go = dx > W() * .35 || vx > .5;
+    scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
+    if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
+    scr._leaving = true; setX(W());
+    setTimeout(() => {
+      scr.remove();
+      const sh = sheetOf(); if (sh) { sh.style.visibility = ""; closeSheet(sh); }
+    }, 300);
+  };
+  scr.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  scr.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+  scr.addEventListener("touchend", end); scr.addEventListener("touchcancel", end);
+  scr.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  scr.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
+  scr.addEventListener("mouseup", end); scr.addEventListener("mouseleave", end);
 }
 
 render();
