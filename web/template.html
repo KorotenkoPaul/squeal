@@ -172,23 +172,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
 
 /* Menu */
-/* Menu: the owl's eyes on top, then the same items grouped in cards like the rest of the app */
-.view.menu { gap: 18px; padding-top: 28px; }
-.m-head { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 6px; }
-.m-head img { width: 96px; height: auto; }
-.m-head b { font-size: 26px; font-weight: 800; letter-spacing: .02em; }
-.m-head span { color: var(--muted); font-size: 13px; }
-.m-group { background: #2e2b50; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
-.m-row { display: flex; align-items: center; gap: 14px; padding: 13px 14px; text-align: left; font-size: 16px; font-weight: 600; transition: background .15s; }
+/* Menu: minimal. Three quiet groups of plain rows; a group never shrinks, so rows never overlap */
+.view.menu { gap: 14px; padding-top: 22px; }
+.m-group { flex: none; background: #2e2b50; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+.m-row { flex: none; display: flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 16px; text-align: left; font-size: 16px; font-weight: 600; transition: background .15s; }
 .m-row + .m-row { box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
 .m-row:active { background: rgba(255,255,255,.05); }
-.m-ic { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; flex: none; background: rgba(123,87,201,.28); color: #cdbcff; }
-.m-ic svg { width: 17px; height: 17px; }
-.m-row .m-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.m-row .m-txt small { color: var(--muted); font-size: 12px; font-weight: 500; }
-.m-row .m-end { margin-left: auto; color: var(--muted); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-.m-row .m-end svg { width: 8px; height: 13px; opacity: .6; }
-.m-row.prem .m-ic { background: linear-gradient(135deg, #9b7ff0, #6a4bb8); color: #fff; box-shadow: 0 0 14px rgba(155,127,240,.4); }
+.m-row svg.m-i { width: 18px; height: 18px; flex: none; color: var(--muted); }
+.m-row .m-chev { margin-left: auto; width: 7px; height: 12px; color: var(--muted); opacity: .6; flex: none; }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -746,7 +737,7 @@ function search() {
 }
 
 function menu() {
-  const I = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const I = d => `<svg class="m-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const ic = {
     sub: I('<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>'),
     restore: I('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/>'),
@@ -756,13 +747,11 @@ function menu() {
     mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>'),
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
-  const chev = '<svg viewBox="0 0 8 13" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const row = (k, name, { sub, end, cls } = {}) => `<button class="m-row${cls ? " " + cls : ""}" id="m-${k}" data-m="${name}"><span class="m-ic">${ic[k]}</span>
-    <span class="m-txt">${name}${sub ? `<small>${sub}</small>` : ""}</span><span class="m-end">${end || ""}${chev}</span></button>`;
-  shell(`<div class="m-head"><img src="brand/eyes-base.png" alt=""><b>Squeal</b><span>Stories told in the dark</span></div>
-    <div class="m-group">${row("sub", "Subscription", { sub: "Read every story, no limits", cls: "prem" })}${row("restore", "Restore Purchases")}</div>
-    <div class="m-group">${row("lang", "Language", { end: "English" })}${row("rate", "Rate the App")}${row("share", "Share the App")}</div>
-    <div class="m-group">${row("idea", "Suggest a Story", { sub: "Get $20 for each story we publish" })}${row("mail", "E-mail Support")}</div>`);
+  const chev = '<svg class="m-chev" viewBox="0 0 8 13" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const row = (k, name) => `<button class="m-row" id="m-${k}" data-m="${name}">${ic[k]}<span>${name}</span>${chev}</button>`;
+  shell(`<div class="m-group">${row("sub", "Subscription")}${row("restore", "Restore Purchases")}</div>
+    <div class="m-group">${row("lang", "Language")}${row("rate", "Rate the App")}${row("share", "Share the App")}</div>
+    <div class="m-group">${row("idea", "Suggest a Story")}${row("mail", "E-mail Support")}</div>`);
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
 
