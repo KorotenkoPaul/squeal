@@ -1801,10 +1801,10 @@ function openStory(id, epIndex) {
       const last = st.ep + 1 >= s.episodes.length;
       const endings = path ? Object.values(base.nodes).filter(n => n.ending) : [];
       const which = path ? endings.indexOf(node) + 1 : 0;
-      log.insertAdjacentHTML("beforeend", `<div class="end">${last ? "" : "<strong>To be continued…</strong>"}<span>${esc(s.title)}${s.episodes.length > 1 ? " · part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
+      log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       log.scrollTop = log.scrollHeight;
       foot.classList.remove("hint"); foot.onclick = null;
-      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : last ? "Read again" : "Restart"}</button>`;
+      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
       const next = foot.querySelector("#next");
       if (next) next.onclick = () => openStory(id, st.ep + 1);
       foot.querySelector("#again").onclick = () => {
