@@ -240,11 +240,20 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile, .hero { transition: transform .3s cubic-bezier(.25,.8,.25,1); }
 .tile.pressing, .hero.pressing { transform: scale(.96); transition-duration: .5s; }
 .tile .fav { z-index: 2; }
-/* progress: one thin line along the bottom edge of the tile, how much of the whole story you've read */
-.tile .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.12); pointer-events: none; }
-.tile .bar i { position: absolute; inset: 0; background: #9b7ff0; transform-origin: left; transform: scaleX(var(--f)); animation: barIn .9s cubic-bezier(.25,.8,.25,1) .15s both; }
+/* progress, the same everywhere: one thin line along the bottom edge of a cover (tiles, the slider,
+   favourites, search, the random reel) and under each part number in the chat. It always shows the same
+   saved progress, so every screen agrees. */
+.bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.12); pointer-events: none; overflow: hidden; }
+.thumb .bar, .reel .th .bar { height: 2px; }
+.bar i { position: absolute; inset: 0; background: #9b7ff0; transform-origin: left; transform: scaleX(var(--f)); animation: barIn .9s cubic-bezier(.25,.8,.25,1) .15s both; }
 @keyframes barIn { from { transform: scaleX(0); } }
-@media (prefers-reduced-motion: reduce) { .tile .bar i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .bar i { animation: none; } }
+.bar.still i { animation: none; }
+/* chat: a short line under each part number, filling as that part is read */
+.ep-seg button .pl { position: absolute; left: 9px; right: 9px; bottom: 3px; height: 2px; border-radius: 1px; background: rgba(255,255,255,.14); overflow: hidden; }
+.ep-seg button .pl i { position: absolute; inset: 0; background: #9b7ff0; transform-origin: left; transform: scaleX(var(--f, 0)); transition: transform .3s ease; }
+.ep-seg button[aria-selected="true"] .pl { background: rgba(255,255,255,.3); }
+.ep-seg button[aria-selected="true"] .pl i { background: #fff; }
 .tile .fav.pop { animation: favIn .3s ease-out both; }
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
@@ -356,14 +365,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Free taps: a quiet counter beside "Tap to continue"; each tap rolls the number down by one (old digit
    slides up and out, new one comes up from below); it turns red at 10 and under. Subscribers don't see it. */
 .foot.hint { position: relative; }
-.taps { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; display: flex; align-items: baseline; gap: 5px; color: var(--muted);
-  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transform: translateY(-50%); margin-top: -1px; }
-.taps .num { position: relative; display: inline-block; height: 1.2em; min-width: 1.6em; overflow: hidden; text-align: right; font-size: 15px;
-  font-variant-numeric: tabular-nums; color: #e4dbff; line-height: 1.2; }
+.taps { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; display: flex; align-items: baseline; gap: 3px; color: var(--muted);
+  font-size: 11px; font-weight: 500; opacity: .55; transform: translateY(-50%); }
+.taps .num { position: relative; display: inline-block; height: 1.25em; min-width: 1.9em; overflow: hidden; text-align: right;
+  font-variant-numeric: tabular-nums; line-height: 1.25; }
 .taps .num i { position: absolute; right: 0; top: 0; font-style: normal; }
 .taps .num i.out { animation: tapOut .35s cubic-bezier(.4,0,.2,1) forwards; }
 .taps .num i.in { animation: tapIn .35s cubic-bezier(.25,.8,.25,1) both; }
-.taps.low .num { color: var(--red); }
+.taps.low { color: var(--red); opacity: .85; }
 @keyframes tapOut { to { transform: translateY(-110%); opacity: 0; } }
 @keyframes tapIn { from { transform: translateY(110%); opacity: 0; } }
 .paywall { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
@@ -498,11 +507,24 @@ function shell(content) {
   app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
 }
 
-/* Progress on a tile: a thin line along the bottom that fills as you read the story (all parts together) */
+/* Progress on a cover: a thin line along the bottom that fills as you read the story (all parts together) */
 function tileProgress(s) {
   const f = progress(s) / 100;
   if (!(f > 0)) return "";
   return `<span class="bar" style="--f:${Math.max(.03, f).toFixed(3)}" aria-label="${f >= 1 ? "Read" : Math.round(f * 100) + "% read"}"><i></i></span>`;
+}
+/* after reading: every progress line on the page catches up with what was saved, in place */
+function syncBars(root = document) {
+  root.querySelectorAll("[data-id]").forEach(el => {
+    const host = el.matches(".tile, .hero") ? el : el.querySelector(".thumb, .face");
+    if (!host) return;
+    const s = STORIES.find(x => x.id === el.dataset.id); if (!s) return;
+    const old = host.querySelector(":scope > .bar"), html = tileProgress(s);
+    if (old && html && old.outerHTML.includes(html.match(/--f:[\d.]+/)[0])) return;
+    if (old && html) { old.style.setProperty("--f", html.match(/--f:([\d.]+)/)[1]); old.classList.add("still"); old.querySelector("i").style.transition = "transform .6s cubic-bezier(.25,.8,.25,1)"; return; }
+    old?.remove();
+    if (html) host.insertAdjacentHTML("beforeend", html);
+  });
 }
 function tilesHTML(list, f) {
   return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}
@@ -532,12 +554,7 @@ function wireCards(root) {
 
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
-  document.querySelectorAll(".tile[data-id]").forEach(t => {
-    const s = STORIES.find(x => x.id === t.dataset.id), old = t.querySelector(".bar"), html = tileProgress(s);
-    if (old && html && old.outerHTML.includes(html.match(/--f:[\d.]+/)[0])) return;     // unchanged
-    old?.remove();
-    if (html) t.querySelector(".shade").insertAdjacentHTML("afterend", html);
-  });
+  syncBars();
   const f = favs();
   document.querySelectorAll(".tile[data-id]").forEach(t => {
     const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
@@ -568,7 +585,7 @@ function home() {
 
 function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
-  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
+  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span>${tileProgress(h)}<div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
@@ -683,7 +700,7 @@ function pullForRandom() {
     pick = pool[Math.floor(Math.random() * pool.length)];
     list = [...(shelf.length > 2 ? shelf : STORIES)].sort(() => Math.random() - .5);
     const rows = Array.from({ length: LOOPS }, () => list).flat();
-    strip.innerHTML = rows.map(s => `<div class="row"><span class="th">${cover(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${GENRES[s.genre]}</small></span></div>`).join("");
+    strip.innerHTML = rows.map(s => `<div class="row"><span class="th">${cover(s)}${tileProgress(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${GENRES[s.genre]}</small></span></div>`).join("");
     offset = 0; setStrip(0);
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
@@ -870,7 +887,7 @@ function favourites() {
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
   shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
     `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
-      <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span><div><b>${esc(s.title)}</b><small>Completed ${progress(s)}%</small></div></button></div>`).join("")).join("") +
+      <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}<div><b>${esc(s.title)}</b><small>${progress(s) >= 100 ? "Read" : progress(s) > 0 ? progress(s) + "% read" : readMin(s)}</small></div></button></div>`).join("")).join("") +
     `<p class="hint">Swipe a story left to remove it</p>`);
   /* iPhone-style swipe: the row follows the finger, the red button stretches with it;
      pull past ~60% and let go to remove at once, or stop halfway to leave the button open. */
@@ -970,7 +987,7 @@ function searchStories(q) {
 }
 
 function search() {
-  const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${FEAR[fearOf(s) - 1]}</small></div></button>`;
+  const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${FEAR[fearOf(s) - 1]}</small></div></button>`;
   /* the dial: arc from 180° (left) to 0° (right), centre (120,124), radius 100 */
   const C = [120, 124], R = 100, pt = (deg, r = R) => [C[0] + r * Math.cos(deg * Math.PI / 180), C[1] - r * Math.sin(deg * Math.PI / 180)];
   const degOf = lvl => 180 - (lvl - 1) * 45;
@@ -1400,7 +1417,7 @@ function openStory(id, epIndex) {
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
         <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
-        ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * 34}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}</button>`).join("")}</div>` : ""}</div>
+        ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * 34}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}<span class="pl" aria-hidden="true"><i style="--f:${partPct(s, prog(s), k).toFixed(3)}"></i></span></button>`).join("")}</div>` : ""}</div>
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
       <div class="foot" id="foot"></div></section>`;
   layer.appendChild(scr);
@@ -1409,7 +1426,7 @@ function openStory(id, epIndex) {
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   scr.querySelector("#back").onclick = () => {
     clearTimeout(timer);
-    const finish = () => { scr.remove(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
+    const finish = () => { scr.remove(); syncBars(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
     const sh = layer.querySelector(".sheet"); if (sh) sh.style.visibility = "hidden";
     if (!scr.animate || reduce()) return finish();
     scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 300, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = finish;
@@ -1452,7 +1469,8 @@ function openStory(id, epIndex) {
   log.scrollTop = log.scrollHeight;
   requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
   let busy = false;
-  const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i; setProg(s, p); };
+  const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i; setProg(s, p);
+    const pl = scr.querySelector(`.ep-seg [data-ep="${st.ep}"] .pl i`); if (pl) pl.style.setProperty("--f", partPct(s, p, st.ep).toFixed(3)); };
   /* the hint stays still; only after 10 s with no tap does it start to breathe */
   let idleT = null;
   const nudge = () => { clearTimeout(idleT); foot.classList.remove("idle"); idleT = setTimeout(() => { if (scr.isConnected) foot.classList.add("idle"); }, 10000); };
@@ -1548,7 +1566,7 @@ function swipeBack(scr) {
     if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
     scr._leaving = true; setX(W());
     setTimeout(() => {
-      scr.remove();
+      scr.remove(); syncBars();
       const sh = sheetOf(); if (sh) { sh.style.visibility = ""; closeSheet(sh); }
     }, 300);
   };
