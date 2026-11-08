@@ -97,30 +97,23 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .read svg, .read span { position: relative; } .read svg { width: 16px; height: 16px; }
 .part { position: relative; overflow: hidden; }
 .part > * { position: relative; }
-/* fog: the part fills from the bottom up with mist to how much of it is read; it curls and drifts
-   for a few seconds, then hangs still. Its top edge is soft, never a line. (Was water: see git.) */
+/* blood: the part fills from the bottom up to how much of it is read, in the pale red of the owl's
+   eyes; two continuous waves (one drawn path each, no tiles, so no seams) roll for a few seconds,
+   then the surface settles flat. (Water and fog: see git.) */
 .part .water { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
-.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100% + 10px);
-  background: linear-gradient(to top, rgba(196,186,240,.30), rgba(196,186,240,.16));
-  -webkit-mask-image: linear-gradient(to top, #000 calc(100% - 16px), transparent);
-          mask-image: linear-gradient(to top, #000 calc(100% - 16px), transparent);
-  animation: rise 1.1s cubic-bezier(.25,.8,.25,1) both; }
-.part.done .water i { height: 100%; -webkit-mask-image: none; mask-image: none; }
-/* the curls: two layers of soft blobs drifting opposite ways, fading out as the fog settles */
-.part .water i::before, .part .water i::after { content: ""; position: absolute; left: -50%; right: -50%; top: -6px; bottom: 0; filter: blur(5px);
-  background:
-    radial-gradient(18px 10px at 10% 20%, rgba(225,218,255,.55), transparent 70%),
-    radial-gradient(26px 12px at 32% 45%, rgba(225,218,255,.45), transparent 70%),
-    radial-gradient(20px 9px at 55% 15%, rgba(225,218,255,.5), transparent 70%),
-    radial-gradient(30px 14px at 78% 40%, rgba(225,218,255,.4), transparent 70%),
-    radial-gradient(16px 8px at 92% 22%, rgba(225,218,255,.5), transparent 70%);
-  animation: drift 3.6s ease-in-out both, settle 1.6s ease-out 2.4s forwards; }
-.part .water i::after { transform: scaleX(-1); animation: drift2 3.6s ease-in-out both, settle 1.6s ease-out 2.4s forwards; opacity: .8; }
+.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: #b5525b;
+  animation: rise 1s cubic-bezier(.25,.8,.25,1) both; }
+.part .water svg { position: absolute; left: 0; bottom: calc(100% - 1px); width: 200%; height: 7px; transform-origin: 50% 100%; }
+.part .water .w1 { fill: #b5525b; z-index: 1; animation: roll 1.6s linear 3, settle 2.2s cubic-bezier(.4,0,.2,1) 1.8s forwards; }
+.part .water .w2 { fill: #8e3d4d; height: 9px; animation: roll2 2.3s linear 2, settle 2s cubic-bezier(.4,0,.2,1) 1.6s forwards; }
+.part.done .water svg { display: none; }
 @keyframes rise { from { height: 0; } }
-@keyframes drift { from { translate: -14% 3px; } 50% { translate: 4% -2px; } to { translate: 12% 1px; } }
-@keyframes drift2 { from { translate: 12% -1px; } 50% { translate: -4% 3px; } to { translate: -12% 0; } }
-@keyframes settle { to { opacity: 0; } }                     /* the curls fade: the fog hangs still */
-@media (prefers-reduced-motion: reduce) { .part .water i, .part .water i::before, .part .water i::after { animation: none; } .part .water i::before, .part .water i::after { opacity: 0; } }
+@keyframes roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.part .water ~ span small { color: rgba(255,255,255,.72); }
+.part .water ~ span .ok { color: #fff; }
+@keyframes roll2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes settle { to { scale: 1 0; } }                     /* the surface goes flat and still */
+@media (prefers-reduced-motion: reduce) { .part .water i, .part .water svg { animation: none; } .part .water svg { display: none; } }
 .part.here { box-shadow: inset 0 0 0 1.5px #9b7ff0; }
 .part { transition: box-shadow .2s, transform .15s; }
 .part:active { transform: scale(.97); }
@@ -800,7 +793,7 @@ function sheetHTML(s) {
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
-      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms"></i></span>` : ""}<span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
+      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms"><svg class="w2" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 5 Q12.5 1 25 5 T50 5 T75 5 T100 5 T125 5 T150 5 T175 5 T200 5 V10 H0Z"/></svg><svg class="w1" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 5 Q12.5 1 25 5 T50 5 T75 5 T100 5 T125 5 T150 5 T175 5 T200 5 V10 H0Z"/></svg></i></span>` : ""}<span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
       <button class="read" id="pv-read" style="--f:${pct >= 100 ? 0 : fillAt}">${readLabel}</button>
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
