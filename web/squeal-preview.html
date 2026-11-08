@@ -632,7 +632,11 @@ function pullForRandom() {
   const LINE = () => view.clientHeight * .5;                      // half a screen of pull
   const atBottom = () => view.scrollTop + view.clientHeight >= view.scrollHeight - 2;
   const deal = () => {                                            // the story is picked now; two others fan behind it
-    pick = STORIES[Math.floor(Math.random() * STORIES.length)];
+    /* a story you haven't started; if none, one you started but haven't finished; if all are read, any */
+    const fresh = STORIES.filter(s => !prog(s).pos.some(Boolean));
+    const unfinished = STORIES.filter(s => prog(s).pos.some(Boolean) && progress(s) < 100);
+    const pool = fresh.length ? fresh : unfinished.length ? unfinished : STORIES;
+    pick = pool[Math.floor(Math.random() * pool.length)];
     const others = STORIES.filter(s => s !== pick).sort(() => Math.random() - .5).slice(0, 2);
     deck.innerHTML = [...others, pick].map(s => `<div class="card">${cover(s)}</div>`).join("");
   };
