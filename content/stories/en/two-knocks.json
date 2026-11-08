@@ -285,11 +285,9 @@
       },
       {
        "from": "Lily",
-       "text": "they're knocking on the bathroom door"
-      },
-      {
-       "from": "Lily",
-       "text": "twice"
+       "text": "Under the bathroom door: two shadows of feet.",
+       "video": "video/two-knocks-bathroom.mp4",
+       "dur": 10
       }
      ],
      "ending": "The Call"
