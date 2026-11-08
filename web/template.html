@@ -1540,8 +1540,10 @@ function swipeBack(scr) {
   const W = () => scr.offsetWidth;
   const sheetOf = () => layer.querySelector(".sheet");
   const setX = x => { scr.style.transform = x ? `translateX(${x}px)` : ""; };
-  /* only the conversation itself swipes away; the top bar (back, name, part numbers) never closes the chat */
-  const start = (x, y, t) => { if (scr._leaving || (t && t.closest && t.closest(".head"))) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
+  /* like iOS messengers: the swipe has to begin at the very left edge of the conversation; the top bar
+     (back, name, part numbers) never closes the chat */
+  const EDGE = 24;
+  const start = (x, y, t) => { if (scr._leaving || (t && t.closest && t.closest(".head")) || x - scr.getBoundingClientRect().left > EDGE) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
   const move = (x, y, e) => {
     if (x0 == null) return;
     const ddx = x - x0, ddy = y - y0;
