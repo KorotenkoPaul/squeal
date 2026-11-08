@@ -256,8 +256,9 @@ function toggleFav(id) {
   toast(on ? "Removed from favourites" : "Added to favourites");
 }
 function longPress(el, fn) {
-  let t, fired = false;
-  el.addEventListener("pointerdown", () => { fired = false; t = setTimeout(() => { fired = true; fn(); }, 550); });
+  let t, fired = false, x0 = 0, y0 = 0;
+  el.addEventListener("pointerdown", e => { fired = false; x0 = e.clientX; y0 = e.clientY; t = setTimeout(() => { fired = true; fn(); }, 550); });
+  el.addEventListener("pointermove", e => { if (Math.hypot(e.clientX - x0, e.clientY - y0) > 8) clearTimeout(t); });   // a drag is not a long press
   ["pointerup", "pointerleave", "pointercancel"].forEach(e => el.addEventListener(e, () => clearTimeout(t)));
   el.addEventListener("contextmenu", e => e.preventDefault());
   return () => fired;
@@ -299,7 +300,7 @@ function pullToRefresh() {
   const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = SPOKES; ptr.setAttribute("aria-hidden", "true");
   app.prepend(ptr); view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
   const spokes = [...ptr.querySelectorAll("rect")];
-  let y0 = null, d = 0, busy = false;
+  let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
   const show = d => {
     view.style.transform = d ? `translateY(${d}px)` : "";
     const k = Math.min(1, d / LINE);
@@ -307,10 +308,16 @@ function pullToRefresh() {
     ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 18}px)`;
     if (!ptr.classList.contains("spin")) spokes.forEach((r, i) => r.style.display = i < Math.ceil(k * 8) ? "" : "none");
   };
-  const start = (y, target) => { if (busy || view.scrollTop > 0 || target.closest(".slider")) return; y0 = y; d = 0; view.classList.remove("settle"); };
-  const move = (y, e) => {
+  /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
+  const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
+    if (!locked) {
+      if (Math.abs(x - x0) < 6 && Math.abs(raw) < 6) return;
+      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0) { y0 = null; return; }
+      locked = true;
+    }
     if (raw <= 0) { if (d) show(d = 0); return; }
     if (view.scrollTop > 0) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
@@ -319,6 +326,9 @@ function pullToRefresh() {
   };
   const end = () => {
     if (y0 == null) return; y0 = null;
+    if (!locked) return;
+    const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
+    window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
     view.classList.add("settle");
     if (d < LINE) { show(d = 0); setTimeout(() => ptr.style.opacity = 0, 380); return; }
     busy = true; show(d = REST); ptr.classList.add("spin"); spokes.forEach(r => r.style.display = "");
@@ -329,11 +339,11 @@ function pullToRefresh() {
         setTimeout(() => v.classList.remove("refreshed"), 700); }, 260);
     }, 900);
   };
-  view.addEventListener("touchstart", e => start(e.touches[0].clientY, e.target), { passive: true });
-  view.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
+  view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
-  view.addEventListener("mousedown", e => start(e.clientY, e.target));
-  window.onmousemove = e => move(e.clientY, e); window.onmouseup = end;
+  view.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  window.onmousemove = e => move(e.clientX, e.clientY, e); window.onmouseup = end;
 }
 
 /* Featured slider: swipe by hand, auto-advances every 4 s, pauses while touched. */
