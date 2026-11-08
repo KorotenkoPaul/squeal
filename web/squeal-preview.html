@@ -62,6 +62,13 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
 .pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
 .pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
+/* the round buttons over the photo: no padding (iPhone gives buttons some by default, which pushed the
+   icons off centre), each icon an SVG centred in its circle */
+.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
+.chrome .back.rb svg { width: 16px; height: 16px; }
+.head .back { padding: 0; display: grid; place-items: center; line-height: 0; }
+.chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; }
+.chrome .like svg { transform: translateY(-.5px); }
 .pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
 .pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
@@ -70,8 +77,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* start over: tap clears the part being read; hold (a ring fills round the button) clears every part */
 .chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); width: 38px; height: 38px;
   border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
-.chrome .reset svg { width: 17px; height: 17px; grid-area: 1 / 1; transition: transform .45s cubic-bezier(.32,.72,0,1); }
-.chrome .reset .hold { width: 38px; height: 38px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
+.chrome .reset svg { width: 17px; height: 17px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
+.chrome .reset .hold { position: absolute; inset: 0; width: 38px; height: 38px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
 .chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
 .chrome .reset.spin svg:not(.hold) { transform: rotate(-360deg); }
@@ -1131,7 +1138,7 @@ function sheetHTML(s) {
       <button class="read" id="pv-read">${readLabel}</button>
     </div></div>
     <div class="chrome">
-      <button class="back" id="pv-back" aria-label="Close" style="position:absolute;top:10px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(23,18,44,.6);display:grid;place-items:center;padding-bottom:3px">‹</button>
+      <button class="back rb" id="pv-back" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="reset" id="pv-reset" aria-label="Tap: start this part over. Hold: start every part over"><svg class="hold" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="17.5"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
@@ -1360,7 +1367,7 @@ function openStory(id, epIndex) {
   const scr = document.createElement("section");
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
   scr.innerHTML = `<section class="chat">
-      <div class="head"><button class="back" id="back" aria-label="Back">‹</button><div class="avatar">${esc(ep.left[0])}</div>
+      <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
         <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
         ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * 34}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}</button>`).join("")}</div>` : ""}</div>
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
