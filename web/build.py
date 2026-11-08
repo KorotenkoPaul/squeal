@@ -49,6 +49,8 @@ for st in stories:
                 problems.append("%s: unknown speaker %r" % (at, m["from"]))
             if not t.strip():
                 problems.append("%s: empty text" % at)
+            if re.search(r"[\ue000-\uf8ff]", t):
+                problems.append("%s: hidden Word symbol in text %r" % (at, t[:60]))
             if "|" in t or ":-:" in t or re.search(r"\\[!.()\[\]*_#+-]", t):
                 problems.append("%s: markup in text %r" % (at, t[:60]))
             if re.match(r"^(%s)\s*:" % "|".join(map(re.escape, who)), t):
