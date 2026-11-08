@@ -441,6 +441,17 @@ function pullToRefresh() {
   const view = document.getElementById("view"), LINE = 64, REST = 76;
   app.style.position = "relative";
   const eyes = owlEyes(); app.prepend(eyes.el);
+  /* centre the eyes between the top of the screen and the first line of the page ("Top rated")
+     as it stands when pulled down: eyes span 13-326 of the art's 480 height, drawn 74 px wide */
+  const centreEyes = () => {
+    const first = view.firstElementChild, svg = eyes.el.querySelector("svg");
+    if (!first) return;
+    /* top of the letters themselves: the line box minus the half-leading above the capitals */
+    const r = first.getBoundingClientRect(), fs = parseFloat(getComputedStyle(first).fontSize);
+    const textTop = r.top - view.getBoundingClientRect().top + (r.height - fs * .7) / 2;
+    const artH = svg.getBoundingClientRect().width * 187 / 360, eyeMid = artH * (13 + 326) / 2 / 480;
+    svg.style.top = ((REST + textTop) / 2 - eyeMid) + "px";
+  };
   view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
   let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
   const show = (d, live) => {
@@ -451,7 +462,7 @@ function pullToRefresh() {
     if (live) eyes.setLids(1 - k * k);                            // the eyes open as you pull
   };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
-  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; centreEyes(); y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
   const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
