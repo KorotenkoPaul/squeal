@@ -258,7 +258,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .fear .lv:focus { outline: none; }
 .fear .lv:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
 .fear .lv button { flex: 0 0 132px; height: 50px; padding: 0; scroll-snap-align: center; display: grid; place-items: center; white-space: nowrap;
-  font-size: 24px; font-weight: 800; letter-spacing: .01em; color: var(--muted); transform: scale(var(--s, .66)); opacity: var(--o, .55); transition: color .25s; }
+  font-size: 24px; font-weight: 800; letter-spacing: .01em; transform: scale(var(--s, .66)); opacity: var(--o, .55); }   /* each level in its own colour */
 #results { display: flex; flex-direction: column; gap: 14px; }
 
 /* Menu */
@@ -1166,7 +1166,7 @@ function favourites() {
 /* How scary a story is, 1 to 5. A stand-in until stories get their own rating: horror sits high,
    thriller in the middle, romance low, with a little spread inside each. */
 const FEAR = ["Uneasy", "Creepy", "Scary", "Terrifying", "Nightmare"];
-const FEAR_COL = ["#8f7ad6", "#a07ac8", "#b46fa6", "#bb5f7e", "#b5525b"];
+const FEAR_COL = ["#7b57c9", "#8c5baf", "#9d5f94", "#a95a78", "#b5525b"];   // the old dial's arc, violet-blue to red, read at each level
 /* fear level 1–5 is internal: set per story in its data ("fear"), used only by the fear dial in Search,
    never shown as a label. A story without one counts as 3. */
 const fearOf = s => s.fear || 3;
@@ -1205,7 +1205,7 @@ function search() {
   const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button>`;
   shell(`<div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">Cancel</button></div>
     <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="How scary">
-      <div class="lv" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">${FEAR.map((n, i) => `<button tabindex="-1" data-lvl="${i + 1}">${n}</button>`).join("")}</div>
+      <div class="lv" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">${FEAR.map((n, i) => `<button tabindex="-1" data-lvl="${i + 1}" style="color:${FEAR_COL[i]}">${n}</button>`).join("")}</div>
     </section>
     <div id="results"></div>`);
   const fear = document.getElementById("fear"), lv = fear.querySelector(".lv"), names = [...lv.children];
@@ -1233,7 +1233,6 @@ function search() {
       if (d < bestD) { bestD = d; best = i; }
     });
     near = best + 1;
-    names.forEach((n, i) => { n.style.color = i === best ? FEAR_COL[i] : ""; });
   };
   const centreTo = (lvl, smooth) => { const n = names[lvl - 1];
     lv.scrollTo({ left: n.offsetLeft + n.offsetWidth / 2 - lv.clientWidth / 2, behavior: smooth ? "smooth" : "instant" }); paint(); };
