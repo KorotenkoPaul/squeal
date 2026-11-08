@@ -372,7 +372,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
    slides up and out, new one comes up from below); it turns red at 10 and under. Subscribers don't see it. */
 .foot.hint { position: relative; }
 .taps { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; display: flex; align-items: baseline; gap: 3px; color: var(--muted);
-  font-size: 11px; font-weight: 500; opacity: .55; transform: translateY(-50%); }
+  font-size: 15px; font-weight: 600; opacity: .8; transform: translateY(-50%); }
 .taps .num { position: relative; display: inline-block; height: 1.25em; min-width: 1.9em; overflow: hidden; text-align: right;
   font-variant-numeric: tabular-nums; line-height: 1.25; }
 .taps .num i { position: absolute; right: 0; top: 0; font-style: normal; }
@@ -965,12 +965,21 @@ function favourites() {
     label.style.opacity = k; label.style.transform = `scale(${.85 + .15 * k})`;
   };
   const snap = (card, x) => { card.classList.add("snap"); set(card, x); setTimeout(() => card.classList.remove("snap"), 340); };
+  /* the card slides away; if it was the last of its genre, the genre's heading fades with it; then
+     everything below glides up into the space (each item from where it was to where it now belongs) */
   const removeRow = card => {
     snap(card, -card.offsetWidth - GAP);
+    const prev = card.previousElementSibling, next = card.nextElementSibling;
+    const label = prev?.classList.contains("label") && !next?.classList.contains("row-card") ? prev : null;
+    label?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
     setTimeout(() => {
-      card.style.height = card.offsetHeight + "px"; card.classList.add("gone");
-      requestAnimationFrame(() => { card.style.height = "0px"; card.style.marginTop = card.style.marginBottom = "-6px"; card.style.opacity = "0"; });
-      setTimeout(() => { toggleFav(card.dataset.id); refresh(); }, 280);
+      toggleFav(card.dataset.id);
+      if (!favs().length) return refresh();                          // nothing left: the empty picture fades in
+      const below = []; for (let el = card.nextElementSibling; el; el = el.nextElementSibling) below.push(el);
+      const before = below.map(el => el.getBoundingClientRect().top);
+      card.remove(); label?.remove();
+      below.forEach((el, k) => { const dy = before[k] - el.getBoundingClientRect().top;
+        if (dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 340, easing: "cubic-bezier(.32,.72,0,1)" }); });
     }, 220);
   };
   const cards = [...app.querySelectorAll(".row-card")];
@@ -1557,7 +1566,7 @@ function openStory(id, epIndex) {
     }
     foot.classList.add("hint");
     if (!premium() && freeTaps() <= 0) return showPaywall();
-    foot.innerHTML = `<span class="cont">Tap to continue</span>${premium() ? "" : `<span class="taps${freeTaps() <= 10 ? " low" : ""}" aria-label="${freeTaps()} free taps left"><span class="num"><i>${freeTaps()}</i></span>taps</span>`}`;
+    foot.innerHTML = `<span class="cont">Tap to continue</span>${premium() ? "" : `<span class="taps${freeTaps() <= 10 ? " low" : ""}" aria-label="${freeTaps()} free taps left"><span class="num"><i>${freeTaps()}</i></span></span>`}`;
     foot.onclick = step;
     nudge();
   }
