@@ -45,3 +45,7 @@
 - На карточке, в превью, поиске, избранном — значок геймпада рядом с жанром и временем.
 - `"featured": true` — история всегда в слайдере (первой).
 - Текст лежит и на Google Drive: Stories → «Two Knocks (interactive)». Обложка нарисована (design/covers/two-knocks.html).
+
+## Уровень страха (внутренний, 2026-11-08)
+- У каждой истории в данных поле `fear` 1–5 (Uneasy, Creepy, Scary, Terrifying, Nightmare). Расставлено по прочтении: романтика 1; Last Train Out, The Reunion Affair, Under Wrong Hands — 2; Nobody's Home, Clown, First Impressions, Reunion, Two Knocks — 3; Grave, Haunted, Slice, Unwanted Guest — 4; Love till Death, Skinless, The Doctor — 5.
+- Нигде в приложении не показывается как подпись — только работает шкала страха в поиске (пасхалка). Как хранить на сервере — решим позже.

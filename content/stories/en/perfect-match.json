@@ -382,5 +382,6 @@
   "mask",
   "question",
   "phone"
- ]
+ ],
+ "fear": 1
 }

@@ -1124,13 +1124,9 @@ function favourites() {
    thriller in the middle, romance low, with a little spread inside each. */
 const FEAR = ["Uneasy", "Creepy", "Scary", "Terrifying", "Nightmare"];
 const FEAR_COL = ["#8f7ad6", "#a07ac8", "#b46fa6", "#bb5f7e", "#b5525b"];
-const FEAR_OF = (() => {
-  /* rank by genre (romance < thriller < horror) with a little spread, then share out evenly over 5 levels */
-  const score = s => ({ romance: 0, thriller: 1, horror: 2 }[s.genre] ?? 1) * 10 + [...s.id].reduce((a, c) => a + c.charCodeAt(0), 0) % 10;
-  const ranked = [...STORIES].sort((a, b) => score(a) - score(b));
-  return Object.fromEntries(ranked.map((s, i) => [s.id, Math.min(5, 1 + Math.floor(i * 5 / ranked.length))]));
-})();
-const fearOf = s => s.fear || FEAR_OF[s.id] || 3;
+/* fear level 1–5 is internal: set per story in its data ("fear"), used only by the fear dial in Search,
+   never shown as a label. A story without one counts as 3. */
+const fearOf = s => s.fear || 3;
 let fearLevel = 3;
 
 /* Search forgives one typo, never more: a title matches if it contains what you typed, or a piece of

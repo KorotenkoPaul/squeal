@@ -381,5 +381,6 @@
   "phone",
   "question",
   "clock"
- ]
+ ],
+ "fear": 5
 }
