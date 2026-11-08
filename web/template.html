@@ -1002,9 +1002,12 @@ function startSlider() {
     at = (SL.at + Math.floor(total / SLIDE)) % n; since -= total % SLIDE;
   }
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
-  ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach(e => el.addEventListener(e, () => held = false, { passive: true }));
+  /* a finger can be lifted outside the slider (or a pull gesture can take over): release anywhere */
+  const bye = new AbortController();
+  ["pointerup", "pointercancel", "touchend", "touchcancel", "blur"].forEach(e => window.addEventListener(e, () => held = false, { passive: true, signal: bye.signal }));
+  let lastLeft = -1, stillSince = 0;
   const frame = now => {
-    if (!document.body.contains(el)) return;
+    if (!document.body.contains(el)) return bye.abort();
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
     if (!placed) { placed = true; if (at) { el.style.scrollBehavior = "auto"; el.scrollLeft = at * step; el.style.scrollBehavior = ""; } }
     let p = Math.max(0, Math.min(n, el.scrollLeft / step));
@@ -1029,6 +1032,10 @@ function startSlider() {
     if (cur !== at) { at = cur; since = now; }
     /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
     const settled = Math.abs(p - cur) < .02;
+    /* guard: if the slider ever comes to rest between two cards (an interrupted swipe or smooth scroll,
+       a resize), glide it to the nearest card */
+    if (el.scrollLeft !== lastLeft) { lastLeft = el.scrollLeft; stillSince = now; }
+    else if (!held && !settled && now - stillSince > 300) { stillSince = now; el.scrollTo({ left: Math.round(p) * step, behavior: still ? "auto" : "smooth" }); }
     const busy = document.hidden || layer.childElementCount || held;
     if (busy) since += now - last;                                     // hidden, covered or held: time stands still
     last = now;
