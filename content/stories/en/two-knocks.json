@@ -92,24 +92,6 @@
        "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
        "voice": "voice/two-knocks-door.mp3",
        "dur": 9
-      },
-      {
-       "from": "Sam",
-       "text": "look through the peephole. can you see him?"
-      },
-      {
-       "from": "Lily",
-       "text": "Through the peephole: the hallway, empty.",
-       "video": "video/two-knocks-peephole.mp4",
-       "dur": 7
-      },
-      {
-       "from": "Lily",
-       "text": "nobody. there's nobody there"
-      },
-      {
-       "from": "Lily",
-       "text": "but it knocked. right under the peephole. where I can't see"
       }
      ],
      "choices": [
@@ -379,24 +361,6 @@
      "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
      "voice": "voice/two-knocks-door.mp3",
      "dur": 9
-    },
-    {
-     "from": "Sam",
-     "text": "look through the peephole. can you see him?"
-    },
-    {
-     "from": "Lily",
-     "text": "Through the peephole: the hallway, empty.",
-     "video": "video/two-knocks-peephole.mp4",
-     "dur": 7
-    },
-    {
-     "from": "Lily",
-     "text": "nobody. there's nobody there"
-    },
-    {
-     "from": "Lily",
-     "text": "but it knocked. right under the peephole. where I can't see"
     },
     {
      "from": "Sam",
