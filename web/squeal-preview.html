@@ -240,22 +240,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile, .hero { transition: transform .3s cubic-bezier(.25,.8,.25,1); }
 .tile.pressing, .hero.pressing { transform: scale(.96); transition-duration: .5s; }
 .tile .fav { z-index: 2; }
-.candle { position: absolute; top: 10px; left: 12px; z-index: 3; width: 14px; height: 34px; pointer-events: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
-.candle .wax { position: absolute; left: 2px; right: 2px; bottom: 0; height: calc((1 - var(--f)) * 24px + 3px); border-radius: 2px 2px 3px 3px;
-  background: linear-gradient(90deg, #cfc5ee, #f2edff 45%, #b8acdf); animation: burn 1.4s cubic-bezier(.25,.8,.25,1) .2s both; }
-.candle .wax::before { content: ""; position: absolute; left: 50%; top: -3px; width: 1.5px; height: 4px; margin-left: -.75px; background: #2a2440; border-radius: 1px; }
-.candle .flame { position: absolute; left: 50%; bottom: calc((1 - var(--f)) * 24px + 5px); width: 7px; height: 11px; margin-left: -3.5px;
-  border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: radial-gradient(ellipse at 50% 72%, #fff6d6 0 22%, #ffc65c 45%, rgba(255,120,40,.85) 72%, rgba(255,90,30,0) 76%);
-  box-shadow: 0 0 8px 2px rgba(255,170,70,.45); transform-origin: 50% 90%; animation: burnF 1.4s cubic-bezier(.25,.8,.25,1) .2s both, flicker 2.4s ease-in-out 1.6s infinite; }
-.candle .smoke { display: none; }
-.candle.out .flame { display: none; }
-.candle.out .smoke { display: block; position: absolute; left: 50%; bottom: 6px; width: 3px; height: 14px; margin-left: -1.5px; border-radius: 2px;
-  background: linear-gradient(transparent, rgba(220,215,235,.55)); filter: blur(1px); transform-origin: 50% 100%; animation: wisp 2.6s ease-out 1.4s infinite; opacity: 0; }
-@keyframes burn { from { height: 27px; } }
-@keyframes burnF { from { bottom: 29px; } }
-@keyframes flicker { 0%, 100% { transform: scale(1) rotate(0); } 20% { transform: scale(.94, 1.06) rotate(-3deg); } 45% { transform: scale(1.04, .95) rotate(2deg); } 70% { transform: scale(.97, 1.04) rotate(-1deg); } }
-@keyframes wisp { 0% { opacity: 0; transform: translateY(0) scaleY(.6); } 30% { opacity: .9; } 100% { opacity: 0; transform: translateY(-12px) translateX(3px) scaleY(1.2) rotate(8deg); } }
-@media (prefers-reduced-motion: reduce) { .candle .wax, .candle .flame, .candle.out .smoke { animation: none; } }
+/* progress: one thin line along the bottom edge of the tile, how much of the whole story you've read */
+.tile .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.12); pointer-events: none; }
+.tile .bar i { position: absolute; inset: 0; background: #9b7ff0; transform-origin: left; transform: scaleX(var(--f)); animation: barIn .9s cubic-bezier(.25,.8,.25,1) .15s both; }
+@keyframes barIn { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { .tile .bar i { animation: none; } }
 .tile .fav.pop { animation: favIn .3s ease-out both; }
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
@@ -509,15 +498,11 @@ function shell(content) {
   app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
 }
 
-/* Progress on a tile: a little candle in the corner burns down as you read the last part you were on;
-   its flame flickers. Finished: the candle is out and a thin wisp of smoke rises. When the page appears
-   it burns from full down to where you are. No numbers. */
+/* Progress on a tile: a thin line along the bottom that fills as you read the story (all parts together) */
 function tileProgress(s) {
-  const p = prog(s), f = partPct(s, p, p.ep);
-  if (!(f > 0 || p.pos.some(Boolean))) return "";
-  const done = f >= 1;
-  return `<span class="candle${done ? " out" : ""}" style="--f:${Math.min(.92, Math.max(.05, f)).toFixed(3)}" aria-label="${done ? "Read" : Math.round(f * 100) + "% read"}">
-    <i class="flame"></i><i class="smoke"></i><i class="wax"></i></span>`;
+  const f = progress(s) / 100;
+  if (!(f > 0)) return "";
+  return `<span class="bar" style="--f:${Math.max(.03, f).toFixed(3)}" aria-label="${f >= 1 ? "Read" : Math.round(f * 100) + "% read"}"><i></i></span>`;
 }
 function tilesHTML(list, f) {
   return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}
@@ -548,7 +533,7 @@ function wireCards(root) {
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
   document.querySelectorAll(".tile[data-id]").forEach(t => {
-    const s = STORIES.find(x => x.id === t.dataset.id), old = t.querySelector(".candle"), html = tileProgress(s);
+    const s = STORIES.find(x => x.id === t.dataset.id), old = t.querySelector(".bar"), html = tileProgress(s);
     if (old && html && old.outerHTML.includes(html.match(/--f:[\d.]+/)[0])) return;     // unchanged
     old?.remove();
     if (html) t.querySelector(".shade").insertAdjacentHTML("afterend", html);
