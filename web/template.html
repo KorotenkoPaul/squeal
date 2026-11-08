@@ -1875,6 +1875,9 @@ function openStory(id, epIndex) {
       const which = path ? endings.indexOf(node) + 1 : 0;
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       log.scrollTop = log.scrollHeight;
+      /* optional end sound (story "endSound"): played once, right after the last message of the story
+         appears, whatever the ending; not when a finished story is just reopened */
+      if (last && s.endSound && stepped) setTimeout(() => { if (scr.isConnected) new Audio(s.endSound).play().catch(() => {}); }, reduce() ? 0 : 700);
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
       const next = foot.querySelector("#next");
@@ -1923,9 +1926,11 @@ function openStory(id, epIndex) {
     store.set("taps", left - 1);
     return true;
   }
+  let stepped = false;   // a message was shown in this visit (the end sound is for reaching the end, not reopening it)
   function step() {
     if (busy || st.i >= ep.messages.length) return;
     if (!spendTap()) return;
+    stepped = true;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
     busy = true; status.textContent = m.video ? "recording video…" : m.voice ? "recording audio…" : "typing…";
