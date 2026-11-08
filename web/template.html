@@ -864,6 +864,13 @@ function wire(sheet, s) {
   requestAnimationFrame(() => fitStill(sheet));
   const id = s.id, scroller = sheet.querySelector(".scroll");
   sheet.querySelector("#pv-back").onclick = () => closeSheet(sheet);
+  /* one tap anywhere that is not a control (photo, title, description, empty space) closes the page;
+     the numbers (stats) are left alone: they will become buttons */
+  sheet.onclick = e => {
+    if (!sheet.classList.contains("still") || sheet._closing) return;
+    if (e.target.closest("button, a, input, .stats")) return;
+    closeSheet(sheet);
+  };
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
   sheet.querySelector("#pv-read").onclick = () => { const pct = progress(s); openStory(id, pct >= 100 ? 0 : undefined); };
   sheet.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
