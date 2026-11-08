@@ -221,7 +221,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .empty b { font-size: 20px; }
 .empty span { color: var(--muted); }
 .empty > * { animation: emptyIn .6s cubic-bezier(.25,.8,.25,1) both; }
-.empty > :nth-child(2) { animation-delay: .1s; } .empty > :nth-child(3) { animation-delay: .18s; }
+.empty > :nth-child(2) { animation-delay: .1s; }
+/* the picture acts out adding a favourite: all four squares the same; one is held, it grows a little,
+   sinks under the finger, settles, and the heart appears in its corner (the app's own favourite move) */
+.empty .held { transform-box: view-box; transform-origin: 48px 60px; animation: holdSq 1.6s cubic-bezier(.25,.8,.25,1) .7s both; }
+.empty .held .sq { fill: #a7a3bb; animation: holdCol 1.6s ease .7s both; }
+.empty .held .hb { transform-box: fill-box; transform-origin: center; animation: favIn .3s ease-out 2.05s both; }
+@keyframes holdSq { 0% { transform: scale(.714); } 45% { transform: scale(1.04); } 68% { transform: scale(.96); } 85%, 100% { transform: scale(1); } }
+@keyframes holdCol { 0% { fill: #5f5b7d; } 40%, 100% { fill: #a7a3bb; } }
+@media (prefers-reduced-motion: reduce) { .empty .held, .empty .held .sq, .empty .held .hb { animation: none; } } .empty > :nth-child(3) { animation-delay: .18s; }
 @keyframes emptyIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 /* adding a favourite, minimal: the card sinks under the finger while held, settles back when it
    takes, and the heart fades in */
@@ -828,7 +836,7 @@ function startSlider() {
 
 function favourites() {
   const f = favs(), list = STORIES.filter(s => f.includes(s.id));
-  if (!list.length) return shell(`<div class="empty"><svg viewBox="-4 -2 112 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g filter="url(#lift)"><rect x="48" y="4.00" width="56.00" height="56.00" rx="10.3" fill="#a7a3bb"/></g><circle cx="93.07" cy="14.93" r="7.29" fill="#7b57c9"/><g transform="translate(87.82 9.51) scale(0.437)"><path fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></svg><b>It's empty in here :(</b><span>Hold your finger on a story</span></div>`);
+  if (!list.length) return shell(`<div class="empty"><svg viewBox="-4 -2 112 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g class="held"><g filter="url(#lift)"><rect class="sq" x="48" y="4.00" width="56.00" height="56.00" rx="10.3"/></g><g class="hb"><circle cx="93.07" cy="14.93" r="7.29" fill="#7b57c9"/><g transform="translate(87.82 9.51) scale(0.437)"><path fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></g></g></svg><b>It's empty in here :(</b><span>Hold your finger on a story</span></div>`);
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
   shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
     `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
