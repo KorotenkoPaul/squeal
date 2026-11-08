@@ -59,6 +59,16 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
 .pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
+.cap small .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 8px; vertical-align: middle; opacity: .7; }
+/* start over: a round button by the heart; first tap opens it to ask, second tap clears the progress */
+.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); height: 38px; min-width: 38px; padding: 0 10px;
+  border-radius: 19px; background: rgba(23,18,44,.6); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 0;
+  font-size: 13px; font-weight: 700; transition: background .2s, color .2s, gap .25s; }
+.chrome .reset svg { width: 17px; height: 17px; flex: none; transition: transform .4s cubic-bezier(.32,.72,0,1); }
+.chrome .reset span { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width .3s cubic-bezier(.32,.72,0,1); }
+.chrome .reset.ask { background: var(--danger); color: #fff; gap: 6px; padding: 0 14px 0 12px; }
+.chrome .reset.ask span { max-width: 110px; }
+.chrome .reset.ask svg { transform: rotate(-200deg); }
 .pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
@@ -294,6 +304,7 @@ function prog(s) {
 }
 const setProg = (s, p) => store.set("p:" + s.id, p);
 const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
+const readMin = s => Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min";
 function progress(s) {
   const p = prog(s);
   return Math.min(100, Math.round(p.pos.reduce((a, b) => a + b, 0) * 100 / totalOf(s)));
@@ -328,7 +339,7 @@ function shell(content) {
 function tilesHTML(list, f) {
   return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
       ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
-      <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${progress(s) ? progress(s) + "%" : "~" + Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min"}</span></span></div></button>`).join("");
+      <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${readMin(s)}</span></span></div></button>`).join("");
 }
 /* tap opens; hold toggles favourite, and the tile's heart pops in or shrinks away in place */
 function wireCards(root) {
@@ -744,22 +755,16 @@ function sheetHTML(s) {
   const readLabel = pct >= 100 ? `${AGAIN}<span>Read again</span>` : `${PLAY}<span>${multi ? "Part " + (at + 1) : "Read"}</span>`;
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
-      <div class="cap"><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
+      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span>${readMin(s)}</small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
-      <div class="stats">
-        <div class="stat"><b>★ ${rating(s).toFixed(1)}</b><span>Rating</span></div>
-        <div class="stat"><b>~${Math.max(1, Math.round(total * 4 / 60))} min</b><span>Read</span></div>
-        <div class="stat"><b>${s.episodes.length}</b><span>${s.episodes.length > 1 ? "Parts" : "Part"}</span></div>
-        <div class="stat"><b>${total}</b><span>Messages</span></div>
-      </div>
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
       ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}"><span>Part ${i + 1}${partPct(s, pr, i) >= 1 ? ' <i class="ok">✓</i>' : ""}</span><small>${e.messages.length} messages</small></button>`).join("")}</div>` : ""}
       <button class="read" id="pv-read" style="--f:${pct >= 100 ? 0 : fillAt}">${readLabel}</button>
-      <p class="demo">Rating is a sample value in this preview.</p>
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
       <button class="back" id="pv-back" aria-label="Close" style="position:absolute;top:10px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(23,18,44,.6);display:grid;place-items:center;padding-bottom:3px">‹</button>
+      ${pct > 0 ? `<button class="reset" id="pv-reset" aria-label="Start this story over"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Start over?</span></button>` : ""}
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
 
@@ -884,6 +889,21 @@ function wire(sheet, s) {
     if (e.target.closest("button, a, input, .stats")) return;
     closeSheet(sheet);
   };
+  const reset = sheet.querySelector("#pv-reset");
+  if (reset) {
+    let askT = null;
+    reset.onclick = () => {
+      if (!reset.classList.contains("ask")) {               // first tap: ask
+        reset.classList.add("ask"); clearTimeout(askT);
+        askT = setTimeout(() => reset.classList.remove("ask"), 3000);
+        return;
+      }
+      clearTimeout(askT);                                    // second tap: clear and redraw the page
+      store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
+      sheet.innerHTML = sheetHTML(s); wire(sheet, s);
+      toast("Progress cleared");
+    };
+  }
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
   sheet.querySelector("#pv-read").onclick = () => openStory(id);
   sheet.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
