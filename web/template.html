@@ -139,11 +139,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .hero b { font-size: 26px; font-weight: 600; text-wrap: balance; }
 /* slider: the title is lettering, not a label; no rating, genre or time */
-.hero b.art { font-weight: 400; line-height: 1.05; text-shadow: 0 2px 14px rgba(0,0,0,.55); }
-.hero b.sliced { position: relative; }
-.hero b.sliced::after { content: attr(data-t); position: absolute; inset: 0; color: inherit; clip-path: polygon(0 52%, 100% 38%, 100% 100%, 0 100%); transform: translate(5px, 3px); }
-.hero b.sliced { clip-path: none; }
-.hero b.sliced > span { clip-path: polygon(0 0, 100% 0, 100% 37%, 0 51%); display: block; }
+.hero b.art { font-weight: 400; line-height: 1.05; text-shadow: 0 2px 12px rgba(0,0,0,.6); white-space: nowrap; }
+.hero .lt { position: absolute; display: block; }           /* lettering block, placed per story */
+.hero .lt span, .hero .lt i { display: inline-block; font-style: inherit; }
 .hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .chips { flex: none; display: flex; gap: 8px; overflow-x: auto; }
 .chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; }
@@ -593,8 +591,9 @@ function home() {
 
 function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
-  const heroHTML = h => { const L = LETTERING[h.id] || {}; const cls = "art" + (L.sliced ? " sliced" : "");
-    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span><div><b class="${cls}" style="${L.css || ""}" data-t="${esc(h.title)}">${L.sliced ? `<span>${esc(h.title)}</span>` : esc(h.title)}</b></div></button>`; };
+  const heroHTML = h => { const L = LETTERING[h.id];
+    const art = L ? `<span class="lt" style="${L.box}"><b class="art" style="${L.css}">${L.html ? L.html(esc(h.title)) : esc(h.title)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
+    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}</button>`; };
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
@@ -849,21 +848,48 @@ let slideTimer = null;
 /* the slider lives its own life: its clock keeps running while you are on other tabs, so coming back
    to Home it is wherever it has got to, not back at the first slide */
 const SL = { at: 0, elapsed: 0, seen: 0 };
-/* Each story's title in the slider is drawn in lettering that carries its mood */
+/* Each story's title in the slider is drawn as lettering that carries its mood: its own typeface, its own
+   place on the card, its own small trick. Nothing else is written on the card. */
+const letters = (t, f) => [...t].map((c, k, a) => c === " " ? " " : `<span style="${f(k, a.length)}">${c}</span>`).join("");
 const LETTERING = {
-  "nobodys-home": { css: "font-family:'Cormorant SC',serif;font-weight:500;font-size:30px;letter-spacing:.22em;color:#d9d4e8" },   // a quiet, empty house
-  "clown": { css: "font-family:'Rubik Wet Paint',cursive;font-size:44px;color:#e9eef8" },                                          // face paint, still wet
-  "first-impressions": { css: "font-family:'DM Serif Display',serif;font-style:italic;font-size:34px;color:#f1e6dc" },             // a dinner, best manners
-  "grave": { css: "font-family:'Cinzel',serif;font-weight:600;font-size:38px;letter-spacing:.24em;color:#d8d6d2" },                // cut into stone
-  "haunted": { css: "font-family:'IM Fell English',serif;font-style:italic;font-size:40px;color:#dcd7ea;opacity:.92" },             // old print, faded
-  "last-train-out": { css: "font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:40px;text-transform:uppercase;letter-spacing:.06em;color:#f0e7c8" },   // station board
-  "love-till-death": { css: "font-family:'Pinyon Script',cursive;font-size:44px;color:#fbd3d8" },                                  // a love letter, in blood-pink ink
-  "reunion": { css: "font-family:'Caveat',cursive;font-weight:700;font-size:42px;color:#f3ecdf;transform:rotate(-3deg);transform-origin:left bottom" },   // written in a yearbook
-  "skinless": { css: "font-family:'Rubik Distressed',sans-serif;font-size:40px;color:#e8d9d6" },                                   // torn, raw
-  "slice": { css: "font-family:'Anton',sans-serif;font-size:46px;text-transform:uppercase;letter-spacing:.04em;color:#f2f0f5", sliced: true },   // cut through
-  "the-crossroad": { css: "font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:34px;color:#f4e3ea" },  // a contract, a romance
-  "the-doctor": { css: "font-family:'Special Elite',monospace;font-size:32px;color:#dfe8e6" },                                      // a typed case file
-  "unwanted-guest": { css: "font-family:'Monoton',sans-serif;font-size:30px;line-height:1.2;color:#efe4dc" },                       // seen through the blinds
+  // a whisper in a dark doorway: tiny "nobody's" over a wide, dim "home"
+  "nobodys-home": { box: "left:0;right:0;bottom:22px;text-align:center",
+    css: "font-family:'Cormorant SC',serif;font-weight:500;color:#d9d4e8;line-height:1.1",
+    html: () => `<span style="display:block;font-size:15px;letter-spacing:.6em;margin-right:-.6em;opacity:.75">nobody’s</span><span style="display:block;font-size:44px;letter-spacing:.42em;margin-right:-.42em;opacity:.85">home</span>` },
+  // face paint, still wet, every letter at its own crooked angle
+  "clown": { box: "left:22px;top:20px", css: "font-family:'Rubik Wet Paint',cursive;font-size:58px;color:#f2f4fa",
+    html: t => letters(t, k => `transform:translateY(${[0, 8, -4, 10, 2][k % 5]}px) rotate(${[-12, 6, -4, 9, -7][k % 5]}deg)`) },
+  // best manners: small "First", tall "Impressions", set to the right
+  "first-impressions": { box: "right:20px;bottom:18px;text-align:right", css: "font-family:'DM Serif Display',serif;font-style:italic;color:#f1e6dc;line-height:.95",
+    html: () => `<span style="display:block;font-size:20px;opacity:.75">First</span><span style="display:block;font-size:40px">Impressions</span>` },
+  // cut into a headstone: centred, wide, between two hairlines
+  "grave": { box: "left:0;right:0;top:22px;text-align:center", css: "font-family:'Cinzel',serif;font-weight:600;font-size:34px;letter-spacing:.5em;margin-right:-.5em;color:#e2dfda",
+    html: t => `<span style="display:block;border-top:1px solid rgba(226,223,218,.45);border-bottom:1px solid rgba(226,223,218,.45);padding:6px 0 4px;margin:0 auto;width:max-content;padding-left:.5em">${t.toUpperCase()}</span>` },
+  // a ghost: each letter fainter and higher than the last, drifting off the top right
+  "haunted": { box: "right:22px;top:26px", css: "font-family:'IM Fell English',serif;font-style:italic;font-size:46px;color:#e4e0f0",
+    html: t => letters(t, (k, n) => `opacity:${(1 - k / n * .85).toFixed(2)};transform:translateY(${-k * 2}px)`) },
+  // a departures board: amber letters on a black plate, top left
+  "last-train-out": { box: "left:18px;top:18px", css: "font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;letter-spacing:.14em;color:#f4b740;text-shadow:none;background:rgba(10,10,12,.82);padding:6px 12px 5px;border-radius:4px",
+    html: t => t.toUpperCase() },
+  // a love letter that ends in red
+  "love-till-death": { box: "left:0;right:0;bottom:20px;text-align:center", css: "font-family:'Pinyon Script',cursive;font-size:46px;color:#fbe3e6",
+    html: () => `Love <span style="font-size:26px;opacity:.8">till</span> <span style="color:#d4606b">Death</span>` },
+  // signed in a yearbook: tilted, with a scribbled underline
+  "reunion": { box: "right:26px;bottom:24px", css: "font-family:'Caveat',cursive;font-weight:700;font-size:48px;color:#f6efe2;transform:rotate(-7deg);text-decoration:underline wavy rgba(246,239,226,.6) 2px;text-underline-offset:8px" },
+  // too big for the card, cut off by its edge, rough
+  "skinless": { box: "left:-6px;bottom:-14px", css: "font-family:'Rubik Distressed',sans-serif;font-size:84px;color:#ecdcd8;opacity:.9;letter-spacing:-.02em" },
+  // cut through: the top half slips off the bottom half
+  "slice": { box: "left:0;right:0;top:50%;transform:translateY(-50%);text-align:center", css: "font-family:'Anton',sans-serif;font-size:66px;letter-spacing:.08em;color:#f4f2f7;position:relative;display:inline-block",
+    html: t => `<span style="display:block;clip-path:polygon(0 0,100% 0,100% 46%,0 56%);transform:translateX(-4px)">${t.toUpperCase()}</span><span style="display:block;position:absolute;inset:0;clip-path:polygon(0 57%,100% 47%,100% 100%,0 100%);transform:translate(4px,1px)">${t.toUpperCase()}</span>` },
+  // a fork in the road: the two halves of the word part ways
+  "the-crossroad": { box: "left:22px;top:50%;transform:translateY(-50%)", css: "font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:40px;color:#f4e3ea;line-height:1",
+    html: () => `<span style="display:block;font-size:16px;letter-spacing:.3em;opacity:.7;margin-bottom:2px">THE</span><span style="transform:rotate(-8deg) translateY(-6px);transform-origin:right bottom">cross</span><span style="transform:rotate(9deg) translateY(4px);transform-origin:left bottom">road</span>` },
+  // typed on an old machine: letters jump a little off the line
+  "the-doctor": { box: "left:20px;bottom:20px", css: "font-family:'Special Elite',monospace;font-size:30px;color:#e6eeec",
+    html: t => letters(t, k => `transform:translateY(${[0, 1.5, -1, 2, -.5, 1, -1.5, .5, 0, 1][k % 10]}px);opacity:${[1, .85, .95, .8, 1, .9][k % 6]}`) },
+  // seen through the blinds: "unwanted" across the card, "guest" peeking in from the edge
+  "unwanted-guest": { box: "left:0;right:0;top:50%;transform:translateY(-50%)", css: "font-family:'Monoton',sans-serif;color:#f2e6dd;line-height:1.15;display:block",
+    html: () => `<span style="display:block;text-align:center;font-size:26px;letter-spacing:.12em">UNWANTED</span><span style="display:block;text-align:right;font-size:40px;margin-right:-16px">GUEST</span>` },
 };
 function startSlider() {
   cancelAnimationFrame(slideTimer);
