@@ -173,17 +173,17 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
 
 /* Menu */
-/* Menu: centred in the screen, large and calm. Subscription is a pill in the accent colour; the rest
-   are big centred words, grouped by space, with a short hairline between groups. */
-.view.menu { justify-content: center; align-items: center; gap: 0; padding-block: 24px; }
-.m-sub { flex: none; display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 999px; background: var(--accent);
-  color: #fff; font-size: 18px; font-weight: 800; box-shadow: 0 8px 24px rgba(123,87,201,.35); transition: transform .2s; margin-bottom: 26px; }
-.m-sub svg { width: 20px; height: 20px; }
-.m-sub:active { transform: scale(.97); }
-.m-list { flex: none; display: flex; flex-direction: column; align-items: center; }
-.m-row { flex: none; min-height: 54px; padding: 0 16px; font-size: 21px; font-weight: 600; color: var(--text); transition: opacity .15s; }
-.m-row:active { opacity: .55; }
-.m-sep { flex: none; width: 36px; height: 1px; background: rgba(255,255,255,.14); margin: 12px 0; }
+/* Menu: one column of equal, soft buttons centred on the screen; subscription is the filled one.
+   Groups are set apart by a little more space. Same width, same height, same type for every item. */
+.view.menu { justify-content: center; align-items: center; gap: 22px; padding-block: 24px; }
+.m-list { flex: none; width: min(300px, 100%); display: flex; flex-direction: column; gap: 10px; }
+.m-row, .m-sub { flex: none; width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 0 18px;
+  border-radius: 16px; font-size: 17px; font-weight: 700; transition: transform .15s, background .15s; }
+.m-row { background: #2e2b50; color: var(--text); }
+.m-row:active { background: #363262; transform: scale(.98); }
+.m-sub { background: var(--accent); color: #fff; box-shadow: 0 8px 22px rgba(123,87,201,.3); }
+.m-sub svg { width: 19px; height: 19px; }
+.m-sub:active { transform: scale(.98); }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -737,9 +737,8 @@ function menu() {
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
   const row = (k, name) => `<button class="m-row" id="m-${k}" data-m="${name}">${name}</button>`;
-  shell(`<button class="m-sub" id="m-sub" data-m="Subscription">${ic.sub}<span>Subscription</span></button>
-    <div class="m-list">${row("restore", "Restore Purchases")}</div><span class="m-sep" aria-hidden="true"></span>
-    <div class="m-list">${row("lang", "Language")}${row("rate", "Rate the App")}${row("share", "Share the App")}</div><span class="m-sep" aria-hidden="true"></span>
+  shell(`<div class="m-list"><button class="m-sub" id="m-sub" data-m="Subscription">${ic.sub}<span>Subscription</span></button>${row("restore", "Restore Purchases")}</div>
+    <div class="m-list">${row("lang", "Language")}${row("rate", "Rate the App")}${row("share", "Share the App")}</div>
     <div class="m-list">${row("idea", "Suggest a Story")}${row("mail", "E-mail Support")}</div>`);
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
