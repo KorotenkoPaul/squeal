@@ -43,7 +43,8 @@ problems = []
 for st in stories:
     for k, ep in enumerate(st["episodes"]):
         who = {ep["left"], ep["right"]}
-        for n, m in enumerate(ep["messages"]):
+        every = ep["messages"] + [m for node in (ep.get("nodes") or {}).values() for m in node["messages"]]   # all branches too
+        for n, m in enumerate(every):
             t, at = m["text"], "%s part %d message %d" % (st["id"], k + 1, n + 1)
             if m["from"] not in who:
                 problems.append("%s: unknown speaker %r" % (at, m["from"]))
