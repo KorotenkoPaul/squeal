@@ -1,0 +1,818 @@
+<title>Squeal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+/* Layout: the original 2018 Squeal design — indigo night, four tabs (menu, home, favourites, search) and a full-screen chat reader. */
+:root {
+  --bg: #26243f;          /* indigo night, from the original mockups */
+  --deep: #17122c;        /* card shade behind covers */
+  --tabbar: #1f1d36;
+  --field: #34315a;       /* search field, chips */
+  --text: #ffffff;
+  --muted: #9b97b3;       /* lavender captions */
+  --accent: #7b57c9;      /* favourite heart, active states */
+  --danger: #d4445f;      /* remove */
+  --them: #36335a;
+  --me: #6a4bb8;
+  --font: "Avenir Next", Avenir, "Nunito Sans", -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; background: none; border: 0; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; }
+.view { flex: 1; overflow-y: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 18px 24px; display: flex; flex-direction: column; gap: 14px; overscroll-behavior-y: contain; }
+.label { color: var(--muted); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-top: 6px; }
+
+/* Tab bar */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--tabbar);
+  padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.tabs button { display: grid; place-items: center; padding: 6px; color: #6f6b8c; }
+.tabs button[aria-current="page"] { color: var(--text); }
+.tabs svg { width: 26px; height: 26px; }
+
+/* Covers: drawn scenes, one per story */
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; }
+img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85) brightness(.9); }
+.row-card .face img.cover { left: 40%; width: 60%; }
+
+/* Home */
+.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
+.slider::-webkit-scrollbar { display: none; }
+.slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
+.dots { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
+.dots { flex: none; }
+.dots i { position: relative; width: 6px; height: 6px; border-radius: 3px; background: var(--field); overflow: hidden;
+  transition: width .45s cubic-bezier(.2,.9,.2,1), background .3s; }
+.dots i.on { width: 28px; background: rgba(255,255,255,.22); }
+.dots i.on::after { content: ""; position: absolute; inset: 0; background: var(--text); border-radius: 3px; transform-origin: left;
+  animation: fill var(--slide, 4s) linear forwards; }
+.dots.manual i.on::after { animation: none; transform: scaleX(1); }
+@keyframes fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+.preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
+.pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
+.pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
+.pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
+.pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
+.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
+.pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
+.pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
+.pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.pv-body > * { animation: up .5s cubic-bezier(.2,.9,.2,1) both; }
+.pv-body > *:nth-child(2) { animation-delay: .06s } .pv-body > *:nth-child(3) { animation-delay: .12s } .pv-body > *:nth-child(n+4) { animation-delay: .18s }
+@keyframes up { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
+.pv-body { padding: 4px max(18px, env(safe-area-inset-right, 0px)) 24px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat { background: var(--field); border-radius: 12px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.stat b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.desc { margin: 0; line-height: 1.55; color: #dcd9ea; max-width: 60ch; }
+.by { color: var(--muted); font-size: 14px; }
+.parts { display: flex; flex-direction: column; gap: 8px; }
+.part { display: flex; justify-content: space-between; align-items: center; background: var(--field); border-radius: 12px; padding: 12px 14px; text-align: left; }
+.part small { color: var(--muted); }
+.read { padding: 16px; border-radius: 14px; background: var(--accent); font-weight: 700; font-size: 17px; }
+.demo { color: #6f6b8c; font-size: 11px; text-align: center; }
+.hero { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
+.hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.95) 10%, rgba(23,18,44,0) 75%); }
+.hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.hero b { font-size: 26px; font-weight: 600; text-wrap: balance; }
+.hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.chips { flex: none; display: flex; gap: 8px; overflow-x: auto; }
+.chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--text); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
+.tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
+.tile div { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 3px 8px; border-radius: 999px; }
+.tile .fav { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
+.tile .fav svg { width: 14px; height: 14px; }
+.tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
+.tile .fav.out { animation: favOut .2s ease-in both; }
+@keyframes favPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes favOut { to { transform: scale(0); opacity: 0; } }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes toastOut { to { opacity: 0; transform: translate(-50%, 6px); } }
+.grid.swap .tile { animation: up .32s cubic-bezier(.25,.8,.25,1) both; }
+.hint { color: var(--muted); font-size: 13px; text-align: center; }
+
+/* Favourites */
+.row-card { position: relative; border-radius: 14px; overflow: hidden; touch-action: pan-y; }
+.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; padding: 0; visibility: hidden; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+.row-card .remove span { display: block; flex: none; }
+.row-card.snap .face, .row-card.snap .remove, .row-card.snap .remove span { transition: transform .34s cubic-bezier(.32,.72,0,1), width .34s cubic-bezier(.32,.72,0,1), opacity .2s; }
+.row-card.gone { transition: height .26s ease, margin .26s ease, opacity .2s; overflow: hidden; }
+.row-card .face { position: relative; display: flex; align-items: center; min-height: 110px; padding: 20px; background: var(--deep); border-radius: 14px; width: 100%; text-align: left; overflow: hidden; will-change: transform; }
+.row-card .face svg.cover { left: 40%; width: 60%; }
+.row-card .face .shade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--deep) 42%, rgba(23,18,44,0) 85%); }
+.row-card .face div { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.row-card b { font-size: 24px; font-weight: 600; }
+.row-card small { color: var(--muted); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+
+/* Search */
+.search { display: flex; align-items: center; gap: 8px; background: var(--field); border-radius: 12px; padding: 10px 12px; color: var(--muted); }
+.search svg { width: 18px; height: 18px; flex: none; }
+.search input { flex: 1; min-width: 0; color: var(--text); }
+.search input::placeholder { color: var(--muted); }
+.list { display: flex; flex-direction: column; gap: 12px; }
+.item { display: flex; align-items: center; gap: 14px; text-align: left; }
+.thumb { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: none; background: var(--deep); }
+.item div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.item b { font-size: 18px; font-weight: 600; }
+.item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+
+/* Menu */
+.menu { align-items: center; justify-content: center; gap: 0; }
+.menu button { padding: 18px 8px; font-size: 18px; width: 100%; max-width: 320px; border-bottom: 1px solid rgba(155,151,179,.12); }
+.menu button:last-of-type { border-bottom: 0; }
+.menu p { color: #6f6b8c; font-size: 12px; text-align: center; margin: 28px 0 0; max-width: 30ch; }
+
+/* Empty states */
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
+.empty svg { width: 150px; height: 160px; }
+.empty b { font-size: 20px; }
+.empty span { color: var(--muted); }
+
+/* Overlay layers: the story sheet grows out of its card; the chat slides in over it. */
+#layer { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
+#layer > * { pointer-events: auto; }
+.sheet { position: fixed; overflow: hidden; background: var(--bg); will-change: clip-path, transform; contain: layout paint; }
+.sheet.morph .pv-cover { overflow: visible; }
+.sheet .pv-body { contain: layout paint; }
+/* moving parts are their own GPU layers: they glide by fractions of a pixel instead of snapping */
+.sheet .pv-body, .sheet .cap, .sheet .chrome, .sheet .ghost, .sheet .ghost-shade, .sheet .shade, .screen { will-change: transform, opacity; backface-visibility: hidden; }
+.sheet .ghost-shade { position: absolute; pointer-events: none; transform-origin: 0 0; }
+.sheet .ghost { position: absolute; pointer-events: none; }
+.sheet .ghost > * { position: relative !important; width: 100% !important; height: 100% !important; min-height: 0 !important; background: none !important; transform: none !important; }
+.sheet { -webkit-user-select: none; user-select: none; }
+.sheet .pv-body > * { animation: none; }
+.sheet .scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior-y: contain; }
+.sheet .pv-cover { position: relative; height: 300px; min-height: 0; overflow: hidden; display: block; padding: 0; }
+.sheet .pv-cover img.cover, .sheet .pv-cover svg.cover { position: absolute; will-change: transform; }
+
+.sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 4px; transform-origin: 0 100%; }
+.sheet .cap small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.sheet .cap h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.sheet .chrome { position: absolute; inset: 0 0 auto; height: 60px; pointer-events: none; }
+.sheet .chrome > * { pointer-events: auto; }
+.sheet .cap.one h1 { white-space: nowrap; text-wrap: nowrap; }
+.sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
+.screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
+/* Pull to refresh (home) */
+.ptr { position: absolute; left: 0; right: 0; top: 0; height: 68px; transition: opacity .3s ease, transform .38s cubic-bezier(.32,.72,0,1); display: grid; place-items: center; pointer-events: none; opacity: 0; z-index: 0; }
+.owl { position: relative; width: 46px; height: 46px; border-radius: 13px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.owl img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* closed-eyes layer shows from the top down to the lid line: 25% = eyes open, 58% = shut */
+.owl .lid { clip-path: inset(0 0 calc(100% - var(--lid, 58%)) 0); }
+.ptr.spin .owl { animation: owlbob 1.4s ease-in-out infinite; }
+.ptr.spin .owl .lid { animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 0%, 38%, 62%, 100% { clip-path: inset(0 0 75% 0); } 48%, 52% { clip-path: inset(0 0 42% 0); } }
+@keyframes owlbob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-2px) rotate(-4deg); } 75% { transform: translateY(-2px) rotate(4deg); } }
+.ptr.live { transition: none; }
+.ptr.live .owl, .ptr.live .lid { transition: none; }
+.owl { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+.view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+.refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
+.refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
+/* Chat */
+.chat { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.head { display: flex; align-items: center; gap: 12px; padding: 12px max(18px, env(safe-area-inset-right, 0px)) 12px max(18px, env(safe-area-inset-left, 0px)); background: var(--tabbar); }
+.back { font-size: 30px; line-height: 1; padding: 0 6px 2px 0; color: var(--text); }
+.avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-weight: 700; flex: none; }
+.who { display: flex; flex-direction: column; min-width: 0; }
+.who b { font-weight: 600; }
+.who small { color: var(--muted); font-size: 12px; }
+.ep { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
+.intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
+.msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; animation: rise .2s ease-out both; }
+.them { align-self: flex-start; background: var(--them); border-bottom-left-radius: 5px; }
+.me { align-self: flex-end; background: var(--me); border-bottom-right-radius: 5px; }
+.typing { align-self: flex-start; background: var(--them); border-radius: 18px; padding: 12px 14px; display: flex; gap: 4px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
+.foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
+.tap { flex: 1; padding: 14px; border-radius: 14px; background: var(--field); color: var(--muted); font-weight: 600; }
+.tap.primary { background: var(--accent); color: var(--text); }
+.end { align-self: center; text-align: center; padding: 16px 8px 4px; display: flex; flex-direction: column; gap: 4px; }
+.end strong { font-size: 26px; font-weight: 700; }
+.end span { color: var(--muted); font-size: 13px; }
+.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+@keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
+</style>
+
+<div class="app" id="app"></div>
+
+<script>
+const STORIES = /*STORIES*/[];
+const GENRES = { all: "All", horror: "Horror", thriller: "Thriller", romance: "Romance" };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("squeal:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("squeal:" + k, JSON.stringify(v)); } catch {} },
+};
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ICON = {
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3.5" width="14" height="17" rx="2"/><rect x="8.5" y="7" width="7" height="4" rx="1"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
+};
+const OWL = '<svg viewBox="0 0 150 160" aria-hidden="true"><path fill="#a7a3bb" d="M30 30q45-14 90 0l-2 8q30 20 26 62-6 38-69 40-63-2-69-40-4-42 26-62z"/><circle cx="52" cy="70" r="20" fill="#26243f"/><circle cx="98" cy="70" r="20" fill="#26243f"/><circle cx="52" cy="70" r="15" fill="#a7a3bb"/><circle cx="98" cy="70" r="15" fill="#a7a3bb"/><circle cx="50" cy="76" r="6" fill="#26243f"/><circle cx="96" cy="76" r="6" fill="#26243f"/><path d="M68 84l7 9 7-9" fill="none" stroke="#26243f" stroke-width="4" stroke-linejoin="round"/><path d="M58 140v14l-6 6M58 154l6 6M92 140v14l-6 6M92 154l6 6" stroke="#a7a3bb" stroke-width="5" stroke-linecap="round" fill="none"/></svg>';
+
+/* Procedural cover scenes, so no third-party film stills are used. */
+function cover(story) {
+  if (story.cover) return `<img class="cover photo" src="${story.cover}" alt="" loading="lazy" decoding="async">`;
+  let seed = [...story.id].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const sky = story.genre === "thriller" ? ["#1c2a3d", "#0f1220"] : ["#2b1b44", "#0d0a1c"];
+  const glow = story.genre === "thriller" ? "#c9d27a" : "#e2c06a";
+  let trees = "";
+  for (let i = 0; i < 9; i++) {
+    const x = rnd() * 220, w = 3 + rnd() * 6, h = 90 + rnd() * 60;
+    trees += `<rect x="${x.toFixed(1)}" y="${(150 - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="#07050f" opacity="${(0.55 + rnd() * 0.45).toFixed(2)}"/>`;
+  }
+  const hx = 70 + rnd() * 90, scene = rnd() < 0.5
+    ? `<path d="M${hx} 118l26-20 26 20v32h-52z" fill="#0a0814"/><rect x="${hx + 20}" y="124" width="10" height="13" fill="${glow}" opacity=".85"/>`
+    : `<circle cx="${hx}" cy="44" r="16" fill="${glow}" opacity=".55"/>`;
+  const id = "f" + story.id.replace(/\W/g, "");
+  return `<svg class="cover" viewBox="0 0 220 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient></defs>
+    <rect width="220" height="150" fill="url(#${id})"/>${scene}${trees}
+    <rect y="112" width="220" height="38" fill="#b7b0d8" opacity=".07"/></svg>`;
+}
+
+const rating = s => +(4.2 + ([...s.id].reduce((a, c) => a + c.charCodeAt(0), 0) % 8) / 10).toFixed(1);
+const TOP = [...STORIES].sort((a, b) => rating(b) - rating(a) || a.title.localeCompare(b.title)).slice(0, 5);
+const app = document.getElementById("app");
+let tab = store.get("tab", "home"), genre = "all", query = "", toastTimer;
+const favs = () => store.get("favs", []);
+const totalOf = s => s.episodes.reduce((n, e) => n + e.messages.length, 0);
+function progress(s) {
+  const st = store.get("p:" + s.id, { ep: 0, i: 0 });
+  const read = s.episodes.slice(0, st.ep).reduce((n, e) => n + e.messages.length, 0) + st.i;
+  return Math.min(100, Math.round(read * 100 / totalOf(s)));
+}
+function toast(text) {
+  const gone = el => { el.style.animation = "toastOut .2s ease-in both"; setTimeout(() => el.remove(), 200); };
+  document.querySelectorAll(".toast").forEach(gone);
+  const t = document.createElement("div"); t.className = "toast"; t.textContent = text; app.appendChild(t);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => gone(t), 1800);
+}
+function toggleFav(id) {
+  const f = favs(), on = f.includes(id);
+  store.set("favs", on ? f.filter(x => x !== id) : [...f, id]);
+  toast(on ? "Removed from favourites" : "Added to favourites");
+}
+function longPress(el, fn) {
+  let t, fired = false, x0 = 0, y0 = 0;
+  el.addEventListener("pointerdown", e => { fired = false; x0 = e.clientX; y0 = e.clientY; t = setTimeout(() => { fired = true; fn(); }, 550); });
+  el.addEventListener("pointermove", e => { if (Math.hypot(e.clientX - x0, e.clientY - y0) > 8) clearTimeout(t); });   // a drag is not a long press
+  ["pointerup", "pointerleave", "pointercancel"].forEach(e => el.addEventListener(e, () => clearTimeout(t)));
+  el.addEventListener("contextmenu", e => e.preventDefault());
+  return () => fired;
+}
+
+function shell(content) {
+  app.innerHTML = `<main class="view ${tab === "menu" ? "menu" : ""}" id="view">${content}</main>
+    <nav class="tabs" aria-label="Sections">${[["menu", "Menu"], ["home", "Stories"], ["fav", "Favourites"], ["search", "Search"]].map(([k, n]) =>
+      `<button id="tab-${k}" data-tab="${k}" aria-label="${n}" ${tab === k ? 'aria-current="page"' : ""}>${ICON[k === "fav" ? "heart" : k]}</button>`).join("")}</nav>`;
+  app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
+}
+
+function tilesHTML(list, f) {
+  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
+      ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
+      <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${progress(s) ? progress(s) + "%" : "~" + Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min"}</span></span></div></button>`).join("");
+}
+/* tap opens; hold toggles favourite, and the tile's heart pops in or shrinks away in place */
+function wireCards(root) {
+  root.querySelectorAll("[data-id]").forEach(b => {
+    const pressed = longPress(b, () => {
+      toggleFav(b.dataset.id);
+      document.querySelectorAll(`.tile[data-id="${b.dataset.id}"]`).forEach(t => {
+        const h = t.querySelector(".fav");
+        if (h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+        else { t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`); }
+      });
+    });
+    b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
+  });
+}
+
+/* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
+function syncHearts() {
+  const f = favs();
+  document.querySelectorAll(".tile[data-id]").forEach(t => {
+    const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
+    if (on && !h) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
+    if (!on && h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+  });
+}
+
+function home() {
+  const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
+  shell(`<span class="label">Top rated</span>
+    <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
+    <div class="dots" id="dots">${TOP.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
+    <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
+    <div class="grid" id="grid">${tilesHTML(list, f)}</div>
+    <p class="hint">Hold your finger on a story to add it to favourites</p>`);
+  /* a genre change swaps only the grid: old tiles fade, new ones rise in; the slider is not touched */
+  app.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+    if (genre === b.dataset.g) return;
+    genre = b.dataset.g;
+    app.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.g === genre));
+    const grid = document.getElementById("grid");
+    grid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: "ease-in", fill: "forwards" }).onfinish = () => {
+      grid.innerHTML = tilesHTML(STORIES.filter(s => genre === "all" || s.genre === genre), favs());
+      grid.getAnimations().forEach(a => a.cancel());
+      grid.classList.remove("swap"); void grid.offsetWidth; grid.classList.add("swap");
+      wireCards(grid);
+    };
+  });
+  wireCards(app);
+  startSlider();
+  pullToRefresh();
+}
+
+/* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
+   the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
+const OWL_PTR = `<div class="owl"><img src="brand/owl-open.png" alt=""><img class="lid" src="brand/owl-closed.png" alt=""></div>`;
+function pullToRefresh() {
+  const view = document.getElementById("view"), LINE = 68, REST = 68;
+  app.style.position = "relative";
+  const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = OWL_PTR; ptr.setAttribute("aria-hidden", "true");
+  app.prepend(ptr); view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
+  const owl = ptr.querySelector(".owl"), lid = ptr.querySelector(".lid");
+  let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
+  const show = d => {
+    view.style.transform = d ? `translateY(${d}px)` : "";
+    const k = Math.min(1, d / LINE);
+    ptr.style.opacity = Math.min(1, d / 24);
+    ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 34}px)`;
+    if (!ptr.classList.contains("spin")) {          // the owl wakes up as you pull: grows, eyes open
+      owl.style.transform = `scale(${.55 + .45 * k}) rotate(${(1 - k) * -10}deg)`;
+      lid.style.setProperty("--lid", (58 - 33 * k) + "%");
+    }
+  };
+  /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); ptr.classList.add("live"); };
+  const move = (x, y, e) => {
+    if (y0 == null) return;
+    const raw = y - y0;
+    if (!locked) {
+      if (Math.abs(x - x0) < 6 && Math.abs(raw) < 6) return;
+      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0) { y0 = null; return; }
+      locked = true;
+    }
+    if (raw <= 0) { if (d) show(d = 0); return; }
+    if (view.scrollTop > 0) { y0 = null; return; }
+    if (e.cancelable) e.preventDefault();
+    d = 170 * (1 - Math.exp(-raw / 210));           // rubber band: easy at first, then stiffer
+    show(d);
+  };
+  const end = () => {
+    if (y0 == null) return; y0 = null;
+    ptr.classList.remove("live");
+    if (!locked) return;
+    const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
+    window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
+    view.classList.add("settle");
+    if (d < LINE) { show(d = 0); return; }        // owl shrinks and fades while the page glides back
+    busy = true; show(d = REST); owl.style.transform = ""; lid.style.setProperty("--lid", "25%"); ptr.classList.add("spin");
+    setTimeout(() => {
+      owl.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(.6)", opacity: 0 }], { duration: 260, easing: "ease-in", fill: "forwards" });
+      /* Reload: back to the first slide, fresh progress and favourites, the page glides back up and its sections rise in. */
+      clearInterval(slideTimer); show(0);
+      setTimeout(() => { home(); const v = document.getElementById("view"); v.classList.add("refreshed");
+        setTimeout(() => v.classList.remove("refreshed"), 700); }, 260);
+    }, 1400);
+  };
+  view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
+  view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
+  view.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  window.onmousemove = e => move(e.clientX, e.clientY, e); window.onmouseup = end;
+}
+
+/* Featured slider: swipe by hand, auto-advances every 4 s, pauses while touched. */
+let slideTimer = null;
+function startSlider() {
+  clearInterval(slideTimer);
+  const el = document.getElementById("slider"), dots = [...document.querySelectorAll("#dots i")];
+  if (!el) return;
+  const index = () => Math.round(el.scrollLeft / el.clientWidth);
+  let shown = 0;
+  const mark = () => { const i = index(); if (i === shown) return; shown = i;
+    dots.forEach((d, k) => { d.classList.remove("on"); if (k === i) { void d.offsetWidth; d.classList.add("on"); } }); };
+  const dotsBox = document.getElementById("dots");
+  el.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let pausedUntil = 0;
+  ["pointerdown", "touchstart", "wheel"].forEach(e => el.addEventListener(e, () => { pausedUntil = Date.now() + 6000; dotsBox.classList.add("manual"); }, { passive: true }));
+  let lastMove = Date.now();
+  slideTimer = setInterval(() => {
+    if (!document.body.contains(el)) return clearInterval(slideTimer);
+    if (Date.now() < pausedUntil || document.hidden || layer.childElementCount) { lastMove = Date.now(); return; }
+    if (dotsBox.classList.contains("manual")) {   // resume: restart the fill on the current dot
+      dotsBox.classList.remove("manual"); const d = dots[shown]; d.classList.remove("on"); void d.offsetWidth; d.classList.add("on"); lastMove = Date.now(); return; }
+    if (Date.now() - lastMove < 3950) return;
+    lastMove = Date.now();
+    el.scrollTo({ left: ((index() + 1) % dots.length) * el.clientWidth, behavior: "smooth" });
+  }, 250);
+}
+
+function favourites() {
+  const f = favs(), list = STORIES.filter(s => f.includes(s.id));
+  if (!list.length) return shell(`<div class="empty"><svg viewBox="0 0 150 120" aria-hidden="true"><rect x="10" y="20" width="56" height="56" rx="10" fill="#5f5b7d"/><rect x="10" y="84" width="56" height="34" rx="10" fill="#5f5b7d"/><rect x="74" y="84" width="56" height="34" rx="10" fill="#5f5b7d"/><rect x="72" y="2" width="74" height="74" rx="12" fill="#a7a3bb"/><circle cx="92" cy="40" r="7" fill="#8e8aa6"/><circle cx="106" cy="30" r="7" fill="#8e8aa6"/><circle cx="128" cy="40" r="11" fill="#7b57c9"/><path d="M128 46s-6-3.5-6-7.2c0-2 1.4-3.3 3-3.3 1.2 0 2.2.7 3 1.8.8-1.1 1.8-1.8 3-1.8 1.6 0 3 1.3 3 3.3 0 3.7-6 7.2-6 7.2z" fill="#fff"/></svg><b>It's empty in here :(</b><span>Hold your finger on a story</span></div>`);
+  const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
+  shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
+    `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
+      <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span><div><b>${esc(s.title)}</b><small>Completed ${progress(s)}%</small></div></button></div>`).join("")).join("") +
+    `<p class="hint">Swipe a story left to remove it</p>`);
+  /* iPhone-style swipe: the row follows the finger, the red button stretches with it;
+     pull past ~60% and let go to remove at once, or stop halfway to leave the button open. */
+  const OPEN = 96, GAP = 8;
+  const set = (card, x) => {
+    card._x = x;
+    card.querySelector(".face").style.transform = x ? `translateX(${x}px)` : "";
+    const w = Math.max(0, -x - GAP), btn = card.querySelector(".remove"), label = btn.firstElementChild;
+    btn.style.width = w + "px"; btn.style.visibility = w > 0 ? "visible" : "";
+    const k = Math.min(1, Math.max(0, (w - 24) / 56));
+    label.style.opacity = k; label.style.transform = `scale(${.85 + .15 * k})`;
+  };
+  const snap = (card, x) => { card.classList.add("snap"); set(card, x); setTimeout(() => card.classList.remove("snap"), 340); };
+  const removeRow = card => {
+    snap(card, -card.offsetWidth - GAP);
+    setTimeout(() => {
+      card.style.height = card.offsetHeight + "px"; card.classList.add("gone");
+      requestAnimationFrame(() => { card.style.height = "0px"; card.style.marginTop = card.style.marginBottom = "-6px"; card.style.opacity = "0"; });
+      setTimeout(() => { toggleFav(card.dataset.id); refresh(); }, 280);
+    }, 220);
+  };
+  const cards = [...app.querySelectorAll(".row-card")];
+  cards.forEach(card => {
+    card._x = 0;
+    let x0 = null, y0 = 0, base = 0, dragging = false, vx = 0, lastX = 0, lastT = 0;
+    card.addEventListener("pointerdown", e => {
+      cards.forEach(c => c !== card && c._x && snap(c, 0));
+      x0 = e.clientX; y0 = e.clientY; base = card._x; dragging = false; card._moved = false; vx = 0; lastX = e.clientX; lastT = e.timeStamp;
+    });
+    card.addEventListener("pointermove", e => {
+      if (x0 == null) return;
+      const dx = e.clientX - x0, dy = e.clientY - y0;
+      if (!dragging) { if (Math.abs(dx) < 8) return; if (Math.abs(dy) > Math.abs(dx)) { x0 = null; return; } dragging = true; card._moved = true; card.setPointerCapture?.(e.pointerId); }
+      const dt = e.timeStamp - lastT; if (dt > 0) vx = .7 * vx + .3 * (e.clientX - lastX) / dt; lastX = e.clientX; lastT = e.timeStamp;
+      let x = base + dx;
+      if (x > 0) x = x / 4;                     // a little resistance to the right
+      set(card, x);
+    });
+    const end = () => {
+      if (x0 == null) return; x0 = null;
+      if (!dragging) return;
+      const x = card._x;
+      if (-x > card.offsetWidth * .6) return removeRow(card);
+      const open = vx < -.4 ? true : vx > .4 ? false : -x > OPEN / 2;   // a flick wins over position
+      snap(card, open ? -(OPEN + GAP) : 0);
+    };
+    card.addEventListener("pointerup", end); card.addEventListener("pointercancel", end);
+  });
+  app.querySelectorAll("[data-open]").forEach(b => b.onclick = e => {
+    const card = b.closest(".row-card");
+    if (card._moved) { card._moved = false; return; }
+    if (card._x) return snap(card, 0);
+    preview(b.dataset.open); });
+  app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => removeRow(b.closest(".row-card")));
+}
+
+function search() {
+  const recent = store.get("recent", []).map(id => STORIES.find(s => s.id === id)).filter(Boolean);
+  const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]}</small></div></button>`;
+  const found = STORIES.filter(s => s.title.toLowerCase().includes(query.toLowerCase()));
+  shell(`<label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label>
+    <div id="results">${query ? `<div class="list">${found.map(row).join("") || '<p class="hint">Nothing found</p>'}</div>` :
+      (recent.length ? `<span class="label">Recent</span><div class="list">${recent.map(row).join("")}</div>` : "") +
+      `<span class="label">Popular</span><div class="list">${STORIES.map(row).join("")}</div>`}</div>`);
+  const q = document.getElementById("q");
+  q.oninput = () => { query = q.value; const pos = q.selectionStart; search(); const n = document.getElementById("q"); n.focus(); n.setSelectionRange(pos, pos); };
+  app.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
+}
+
+function menu() {
+  shell(["Subscription", "Language", "Rate the App", "Share the App", "Restore Purchases", "E-mail Support", "Suggest a Story"]
+    .map((n, i) => `<button id="m-${i}" data-m="${n}">${n}</button>`).join("") + `<p>For each suggested story we publish you get $20</p>`);
+  app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
+}
+
+/* ---------- Story sheet: the tapped card itself grows into the full screen and shrinks back. ---------- */
+const layer = document.createElement("div"); layer.id = "layer"; document.body.appendChild(layer);
+const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const EASE = "cubic-bezier(.25,.8,.25,1)", OPEN_MS = 400, CLOSE_MS = 340;
+const px = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+let lastCard = null;
+document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
+
+function appRect() { const a = app.getBoundingClientRect(); return { left: a.left, top: 0, width: a.width, height: innerHeight }; }
+/* The card's own dressing (its gradient, chips, heart) is laid over the card's spot on the sheet
+   and fades while the sheet opens, so the first and last frames are exactly the card. */
+function addGhost(sheet, geo, at) {
+  const coverEl = sheet.querySelector(".pv-cover"), shade = geo.el.querySelector(".shade"), cap = coverEl.querySelector(".cap");
+  const out = {};
+  if (shade) {
+    const g = document.createElement("span"); g.className = "ghost-shade"; g.style.background = getComputedStyle(shade).backgroundImage;
+    Object.assign(g.style, px(at)); coverEl.insertBefore(g, cap); out.shade = g;
+  }
+  const box = document.createElement("div"); box.className = "ghost" + (geo.el.parentElement.classList.contains("row-card") ? " row-card" : "");
+  Object.assign(box.style, px(at));
+  const c = geo.el.cloneNode(true); c.removeAttribute("id"); c.removeAttribute("data-id"); c.removeAttribute("data-open"); c.style.visibility = "visible";
+  c.querySelectorAll(".cover, .shade").forEach(n => n.remove());
+  c.querySelectorAll(".thumb").forEach(n => n.style.visibility = "hidden");
+  const t = c.querySelector("b"); if (t) t.style.visibility = "hidden";
+  box.appendChild(c); coverEl.insertBefore(box, cap); out.box = box;
+  return out;
+}
+/* The drawn picture inside a box under object-fit: cover, as a rect relative to the box. */
+function drawnRect(box, img) {
+  const nw = img.naturalWidth, nh = img.naturalHeight;
+  const pos = getComputedStyle(img).objectPosition.split(" ").map(v => parseFloat(v) / 100);
+  const k = Math.max(box.width / nw, box.height / nh), w = nw * k, h = nh * k;
+  return { left: (box.width - w) * (isNaN(pos[0]) ? .5 : pos[0]) + "px", top: (box.height - h) * (isNaN(pos[1]) ? .5 : pos[1]) + "px", width: w + "px", height: h + "px" };
+}
+/* Grow or shrink the photo as one picture: it is laid out once at its larger size and only
+   moved/scaled with transform (cheap, no re-cropping, no re-drawing), and clipped to the card's
+   photo window with clip-path, so on a phone it zooms smoothly with the frame. */
+function morphPhoto(photo, a, b, o) {
+  const boxKF = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+  if (photo.tagName !== "IMG" || !photo.naturalWidth) return photo.animate([boxKF(a), boxKF(b)], o);
+  const d = r => { const x = drawnRect(r, photo); return { left: r.left + parseFloat(x.left), top: r.top + parseFloat(x.top), width: parseFloat(x.width), height: parseFloat(x.height) }; };
+  const da = d(a), db = d(b), base = da.width > db.width ? da : db;
+  photo.style.inset = "auto";   // first: the shorthand would wipe left/top set after it
+  Object.assign(photo.style, { left: base.left + "px", top: base.top + "px", width: base.width + "px", height: base.height + "px", objectFit: "fill", transformOrigin: "0 0" });
+  const state = (box, dr) => {
+    const k = dr.width / base.width;
+    const l = (box.left - dr.left) / k, t = (box.top - dr.top) / k;
+    const r = base.width - (box.left + box.width - dr.left) / k, btm = base.height - (box.top + box.height - dr.top) / k;
+    return { transform: `translate(${dr.left - base.left}px, ${dr.top - base.top}px) scale(${k})`,
+             clipPath: `inset(${Math.max(0, t)}px ${Math.max(0, r)}px ${Math.max(0, btm)}px ${Math.max(0, l)}px)` };
+  };
+  return photo.animate([state(a, da), state(b, db)], o);
+}
+function unclip(photo) {
+  ["inset", "left", "top", "width", "height", "objectFit", "transformOrigin"].forEach(k => photo.style[k] = "");
+  Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
+}
+/* Geometry of a card: its photo, the title and its offset from the card edge. */
+function cardGeometry(card) {
+  if (card.classList.contains("thumb")) card = card.closest(".item") || card;
+  /* a search row opens as a whole row: its little photo grows, its title flies */
+  const thumb = card.querySelector(".thumb");
+  const frame = card.getBoundingClientRect();
+  const img = card.querySelector(".cover")?.getBoundingClientRect() || frame;
+  const title = card.querySelector("b");   // a search row's title flies into the page title too
+  const t = title?.getBoundingClientRect();
+  if (t) { t.w = t.width + 2; t.one = t.height < parseFloat(getComputedStyle(title).fontSize) * 1.7; }
+  const hide = [card];
+  return { frame, img: { left: img.left - frame.left, top: img.top - frame.top, width: img.width, height: img.height },
+    radius: thumb ? 12 : parseFloat(getComputedStyle(card).borderTopLeftRadius) || 14,
+    title: t ? { size: parseFloat(getComputedStyle(title).fontSize), left: t.left - frame.left, bottom: frame.bottom - t.bottom, width: t.w, one: t.one } : null,
+    el: card, hide };
+}
+
+function sheetHTML(s) {
+  const pct = progress(s), total = totalOf(s), liked = favs().includes(s.id), st = store.get("p:" + s.id, { ep: 0, i: 0 });
+  return `<div class="scroll">
+    <div class="pv-cover">${cover(s)}<span class="shade"></span>
+      <div class="cap"><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
+    <div class="pv-body">
+      <div class="stats">
+        <div class="stat"><b>★ ${rating(s).toFixed(1)}</b><span>Rating</span></div>
+        <div class="stat"><b>~${Math.max(1, Math.round(total * 4 / 60))} min</b><span>Read</span></div>
+        <div class="stat"><b>${s.episodes.length}</b><span>${s.episodes.length > 1 ? "Parts" : "Part"}</span></div>
+        <div class="stat"><b>${total}</b><span>Messages</span></div>
+      </div>
+      <p class="desc">${esc(s.description)}</p>
+      ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
+      ${s.episodes.length > 1 ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part" data-ep="${i}"><span>Part ${i + 1}</span><small>${e.messages.length} messages${i < st.ep ? " · read" : ""}</small></button>`).join("")}</div>` : ""}
+      <button class="read" id="pv-read">${pct >= 100 ? "Read again" : pct ? "Continue · " + pct + "%" : "Start reading"}</button>
+      <p class="demo">Rating is a sample value in this preview.</p>
+    </div></div>
+    <div class="chrome"><span class="pull" aria-hidden="true"></span>
+      <button class="back" id="pv-back" aria-label="Close" style="position:absolute;top:10px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(23,18,44,.6);display:grid;place-items:center;padding-bottom:3px">‹</button>
+      <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
+}
+
+/* One morph, played forwards to open and backwards to close. Nothing inside the sheet is laid out
+   again while it runs: the page sits where it ends up and is revealed through a rounded window
+   (clip-path) that grows from the card; only the photo, title and the card's dressing move, by
+   transform. So text never snaps by a pixel and nothing jumps on a slow phone. */
+function morph(sheet, geo, opening, o, from) {
+  const full = appRect(), coverEl = sheet.querySelector(".pv-cover"), photo = coverEl.querySelector(".cover");
+  const cap = sheet.querySelector(".cap"), COVER_H = coverEl.offsetHeight, W = full.width, H = full.height;
+  const f = geo.frame, at = { left: f.left - full.left, top: f.top, width: f.width, height: f.height };
+  const card = { clipPath: `inset(${at.top}px ${W - at.left - at.width}px ${H - at.top - at.height}px ${at.left}px round ${geo.radius}px)`, transform: "none" };
+  const page = from || { clipPath: "inset(0px 0px 0px 0px round 0px)", transform: "none" };
+  const play = (el, a, b) => el.animate(opening ? [a, b] : [b, a], o);
+  /* fades are written for opening; closing runs them mirrored on the same progress */
+  const fade = (el, frames) => el.animate(opening ? frames : frames.map(k => ({ ...k, offset: 1 - k.offset })).reverse(), o);
+  sheet.classList.add("morph");
+  const anims = [play(sheet, card, page)];
+  const imgBox = { left: at.left + geo.img.left, top: at.top + geo.img.top, width: geo.img.width, height: geo.img.height };
+  anims.push(opening ? morphPhoto(photo, imgBox, { left: 0, top: 0, width: W, height: COVER_H }, o)
+                     : morphPhoto(photo, { left: 0, top: 0, width: W, height: COVER_H }, imgBox, o));
+  /* the title: same text, moved and scaled from the card's title to the page's */
+  let shift = { x: 0, y: 0 };
+  if (geo.title) {
+    const k = geo.title.size / 32;
+    if (geo.title.one) cap.classList.add("one");
+    const start = { x: at.left + geo.title.left, y: at.top + at.height - geo.title.bottom }, end = { x: 18, y: COVER_H - 18 };
+    shift = { x: start.x - end.x, y: start.y - end.y };
+    anims.push(play(cap, { transform: `translate(${shift.x}px, ${shift.y}px) scale(${k})` }, { transform: "translate(0px, 0px) scale(1)" }));
+    anims.push(fade(cap.querySelector("small"), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .45 }, { opacity: 1, offset: 1 }]));
+  } else anims.push(fade(cap, [{ opacity: 0, transform: "translateY(10px)", offset: 0 }, { opacity: 0, transform: "translateY(10px)", offset: .45 }, { opacity: 1, transform: "none", offset: 1 }]));
+  /* the card's gradient stretches with the window and hands over to the page's; chips ride with the title */
+  const g = addGhost(sheet, geo, at);
+  if (g.shade) {
+    anims.push(play(g.shade, { transform: "none" }, { transform: `translate(${-at.left}px, ${-at.top}px) scale(${W / at.width}, ${COVER_H / at.height})` }));
+    anims.push(fade(g.shade, [{ opacity: 1, offset: 0 }, { opacity: 1, offset: .2 }, { opacity: 0, offset: .7 }, { opacity: 0, offset: 1 }]));
+  }
+  if (g.box) {
+    anims.push(play(g.box, { transform: "none" }, { transform: `translate(${-shift.x}px, ${-shift.y}px)` }));
+    anims.push(fade(g.box, [{ opacity: 1, offset: 0 }, { opacity: 0, offset: .35 }, { opacity: 0, offset: 1 }]));
+  }
+  anims.push(fade(coverEl.querySelector(".shade"), [{ opacity: 0, offset: 0 }, { opacity: 1, offset: .5 }, { opacity: 1, offset: 1 }]));
+  anims.push(fade(sheet.querySelector(".pv-body"), [{ opacity: 0, transform: "translateY(16px)", offset: 0 }, { opacity: 0, transform: "translateY(16px)", offset: .55 }, { opacity: 1, transform: "none", offset: 1 }]));
+  anims.push(fade(sheet.querySelector(".chrome"), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .5 }, { opacity: 1, offset: 1 }]));
+  return Promise.all(anims.map(a => a.finished)).then(() => g, () => g);
+}
+
+function preview(id) {
+  if (layer.querySelector(".sheet")) return;
+  const s = STORIES.find(x => x.id === id);
+  const card = lastCard && document.body.contains(lastCard) && !layer.contains(lastCard) ? lastCard : null; lastCard = null;
+  const sheet = document.createElement("section");
+  sheet.className = "sheet"; sheet.setAttribute("role", "dialog"); sheet.setAttribute("aria-label", s.title);
+  sheet.innerHTML = sheetHTML(s);
+  sheet.querySelector("img.cover")?.removeAttribute("loading");
+  layer.appendChild(sheet);
+  const full = appRect(), photo = sheet.querySelector(".pv-cover .cover");
+  Object.assign(sheet.style, px(full));
+  Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
+  const geo = card ? cardGeometry(card) : null;
+  sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s);
+  wire(sheet, s);
+  if (!geo || !sheet.animate || reduce()) {
+    if (sheet.animate && !reduce()) sheet.animate([{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: EASE });
+    return;
+  }
+  geo.hide.forEach(e => e.style.visibility = "hidden");
+  morph(sheet, geo, true, { duration: OPEN_MS, easing: EASE, fill: "both" }).then(g => {
+    /* settle: drop the helpers only once every part has really finished */
+    if (sheet._closing) return;
+    g.shade?.remove(); g.box?.remove(); unclip(photo); sheet.classList.remove("morph");
+    sheet.querySelector(".cap").classList.remove("one");
+    sheet.getAnimations({ subtree: true }).forEach(a => a.cancel());
+  });
+}
+
+function closeSheet(sheet, dragged) {
+  if (sheet._closing) return; sheet._closing = true;
+  const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
+  const finish = () => { (sheet._hide || []).forEach(e => e.style.visibility = ""); sheet.remove();
+    if (sheet._sig === sig(sheet._story)) return;
+    if (tab === "home") syncHearts(); else refresh(); };
+  sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
+  sheet.querySelector(".scroll").scrollTop = 0;
+  if (!sheet.animate || reduce()) return finish();
+  const vis = r => r.width > 0 && r.bottom > 0 && r.top < innerHeight;
+  if (!origin || !vis(origin.getBoundingClientRect())) {
+    sheet.style.transition = "";
+    sheet.animate([{ opacity: 1, transform: sheet.style.transform || "none" }, { opacity: 0, transform: "translateY(60px) scale(.94)" }], { duration: 260, easing: "ease-in", fill: "forwards" }).onfinish = finish;
+    return;
+  }
+  /* a drag-down hands over its current shape, so the shrink continues from under the finger */
+  const from = dragged ? { clipPath: `inset(0px 0px 0px 0px round ${parseFloat(sheet.style.borderRadius) || 0}px)`, transform: sheet.style.transform || "none" } : null;
+  sheet.style.transition = ""; sheet.style.borderRadius = "";
+  const p = morph(sheet, cardGeometry(origin), false, { duration: CLOSE_MS, easing: EASE, fill: "forwards" }, from);
+  sheet.style.transform = "";
+  p.then(finish);
+}
+
+function wire(sheet, s) {
+  const id = s.id, scroller = sheet.querySelector(".scroll");
+  sheet.querySelector("#pv-back").onclick = () => closeSheet(sheet);
+  sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
+  sheet.querySelector("#pv-read").onclick = () => { const pct = progress(s); openStory(id, pct >= 100 ? 0 : undefined); };
+  sheet.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
+  /* Swipe down from the top: the sheet follows the finger and shrinks; let go far enough and it returns to its card. */
+  let y0 = null, dy = 0;
+  const start = y => { if (scroller.scrollTop <= 0 && !sheet._closing) { y0 = y; dy = 0; } };
+  const move = (y, e) => {
+    if (y0 == null) return; dy = Math.max(0, y - y0);
+    if (dy > 0 && e.cancelable) e.preventDefault();
+    const k = 1 - Math.min(dy, 500) / 1800;
+    sheet.style.transformOrigin = "50% 0"; sheet.style.transition = "none";
+    sheet.style.transform = dy ? `translateY(${dy * .5}px) scale(${k})` : ""; sheet.style.borderRadius = dy ? Math.min(22, dy / 5) + "px" : "";
+  };
+  const end = () => {
+    if (y0 == null) return; y0 = null;
+    if (dy > 100) return closeSheet(sheet, true);
+    sheet.style.transition = "transform .32s " + EASE + ", border-radius .32s"; sheet.style.transform = ""; sheet.style.borderRadius = "";
+  };
+  sheet.addEventListener("touchstart", e => start(e.touches[0].clientY), { passive: true });
+  sheet.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
+  sheet.addEventListener("touchend", end); sheet.addEventListener("touchcancel", end);
+  sheet.addEventListener("mousedown", e => start(e.clientY));
+  sheet.addEventListener("mousemove", e => move(e.clientY, e));
+  sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
+}
+
+/* What the tab underneath shows about a story; if it did not change, the tab is left untouched. */
+const sig = s => tab === "fav" ? JSON.stringify([favs(), progress(s)]) : tab === "home" ? JSON.stringify(favs()) : "";
+
+/* Re-render the tab underneath without losing its scroll position. */
+function refresh() {
+  const view = document.getElementById("view"), slider = document.getElementById("slider");
+  const y = view ? view.scrollTop : 0, x = slider ? slider.scrollLeft : 0;
+  render();
+  const v2 = document.getElementById("view"), s2 = document.getElementById("slider");
+  if (v2) v2.scrollTop = y; if (s2) s2.scrollLeft = x;
+}
+
+function render() { clearInterval(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
+
+/* ---------- Chat: slides in from the right over the sheet, slides back out. ---------- */
+let timer = null;
+function openStory(id, epIndex) {
+  const s = STORIES.find(x => x.id === id);
+  store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
+  let st = store.get("p:" + id, { ep: 0, i: 0 });
+  if (epIndex != null) st = { ep: epIndex, i: 0 };
+  if (st.ep >= s.episodes.length) st = { ep: 0, i: 0 };
+  const ep = s.episodes[st.ep];
+  const prev = layer.querySelector(".screen"); prev?.remove();
+  const scr = document.createElement("section");
+  scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
+  scr.innerHTML = `<section class="chat">
+      <div class="head"><button class="back" id="back" aria-label="Back">‹</button><div class="avatar">${esc(ep.left[0])}</div>
+        <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
+        <span class="ep">${s.episodes.length > 1 ? "Part " + (st.ep + 1) + " of " + s.episodes.length : ""}</span></div>
+      <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
+      <div class="foot" id="foot"></div></section>`;
+  layer.appendChild(scr);
+  if (scr.animate && !reduce()) scr.animate([prev ? { opacity: 0 } : { transform: "translateX(100%)" }, prev ? { opacity: 1 } : { transform: "none" }], { duration: prev ? 200 : 340, easing: EASE });
+  const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
+  scr.querySelector("#back").onclick = () => {
+    clearTimeout(timer);
+    const sheet = layer.querySelector(".sheet");
+    const done = () => { scr.remove(); if (sheet) { const sc = sheet.querySelector(".scroll"), y = sc.scrollTop; const story = STORIES.find(x => x.id === id);
+      sheet.innerHTML = sheetHTML(story); const photo = sheet.querySelector(".pv-cover .cover"); Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
+      wire(sheet, story); sheet.querySelector(".scroll").scrollTop = y; } };
+    if (!scr.animate || reduce()) return done();
+    scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 280, easing: "cubic-bezier(.4,0,.6,1)", fill: "forwards" }).onfinish = done;
+  };
+  const add = m => { const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them"); d.textContent = m.text; log.appendChild(d); };
+  for (let k = 0; k < st.i; k++) add(ep.messages[k]);
+  log.scrollTop = log.scrollHeight;
+  let busy = false;
+  const save = () => store.set("p:" + id, st);
+  function controls() {
+    if (st.i >= ep.messages.length) {
+      const last = st.ep + 1 >= s.episodes.length;
+      log.insertAdjacentHTML("beforeend", `<div class="end"><strong>${last ? "The End" : "To be continued…"}</strong><span>${esc(s.title)}${s.episodes.length > 1 ? " · part " + (st.ep + 1) : ""}</span></div>`);
+      log.scrollTop = log.scrollHeight;
+      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${last ? "Read again" : "Restart"}</button>`;
+      const next = foot.querySelector("#next");
+      if (next) next.onclick = () => { store.set("p:" + id, { ep: st.ep + 1, i: 0 }); openStory(id, st.ep + 1); };
+      foot.querySelector("#again").onclick = () => { store.set("p:" + id, { ep: 0, i: 0 }); openStory(id, 0); };
+      if (last) { st = { ep: s.episodes.length, i: 0 }; save(); }
+      return;
+    }
+    foot.innerHTML = `<button class="tap" id="tap">Tap to continue</button>`;
+    foot.querySelector("#tap").onclick = step;
+  }
+  function step() {
+    if (busy || st.i >= ep.messages.length) return;
+    const m = ep.messages[st.i];
+    if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
+    busy = true; status.textContent = "typing…";
+    const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
+    log.appendChild(t); log.scrollTop = log.scrollHeight;
+    const delay = reduce() ? 150 : Math.min(1800, 450 + m.text.length * 22);
+    timer = setTimeout(() => { t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
+  }
+  log.onclick = step;
+  controls();
+}
+
+render();
+</script>

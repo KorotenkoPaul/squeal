@@ -156,6 +156,18 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .pv-body > * { animation: none; }
 .sheet .scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior-y: contain; }
 .sheet .pv-cover { position: relative; height: 300px; min-height: 0; overflow: hidden; display: block; padding: 0; }
+/* Still preview: one iPhone screen, nothing scrolls; the photo takes whatever height is left */
+.sheet.still .scroll { overflow: hidden; display: flex; flex-direction: column; }
+.sheet.still .pv-cover { flex: 1 1 auto; height: auto; min-height: 150px; }
+.sheet.still .pv-body { flex: none; gap: 12px; padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); }
+.sheet.still .pv-body > * { animation: none; }
+.sheet.still .stat { padding: 8px 4px; }
+.sheet.still .desc { font-size: 15px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: var(--lines, 14); -webkit-box-orient: vertical; overflow: hidden; }
+.sheet.still .parts { flex-direction: row; }
+.sheet.still .part { flex: 1; flex-direction: column; align-items: flex-start; gap: 2px; padding: 9px 12px; }
+.sheet.still .part small { font-size: 12px; }
+.sheet.still .read { padding: 14px; }
+.sheet.still .demo { display: none; }
 .sheet .pv-cover img.cover, .sheet .pv-cover svg.cover { position: absolute; will-change: transform; }
 
 .sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 4px; transform-origin: 0 100%; }
@@ -167,18 +179,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
 .screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
 /* Pull to refresh (home) */
-.ptr { position: absolute; left: 0; right: 0; top: 0; height: 68px; transition: opacity .3s ease, transform .38s cubic-bezier(.32,.72,0,1); display: grid; place-items: center; pointer-events: none; opacity: 0; z-index: 0; }
-.owl { position: relative; width: 46px; height: 46px; border-radius: 13px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
-.owl img { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* closed-eyes layer shows from the top down to the lid line: 25% = eyes open, 58% = shut */
-.owl .lid { clip-path: inset(0 0 calc(100% - var(--lid, 58%)) 0); }
-.ptr.spin .owl { animation: owlbob 1.4s ease-in-out infinite; }
-.ptr.spin .owl .lid { animation: blink 1.4s ease-in-out infinite; }
-@keyframes blink { 0%, 38%, 62%, 100% { clip-path: inset(0 0 75% 0); } 48%, 52% { clip-path: inset(0 0 42% 0); } }
-@keyframes owlbob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-2px) rotate(-4deg); } 75% { transform: translateY(-2px) rotate(4deg); } }
-.ptr.live { transition: none; }
-.ptr.live .owl, .ptr.live .lid { transition: none; }
-.owl { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+/* Home background: the owl from the app icon, eyes shut; they open only on pull to refresh. */
+#owlbg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
@@ -347,26 +349,76 @@ function home() {
 
 /* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
-const OWL_PTR = `<div class="owl"><img src="brand/owl-open.png" alt=""><img class="lid" src="brand/owl-closed.png" alt=""></div>`;
-function pullToRefresh() {
-  const view = document.getElementById("view"), LINE = 68, REST = 68;
-  app.style.position = "relative";
-  const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = OWL_PTR; ptr.setAttribute("aria-hidden", "true");
-  app.prepend(ptr); view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
-  const owl = ptr.querySelector(".owl"), lid = ptr.querySelector(".lid");
-  let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
-  const show = d => {
-    view.style.transform = d ? `translateY(${d}px)` : "";
-    const k = Math.min(1, d / LINE);
-    ptr.style.opacity = Math.min(1, d / 24);
-    ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 34}px)`;
-    if (!ptr.classList.contains("spin")) {          // the owl wakes up as you pull: grows, eyes open
-      owl.style.transform = `scale(${.55 + .45 * k}) rotate(${(1 - k) * -10}deg)`;
-      lid.style.setProperty("--lid", (58 - 33 * k) + "%");
-    }
+/* ---------- Home background and pull to refresh: the owl from the app icon ----------
+   The icon itself (same shapes, colours, two stripes each side) lies behind the home screen, its
+   stripes running on down the page; its eyes are shut. Pull down and the page slides away from the
+   eyes: they open, blink once and come back open amber-red, then close again as the page returns.
+   Only the eyelids move. Lids are the brow's own colour, so a shut eye is the brow continued. */
+const lerp = (a, b, t) => a + (b - a) * t;
+function tween(ms, ease, step) {
+  return new Promise(res => { const t0 = performance.now();
+    const f = now => { const t = Math.min(1, (now - t0) / ms); step(ease(t)); t < 1 ? requestAnimationFrame(f) : res(); };
+    requestAnimationFrame(f); });
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const easeIn = t => t * t, easeOut = t => 1 - (1 - t) * (1 - t);
+
+function owlBackground() {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.id = "owlbg"; svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("viewBox", "0 0 800 2080"); svg.setAttribute("preserveAspectRatio", "xMidYMin slice");
+  /* a lid is a big tilted ellipse that slides down over the eye along the eye's slant */
+  const EYES = [{ c: [185, 328], rot: 30 }, { c: [615, 328], rot: -30 }];
+  svg.innerHTML = `<defs>
+      <mask id="ob-lids" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="800">
+        <rect width="800" height="800" fill="#fff"/>
+        ${EYES.map(() => `<ellipse rx="270" ry="190" fill="#000"/>`).join("")}
+      </mask>
+      <filter id="ob-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+    <image href="brand/owl-bg.png" width="800" height="2080"/>
+    <g mask="url(#ob-lids)">
+      <image href="brand/owl-eyes.png" width="800" height="800"/>
+      <g id="ob-evil" opacity="0">
+        <image href="brand/owl-evil.png" width="800" height="800" filter="url(#ob-glow)" opacity=".9"/>
+        <image href="brand/owl-evil.png" width="800" height="800"/>
+      </g>
+    </g>`;
+  const lids = [...svg.querySelectorAll("#ob-lids ellipse")], evil = svg.querySelector("#ob-evil");
+  /* t = 1 shut, 0 open */
+  const setLids = t => lids.forEach((el, i) => {
+    const e = EYES[i], n = [-Math.sin(e.rot * Math.PI / 180), Math.cos(e.rot * Math.PI / 180)], D = 240 * (1 - t);
+    const x = e.c[0] - n[0] * D, y = e.c[1] - n[1] * D + 10;
+    el.setAttribute("cx", x); el.setAttribute("cy", y); el.setAttribute("transform", `rotate(${e.rot} ${x} ${y})`);
+  });
+  setLids(1);
+  return {
+    svg,
+    async wake() {
+      await tween(280, easeOut, t => setLids(1 - t));            // open
+      await wait(260);
+      await tween(120, easeIn, setLids);                         // blink: shut…
+      evil.setAttribute("opacity", 1);
+      await wait(60);
+      await tween(220, easeOut, t => setLids(1 - t));            // …and open, amber-red
+    },
+    async sleep() {
+      await tween(320, t => t * t * (3 - 2 * t), setLids);       // close slowly
+      evil.setAttribute("opacity", 0);
+    },
   };
+}
+
+function pullToRefresh() {
+  const view = document.getElementById("view"), LINE = 140, REST = 250;
+  app.style.position = "relative";
+  const owl = owlBackground(); app.prepend(owl.svg);
+  view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "transparent";
+  let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
+  const show = d => { view.style.transform = d ? `translateY(${d}px)` : ""; };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
-  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); ptr.classList.add("live"); };
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
   const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
@@ -378,25 +430,26 @@ function pullToRefresh() {
     if (raw <= 0) { if (d) show(d = 0); return; }
     if (view.scrollTop > 0) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
-    d = 170 * (1 - Math.exp(-raw / 210));           // rubber band: easy at first, then stiffer
+    d = 300 * (1 - Math.exp(-raw / 320));           // rubber band: easy at first, then stiffer
     show(d);
   };
-  const end = () => {
+  const end = async () => {
     if (y0 == null) return; y0 = null;
-    ptr.classList.remove("live");
     if (!locked) return;
     const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
     window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
     view.classList.add("settle");
-    if (d < LINE) { show(d = 0); return; }        // owl shrinks and fades while the page glides back
-    busy = true; show(d = REST); owl.style.transform = ""; lid.style.setProperty("--lid", "25%"); ptr.classList.add("spin");
-    setTimeout(() => {
-      owl.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(.6)", opacity: 0 }], { duration: 260, easing: "ease-in", fill: "forwards" });
-      /* Reload: back to the first slide, fresh progress and favourites, the page glides back up and its sections rise in. */
-      clearInterval(slideTimer); show(0);
-      setTimeout(() => { home(); const v = document.getElementById("view"); v.classList.add("refreshed");
-        setTimeout(() => v.classList.remove("refreshed"), 700); }, 260);
-    }, 1400);
+    if (d < LINE) { show(d = 0); return; }    // not far enough: the page glides back, the owl sleeps on
+    busy = true; show(d = REST);
+    await wait(200);
+    await owl.wake();
+    await wait(700);
+    await owl.sleep();
+    /* reload: the page glides back over the owl, then its sections rise in */
+    clearInterval(slideTimer); show(0);
+    await wait(380);
+    home(); const v = document.getElementById("view"); v.classList.add("refreshed");
+    setTimeout(() => v.classList.remove("refreshed"), 700);
   };
   view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
@@ -655,6 +708,9 @@ function morph(sheet, geo, opening, o, from) {
   return Promise.all(anims.map(a => a.finished)).then(() => g, () => g);
 }
 
+/* The card-morph opening (card grows into the page) is kept but switched off for now; true brings it back. */
+const CARD_MORPH = false;
+
 function preview(id) {
   if (layer.querySelector(".sheet")) return;
   const s = STORIES.find(x => x.id === id);
@@ -670,6 +726,7 @@ function preview(id) {
   const geo = card ? cardGeometry(card) : null;
   sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s);
   wire(sheet, s);
+  if (!CARD_MORPH) { sheet.classList.add("still"); return; }   // appears at once, full screen
   if (!geo || !sheet.animate || reduce()) {
     if (sheet.animate && !reduce()) sheet.animate([{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: EASE });
     return;
@@ -692,7 +749,7 @@ function closeSheet(sheet, dragged) {
     if (tab === "home") syncHearts(); else refresh(); };
   sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
   sheet.querySelector(".scroll").scrollTop = 0;
-  if (!sheet.animate || reduce()) return finish();
+  if (!CARD_MORPH || !sheet.animate || reduce()) return finish();
   const vis = r => r.width > 0 && r.bottom > 0 && r.top < innerHeight;
   if (!origin || !vis(origin.getBoundingClientRect())) {
     sheet.style.transition = "";
@@ -707,7 +764,18 @@ function closeSheet(sheet, dragged) {
   p.then(finish);
 }
 
+/* Fit the still page to one screen: the photo gives way first (down to its minimum), then the
+   description loses lines from the end, only as many as needed. */
+function fitStill(sheet) {
+  if (!sheet.classList.contains("still")) return;
+  const sc = sheet.querySelector(".scroll"), desc = sheet.querySelector(".desc");
+  if (!desc) return;
+  let n = 14; desc.style.setProperty("--lines", n);
+  while (sc.scrollHeight > sc.clientHeight + 1 && n > 2) desc.style.setProperty("--lines", --n);
+}
+
 function wire(sheet, s) {
+  requestAnimationFrame(() => fitStill(sheet));
   const id = s.id, scroller = sheet.querySelector(".scroll");
   sheet.querySelector("#pv-back").onclick = () => closeSheet(sheet);
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
@@ -718,6 +786,7 @@ function wire(sheet, s) {
   const start = y => { if (scroller.scrollTop <= 0 && !sheet._closing) { y0 = y; dy = 0; } };
   const move = (y, e) => {
     if (y0 == null) return; dy = Math.max(0, y - y0);
+    if (!CARD_MORPH) { if (dy > 0 && e.cancelable) e.preventDefault(); if (dy > 80) { y0 = null; closeSheet(sheet); } return; }
     if (dy > 0 && e.cancelable) e.preventDefault();
     const k = 1 - Math.min(dy, 500) / 1800;
     sheet.style.transformOrigin = "50% 0"; sheet.style.transition = "none";
