@@ -228,6 +228,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile, .hero { transition: transform .3s cubic-bezier(.25,.8,.25,1); }
 .tile.pressing, .hero.pressing { transform: scale(.96); transition-duration: .5s; }
 .tile .fav { z-index: 2; }
+.ring { position: absolute; top: 9px; left: 9px; z-index: 2; width: 28px; height: 28px; border-radius: 50%; background: rgba(23,18,44,.62);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 2px; width: 24px; height: 24px; transform: rotate(-90deg); }
+.ring .tr { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 2.4; }
+.ring .fl { fill: none; stroke: #b9a3ff; stroke-width: 2.4; stroke-linecap: round; stroke-dashoffset: var(--off); animation: ringIn .9s cubic-bezier(.25,.8,.25,1) both; }
+@keyframes ringIn { from { stroke-dashoffset: 56.6; } }
+.ring b { position: relative; font-size: 11px; font-weight: 800; color: #fff; line-height: 1; }
+@media (prefers-reduced-motion: reduce) { .ring .fl { animation: none; } }
 .tile .fav.pop { animation: favIn .3s ease-out both; }
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
@@ -435,8 +443,18 @@ function shell(content) {
   app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
 }
 
+/* Progress on a tile: a small ring in the top-left corner fills with how much of the last part you
+   read; for a story in parts the part's number sits inside. Nothing shows until you start reading. */
+function ringHTML(s) {
+  const p = prog(s), k = p.ep, f = partPct(s, p, k);
+  if (!f && !p.pos.some(Boolean)) return "";
+  const C = 2 * Math.PI * 9;
+  return `<span class="ring" aria-label="${s.episodes.length > 1 ? "Part " + (k + 1) + ", " : ""}${Math.round(f * 100)}% read">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" class="tr"/><circle cx="12" cy="12" r="9" class="fl" style="stroke-dasharray:${C.toFixed(1)};--off:${(C * (1 - f)).toFixed(1)}"/></svg>
+    ${s.episodes.length > 1 ? `<b>${k + 1}</b>` : f >= 1 ? "<b>✓</b>" : ""}</span>`;
+}
 function tilesHTML(list, f) {
-  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
+  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>${ringHTML(s)}
       ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
       <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${readMin(s)}</span></span></div></button>`).join("");
 }
@@ -463,6 +481,11 @@ function wireCards(root) {
 
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
+  document.querySelectorAll(".tile[data-id]").forEach(t => {
+    const s = STORIES.find(x => x.id === t.dataset.id), old = t.querySelector(".ring"), html = ringHTML(s);
+    if (old) old.remove();
+    if (html) t.querySelector(".shade").insertAdjacentHTML("afterend", html);
+  });
   const f = favs();
   document.querySelectorAll(".tile[data-id]").forEach(t => {
     const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
@@ -1200,7 +1223,7 @@ function wire(sheet, s) {
 }
 
 /* What the tab underneath shows about a story; if it did not change, the tab is left untouched. */
-const sig = s => tab === "fav" ? JSON.stringify([favs(), progress(s)]) : tab === "home" ? JSON.stringify(favs()) : "";
+const sig = s => tab === "fav" ? JSON.stringify([favs(), progress(s)]) : tab === "home" ? JSON.stringify([favs(), store.get("p:" + s.id, null)]) : "";
 
 /* Re-render the tab underneath without losing its scroll position. */
 function refresh() {
