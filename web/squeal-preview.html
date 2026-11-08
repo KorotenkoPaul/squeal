@@ -153,18 +153,18 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile div { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .tile b { font-size: 17px; font-weight: 600; line-height: 1.2; }
 .pills { display: flex; gap: 6px; flex-wrap: wrap; }
-.pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 3px 8px; border-radius: 999px; }
+.pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 4px 8px 2px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
 .tile .fav { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
 .tile .fav svg { width: 14px; height: 14px; }
 .tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
 .tile .fav.out { animation: favOut .2s ease-in both; }
 .tile .fav { cursor: pointer; }
-.pill.pad { display: inline-grid; place-items: center; padding-inline: 8px; }
+.pill.pad { display: inline-grid; place-items: center; padding: 3px 8px; }
 .pill.pad svg { width: 17px; height: 17px; display: block; }
-.padmark { display: inline-flex; vertical-align: -.22em; }
+.padmark { display: inline-flex; vertical-align: -.3em; }
 .padmark svg { width: 1.3em; height: 1.3em; }
-/* story page caption is a centred flex row: there the glyph (drawn low in its box) sat under the middle of the capitals, so lift it */
-.cap .padmark svg { transform: translateY(-.17em); }
+/* the story page caption is a centred flex row, and capitals sit above the middle of a line: lift the badge to them */
+.cap .padmark svg { transform: translateY(-.08em); }
 /* interactive chat: when it's your turn, your possible replies stand in for "Tap to continue" */
 .foot.choose { flex-direction: column; gap: 8px; }
 .choice { width: 100%; text-align: left; padding: 12px 14px; border-radius: 16px; border: 1.5px solid #9b7ff0; color: var(--text); font-size: 15px; line-height: 1.3; background: transparent; }
@@ -445,7 +445,7 @@ const store = {
 };
 const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ICON = {
-  pad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.5 2.5 0 0 1-4.3.9L14.7 16H9.3l-1.9 2.3a2.5 2.5 0 0 1-4.3-.9l-.9-3A5 5 0 0 1 7 8z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="15.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/></svg>',
+  pad: '<svg viewBox="0 1.6 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.5 2.5 0 0 1-4.3.9L14.7 16H9.3l-1.9 2.3a2.5 2.5 0 0 1-4.3-.9l-.9-3A5 5 0 0 1 7 8z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="15.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/></svg>',
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3.5" width="14" height="17" rx="2"/><rect x="8.5" y="7" width="7" height="4" rx="1"/></svg>',
   heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>',
