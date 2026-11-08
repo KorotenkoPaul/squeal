@@ -516,7 +516,7 @@ function tileProgress(s) {
 /* after reading: every progress line on the page catches up with what was saved, in place */
 function syncBars(root = document) {
   root.querySelectorAll("[data-id]").forEach(el => {
-    const host = el.matches(".tile, .hero") ? el : el.querySelector(".thumb, .face");
+    const host = el.matches(".tile") ? el : el.querySelector(".thumb, .face");
     if (!host) return;
     const s = STORIES.find(x => x.id === el.dataset.id); if (!s) return;
     const old = host.querySelector(":scope > .bar"), html = tileProgress(s);
@@ -585,7 +585,7 @@ function home() {
 
 function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
-  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span>${tileProgress(h)}<div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
+  const heroHTML = h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`;
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
@@ -833,6 +833,9 @@ function pullToRefresh() {
 
 /* Featured slider: swipe by hand or let it turn every 4 s; touching it does not stop it. */
 let slideTimer = null;
+/* the slider lives its own life: its clock keeps running while you are on other tabs, so coming back
+   to Home it is wherever it has got to, not back at the first slide */
+const SL = { at: 0, elapsed: 0, seen: 0 };
 function startSlider() {
   cancelAnimationFrame(slideTimer);
   const el = document.getElementById("slider"), box = document.getElementById("dots");
@@ -842,12 +845,17 @@ function startSlider() {
      reaching the copy it quietly jumps back to the real first card (they look the same) */
   const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let at = 0, since = performance.now(), last = since, held = false;
+  let at = 0, since = performance.now(), last = since, held = false, placed = false;
+  if (SL.seen) {                                          // catch up on the time spent away
+    const total = SL.elapsed + Math.max(0, Date.now() - SL.seen);
+    at = (SL.at + Math.floor(total / SLIDE)) % n; since -= total % SLIDE;
+  }
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
   ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach(e => el.addEventListener(e, () => held = false, { passive: true }));
   const frame = now => {
     if (!document.body.contains(el)) return;
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
+    if (!placed) { placed = true; if (at) { el.style.scrollBehavior = "auto"; el.scrollLeft = at * step; el.style.scrollBehavior = ""; } }
     let p = Math.max(0, Math.min(n, el.scrollLeft / step));
     if (p >= n - .001 && !held) { el.scrollLeft -= n * step; p = 0; }                     // on the copy: back to the real first
     const wrap = p > n - 1;                                                               // between the last card and the copy
@@ -874,6 +882,7 @@ function startSlider() {
     if (busy) since += now - last;                                     // hidden, covered or held: time stands still
     last = now;
     const t = Math.min(1, (now - since) / SLIDE);
+    SL.at = cur; SL.elapsed = Math.min(SLIDE, now - since); SL.seen = Date.now();
     fill.style.transform = `scaleX(${settled ? t : 0})`;
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
