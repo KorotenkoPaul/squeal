@@ -180,8 +180,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
 /* Pull to refresh (home) */
 /* Pull to refresh: just the owl's eyes, small, in the gap above the page */
-.ptr { position: absolute; left: 0; right: 0; top: 0; height: 76px; display: grid; place-items: center; pointer-events: none; z-index: 0; opacity: 0; }
-.ptr svg { width: 74px; height: auto; display: block; overflow: visible; }
+.ptr { position: absolute; left: 0; right: 0; top: 0; height: 76px; pointer-events: none; z-index: 0; transform: translateY(-76px); will-change: transform; }
+.ptr.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+.ptr svg { position: absolute; left: 50%; top: 24px; width: 74px; height: auto; margin-left: -37px; display: block; overflow: visible; }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
@@ -351,7 +352,7 @@ function home() {
 /* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
 /* ---------- Pull to refresh: the owl's eyes ----------
-   Pull the page down and the owl's eyes from the icon appear in the gap and open as you pull.
+   Pull the page down and the owl's eyes come down from above the screen with it, opening as you pull.
    Let go past the line: they blink once and open amber / red, then shut and the page returns.
    The eyelid hides the whole eye; the shadow from the brow stays on top, open or shut. */
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -364,26 +365,26 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 const easeIn = t => t * t, easeOut = t => 1 - (1 - t) * (1 - t);
 
 function owlEyes() {
-  /* art: the icon's eye band (x 50-974, y 250-590 of the 1024 icon) drawn 360 x 132 */
+  /* art: the icon's eyes and the brow's shadow (x 50-974, y 250-730 of the 1024 icon) drawn 360 x 187 */
   const S = 360 / 924, U = (x, y) => [(x - 50) * S, (y - 250) * S];
   const EYES = [{ c: U(236.8, 419.8), rot: 30 }, { c: U(787.2, 419.8), rot: -30 }];
   const RX = 345.6 * S, RY = 243.2 * S, TRAVEL = 307.2 * S;
   const wrap = document.createElement("div"); wrap.className = "ptr"; wrap.setAttribute("aria-hidden", "true");
-  wrap.innerHTML = `<svg viewBox="0 0 360 132">
+  wrap.innerHTML = `<svg viewBox="0 0 360 187">
       <defs>
-        <mask id="pe-lids" maskUnits="userSpaceOnUse" x="-40" y="-40" width="440" height="212">
-          <rect x="-40" y="-40" width="440" height="212" fill="#fff"/>${EYES.map(() => `<ellipse rx="${RX}" ry="${RY}" fill="#000"/>`).join("")}
+        <mask id="pe-lids" maskUnits="userSpaceOnUse" x="-40" y="-40" width="440" height="267">
+          <rect x="-40" y="-40" width="440" height="267" fill="#fff"/>${EYES.map(() => `<ellipse rx="${RX}" ry="${RY}" fill="#000"/>`).join("")}
         </mask>
         <filter id="pe-glow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
       </defs>
       <g mask="url(#pe-lids)">
-        <image href="brand/eyes-base.png" width="360" height="132"/>
+        <image href="brand/eyes-base.png" width="360" height="187"/>
         <g id="pe-evil" opacity="0">
-          <image href="brand/eyes-evil.png" width="360" height="132" filter="url(#pe-glow)" opacity=".85"/>
-          <image href="brand/eyes-evil.png" width="360" height="132"/>
+          <image href="brand/eyes-evil.png" width="360" height="187" filter="url(#pe-glow)" opacity=".85"/>
+          <image href="brand/eyes-evil.png" width="360" height="187"/>
         </g>
       </g>
-      <image href="brand/eyes-shadow.png" width="360" height="132"/>
+      <image href="brand/eyes-shadow.png" width="360" height="187"/>
     </svg>`;
   const lids = [...wrap.querySelectorAll("#pe-lids ellipse")], evil = wrap.querySelector("#pe-evil");
   /* t = 1 shut, 0 open: each lid is a big tilted ellipse sliding along the eye's slant */
@@ -414,8 +415,8 @@ function pullToRefresh() {
   const show = (d, live) => {
     view.style.transform = d ? `translateY(${d}px)` : "";
     const k = Math.min(1, d / LINE);
-    eyes.el.style.transition = live ? "none" : "opacity .3s ease";
-    eyes.el.style.opacity = Math.min(1, d / 30);
+    eyes.el.style.transform = `translateY(${d - REST}px)`;          // the eyes ride just above the page's top edge
+    eyes.el.classList.toggle("settle", !live);
     if (live) eyes.setLids(1 - k * k);                            // the eyes open as you pull
   };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
