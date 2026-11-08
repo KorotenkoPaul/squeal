@@ -427,7 +427,8 @@ function morphPhoto(photo, a, b, o) {
   if (photo.tagName !== "IMG" || !photo.naturalWidth) return photo.animate([boxKF(a), boxKF(b)], o);
   const d = r => { const x = drawnRect(r, photo); return { left: r.left + parseFloat(x.left), top: r.top + parseFloat(x.top), width: parseFloat(x.width), height: parseFloat(x.height) }; };
   const da = d(a), db = d(b), base = da.width > db.width ? da : db;
-  Object.assign(photo.style, { left: base.left + "px", top: base.top + "px", width: base.width + "px", height: base.height + "px", objectFit: "fill", transformOrigin: "0 0", inset: "auto" });
+  photo.style.inset = "auto";   // first: the shorthand would wipe left/top set after it
+  Object.assign(photo.style, { left: base.left + "px", top: base.top + "px", width: base.width + "px", height: base.height + "px", objectFit: "fill", transformOrigin: "0 0" });
   const state = (box, dr) => {
     const k = dr.width / base.width;
     const l = (box.left - dr.left) / k, t = (box.top - dr.top) / k;
@@ -438,7 +439,7 @@ function morphPhoto(photo, a, b, o) {
   return photo.animate([state(a, da), state(b, db)], o);
 }
 function unclip(photo) {
-  ["left", "top", "width", "height", "objectFit", "transformOrigin", "inset"].forEach(k => photo.style[k] = "");
+  ["inset", "left", "top", "width", "height", "objectFit", "transformOrigin"].forEach(k => photo.style[k] = "");
   Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
 }
 /* Geometry of a card: its photo, the title and its offset from the card edge. */
@@ -521,7 +522,11 @@ function preview(id) {
   }
   body.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 0, offset: .3 }, { opacity: 1, transform: "none" }], o);
   chrome.animate([{ opacity: 0 }, { opacity: 0, offset: .5 }, { opacity: 1 }], o);
-  setTimeout(() => { ghosts.forEach(g => g.remove()); unclip(photo); sheet.getAnimations({ subtree: true }).forEach(a => a.cancel()); cap.classList.remove("one"); scroller.style.width = ""; }, OPEN_MS + 20);
+  /* Clean up only when every part has really finished (a slow phone must not cut it short). */
+  const anims = sheet.getAnimations({ subtree: true });
+  Promise.all(anims.map(a => a.finished)).then(() => {
+    ghosts.forEach(g => g.remove()); unclip(photo); anims.forEach(a => a.cancel()); cap.classList.remove("one"); scroller.style.width = "";
+  }).catch(() => {});
 }
 
 function closeSheet(sheet, fromRect) {
