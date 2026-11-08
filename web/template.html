@@ -99,11 +99,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .part > * { position: relative; }
 /* water: the part fills from the bottom up to how much of it is read; a wave rolls on the surface */
 .part .water { position: absolute; inset: 0; pointer-events: none; }
-.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: rgba(155,127,240,.32);
+.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: #554a8a;
   animation: rise .9s cubic-bezier(.25,.8,.25,1) both; }
 .part .water i::before { content: ""; position: absolute; left: 0; bottom: 100%; width: 200%; height: 7px; margin-bottom: -1px;
   scale: 1 1; transform-origin: 50% 100%;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'><path d='M-2 4 Q10 0 20 4 T42 4 V8 H-2Z' fill='rgba(155,127,240,0.32)'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear 2, calm 2.4s cubic-bezier(.4,0,.2,1) .4s forwards; }
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8' preserveAspectRatio='none'><path d='M-2 4 Q10 0 20 4 T42 4 V8 H-2Z' fill='%23554a8a'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear 3, calm 2.4s cubic-bezier(.4,0,.2,1) 1.4s forwards; }
 .part.done .water i::before { display: none; }
 @keyframes rise { from { height: 0; } }
 @keyframes wave { to { transform: translateX(-40px); } }
