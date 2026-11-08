@@ -224,11 +224,13 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .empty > :nth-child(2) { animation-delay: .1s; }
 /* the picture acts out adding a favourite: all four squares the same; one is held, it grows a little,
    sinks under the finger, settles, and the heart appears in its corner (the app's own favourite move) */
-.empty .held { transform-box: view-box; transform-origin: 48px 60px; animation: holdSq 1.6s cubic-bezier(.25,.8,.25,1) .7s both; }
-.empty .held .sq { fill: #a7a3bb; animation: holdCol 1.6s ease .7s both; }
-.empty .held .hb { transform-box: fill-box; transform-origin: center; animation: favIn .3s ease-out 2.05s both; }
-@keyframes holdSq { 0% { transform: scale(.714); } 45% { transform: scale(1.04); } 68% { transform: scale(.96); } 85%, 100% { transform: scale(1); } }
-@keyframes holdCol { 0% { fill: #5f5b7d; } 40%, 100% { fill: #a7a3bb; } }
+.empty .held { transform-box: view-box; transform-origin: 48px 60px; animation: holdSq 2.6s cubic-bezier(.25,.8,.25,1) .4s infinite both; }
+.empty .held .sq { fill: #5f5b7d; animation: holdCol 2.6s ease .4s infinite both; }
+.empty .held .hb { transform-box: fill-box; transform-origin: center; animation: holdHeart 2.6s ease-out .4s infinite both; }
+/* one square rises, the heart appears on it, it settles back into its place with the heart; then again */
+@keyframes holdSq { 0%, 8% { transform: scale(.714); } 26% { transform: scale(1.03); } 32%, 58% { transform: scale(1); } 76%, 100% { transform: scale(.714); } }
+@keyframes holdCol { 0%, 8% { fill: #5f5b7d; } 26%, 58% { fill: #a7a3bb; } 76%, 100% { fill: #6c6890; } }
+@keyframes holdHeart { 0%, 32% { opacity: 0; transform: scale(.6); } 40% { opacity: 1; transform: scale(1); } 90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .empty .held, .empty .held .sq, .empty .held .hb { animation: none; } } .empty > :nth-child(3) { animation-delay: .18s; }
 @keyframes emptyIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 /* adding a favourite, minimal: the card sinks under the finger while held, settles back when it
