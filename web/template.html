@@ -348,8 +348,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ep-seg button[aria-selected="true"] { color: #fff; }
 .ep-seg button:focus-visible { outline: 2px solid #b9a3ff; outline-offset: 1px; }
 .ep-ind { position: absolute; top: 3px; left: 3px; width: 30px; height: 30px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #9b7ff0, #6a4bb8 70%); box-shadow: 0 0 12px rgba(155,127,240,.55);
-  transition: transform .32s cubic-bezier(.32,.72,0,1); }
+  background: var(--accent); transition: transform .32s cubic-bezier(.32,.72,0,1); }
+.ep-seg { touch-action: none; }
+.ep-seg.drag .ep-ind { transition: none; }
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 .msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; animation: rise .2s ease-out both; }
@@ -360,6 +361,22 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
+/* Free taps: a quiet counter beside "Tap to continue"; each tap rolls the number down by one (old digit
+   slides up and out, new one comes up from below); it turns red at 10 and under. Subscribers don't see it. */
+.foot.hint { position: relative; }
+.taps { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; display: flex; align-items: baseline; gap: 5px; color: var(--muted);
+  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transform: translateY(-50%); margin-top: -1px; }
+.taps .num { position: relative; display: inline-block; height: 1.2em; min-width: 1.6em; overflow: hidden; text-align: right; font-size: 15px;
+  font-variant-numeric: tabular-nums; color: #e4dbff; line-height: 1.2; }
+.taps .num i { position: absolute; right: 0; top: 0; font-style: normal; }
+.taps .num i.out { animation: tapOut .35s cubic-bezier(.4,0,.2,1) forwards; }
+.taps .num i.in { animation: tapIn .35s cubic-bezier(.25,.8,.25,1) both; }
+.taps.low .num { color: var(--red); }
+@keyframes tapOut { to { transform: translateY(-110%); opacity: 0; } }
+@keyframes tapIn { from { transform: translateY(110%); opacity: 0; } }
+.paywall { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+.paywall span { color: var(--muted); font-size: 14px; }
+.paywall button { padding: 13px 28px; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 16px; }
 .cont { color: var(--muted); opacity: .9; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 /* after 10 s without a tap it starts to breathe, as a gentle nudge */
 .foot.idle .cont { animation: breathe 2.4s ease-in-out infinite; }
@@ -1056,7 +1073,11 @@ function menu() {
   };
   const row = name => `<button class="m-row" data-m="${name}">${name}</button>`;
   shell(["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"].map(row).join("").replace('class="m-row" data-m="Subscription"', 'class="m-row sub" data-m="Subscription"'));
-  app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
+  app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => {
+    if (b.dataset.m === "Subscription") { const on = !premium(); store.set("premium", on); if (!on) store.set("taps", FREE_TAPS);
+      return toast(on ? "Demo: subscribed — no tap limit" : "Demo: free reader — " + FREE_TAPS + " taps"); }
+    toast(b.dataset.m + " — in the iPhone app");
+  });
 }
 
 /* ---------- Story sheet: the tapped card itself grows into the full screen and shrinks back. ---------- */
@@ -1365,6 +1386,12 @@ function refresh() {
 function render() { cancelAnimationFrame(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
 
 /* ---------- Chat: slides in from the right over the sheet, slides back out. ---------- */
+/* Free readers get a number of taps (one per message); subscribers read without limit. In the web preview
+   the Menu's "Subscription" switches a demo subscription on and off. In the app: the same rule, with the
+   subscription from the App Store and the tap balance kept on the device (and server). */
+const FREE_TAPS = 100;
+const premium = () => store.get("premium", false);
+const freeTaps = () => store.get("taps", FREE_TAPS);
 let timer = null;
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
@@ -1399,16 +1426,39 @@ function openStory(id, epIndex) {
     if (!scr.animate || reduce()) return finish();
     scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 300, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = finish;
   };
-  /* part switch: the lit disc glides to the tapped number, then that part opens */
-  scr.querySelectorAll(".ep-seg [data-ep]").forEach(btn => btn.onclick = e => {
-    e.stopPropagation();
-    const k = +btn.dataset.ep;
+  /* part switch: tap a number, or drag the disc along the numbers; it follows the finger and on letting
+     go settles on the nearest part, which then opens */
+  const seg = scr.querySelector(".ep-seg");
+  const goPart = k => {
+    scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === k));
+    scr.querySelector(".ep-ind").style.transform = `translateX(${k * 34}px)`;
     if (k === st.ep) return;
     clearTimeout(timer);
-    scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", x === btn));
-    scr.querySelector(".ep-ind").style.transform = `translateX(${k * 34}px)`;
     setTimeout(() => openStory(id, k), reduce() ? 0 : 260);
-  });
+  };
+  if (seg) {
+    const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
+    let sx = null, base = 0, moved = false;
+    seg.addEventListener("pointerdown", e => { e.stopPropagation(); sx = e.clientX; base = st.ep * 34; moved = false; seg.setPointerCapture(e.pointerId); });
+    seg.addEventListener("pointermove", e => {
+      if (sx == null) return;
+      const dx = e.clientX - sx;
+      if (!moved && Math.abs(dx) < 4) return;
+      moved = true; seg.classList.add("drag");
+      const x = Math.max(0, Math.min((n - 1) * 34, base + dx));
+      ind.style.transform = `translateX(${x}px)`;
+      seg.querySelectorAll("[data-ep]").forEach(b => b.setAttribute("aria-selected", +b.dataset.ep === Math.round(x / 34)));
+    });
+    const up = e => {
+      if (sx == null) return;
+      seg.classList.remove("drag");
+      if (moved) { const x = Math.max(0, Math.min((n - 1) * 34, base + e.clientX - sx)); goPart(Math.round(x / 34)); }
+      else { const b = e.target.closest("[data-ep]"); if (b) goPart(+b.dataset.ep); }
+      sx = null;
+    };
+    seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", e => { seg.classList.remove("drag"); sx = null; goPart(st.ep); });
+    seg.addEventListener("click", e => e.stopPropagation());
+  }
   const add = m => { const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them"); d.textContent = m.text; log.appendChild(d); };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);
   log.scrollTop = log.scrollHeight;
@@ -1436,12 +1486,33 @@ function openStory(id, epIndex) {
       return;
     }
     foot.classList.add("hint");
-    foot.innerHTML = `<span class="cont">Tap to continue</span>`;
+    if (!premium() && freeTaps() <= 0) return showPaywall();
+    foot.innerHTML = `<span class="cont">Tap to continue</span>${premium() ? "" : `<span class="taps${freeTaps() <= 10 ? " low" : ""}" aria-label="${freeTaps()} free taps left"><span class="num"><i>${freeTaps()}</i></span>taps</span>`}`;
     foot.onclick = step;
     nudge();
   }
+  function showPaywall() {
+    foot.classList.remove("hint"); foot.onclick = null;
+    foot.innerHTML = `<div class="paywall"><span>You've used your free taps</span><button id="pay">Subscribe to keep reading</button></div>`;
+    foot.querySelector("#pay").onclick = e => { e.stopPropagation(); toast("Subscription — in the iPhone app"); };
+  }
+  /* one free tap is spent per message shown; the counter rolls down */
+  function spendTap() {
+    if (premium()) return true;
+    const left = freeTaps();
+    if (left <= 0) { showPaywall(); return false; }
+    store.set("taps", left - 1);
+    const box = foot.querySelector(".taps .num");
+    if (box && !reduce()) {
+      const old = box.querySelector("i"); old.classList.add("out");
+      box.insertAdjacentHTML("beforeend", `<i class="in">${left - 1}</i>`); setTimeout(() => old.remove(), 360);
+      box.parentElement.classList.toggle("low", left - 1 <= 10);
+    }
+    return true;
+  }
   function step() {
     if (busy || st.i >= ep.messages.length) return;
+    if (!spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
     busy = true; status.textContent = "typing…";
