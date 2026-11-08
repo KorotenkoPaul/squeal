@@ -843,6 +843,10 @@ function search() {
   q.onfocus = () => { clearTimeout(outT); fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; document.getElementById("view").scrollTop = 0; };
   q.onblur = () => { if (!query) { showDial(); showLevel(); } };
   q.oninput = () => { query = q.value; query ? showSearch() : (results.innerHTML = ""); };
+  /* tap anywhere but the field: the keyboard goes away (and, with nothing typed, the dial comes back) */
+  document.getElementById("view").addEventListener("pointerdown", e => {
+    if (document.activeElement === q && !e.target.closest(".sbar")) { e.preventDefault(); q.blur(); }
+  });
   pickLevel(fearLevel, false);
   if (query) showSearch();
 }
