@@ -823,7 +823,7 @@ function pullToRefresh() {
     eyes.reset();
     busy = false;
   };
-  view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
   view.addEventListener("mousedown", e => start(e.clientX, e.clientY));
@@ -1538,7 +1538,8 @@ function swipeBack(scr) {
   const W = () => scr.offsetWidth;
   const sheetOf = () => layer.querySelector(".sheet");
   const setX = x => { scr.style.transform = x ? `translateX(${x}px)` : ""; };
-  const start = (x, y) => { if (scr._leaving) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
+  /* only the conversation itself swipes away; the top bar (back, name, part numbers) never closes the chat */
+  const start = (x, y, t) => { if (scr._leaving || (t && t.closest && t.closest(".head"))) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
   const move = (x, y, e) => {
     if (x0 == null) return;
     const ddx = x - x0, ddy = y - y0;
@@ -1565,10 +1566,10 @@ function swipeBack(scr) {
       const sh = sheetOf(); if (sh) { sh.style.visibility = ""; closeSheet(sh); }
     }, 300);
   };
-  scr.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  scr.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
   scr.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   scr.addEventListener("touchend", end); scr.addEventListener("touchcancel", end);
-  scr.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  scr.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
   scr.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
   scr.addEventListener("mouseup", end); scr.addEventListener("mouseleave", end);
 }
