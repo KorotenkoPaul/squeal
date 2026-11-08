@@ -898,7 +898,7 @@ const LETTERING = {
   // signed in a yearbook: tilted, with a scribbled underline
   "reunion": { box: "right:26px;bottom:24px", css: "font-family:'Caveat',cursive;font-weight:700;font-size:48px;color:#f6efe2;transform:rotate(-7deg);text-decoration:underline wavy rgba(246,239,226,.6) 2px;text-underline-offset:8px" },
   // too big for the card, cut off by its edge, rough
-  "skinless": { box: "left:-6px;bottom:-14px", css: "font-family:'Rubik Distressed',sans-serif;font-size:84px;color:#ecdcd8;opacity:.9;letter-spacing:-.02em" },
+  "skinless": { box: "left:14px;bottom:10px", css: "font-family:'Rubik Distressed',sans-serif;font-size:84px;color:#ecdcd8;opacity:.9;letter-spacing:-.02em" },
   // cut through: the top half slips off the bottom half
   "slice": { box: "left:0;right:0;top:50%;transform:translateY(-50%);text-align:center", css: "font-family:'Anton',sans-serif;font-size:66px;letter-spacing:.08em;color:#f4f2f7;position:relative;display:inline-block",
     html: t => `<span style="display:block;clip-path:polygon(0 0,100% 0,100% 46%,0 56%);transform:translateX(-4px)">${t.toUpperCase()}</span><span style="display:block;position:absolute;inset:0;clip-path:polygon(0 57%,100% 47%,100% 100%,0 100%);transform:translate(4px,1px)">${t.toUpperCase()}</span>` },
@@ -910,10 +910,40 @@ const LETTERING = {
     html: t => letters(t, k => `transform:translateY(${[0, 1.5, -1, 2, -.5, 1, -1.5, .5, 0, 1][k % 10]}px);opacity:${[1, .85, .95, .8, 1, .9][k % 6]}`) },
   // seen through the blinds: "unwanted" across the card, "guest" peeking in from the edge
   "unwanted-guest": { box: "left:0;right:0;top:50%;transform:translateY(-50%)", css: "font-family:'Monoton',sans-serif;color:#f2e6dd;line-height:1.15;display:block",
-    html: () => `<span style="display:block;text-align:center;font-size:26px;letter-spacing:.12em">UNWANTED</span><span style="display:block;text-align:right;font-size:40px;margin-right:-16px">GUEST</span>` },
+    html: () => `<span style="display:block;text-align:center;font-size:26px;letter-spacing:.12em">UNWANTED</span><span style="display:block;text-align:right;font-size:40px;padding-right:18px">GUEST</span>` },
 };
+/* Guard: a title must always fit inside its card, whatever the font, word length or screen width. After
+   the fonts load, each title is measured (with all its tilted and shifted letters) and, if any part
+   would stick out past a 12 px margin, shrunk until it fits. */
+function fitLettering(hero) {
+  const lt = hero.querySelector(".lt"), b = lt && lt.querySelector("b");
+  if (!b) return true;
+  const M = 12, box = hero.getBoundingClientRect();
+  /* what you actually see: the letters themselves, plus any plate or rule drawn around them */
+  const extent = () => { const r = [];
+    const w = document.createTreeWalker(b, NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) { if (!n.textContent.trim()) continue; const g = document.createRange(); g.selectNodeContents(n); r.push(...g.getClientRects()); }
+    [b, ...b.querySelectorAll("*")].forEach(e => { const cs = getComputedStyle(e);
+      if (parseFloat(cs.borderTopWidth) || parseFloat(cs.borderBottomWidth) || cs.backgroundColor !== "rgba(0, 0, 0, 0)") r.push(e.getBoundingClientRect()); });
+    return { l: Math.min(...r.map(x => x.left)), r: Math.max(...r.map(x => x.right)), t: Math.min(...r.map(x => x.top)), b: Math.max(...r.map(x => x.bottom)) }; };
+  b.style.zoom = ""; lt.style.translate = "";
+  for (let k = 0; k < 4; k++) {
+    const e = extent(), w = e.r - e.l, h = e.b - e.t;
+    const room = Math.min((box.width - 2 * M) / w, (box.height - 2 * M) / h);
+    if (room < 1) { b.style.zoom = ((parseFloat(b.style.zoom) || 1) * room * .98).toFixed(3); continue; }
+    /* the right size but pushed past an edge (e.g. a tilted line): nudge it back in */
+    const dx = Math.max(0, box.left + M - e.l) - Math.max(0, e.r - (box.right - M));
+    const dy = Math.max(0, box.top + M - e.t) - Math.max(0, e.b - (box.bottom - M));
+    if (!dx && !dy) return true;
+    lt.style.translate = `${dx}px ${dy}px`;
+  }
+  const e = extent(); return e.l >= box.left + M - 1 && e.r <= box.right - M + 1 && e.t >= box.top + M - 1 && e.b <= box.bottom - M + 1;
+}
+const fitAll = () => document.querySelectorAll("#slider .hero").forEach(fitLettering);
+addEventListener("resize", () => fitAll());
 function startSlider() {
   cancelAnimationFrame(slideTimer);
+  fitAll(); document.fonts?.ready.then(fitAll);
   const el = document.getElementById("slider"), box = document.getElementById("dots");
   if (!el || !box) return;
   const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");

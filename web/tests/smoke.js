@@ -23,7 +23,21 @@ const path = require('path');
     }
   }
   for (const t of ['home', 'fav', 'search', 'menu']) { errs.length = 0; await p.evaluate(t => { document.querySelector('.screen')?.remove(); document.querySelector('.sheet')?.remove(); tab = t; render(); }, t); await p.waitForTimeout(80); if (errs.length) fails.push(`tab ${t}: ${errs.join('; ')}`); }
+  /* every story's slider title must fit inside its card, on small, normal and large iPhones */
+  for (const w of [320, 390, 430]) {
+    await p.setViewportSize({ width: w, height: 844 });
+    await p.evaluate(() => { document.querySelector('.screen')?.remove(); document.querySelector('.sheet')?.remove(); tab = 'home'; render(); });
+    await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(300);
+    const bad = await p.evaluate(() => { const h = document.querySelector('#slider .hero'), tpl = h.cloneNode(true), out = [];
+      Object.keys(LETTERING).forEach(id => { const s = STORIES.find(x => x.id === id), L = LETTERING[id];
+        tpl.querySelector('.lt').outerHTML; tpl.querySelector('.lt').remove();
+        tpl.insertAdjacentHTML('beforeend', `<span class="lt" style="${L.box}"><b class="art" style="${L.css}">${L.html ? L.html(esc(s.title)) : esc(s.title)}</b></span>`);
+        tpl.style.cssText = `position:fixed;left:0;top:0;width:${h.offsetWidth}px;height:${h.offsetHeight}px`; document.body.appendChild(tpl);
+        if (!fitLettering(tpl)) out.push(id); tpl.remove(); });
+      return out; });
+    if (bad.length) fails.push(`width ${w}: slider title sticks out for ${bad.join(', ')}`);
+  }
   await b.close();
   if (fails.length) { console.error('SMOKE FAILED\n  ' + fails.join('\n  ')); process.exit(1); }
-  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs`);
+  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs, slider titles fit at 320/390/430`);
 })();
