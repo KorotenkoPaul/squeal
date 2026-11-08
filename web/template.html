@@ -182,7 +182,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Pull to refresh: just the owl's eyes, small, in the gap above the page */
 .ptr { position: absolute; left: 0; right: 0; top: 0; height: 76px; pointer-events: none; z-index: 0; transform: translateY(-76px); will-change: transform; }
 .ptr.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
-.ptr svg { position: absolute; left: 50%; top: 24px; width: 74px; height: auto; margin-left: -37px; display: block; overflow: visible; }
+.ptr svg { position: absolute; left: 50%; top: 29px; width: 74px; height: auto; margin-left: -37px; display: block; overflow: visible; }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
@@ -323,14 +323,36 @@ function syncHearts() {
   });
 }
 
+/* Fetch fresh stories. The preview has them built in, so this only waits like a short network call;
+   in the app it is the real request. */
+function reloadStories() { return new Promise(r => setTimeout(r, 500 + Math.random() * 500)); }
+
+/* Swap the home page's content in place while it is pulled down; the eyes above are not touched. */
+function refreshHome(view) {
+  clearInterval(slideTimer);
+  view.innerHTML = homeContent();
+  view.classList.remove("refreshed"); void view.offsetWidth; view.classList.add("refreshed");
+  setTimeout(() => view.classList.remove("refreshed"), 700);
+  wireHome();
+}
+
 function home() {
+  shell(homeContent());
+  wireHome();
+  pullToRefresh();
+}
+
+function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
-  shell(`<span class="label">Top rated</span>
+  return (`<span class="label">Top rated</span>
     <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
     <div class="dots" id="dots">${TOP.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint">Hold your finger on a story to add it to favourites</p>`);
+}
+
+function wireHome() {
   /* a genre change swaps only the grid: old tiles fade, new ones rise in; the slider is not touched */
   app.querySelectorAll(".chip").forEach(b => b.onclick = () => {
     if (genre === b.dataset.g) return;
@@ -346,7 +368,6 @@ function home() {
   });
   wireCards(app);
   startSlider();
-  pullToRefresh();
 }
 
 /* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
@@ -354,7 +375,9 @@ function home() {
 /* ---------- Pull to refresh: the owl's eyes ----------
    Pull the page down and the owl's eyes come down from above the screen with it, opening as you pull.
    Let go past the line: they blink once and open amber / red, then shut and the page returns.
-   The eyelid hides the whole eye; the shadow from the brow stays on top, open or shut. */
+   The brow's shadow lies on the open eye (white or red) and goes away with it when the lid shuts.
+   The reload starts as soon as you let go; the eyes keep cycling until it is done, then finish the
+   cycle they are in and the page goes back up. */
 const lerp = (a, b, t) => a + (b - a) * t;
 function tween(ms, ease, step) {
   return new Promise(res => { const t0 = performance.now();
@@ -383,6 +406,7 @@ function owlEyes() {
           <image href="brand/eyes-evil.png" width="360" height="187" filter="url(#pe-glow)" opacity=".85"/>
           <image href="brand/eyes-evil.png" width="360" height="187"/>
         </g>
+        <image href="brand/eyes-shadow.png" width="360" height="187"/>
       </g>
     </svg>`;
   const lids = [...wrap.querySelectorAll("#pe-lids ellipse")], evil = wrap.querySelector("#pe-evil");
@@ -395,6 +419,14 @@ function owlEyes() {
   setLids(1);
   return {
     el: wrap, setLids,
+    /* one cycle: open, look, blink, open red, look, shut */
+    async cycle(from = 1) {
+      await tween(280 * from + 1, easeOut, t => setLids(from * (1 - t)));
+      await wait(380);
+      await this.blinkEvil();
+      await wait(700);
+      await this.shut();
+    },
     async blinkEvil() {
       await tween(120, easeIn, setLids);                          // blink: shut…
       evil.setAttribute("opacity", 1);
@@ -445,15 +477,18 @@ function pullToRefresh() {
       tween(200, easeOut, t => eyes.setLids(lerp(from, 1, t)));
       show(d = 0); return;
     }
-    busy = true; show(d = REST); eyes.setLids(0);
+    busy = true;
+    const lidNow = 1 - Math.min(1, d / LINE) ** 2;
+    show(d = REST);
+    /* reload now, in the background of the animation */
+    let done = false;
+    reloadStories().then(() => { refreshHome(view); done = true; });
+    let from = lidNow;
+    do { await eyes.cycle(from); from = 1; } while (!done);   // slow network: whole cycles repeat
+    clearInterval(slideTimer); startSlider();
+    show(0);
     await wait(380);
-    await eyes.blinkEvil();
-    await wait(700);
-    await eyes.shut();
-    clearInterval(slideTimer); show(0);
-    await wait(380);
-    home(); const v = document.getElementById("view"); v.classList.add("refreshed");
-    setTimeout(() => v.classList.remove("refreshed"), 700);
+    busy = false;
   };
   view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
