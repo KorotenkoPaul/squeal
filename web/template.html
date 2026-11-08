@@ -38,6 +38,34 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .cover { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Home */
+.slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
+.slider::-webkit-scrollbar { display: none; }
+.slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
+.dots { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--field); transition: background .2s, width .2s; }
+.dots i.on { background: var(--text); width: 16px; border-radius: 3px; }
+.preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
+.pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
+.pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
+.pv-cover .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
+.pv-cover .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
+.pv-cover .like svg { width: 18px; height: 18px; }
+.pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.pv-body { padding: 4px max(18px, env(safe-area-inset-right, 0px)) 24px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat { background: var(--field); border-radius: 12px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.stat b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.desc { margin: 0; line-height: 1.55; color: #dcd9ea; max-width: 60ch; }
+.by { color: var(--muted); font-size: 14px; }
+.parts { display: flex; flex-direction: column; gap: 8px; }
+.part { display: flex; justify-content: space-between; align-items: center; background: var(--field); border-radius: 12px; padding: 12px 14px; text-align: left; }
+.part small { color: var(--muted); }
+.read { padding: 16px; border-radius: 14px; background: var(--accent); font-weight: 700; font-size: 17px; }
+.demo { color: #6f6b8c; font-size: 11px; text-align: center; }
 .hero { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
 .hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.95) 10%, rgba(23,18,44,0) 75%); }
 .hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
@@ -195,9 +223,10 @@ function shell(content) {
 }
 
 function home() {
-  const list = STORIES.filter(s => genre === "all" || s.genre === genre), hero = STORIES[0], f = favs();
+  const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
   shell(`<span class="label">Featured</span>
-    <button class="hero" id="hero" data-id="${hero.id}">${cover(hero)}<span class="shade"></span><div><small>${GENRES[hero.genre]} · ${hero.episodes.length} parts</small><b>${esc(hero.title)}</b></div></button>
+    <div class="slider" id="slider" aria-label="Featured stories">${STORIES.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>${GENRES[h.genre]} · ${h.episodes.length > 1 ? h.episodes.length + " parts" : "1 part"}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
+    <div class="dots" id="dots">${STORIES.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid">${list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
       ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
@@ -206,8 +235,29 @@ function home() {
   app.querySelectorAll(".chip").forEach(b => b.onclick = () => { genre = b.dataset.g; home(); });
   app.querySelectorAll("[data-id]").forEach(b => {
     const pressed = longPress(b, () => { toggleFav(b.dataset.id); home(); });
-    b.onclick = () => { if (!pressed()) openStory(b.dataset.id); };
+    b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
   });
+  startSlider();
+}
+
+/* Featured slider: swipe by hand, auto-advances every 4 s, pauses while touched. */
+let slideTimer = null;
+function startSlider() {
+  clearInterval(slideTimer);
+  const el = document.getElementById("slider"), dots = [...document.querySelectorAll("#dots i")];
+  if (!el) return;
+  const index = () => Math.round(el.scrollLeft / el.clientWidth);
+  const mark = () => dots.forEach((d, i) => d.classList.toggle("on", i === index()));
+  el.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let pausedUntil = 0;
+  ["pointerdown", "touchstart", "wheel"].forEach(e => el.addEventListener(e, () => { pausedUntil = Date.now() + 6000; }, { passive: true }));
+  slideTimer = setInterval(() => {
+    if (!document.body.contains(el)) return clearInterval(slideTimer);
+    if (Date.now() < pausedUntil || document.hidden) return;
+    const next = (index() + 1) % dots.length;
+    el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
+  }, 4000);
 }
 
 function favourites() {
@@ -224,7 +274,7 @@ function favourites() {
     card.addEventListener("pointerup", e => { if (x0 != null) { const dx = e.clientX - x0; if (dx < -40) card.classList.add("open"); else if (dx > 40) card.classList.remove("open"); } x0 = null; });
   });
   app.querySelectorAll("[data-open]").forEach(b => b.onclick = () => {
-    const card = b.closest(".row-card"); if (card.classList.contains("open")) return card.classList.remove("open"); openStory(b.dataset.open); });
+    const card = b.closest(".row-card"); if (card.classList.contains("open")) return card.classList.remove("open"); preview(b.dataset.open); });
   app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => { toggleFav(b.dataset.remove); favourites(); });
 }
 
@@ -238,7 +288,7 @@ function search() {
       `<span class="label">Popular</span><div class="list">${STORIES.map(row).join("")}</div>`}</div>`);
   const q = document.getElementById("q");
   q.oninput = () => { query = q.value; const pos = q.selectionStart; search(); const n = document.getElementById("q"); n.focus(); n.setSelectionRange(pos, pos); };
-  app.querySelectorAll("[data-id]").forEach(b => b.onclick = () => openStory(b.dataset.id));
+  app.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
 }
 
 function menu() {
@@ -247,7 +297,37 @@ function menu() {
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
 
-function render() { ({ menu, home, fav: favourites, search }[tab] || home)(); }
+/* Story preview: cover, numbers, description, parts. Rating is a demo value until real reviews exist. */
+function preview(id) {
+  clearInterval(slideTimer);
+  const s = STORIES.find(x => x.id === id), pct = progress(s), total = totalOf(s), liked = favs().includes(id);
+  const rating = (4.2 + ([...id].reduce((a, c) => a + c.charCodeAt(0), 0) % 8) / 10).toFixed(1);
+  const st = store.get("p:" + id, { ep: 0, i: 0 });
+  app.innerHTML = `<section class="preview">
+    <div class="pv-cover">${cover(s)}<span class="shade"></span>
+      <button class="back" id="pv-back" aria-label="Back">‹</button>
+      <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button>
+      <div><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
+    <div class="pv-body">
+      <div class="stats">
+        <div class="stat"><b>★ ${rating}</b><span>Rating</span></div>
+        <div class="stat"><b>~${Math.max(1, Math.round(total * 4 / 60))} min</b><span>Read</span></div>
+        <div class="stat"><b>${s.episodes.length}</b><span>${s.episodes.length > 1 ? "Parts" : "Part"}</span></div>
+        <div class="stat"><b>${total}</b><span>Messages</span></div>
+      </div>
+      <p class="desc">${esc(s.description)}</p>
+      ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
+      ${s.episodes.length > 1 ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part" id="pt-${i}" data-ep="${i}"><span>Part ${i + 1}</span><small>${e.messages.length} messages${i < st.ep ? " · read" : ""}</small></button>`).join("")}</div>` : ""}
+      <button class="read" id="pv-read">${pct >= 100 ? "Read again" : pct ? "Continue · " + pct + "%" : "Start reading"}</button>
+      <p class="demo">Rating is a sample value in this preview.</p>
+    </div></section>`;
+  document.getElementById("pv-back").onclick = render;
+  document.getElementById("pv-like").onclick = () => { toggleFav(id); preview(id); };
+  document.getElementById("pv-read").onclick = () => openStory(id, pct >= 100 ? 0 : undefined);
+  app.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
+}
+
+function render() { clearInterval(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
 
 let timer = null;
 function openStory(id, epIndex) {
@@ -264,7 +344,7 @@ function openStory(id, epIndex) {
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
       <div class="foot" id="foot"></div></section>`;
   const log = document.getElementById("log"), foot = document.getElementById("foot"), status = document.getElementById("status");
-  document.getElementById("back").onclick = () => { clearTimeout(timer); render(); };
+  document.getElementById("back").onclick = () => { clearTimeout(timer); preview(id); };
   const add = m => { const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them"); d.textContent = m.text; log.appendChild(d); };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);
   log.scrollTop = log.scrollHeight;

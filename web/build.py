@@ -17,7 +17,7 @@ for sid, files in PICK:
     eps = [json.loads((SRC / (f + ".json")).read_text()) for f in files]
     first = eps[0]
     title = first["title"].replace(" Part 1", "")
-    stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"],
+    stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""),
                     "episodes": [{"left": e["left"], "right": e["right"], "description": e["description"],
                                   "messages": e["messages"]} for e in eps]})
 html = (ROOT / "web" / "template.html").read_text().replace("/*STORIES*/[]", json.dumps(stories, ensure_ascii=False))
