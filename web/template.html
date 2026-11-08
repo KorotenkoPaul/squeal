@@ -957,9 +957,7 @@ function search() {
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
   const showLevel = () => {
     const list = STORIES.filter(s => fearOf(s) === fearLevel);
-    const near = STORIES.filter(s => fearOf(s) !== fearLevel).sort((a, b) => Math.abs(fearOf(a) - fearLevel) - Math.abs(fearOf(b) - fearLevel) || fearOf(b) - fearOf(a));
-    results.innerHTML = (list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">No stories this scary yet</p>`) +
-      (near.length ? `<span class="label">Close to it</span><div class="list">${near.map(row).join("")}</div>` : "");
+    results.innerHTML = list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">No stories this scary yet</p>`;   // only this level
     document.getElementById("fear-name").textContent = FEAR[fearLevel - 1];
     document.getElementById("fear-name").style.color = FEAR_COL[fearLevel - 1];
     document.getElementById("fear-sub").textContent = list.length + (list.length === 1 ? " story" : " stories");
