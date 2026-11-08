@@ -735,7 +735,11 @@ function pullForRandom() {
   const end = async () => {
     if (y0 == null) return; y0 = null;
     view.classList.remove("lift");
-    if (d < LINE()) { view.classList.add("drop"); show(d = 0); return; }   // not far enough: the page slides back
+    if (d < LINE()) {                                              // not far enough: the reel sinks back behind the tabs as the page slides down
+      busy = true; const from = d; d = 0;
+      await tween(320, easeOut, t => show(Math.max(0, lerp(from, 0, t))));
+      show(0); busy = false; return;
+    }
     busy = true;
     const eat = e => { e.stopPropagation(); e.preventDefault(); };
     window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
