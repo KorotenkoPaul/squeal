@@ -160,8 +160,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile .fav { cursor: pointer; }
 .pill.pad { display: inline-grid; place-items: center; padding-inline: 8px; }
 .pill.pad svg { width: 17px; height: 17px; display: block; }
-.padmark { display: inline-flex; vertical-align: -3px; margin-left: 7px; }
-.padmark svg { width: 15px; height: 15px; }
+.padmark { display: inline-flex; vertical-align: -.22em; }
+.padmark svg { width: 1.3em; height: 1.3em; }
 /* interactive chat: when it's your turn, your possible replies stand in for "Tap to continue" */
 .foot.choose { flex-direction: column; gap: 8px; }
 .choice { width: 100%; text-align: left; padding: 12px 14px; border-radius: 16px; border: 1.5px solid #9b7ff0; color: var(--text); font-size: 15px; line-height: 1.3; background: transparent; }
@@ -1341,7 +1341,7 @@ function sheetHTML(s) {
   const readLabel = "Read";   // the part is chosen above; the button just reads
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
-      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${multi ? partMin(s, at) : readMin(s)}</span>${padMark(s)}</small><h1>${esc(s.title)}</h1></div></div>
+      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${multi ? partMin(s, at) : readMin(s)}</span>${padMark(s, true)}</small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
@@ -1667,7 +1667,7 @@ function wallpaper(names, seed) {
 }
 /* interactive stories (you choose what happens) carry a small gamepad next to genre and time */
 const padPill = s => s.interactive ? `<span class="pill pad" aria-label="Interactive story">${ICON.pad}</span>` : "";
-const padMark = s => s.interactive ? `<span class="padmark" aria-label="Interactive story">${ICON.pad}</span>` : "";
+const padMark = (s, dot) => s.interactive ? `${dot ? '<span class="dot" aria-hidden="true"></span>' : " · "}<span class="padmark" aria-label="Interactive story">${ICON.pad}</span>` : "";
 const FREE_TAPS = 100;
 const premium = () => store.get("premium", false);
 const freeTaps = () => store.get("taps", FREE_TAPS);
