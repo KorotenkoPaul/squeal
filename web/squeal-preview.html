@@ -50,7 +50,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
   animation: fill var(--slide, 4s) linear forwards; }
 .dots.manual i.on::after { animation: none; transform: scaleX(1); }
 @keyframes fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
-.preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
+.pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
 .pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
 .pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
@@ -62,7 +63,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
 .pv-body > * { animation: up .5s cubic-bezier(.2,.9,.2,1) both; }
 .pv-body > *:nth-child(2) { animation-delay: .06s } .pv-body > *:nth-child(3) { animation-delay: .12s } .pv-body > *:nth-child(n+4) { animation-delay: .18s }
-.pv-cover > div { animation: up .5s .05s cubic-bezier(.2,.9,.2,1) both; }
 @keyframes up { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
 .pv-body { padding: 4px max(18px, env(safe-area-inset-right, 0px)) 24px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -156,7 +156,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
-@media (prefers-reduced-motion: reduce) { .pv-body > *, .pv-cover > div { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
+@media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
 </style>
 
 <div class="app" id="app"></div>
@@ -327,7 +327,7 @@ function preview(id) {
   const s = STORIES.find(x => x.id === id), pct = progress(s), total = totalOf(s), liked = favs().includes(id);
   const st = store.get("p:" + id, { ep: 0, i: 0 });
   app.innerHTML = `<section class="preview">
-    <div class="pv-cover">${cover(s)}<span class="shade"></span>
+    <div class="pv-cover">${cover(s)}<span class="shade"></span><span class="pull" aria-hidden="true"></span>
       <button class="back" id="pv-back" aria-label="Back">‹</button>
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button>
       <div><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
@@ -345,26 +345,59 @@ function preview(id) {
       <p class="demo">Rating is a sample value in this preview.</p>
     </div></section>`;
   const sheet = app.querySelector(".preview"), head = sheet.querySelector(".pv-cover");
-  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (from && ghost && sheet.animate && !still) {
-    /* The tapped card grows into the preview cover, then the page settles under it. */
-    const to = head.getBoundingClientRect(), dur = 460, ease = "cubic-bezier(.2,.85,.25,1)";
-    Object.assign(ghost.style, { position: "fixed", left: from.left + "px", top: from.top + "px", width: from.width + "px",
-      height: from.height + "px", margin: 0, zIndex: 50, pointerEvents: "none", borderRadius: "14px", overflow: "hidden", aspectRatio: "auto" });
-    ghost.removeAttribute("id"); ghost.querySelectorAll("[id]").forEach(n => n.removeAttribute("id"));
-    document.body.appendChild(ghost);
-    head.style.opacity = "0";
-    sheet.animate([{ opacity: 0 }, { opacity: 1 }], { duration: dur * .7, delay: dur * .3, easing: "ease-out", fill: "backwards" });
-    ghost.animate([
-      { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px", borderRadius: "14px" },
-      { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px", borderRadius: "0px" }],
-      { duration: dur, easing: ease, fill: "forwards" }).onfinish = () => {
-        head.style.opacity = ""; ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160 }).onfinish = () => ghost.remove(); };
-  }
-  document.getElementById("pv-back").onclick = () => {
-    if (!sheet.animate || still) return render();
-    sheet.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(24px)" }], { duration: 200, easing: "ease-in" }).onfinish = render;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches, ease = "cubic-bezier(.2,.85,.25,1)";
+  const box = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+  const float = (el, r) => {
+    Object.assign(el.style, { position: "fixed", ...box(r), margin: 0, zIndex: 50, pointerEvents: "none", overflow: "hidden", aspectRatio: "auto", transform: "none" });
+    el.removeAttribute("id"); el.querySelectorAll("[id]").forEach(n => n.removeAttribute("id"));
+    document.body.appendChild(el); return el;
   };
+  if (from && ghost && sheet.animate && !still) {
+    /* Open: the tapped card grows into the cover. Its own caption fades out first; the
+       preview cover and title fade in over the last part of the move, so nothing pops. */
+    const to = head.getBoundingClientRect(), dur = 480;
+    float(ghost, from).style.borderRadius = "14px";
+    ghost.querySelectorAll(".shade, div, .fav").forEach(n => n.animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur * .3, fill: "forwards" }));
+    ghost.animate([{ ...box(from), borderRadius: "14px" }, { ...box(to), borderRadius: "0px" }], { duration: dur, easing: ease, fill: "forwards" });
+    head.animate([{ opacity: 0 }, { opacity: 0, offset: .5 }, { opacity: 1 }], { duration: dur, easing: "ease-out" });
+    ghost.animate([{ opacity: 1 }, { opacity: 1, offset: .55 }, { opacity: 0 }], { duration: dur, fill: "forwards" }).onfinish = () => ghost.remove();
+    sheet.querySelector(".pv-body").animate([{ opacity: 0 }, { opacity: 1 }], { duration: dur * .6, delay: dur * .35, easing: "ease-out", fill: "backwards" });
+  }
+  function close() {
+    /* Close: the cover shrinks back into its card (when that card is on screen), else fades away. */
+    if (!sheet.animate || still) return render();
+    const r = head.getBoundingClientRect(), g = float(head.cloneNode(true), r);
+    g.querySelectorAll(".back, .like, .pull").forEach(n => n.remove());
+    render();
+    const vh = innerHeight, target = [...app.querySelectorAll(`[data-id="${id}"], [data-open="${id}"]`)]
+      .find(el => { const b = el.getBoundingClientRect(); return b.width > 0 && b.top >= 0 && b.bottom <= vh && b.left >= 0 && b.right <= innerWidth; });
+    if (!target) { g.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(40px) scale(.96)" }], { duration: 260, easing: "ease-in" }).onfinish = () => g.remove(); return; }
+    const t = target.getBoundingClientRect(), dur = 420;
+    target.animate([{ opacity: 0 }, { opacity: 0, offset: .6 }, { opacity: 1 }], { duration: dur });
+    g.querySelector("div")?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur * .3, fill: "forwards" });
+    g.animate([{ ...box(r), borderRadius: "0px" }, { ...box(t), borderRadius: "14px" }], { duration: dur, easing: ease, fill: "forwards" });
+    g.animate([{ opacity: 1 }, { opacity: 1, offset: .65 }, { opacity: 0 }], { duration: dur, fill: "forwards" }).onfinish = () => g.remove();
+  }
+  document.getElementById("pv-back").onclick = close;
+  /* Swipe down from the top of the preview to close it. */
+  let y0 = null, dy = 0;
+  const startDrag = y => { if (sheet.scrollTop <= 0) { y0 = y; dy = 0; sheet.style.transition = "none"; } };
+  const moveDrag = (y, e) => {
+    if (y0 == null) return; dy = Math.max(0, y - y0);
+    if (dy > 0 && e.cancelable) e.preventDefault();
+    sheet.style.transform = dy ? `translateY(${dy * .55}px) scale(${1 - Math.min(dy, 400) / 2600})` : "";
+    sheet.style.borderRadius = dy ? Math.min(24, dy / 6) + "px" : "";
+  };
+  const endDrag = () => {
+    if (y0 == null) return; y0 = null;
+    if (dy > 110) return close();
+    sheet.style.transition = "transform .3s cubic-bezier(.2,.9,.2,1), border-radius .3s"; sheet.style.transform = ""; sheet.style.borderRadius = "";
+  };
+  sheet.addEventListener("touchstart", e => startDrag(e.touches[0].clientY), { passive: true });
+  sheet.addEventListener("touchmove", e => moveDrag(e.touches[0].clientY, e), { passive: false });
+  sheet.addEventListener("touchend", endDrag); sheet.addEventListener("touchcancel", endDrag);
+  sheet.addEventListener("mousedown", e => startDrag(e.clientY));
+  addEventListener("mousemove", e => moveDrag(e.clientY, e)); addEventListener("mouseup", endDrag);
   document.getElementById("pv-like").onclick = () => { toggleFav(id); preview(id); };
   document.getElementById("pv-read").onclick = () => openStory(id, pct >= 100 ? 0 : undefined);
   app.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));
