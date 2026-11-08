@@ -102,10 +102,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: rgba(155,127,240,.32);
   animation: rise .9s cubic-bezier(.25,.8,.25,1) both; }
 .part .water i::before { content: ""; position: absolute; left: 0; bottom: 100%; width: 200%; height: 7px; margin-bottom: -1px;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'><path d='M0 4 Q10 0 20 4 T40 4 V8 H0Z' fill='rgba(155,127,240,0.32)'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear infinite; }
+  scale: 1 1; transform-origin: 50% 100%;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'><path d='M-2 4 Q10 0 20 4 T42 4 V8 H-2Z' fill='rgba(155,127,240,0.32)'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear 2, calm 2.4s cubic-bezier(.4,0,.2,1) .4s forwards; }
 .part.done .water i::before { display: none; }
 @keyframes rise { from { height: 0; } }
 @keyframes wave { to { transform: translateX(-40px); } }
+@keyframes calm { to { scale: 1 0; } }                       /* the waves die down to still water */
 @media (prefers-reduced-motion: reduce) { .part .water i, .part .water i::before { animation: none; } }
 .part.here { box-shadow: inset 0 0 0 1.5px #9b7ff0; }
 .part { transition: box-shadow .2s, transform .15s; }
@@ -961,7 +963,7 @@ function wire(sheet, s) {
   const start = y => { if (scroller.scrollTop <= 0 && !sheet._closing) { y0 = y; dy = 0; } };
   const move = (y, e) => {
     if (y0 == null) return; dy = Math.max(0, y - y0);
-    if (!CARD_MORPH) { if (dy > 0 && e.cancelable) e.preventDefault(); if (dy > 80) { y0 = null; closeSheet(sheet); } return; }
+    if (!CARD_MORPH) { if (dy > 10 && e.cancelable) e.preventDefault(); if (dy > 80) { y0 = null; closeSheet(sheet); } return; }   // a tap's small jitter stays a tap
     if (dy > 0 && e.cancelable) e.preventDefault();
     const k = 1 - Math.min(dy, 500) / 1800;
     sheet.style.transformOrigin = "50% 0"; sheet.style.transition = "none";
