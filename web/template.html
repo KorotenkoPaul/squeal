@@ -62,15 +62,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
 .sheet .cap small { display: flex; align-items: center; line-height: 1; }
 .cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
-/* start over: a round button by the heart; first tap opens it to ask, second tap clears the progress */
-.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); height: 38px; min-width: 38px; padding: 0 10px;
-  border-radius: 19px; background: rgba(23,18,44,.6); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 0;
-  font-size: 13px; font-weight: 700; transition: background .2s, color .2s, gap .25s; }
-.chrome .reset svg { width: 17px; height: 17px; flex: none; transition: transform .4s cubic-bezier(.32,.72,0,1); }
-.chrome .reset span { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width .3s cubic-bezier(.32,.72,0,1); }
-.chrome .reset.ask { background: var(--danger); color: #fff; gap: 6px; padding: 0 14px 0 12px; }
-.chrome .reset.ask span { max-width: 110px; }
-.chrome .reset.ask svg { transform: rotate(-200deg); }
+/* start over: tap clears the part being read; hold (a ring fills round the button) clears every part */
+.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); width: 38px; height: 38px;
+  border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
+.chrome .reset svg { width: 17px; height: 17px; grid-area: 1 / 1; transition: transform .45s cubic-bezier(.32,.72,0,1); }
+.chrome .reset .hold { width: 38px; height: 38px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
+  stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
+.chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
+.chrome .reset.spin svg:not(.hold) { transform: rotate(-360deg); }
 .pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
@@ -770,7 +769,7 @@ function sheetHTML(s) {
     </div></div>
     <div class="chrome"><span class="pull" aria-hidden="true"></span>
       <button class="back" id="pv-back" aria-label="Close" style="position:absolute;top:10px;left:12px;width:38px;height:38px;border-radius:50%;background:rgba(23,18,44,.6);display:grid;place-items:center;padding-bottom:3px">‹</button>
-      <button class="reset" id="pv-reset" aria-label="Start this story over"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Start over?</span></button>
+      <button class="reset" id="pv-reset" aria-label="Tap: start this part over. Hold: start every part over"><svg class="hold" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="17.5"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
 
@@ -895,19 +894,28 @@ function wire(sheet, s) {
     if (e.target.closest("button, a, input, .stats")) return;
     closeSheet(sheet);
   };
+  /* start over: a tap clears the part being read; holding for 0.6 s (the ring closes) clears all parts */
   const reset = sheet.querySelector("#pv-reset");
   if (reset) {
-    let askT = null;
-    reset.onclick = () => {
-      if (!reset.classList.contains("ask")) {               // first tap: ask
-        reset.classList.add("ask"); clearTimeout(askT);
-        askT = setTimeout(() => reset.classList.remove("ask"), 3000);
-        return;
-      }
-      clearTimeout(askT);                                    // second tap: clear and redraw the page
-      store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
-      sheet.innerHTML = sheetHTML(s); wire(sheet, s);
-      toast("Progress cleared");
+    let holdT = null, longDone = false;
+    const redraw = msg => { reset.classList.add("spin"); setTimeout(() => { sheet.innerHTML = sheetHTML(s); wire(sheet, s); }, 380); toast(msg); };
+    reset.addEventListener("pointerdown", e => {
+      e.preventDefault(); longDone = false; reset.classList.add("holding");
+      holdT = setTimeout(() => {
+        longDone = true; reset.classList.remove("holding");
+        store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
+        redraw(s.episodes.length > 1 ? "All parts start over" : "Story starts over");
+      }, 600);
+    });
+    const cancel = () => { clearTimeout(holdT); reset.classList.remove("holding"); };
+    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => reset.addEventListener(ev, cancel));
+    reset.addEventListener("contextmenu", e => e.preventDefault());
+    reset.onclick = e => {
+      e.stopPropagation();
+      if (longDone) { longDone = false; return; }
+      const pr = prog(s), k = pr.ep;
+      pr.pos[k] = 0; setProg(s, pr);
+      redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over");
     };
   }
   sheet.querySelector("#pv-like").onclick = e => { toggleFav(id); e.currentTarget.setAttribute("aria-pressed", favs().includes(id)); };
