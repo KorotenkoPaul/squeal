@@ -2,409 +2,414 @@
  "id": "first-impressions",
  "title": "First Impressions",
  "author": "Rich Samuels",
- "description": "Ellen invites her new boyfriend over for dinner with her family. First impressions mean everything, so Jim’s a bit nervous. Ellen isn’t worried, though. Her family is convinced that she has good taste in men.",
- "left": "Ellen",
- "right": "Jim",
- "messages": [
-  {
-   "from": "Ellen",
-   "text": "I would really like you over for dinner."
-  },
-  {
-   "from": "Jim",
-   "text": "Okay!"
-  },
-  {
-   "from": "Ellen",
-   "text": "To my parent’s place."
-  },
-  {
-   "from": "Jim",
-   "text": "I know. I knew it was coming."
-  },
-  {
-   "from": "Ellen",
-   "text": "I think they would like you."
-  },
-  {
-   "from": "Jim",
-   "text": "I have to admit, I’m a little nervous."
-  },
-  {
-   "from": "Ellen",
-   "text": "You don’t need to be. Everyone will like you."
-  },
-  {
-   "from": "Jim",
-   "text": "Everyone?"
-  },
-  {
-   "from": "Ellen",
-   "text": "My brothers and sisters."
-  },
-  {
-   "from": "Jim",
-   "text": "Everyone’s going to be there."
-  },
-  {
-   "from": "Ellen",
-   "text": "Of course! Everyone wants to be a part of it."
-  },
-  {
-   "from": "Jim",
-   "text": "Wow, your family really likes being part of your life."
-  },
-  {
-   "from": "Ellen",
-   "text": "Yeah, they’re like that."
-  },
-  {
-   "from": "Jim",
-   "text": "What’s your mom like?"
-  },
-  {
-   "from": "Ellen",
-   "text": "She’s be fine. She’ll like you."
-  },
-  {
-   "from": "Ellen",
-   "text": "She’ll be happy you have “meat on your ones” lol"
-  },
-  {
-   "from": "Jim",
-   "text": "I’m still trying to lose it."
-  },
-  {
-   "from": "Ellen",
-   "text": "But you won’t by next weekend, so that’s okay."
-  },
-  {
-   "from": "Jim",
-   "text": "Yeah."
-  },
-  {
-   "from": "Ellen",
-   "text": "She’s going to be so happy I found someone I would like."
-  },
-  {
-   "from": "Jim",
-   "text": "Would like?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Well, DO like."
-  },
-  {
-   "from": "Jim",
-   "text": "How many brothers and sisters do you have?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Five, I’m the oldest."
-  },
-  {
-   "from": "Jim",
-   "text": "Well, that’s good at least."
-  },
-  {
-   "from": "Ellen",
-   "text": "I guess. It’s a responsibility."
-  },
-  {
-   "from": "Ellen",
-   "text": "You know, sometimes I have to take care of them."
-  },
-  {
-   "from": "Ellen",
-   "text": "Make sure they’re fed."
-  },
-  {
-   "from": "Jim",
-   "text": "Well, at least you’re older now. You can have your own life."
-  },
-  {
-   "from": "Ellen",
-   "text": "That’s true."
-  },
-  {
-   "from": "Jim",
-   "text": "Your family sounds nice, anyway."
-  },
-  {
-   "from": "Ellen",
-   "text": "They are nice."
-  },
-  {
-   "from": "Ellen",
-   "text": "Like I said, everyone’s going to like you."
-  },
-  {
-   "from": "Ellen",
-   "text": "They’ve got good taste."
-  },
-  {
-   "from": "Jim",
-   "text": "Well, I don’t know about that!"
-  },
-  {
-   "from": "Ellen",
-   "text": "You have to trust me on this."
-  },
-  {
-   "from": "Jim",
-   "text": "Are they going to be, like, protective?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Well, no."
-  },
-  {
-   "from": "Ellen",
-   "text": "They know how to share."
-  },
-  {
-   "from": "Jim",
-   "text": "That’s good."
-  },
-  {
-   "from": "Jim",
-   "text": "I’ll do my best to make a good impression."
-  },
-  {
-   "from": "Ellen",
-   "text": "Like they say you only get one chance to make a first impression."
-  },
-  {
-   "from": "Jim",
-   "text": "I know. They’ll like me, I promise."
-  },
-  {
-   "from": "Ellen",
-   "text": "Oh, one thing."
-  },
-  {
-   "from": "Jim",
-   "text": "What’s that?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Don’t wear cologne."
-  },
-  {
-   "from": "Jim",
-   "text": "Are they allergic?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Sort of."
-  },
-  {
-   "from": "Jim",
-   "text": "Ok. No problem."
-  },
-  {
-   "from": "Jim",
-   "text": "------"
-  },
-  {
-   "from": "Jim",
-   "text": "Friday Afternoon"
-  },
-  {
-   "from": "Jim",
-   "text": "Ellen?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Hi, you all ready?"
-  },
-  {
-   "from": "Jim",
-   "text": "I’ll be heading over in a little while."
-  },
-  {
-   "from": "Ellen",
-   "text": "Great! They’re all looking forward to you."
-  },
-  {
-   "from": "Ellen",
-   "text": "….to seeing you."
-  },
-  {
-   "from": "Jim",
-   "text": "I’m looking forward to seeing them, too!"
-  },
-  {
-   "from": "Jim",
-   "text": "So, what we having for dinner?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Steak probably."
-  },
-  {
-   "from": "Ellen",
-   "text": "My mom loves steak. So does my dad."
-  },
-  {
-   "from": "Ellen",
-   "text": "Well, everyone."
-  },
-  {
-   "from": "Ellen",
-   "text": "We’re all steak eaters."
-  },
-  {
-   "from": "Jim",
-   "text": "I guess it’s steak, then!"
-  },
-  {
-   "from": "Jim",
-   "text": "Good thing I’m not a vegetarian!"
-  },
-  {
-   "from": "Ellen",
-   "text": "Good thing we’re not!"
-  },
-  {
-   "from": "Jim",
-   "text": "I bet it’s going to be great."
-  },
-  {
-   "from": "Ellen",
-   "text": "It is, my mom’s a great cook."
-  },
-  {
-   "from": "Jim",
-   "text": "So, should I pick you up at 6:30?"
-  },
-  {
-   "from": "Ellen",
-   "text": "No, you could just go straight to their house."
-  },
-  {
-   "from": "Ellen",
-   "text": "I’m helping my parents get ready."
-  },
-  {
-   "from": "Ellen",
-   "text": "There’s a lot of work to do."
-  },
-  {
-   "from": "Jim",
-   "text": "Yeah, I guess there would be."
-  },
-  {
-   "from": "Ellen",
-   "text": "They’re going to barbeque."
-  },
-  {
-   "from": "Jim",
-   "text": "Awesome! I love barbeque."
-  },
-  {
-   "from": "Ellen",
-   "text": "You can actually come a little earlier, if you want."
-  },
-  {
-   "from": "Jim",
-   "text": "How early?"
-  },
-  {
-   "from": "Ellen",
-   "text": "I’ll be there at four. You could come then."
-  },
-  {
-   "from": "Ellen",
-   "text": "Then they wouldn’t have to rush."
-  },
-  {
-   "from": "Jim",
-   "text": "Okay. I can do that."
-  },
-  {
-   "from": "Ellen",
-   "text": "Great! I’ll tell my mom. She’ll be happy!"
-  },
-  {
-   "from": "Ellen",
-   "text": "So will by brothers and sisters!"
-  },
-  {
-   "from": "Ellen",
-   "text": "They like to eat early."
-  },
-  {
-   "from": "Jim",
-   "text": "I bet it takes time to cook that much steak."
-  },
-  {
-   "from": "Ellen",
-   "text": "It’s getting it ready that takes the time."
-  },
-  {
-   "from": "Ellen",
-   "text": "Before you cook it."
-  },
-  {
-   "from": "Jim",
-   "text": "Like marinating it or something?"
-  },
-  {
-   "from": "Ellen",
-   "text": "Just, the butchering. You know, carving it up…"
-  },
-  {
-   "from": "Jim",
-   "text": "Wow, you make it sound like you have a whole cow there!"
-  },
-  {
-   "from": "Ellen",
-   "text": "Hardly. I promise you, we have NO cow."
-  },
-  {
-   "from": "Jim",
-   "text": "Well that’s a relief!"
-  },
-  {
-   "from": "Jim",
-   "text": "This sounds like it’s going to be an awesome dinner."
-  },
-  {
-   "from": "Ellen",
-   "text": "It will!"
-  },
-  {
-   "from": "Ellen",
-   "text": "It’s going to be delicious."
-  },
-  {
-   "from": "Jim",
-   "text": "Ellen, I’m really happy to be part of your life."
-  },
-  {
-   "from": "Jim",
-   "text": "And maybe even part of your family."
-  },
-  {
-   "from": "Ellen",
-   "text": "So are we."
-  },
-  {
-   "from": "Ellen",
-   "text": "My mom says I have good taste in men."
-  }
- ],
  "genre": "horror",
- "wallpaper": [
-  "cutlery",
-  "candle",
-  "wineglass",
-  "heart",
-  "house",
-  "gift",
-  "people",
-  "phone"
- ],
- "fear": 3
+ "fear": 3,
+ "description": "Ellen invites her new boyfriend over for dinner with her family. First impressions mean everything, so Jim’s a bit nervous. Ellen isn’t worried, though. Her family is convinced that she has good taste in men.",
+ "parts": [
+  {
+   "prologue": "Ellen's family lives at the end of a long gravel road, past the old butcher's barn. They don't get many visitors. When they do, the whole family turns out.",
+   "left": "Ellen",
+   "right": "Jim",
+   "wallpaper": [
+    "cutlery",
+    "candle",
+    "wineglass",
+    "heart",
+    "house",
+    "gift",
+    "people",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Ellen",
+     "text": "I would really like you over for dinner."
+    },
+    {
+     "from": "Jim",
+     "text": "Okay!"
+    },
+    {
+     "from": "Ellen",
+     "text": "To my parent’s place."
+    },
+    {
+     "from": "Jim",
+     "text": "I know. I knew it was coming."
+    },
+    {
+     "from": "Ellen",
+     "text": "I think they would like you."
+    },
+    {
+     "from": "Jim",
+     "text": "I have to admit, I’m a little nervous."
+    },
+    {
+     "from": "Ellen",
+     "text": "You don’t need to be. Everyone will like you."
+    },
+    {
+     "from": "Jim",
+     "text": "Everyone?"
+    },
+    {
+     "from": "Ellen",
+     "text": "My brothers and sisters."
+    },
+    {
+     "from": "Jim",
+     "text": "Everyone’s going to be there."
+    },
+    {
+     "from": "Ellen",
+     "text": "Of course! Everyone wants to be a part of it."
+    },
+    {
+     "from": "Jim",
+     "text": "Wow, your family really likes being part of your life."
+    },
+    {
+     "from": "Ellen",
+     "text": "Yeah, they’re like that."
+    },
+    {
+     "from": "Jim",
+     "text": "What’s your mom like?"
+    },
+    {
+     "from": "Ellen",
+     "text": "She’s be fine. She’ll like you."
+    },
+    {
+     "from": "Ellen",
+     "text": "She’ll be happy you have “meat on your ones” lol"
+    },
+    {
+     "from": "Jim",
+     "text": "I’m still trying to lose it."
+    },
+    {
+     "from": "Ellen",
+     "text": "But you won’t by next weekend, so that’s okay."
+    },
+    {
+     "from": "Jim",
+     "text": "Yeah."
+    },
+    {
+     "from": "Ellen",
+     "text": "She’s going to be so happy I found someone I would like."
+    },
+    {
+     "from": "Jim",
+     "text": "Would like?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Well, DO like."
+    },
+    {
+     "from": "Jim",
+     "text": "How many brothers and sisters do you have?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Five, I’m the oldest."
+    },
+    {
+     "from": "Jim",
+     "text": "Well, that’s good at least."
+    },
+    {
+     "from": "Ellen",
+     "text": "I guess. It’s a responsibility."
+    },
+    {
+     "from": "Ellen",
+     "text": "You know, sometimes I have to take care of them."
+    },
+    {
+     "from": "Ellen",
+     "text": "Make sure they’re fed."
+    },
+    {
+     "from": "Jim",
+     "text": "Well, at least you’re older now. You can have your own life."
+    },
+    {
+     "from": "Ellen",
+     "text": "That’s true."
+    },
+    {
+     "from": "Jim",
+     "text": "Your family sounds nice, anyway."
+    },
+    {
+     "from": "Ellen",
+     "text": "They are nice."
+    },
+    {
+     "from": "Ellen",
+     "text": "Like I said, everyone’s going to like you."
+    },
+    {
+     "from": "Ellen",
+     "text": "They’ve got good taste."
+    },
+    {
+     "from": "Jim",
+     "text": "Well, I don’t know about that!"
+    },
+    {
+     "from": "Ellen",
+     "text": "You have to trust me on this."
+    },
+    {
+     "from": "Jim",
+     "text": "Are they going to be, like, protective?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Well, no."
+    },
+    {
+     "from": "Ellen",
+     "text": "They know how to share."
+    },
+    {
+     "from": "Jim",
+     "text": "That’s good."
+    },
+    {
+     "from": "Jim",
+     "text": "I’ll do my best to make a good impression."
+    },
+    {
+     "from": "Ellen",
+     "text": "Like they say you only get one chance to make a first impression."
+    },
+    {
+     "from": "Jim",
+     "text": "I know. They’ll like me, I promise."
+    },
+    {
+     "from": "Ellen",
+     "text": "Oh, one thing."
+    },
+    {
+     "from": "Jim",
+     "text": "What’s that?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Don’t wear cologne."
+    },
+    {
+     "from": "Jim",
+     "text": "Are they allergic?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Sort of."
+    },
+    {
+     "from": "Jim",
+     "text": "Ok. No problem."
+    },
+    {
+     "from": "Jim",
+     "text": "------"
+    },
+    {
+     "from": "Jim",
+     "text": "Friday Afternoon"
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Hi, you all ready?"
+    },
+    {
+     "from": "Jim",
+     "text": "I’ll be heading over in a little while."
+    },
+    {
+     "from": "Ellen",
+     "text": "Great! They’re all looking forward to you."
+    },
+    {
+     "from": "Ellen",
+     "text": "….to seeing you."
+    },
+    {
+     "from": "Jim",
+     "text": "I’m looking forward to seeing them, too!"
+    },
+    {
+     "from": "Jim",
+     "text": "So, what we having for dinner?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Steak probably."
+    },
+    {
+     "from": "Ellen",
+     "text": "My mom loves steak. So does my dad."
+    },
+    {
+     "from": "Ellen",
+     "text": "Well, everyone."
+    },
+    {
+     "from": "Ellen",
+     "text": "We’re all steak eaters."
+    },
+    {
+     "from": "Jim",
+     "text": "I guess it’s steak, then!"
+    },
+    {
+     "from": "Jim",
+     "text": "Good thing I’m not a vegetarian!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Good thing we’re not!"
+    },
+    {
+     "from": "Jim",
+     "text": "I bet it’s going to be great."
+    },
+    {
+     "from": "Ellen",
+     "text": "It is, my mom’s a great cook."
+    },
+    {
+     "from": "Jim",
+     "text": "So, should I pick you up at 6:30?"
+    },
+    {
+     "from": "Ellen",
+     "text": "No, you could just go straight to their house."
+    },
+    {
+     "from": "Ellen",
+     "text": "I’m helping my parents get ready."
+    },
+    {
+     "from": "Ellen",
+     "text": "There’s a lot of work to do."
+    },
+    {
+     "from": "Jim",
+     "text": "Yeah, I guess there would be."
+    },
+    {
+     "from": "Ellen",
+     "text": "They’re going to barbeque."
+    },
+    {
+     "from": "Jim",
+     "text": "Awesome! I love barbeque."
+    },
+    {
+     "from": "Ellen",
+     "text": "You can actually come a little earlier, if you want."
+    },
+    {
+     "from": "Jim",
+     "text": "How early?"
+    },
+    {
+     "from": "Ellen",
+     "text": "I’ll be there at four. You could come then."
+    },
+    {
+     "from": "Ellen",
+     "text": "Then they wouldn’t have to rush."
+    },
+    {
+     "from": "Jim",
+     "text": "Okay. I can do that."
+    },
+    {
+     "from": "Ellen",
+     "text": "Great! I’ll tell my mom. She’ll be happy!"
+    },
+    {
+     "from": "Ellen",
+     "text": "So will by brothers and sisters!"
+    },
+    {
+     "from": "Ellen",
+     "text": "They like to eat early."
+    },
+    {
+     "from": "Jim",
+     "text": "I bet it takes time to cook that much steak."
+    },
+    {
+     "from": "Ellen",
+     "text": "It’s getting it ready that takes the time."
+    },
+    {
+     "from": "Ellen",
+     "text": "Before you cook it."
+    },
+    {
+     "from": "Jim",
+     "text": "Like marinating it or something?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Just, the butchering. You know, carving it up…"
+    },
+    {
+     "from": "Jim",
+     "text": "Wow, you make it sound like you have a whole cow there!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Hardly. I promise you, we have NO cow."
+    },
+    {
+     "from": "Jim",
+     "text": "Well that’s a relief!"
+    },
+    {
+     "from": "Jim",
+     "text": "This sounds like it’s going to be an awesome dinner."
+    },
+    {
+     "from": "Ellen",
+     "text": "It will!"
+    },
+    {
+     "from": "Ellen",
+     "text": "It’s going to be delicious."
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen, I’m really happy to be part of your life."
+    },
+    {
+     "from": "Jim",
+     "text": "And maybe even part of your family."
+    },
+    {
+     "from": "Ellen",
+     "text": "So are we."
+    },
+    {
+     "from": "Ellen",
+     "text": "My mom says I have good taste in men."
+    }
+   ]
+  }
+ ]
 }

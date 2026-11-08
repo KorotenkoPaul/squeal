@@ -2,385 +2,390 @@
  "id": "skinless",
  "title": "Skinless",
  "author": "Rich Samuels",
- "description": "Joe discovers that he can peel a scab off of his arm without any pain. Naturally, he continues peeling and peeling…and peeling…just to see what happens. Things get a little sticky.",
- "left": "Joe",
- "right": "Marcus",
- "messages": [
-  {
-   "from": "Joe",
-   "text": "I just discovered something."
-  },
-  {
-   "from": "Marcus",
-   "text": "What?"
-  },
-  {
-   "from": "Joe",
-   "text": "It’s going to sound weird – just warning you."
-  },
-  {
-   "from": "Marcus",
-   "text": "What is it?"
-  },
-  {
-   "from": "Joe",
-   "text": "Well, see, I’ve had this scab on my arm for the longest time."
-  },
-  {
-   "from": "Marcus",
-   "text": "Yeah, so?"
-  },
-  {
-   "from": "Joe",
-   "text": "You know how you pick at scabs sometime?"
-  },
-  {
-   "from": "Marcus",
-   "text": "Yeah."
-  },
-  {
-   "from": "Joe",
-   "text": "Well I was doing it and it sort of opened."
-  },
-  {
-   "from": "Marcus",
-   "text": "What do you mean?"
-  },
-  {
-   "from": "Joe",
-   "text": "You know, like opened up on the wound."
-  },
-  {
-   "from": "Marcus",
-   "text": "That must have hurt."
-  },
-  {
-   "from": "Joe",
-   "text": "Well, that’s just the thing. It didn’t."
-  },
-  {
-   "from": "Marcus",
-   "text": "It wasn’t healed?"
-  },
-  {
-   "from": "Joe",
-   "text": "Now, you could see the blood part underneath."
-  },
-  {
-   "from": "Marcus",
-   "text": "Weird"
-  },
-  {
-   "from": "Joe",
-   "text": "So, since it didn’t hurt, I peeled it a little more."
-  },
-  {
-   "from": "Marcus",
-   "text": "Peeled it?"
-  },
-  {
-   "from": "Joe",
-   "text": "Like, next to the wound."
-  },
-  {
-   "from": "Marcus",
-   "text": "What do you mean"
-  },
-  {
-   "from": "Joe",
-   "text": "Like where there’s just skin."
-  },
-  {
-   "from": "Marcus",
-   "text": "You peeled your skin?"
-  },
-  {
-   "from": "Joe",
-   "text": "Yeah, and it didn’t hurt!"
-  },
-  {
-   "from": "Marcus",
-   "text": "How much did you peel?"
-  },
-  {
-   "from": "Joe",
-   "text": "So far? Like halfway up my arm."
-  },
-  {
-   "from": "Marcus",
-   "text": "And it doesn’t hurt?"
-  },
-  {
-   "from": "Joe",
-   "text": "No."
-  },
-  {
-   "from": "Marcus",
-   "text": "You peeled off half the skin on your arm?"
-  },
-  {
-   "from": "Joe",
-   "text": "Yeah. It looks kind of cool, actually."
-  },
-  {
-   "from": "Joe",
-   "text": "All red and shiny."
-  },
-  {
-   "from": "Marcus",
-   "text": "I don’t know if you should do that."
-  },
-  {
-   "from": "Joe",
-   "text": "It doesn’t hurt, though."
-  },
-  {
-   "from": "Joe",
-   "text": "I’m almost up to my shoulder, now."
-  },
-  {
-   "from": "Marcus",
-   "text": "You really shouldn’t do that."
-  },
-  {
-   "from": "Joe",
-   "text": "Well I have to do the other arm now, just to even it out."
-  },
-  {
-   "from": "Marcus",
-   "text": "Maybe you should stop."
-  },
-  {
-   "from": "Joe",
-   "text": "I LOVE this!"
-  },
-  {
-   "from": "Marcus",
-   "text": "It sounds gross."
-  },
-  {
-   "from": "Joe",
-   "text": "It’s like the most awesome tattoo you could get."
-  },
-  {
-   "from": "Joe",
-   "text": "You know what I should do?"
-  },
-  {
-   "from": "Marcus",
-   "text": "What"
-  },
-  {
-   "from": "Joe",
-   "text": "Peel my face!"
-  },
-  {
-   "from": "Marcus",
-   "text": "What if it doesn’t grow back?"
-  },
-  {
-   "from": "Joe",
-   "text": "I don’t care. This is going to look great."
-  },
-  {
-   "from": "Joe",
-   "text": "You should try it."
-  },
-  {
-   "from": "Marcus",
-   "text": "I don’t think so."
-  },
-  {
-   "from": "Joe",
-   "text": "You should! Peel!"
-  },
-  {
-   "from": "Joe",
-   "text": "My face looks awesome"
-  },
-  {
-   "from": "Marcus",
-   "text": "I don’t know."
-  },
-  {
-   "from": "Joe",
-   "text": "You have to come here."
-  },
-  {
-   "from": "Marcus",
-   "text": "Why? I’m not doing it."
-  },
-  {
-   "from": "Joe",
-   "text": "I want to peel everything. I need you to help me."
-  },
-  {
-   "from": "Marcus",
-   "text": "You want me to help you peel your skin off."
-  },
-  {
-   "from": "Joe",
-   "text": "Yeah!"
-  },
-  {
-   "from": "Marcus",
-   "text": "I don’t think I could do that."
-  },
-  {
-   "from": "Joe",
-   "text": "Yeah, you can."
-  },
-  {
-   "from": "Joe",
-   "text": "I want to be totally SKINLESS."
-  },
-  {
-   "from": "Marcus",
-   "text": "That just sounds gross."
-  },
-  {
-   "from": "Joe",
-   "text": "Don’t you want to be skinless?"
-  },
-  {
-   "from": "Marcus",
-   "text": "No."
-  },
-  {
-   "from": "Joe",
-   "text": "I do. I want to be totally skinless."
-  },
-  {
-   "from": "Joe",
-   "text": "It’s a little sticky, but I could get used to that."
-  },
-  {
-   "from": "Joe",
-   "text": "So are you coming?"
-  },
-  {
-   "from": "Marcus",
-   "text": "I don’t know…"
-  },
-  {
-   "from": "Joe",
-   "text": "Then I’ll come there!"
-  },
-  {
-   "from": "Marcus",
-   "text": "No…maybe that wouldn’t be a good idea."
-  },
-  {
-   "from": "Joe",
-   "text": "Why not?"
-  },
-  {
-   "from": "Marcus",
-   "text": "You know…the neighbors."
-  },
-  {
-   "from": "Joe",
-   "text": "What about them?"
-  },
-  {
-   "from": "Marcus",
-   "text": "They might not like the way you look."
-  },
-  {
-   "from": "Joe",
-   "text": "Well, that’s not very fair."
-  },
-  {
-   "from": "Marcus",
-   "text": "It is kind of gross."
-  },
-  {
-   "from": "Joe",
-   "text": "You’re being unfair."
-  },
-  {
-   "from": "Joe",
-   "text": "Just because I’m skinless."
-  },
-  {
-   "from": "Joe",
-   "text": "I just finished my legs."
-  },
-  {
-   "from": "Joe",
-   "text": "It’s still sticking though."
-  },
-  {
-   "from": "Marcus",
-   "text": "Sticking?"
-  },
-  {
-   "from": "Joe",
-   "text": "Yes, you know, it’s all bloody and sticky."
-  },
-  {
-   "from": "Joe",
-   "text": "I’m sticking to the chair."
-  },
-  {
-   "from": "Marcus",
-   "text": "You can’t just lift if off."
-  },
-  {
-   "from": "Joe",
-   "text": "Its like glue."
-  },
-  {
-   "from": "Marcus",
-   "text": "What if you just pull it?"
-  },
-  {
-   "from": "Joe",
-   "text": "I’m trying."
-  },
-  {
-   "from": "Marcus",
-   "text": "And?"
-  },
-  {
-   "from": "Joe",
-   "text": "It’s not coming off."
-  },
-  {
-   "from": "Marcus",
-   "text": "Just give it yank."
-  },
-  {
-   "from": "Joe",
-   "text": "Ummm I just did."
-  },
-  {
-   "from": "Marcus",
-   "text": "And?"
-  },
-  {
-   "from": "Joe",
-   "text": "It’s not coming off the chair?"
-  },
-  {
-   "from": "Marcus",
-   "text": "Then what’s it doing?"
-  },
-  {
-   "from": "Joe",
-   "text": "It’s coming off the bone."
-  }
- ],
  "genre": "horror",
- "wallpaper": [
-  "bandage",
-  "drop",
-  "chair",
-  "magnifier",
-  "moon",
-  "phone",
-  "question",
-  "clock"
- ],
- "fear": 5
+ "fear": 5,
+ "description": "Joe discovers that he can peel a scab off of his arm without any pain. Naturally, he continues peeling and peeling…and peeling…just to see what happens. Things get a little sticky.",
+ "parts": [
+  {
+   "prologue": "Joe has always picked at things — labels, scabs, arguments. His friends find it annoying. Tonight he's found something he can't stop picking at.",
+   "left": "Joe",
+   "right": "Marcus",
+   "wallpaper": [
+    "bandage",
+    "drop",
+    "chair",
+    "magnifier",
+    "moon",
+    "phone",
+    "question",
+    "clock"
+   ],
+   "messages": [
+    {
+     "from": "Joe",
+     "text": "I just discovered something."
+    },
+    {
+     "from": "Marcus",
+     "text": "What?"
+    },
+    {
+     "from": "Joe",
+     "text": "It’s going to sound weird – just warning you."
+    },
+    {
+     "from": "Marcus",
+     "text": "What is it?"
+    },
+    {
+     "from": "Joe",
+     "text": "Well, see, I’ve had this scab on my arm for the longest time."
+    },
+    {
+     "from": "Marcus",
+     "text": "Yeah, so?"
+    },
+    {
+     "from": "Joe",
+     "text": "You know how you pick at scabs sometime?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Yeah."
+    },
+    {
+     "from": "Joe",
+     "text": "Well I was doing it and it sort of opened."
+    },
+    {
+     "from": "Marcus",
+     "text": "What do you mean?"
+    },
+    {
+     "from": "Joe",
+     "text": "You know, like opened up on the wound."
+    },
+    {
+     "from": "Marcus",
+     "text": "That must have hurt."
+    },
+    {
+     "from": "Joe",
+     "text": "Well, that’s just the thing. It didn’t."
+    },
+    {
+     "from": "Marcus",
+     "text": "It wasn’t healed?"
+    },
+    {
+     "from": "Joe",
+     "text": "Now, you could see the blood part underneath."
+    },
+    {
+     "from": "Marcus",
+     "text": "Weird"
+    },
+    {
+     "from": "Joe",
+     "text": "So, since it didn’t hurt, I peeled it a little more."
+    },
+    {
+     "from": "Marcus",
+     "text": "Peeled it?"
+    },
+    {
+     "from": "Joe",
+     "text": "Like, next to the wound."
+    },
+    {
+     "from": "Marcus",
+     "text": "What do you mean"
+    },
+    {
+     "from": "Joe",
+     "text": "Like where there’s just skin."
+    },
+    {
+     "from": "Marcus",
+     "text": "You peeled your skin?"
+    },
+    {
+     "from": "Joe",
+     "text": "Yeah, and it didn’t hurt!"
+    },
+    {
+     "from": "Marcus",
+     "text": "How much did you peel?"
+    },
+    {
+     "from": "Joe",
+     "text": "So far? Like halfway up my arm."
+    },
+    {
+     "from": "Marcus",
+     "text": "And it doesn’t hurt?"
+    },
+    {
+     "from": "Joe",
+     "text": "No."
+    },
+    {
+     "from": "Marcus",
+     "text": "You peeled off half the skin on your arm?"
+    },
+    {
+     "from": "Joe",
+     "text": "Yeah. It looks kind of cool, actually."
+    },
+    {
+     "from": "Joe",
+     "text": "All red and shiny."
+    },
+    {
+     "from": "Marcus",
+     "text": "I don’t know if you should do that."
+    },
+    {
+     "from": "Joe",
+     "text": "It doesn’t hurt, though."
+    },
+    {
+     "from": "Joe",
+     "text": "I’m almost up to my shoulder, now."
+    },
+    {
+     "from": "Marcus",
+     "text": "You really shouldn’t do that."
+    },
+    {
+     "from": "Joe",
+     "text": "Well I have to do the other arm now, just to even it out."
+    },
+    {
+     "from": "Marcus",
+     "text": "Maybe you should stop."
+    },
+    {
+     "from": "Joe",
+     "text": "I LOVE this!"
+    },
+    {
+     "from": "Marcus",
+     "text": "It sounds gross."
+    },
+    {
+     "from": "Joe",
+     "text": "It’s like the most awesome tattoo you could get."
+    },
+    {
+     "from": "Joe",
+     "text": "You know what I should do?"
+    },
+    {
+     "from": "Marcus",
+     "text": "What"
+    },
+    {
+     "from": "Joe",
+     "text": "Peel my face!"
+    },
+    {
+     "from": "Marcus",
+     "text": "What if it doesn’t grow back?"
+    },
+    {
+     "from": "Joe",
+     "text": "I don’t care. This is going to look great."
+    },
+    {
+     "from": "Joe",
+     "text": "You should try it."
+    },
+    {
+     "from": "Marcus",
+     "text": "I don’t think so."
+    },
+    {
+     "from": "Joe",
+     "text": "You should! Peel!"
+    },
+    {
+     "from": "Joe",
+     "text": "My face looks awesome"
+    },
+    {
+     "from": "Marcus",
+     "text": "I don’t know."
+    },
+    {
+     "from": "Joe",
+     "text": "You have to come here."
+    },
+    {
+     "from": "Marcus",
+     "text": "Why? I’m not doing it."
+    },
+    {
+     "from": "Joe",
+     "text": "I want to peel everything. I need you to help me."
+    },
+    {
+     "from": "Marcus",
+     "text": "You want me to help you peel your skin off."
+    },
+    {
+     "from": "Joe",
+     "text": "Yeah!"
+    },
+    {
+     "from": "Marcus",
+     "text": "I don’t think I could do that."
+    },
+    {
+     "from": "Joe",
+     "text": "Yeah, you can."
+    },
+    {
+     "from": "Joe",
+     "text": "I want to be totally SKINLESS."
+    },
+    {
+     "from": "Marcus",
+     "text": "That just sounds gross."
+    },
+    {
+     "from": "Joe",
+     "text": "Don’t you want to be skinless?"
+    },
+    {
+     "from": "Marcus",
+     "text": "No."
+    },
+    {
+     "from": "Joe",
+     "text": "I do. I want to be totally skinless."
+    },
+    {
+     "from": "Joe",
+     "text": "It’s a little sticky, but I could get used to that."
+    },
+    {
+     "from": "Joe",
+     "text": "So are you coming?"
+    },
+    {
+     "from": "Marcus",
+     "text": "I don’t know…"
+    },
+    {
+     "from": "Joe",
+     "text": "Then I’ll come there!"
+    },
+    {
+     "from": "Marcus",
+     "text": "No…maybe that wouldn’t be a good idea."
+    },
+    {
+     "from": "Joe",
+     "text": "Why not?"
+    },
+    {
+     "from": "Marcus",
+     "text": "You know…the neighbors."
+    },
+    {
+     "from": "Joe",
+     "text": "What about them?"
+    },
+    {
+     "from": "Marcus",
+     "text": "They might not like the way you look."
+    },
+    {
+     "from": "Joe",
+     "text": "Well, that’s not very fair."
+    },
+    {
+     "from": "Marcus",
+     "text": "It is kind of gross."
+    },
+    {
+     "from": "Joe",
+     "text": "You’re being unfair."
+    },
+    {
+     "from": "Joe",
+     "text": "Just because I’m skinless."
+    },
+    {
+     "from": "Joe",
+     "text": "I just finished my legs."
+    },
+    {
+     "from": "Joe",
+     "text": "It’s still sticking though."
+    },
+    {
+     "from": "Marcus",
+     "text": "Sticking?"
+    },
+    {
+     "from": "Joe",
+     "text": "Yes, you know, it’s all bloody and sticky."
+    },
+    {
+     "from": "Joe",
+     "text": "I’m sticking to the chair."
+    },
+    {
+     "from": "Marcus",
+     "text": "You can’t just lift if off."
+    },
+    {
+     "from": "Joe",
+     "text": "Its like glue."
+    },
+    {
+     "from": "Marcus",
+     "text": "What if you just pull it?"
+    },
+    {
+     "from": "Joe",
+     "text": "I’m trying."
+    },
+    {
+     "from": "Marcus",
+     "text": "And?"
+    },
+    {
+     "from": "Joe",
+     "text": "It’s not coming off."
+    },
+    {
+     "from": "Marcus",
+     "text": "Just give it yank."
+    },
+    {
+     "from": "Joe",
+     "text": "Ummm I just did."
+    },
+    {
+     "from": "Marcus",
+     "text": "And?"
+    },
+    {
+     "from": "Joe",
+     "text": "It’s not coming off the chair?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Then what’s it doing?"
+    },
+    {
+     "from": "Joe",
+     "text": "It’s coming off the bone."
+    }
+   ]
+  }
+ ]
 }

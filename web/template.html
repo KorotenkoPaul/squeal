@@ -1683,7 +1683,8 @@ function openStory(id, epIndex) {
   let k0 = epIndex;
   if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
     k0 = pr.ep; while (k0 < N - 1 && pr.pos[k0] >= len(k0)) k0++;
-    if (pr.pos.every((n, k) => n >= len(k))) { pr.pos = pr.pos.map(() => 0); k0 = 0; }   // all read: from the top
+    if (pr.pos.every((n, k) => n >= len(k)) && !s.interactive) { pr.pos = pr.pos.map(() => 0); k0 = 0; }   // all read: from the top
+    /* an interactive story read to an ending stays at that ending; the reader resets it if they want */
   }                                                   // a finished part opened on purpose shows whole, still marked read
   pr.ep = k0; setProg(s, pr);
   let st = { ep: k0, i: pr.pos[k0] };
@@ -1707,7 +1708,7 @@ function openStory(id, epIndex) {
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
         <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
         ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * 34}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}</button>`).join("")}</div>` : ""}</div>
-      <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.description || s.description)}</div></div>
+      <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.prologue || "")}</div></div>
       <div class="foot" id="foot"></div></section>`;
   layer.appendChild(scr);
   if (scr.animate && !reduce()) scr.animate([prev ? { opacity: 0 } : { transform: "translateX(100%)" }, prev ? { opacity: 1 } : { transform: "none" }], { duration: prev ? 200 : 340, easing: EASE });

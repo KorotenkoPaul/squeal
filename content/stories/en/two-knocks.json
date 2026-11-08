@@ -3,14 +3,292 @@
  "title": "Two Knocks",
  "author": "Claude",
  "genre": "horror",
+ "fear": 3,
+ "description": "It's 3 a.m. Someone knocks on Lily's door — twice, your secret knock — and speaks in your voice. You're home in bed. The flat next door has been empty since June. Or so everyone thought.",
  "interactive": true,
  "featured": true,
- "description": "It's 3 a.m. Someone knocks on Lily's door — twice, your secret knock — and speaks in your voice. You're home in bed. The flat next door has been empty since June. Or so everyone thought. Your choices decide whether Lily sees the morning. Three endings.",
- "left": "Lily",
- "right": "Sam",
- "start": "start",
- "nodes": {
-  "start": {
+ "parts": [
+  {
+   "prologue": "Lily and Sam have had a secret knock since they were kids: two quick taps, nothing more. Nobody else has ever known it. Lily lives on the fourth floor, next to Mrs Hale's flat — empty since June.",
+   "left": "Lily",
+   "right": "Sam",
+   "wallpaper": [
+    "door",
+    "key",
+    "moon",
+    "phone",
+    "lock",
+    "stairs",
+    "window",
+    "drop",
+    "clock"
+   ],
+   "start": "start",
+   "nodes": {
+    "start": {
+     "messages": [
+      {
+       "from": "Lily",
+       "text": "Sam, are you awake?"
+      },
+      {
+       "from": "Sam",
+       "text": "barely. it's 3am. what's wrong"
+      },
+      {
+       "from": "Lily",
+       "text": "someone just knocked on my door. twice."
+      },
+      {
+       "from": "Lily",
+       "text": "our knock."
+      },
+      {
+       "from": "Sam",
+       "text": "Lil, I'm at home. I'm in bed."
+      },
+      {
+       "from": "Lily",
+       "text": "I know. I can see you typing."
+      },
+      {
+       "from": "Lily",
+       "text": "but he's out there saying he's you. says he lost his phone."
+      },
+      {
+       "from": "Lily",
+       "text": "Sam, it's your voice. exactly your voice."
+      },
+      {
+       "from": "Sam",
+       "text": "who else knows our knock?"
+      },
+      {
+       "from": "Lily",
+       "text": "nobody. unless someone's been listening"
+      },
+      {
+       "from": "Sam",
+       "text": "the flat next door's empty. Mrs Hale moved out in June"
+      },
+      {
+       "from": "Lily",
+       "text": "nobody saw her move out. her things are still in there"
+      },
+      {
+       "from": "Lily",
+       "text": "and for weeks I've heard someone in there at night. repeating my phone calls through the wall. word for word."
+      },
+      {
+       "from": "Lily",
+       "text": "in my voice"
+      },
+      {
+       "from": "Lily",
+       "text": "he's knocking again. \"Lil, it's freezing, let me in\""
+      }
+     ],
+     "choices": [
+      {
+       "text": "Open it. Let's see who it is. I'm right here with you.",
+       "next": "open"
+      },
+      {
+       "text": "Don't open. Whatever it is, it isn't me.",
+       "next": "stay"
+      }
+     ]
+    },
+    "open": {
+     "messages": [
+      {
+       "from": "Lily",
+       "text": "ok. unlocking"
+      },
+      {
+       "from": "Lily",
+       "text": "Sam"
+      },
+      {
+       "from": "Lily",
+       "text": "there's no one there"
+      },
+      {
+       "from": "Lily",
+       "text": "Mrs Hale's door is open. it smells like wet soil in there"
+      },
+      {
+       "from": "Lily",
+       "text": "something behind me just said thank you"
+      },
+      {
+       "from": "Lily",
+       "text": "in your voice"
+      },
+      {
+       "from": "Sam",
+       "text": "Lily?"
+      },
+      {
+       "from": "Sam",
+       "text": "LILY"
+      },
+      {
+       "from": "Lily",
+       "text": "sorry. dropped my phone. all fine, it was just the pipes :)"
+      },
+      {
+       "from": "Sam",
+       "text": "you never use smileys"
+      },
+      {
+       "from": "Lily",
+       "text": "come over. I can't sleep"
+      },
+      {
+       "from": "Lily",
+       "text": "knock twice so I know it's you"
+      }
+     ],
+     "ending": "Invited In"
+    },
+    "stay": {
+     "messages": [
+      {
+       "from": "Lily",
+       "text": "ok. not opening"
+      },
+      {
+       "from": "Lily",
+       "text": "he stopped"
+      },
+      {
+       "from": "Lily",
+       "text": "now it's my mum's voice. then a little kid crying. then you again"
+      },
+      {
+       "from": "Lily",
+       "text": "it's trying voices. like keys on a ring"
+      },
+      {
+       "from": "Lily",
+       "text": "Sam the scratching moved. it's in the wall. the wall between me and Mrs Hale's flat"
+      },
+      {
+       "from": "Lily",
+       "text": "they put that wall up in June. it's just plasterboard"
+      },
+      {
+       "from": "Lily",
+       "text": "it's coming through. what do I do??"
+      }
+     ],
+     "choices": [
+      {
+       "text": "Run. Get out of the building, now.",
+       "next": "run"
+      },
+      {
+       "text": "Lock yourself in the bathroom and call the police.",
+       "next": "hide"
+      }
+     ]
+    },
+    "run": {
+     "messages": [
+      {
+       "from": "Lily",
+       "text": "running"
+      },
+      {
+       "from": "Lily",
+       "text": "hallway's dark. Mrs Hale's door is wide open"
+      },
+      {
+       "from": "Lily",
+       "text": "there's a hole in her wall. right where my bed is"
+      },
+      {
+       "from": "Lily",
+       "text": "stairs. four floors. go go go"
+      },
+      {
+       "from": "Lily",
+       "text": "I'm outside"
+      },
+      {
+       "from": "Lily",
+       "text": "I'm outside Sam. I'm ok"
+      },
+      {
+       "from": "Sam",
+       "text": "go to the all-night shop on the corner. I'm coming"
+      },
+      {
+       "from": "Lily",
+       "text": "ok"
+      },
+      {
+       "from": "Lily",
+       "text": "Sam"
+      },
+      {
+       "from": "Lily",
+       "text": "the light just came on in my flat"
+      },
+      {
+       "from": "Lily",
+       "text": "someone's standing at my window. waving"
+      }
+     ],
+     "ending": "Out Alive"
+    },
+    "hide": {
+     "messages": [
+      {
+       "from": "Lily",
+       "text": "in the bathroom. door locked"
+      },
+      {
+       "from": "Lily",
+       "text": "called 999. a woman answered. she's so calm"
+      },
+      {
+       "from": "Lily",
+       "text": "she says officers are on their way up. they'll knock twice so I know it's them"
+      },
+      {
+       "from": "Sam",
+       "text": "twice? did you tell her about our knock?"
+      },
+      {
+       "from": "Lily",
+       "text": "no"
+      },
+      {
+       "from": "Lily",
+       "text": "why would she know that"
+      },
+      {
+       "from": "Lily",
+       "text": "her voice. Sam, I know her voice"
+      },
+      {
+       "from": "Lily",
+       "text": "it's Mrs Hale"
+      },
+      {
+       "from": "Lily",
+       "text": "they're knocking on the bathroom door"
+      },
+      {
+       "from": "Lily",
+       "text": "twice"
+      }
+     ],
+     "ending": "The Call"
+    }
+   },
    "messages": [
     {
      "from": "Lily",
@@ -71,74 +349,11 @@
     {
      "from": "Lily",
      "text": "he's knocking again. \"Lil, it's freezing, let me in\""
-    }
-   ],
-   "choices": [
-    {
-     "text": "Open it. Let's see who it is. I'm right here with you.",
-     "next": "open"
-    },
-    {
-     "text": "Don't open. Whatever it is, it isn't me.",
-     "next": "stay"
-    }
-   ]
-  },
-  "open": {
-   "messages": [
-    {
-     "from": "Lily",
-     "text": "ok. unlocking"
-    },
-    {
-     "from": "Lily",
-     "text": "Sam"
-    },
-    {
-     "from": "Lily",
-     "text": "there's no one there"
-    },
-    {
-     "from": "Lily",
-     "text": "Mrs Hale's door is open. it smells like wet soil in there"
-    },
-    {
-     "from": "Lily",
-     "text": "something behind me just said thank you"
-    },
-    {
-     "from": "Lily",
-     "text": "in your voice"
     },
     {
      "from": "Sam",
-     "text": "Lily?"
+     "text": "Don't open. Whatever it is, it isn't me."
     },
-    {
-     "from": "Sam",
-     "text": "LILY"
-    },
-    {
-     "from": "Lily",
-     "text": "sorry. dropped my phone. all fine, it was just the pipes :)"
-    },
-    {
-     "from": "Sam",
-     "text": "you never use smileys"
-    },
-    {
-     "from": "Lily",
-     "text": "come over. I can't sleep"
-    },
-    {
-     "from": "Lily",
-     "text": "knock twice so I know it's you"
-    }
-   ],
-   "ending": "Invited In"
-  },
-  "stay": {
-   "messages": [
     {
      "from": "Lily",
      "text": "ok. not opening"
@@ -166,21 +381,11 @@
     {
      "from": "Lily",
      "text": "it's coming through. what do I do??"
-    }
-   ],
-   "choices": [
-    {
-     "text": "Run. Get out of the building, now.",
-     "next": "run"
     },
     {
-     "text": "Lock yourself in the bathroom and call the police.",
-     "next": "hide"
-    }
-   ]
-  },
-  "run": {
-   "messages": [
+     "from": "Sam",
+     "text": "Run. Get out of the building, now."
+    },
     {
      "from": "Lily",
      "text": "running"
@@ -225,207 +430,7 @@
      "from": "Lily",
      "text": "someone's standing at my window. waving"
     }
-   ],
-   "ending": "Out Alive"
-  },
-  "hide": {
-   "messages": [
-    {
-     "from": "Lily",
-     "text": "in the bathroom. door locked"
-    },
-    {
-     "from": "Lily",
-     "text": "called 999. a woman answered. she's so calm"
-    },
-    {
-     "from": "Lily",
-     "text": "she says officers are on their way up. they'll knock twice so I know it's them"
-    },
-    {
-     "from": "Sam",
-     "text": "twice? did you tell her about our knock?"
-    },
-    {
-     "from": "Lily",
-     "text": "no"
-    },
-    {
-     "from": "Lily",
-     "text": "why would she know that"
-    },
-    {
-     "from": "Lily",
-     "text": "her voice. Sam, I know her voice"
-    },
-    {
-     "from": "Lily",
-     "text": "it's Mrs Hale"
-    },
-    {
-     "from": "Lily",
-     "text": "they're knocking on the bathroom door"
-    },
-    {
-     "from": "Lily",
-     "text": "twice"
-    }
-   ],
-   "ending": "The Call"
+   ]
   }
- },
- "messages": [
-  {
-   "from": "Lily",
-   "text": "Sam, are you awake?"
-  },
-  {
-   "from": "Sam",
-   "text": "barely. it's 3am. what's wrong"
-  },
-  {
-   "from": "Lily",
-   "text": "someone just knocked on my door. twice."
-  },
-  {
-   "from": "Lily",
-   "text": "our knock."
-  },
-  {
-   "from": "Sam",
-   "text": "Lil, I'm at home. I'm in bed."
-  },
-  {
-   "from": "Lily",
-   "text": "I know. I can see you typing."
-  },
-  {
-   "from": "Lily",
-   "text": "but he's out there saying he's you. says he lost his phone."
-  },
-  {
-   "from": "Lily",
-   "text": "Sam, it's your voice. exactly your voice."
-  },
-  {
-   "from": "Sam",
-   "text": "who else knows our knock?"
-  },
-  {
-   "from": "Lily",
-   "text": "nobody. unless someone's been listening"
-  },
-  {
-   "from": "Sam",
-   "text": "the flat next door's empty. Mrs Hale moved out in June"
-  },
-  {
-   "from": "Lily",
-   "text": "nobody saw her move out. her things are still in there"
-  },
-  {
-   "from": "Lily",
-   "text": "and for weeks I've heard someone in there at night. repeating my phone calls through the wall. word for word."
-  },
-  {
-   "from": "Lily",
-   "text": "in my voice"
-  },
-  {
-   "from": "Lily",
-   "text": "he's knocking again. \"Lil, it's freezing, let me in\""
-  },
-  {
-   "from": "Sam",
-   "text": "Don't open. Whatever it is, it isn't me."
-  },
-  {
-   "from": "Lily",
-   "text": "ok. not opening"
-  },
-  {
-   "from": "Lily",
-   "text": "he stopped"
-  },
-  {
-   "from": "Lily",
-   "text": "now it's my mum's voice. then a little kid crying. then you again"
-  },
-  {
-   "from": "Lily",
-   "text": "it's trying voices. like keys on a ring"
-  },
-  {
-   "from": "Lily",
-   "text": "Sam the scratching moved. it's in the wall. the wall between me and Mrs Hale's flat"
-  },
-  {
-   "from": "Lily",
-   "text": "they put that wall up in June. it's just plasterboard"
-  },
-  {
-   "from": "Lily",
-   "text": "it's coming through. what do I do??"
-  },
-  {
-   "from": "Sam",
-   "text": "Run. Get out of the building, now."
-  },
-  {
-   "from": "Lily",
-   "text": "running"
-  },
-  {
-   "from": "Lily",
-   "text": "hallway's dark. Mrs Hale's door is wide open"
-  },
-  {
-   "from": "Lily",
-   "text": "there's a hole in her wall. right where my bed is"
-  },
-  {
-   "from": "Lily",
-   "text": "stairs. four floors. go go go"
-  },
-  {
-   "from": "Lily",
-   "text": "I'm outside"
-  },
-  {
-   "from": "Lily",
-   "text": "I'm outside Sam. I'm ok"
-  },
-  {
-   "from": "Sam",
-   "text": "go to the all-night shop on the corner. I'm coming"
-  },
-  {
-   "from": "Lily",
-   "text": "ok"
-  },
-  {
-   "from": "Lily",
-   "text": "Sam"
-  },
-  {
-   "from": "Lily",
-   "text": "the light just came on in my flat"
-  },
-  {
-   "from": "Lily",
-   "text": "someone's standing at my window. waving"
-  }
- ],
- "wallpaper": [
-  "door",
-  "key",
-  "moon",
-  "phone",
-  "lock",
-  "stairs",
-  "window",
-  "drop",
-  "clock"
- ],
- "fear": 3
+ ]
 }

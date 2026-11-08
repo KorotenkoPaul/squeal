@@ -2,386 +2,391 @@
  "id": "perfect-match",
  "title": "Perfect Match",
  "author": "Asjad Ullah",
- "description": "Sam thinks he does not love his wife, he starts searching for a mate to spice things up a little, using a fake ID on a dating website. At last he finds a perfect match, but it turns out, the match is just too perfect for him to continue.",
- "left": "Sam",
- "right": "Eve",
- "messages": [
-  {
-   "from": "Sam",
-   "text": "Hi how are you?"
-  },
-  {
-   "from": "Eve",
-   "text": "Hey, I am fine."
-  },
-  {
-   "from": "Eve",
-   "text": "What about you?"
-  },
-  {
-   "from": "Sam",
-   "text": "I am fine too."
-  },
-  {
-   "from": "Sam",
-   "text": "I was going through the profiles, and."
-  },
-  {
-   "from": "Sam",
-   "text": "I found yours as very interesting."
-  },
-  {
-   "from": "Eve",
-   "text": "Thanks."
-  },
-  {
-   "from": "Eve",
-   "text": "So, tell me a little about yourself."
-  },
-  {
-   "from": "Sam",
-   "text": "Well, I am a simple man, have a private job."
-  },
-  {
-   "from": "Eve",
-   "text": "So you are here to find someone to date?"
-  },
-  {
-   "from": "Sam",
-   "text": "Yeah, I am searching for a date."
-  },
-  {
-   "from": "Sam",
-   "text": "Looking for someone interesting and delightful."
-  },
-  {
-   "from": "Eve",
-   "text": "That’s really cool."
-  },
-  {
-   "from": "Eve",
-   "text": "I am also searching for an interesting one."
-  },
-  {
-   "from": "Eve",
-   "text": "So what type of a personality you have?"
-  },
-  {
-   "from": "Sam",
-   "text": "I am an extrovert, love hanging out, going places."
-  },
-  {
-   "from": "Sam",
-   "text": "Eating out, dancing, sporting and the list goes on."
-  },
-  {
-   "from": "Eve",
-   "text": "Oh nice."
-  },
-  {
-   "from": "Sam",
-   "text": "And what about you?"
-  },
-  {
-   "from": "Eve",
-   "text": "Well, I am an ambivert."
-  },
-  {
-   "from": "Eve",
-   "text": "Love to hangout, but I need my recharging time."
-  },
-  {
-   "from": "Sam",
-   "text": "What are your interests?"
-  },
-  {
-   "from": "Eve",
-   "text": "Umm. I love cooking, painting and arts."
-  },
-  {
-   "from": "Sam",
-   "text": "Wow, that’s really cool."
-  },
-  {
-   "from": "Eve",
-   "text": "Thanks."
-  },
-  {
-   "from": "Sam",
-   "text": "So shall we meet sometime?"
-  },
-  {
-   "from": "Eve",
-   "text": "Yeah sure."
-  },
-  {
-   "from": "Sam",
-   "text": "So where should we go?"
-  },
-  {
-   "from": "Sam",
-   "text": "Any favorite restaurant?"
-  },
-  {
-   "from": "Eve",
-   "text": "I love to eat at the Shack Stone."
-  },
-  {
-   "from": "Sam",
-   "text": "Woah!"
-  },
-  {
-   "from": "Eve",
-   "text": "What? You don’t like the place?"
-  },
-  {
-   "from": "Sam",
-   "text": "No, it’s not that, I like that place."
-  },
-  {
-   "from": "Eve",
-   "text": "Then why the expression?"
-  },
-  {
-   "from": "Sam",
-   "text": "Well, A wild idea came to my mind."
-  },
-  {
-   "from": "Sam",
-   "text": "Just ignore."
-  },
-  {
-   "from": "Eve",
-   "text": "Hmm"
-  },
-  {
-   "from": "Eve",
-   "text": "Although it’s difficult to ignore."
-  },
-  {
-   "from": "Eve",
-   "text": "But let’s go there."
-  },
-  {
-   "from": "Sam",
-   "text": "Alright then Saturday night at 8?"
-  },
-  {
-   "from": "Eve",
-   "text": "Umm. I was thinking something else."
-  },
-  {
-   "from": "Sam",
-   "text": "What?"
-  },
-  {
-   "from": "Eve",
-   "text": "What is your favorite place?"
-  },
-  {
-   "from": "Sam",
-   "text": "Why is that important?"
-  },
-  {
-   "from": "Eve",
-   "text": "I think you didn’t like Shack Stone."
-  },
-  {
-   "from": "Sam",
-   "text": "No it’s not like that."
-  },
-  {
-   "from": "Sam",
-   "text": "It was just someone I knew."
-  },
-  {
-   "from": "Sam",
-   "text": "She also loved Shack Stone."
-  },
-  {
-   "from": "Eve",
-   "text": "Okay, and who is she?"
-  },
-  {
-   "from": "Eve",
-   "text": "If It’s not that personal. ;p"
-  },
-  {
-   "from": "Sam",
-   "text": "Lol. Nothing of the sort."
-  },
-  {
-   "from": "Sam",
-   "text": "Just an old friend."
-  },
-  {
-   "from": "Eve",
-   "text": "Hmm."
-  },
-  {
-   "from": "Eve",
-   "text": "Still I would love to know your favorite restaurant."
-  },
-  {
-   "from": "Sam",
-   "text": "I love to eat at Wao Tang."
-  },
-  {
-   "from": "Eve",
-   "text": "What? Seriously?"
-  },
-  {
-   "from": "Sam",
-   "text": "Yeah, you like it?"
-  },
-  {
-   "from": "Eve",
-   "text": "It’s ok, but seriously?"
-  },
-  {
-   "from": "Eve",
-   "text": "You like Wao Tang?"
-  },
-  {
-   "from": "Sam",
-   "text": "Yeah, why you seem so astonished?"
-  },
-  {
-   "from": "Eve",
-   "text": "Would you believe it?"
-  },
-  {
-   "from": "Eve",
-   "text": "Someone I knew loved to eat at Wao Tang."
-  },
-  {
-   "from": "Sam",
-   "text": "Well my turn now. :p"
-  },
-  {
-   "from": "Sam",
-   "text": "And who was he?"
-  },
-  {
-   "from": "Eve",
-   "text": "Nah, just an old friend. :p"
-  },
-  {
-   "from": "Sam",
-   "text": "It seems we have an interlinked past."
-  },
-  {
-   "from": "Eve",
-   "text": "Yeah, like in our last life we were a couple."
-  },
-  {
-   "from": "Sam",
-   "text": "Lol."
-  },
-  {
-   "from": "Eve",
-   "text": "Let’s meet then."
-  },
-  {
-   "from": "Sam",
-   "text": "Sure, I will pick you up from Tiffany’s"
-  },
-  {
-   "from": "Eve",
-   "text": "Great."
-  },
-  {
-   "from": "Sam",
-   "text": "I have a grey sedan."
-  },
-  {
-   "from": "Eve",
-   "text": "Woah. I am seriously confused now."
-  },
-  {
-   "from": "Sam",
-   "text": "Why, what happened?"
-  },
-  {
-   "from": "Eve",
-   "text": "I don’t know if I should ask or not."
-  },
-  {
-   "from": "Eve",
-   "text": "It will be very embarrassing if I get it wrong."
-  },
-  {
-   "from": "Sam",
-   "text": "Get what wrong?"
-  },
-  {
-   "from": "Eve",
-   "text": "Can you answer another question?"
-  },
-  {
-   "from": "Sam",
-   "text": "Yes please go ahead."
-  },
-  {
-   "from": "Eve",
-   "text": "Do you work at the Smith’s"
-  },
-  {
-   "from": "Sam",
-   "text": "OMG how do you know that?"
-  },
-  {
-   "from": "Eve",
-   "text": "Jack?"
-  },
-  {
-   "from": "Sam",
-   "text": "How do you even know my real name?"
-  },
-  {
-   "from": "Sam",
-   "text": "Oh God. This means you are…"
-  },
-  {
-   "from": "Sam",
-   "text": "You are Maria."
-  },
-  {
-   "from": "Eve",
-   "text": "Yes Jack and this time you are gone."
-  },
-  {
-   "from": "Eve",
-   "text": "Shame on you."
-  },
-  {
-   "from": "Sam",
-   "text": "Maria, be rational honey."
-  },
-  {
-   "from": "Sam",
-   "text": "Both of us have been caught on the same platform."
-  },
-  {
-   "from": "Eve",
-   "text": "What on earth were you doing here?"
-  },
-  {
-   "from": "Sam",
-   "text": "Honey, let’s talk about this when I get home."
-  }
- ],
  "genre": "romance",
- "wallpaper": [
-  "heart",
-  "laptop",
-  "wineglass",
-  "cutlery",
-  "car",
-  "ring",
-  "mask",
-  "question",
-  "phone"
- ],
- "fear": 1
+ "fear": 1,
+ "description": "Sam thinks he does not love his wife, he starts searching for a mate to spice things up a little, using a fake ID on a dating website. At last he finds a perfect match, but it turns out, the match is just too perfect for him to continue.",
+ "parts": [
+  {
+   "prologue": "Sam has been married for eleven years. Lately he spends his evenings on a dating site under a made-up name. He isn't the only one in the house who's bored.",
+   "left": "Sam",
+   "right": "Eve",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "wineglass",
+    "cutlery",
+    "car",
+    "ring",
+    "mask",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Sam",
+     "text": "Hi how are you?"
+    },
+    {
+     "from": "Eve",
+     "text": "Hey, I am fine."
+    },
+    {
+     "from": "Eve",
+     "text": "What about you?"
+    },
+    {
+     "from": "Sam",
+     "text": "I am fine too."
+    },
+    {
+     "from": "Sam",
+     "text": "I was going through the profiles, and."
+    },
+    {
+     "from": "Sam",
+     "text": "I found yours as very interesting."
+    },
+    {
+     "from": "Eve",
+     "text": "Thanks."
+    },
+    {
+     "from": "Eve",
+     "text": "So, tell me a little about yourself."
+    },
+    {
+     "from": "Sam",
+     "text": "Well, I am a simple man, have a private job."
+    },
+    {
+     "from": "Eve",
+     "text": "So you are here to find someone to date?"
+    },
+    {
+     "from": "Sam",
+     "text": "Yeah, I am searching for a date."
+    },
+    {
+     "from": "Sam",
+     "text": "Looking for someone interesting and delightful."
+    },
+    {
+     "from": "Eve",
+     "text": "That’s really cool."
+    },
+    {
+     "from": "Eve",
+     "text": "I am also searching for an interesting one."
+    },
+    {
+     "from": "Eve",
+     "text": "So what type of a personality you have?"
+    },
+    {
+     "from": "Sam",
+     "text": "I am an extrovert, love hanging out, going places."
+    },
+    {
+     "from": "Sam",
+     "text": "Eating out, dancing, sporting and the list goes on."
+    },
+    {
+     "from": "Eve",
+     "text": "Oh nice."
+    },
+    {
+     "from": "Sam",
+     "text": "And what about you?"
+    },
+    {
+     "from": "Eve",
+     "text": "Well, I am an ambivert."
+    },
+    {
+     "from": "Eve",
+     "text": "Love to hangout, but I need my recharging time."
+    },
+    {
+     "from": "Sam",
+     "text": "What are your interests?"
+    },
+    {
+     "from": "Eve",
+     "text": "Umm. I love cooking, painting and arts."
+    },
+    {
+     "from": "Sam",
+     "text": "Wow, that’s really cool."
+    },
+    {
+     "from": "Eve",
+     "text": "Thanks."
+    },
+    {
+     "from": "Sam",
+     "text": "So shall we meet sometime?"
+    },
+    {
+     "from": "Eve",
+     "text": "Yeah sure."
+    },
+    {
+     "from": "Sam",
+     "text": "So where should we go?"
+    },
+    {
+     "from": "Sam",
+     "text": "Any favorite restaurant?"
+    },
+    {
+     "from": "Eve",
+     "text": "I love to eat at the Shack Stone."
+    },
+    {
+     "from": "Sam",
+     "text": "Woah!"
+    },
+    {
+     "from": "Eve",
+     "text": "What? You don’t like the place?"
+    },
+    {
+     "from": "Sam",
+     "text": "No, it’s not that, I like that place."
+    },
+    {
+     "from": "Eve",
+     "text": "Then why the expression?"
+    },
+    {
+     "from": "Sam",
+     "text": "Well, A wild idea came to my mind."
+    },
+    {
+     "from": "Sam",
+     "text": "Just ignore."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm"
+    },
+    {
+     "from": "Eve",
+     "text": "Although it’s difficult to ignore."
+    },
+    {
+     "from": "Eve",
+     "text": "But let’s go there."
+    },
+    {
+     "from": "Sam",
+     "text": "Alright then Saturday night at 8?"
+    },
+    {
+     "from": "Eve",
+     "text": "Umm. I was thinking something else."
+    },
+    {
+     "from": "Sam",
+     "text": "What?"
+    },
+    {
+     "from": "Eve",
+     "text": "What is your favorite place?"
+    },
+    {
+     "from": "Sam",
+     "text": "Why is that important?"
+    },
+    {
+     "from": "Eve",
+     "text": "I think you didn’t like Shack Stone."
+    },
+    {
+     "from": "Sam",
+     "text": "No it’s not like that."
+    },
+    {
+     "from": "Sam",
+     "text": "It was just someone I knew."
+    },
+    {
+     "from": "Sam",
+     "text": "She also loved Shack Stone."
+    },
+    {
+     "from": "Eve",
+     "text": "Okay, and who is she?"
+    },
+    {
+     "from": "Eve",
+     "text": "If It’s not that personal. ;p"
+    },
+    {
+     "from": "Sam",
+     "text": "Lol. Nothing of the sort."
+    },
+    {
+     "from": "Sam",
+     "text": "Just an old friend."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm."
+    },
+    {
+     "from": "Eve",
+     "text": "Still I would love to know your favorite restaurant."
+    },
+    {
+     "from": "Sam",
+     "text": "I love to eat at Wao Tang."
+    },
+    {
+     "from": "Eve",
+     "text": "What? Seriously?"
+    },
+    {
+     "from": "Sam",
+     "text": "Yeah, you like it?"
+    },
+    {
+     "from": "Eve",
+     "text": "It’s ok, but seriously?"
+    },
+    {
+     "from": "Eve",
+     "text": "You like Wao Tang?"
+    },
+    {
+     "from": "Sam",
+     "text": "Yeah, why you seem so astonished?"
+    },
+    {
+     "from": "Eve",
+     "text": "Would you believe it?"
+    },
+    {
+     "from": "Eve",
+     "text": "Someone I knew loved to eat at Wao Tang."
+    },
+    {
+     "from": "Sam",
+     "text": "Well my turn now. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "And who was he?"
+    },
+    {
+     "from": "Eve",
+     "text": "Nah, just an old friend. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "It seems we have an interlinked past."
+    },
+    {
+     "from": "Eve",
+     "text": "Yeah, like in our last life we were a couple."
+    },
+    {
+     "from": "Sam",
+     "text": "Lol."
+    },
+    {
+     "from": "Eve",
+     "text": "Let’s meet then."
+    },
+    {
+     "from": "Sam",
+     "text": "Sure, I will pick you up from Tiffany’s"
+    },
+    {
+     "from": "Eve",
+     "text": "Great."
+    },
+    {
+     "from": "Sam",
+     "text": "I have a grey sedan."
+    },
+    {
+     "from": "Eve",
+     "text": "Woah. I am seriously confused now."
+    },
+    {
+     "from": "Sam",
+     "text": "Why, what happened?"
+    },
+    {
+     "from": "Eve",
+     "text": "I don’t know if I should ask or not."
+    },
+    {
+     "from": "Eve",
+     "text": "It will be very embarrassing if I get it wrong."
+    },
+    {
+     "from": "Sam",
+     "text": "Get what wrong?"
+    },
+    {
+     "from": "Eve",
+     "text": "Can you answer another question?"
+    },
+    {
+     "from": "Sam",
+     "text": "Yes please go ahead."
+    },
+    {
+     "from": "Eve",
+     "text": "Do you work at the Smith’s"
+    },
+    {
+     "from": "Sam",
+     "text": "OMG how do you know that?"
+    },
+    {
+     "from": "Eve",
+     "text": "Jack?"
+    },
+    {
+     "from": "Sam",
+     "text": "How do you even know my real name?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oh God. This means you are…"
+    },
+    {
+     "from": "Sam",
+     "text": "You are Maria."
+    },
+    {
+     "from": "Eve",
+     "text": "Yes Jack and this time you are gone."
+    },
+    {
+     "from": "Eve",
+     "text": "Shame on you."
+    },
+    {
+     "from": "Sam",
+     "text": "Maria, be rational honey."
+    },
+    {
+     "from": "Sam",
+     "text": "Both of us have been caught on the same platform."
+    },
+    {
+     "from": "Eve",
+     "text": "What on earth were you doing here?"
+    },
+    {
+     "from": "Sam",
+     "text": "Honey, let’s talk about this when I get home."
+    }
+   ]
+  }
+ ]
 }

@@ -2,350 +2,355 @@
  "id": "mystery-girlfriend",
  "title": "Mystery Girlfriend",
  "author": "Patricia Johnson",
- "description": "Bruce, the son of a billionaire has met the girl of his dreams on Facebook – or so he thinks. His father is very against his plans to marry her but why?",
- "left": "Genry",
- "right": "Bruce",
- "messages": [
-  {
-   "from": "Genry",
-   "text": "Hey buddy, why ain’t you answering your texts?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Sorry. Been busy."
-  },
-  {
-   "from": "Genry",
-   "text": "Doing what or who?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Met the girl of my dreams on Facebook."
-  },
-  {
-   "from": "Genry",
-   "text": "Really? That is what you thought about Linda."
-  },
-  {
-   "from": "Bruce",
-   "text": "But this is different."
-  },
-  {
-   "from": "Genry",
-   "text": "Different how?"
-  },
-  {
-   "from": "Bruce",
-   "text": "She understands, is beautiful, sweet, and kind."
-  },
-  {
-   "from": "Genry",
-   "text": "How long have you known her?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Just two weeks and I love her."
-  },
-  {
-   "from": "Genry",
-   "text": "After two weeks?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Just she means so much to me. Love at first sight."
-  },
-  {
-   "from": "Genry",
-   "text": "Sorry, don’t believe in love at first sight or any sight."
-  },
-  {
-   "from": "Bruce",
-   "text": "Not all girls are bitches are like Colleen."
-  },
-  {
-   "from": "Genry",
-   "text": "Haven’t found one yet who isn’t."
-  },
-  {
-   "from": "Bruce",
-   "text": "Do you want me to see if Laila has a sister or friend?"
-  },
-  {
-   "from": "Genry",
-   "text": "No thanks. I am done with the dating scene for awhile."
-  },
-  {
-   "from": "Bruce",
-   "text": "If you are sure."
-  },
-  {
-   "from": "Genry",
-   "text": "I am sure but thanks."
-  },
-  {
-   "from": "Bruce",
-   "text": "Change your mind let me know."
-  },
-  {
-   "from": "Genry",
-   "text": "So tell me more about Laila."
-  },
-  {
-   "from": "Bruce",
-   "text": "She is beautiful with dark hair and eyes and very curvy."
-  },
-  {
-   "from": "Genry",
-   "text": "What have you two been doing?"
-  },
-  {
-   "from": "Bruce",
-   "text": "I have taken her to romantic beach destinations."
-  },
-  {
-   "from": "Genry",
-   "text": "Sounds nice."
-  },
-  {
-   "from": "Bruce",
-   "text": "I have even rented a concert hall just for the two of us."
-  },
-  {
-   "from": "Genry",
-   "text": "That sounds cool."
-  },
-  {
-   "from": "Bruce",
-   "text": "This is real love and is going to last forever."
-  },
-  {
-   "from": "Genry",
-   "text": "Forever is a long time."
-  },
-  {
-   "from": "Bruce",
-   "text": "I know that."
-  },
-  {
-   "from": "Genry",
-   "text": "What is her last name?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Lafontaine."
-  },
-  {
-   "from": "Genry",
-   "text": "One of the shoe tycoon’s daughters?"
-  },
-  {
-   "from": "Bruce",
-   "text": "No, just a regular girl."
-  },
-  {
-   "from": "Genry",
-   "text": "How is your father taking it?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Not very well. He is against it."
-  },
-  {
-   "from": "Genry",
-   "text": "Yes, your father wanted you to marry Gloria Van House."
-  },
-  {
-   "from": "Bruce",
-   "text": "Yes, but she is an air head and…"
-  },
-  {
-   "from": "Genry",
-   "text": "And what buddy?"
-  },
-  {
-   "from": "Bruce",
-   "text": "A cold fish in bed."
-  },
-  {
-   "from": "Genry",
-   "text": "What kind of work does Laila do?"
-  },
-  {
-   "from": "Bruce",
-   "text": "I am not sure. She works various hours."
-  },
-  {
-   "from": "Genry",
-   "text": "She did not tell you?"
-  },
-  {
-   "from": "Bruce",
-   "text": "No and all I know is it is public relations."
-  },
-  {
-   "from": "Genry",
-   "text": "When do I get to meet her?"
-  },
-  {
-   "from": "Bruce",
-   "text": "I will have to see when she is off work."
-  },
-  {
-   "from": "Genry",
-   "text": "She has to have my stamp of approval first."
-  },
-  {
-   "from": "Bruce",
-   "text": "Your approval is all I need."
-  },
-  {
-   "from": "Genry",
-   "text": "What about your father’s approval?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Father said he would disinherit me if I saw her again."
-  },
-  {
-   "from": "Genry",
-   "text": "What are you going to do?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Keep seeing her."
-  },
-  {
-   "from": "Genry",
-   "text": "Even if you lose all your money, cars, house?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Yes because I love her."
-  },
-  {
-   "from": "Genry",
-   "text": "How is love going to put a roof over your head?"
-  },
-  {
-   "from": "Bruce",
-   "text": "We will make it work. She has a job."
-  },
-  {
-   "from": "Genry",
-   "text": "Has your father met her?"
-  },
-  {
-   "from": "Bruce",
-   "text": "No."
-  },
-  {
-   "from": "Genry",
-   "text": "Then how did your father find out you were seeing someone other than Gloria?"
-  },
-  {
-   "from": "Bruce",
-   "text": "The credit card bills and the money I have been spending on her."
-  },
-  {
-   "from": "Genry",
-   "text": "A lot of money?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Yes."
-  },
-  {
-   "from": "Genry",
-   "text": "Wow! Now what?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Father is taking me to lunch."
-  },
-  {
-   "from": "Genry",
-   "text": "Where?"
-  },
-  {
-   "from": "Bruce",
-   "text": "The Italian Bistro. Father insisted this restaurant."
-  },
-  {
-   "from": "Genry",
-   "text": "Why lunch?"
-  },
-  {
-   "from": "Bruce",
-   "text": "Why not? You have to eat and that place is good as any."
-  },
-  {
-   "from": "Genry",
-   "text": "Why that restaurant? You are not fond of Italian."
-  },
-  {
-   "from": "Bruce",
-   "text": "Hold on. Text from Laila."
-  },
-  {
-   "from": "Bruce",
-   "text": "I am back. Father said he is willing to compromise in regards to Laila and me."
-  },
-  {
-   "from": "Genry",
-   "text": "That is a step in the right direction"
-  },
-  {
-   "from": "Bruce",
-   "text": "He wants to discuss our upcoming marriage."
-  },
-  {
-   "from": "Genry",
-   "text": "Enjoy. Text me to let me know how it went."
-  },
-  {
-   "from": "Genry",
-   "text": "How did lunch go?"
-  },
-  {
-   "from": "Bruce",
-   "text": "I got it now why Father invited me to The Italian Bistro."
-  },
-  {
-   "from": "Genry",
-   "text": "Why?"
-  },
-  {
-   "from": "Bruce",
-   "text": "We were driving to the restaurant."
-  },
-  {
-   "from": "Genry",
-   "text": "And?"
-  },
-  {
-   "from": "Bruce",
-   "text": "We passed that place where the prostitutes hang out looking for noon time customers."
-  },
-  {
-   "from": "Genry",
-   "text": "So? They are there all the time."
-  },
-  {
-   "from": "Bruce",
-   "text": "Laila was among them."
-  }
- ],
  "genre": "romance",
- "wallpaper": [
-  "heart",
-  "laptop",
-  "ring",
-  "dollar",
-  "fork",
-  "rose",
-  "camera",
-  "question",
-  "phone"
- ],
- "fear": 1
+ "fear": 1,
+ "description": "Bruce, the son of a billionaire has met the girl of his dreams on Facebook – or so he thinks. His father is very against his plans to marry her but why?",
+ "parts": [
+  {
+   "prologue": "Bruce has never had to work for anything. Money, cars, girls — they just arrive. Laila arrived two weeks ago, in a Facebook message.",
+   "left": "Genry",
+   "right": "Bruce",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "ring",
+    "dollar",
+    "fork",
+    "rose",
+    "camera",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Genry",
+     "text": "Hey buddy, why ain’t you answering your texts?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sorry. Been busy."
+    },
+    {
+     "from": "Genry",
+     "text": "Doing what or who?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Met the girl of my dreams on Facebook."
+    },
+    {
+     "from": "Genry",
+     "text": "Really? That is what you thought about Linda."
+    },
+    {
+     "from": "Bruce",
+     "text": "But this is different."
+    },
+    {
+     "from": "Genry",
+     "text": "Different how?"
+    },
+    {
+     "from": "Bruce",
+     "text": "She understands, is beautiful, sweet, and kind."
+    },
+    {
+     "from": "Genry",
+     "text": "How long have you known her?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Just two weeks and I love her."
+    },
+    {
+     "from": "Genry",
+     "text": "After two weeks?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Just she means so much to me. Love at first sight."
+    },
+    {
+     "from": "Genry",
+     "text": "Sorry, don’t believe in love at first sight or any sight."
+    },
+    {
+     "from": "Bruce",
+     "text": "Not all girls are bitches are like Colleen."
+    },
+    {
+     "from": "Genry",
+     "text": "Haven’t found one yet who isn’t."
+    },
+    {
+     "from": "Bruce",
+     "text": "Do you want me to see if Laila has a sister or friend?"
+    },
+    {
+     "from": "Genry",
+     "text": "No thanks. I am done with the dating scene for awhile."
+    },
+    {
+     "from": "Bruce",
+     "text": "If you are sure."
+    },
+    {
+     "from": "Genry",
+     "text": "I am sure but thanks."
+    },
+    {
+     "from": "Bruce",
+     "text": "Change your mind let me know."
+    },
+    {
+     "from": "Genry",
+     "text": "So tell me more about Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "She is beautiful with dark hair and eyes and very curvy."
+    },
+    {
+     "from": "Genry",
+     "text": "What have you two been doing?"
+    },
+    {
+     "from": "Bruce",
+     "text": "I have taken her to romantic beach destinations."
+    },
+    {
+     "from": "Genry",
+     "text": "Sounds nice."
+    },
+    {
+     "from": "Bruce",
+     "text": "I have even rented a concert hall just for the two of us."
+    },
+    {
+     "from": "Genry",
+     "text": "That sounds cool."
+    },
+    {
+     "from": "Bruce",
+     "text": "This is real love and is going to last forever."
+    },
+    {
+     "from": "Genry",
+     "text": "Forever is a long time."
+    },
+    {
+     "from": "Bruce",
+     "text": "I know that."
+    },
+    {
+     "from": "Genry",
+     "text": "What is her last name?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Lafontaine."
+    },
+    {
+     "from": "Genry",
+     "text": "One of the shoe tycoon’s daughters?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No, just a regular girl."
+    },
+    {
+     "from": "Genry",
+     "text": "How is your father taking it?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Not very well. He is against it."
+    },
+    {
+     "from": "Genry",
+     "text": "Yes, your father wanted you to marry Gloria Van House."
+    },
+    {
+     "from": "Bruce",
+     "text": "Yes, but she is an air head and…"
+    },
+    {
+     "from": "Genry",
+     "text": "And what buddy?"
+    },
+    {
+     "from": "Bruce",
+     "text": "A cold fish in bed."
+    },
+    {
+     "from": "Genry",
+     "text": "What kind of work does Laila do?"
+    },
+    {
+     "from": "Bruce",
+     "text": "I am not sure. She works various hours."
+    },
+    {
+     "from": "Genry",
+     "text": "She did not tell you?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No and all I know is it is public relations."
+    },
+    {
+     "from": "Genry",
+     "text": "When do I get to meet her?"
+    },
+    {
+     "from": "Bruce",
+     "text": "I will have to see when she is off work."
+    },
+    {
+     "from": "Genry",
+     "text": "She has to have my stamp of approval first."
+    },
+    {
+     "from": "Bruce",
+     "text": "Your approval is all I need."
+    },
+    {
+     "from": "Genry",
+     "text": "What about your father’s approval?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Father said he would disinherit me if I saw her again."
+    },
+    {
+     "from": "Genry",
+     "text": "What are you going to do?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Keep seeing her."
+    },
+    {
+     "from": "Genry",
+     "text": "Even if you lose all your money, cars, house?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Yes because I love her."
+    },
+    {
+     "from": "Genry",
+     "text": "How is love going to put a roof over your head?"
+    },
+    {
+     "from": "Bruce",
+     "text": "We will make it work. She has a job."
+    },
+    {
+     "from": "Genry",
+     "text": "Has your father met her?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No."
+    },
+    {
+     "from": "Genry",
+     "text": "Then how did your father find out you were seeing someone other than Gloria?"
+    },
+    {
+     "from": "Bruce",
+     "text": "The credit card bills and the money I have been spending on her."
+    },
+    {
+     "from": "Genry",
+     "text": "A lot of money?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Yes."
+    },
+    {
+     "from": "Genry",
+     "text": "Wow! Now what?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Father is taking me to lunch."
+    },
+    {
+     "from": "Genry",
+     "text": "Where?"
+    },
+    {
+     "from": "Bruce",
+     "text": "The Italian Bistro. Father insisted this restaurant."
+    },
+    {
+     "from": "Genry",
+     "text": "Why lunch?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Why not? You have to eat and that place is good as any."
+    },
+    {
+     "from": "Genry",
+     "text": "Why that restaurant? You are not fond of Italian."
+    },
+    {
+     "from": "Bruce",
+     "text": "Hold on. Text from Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "I am back. Father said he is willing to compromise in regards to Laila and me."
+    },
+    {
+     "from": "Genry",
+     "text": "That is a step in the right direction"
+    },
+    {
+     "from": "Bruce",
+     "text": "He wants to discuss our upcoming marriage."
+    },
+    {
+     "from": "Genry",
+     "text": "Enjoy. Text me to let me know how it went."
+    },
+    {
+     "from": "Genry",
+     "text": "How did lunch go?"
+    },
+    {
+     "from": "Bruce",
+     "text": "I got it now why Father invited me to The Italian Bistro."
+    },
+    {
+     "from": "Genry",
+     "text": "Why?"
+    },
+    {
+     "from": "Bruce",
+     "text": "We were driving to the restaurant."
+    },
+    {
+     "from": "Genry",
+     "text": "And?"
+    },
+    {
+     "from": "Bruce",
+     "text": "We passed that place where the prostitutes hang out looking for noon time customers."
+    },
+    {
+     "from": "Genry",
+     "text": "So? They are there all the time."
+    },
+    {
+     "from": "Bruce",
+     "text": "Laila was among them."
+    }
+   ]
+  }
+ ]
 }

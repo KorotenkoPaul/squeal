@@ -2,414 +2,419 @@
  "id": "frenemy",
  "title": "Frenemy",
  "author": "Asjad Ullah",
- "description": "Alana asks her sister, Sarah to help her find out whether or not her husband is cheating on her. At first, Alana finds nothing, even with the help of Sarah but later, Alana bites more than she can chew.",
- "left": "Alana",
- "right": "Sarah",
- "messages": [
-  {
-   "from": "Alana",
-   "text": "Hey! What’s up?"
-  },
-  {
-   "from": "Sarah",
-   "text": "Nothing much, you tell?"
-  },
-  {
-   "from": "Alana",
-   "text": "Nothing much here either."
-  },
-  {
-   "from": "Sarah",
-   "text": "You seem low."
-  },
-  {
-   "from": "Sarah",
-   "text": "Is it about Harry?"
-  },
-  {
-   "from": "Alana",
-   "text": "Nah! Little harry is fine!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Then?"
-  },
-  {
-   "from": "Alana",
-   "text": "It’s his father."
-  },
-  {
-   "from": "Sarah",
-   "text": "Oh God! Is he okay?"
-  },
-  {
-   "from": "Alana",
-   "text": "Okay, I suspect that he is cheating on me."
-  },
-  {
-   "from": "Sarah",
-   "text": "Wow! That is a big thing to say!"
-  },
-  {
-   "from": "Alana",
-   "text": "I know and the worst part is I am not even sure."
-  },
-  {
-   "from": "Sarah",
-   "text": "This is huge! What are you going to do?"
-  },
-  {
-   "from": "Alana",
-   "text": "I am not even sure if I want to dig it out or not"
-  },
-  {
-   "from": "Sarah",
-   "text": "What?"
-  },
-  {
-   "from": "Alana",
-   "text": "Well, I have been keeping tabs on him from the past two weeks."
-  },
-  {
-   "from": "Sarah",
-   "text": "And you kept this from me till now?"
-  },
-  {
-   "from": "Alana",
-   "text": "Because I was not sure and I did not want to make a scene"
-  },
-  {
-   "from": "Sarah",
-   "text": "Any success detective Al?"
-  },
-  {
-   "from": "Alana",
-   "text": "Argh! Not yet, but I will find out soon!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Any leads?"
-  },
-  {
-   "from": "Alana",
-   "text": "Just some odd behaviors."
-  },
-  {
-   "from": "Sarah",
-   "text": "Late night calls, constant attachment to his phone what is odd?"
-  },
-  {
-   "from": "Alana",
-   "text": "No, he is smart enough to cover his leads"
-  },
-  {
-   "from": "Alana",
-   "text": "I have to wait on the call-waiting before I am put through"
-  },
-  {
-   "from": "Alana",
-   "text": "No matter what time of the day I call him"
-  },
-  {
-   "from": "Sarah",
-   "text": "What excuse does he have?"
-  },
-  {
-   "from": "Alana",
-   "text": "I was out! I was in a meeting!"
-  },
-  {
-   "from": "Sarah",
-   "text": "That is rich! lol."
-  },
-  {
-   "from": "Alana",
-   "text": "Which unfortunately, does not match his secretary’s version"
-  },
-  {
-   "from": "Sarah",
-   "text": "So have you followed him as yet?"
-  },
-  {
-   "from": "Sarah",
-   "text": "Maybe I can do it for you?"
-  },
-  {
-   "from": "Alana",
-   "text": "Oh, thank you so much, I was worried who to give this task to"
-  },
-  {
-   "from": "Sarah",
-   "text": "What are sisters there for?"
-  },
-  {
-   "from": "Alana",
-   "text": "What if he discovers about us following him?"
-  },
-  {
-   "from": "Sarah",
-   "text": "Would you stop dramatizing?"
-  },
-  {
-   "from": "Alana",
-   "text": "Easy for you to say, you are still single!"
-  },
-  {
-   "from": "Alana",
-   "text": "Well, we will know the truth one way or the other."
-  },
-  {
-   "from": "Sarah",
-   "text": "Yes we will."
-  },
-  {
-   "from": "Alana",
-   "text": "Okay so here is how it all began"
-  },
-  {
-   "from": "Sarah",
-   "text": "Sure, tell me everything you know."
-  },
-  {
-   "from": "Alana",
-   "text": "On Tuesdays and Thursdays he regularly goes out midday."
-  },
-  {
-   "from": "Alana",
-   "text": "I confirmed from his secretary there are no meetings on those days"
-  },
-  {
-   "from": "Sarah",
-   "text": "So let’s start with Tuesday and Thursday"
-  },
-  {
-   "from": "Alana",
-   "text": "Sarah, please don’t get caught"
-  },
-  {
-   "from": "Alana",
-   "text": "I do not want to ruin the relationship with him if he is honest"
-  },
-  {
-   "from": "Sarah",
-   "text": "Don’t worry!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Apart from the meetings, anything else you know?"
-  },
-  {
-   "from": "Alana",
-   "text": "Yes, I found a lipstick in his bag."
-  },
-  {
-   "from": "Sarah",
-   "text": "Maybe it was for you."
-  },
-  {
-   "from": "Alana",
-   "text": "A used one?"
-  },
-  {
-   "from": "Alana",
-   "text": "Which I discovered myself?"
-  },
-  {
-   "from": "Alana",
-   "text": "And a shade that I never wear"
-  },
-  {
-   "from": "Sarah",
-   "text": "What else?"
-  },
-  {
-   "from": "Alana",
-   "text": "This weekend, he cancelled our movie plan at the last moment"
-  },
-  {
-   "from": "Sarah",
-   "text": "Why?"
-  },
-  {
-   "from": "Alana",
-   "text": "He told me there was an urgent company dinner that came up"
-  },
-  {
-   "from": "Sarah",
-   "text": "It could have been true?"
-  },
-  {
-   "from": "Alana",
-   "text": "Sarah? An immediate company dinner"
-  },
-  {
-   "from": "Sarah",
-   "text": "What do you mean?"
-  },
-  {
-   "from": "Alana",
-   "text": "An immediate company dinner, informed over a message, which he read with a smile"
-  },
-  {
-   "from": "Alana",
-   "text": "I am very sure Sarah"
-  },
-  {
-   "from": "Sarah",
-   "text": "Circumstantial evidence lol."
-  },
-  {
-   "from": "Sarah",
-   "text": "Have you checked his phone?"
-  },
-  {
-   "from": "Alana",
-   "text": "Its password protected"
-  },
-  {
-   "from": "Alana",
-   "text": "Oh my!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Is everything okay? You seem upset."
-  },
-  {
-   "from": "Alana",
-   "text": "Yes, I just received a message on his mail."
-  },
-  {
-   "from": "Sarah",
-   "text": "You have access to his mail?"
-  },
-  {
-   "from": "Alana",
-   "text": "This is a common one attached to our joint account."
-  },
-  {
-   "from": "Sarah",
-   "text": "Okay, what does it say?"
-  },
-  {
-   "from": "Alana",
-   "text": "A bill of a huge amount has been paid at a restaurant."
-  },
-  {
-   "from": "Sarah",
-   "text": "Woah! That is crazy! Maybe he is buying you a present."
-  },
-  {
-   "from": "Alana",
-   "text": "AT A RESTAURANT?!"
-  },
-  {
-   "from": "Alana",
-   "text": "Seriously??"
-  },
-  {
-   "from": "Sarah",
-   "text": "Hey, calm down okay? I was trying to help you all day long."
-  },
-  {
-   "from": "Alana",
-   "text": "Yes, sorry. I did not mean to accuse you."
-  },
-  {
-   "from": "Sarah",
-   "text": "Yeah well, what am I supposed to say? Encourage you to get a divorce on a hunch?"
-  },
-  {
-   "from": "Alana",
-   "text": "Nah! You are right!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Or am I supposed to chastise his actions and tell you how pitiful you are?"
-  },
-  {
-   "from": "Alana",
-   "text": "I said I am sorry!"
-  },
-  {
-   "from": "Sarah",
-   "text": "No let’s do this. Your husband is one of the cheapest men ever!"
-  },
-  {
-   "from": "Alana",
-   "text": "Sarah!"
-  },
-  {
-   "from": "Sarah",
-   "text": "Yes! He plays with women and then keeps their lipsticks as souvenirs!"
-  },
-  {
-   "from": "Alana",
-   "text": "I am already hurt, Sarah!"
-  },
-  {
-   "from": "Sarah",
-   "text": "No, wait, please! Then he goes and spends 1270 dollars on a random chick!"
-  },
-  {
-   "from": "Alana",
-   "text": "Maybe he is hosting a party for his colleagues."
-  },
-  {
-   "from": "Sarah",
-   "text": "Or maybe he is cheating on you! That is what you wanted to hear!"
-  },
-  {
-   "from": "Alana",
-   "text": "Sarah?"
-  },
-  {
-   "from": "Sarah",
-   "text": "WHAT?"
-  },
-  {
-   "from": "Alana",
-   "text": "How did you know David spent $1270 at that restaurant?"
-  },
-  {
-   "from": "Sarah",
-   "text": "Because you told me!"
-  },
-  {
-   "from": "Alana",
-   "text": "I never told you the amount."
-  },
-  {
-   "from": "Sarah",
-   "text": "I have to go home now, bye!"
-  },
-  {
-   "from": "Alana",
-   "text": "But you said you were already at home?"
-  },
-  {
-   "from": "Alana",
-   "text": "Hello?"
-  },
-  {
-   "from": "Alana",
-   "text": "Sarah?"
-  },
-  {
-   "from": "Alana",
-   "text": "There??"
-  }
- ],
  "genre": "romance",
- "wallpaper": [
-  "lipstick",
-  "receipt",
-  "phone",
-  "ring",
-  "envelope",
-  "clock",
-  "wineglass",
-  "magnifier",
-  "heart"
- ],
- "fear": 1
+ "fear": 1,
+ "description": "Alana asks her sister, Sarah to help her find out whether or not her husband is cheating on her. At first, Alana finds nothing, even with the help of Sarah but later, Alana bites more than she can chew.",
+ "parts": [
+  {
+   "prologue": "Alana and Sarah have been inseparable since they were girls — same school, same friends, same taste in everything. When Alana needs help, there's only one person she calls.",
+   "left": "Alana",
+   "right": "Sarah",
+   "wallpaper": [
+    "lipstick",
+    "receipt",
+    "phone",
+    "ring",
+    "envelope",
+    "clock",
+    "wineglass",
+    "magnifier",
+    "heart"
+   ],
+   "messages": [
+    {
+     "from": "Alana",
+     "text": "Hey! What’s up?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Nothing much, you tell?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nothing much here either."
+    },
+    {
+     "from": "Sarah",
+     "text": "You seem low."
+    },
+    {
+     "from": "Sarah",
+     "text": "Is it about Harry?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nah! Little harry is fine!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Then?"
+    },
+    {
+     "from": "Alana",
+     "text": "It’s his father."
+    },
+    {
+     "from": "Sarah",
+     "text": "Oh God! Is he okay?"
+    },
+    {
+     "from": "Alana",
+     "text": "Okay, I suspect that he is cheating on me."
+    },
+    {
+     "from": "Sarah",
+     "text": "Wow! That is a big thing to say!"
+    },
+    {
+     "from": "Alana",
+     "text": "I know and the worst part is I am not even sure."
+    },
+    {
+     "from": "Sarah",
+     "text": "This is huge! What are you going to do?"
+    },
+    {
+     "from": "Alana",
+     "text": "I am not even sure if I want to dig it out or not"
+    },
+    {
+     "from": "Sarah",
+     "text": "What?"
+    },
+    {
+     "from": "Alana",
+     "text": "Well, I have been keeping tabs on him from the past two weeks."
+    },
+    {
+     "from": "Sarah",
+     "text": "And you kept this from me till now?"
+    },
+    {
+     "from": "Alana",
+     "text": "Because I was not sure and I did not want to make a scene"
+    },
+    {
+     "from": "Sarah",
+     "text": "Any success detective Al?"
+    },
+    {
+     "from": "Alana",
+     "text": "Argh! Not yet, but I will find out soon!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Any leads?"
+    },
+    {
+     "from": "Alana",
+     "text": "Just some odd behaviors."
+    },
+    {
+     "from": "Sarah",
+     "text": "Late night calls, constant attachment to his phone what is odd?"
+    },
+    {
+     "from": "Alana",
+     "text": "No, he is smart enough to cover his leads"
+    },
+    {
+     "from": "Alana",
+     "text": "I have to wait on the call-waiting before I am put through"
+    },
+    {
+     "from": "Alana",
+     "text": "No matter what time of the day I call him"
+    },
+    {
+     "from": "Sarah",
+     "text": "What excuse does he have?"
+    },
+    {
+     "from": "Alana",
+     "text": "I was out! I was in a meeting!"
+    },
+    {
+     "from": "Sarah",
+     "text": "That is rich! lol."
+    },
+    {
+     "from": "Alana",
+     "text": "Which unfortunately, does not match his secretary’s version"
+    },
+    {
+     "from": "Sarah",
+     "text": "So have you followed him as yet?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Maybe I can do it for you?"
+    },
+    {
+     "from": "Alana",
+     "text": "Oh, thank you so much, I was worried who to give this task to"
+    },
+    {
+     "from": "Sarah",
+     "text": "What are sisters there for?"
+    },
+    {
+     "from": "Alana",
+     "text": "What if he discovers about us following him?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Would you stop dramatizing?"
+    },
+    {
+     "from": "Alana",
+     "text": "Easy for you to say, you are still single!"
+    },
+    {
+     "from": "Alana",
+     "text": "Well, we will know the truth one way or the other."
+    },
+    {
+     "from": "Sarah",
+     "text": "Yes we will."
+    },
+    {
+     "from": "Alana",
+     "text": "Okay so here is how it all began"
+    },
+    {
+     "from": "Sarah",
+     "text": "Sure, tell me everything you know."
+    },
+    {
+     "from": "Alana",
+     "text": "On Tuesdays and Thursdays he regularly goes out midday."
+    },
+    {
+     "from": "Alana",
+     "text": "I confirmed from his secretary there are no meetings on those days"
+    },
+    {
+     "from": "Sarah",
+     "text": "So let’s start with Tuesday and Thursday"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah, please don’t get caught"
+    },
+    {
+     "from": "Alana",
+     "text": "I do not want to ruin the relationship with him if he is honest"
+    },
+    {
+     "from": "Sarah",
+     "text": "Don’t worry!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Apart from the meetings, anything else you know?"
+    },
+    {
+     "from": "Alana",
+     "text": "Yes, I found a lipstick in his bag."
+    },
+    {
+     "from": "Sarah",
+     "text": "Maybe it was for you."
+    },
+    {
+     "from": "Alana",
+     "text": "A used one?"
+    },
+    {
+     "from": "Alana",
+     "text": "Which I discovered myself?"
+    },
+    {
+     "from": "Alana",
+     "text": "And a shade that I never wear"
+    },
+    {
+     "from": "Sarah",
+     "text": "What else?"
+    },
+    {
+     "from": "Alana",
+     "text": "This weekend, he cancelled our movie plan at the last moment"
+    },
+    {
+     "from": "Sarah",
+     "text": "Why?"
+    },
+    {
+     "from": "Alana",
+     "text": "He told me there was an urgent company dinner that came up"
+    },
+    {
+     "from": "Sarah",
+     "text": "It could have been true?"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah? An immediate company dinner"
+    },
+    {
+     "from": "Sarah",
+     "text": "What do you mean?"
+    },
+    {
+     "from": "Alana",
+     "text": "An immediate company dinner, informed over a message, which he read with a smile"
+    },
+    {
+     "from": "Alana",
+     "text": "I am very sure Sarah"
+    },
+    {
+     "from": "Sarah",
+     "text": "Circumstantial evidence lol."
+    },
+    {
+     "from": "Sarah",
+     "text": "Have you checked his phone?"
+    },
+    {
+     "from": "Alana",
+     "text": "Its password protected"
+    },
+    {
+     "from": "Alana",
+     "text": "Oh my!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Is everything okay? You seem upset."
+    },
+    {
+     "from": "Alana",
+     "text": "Yes, I just received a message on his mail."
+    },
+    {
+     "from": "Sarah",
+     "text": "You have access to his mail?"
+    },
+    {
+     "from": "Alana",
+     "text": "This is a common one attached to our joint account."
+    },
+    {
+     "from": "Sarah",
+     "text": "Okay, what does it say?"
+    },
+    {
+     "from": "Alana",
+     "text": "A bill of a huge amount has been paid at a restaurant."
+    },
+    {
+     "from": "Sarah",
+     "text": "Woah! That is crazy! Maybe he is buying you a present."
+    },
+    {
+     "from": "Alana",
+     "text": "AT A RESTAURANT?!"
+    },
+    {
+     "from": "Alana",
+     "text": "Seriously??"
+    },
+    {
+     "from": "Sarah",
+     "text": "Hey, calm down okay? I was trying to help you all day long."
+    },
+    {
+     "from": "Alana",
+     "text": "Yes, sorry. I did not mean to accuse you."
+    },
+    {
+     "from": "Sarah",
+     "text": "Yeah well, what am I supposed to say? Encourage you to get a divorce on a hunch?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nah! You are right!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Or am I supposed to chastise his actions and tell you how pitiful you are?"
+    },
+    {
+     "from": "Alana",
+     "text": "I said I am sorry!"
+    },
+    {
+     "from": "Sarah",
+     "text": "No let’s do this. Your husband is one of the cheapest men ever!"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Yes! He plays with women and then keeps their lipsticks as souvenirs!"
+    },
+    {
+     "from": "Alana",
+     "text": "I am already hurt, Sarah!"
+    },
+    {
+     "from": "Sarah",
+     "text": "No, wait, please! Then he goes and spends 1270 dollars on a random chick!"
+    },
+    {
+     "from": "Alana",
+     "text": "Maybe he is hosting a party for his colleagues."
+    },
+    {
+     "from": "Sarah",
+     "text": "Or maybe he is cheating on you! That is what you wanted to hear!"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah?"
+    },
+    {
+     "from": "Sarah",
+     "text": "WHAT?"
+    },
+    {
+     "from": "Alana",
+     "text": "How did you know David spent $1270 at that restaurant?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Because you told me!"
+    },
+    {
+     "from": "Alana",
+     "text": "I never told you the amount."
+    },
+    {
+     "from": "Sarah",
+     "text": "I have to go home now, bye!"
+    },
+    {
+     "from": "Alana",
+     "text": "But you said you were already at home?"
+    },
+    {
+     "from": "Alana",
+     "text": "Hello?"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah?"
+    },
+    {
+     "from": "Alana",
+     "text": "There??"
+    }
+   ]
+  }
+ ]
 }

@@ -4,30 +4,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "content" / "stories" / "en"
-# files named <story>-part-N.json are the parts of one story, in order
+# One file per story, all in the same shape (see content/STORY_FORMAT.md):
+# id, title, author, genre, fear, description (preview), [interactive, featured],
+# parts: [{prologue (chat intro), left, right, wallpaper, messages | start + nodes + messages}]
 import re as _re
-_groups = {}
-for _f in sorted(SRC.glob("*.json"), key=lambda f: [int(x) if x.isdigit() else x for x in _re.split(r"(\d+)", f.stem)]):
-    if _f.stem == "index":
-        continue
-    _m = _re.match(r"(.+)-part-\d+$", _f.stem)
-    _groups.setdefault(_m.group(1) if _m else _f.stem, []).append(_f.stem)
-PICK = sorted(_groups.items(), key=lambda kv: kv[0] != "nobodys-home")
-
 stories = []
-for sid, files in PICK:
-    eps = [json.loads((SRC / (f + ".json")).read_text()) for f in files]
-    first = eps[0]
-    title = _re.sub(r"\s+Part 1$", "", first["title"])
-    stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""), **{k: first[k] for k in ("interactive", "featured", "fear") if first.get(k)},
-                    "episodes": [{"left": e["left"], "right": e["right"], "description": e["description"],
-                                  "messages": e["messages"], **({"wallpaper": e["wallpaper"]} if e.get("wallpaper") else {}), **({"nodes": e["nodes"], "start": e["start"]} if e.get("nodes") else {})} for e in eps]})
-COPY = {  # store-style descriptions written for the preview (originals stay in content/)
-    "nobodys-home": "Patrick is late to Sandra's party, but when he finally pulls up, the house is dark. "
-                    "The front door is wide open. No music, no cars, no one answers. "
-                    "His friend James keeps texting him from somewhere else — and James is starting to notice "
-                    "things about that house that Patrick can't see. Three parts. Read it with the lights on.",
-}
+for _f in sorted(SRC.glob("*.json"), key=lambda f: (f.stem != "nobodys-home", f.stem)):
+    d = json.loads(_f.read_text())
+    stories.append({"id": d["id"], "title": d["title"], "description": d["description"], "genre": d["genre"],
+                    "author": d.get("author", ""), "fear": d["fear"], **{k: True for k in ("interactive", "featured") if d.get(k)},
+                    "episodes": [{"left": p["left"], "right": p["right"], "prologue": p["prologue"], "messages": p["messages"],
+                                  "wallpaper": p["wallpaper"], **({"nodes": p["nodes"], "start": p["start"]} if p.get("nodes") else {})}
+                                 for p in d["parts"]]})
 COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "nobodys-home": "legs-doorway", "first-impressions": "laptop-dark", "the-doctor": "forest-path",
     "skinless": "dark-body", "last-train-out": "night-train", "clown": "clown-hush", "grave": "rising-hand",
@@ -37,10 +25,9 @@ COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "clinical-love": "clinical-love", "frenemy": "frenemy", "perfect-match": "perfect-match",
     "the-crushing-love": "the-crushing-love", "mystery-girlfriend": "mystery-girlfriend",
     "the-reunion-affair": "the-reunion-affair", "under-wrong-hands": "under-wrong-hands",
-    "two-knocks": "two-knocks",   # drawn for the story (web/covers/make_two_knocks.html)
+    "two-knocks": "two-knocks",   # drawn for the story (design/covers/two-knocks.html)
 }
 for st in stories:
-    st["description"] = COPY.get(st["id"], st["description"])
     if st["id"] in COVERS:
         st["cover"] = "covers/%s.jpg" % COVERS[st["id"]]
 # Guard: no story may reach the app with broken chat text (table pipes, Markdown escapes, a speaker's

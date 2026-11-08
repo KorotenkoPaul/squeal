@@ -1,0 +1,987 @@
+{
+ "id": "nobodys-home",
+ "title": "Nobody’s Home",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Patrick is late to Sandra's party, but when he finally pulls up, the house is dark. The front door is wide open. No music, no cars, no one answers. His friend James keeps texting him from somewhere else — and James is starting to notice things about that house that Patrick can't see. Three parts. Read it with the lights on.",
+ "parts": [
+  {
+   "prologue": "Sandra's parties are the kind people talk about for weeks. Patrick almost stayed in tonight — he hasn't felt quite like himself since the drive home. Country Village Lane is quiet at this hour. Maybe too quiet.",
+   "left": "James",
+   "right": "Patrick",
+   "wallpaper": [
+    "house",
+    "key",
+    "balloon",
+    "music",
+    "bulb",
+    "moon",
+    "door",
+    "phone",
+    "sign143",
+    "lamp"
+   ],
+   "messages": [
+    {
+     "from": "James",
+     "text": "Where are you?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Where do you think? I’m at home."
+    },
+    {
+     "from": "James",
+     "text": "Why are you at home?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Where else would I be?"
+    },
+    {
+     "from": "James",
+     "text": "Sandra’s, where do you think?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Why would I be there??"
+    },
+    {
+     "from": "James",
+     "text": "Everyone else is!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Why is everyone else there?"
+    },
+    {
+     "from": "James",
+     "text": "Her party! Get over here!"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m tired. I don’t feel like it."
+    },
+    {
+     "from": "James",
+     "text": "That’s no excuse."
+    },
+    {
+     "from": "Patrick",
+     "text": "Is this a prank?"
+    },
+    {
+     "from": "James",
+     "text": "Get over here!"
+    },
+    {
+     "from": "James",
+     "text": "You want to be the only one left out?"
+    },
+    {
+     "from": "James",
+     "text": "Everyone’s asking about you!"
+    },
+    {
+     "from": "James",
+     "text": "You’re the ONLY one who isn’t here!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Really? Everyone else is there?"
+    },
+    {
+     "from": "James",
+     "text": "Everyone."
+    },
+    {
+     "from": "James",
+     "text": "So, are you coming?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Okay."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’ll be there in about half an hour."
+    },
+    {
+     "from": "Patrick",
+     "text": "------"
+    },
+    {
+     "from": "Patrick",
+     "text": "Uh…James?"
+    },
+    {
+     "from": "James",
+     "text": "Are you here yet?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Well yeah. I’m right outside Sandra’s house."
+    },
+    {
+     "from": "James",
+     "text": "Right outside? Where?"
+    },
+    {
+     "from": "Patrick",
+     "text": "At least, I think I am. Right in front."
+    },
+    {
+     "from": "Patrick",
+     "text": "143 Country Village Lane, right?"
+    },
+    {
+     "from": "James",
+     "text": "Right across from my house."
+    },
+    {
+     "from": "Patrick",
+     "text": "Well, where are you guys?"
+    },
+    {
+     "from": "James",
+     "text": "We’re inside, and in the backyard."
+    },
+    {
+     "from": "Patrick",
+     "text": "But…the house is totally dark."
+    },
+    {
+     "from": "James",
+     "text": "What are you talking about?"
+    },
+    {
+     "from": "Patrick",
+     "text": "It looks like no one’s home!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Is this a joke?"
+    },
+    {
+     "from": "James",
+     "text": "If you didn’t want to come to the party, just say it."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m right out front!"
+    },
+    {
+     "from": "James",
+     "text": "I’m looking out front, and you’re not there."
+    },
+    {
+     "from": "Patrick",
+     "text": "This IS a prank, isn’t it?"
+    },
+    {
+     "from": "James",
+     "text": "Are you on something?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m on the right street."
+    },
+    {
+     "from": "James",
+     "text": "Maybe you’re not. Knock on the door."
+    },
+    {
+     "from": "Patrick",
+     "text": "You guys are all going to jump out at me, aren’t you?"
+    },
+    {
+     "from": "James",
+     "text": "You’re at the wrong house."
+    },
+    {
+     "from": "Patrick",
+     "text": "I can’t be."
+    },
+    {
+     "from": "James",
+     "text": "Knock."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ok, fine."
+    },
+    {
+     "from": "Patrick",
+     "text": "Nobody’s answering."
+    },
+    {
+     "from": "James",
+     "text": "Knock louder!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Nobody’s answering."
+    },
+    {
+     "from": "James",
+     "text": "You’re definitely hallucinating."
+    },
+    {
+     "from": "Patrick",
+     "text": "The lights are on at your house."
+    },
+    {
+     "from": "James",
+     "text": "My house?"
+    },
+    {
+     "from": "Patrick",
+     "text": "You live right across the street from Sandra, don’t you?"
+    },
+    {
+     "from": "James",
+     "text": "Yeah."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m going to ask your parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "They’ll tell me what’s going on."
+    },
+    {
+     "from": "James",
+     "text": "Don’t bother my parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "Why? Are you guys are hiding there?"
+    },
+    {
+     "from": "James",
+     "text": "You’re imagining things."
+    },
+    {
+     "from": "James",
+     "text": "Go knock, then."
+    },
+    {
+     "from": "Patrick",
+     "text": "Are they out?"
+    },
+    {
+     "from": "James",
+     "text": "Why?"
+    },
+    {
+     "from": "Patrick",
+     "text": "The house is dark. Like Sandra’s."
+    },
+    {
+     "from": "Patrick",
+     "text": "And nobody’s answering."
+    },
+    {
+     "from": "Patrick",
+     "text": "Why are you doing this to me?"
+    },
+    {
+     "from": "James",
+     "text": "I’m not."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m going home. I hope you’re satisfied."
+    },
+    {
+     "from": "James",
+     "text": "Just come on to the party."
+    },
+    {
+     "from": "Patrick",
+     "text": "I CAN’T IF YOU WON’T TELL ME WHERE IT IS!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Hey, is the power out or something?"
+    },
+    {
+     "from": "James",
+     "text": "What do you mean?"
+    },
+    {
+     "from": "Patrick",
+     "text": "All the houses are dark."
+    },
+    {
+     "from": "Patrick",
+     "text": "Every house I walk by."
+    },
+    {
+     "from": "Patrick",
+     "text": "Even my house."
+    },
+    {
+     "from": "Patrick",
+     "text": "And I KNOW my family’s home."
+    },
+    {
+     "from": "James",
+     "text": "Maybe they went out."
+    },
+    {
+     "from": "Patrick",
+     "text": "I can’t get in."
+    },
+    {
+     "from": "James",
+     "text": "What?"
+    },
+    {
+     "from": "Patrick",
+     "text": "My key won’t work. I can’t get in my own house."
+    },
+    {
+     "from": "Patrick",
+     "text": "I can’t get in my own house!"
+    }
+   ]
+  },
+  {
+   "prologue": "Patrick has lived on this street his whole life. He knows every porch light, every mailbox, every dog that barks at night. Tonight not one of them is barking.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "mailbox",
+    "camera",
+    "lamp",
+    "road",
+    "house",
+    "key",
+    "phone",
+    "clock",
+    "question",
+    "moon"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "This makes no sense."
+    },
+    {
+     "from": "James",
+     "text": "Maybe you’re on the wrong street."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m not."
+    },
+    {
+     "from": "Patrick",
+     "text": "This is weird. Everything’s so quiet."
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t even see any cars driving."
+    },
+    {
+     "from": "James",
+     "text": "I think you’re having some mental thing. Seriously."
+    },
+    {
+     "from": "Patrick",
+     "text": "Tell me where the party is."
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t like this."
+    },
+    {
+     "from": "James",
+     "text": "I’ll come pick you up."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m right in front of my house."
+    },
+    {
+     "from": "James",
+     "text": "Are you sure?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Yeah, I’m sure. We have a red mailbox, remember?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m right in front of it."
+    },
+    {
+     "from": "Patrick",
+     "text": "I haven’t seen one car drive by."
+    },
+    {
+     "from": "James",
+     "text": "I’m on my way."
+    },
+    {
+     "from": "Patrick",
+     "text": "Hurry up."
+    },
+    {
+     "from": "Patrick",
+     "text": "Please."
+    },
+    {
+     "from": "Patrick",
+     "text": "-----"
+    },
+    {
+     "from": "Patrick",
+     "text": "Are you here?"
+    },
+    {
+     "from": "James",
+     "text": "Where are YOU?"
+    },
+    {
+     "from": "Patrick",
+     "text": "In front of my house!"
+    },
+    {
+     "from": "James",
+     "text": "You’re sure you’re not on drugs?"
+    },
+    {
+     "from": "Patrick",
+     "text": "You know me."
+    },
+    {
+     "from": "Patrick",
+     "text": "Maybe I’m insane."
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t know."
+    },
+    {
+     "from": "James",
+     "text": "I’m standing in front of your mailbox."
+    },
+    {
+     "from": "James",
+     "text": "PHOTO: James’ photo of Patrick’s red mailbox"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m standing in front of the mailbox."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO: Patrick’s photo of Patrick’s red mailbox (the same mailbox)"
+    },
+    {
+     "from": "Patrick",
+     "text": "This can’t be happening."
+    },
+    {
+     "from": "James",
+     "text": "But if you’re not here, then where are you?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I DON’T KNOW!"
+    },
+    {
+     "from": "James",
+     "text": "I just told your parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "What do you mean?"
+    },
+    {
+     "from": "James",
+     "text": "That’s you’re lost!"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m not, though!"
+    },
+    {
+     "from": "James",
+     "text": "They’re calling the police."
+    },
+    {
+     "from": "Patrick",
+     "text": "But I’m right in front of my house."
+    },
+    {
+     "from": "James",
+     "text": "What if you’re imagining it?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m NOT."
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t think."
+    },
+    {
+     "from": "Patrick",
+     "text": "Anyway, you saw the picture."
+    },
+    {
+     "from": "Patrick",
+     "text": "I took the picture."
+    },
+    {
+     "from": "Patrick",
+     "text": "You KNOW I’m right here."
+    },
+    {
+     "from": "James",
+     "text": "Can you hear the sirens?"
+    },
+    {
+     "from": "Patrick",
+     "text": "What sirens?"
+    },
+    {
+     "from": "James",
+     "text": "The police."
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t hear anything."
+    },
+    {
+     "from": "Patrick",
+     "text": "Are there lights on at my house?"
+    },
+    {
+     "from": "James",
+     "text": "Yeah."
+    },
+    {
+     "from": "Patrick",
+     "text": "Not here."
+    },
+    {
+     "from": "Patrick",
+     "text": "And the streetlights just went out."
+    },
+    {
+     "from": "Patrick",
+     "text": "I guess you still have streetlights?"
+    },
+    {
+     "from": "James",
+     "text": "Everything’s normal."
+    },
+    {
+     "from": "Patrick",
+     "text": "No lights, no cars, no people."
+    },
+    {
+     "from": "Patrick",
+     "text": "You have no idea how quiet it is."
+    },
+    {
+     "from": "James",
+     "text": "The police are asking, what’s the last time you remember seeing people?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Idk, I guess my family, before I left? Or maybe walking there?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m not sure."
+    },
+    {
+     "from": "James",
+     "text": "They’re sending people to look for you."
+    },
+    {
+     "from": "Patrick",
+     "text": "But I’m right in front of the house."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m touching the mailbox."
+    },
+    {
+     "from": "Patrick",
+     "text": "It’s real."
+    },
+    {
+     "from": "James",
+     "text": "Maybe that’s what you think."
+    },
+    {
+     "from": "Patrick",
+     "text": "BUT YOU SAW THE PHOTO!"
+    },
+    {
+     "from": "Patrick",
+     "text": "It’s REAL!"
+    },
+    {
+     "from": "James",
+     "text": "The police just told us something."
+    },
+    {
+     "from": "Patrick",
+     "text": "What?"
+    },
+    {
+     "from": "James",
+     "text": "Somebody found you."
+    },
+    {
+     "from": "Patrick",
+     "text": "Huh? Nobody’s here."
+    },
+    {
+     "from": "James",
+     "text": "In a ditch by the side of the road."
+    },
+    {
+     "from": "Patrick",
+     "text": "Obviously, it’s not me."
+    },
+    {
+     "from": "James",
+     "text": "They said you were hit by a car."
+    },
+    {
+     "from": "Patrick",
+     "text": "It’s not me!"
+    },
+    {
+     "from": "James",
+     "text": "It is you."
+    },
+    {
+     "from": "Patrick",
+     "text": "OBVIOUSLY, it’s not me."
+    },
+    {
+     "from": "James",
+     "text": "It’s obvious it’s you."
+    },
+    {
+     "from": "Patrick",
+     "text": "“It?”"
+    },
+    {
+     "from": "James",
+     "text": "They say you’re dead."
+    }
+   ]
+  },
+  {
+   "prologue": "Some people can't take a hint. Patrick has never once left a party early, and he isn't about to start now.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "rock",
+    "shards",
+    "balloon",
+    "cup",
+    "camera",
+    "door",
+    "moon",
+    "music",
+    "house",
+    "nostar"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "I’m not dead."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO: Selfie of Patrick"
+    },
+    {
+     "from": "Patrick",
+     "text": "Do I look dead?"
+    },
+    {
+     "from": "Patrick",
+     "text": "They made a mistake."
+    },
+    {
+     "from": "Patrick",
+     "text": "I wasn’t hit by a car."
+    },
+    {
+     "from": "James",
+     "text": "It’s you."
+    },
+    {
+     "from": "Patrick",
+     "text": "It’s not."
+    },
+    {
+     "from": "James",
+     "text": "It’s your clothes, your ID."
+    },
+    {
+     "from": "Patrick",
+     "text": "Dead people can’t text, James."
+    },
+    {
+     "from": "Patrick",
+     "text": "And they can’t take pictures."
+    },
+    {
+     "from": "Patrick",
+     "text": "I mean, maybe I’m insane, but I’m not dead."
+    },
+    {
+     "from": "James",
+     "text": "They showed us a picture"
+    },
+    {
+     "from": "Patrick",
+     "text": "Of what?"
+    },
+    {
+     "from": "James",
+     "text": "Of you."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO: Selfie of Patrick (Same as previous)"
+    },
+    {
+     "from": "Patrick",
+     "text": "That’s me."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m still here."
+    },
+    {
+     "from": "James",
+     "text": "Where?"
+    },
+    {
+     "from": "Patrick",
+     "text": "In front of my house?"
+    },
+    {
+     "from": "James",
+     "text": "That you can’t get in?"
+    },
+    {
+     "from": "James",
+     "text": "Maybe that’s why you couldn’t get in the party."
+    },
+    {
+     "from": "Patrick",
+     "text": "This is one big prank, isn’t it?"
+    },
+    {
+     "from": "Patrick",
+     "text": "You guys are hiding behind the bushes aren’t you?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I don’t know how you turned the power off, but I bet you did."
+    },
+    {
+     "from": "James",
+     "text": "It’s not a prank."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m alive."
+    },
+    {
+     "from": "Patrick",
+     "text": "I must be seeing things, though."
+    },
+    {
+     "from": "Patrick",
+     "text": "I mean, I can’t even see stars in the sky, how weird is that?"
+    },
+    {
+     "from": "Patrick",
+     "text": "I bet you’re still at the party. I’m going back there."
+    },
+    {
+     "from": "James",
+     "text": "It’s not going to do any good."
+    },
+    {
+     "from": "James",
+     "text": "We’re still not going to be th ere."
+    },
+    {
+     "from": "Patrick",
+     "text": "That’s what you say."
+    },
+    {
+     "from": "Patrick",
+     "text": "Well, I’m coming back anyway."
+    },
+    {
+     "from": "James",
+     "text": "It’s not going to do any good."
+    },
+    {
+     "from": "James",
+     "text": "I’m sick of your stupid prank."
+    },
+    {
+     "from": "James",
+     "text": "Just to let you know, I’m on my way back."
+    },
+    {
+     "from": "James",
+     "text": "I’m going to break in what I get there, if I have to."
+    },
+    {
+     "from": "James",
+     "text": "If you don’t let me in."
+    },
+    {
+     "from": "Patrick",
+     "text": "We can’t do anything. I told you!"
+    },
+    {
+     "from": "Patrick",
+     "text": "We’re just not in the same place anymore"
+    },
+    {
+     "from": "Patrick",
+     "text": "If no one opens the door, I’m going to break the window."
+    },
+    {
+     "from": "Patrick",
+     "text": "Just to warn you."
+    },
+    {
+     "from": "Patrick",
+     "text": "You’re probably all hiding in there."
+    },
+    {
+     "from": "James",
+     "text": "No one’s hiding."
+    },
+    {
+     "from": "Patrick",
+     "text": "Good. Because I’ll find you if you are."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m right outside."
+    },
+    {
+     "from": "Patrick",
+     "text": "The house is dark, I bet you warned everyone I was coming back."
+    },
+    {
+     "from": "James",
+     "text": "Nobody’s hiding, and I didn’t warn anyone."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m going to break in."
+    },
+    {
+     "from": "Patrick",
+     "text": "I’m going to get to the party."
+    },
+    {
+     "from": "Patrick",
+     "text": "Either someone opens the door or I break the window."
+    },
+    {
+     "from": "James",
+     "text": "You can’t come to the party."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO: Hand holding a rock (night)"
+    },
+    {
+     "from": "Patrick",
+     "text": "This is coming through the window"
+    },
+    {
+     "from": "Patrick",
+     "text": "Did you hear that? I just broke the window."
+    },
+    {
+     "from": "Patrick",
+     "text": "You better come out of your hiding places, because I’m coming."
+    },
+    {
+     "from": "James",
+     "text": "No one’s hiding."
+    },
+    {
+     "from": "Patrick",
+     "text": "I hear something."
+    },
+    {
+     "from": "Patrick",
+     "text": "Finally. I knew it."
+    },
+    {
+     "from": "James",
+     "text": "Knew what? There’s nothing."
+    },
+    {
+     "from": "Patrick",
+     "text": "I just found the party."
+    },
+    {
+     "from": "James",
+     "text": "You did?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Yeah, see?"
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO: Teens at a party"
+    },
+    {
+     "from": "James",
+     "text": "What are they?"
+    },
+    {
+     "from": "James",
+     "text": "They’re not anyone I know"
+    },
+    {
+     "from": "James",
+     "text": "But if YOU can see them…"
+    },
+    {
+     "from": "Patrick",
+     "text": "If I can see them what?"
+    },
+    {
+     "from": "Patrick",
+     "text": "WHAT?"
+    },
+    {
+     "from": "James",
+     "text": "…then they’re just like you."
+    }
+   ]
+  }
+ ]
+}

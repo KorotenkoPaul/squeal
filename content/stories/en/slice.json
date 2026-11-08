@@ -2,330 +2,335 @@
  "id": "slice",
  "title": "Slice",
  "author": "Rich Samuels",
- "description": "A serial killer texts Colin and informs him that he will be the next victim. Colin isn’t convinced at first, but the killer seems to know a little too much about him…and where he is.",
- "left": "Unknown",
- "right": "Colin",
- "messages": [
-  {
-   "from": "Unknown",
-   "text": "You’re my next victim."
-  },
-  {
-   "from": "Colin",
-   "text": "What? Who is this?"
-  },
-  {
-   "from": "Unknown",
-   "text": "You’re the one I’m cutting next."
-  },
-  {
-   "from": "Colin",
-   "text": "Jack, is that you? This is a stupid joke."
-  },
-  {
-   "from": "Unknown",
-   "text": "This isn’t a joke."
-  },
-  {
-   "from": "Unknown",
-   "text": "I’m going to slice you into little tiny pieces."
-  },
-  {
-   "from": "Colin",
-   "text": "Very funny."
-  },
-  {
-   "from": "Unknown",
-   "text": "This is very serious."
-  },
-  {
-   "from": "Colin",
-   "text": "Sure it is."
-  },
-  {
-   "from": "Unknown",
-   "text": "I’m very good at it. Slicing, I mean."
-  },
-  {
-   "from": "Colin",
-   "text": "I’m sure you are LOL"
-  },
-  {
-   "from": "Unknown",
-   "text": "I’m just waiting for the just the right time…"
-  },
-  {
-   "from": "Unknown",
-   "text": "And then I’ll start my work."
-  },
-  {
-   "from": "Colin",
-   "text": "Your work?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I thought you understood by now. I will slice you."
-  },
-  {
-   "from": "Colin",
-   "text": "Right – into little tiny pieces."
-  },
-  {
-   "from": "Unknown",
-   "text": "At just the right moment."
-  },
-  {
-   "from": "Colin",
-   "text": "And when is that?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I’ll know it when I see it."
-  },
-  {
-   "from": "Unknown",
-   "text": "For example, I wouldn’t start right now, while you’re at the supermarket."
-  },
-  {
-   "from": "Unknown",
-   "text": "PIC OF COLIN (age: 18-22) AT THE SUPERMARKET"
-  },
-  {
-   "from": "Colin",
-   "text": "Are you following me?"
-  },
-  {
-   "from": "Unknown",
-   "text": "And the gas station you just left was too crowded."
-  },
-  {
-   "from": "Colin",
-   "text": "You shouldn’t follow people."
-  },
-  {
-   "from": "Unknown",
-   "text": "If you’re roommates Tom and Alan aren’t home, maybe I’ll do it when you get home."
-  },
-  {
-   "from": "Colin",
-   "text": "Okay this has gone far enough. Jack, is that you?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I’m not Jack."
-  },
-  {
-   "from": "Unknown",
-   "text": "You don’t know me."
-  },
-  {
-   "from": "Colin",
-   "text": "If I don’t know you, why would you want to slice me up?"
-  },
-  {
-   "from": "Unknown",
-   "text": "You look like you could use slicing."
-  },
-  {
-   "from": "Colin",
-   "text": "That’s just weird."
-  },
-  {
-   "from": "Unknown",
-   "text": "You’re really looking at produce here?"
-  },
-  {
-   "from": "Colin",
-   "text": "Are you following me?"
-  },
-  {
-   "from": "Unknown",
-   "text": "The produce is not very good, just to let you know."
-  },
-  {
-   "from": "Colin",
-   "text": "Where are you?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I think you’ve really overfilled your shopping cart, anyway."
-  },
-  {
-   "from": "Unknown",
-   "text": "I think you’ve done enough food shopping for today."
-  },
-  {
-   "from": "Colin",
-   "text": "This is getting annoying."
-  },
-  {
-   "from": "Unknown",
-   "text": "Why are you looking at that old lady? Do you think I could be her?"
-  },
-  {
-   "from": "Unknown",
-   "text": "LOL"
-  },
-  {
-   "from": "Colin",
-   "text": "You could be anybody."
-  },
-  {
-   "from": "Unknown",
-   "text": "Exactly."
-  },
-  {
-   "from": "Unknown",
-   "text": "You’ll never find me."
-  },
-  {
-   "from": "Unknown",
-   "text": "But I’ll find you LOL"
-  },
-  {
-   "from": "Colin",
-   "text": "If you think I believe you’re some serial killing, you’re wrong."
-  },
-  {
-   "from": "Unknown",
-   "text": "I don’t know if “serial killer” would be the right description."
-  },
-  {
-   "from": "Unknown",
-   "text": "It’s not a good idea to pay for your groceries on your credit card."
-  },
-  {
-   "from": "Colin",
-   "text": "Stop watching me."
-  },
-  {
-   "from": "Unknown",
-   "text": "I’m just trying to give you a little bit of advice."
-  },
-  {
-   "from": "Colin",
-   "text": "Why, if you’re going to kill me?"
-  },
-  {
-   "from": "Unknown",
-   "text": "Force of habit, I guess!"
-  },
-  {
-   "from": "Unknown",
-   "text": "You’ve been in the supermarket a long time."
-  },
-  {
-   "from": "Unknown",
-   "text": "Can you believe it’s already dark outside?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I love this time of the year."
-  },
-  {
-   "from": "Colin",
-   "text": "Good for you."
-  },
-  {
-   "from": "Unknown",
-   "text": "Too bad they haven’t turned on the lights in the parking lot."
-  },
-  {
-   "from": "Unknown",
-   "text": "Well, too bad for you."
-  },
-  {
-   "from": "Colin",
-   "text": "What’s that supposed to mean?"
-  },
-  {
-   "from": "Unknown",
-   "text": "Well, it’s good for me, obviously"
-  },
-  {
-   "from": "Colin",
-   "text": "Obviously."
-  },
-  {
-   "from": "Colin",
-   "text": "My car has lights. It’s not like I’m in total darkness."
-  },
-  {
-   "from": "Unknown",
-   "text": "True, but you still can’t see what might come out at you from the dark."
-  },
-  {
-   "from": "Colin",
-   "text": "I’ll be careful."
-  },
-  {
-   "from": "Unknown",
-   "text": "The moon isn’t even out tonight."
-  },
-  {
-   "from": "Unknown",
-   "text": "It’s very, very dark."
-  },
-  {
-   "from": "Colin",
-   "text": "It’s a busy parking lot."
-  },
-  {
-   "from": "Unknown",
-   "text": "It’s a dark parking lot.."
-  },
-  {
-   "from": "Unknown",
-   "text": "And really, I don’t need that much time to do my work."
-  },
-  {
-   "from": "Unknown",
-   "text": "And I can tell, you’re the kind where the meat will slide right off the bone."
-  },
-  {
-   "from": "Colin",
-   "text": "You can tell?"
-  },
-  {
-   "from": "Unknown",
-   "text": "I guess you can say I’m somewhat of an expert."
-  },
-  {
-   "from": "Unknown",
-   "text": "Now look at that, you’ve almost filled up your trunk with groceries. And you still have more!"
-  },
-  {
-   "from": "Unknown",
-   "text": "You can probably make a little bit more room…just reach back in there."
-  },
-  {
-   "from": "Colin",
-   "text": "That’s what I’m doing."
-  },
-  {
-   "from": "Unknown",
-   "text": "That’s what I was hoping."
-  },
-  {
-   "from": "Unknown",
-   "text": "Just as I thought."
-  },
-  {
-   "from": "Unknown",
-   "text": "Slides right off the bone."
-  }
- ],
  "genre": "thriller",
- "wallpaper": [
-  "cart",
-  "apple",
-  "car",
-  "key",
-  "moon",
-  "phone",
-  "clock",
-  "lamp",
-  "question"
- ],
- "fear": 4
+ "fear": 4,
+ "description": "A serial killer texts Colin and informs him that he will be the next victim. Colin isn’t convinced at first, but the killer seems to know a little too much about him…and where he is.",
+ "parts": [
+  {
+   "prologue": "Colin does his shopping late, when the supermarket is nearly empty. He likes the quiet. He has never noticed the person who likes it too.",
+   "left": "Unknown",
+   "right": "Colin",
+   "wallpaper": [
+    "cart",
+    "apple",
+    "car",
+    "key",
+    "moon",
+    "phone",
+    "clock",
+    "lamp",
+    "question"
+   ],
+   "messages": [
+    {
+     "from": "Unknown",
+     "text": "You’re my next victim."
+    },
+    {
+     "from": "Colin",
+     "text": "What? Who is this?"
+    },
+    {
+     "from": "Unknown",
+     "text": "You’re the one I’m cutting next."
+    },
+    {
+     "from": "Colin",
+     "text": "Jack, is that you? This is a stupid joke."
+    },
+    {
+     "from": "Unknown",
+     "text": "This isn’t a joke."
+    },
+    {
+     "from": "Unknown",
+     "text": "I’m going to slice you into little tiny pieces."
+    },
+    {
+     "from": "Colin",
+     "text": "Very funny."
+    },
+    {
+     "from": "Unknown",
+     "text": "This is very serious."
+    },
+    {
+     "from": "Colin",
+     "text": "Sure it is."
+    },
+    {
+     "from": "Unknown",
+     "text": "I’m very good at it. Slicing, I mean."
+    },
+    {
+     "from": "Colin",
+     "text": "I’m sure you are LOL"
+    },
+    {
+     "from": "Unknown",
+     "text": "I’m just waiting for the just the right time…"
+    },
+    {
+     "from": "Unknown",
+     "text": "And then I’ll start my work."
+    },
+    {
+     "from": "Colin",
+     "text": "Your work?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I thought you understood by now. I will slice you."
+    },
+    {
+     "from": "Colin",
+     "text": "Right – into little tiny pieces."
+    },
+    {
+     "from": "Unknown",
+     "text": "At just the right moment."
+    },
+    {
+     "from": "Colin",
+     "text": "And when is that?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I’ll know it when I see it."
+    },
+    {
+     "from": "Unknown",
+     "text": "For example, I wouldn’t start right now, while you’re at the supermarket."
+    },
+    {
+     "from": "Unknown",
+     "text": "PIC OF COLIN (age: 18-22) AT THE SUPERMARKET"
+    },
+    {
+     "from": "Colin",
+     "text": "Are you following me?"
+    },
+    {
+     "from": "Unknown",
+     "text": "And the gas station you just left was too crowded."
+    },
+    {
+     "from": "Colin",
+     "text": "You shouldn’t follow people."
+    },
+    {
+     "from": "Unknown",
+     "text": "If you’re roommates Tom and Alan aren’t home, maybe I’ll do it when you get home."
+    },
+    {
+     "from": "Colin",
+     "text": "Okay this has gone far enough. Jack, is that you?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I’m not Jack."
+    },
+    {
+     "from": "Unknown",
+     "text": "You don’t know me."
+    },
+    {
+     "from": "Colin",
+     "text": "If I don’t know you, why would you want to slice me up?"
+    },
+    {
+     "from": "Unknown",
+     "text": "You look like you could use slicing."
+    },
+    {
+     "from": "Colin",
+     "text": "That’s just weird."
+    },
+    {
+     "from": "Unknown",
+     "text": "You’re really looking at produce here?"
+    },
+    {
+     "from": "Colin",
+     "text": "Are you following me?"
+    },
+    {
+     "from": "Unknown",
+     "text": "The produce is not very good, just to let you know."
+    },
+    {
+     "from": "Colin",
+     "text": "Where are you?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I think you’ve really overfilled your shopping cart, anyway."
+    },
+    {
+     "from": "Unknown",
+     "text": "I think you’ve done enough food shopping for today."
+    },
+    {
+     "from": "Colin",
+     "text": "This is getting annoying."
+    },
+    {
+     "from": "Unknown",
+     "text": "Why are you looking at that old lady? Do you think I could be her?"
+    },
+    {
+     "from": "Unknown",
+     "text": "LOL"
+    },
+    {
+     "from": "Colin",
+     "text": "You could be anybody."
+    },
+    {
+     "from": "Unknown",
+     "text": "Exactly."
+    },
+    {
+     "from": "Unknown",
+     "text": "You’ll never find me."
+    },
+    {
+     "from": "Unknown",
+     "text": "But I’ll find you LOL"
+    },
+    {
+     "from": "Colin",
+     "text": "If you think I believe you’re some serial killing, you’re wrong."
+    },
+    {
+     "from": "Unknown",
+     "text": "I don’t know if “serial killer” would be the right description."
+    },
+    {
+     "from": "Unknown",
+     "text": "It’s not a good idea to pay for your groceries on your credit card."
+    },
+    {
+     "from": "Colin",
+     "text": "Stop watching me."
+    },
+    {
+     "from": "Unknown",
+     "text": "I’m just trying to give you a little bit of advice."
+    },
+    {
+     "from": "Colin",
+     "text": "Why, if you’re going to kill me?"
+    },
+    {
+     "from": "Unknown",
+     "text": "Force of habit, I guess!"
+    },
+    {
+     "from": "Unknown",
+     "text": "You’ve been in the supermarket a long time."
+    },
+    {
+     "from": "Unknown",
+     "text": "Can you believe it’s already dark outside?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I love this time of the year."
+    },
+    {
+     "from": "Colin",
+     "text": "Good for you."
+    },
+    {
+     "from": "Unknown",
+     "text": "Too bad they haven’t turned on the lights in the parking lot."
+    },
+    {
+     "from": "Unknown",
+     "text": "Well, too bad for you."
+    },
+    {
+     "from": "Colin",
+     "text": "What’s that supposed to mean?"
+    },
+    {
+     "from": "Unknown",
+     "text": "Well, it’s good for me, obviously"
+    },
+    {
+     "from": "Colin",
+     "text": "Obviously."
+    },
+    {
+     "from": "Colin",
+     "text": "My car has lights. It’s not like I’m in total darkness."
+    },
+    {
+     "from": "Unknown",
+     "text": "True, but you still can’t see what might come out at you from the dark."
+    },
+    {
+     "from": "Colin",
+     "text": "I’ll be careful."
+    },
+    {
+     "from": "Unknown",
+     "text": "The moon isn’t even out tonight."
+    },
+    {
+     "from": "Unknown",
+     "text": "It’s very, very dark."
+    },
+    {
+     "from": "Colin",
+     "text": "It’s a busy parking lot."
+    },
+    {
+     "from": "Unknown",
+     "text": "It’s a dark parking lot.."
+    },
+    {
+     "from": "Unknown",
+     "text": "And really, I don’t need that much time to do my work."
+    },
+    {
+     "from": "Unknown",
+     "text": "And I can tell, you’re the kind where the meat will slide right off the bone."
+    },
+    {
+     "from": "Colin",
+     "text": "You can tell?"
+    },
+    {
+     "from": "Unknown",
+     "text": "I guess you can say I’m somewhat of an expert."
+    },
+    {
+     "from": "Unknown",
+     "text": "Now look at that, you’ve almost filled up your trunk with groceries. And you still have more!"
+    },
+    {
+     "from": "Unknown",
+     "text": "You can probably make a little bit more room…just reach back in there."
+    },
+    {
+     "from": "Colin",
+     "text": "That’s what I’m doing."
+    },
+    {
+     "from": "Unknown",
+     "text": "That’s what I was hoping."
+    },
+    {
+     "from": "Unknown",
+     "text": "Just as I thought."
+    },
+    {
+     "from": "Unknown",
+     "text": "Slides right off the bone."
+    }
+   ]
+  }
+ ]
 }

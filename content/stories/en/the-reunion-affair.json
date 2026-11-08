@@ -2,282 +2,287 @@
  "id": "the-reunion-affair",
  "title": "The Reunion Affair",
  "author": "Patricia Johnson",
- "description": "Mary and Bill were high school sweethearts but the war separated them. They married another but at the reunion they found the sparks were still there.",
- "left": "Bill",
- "right": "Mary",
- "messages": [
-  {
-   "from": "Bill",
-   "text": "Is this a bad time to text Mary?"
-  },
-  {
-   "from": "Mary",
-   "text": "No it is not Bill. Jack is gone to work."
-  },
-  {
-   "from": "Bill",
-   "text": "It was sure nice to see you at the reunion."
-  },
-  {
-   "from": "Mary",
-   "text": "It was. You have not changed a bit."
-  },
-  {
-   "from": "Bill",
-   "text": "Then you must need glasses."
-  },
-  {
-   "from": "Mary",
-   "text": "To me you are still the handsome man I loved."
-  },
-  {
-   "from": "Bill",
-   "text": "And you are still the sexy cheerleader."
-  },
-  {
-   "from": "Mary",
-   "text": "Now who needs glasses?"
-  },
-  {
-   "from": "Bill",
-   "text": "Will you meet me tonight?"
-  },
-  {
-   "from": "Mary",
-   "text": "I am married Bill."
-  },
-  {
-   "from": "Bill",
-   "text": "So am I but the spark is still there."
-  },
-  {
-   "from": "Mary",
-   "text": "Yes it is but we are both married."
-  },
-  {
-   "from": "Bill",
-   "text": "I know that. You have reminded me enough."
-  },
-  {
-   "from": "Mary",
-   "text": "We should not have kissed."
-  },
-  {
-   "from": "Bill",
-   "text": "Yes we should have. It was right."
-  },
-  {
-   "from": "Mary",
-   "text": "I have never cheated on Jack."
-  },
-  {
-   "from": "Bill",
-   "text": "And I have never cheated on Sue."
-  },
-  {
-   "from": "Mary",
-   "text": "Then why are we talking about it?"
-  },
-  {
-   "from": "Bill",
-   "text": "Because we still desire each other."
-  },
-  {
-   "from": "Mary",
-   "text": "This may be true but does not make it right."
-  },
-  {
-   "from": "Bill",
-   "text": "The war separated us."
-  },
-  {
-   "from": "Mary",
-   "text": "We should have married before you shipped out."
-  },
-  {
-   "from": "Bill",
-   "text": "We didn’t but you should have waited. You promised."
-  },
-  {
-   "from": "Mary",
-   "text": "They said you had died. I grieved for a year."
-  },
-  {
-   "from": "Bill",
-   "text": "You should have waited longer."
-  },
-  {
-   "from": "Mary",
-   "text": "I know but I was lonely."
-  },
-  {
-   "from": "Bill",
-   "text": "I regret conforming to the rules of that time."
-  },
-  {
-   "from": "Mary",
-   "text": "Me too. But I was afraid of getting pregnant"
-  },
-  {
-   "from": "Bill",
-   "text": "I would have married you."
-  },
-  {
-   "from": "Mary",
-   "text": "I know but did not want a “have too marriage.”"
-  },
-  {
-   "from": "Bill",
-   "text": "That is the past. This is now. Meet me."
-  },
-  {
-   "from": "Mary",
-   "text": "I have never been with another man."
-  },
-  {
-   "from": "Bill",
-   "text": "I wish I could say the same but cannot."
-  },
-  {
-   "from": "Mary",
-   "text": "I don’t know Bill."
-  },
-  {
-   "from": "Bill",
-   "text": "Don’t turn me down again like you did prom night."
-  },
-  {
-   "from": "Mary",
-   "text": "Okay I will meet you."
-  },
-  {
-   "from": "Bill",
-   "text": "You will? That makes me happy."
-  },
-  {
-   "from": "Mary",
-   "text": "At noon, Airport Motel."
-  },
-  {
-   "from": "Bill",
-   "text": "Don’t chicken out again."
-  },
-  {
-   "from": "Mary",
-   "text": "I won’t."
-  },
-  {
-   "from": "Bill",
-   "text": "I love you. I have protection."
-  },
-  {
-   "from": "Mary",
-   "text": "I love you. What room?"
-  },
-  {
-   "from": "Bill",
-   "text": "Room 13."
-  },
-  {
-   "from": "Mary",
-   "text": "Leaving now."
-  },
-  {
-   "from": "Bill",
-   "text": "See you soon my darling."
-  },
-  {
-   "from": "Mary",
-   "text": "Bill, car will not start. I’m going to be late."
-  },
-  {
-   "from": "Bill",
-   "text": "Sorry, but I have to make my flight."
-  },
-  {
-   "from": "Mary",
-   "text": "Please wait."
-  },
-  {
-   "from": "Bill",
-   "text": "I can’t wait. I have to go."
-  },
-  {
-   "from": "Mary",
-   "text": "No!"
-  },
-  {
-   "from": "Bill",
-   "text": "We were never meant to consummate our love."
-  },
-  {
-   "from": "Mary",
-   "text": "I love you Bill forever."
-  },
-  {
-   "from": "Bill",
-   "text": "I will always love you Mary."
-  },
-  {
-   "from": "Mary",
-   "text": "It is so unfair."
-  },
-  {
-   "from": "Bill",
-   "text": "Yes it is but life is not fair."
-  },
-  {
-   "from": "Mary",
-   "text": "Wait, I want to go with you."
-  },
-  {
-   "from": "Bill",
-   "text": "You can’t Mary. It is not your time."
-  },
-  {
-   "from": "Mary",
-   "text": "Not my time. What do you mean?"
-  },
-  {
-   "from": "Bill",
-   "text": "Look on your pillow."
-  },
-  {
-   "from": "Mary",
-   "text": "Your dog tags? But this means…"
-  },
-  {
-   "from": "Bill",
-   "text": "Yes, I am dead."
-  },
-  {
-   "from": "Mary",
-   "text": "But your body…"
-  },
-  {
-   "from": "Bill",
-   "text": "On the Beaches of Normandy…mass grave."
-  },
-  {
-   "from": "Mary",
-   "text": "But this feels so real…the reunion."
-  },
-  {
-   "from": "Bill",
-   "text": "My spirit…saying I love you and good bye my love."
-  }
- ],
  "genre": "romance",
- "wallpaper": [
-  "heart",
-  "glasses",
-  "ring",
-  "rose",
-  "music",
-  "plane",
-  "car",
-  "clock",
-  "envelope"
- ],
- "fear": 2
+ "fear": 2,
+ "description": "Mary and Bill were high school sweethearts but the war separated them. They married another but at the reunion they found the sparks were still there.",
+ "parts": [
+  {
+   "prologue": "Mary and Bill were the couple everyone expected to marry. Then came the war, and a telegram. Sixty years on, their class is holding a reunion.",
+   "left": "Bill",
+   "right": "Mary",
+   "wallpaper": [
+    "heart",
+    "glasses",
+    "ring",
+    "rose",
+    "music",
+    "plane",
+    "car",
+    "clock",
+    "envelope"
+   ],
+   "messages": [
+    {
+     "from": "Bill",
+     "text": "Is this a bad time to text Mary?"
+    },
+    {
+     "from": "Mary",
+     "text": "No it is not Bill. Jack is gone to work."
+    },
+    {
+     "from": "Bill",
+     "text": "It was sure nice to see you at the reunion."
+    },
+    {
+     "from": "Mary",
+     "text": "It was. You have not changed a bit."
+    },
+    {
+     "from": "Bill",
+     "text": "Then you must need glasses."
+    },
+    {
+     "from": "Mary",
+     "text": "To me you are still the handsome man I loved."
+    },
+    {
+     "from": "Bill",
+     "text": "And you are still the sexy cheerleader."
+    },
+    {
+     "from": "Mary",
+     "text": "Now who needs glasses?"
+    },
+    {
+     "from": "Bill",
+     "text": "Will you meet me tonight?"
+    },
+    {
+     "from": "Mary",
+     "text": "I am married Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "So am I but the spark is still there."
+    },
+    {
+     "from": "Mary",
+     "text": "Yes it is but we are both married."
+    },
+    {
+     "from": "Bill",
+     "text": "I know that. You have reminded me enough."
+    },
+    {
+     "from": "Mary",
+     "text": "We should not have kissed."
+    },
+    {
+     "from": "Bill",
+     "text": "Yes we should have. It was right."
+    },
+    {
+     "from": "Mary",
+     "text": "I have never cheated on Jack."
+    },
+    {
+     "from": "Bill",
+     "text": "And I have never cheated on Sue."
+    },
+    {
+     "from": "Mary",
+     "text": "Then why are we talking about it?"
+    },
+    {
+     "from": "Bill",
+     "text": "Because we still desire each other."
+    },
+    {
+     "from": "Mary",
+     "text": "This may be true but does not make it right."
+    },
+    {
+     "from": "Bill",
+     "text": "The war separated us."
+    },
+    {
+     "from": "Mary",
+     "text": "We should have married before you shipped out."
+    },
+    {
+     "from": "Bill",
+     "text": "We didn’t but you should have waited. You promised."
+    },
+    {
+     "from": "Mary",
+     "text": "They said you had died. I grieved for a year."
+    },
+    {
+     "from": "Bill",
+     "text": "You should have waited longer."
+    },
+    {
+     "from": "Mary",
+     "text": "I know but I was lonely."
+    },
+    {
+     "from": "Bill",
+     "text": "I regret conforming to the rules of that time."
+    },
+    {
+     "from": "Mary",
+     "text": "Me too. But I was afraid of getting pregnant"
+    },
+    {
+     "from": "Bill",
+     "text": "I would have married you."
+    },
+    {
+     "from": "Mary",
+     "text": "I know but did not want a “have too marriage.”"
+    },
+    {
+     "from": "Bill",
+     "text": "That is the past. This is now. Meet me."
+    },
+    {
+     "from": "Mary",
+     "text": "I have never been with another man."
+    },
+    {
+     "from": "Bill",
+     "text": "I wish I could say the same but cannot."
+    },
+    {
+     "from": "Mary",
+     "text": "I don’t know Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Don’t turn me down again like you did prom night."
+    },
+    {
+     "from": "Mary",
+     "text": "Okay I will meet you."
+    },
+    {
+     "from": "Bill",
+     "text": "You will? That makes me happy."
+    },
+    {
+     "from": "Mary",
+     "text": "At noon, Airport Motel."
+    },
+    {
+     "from": "Bill",
+     "text": "Don’t chicken out again."
+    },
+    {
+     "from": "Mary",
+     "text": "I won’t."
+    },
+    {
+     "from": "Bill",
+     "text": "I love you. I have protection."
+    },
+    {
+     "from": "Mary",
+     "text": "I love you. What room?"
+    },
+    {
+     "from": "Bill",
+     "text": "Room 13."
+    },
+    {
+     "from": "Mary",
+     "text": "Leaving now."
+    },
+    {
+     "from": "Bill",
+     "text": "See you soon my darling."
+    },
+    {
+     "from": "Mary",
+     "text": "Bill, car will not start. I’m going to be late."
+    },
+    {
+     "from": "Bill",
+     "text": "Sorry, but I have to make my flight."
+    },
+    {
+     "from": "Mary",
+     "text": "Please wait."
+    },
+    {
+     "from": "Bill",
+     "text": "I can’t wait. I have to go."
+    },
+    {
+     "from": "Mary",
+     "text": "No!"
+    },
+    {
+     "from": "Bill",
+     "text": "We were never meant to consummate our love."
+    },
+    {
+     "from": "Mary",
+     "text": "I love you Bill forever."
+    },
+    {
+     "from": "Bill",
+     "text": "I will always love you Mary."
+    },
+    {
+     "from": "Mary",
+     "text": "It is so unfair."
+    },
+    {
+     "from": "Bill",
+     "text": "Yes it is but life is not fair."
+    },
+    {
+     "from": "Mary",
+     "text": "Wait, I want to go with you."
+    },
+    {
+     "from": "Bill",
+     "text": "You can’t Mary. It is not your time."
+    },
+    {
+     "from": "Mary",
+     "text": "Not my time. What do you mean?"
+    },
+    {
+     "from": "Bill",
+     "text": "Look on your pillow."
+    },
+    {
+     "from": "Mary",
+     "text": "Your dog tags? But this means…"
+    },
+    {
+     "from": "Bill",
+     "text": "Yes, I am dead."
+    },
+    {
+     "from": "Mary",
+     "text": "But your body…"
+    },
+    {
+     "from": "Bill",
+     "text": "On the Beaches of Normandy…mass grave."
+    },
+    {
+     "from": "Mary",
+     "text": "But this feels so real…the reunion."
+    },
+    {
+     "from": "Bill",
+     "text": "My spirit…saying I love you and good bye my love."
+    }
+   ]
+  }
+ ]
 }

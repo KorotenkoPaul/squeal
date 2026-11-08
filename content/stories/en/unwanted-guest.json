@@ -2,318 +2,323 @@
  "id": "unwanted-guest",
  "title": "Unwanted Guest",
  "author": "Rich Samuels",
- "description": "Sharon doesn’t like to be left alone at night. When she discovers her front door unlocked, she imagines that someone else is in the house with her.",
- "left": "Darrell",
- "right": "Sharon",
- "messages": [
-  {
-   "from": "Darrell",
-   "text": "You always get so scared!"
-  },
-  {
-   "from": "Sharon",
-   "text": "I just don’t like being alone. Especially at night."
-  },
-  {
-   "from": "Darrell",
-   "text": "Look, there’s nothing to be worried about."
-  },
-  {
-   "from": "Sharon",
-   "text": "Just come over."
-  },
-  {
-   "from": "Darrell",
-   "text": "I’m at work, you know I can’t."
-  },
-  {
-   "from": "Sharon",
-   "text": "Just say you’re sick."
-  },
-  {
-   "from": "Darrell",
-   "text": "I’m not doing that."
-  },
-  {
-   "from": "Sharon",
-   "text": "Please?"
-  },
-  {
-   "from": "Darrell",
-   "text": "Just turn on all the lights, it’s going to be okay."
-  },
-  {
-   "from": "Sharon",
-   "text": "I did turn on all the lights."
-  },
-  {
-   "from": "Darrell",
-   "text": "Then don’t worry."
-  },
-  {
-   "from": "Darrell",
-   "text": "You locked the doors, right?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Yes."
-  },
-  {
-   "from": "Sharon",
-   "text": "I think so."
-  },
-  {
-   "from": "Sharon",
-   "text": "I’m trying to remember."
-  },
-  {
-   "from": "Darrell",
-   "text": "I’m sure you did."
-  },
-  {
-   "from": "Sharon",
-   "text": "I better check."
-  },
-  {
-   "from": "Sharon",
-   "text": "Back door is locked."
-  },
-  {
-   "from": "Darrell",
-   "text": "You locked it yourself."
-  },
-  {
-   "from": "Sharon",
-   "text": "The sliding door to the porch is good."
-  },
-  {
-   "from": "Sharon",
-   "text": "The windows in the tv room are good"
-  },
-  {
-   "from": "Darrell",
-   "text": "It’s going to be okay, see?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Darrell?"
-  },
-  {
-   "from": "Darrell",
-   "text": "What?"
-  },
-  {
-   "from": "Sharon",
-   "text": "You need to come here."
-  },
-  {
-   "from": "Sharon",
-   "text": "Quick."
-  },
-  {
-   "from": "Darrell",
-   "text": "Why?"
-  },
-  {
-   "from": "Sharon",
-   "text": "The front door."
-  },
-  {
-   "from": "Darrell",
-   "text": "Was it unlocked?"
-  },
-  {
-   "from": "Sharon",
-   "text": "It was open."
-  },
-  {
-   "from": "Darrell",
-   "text": "Wide open?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Open enough."
-  },
-  {
-   "from": "Darrell",
-   "text": "You just forgot to check it, that’s all."
-  },
-  {
-   "from": "Sharon",
-   "text": "No! the front door is the FIRST thing I ehck."
-  },
-  {
-   "from": "Darrell",
-   "text": "Maybe you were distracted."
-  },
-  {
-   "from": "Sharon",
-   "text": "I wasn’t distracted."
-  },
-  {
-   "from": "Sharon",
-   "text": "It was open"
-  },
-  {
-   "from": "Darrell",
-   "text": "Well, did you lock it?"
-  },
-  {
-   "from": "Sharon",
-   "text": "What if there’s someone in the house?"
-  },
-  {
-   "from": "Darrell",
-   "text": "There’s no one in the house."
-  },
-  {
-   "from": "Sharon",
-   "text": "What if there is?"
-  },
-  {
-   "from": "Darrell",
-   "text": "I don’t know…why don’t you go to a neighbor’s house or something."
-  },
-  {
-   "from": "Sharon",
-   "text": "It’s totally dark outside."
-  },
-  {
-   "from": "Sharon",
-   "text": "I don’t know what to do."
-  },
-  {
-   "from": "Darrell",
-   "text": "Don’t worry."
-  },
-  {
-   "from": "Sharon",
-   "text": "I am worrying!"
-  },
-  {
-   "from": "Darrell",
-   "text": "Look, what are the chances some robber discovered the door was unlocked?"
-  },
-  {
-   "from": "Sharon",
-   "text": "What if I didn’t? What if THEY unlocked it???"
-  },
-  {
-   "from": "Darrell",
-   "text": "You’re being ridiculous."
-  },
-  {
-   "from": "Sharon",
-   "text": "I think I heard something."
-  },
-  {
-   "from": "Darrell",
-   "text": "It was your imagination."
-  },
-  {
-   "from": "Sharon",
-   "text": "No…"
-  },
-  {
-   "from": "Darrell",
-   "text": "YES."
-  },
-  {
-   "from": "Sharon",
-   "text": "There’s somebody in the house!"
-  },
-  {
-   "from": "Darrell",
-   "text": "There’s nobody in the house."
-  },
-  {
-   "from": "Sharon",
-   "text": "You have to over here."
-  },
-  {
-   "from": "Darrell",
-   "text": "I’m working."
-  },
-  {
-   "from": "Sharon",
-   "text": "I’m telling the truth."
-  },
-  {
-   "from": "Sharon",
-   "text": "I’m hiding under my bed."
-  },
-  {
-   "from": "Sharon",
-   "text": "I think he’s in my room!"
-  },
-  {
-   "from": "Darrell",
-   "text": "There’s nobody there!"
-  },
-  {
-   "from": "Sharon",
-   "text": "PIC: A MAN’S LEGS IN A BEDROOM TAKEN FROM UNDER THE BED"
-  },
-  {
-   "from": "Sharon",
-   "text": "Now do you believe me?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Darrell?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Do you believe me now?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Answer me!"
-  },
-  {
-   "from": "Sharon",
-   "text": "Wait...is that you?"
-  },
-  {
-   "from": "Sharon",
-   "text": "Is this a big joke? I’m hiding for nothing?"
-  },
-  {
-   "from": "Darrell",
-   "text": "Sorry, I had to deal with a customer."
-  },
-  {
-   "from": "Darrell",
-   "text": "Wait…WHAT?"
-  },
-  {
-   "from": "Darrell",
-   "text": "Sharon, are you there?"
-  },
-  {
-   "from": "Darrell",
-   "text": "Sharon?"
-  },
-  {
-   "from": "Darrell",
-   "text": "Answer me!"
-  },
-  {
-   "from": "Darrell",
-   "text": "THAT’S NOT ME!"
-  }
- ],
  "genre": "thriller",
- "wallpaper": [
-  "door",
-  "key",
-  "lock",
-  "bulb",
-  "moon",
-  "house",
-  "phone",
-  "clock",
-  "stairs"
- ],
- "fear": 4
+ "fear": 4,
+ "description": "Sharon doesn’t like to be left alone at night. When she discovers her front door unlocked, she imagines that someone else is in the house with her.",
+ "parts": [
+  {
+   "prologue": "Sharon has slept alone since Darrell started working nights. She checks every lock before bed. Tonight she can't remember if she did.",
+   "left": "Darrell",
+   "right": "Sharon",
+   "wallpaper": [
+    "door",
+    "key",
+    "lock",
+    "bulb",
+    "moon",
+    "house",
+    "phone",
+    "clock",
+    "stairs"
+   ],
+   "messages": [
+    {
+     "from": "Darrell",
+     "text": "You always get so scared!"
+    },
+    {
+     "from": "Sharon",
+     "text": "I just don’t like being alone. Especially at night."
+    },
+    {
+     "from": "Darrell",
+     "text": "Look, there’s nothing to be worried about."
+    },
+    {
+     "from": "Sharon",
+     "text": "Just come over."
+    },
+    {
+     "from": "Darrell",
+     "text": "I’m at work, you know I can’t."
+    },
+    {
+     "from": "Sharon",
+     "text": "Just say you’re sick."
+    },
+    {
+     "from": "Darrell",
+     "text": "I’m not doing that."
+    },
+    {
+     "from": "Sharon",
+     "text": "Please?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Just turn on all the lights, it’s going to be okay."
+    },
+    {
+     "from": "Sharon",
+     "text": "I did turn on all the lights."
+    },
+    {
+     "from": "Darrell",
+     "text": "Then don’t worry."
+    },
+    {
+     "from": "Darrell",
+     "text": "You locked the doors, right?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Yes."
+    },
+    {
+     "from": "Sharon",
+     "text": "I think so."
+    },
+    {
+     "from": "Sharon",
+     "text": "I’m trying to remember."
+    },
+    {
+     "from": "Darrell",
+     "text": "I’m sure you did."
+    },
+    {
+     "from": "Sharon",
+     "text": "I better check."
+    },
+    {
+     "from": "Sharon",
+     "text": "Back door is locked."
+    },
+    {
+     "from": "Darrell",
+     "text": "You locked it yourself."
+    },
+    {
+     "from": "Sharon",
+     "text": "The sliding door to the porch is good."
+    },
+    {
+     "from": "Sharon",
+     "text": "The windows in the tv room are good"
+    },
+    {
+     "from": "Darrell",
+     "text": "It’s going to be okay, see?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell?"
+    },
+    {
+     "from": "Darrell",
+     "text": "What?"
+    },
+    {
+     "from": "Sharon",
+     "text": "You need to come here."
+    },
+    {
+     "from": "Sharon",
+     "text": "Quick."
+    },
+    {
+     "from": "Darrell",
+     "text": "Why?"
+    },
+    {
+     "from": "Sharon",
+     "text": "The front door."
+    },
+    {
+     "from": "Darrell",
+     "text": "Was it unlocked?"
+    },
+    {
+     "from": "Sharon",
+     "text": "It was open."
+    },
+    {
+     "from": "Darrell",
+     "text": "Wide open?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Open enough."
+    },
+    {
+     "from": "Darrell",
+     "text": "You just forgot to check it, that’s all."
+    },
+    {
+     "from": "Sharon",
+     "text": "No! the front door is the FIRST thing I ehck."
+    },
+    {
+     "from": "Darrell",
+     "text": "Maybe you were distracted."
+    },
+    {
+     "from": "Sharon",
+     "text": "I wasn’t distracted."
+    },
+    {
+     "from": "Sharon",
+     "text": "It was open"
+    },
+    {
+     "from": "Darrell",
+     "text": "Well, did you lock it?"
+    },
+    {
+     "from": "Sharon",
+     "text": "What if there’s someone in the house?"
+    },
+    {
+     "from": "Darrell",
+     "text": "There’s no one in the house."
+    },
+    {
+     "from": "Sharon",
+     "text": "What if there is?"
+    },
+    {
+     "from": "Darrell",
+     "text": "I don’t know…why don’t you go to a neighbor’s house or something."
+    },
+    {
+     "from": "Sharon",
+     "text": "It’s totally dark outside."
+    },
+    {
+     "from": "Sharon",
+     "text": "I don’t know what to do."
+    },
+    {
+     "from": "Darrell",
+     "text": "Don’t worry."
+    },
+    {
+     "from": "Sharon",
+     "text": "I am worrying!"
+    },
+    {
+     "from": "Darrell",
+     "text": "Look, what are the chances some robber discovered the door was unlocked?"
+    },
+    {
+     "from": "Sharon",
+     "text": "What if I didn’t? What if THEY unlocked it???"
+    },
+    {
+     "from": "Darrell",
+     "text": "You’re being ridiculous."
+    },
+    {
+     "from": "Sharon",
+     "text": "I think I heard something."
+    },
+    {
+     "from": "Darrell",
+     "text": "It was your imagination."
+    },
+    {
+     "from": "Sharon",
+     "text": "No…"
+    },
+    {
+     "from": "Darrell",
+     "text": "YES."
+    },
+    {
+     "from": "Sharon",
+     "text": "There’s somebody in the house!"
+    },
+    {
+     "from": "Darrell",
+     "text": "There’s nobody in the house."
+    },
+    {
+     "from": "Sharon",
+     "text": "You have to over here."
+    },
+    {
+     "from": "Darrell",
+     "text": "I’m working."
+    },
+    {
+     "from": "Sharon",
+     "text": "I’m telling the truth."
+    },
+    {
+     "from": "Sharon",
+     "text": "I’m hiding under my bed."
+    },
+    {
+     "from": "Sharon",
+     "text": "I think he’s in my room!"
+    },
+    {
+     "from": "Darrell",
+     "text": "There’s nobody there!"
+    },
+    {
+     "from": "Sharon",
+     "text": "PIC: A MAN’S LEGS IN A BEDROOM TAKEN FROM UNDER THE BED"
+    },
+    {
+     "from": "Sharon",
+     "text": "Now do you believe me?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Do you believe me now?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Answer me!"
+    },
+    {
+     "from": "Sharon",
+     "text": "Wait...is that you?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Is this a big joke? I’m hiding for nothing?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sorry, I had to deal with a customer."
+    },
+    {
+     "from": "Darrell",
+     "text": "Wait…WHAT?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon, are you there?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Answer me!"
+    },
+    {
+     "from": "Darrell",
+     "text": "THAT’S NOT ME!"
+    }
+   ]
+  }
+ ]
 }
