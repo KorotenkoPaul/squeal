@@ -374,8 +374,8 @@ function wireHome() {
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
 /* ---------- Pull to refresh: the owl's eyes ----------
    Pull the page down and the owl's eyes come down from above the screen with it, opening as you pull.
-   Let go past the line: they blink; the page refreshes while they are shut; they open red and the
-   page goes back up with them still open.
+   Let go past the line: they shut once; the page refreshes while they are shut (a slow network just
+   keeps them shut longer); they open red and the page goes back up with them still open.
    The brow's shadow lies on the open eye (white or red) and goes away with it when the lid shuts.
    The reload starts as soon as you let go; the eyes keep cycling until it is done, then finish the
    cycle they are in and the page goes back up. */
@@ -421,15 +421,13 @@ function owlEyes() {
   return {
     el: wrap, setLids,
     async open(from = 1) { await tween(280 * from + 1, easeOut, t => setLids(from * (1 - t))); },
-    /* one blink; if `ready()` says the page is fresh by the time the lids are shut, the page is
-       swapped behind the closed eyes and they open red; otherwise they open white again */
-    async blink(ready, onShut) {
+    /* the one blink: shut, stay shut until the page is fresh (it is swapped behind the closed
+       eyes), then open red */
+    async blink(loaded, onShut) {
       await tween(120, easeIn, setLids);                          // shut…
-      const fresh = ready();
-      if (fresh) { onShut(); evil.setAttribute("opacity", 1); }
-      await wait(60);
-      await tween(220, easeOut, t => setLids(1 - t));             // …and open, red if fresh
-      return fresh;
+      await Promise.all([loaded, wait(60)]);                     // …a slow network keeps them shut…
+      onShut(); evil.setAttribute("opacity", 1);
+      await tween(220, easeOut, t => setLids(1 - t));             // …open, red
     },
     reset() { evil.setAttribute("opacity", 0); setLids(1); },
   };
@@ -490,13 +488,12 @@ function pullToRefresh() {
     const lidNow = 1 - Math.min(1, d / LINE) ** 2;
     show(d = REST);
     /* reload now, in the background of the animation */
-    let done = false;
-    reloadStories().then(() => { done = true; });
+    const loaded = reloadStories();
     let from = lidNow;
-    /* white eyes open, look, blink; the page is refreshed while they are shut and they open red.
-       Slow network: they keep blinking white until the stories are in. */
+    /* white eyes, closed eyes, red eyes: nothing else */
     await eyes.open(from);
-    do { await wait(380); } while (!(await eyes.blink(() => done, () => refreshHome(view))));
+    await wait(380);
+    await eyes.blink(loaded, () => refreshHome(view));
     await wait(500);
     clearInterval(slideTimer); startSlider();
     show(0);
