@@ -89,9 +89,9 @@
       },
       {
        "from": "Lily",
-       "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
+       "text": "Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
        "voice": "voice/two-knocks-door.mp3",
-       "dur": 9
+       "dur": 10
       }
      ],
      "choices": [
@@ -356,9 +356,9 @@
     },
     {
      "from": "Lily",
-     "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
+     "text": "Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
      "voice": "voice/two-knocks-door.mp3",
-     "dur": 9
+     "dur": 10
     },
     {
      "from": "Sam",

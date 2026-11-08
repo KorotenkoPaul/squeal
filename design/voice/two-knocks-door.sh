@@ -1,3 +1,6 @@
+# OUTDATED (v1, OpenAI TTS). The current file web/voice/two-knocks-door.mp3 = design/audio/two-knocks-door-v8.mp3:
+# ElevenLabs Eleven v3 via Artlist (Lily: voice "Grace", whisper; door: voice "Mild", persuasive),
+# mixed with ffmpeg: Lily close and slightly muffled, his voice through the door, one double knock at 4.5 s, 9.5 s.
 #!/bin/sh
 # Rebuilds web/voice/two-knocks-door.mp3: the voice through Lily's door (Two Knocks), recorded "on a phone".
 # Voice: OpenAI text-to-speech (gpt-4o-mini-tts); the API key is supplied by the environment's proxy, never written here.
