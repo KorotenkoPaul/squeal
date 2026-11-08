@@ -371,5 +371,16 @@
    "text": "Honey, let’s talk about this when I get home."
   }
  ],
- "genre": "romance"
+ "genre": "romance",
+ "wallpaper": [
+  "heart",
+  "laptop",
+  "wineglass",
+  "cutlery",
+  "car",
+  "ring",
+  "mask",
+  "question",
+  "phone"
+ ]
 }

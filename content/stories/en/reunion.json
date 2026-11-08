@@ -379,5 +379,16 @@
    "text": "Emily?"
   }
  ],
- "genre": "thriller"
+ "genre": "thriller",
+ "wallpaper": [
+  "book",
+  "cutlery",
+  "balloon",
+  "music",
+  "phone",
+  "star",
+  "question",
+  "coffee",
+  "house"
+ ]
 }

@@ -499,5 +499,16 @@
    "text": "Please."
   }
  ],
- "genre": "horror"
+ "genre": "horror",
+ "wallpaper": [
+  "door",
+  "house",
+  "candle",
+  "moon",
+  "key",
+  "dollar",
+  "clock",
+  "stairs",
+  "wind"
+ ]
 }

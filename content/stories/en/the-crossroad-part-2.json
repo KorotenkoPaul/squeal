@@ -223,5 +223,15 @@
    "text": "150 grand, by 8 tonight."
   }
  ],
- "genre": "romance"
+ "genre": "romance",
+ "wallpaper": [
+  "dollar",
+  "briefcase",
+  "document",
+  "key",
+  "ring",
+  "house",
+  "wineglass",
+  "lock"
+ ]
 }

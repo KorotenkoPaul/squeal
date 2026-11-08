@@ -335,5 +335,16 @@
    "text": "Understand?"
   }
  ],
- "genre": "thriller"
+ "genre": "thriller",
+ "wallpaper": [
+  "train",
+  "suitcase",
+  "passport",
+  "ticket",
+  "clock",
+  "star",
+  "key",
+  "moon",
+  "road"
+ ]
 }

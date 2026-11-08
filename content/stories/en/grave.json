@@ -403,5 +403,16 @@
    "text": "You’re really, really dead."
   }
  ],
- "genre": "thriller"
+ "genre": "thriller",
+ "wallpaper": [
+  "cross",
+  "flower",
+  "moon",
+  "train",
+  "phone",
+  "clock",
+  "question",
+  "candle",
+  "star"
+ ]
 }

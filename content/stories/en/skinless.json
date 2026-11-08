@@ -371,5 +371,15 @@
    "text": "It’s coming off the bone."
   }
  ],
- "genre": "horror"
+ "genre": "horror",
+ "wallpaper": [
+  "bandage",
+  "drop",
+  "chair",
+  "magnifier",
+  "moon",
+  "phone",
+  "question",
+  "clock"
+ ]
 }

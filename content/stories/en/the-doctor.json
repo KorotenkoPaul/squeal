@@ -467,5 +467,16 @@
    "text": "Hello?"
   }
  ],
- "genre": "horror"
+ "genre": "horror",
+ "wallpaper": [
+  "tent",
+  "tree",
+  "bandage",
+  "lamp",
+  "backpack",
+  "compass",
+  "moon",
+  "phone",
+  "drop"
+ ]
 }

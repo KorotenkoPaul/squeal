@@ -303,5 +303,16 @@
    "text": "THAT’S NOT ME!"
   }
  ],
- "genre": "thriller"
+ "genre": "thriller",
+ "wallpaper": [
+  "door",
+  "key",
+  "lock",
+  "bulb",
+  "moon",
+  "house",
+  "phone",
+  "clock",
+  "stairs"
+ ]
 }

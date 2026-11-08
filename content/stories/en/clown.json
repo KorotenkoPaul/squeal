@@ -303,5 +303,16 @@
    "text": "SAME PIC OF CLOWN"
   }
  ],
- "genre": "thriller"
+ "genre": "thriller",
+ "wallpaper": [
+  "balloon",
+  "nose",
+  "flower",
+  "hat",
+  "door",
+  "house",
+  "phone",
+  "star",
+  "music"
+ ]
 }
