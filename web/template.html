@@ -38,12 +38,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .cover { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Home */
-.slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
+.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
 .slider::-webkit-scrollbar { display: none; }
 .slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
 .dots { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
-.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--field); transition: background .2s, width .2s; }
-.dots i.on { background: var(--text); width: 16px; border-radius: 3px; }
+.dots { flex: none; }
+.dots i { position: relative; width: 6px; height: 6px; border-radius: 3px; background: var(--field); overflow: hidden;
+  transition: width .45s cubic-bezier(.2,.9,.2,1), background .3s; }
+.dots i.on { width: 28px; background: rgba(255,255,255,.22); }
+.dots i.on::after { content: ""; position: absolute; inset: 0; background: var(--text); border-radius: 3px; transform-origin: left;
+  animation: fill var(--slide, 4s) linear forwards; }
+.dots.manual i.on::after { animation: none; transform: scaleX(1); }
+@keyframes fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
 .pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
@@ -54,6 +60,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.pv-body > * { animation: up .5s cubic-bezier(.2,.9,.2,1) both; }
+.pv-body > *:nth-child(2) { animation-delay: .06s } .pv-body > *:nth-child(3) { animation-delay: .12s } .pv-body > *:nth-child(n+4) { animation-delay: .18s }
+.pv-cover > div { animation: up .5s .05s cubic-bezier(.2,.9,.2,1) both; }
+@keyframes up { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
 .pv-body { padding: 4px max(18px, env(safe-area-inset-right, 0px)) 24px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .stat { background: var(--field); border-radius: 12px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
@@ -71,7 +81,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .hero b { font-size: 26px; font-weight: 600; text-wrap: balance; }
 .hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
-.chips { display: flex; gap: 8px; overflow-x: auto; }
+.chips { flex: none; display: flex; gap: 8px; overflow-x: auto; }
 .chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; }
 .chip[aria-pressed="true"] { background: var(--accent); color: var(--text); }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -146,14 +156,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
-@media (prefers-reduced-motion: reduce) { .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
+@media (prefers-reduced-motion: reduce) { .pv-body > *, .pv-cover > div { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
 </style>
 
 <div class="app" id="app"></div>
 
 <script>
 const STORIES = /*STORIES*/[];
-const GENRES = { all: "All", horror: "Horror", thriller: "Thriller" };
+const GENRES = { all: "All", horror: "Horror", thriller: "Thriller", romance: "Romance" };
 const store = {
   get(k, d) { try { const v = localStorage.getItem("squeal:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem("squeal:" + k, JSON.stringify(v)); } catch {} },
@@ -188,6 +198,8 @@ function cover(story) {
     <rect y="112" width="220" height="38" fill="#b7b0d8" opacity=".07"/></svg>`;
 }
 
+const rating = s => +(4.2 + ([...s.id].reduce((a, c) => a + c.charCodeAt(0), 0) % 8) / 10).toFixed(1);
+const TOP = [...STORIES].sort((a, b) => rating(b) - rating(a) || a.title.localeCompare(b.title)).slice(0, 5);
 const app = document.getElementById("app");
 let tab = store.get("tab", "home"), genre = "all", query = "", toastTimer;
 const favs = () => store.get("favs", []);
@@ -224,9 +236,9 @@ function shell(content) {
 
 function home() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs();
-  shell(`<span class="label">Featured</span>
-    <div class="slider" id="slider" aria-label="Featured stories">${STORIES.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>${GENRES[h.genre]} · ${h.episodes.length > 1 ? h.episodes.length + " parts" : "1 part"}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
-    <div class="dots" id="dots">${STORIES.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
+  shell(`<span class="label">Top rated</span>
+    <div class="slider" id="slider" aria-label="Top 5 stories">${TOP.map(h => `<button class="hero" id="h-${h.id}" data-id="${h.id}">${cover(h)}<span class="shade"></span><div><small>★ ${rating(h)} · ${GENRES[h.genre]}${h.episodes.length > 1 ? " · " + h.episodes.length + " parts" : ""}</small><b>${esc(h.title)}</b></div></button>`).join("")}</div>
+    <div class="dots" id="dots">${TOP.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid">${list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>
       ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
@@ -247,17 +259,24 @@ function startSlider() {
   const el = document.getElementById("slider"), dots = [...document.querySelectorAll("#dots i")];
   if (!el) return;
   const index = () => Math.round(el.scrollLeft / el.clientWidth);
-  const mark = () => dots.forEach((d, i) => d.classList.toggle("on", i === index()));
+  let shown = 0;
+  const mark = () => { const i = index(); if (i === shown) return; shown = i;
+    dots.forEach((d, k) => { d.classList.remove("on"); if (k === i) { void d.offsetWidth; d.classList.add("on"); } }); };
+  const dotsBox = document.getElementById("dots");
   el.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   let pausedUntil = 0;
-  ["pointerdown", "touchstart", "wheel"].forEach(e => el.addEventListener(e, () => { pausedUntil = Date.now() + 6000; }, { passive: true }));
+  ["pointerdown", "touchstart", "wheel"].forEach(e => el.addEventListener(e, () => { pausedUntil = Date.now() + 6000; dotsBox.classList.add("manual"); }, { passive: true }));
+  let lastMove = Date.now();
   slideTimer = setInterval(() => {
     if (!document.body.contains(el)) return clearInterval(slideTimer);
-    if (Date.now() < pausedUntil || document.hidden) return;
-    const next = (index() + 1) % dots.length;
-    el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
-  }, 4000);
+    if (Date.now() < pausedUntil || document.hidden) { lastMove = Date.now(); return; }
+    if (dotsBox.classList.contains("manual")) {   // resume: restart the fill on the current dot
+      dotsBox.classList.remove("manual"); const d = dots[shown]; d.classList.remove("on"); void d.offsetWidth; d.classList.add("on"); lastMove = Date.now(); return; }
+    if (Date.now() - lastMove < 3950) return;
+    lastMove = Date.now();
+    el.scrollTo({ left: ((index() + 1) % dots.length) * el.clientWidth, behavior: "smooth" });
+  }, 250);
 }
 
 function favourites() {
@@ -298,10 +317,12 @@ function menu() {
 }
 
 /* Story preview: cover, numbers, description, parts. Rating is a demo value until real reviews exist. */
+let lastRect = null;
+document.addEventListener("pointerdown", e => { const c = e.target.closest("[data-id],[data-open]"); lastRect = c ? c.getBoundingClientRect() : null; }, true);
 function preview(id) {
   clearInterval(slideTimer);
+  const from = lastRect; lastRect = null;
   const s = STORIES.find(x => x.id === id), pct = progress(s), total = totalOf(s), liked = favs().includes(id);
-  const rating = (4.2 + ([...id].reduce((a, c) => a + c.charCodeAt(0), 0) % 8) / 10).toFixed(1);
   const st = store.get("p:" + id, { ep: 0, i: 0 });
   app.innerHTML = `<section class="preview">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
@@ -310,7 +331,7 @@ function preview(id) {
       <div><small>${GENRES[s.genre]}</small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
       <div class="stats">
-        <div class="stat"><b>★ ${rating}</b><span>Rating</span></div>
+        <div class="stat"><b>★ ${rating(s).toFixed(1)}</b><span>Rating</span></div>
         <div class="stat"><b>~${Math.max(1, Math.round(total * 4 / 60))} min</b><span>Read</span></div>
         <div class="stat"><b>${s.episodes.length}</b><span>${s.episodes.length > 1 ? "Parts" : "Part"}</span></div>
         <div class="stat"><b>${total}</b><span>Messages</span></div>
@@ -321,7 +342,19 @@ function preview(id) {
       <button class="read" id="pv-read">${pct >= 100 ? "Read again" : pct ? "Continue · " + pct + "%" : "Start reading"}</button>
       <p class="demo">Rating is a sample value in this preview.</p>
     </div></section>`;
-  document.getElementById("pv-back").onclick = render;
+  const sheet = app.querySelector(".preview");
+  if (from && sheet.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const a = app.getBoundingClientRect();
+    const t = Math.max(0, from.top - a.top), l = Math.max(0, from.left - a.left);
+    const r = Math.max(0, a.right - from.right), btm = Math.max(0, a.bottom - from.bottom);
+    sheet.animate([{ clipPath: `inset(${t}px ${r}px ${btm}px ${l}px round 14px)`, opacity: .6 },
+                   { clipPath: "inset(0px 0px 0px 0px round 0px)", opacity: 1 }],
+                  { duration: 420, easing: "cubic-bezier(.2,.9,.2,1)" });
+  }
+  document.getElementById("pv-back").onclick = () => {
+    if (!sheet.animate || matchMedia("(prefers-reduced-motion: reduce)").matches) return render();
+    sheet.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(24px)" }], { duration: 200, easing: "ease-in" }).onfinish = render;
+  };
   document.getElementById("pv-like").onclick = () => { toggleFav(id); preview(id); };
   document.getElementById("pv-read").onclick = () => openStory(id, pct >= 100 ? 0 : undefined);
   app.querySelectorAll("[data-ep]").forEach(b => b.onclick = () => openStory(id, +b.dataset.ep));

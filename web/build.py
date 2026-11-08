@@ -4,13 +4,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "content" / "stories" / "en"
-PICK = [  # (id, [episode files]) shown in the preview
-    ("nobodys-home", ["nobodys-home-part-1", "nobodys-home-part-2", "nobodys-home-part-3"]),
-    ("first-impressions", ["first-impressions"]),
-    ("the-doctor", ["the-doctor"]),
-    ("skinless", ["skinless"]),
-    ("last-train-out", ["last-train-out"]),
-]
+PICK = [("nobodys-home", ["nobodys-home-part-1", "nobodys-home-part-2", "nobodys-home-part-3"])]
+_grouped = {f for _, fs in PICK for f in fs}
+for _f in sorted(SRC.glob("*.json")):
+    if _f.stem != "index" and _f.stem not in _grouped:
+        PICK.append((_f.stem, [_f.stem]))
 
 stories = []
 for sid, files in PICK:
