@@ -135,7 +135,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Overlay layers: the story sheet grows out of its card; the chat slides in over it. */
 #layer { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
 #layer > * { pointer-events: auto; }
-.sheet { position: fixed; overflow: hidden; background: var(--bg); will-change: left, top, width, height; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+.sheet { position: fixed; overflow: hidden; background: var(--bg); will-change: left, top, width, height; contain: layout paint; }
+.sheet .pv-body { contain: layout paint; }
+.sheet .ghost-shade { position: absolute; inset: 0; pointer-events: none; }
+.sheet .ghost { position: absolute; left: 0; bottom: 0; pointer-events: none; }
+.sheet .ghost > * { position: relative !important; width: 100% !important; height: 100% !important; min-height: 0 !important; background: none !important; transform: none !important; }
 .sheet { -webkit-user-select: none; user-select: none; }
 .sheet .pv-body > * { animation: none; }
 .sheet .scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior-y: contain; }
@@ -339,7 +343,22 @@ function menu() {
 /* ---------- Story sheet: the tapped card itself grows into the full screen and shrinks back. ---------- */
 const layer = document.createElement("div"); layer.id = "layer"; document.body.appendChild(layer);
 const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
-const EASE = "cubic-bezier(.22,.9,.24,1)", OPEN_MS = 480, CLOSE_MS = 420;
+const EASE = "cubic-bezier(.32,.72,0,1)", OPEN_MS = 360, CLOSE_MS = 320;
+/* The card's own dressing (its gradient, chips, heart) rides on the growing sheet and fades out,
+   so the first and last frames are exactly the card: nothing pops in or out at the small size. */
+function addGhost(sheet, geo) {
+  const coverEl = sheet.querySelector(".pv-cover"), shade = geo.el.querySelector(".shade");
+  const out = [];
+  if (shade) { const g = document.createElement("span"); g.className = "ghost-shade"; g.style.background = getComputedStyle(shade).backgroundImage; coverEl.insertBefore(g, coverEl.querySelector(".cap")); out.push(g); }
+  if (geo.el.classList.contains("thumb")) return out;
+  const box = document.createElement("div"); box.className = "ghost" + (geo.el.parentElement.classList.contains("row-card") ? " row-card" : "");
+  Object.assign(box.style, { width: geo.frame.width + "px", height: geo.frame.height + "px" });
+  const c = geo.el.cloneNode(true); c.removeAttribute("id"); c.removeAttribute("data-id"); c.removeAttribute("data-open"); c.style.visibility = "visible";
+  c.querySelectorAll(".cover, .shade").forEach(n => n.remove());
+  const t = c.querySelector("b"); if (t) t.style.visibility = "hidden";
+  box.appendChild(c); coverEl.insertBefore(box, coverEl.querySelector(".cap")); out.push(box);
+  return out;
+}
 const px = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
 let lastCard = null;
 document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
@@ -407,6 +426,9 @@ function preview(id) {
   geo.el.style.visibility = "hidden";
   const f = geo.frame, o = { duration: OPEN_MS, easing: EASE, fill: "both" };
   sheet.animate([{ ...px(f), borderRadius: geo.radius + "px" }, { ...px(full), borderRadius: "0px" }], o);
+  const ghosts = addGhost(sheet, geo), shadeEl = coverEl.querySelector(".shade");
+  ghosts.forEach(g => g.animate([{ opacity: 1 }, { opacity: 0, offset: .45 }, { opacity: 0 }], { ...o, easing: "linear" }));
+  shadeEl.animate([{ opacity: 0 }, { opacity: 1, offset: .6 }, { opacity: 1 }], { ...o, easing: "linear" });
   coverEl.animate([{ height: f.height + "px" }, { height: COVER_H + "px" }], o);
   photo.animate([{ left: geo.img.left + "px", top: geo.img.top + "px", width: geo.img.width + "px", height: geo.img.height + "px" },
                  { left: "0px", top: "0px", width: full.width + "px", height: COVER_H + "px" }], o);
@@ -416,13 +438,13 @@ function preview(id) {
     if (geo.title.one) cap.classList.add("one");
     cap.animate([{ left: geo.title.left + "px", bottom: geo.title.bottom + "px", right: "auto", width: geo.title.width / k + "px", transform: `scale(${k})` },
                  { left: "18px", bottom: "18px", right: "auto", width: full.width - 36 + "px", transform: "scale(1)" }], o);
-    cap.querySelector("small").animate([{ opacity: 0 }, { opacity: 0, offset: .4 }, { opacity: 1 }], o);
+    cap.querySelector("small").animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 0, offset: .45 }, { opacity: 1, transform: "none" }], o);
   } else {
     cap.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 0, offset: .45 }, { opacity: 1, transform: "none" }], o);
   }
-  body.animate([{ opacity: 0, transform: "translateY(24px)" }, { opacity: 0, offset: .5 }, { opacity: 1, transform: "none" }], o);
-  chrome.animate([{ opacity: 0 }, { opacity: 0, offset: .6 }, { opacity: 1 }], o);
-  setTimeout(() => { sheet.getAnimations({ subtree: true }).forEach(a => a.cancel()); cap.classList.remove("one"); scroller.style.width = ""; }, OPEN_MS + 20);
+  body.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 0, offset: .3 }, { opacity: 1, transform: "none" }], o);
+  chrome.animate([{ opacity: 0 }, { opacity: 0, offset: .5 }, { opacity: 1 }], o);
+  setTimeout(() => { ghosts.forEach(g => g.remove()); sheet.getAnimations({ subtree: true }).forEach(a => a.cancel()); cap.classList.remove("one"); scroller.style.width = ""; }, OPEN_MS + 20);
 }
 
 function closeSheet(sheet, fromRect) {
@@ -445,6 +467,8 @@ function closeSheet(sheet, fromRect) {
   scroller.style.width = now.width + "px";
   if (geo.title?.one) cap.classList.add("one");
   sheet.animate([{ ...px(now), borderRadius: (fromRect ? 22 : 0) + "px" }, { ...px(f), borderRadius: geo.radius + "px" }], o).onfinish = finish;
+  addGhost(sheet, geo).forEach(g => g.animate([{ opacity: 0 }, { opacity: 0, offset: .55 }, { opacity: 1 }], { ...o, easing: "linear" }));
+  coverEl.querySelector(".shade").animate([{ opacity: 1 }, { opacity: 1, offset: .4 }, { opacity: 0 }], { ...o, easing: "linear" });
   coverEl.animate([{ height: COVER_H + "px" }, { height: f.height + "px" }], o);
   photo.animate([{ left: "0px", top: "0px", width: now.width + "px", height: COVER_H + "px" },
                  { left: geo.img.left + "px", top: geo.img.top + "px", width: geo.img.width + "px", height: geo.img.height + "px" }], o);
@@ -452,10 +476,10 @@ function closeSheet(sheet, fromRect) {
     const k = geo.title.size / 32;
     cap.animate([{ left: 18 * scaleNow + "px", bottom: 18 * scaleNow + "px", right: "auto", width: appRect().width - 36 + "px", transform: `scale(${scaleNow})` },
                  { left: geo.title.left + "px", bottom: geo.title.bottom + "px", right: "auto", width: geo.title.width / k + "px", transform: `scale(${k})` }], o);
-    cap.querySelector("small").animate([{ opacity: 1 }, { opacity: 0, offset: .5 }, { opacity: 0 }], o);
+    cap.querySelector("small").animate([{ opacity: 1 }, { opacity: 0, offset: .35 }, { opacity: 0 }], o);
   } else cap.animate([{ opacity: 1 }, { opacity: 0, offset: .4 }, { opacity: 0 }], o);
-  sheet.querySelector(".pv-body").animate([{ opacity: 1 }, { opacity: 0, offset: .4 }, { opacity: 0 }], o);
-  sheet.querySelector(".chrome").animate([{ opacity: 1 }, { opacity: 0, offset: .25 }, { opacity: 0 }], o);
+  sheet.querySelector(".pv-body").animate([{ opacity: 1 }, { opacity: 0, offset: .3 }, { opacity: 0 }], { ...o, easing: "linear" });
+  sheet.querySelector(".chrome").animate([{ opacity: 1 }, { opacity: 0, offset: .2 }, { opacity: 0 }], { ...o, easing: "linear" });
 }
 
 function wire(sheet, s) {
