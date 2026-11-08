@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#000}</style>
+<!-- Minimal cover variant for "Two Knocks" (drawn, not a photo), 900x600. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600"><defs>
+<radialGradient id="room" cx="55%" cy="40%" r="80%"><stop offset="0" stop-color="#25222f"/><stop offset=".6" stop-color="#121118"/><stop offset="1" stop-color="#050508"/></radialGradient>
+<linearGradient id="door" x1="0" x2="1"><stop offset="0" stop-color="#1b1922"/><stop offset=".5" stop-color="#24212d"/><stop offset="1" stop-color="#15141b"/></linearGradient>
+<linearGradient id="gap" x1="0" x2="1"><stop offset="0" stop-color="#f6d79a" stop-opacity="0"/><stop offset=".15" stop-color="#f6d79a"/><stop offset=".85" stop-color="#f6d79a"/><stop offset="1" stop-color="#f6d79a" stop-opacity="0"/></linearGradient>
+<linearGradient id="spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3cf8c" stop-opacity=".35"/><stop offset="1" stop-color="#f3cf8c" stop-opacity="0"/></linearGradient>
+<radialGradient id="eye"><stop offset="0" stop-color="#ffe7b0"/><stop offset=".5" stop-color="#d9a75a" stop-opacity=".6"/><stop offset="1" stop-color="#d9a75a" stop-opacity="0"/></radialGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ffe7b0" stop-opacity=".55"/><stop offset="1" stop-color="#ffe7b0" stop-opacity="0"/></radialGradient>
+<radialGradient id="screen"><stop offset="0" stop-color="#8f7be0" stop-opacity=".45"/><stop offset="1" stop-color="#8f7be0" stop-opacity="0"/></radialGradient>
+<radialGradient id="lens" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2c2836"/><stop offset=".75" stop-color="#17151e"/><stop offset="1" stop-color="#050508"/></radialGradient>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0"/></filter>
+<filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+<filter id="blur8"><feGaussianBlur stdDeviation="8"/></filter>
+<clipPath id="circle"><circle cx="450" cy="300" r="230"/></clipPath>
+</defs><rect width="900" height="600" fill="url(#room)"/>
+<path d="M0 470 L900 470 L900 600 L0 600Z" fill="#0b0a0f"/>
+<rect x="170" y="90" width="230" height="384" fill="#0e0d13"/><rect x="184" y="102" width="202" height="368" fill="url(#door)"/>
+<circle cx="372" cy="296" r="8" fill="#3b3644"/><circle cx="285" cy="200" r="5" fill="#3b3644"/>
+<rect x="184" y="464" width="202" height="6" fill="url(#gap)"/><path d="M184 470 L386 470 L476 600 L94 600Z" fill="url(#spill)" filter="url(#soft)"/>
+<rect x="520" y="90" width="230" height="384" fill="#0e0d13"/>
+<rect x="534" y="102" width="202" height="368" fill="#000"/>
+<path d="M534 102 L690 118 L690 456 L534 470Z" fill="url(#door)"/>
+<circle cx="676" cy="296" r="7" fill="#3b3644"/><rect width="900" height="600" filter="url(#grain)"/><rect width="900" height="600" fill="#000" opacity=".12"/></svg>
