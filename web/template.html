@@ -399,6 +399,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing { align-self: flex-start; background: var(--them); border-radius: 18px; padding: 12px 14px; display: flex; gap: 4px; }
 .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
+.typing.rec { align-items: center; gap: 8px; padding: 9px 14px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.typing.rec svg { width: 18px; height: 18px; fill: currentColor; color: var(--red); animation: blink 1.2s infinite; }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
@@ -1897,9 +1899,18 @@ function openStory(id, epIndex) {
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
     busy = true; status.textContent = m.voice ? "recording audio…" : "typing…";
     const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
+    /* a voice message is "recorded" first: a bubble with a microphone and a running timer, for exactly as
+       long as the message lasts; then the voice message itself appears */
+    let rec = null;
+    if (m.voice) {
+      t.className = "typing rec";
+      t.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>0:00</span>`;
+      const t0 = Date.now(), lab = t.querySelector("span");
+      rec = setInterval(() => { const sec = Math.floor((Date.now() - t0) / 1000); lab.textContent = "0:" + String(sec).padStart(2, "0"); }, 250);
+    }
     log.appendChild(t); log.scrollTop = log.scrollHeight;
-    const delay = reduce() ? 150 : Math.min(1800, 450 + m.text.length * 22);
-    timer = setTimeout(() => { t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
+    const delay = reduce() ? 150 : m.voice ? (m.dur || 3) * 1000 : Math.min(1800, 450 + m.text.length * 22);
+    timer = setTimeout(() => { clearInterval(rec); t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();

@@ -49,6 +49,10 @@ for st in stories:
                 problems.append("%s: unknown speaker %r" % (at, m["from"]))
             if not t.strip():
                 problems.append("%s: empty text" % at)
+            if m.get("voice") and not (0 < m.get("dur", 0) <= 10):
+                problems.append("%s: voice message must be 1-10 s long (dur=%r)" % (at, m.get("dur")))
+            if m.get("voice") and not (ROOT / "web" / m["voice"]).exists():
+                problems.append("%s: voice file missing %s" % (at, m["voice"]))
             if re.search(r"[\ue000-\uf8ff]", t):
                 problems.append("%s: hidden Word symbol in text %r" % (at, t[:60]))
             if "|" in t or ":-:" in t or re.search(r"\\[!.()\[\]*_#+-]", t):
