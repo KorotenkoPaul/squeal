@@ -783,6 +783,35 @@ const FEAR_OF = (() => {
 const fearOf = s => s.fear || FEAR_OF[s.id] || 3;
 let fearLevel = 3;
 
+/* Search forgives one typo, never more: a title matches if it contains what you typed, or a piece of
+   it that is one letter off (one wrong, missing, extra, or two swapped letters). Short queries (under
+   3 letters) must match exactly. Exact matches come first. */
+const norm = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’'`]/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+function oneEditAway(a, b) {                     // Damerau-Levenshtein distance <= 1
+  if (a === b) return true;
+  const la = a.length, lb = b.length;
+  if (Math.abs(la - lb) > 1) return false;
+  if (la === lb) {
+    const d = [...a].map((c, i) => c !== b[i] ? i : -1).filter(i => i >= 0);
+    return d.length === 1 || (d.length === 2 && d[1] === d[0] + 1 && a[d[0]] === b[d[1]] && a[d[1]] === b[d[0]]);
+  }
+  const [s1, s2] = la < lb ? [a, b] : [b, a];    // one letter extra in s2
+  let i = 0; while (i < s1.length && s1[i] === s2[i]) i++;
+  return s1.slice(i) === s2.slice(i + 1);
+}
+function matchScore(title, q) {
+  const t = norm(title), w = norm(q);
+  if (!w) return 0;
+  if (t.includes(w)) return 2;                   // exact
+  if (w.length < 3) return 0;
+  for (let len = w.length - 1; len <= w.length + 1; len++)
+    for (let i = 0; i + len <= t.length; i++) if (oneEditAway(t.slice(i, i + len), w)) return 1;   // one typo
+  return 0;
+}
+function searchStories(q) {
+  return STORIES.map(s => [s, matchScore(s.title, q)]).filter(x => x[1]).sort((a, b) => b[1] - a[1]).map(x => x[0]);
+}
+
 function search() {
   const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${FEAR[fearOf(s) - 1]}</small></div></button>`;
   /* the dial: arc from 180° (left) to 0° (right), centre (120,124), radius 100 */
@@ -827,7 +856,7 @@ function search() {
     fearLevel = lvl; fear.classList.toggle("drag", !animate); setNeedle(degOf(lvl)); showLevel();
   };
   const showSearch = () => {
-    const found = STORIES.filter(s => s.title.toLowerCase().includes(query.toLowerCase()));
+    const found = searchStories(query);
     results.innerHTML = `<div class="list">${found.map(row).join("") || '<p class="hint">Nothing found</p>'}</div>`; wire();
   };
   /* drag along the dial: the needle follows the finger, and on letting go it settles on the nearest level */
