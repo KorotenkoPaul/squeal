@@ -1441,18 +1441,29 @@ function wire(sheet, s) {
   if (reset) {
     let holdT = null, longDone = false;
     /* the note appears just under the button, over the photo, where nothing else sits */
-    const redraw = msg => { reset.classList.add("spin"); setTimeout(() => {
+    /* before the page redraws, the water in the parts being reset drains down, about as fast as it rose,
+       its surface waking up again as it goes */
+    const DRAIN = 1000;
+    const drain = ks => {
+      let any = false;
+      ks.forEach(k => { const w = sheet.querySelector(`.part[data-ep="${k}"] .water`); if (!w || reduce()) return; any = true;
+        const fill = w.querySelector("i"), h = fill.getBoundingClientRect().height;
+        fill.animate([{ height: h + "px" }, { height: "0px" }], { duration: DRAIN, easing: "cubic-bezier(.45,0,.55,1)", fill: "forwards" });
+        w.querySelectorAll("svg").forEach(sv => sv.animate([{ scale: "1 1", opacity: 1 }, { scale: "1 1", opacity: 1, offset: .85 }, { scale: "1 0", opacity: 0 }], { duration: DRAIN, fill: "forwards" })); });
+      return any ? DRAIN : 0;
+    };
+    const redraw = (msg, ks = []) => { reset.classList.add("spin"); setTimeout(() => {
       sheet.innerHTML = sheetHTML(s); wire(sheet, s);
       const n = document.createElement("div"); n.className = "note"; n.textContent = msg; n.setAttribute("role", "status");
       sheet.querySelector(".chrome").appendChild(n);
       setTimeout(() => { n.classList.add("out"); setTimeout(() => n.remove(), 300); }, 1800);
-    }, 380); };
+    }, Math.max(380, drain(ks))); };
     reset.addEventListener("pointerdown", e => {
       e.preventDefault(); longDone = false; reset.classList.add("holding");
       holdT = setTimeout(() => {
         longDone = true; reset.classList.remove("holding");
         store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
-        redraw(s.episodes.length > 1 ? "All parts start over" : "Story starts over");
+        redraw(s.episodes.length > 1 ? "All parts start over" : "Story starts over", s.episodes.map((_, i) => i));
       }, 600);
     });
     const cancel = () => { clearTimeout(holdT); reset.classList.remove("holding"); };
@@ -1463,7 +1474,7 @@ function wire(sheet, s) {
       if (longDone) { longDone = false; return; }
       const pr = prog(s), k = pr.ep;
       pr.pos[k] = 0; setProg(s, pr);
-      redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over");
+      redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over", [k]);
     };
   }
   sheet.querySelector("#pv-like").onclick = e => { const btn = e.currentTarget; toggleFav(id); const on = favs().includes(id); btn.setAttribute("aria-pressed", on);
