@@ -179,9 +179,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
 .screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
 /* Pull to refresh (home) */
-/* Home background: the owl from the app icon, eyes shut; they open only on pull to refresh. */
-#owlbg { position: absolute; left: 0; top: 0; width: 100%; z-index: 0; pointer-events: none; will-change: transform; }
-#owlbg.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+/* Pull to refresh: just the owl's eyes, small, in the gap above the page */
+.ptr { position: absolute; left: 0; right: 0; top: 0; height: 76px; display: grid; place-items: center; pointer-events: none; z-index: 0; opacity: 0; }
+.ptr svg { width: 74px; height: auto; display: block; overflow: visible; }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
@@ -350,11 +350,10 @@ function home() {
 
 /* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
-/* ---------- Home background and pull to refresh: the owl from the app icon ----------
-   The icon itself (same shapes, colours, two stripes each side) lies behind the home screen, its
-   stripes running on down the page; its eyes are shut. Pull down and the page slides away from the
-   eyes: they open, blink once and come back open amber-red, then close again as the page returns.
-   Only the eyelids move. Lids are the brow's own colour, so a shut eye is the brow continued. */
+/* ---------- Pull to refresh: the owl's eyes ----------
+   Pull the page down and the owl's eyes from the icon appear in the gap and open as you pull.
+   Let go past the line: they blink once and open amber / red, then shut and the page returns.
+   The eyelid hides the whole eye; the shadow from the brow stays on top, open or shut. */
 const lerp = (a, b, t) => a + (b - a) * t;
 function tween(ms, ease, step) {
   return new Promise(res => { const t0 = performance.now();
@@ -364,79 +363,63 @@ function tween(ms, ease, step) {
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const easeIn = t => t * t, easeOut = t => 1 - (1 - t) * (1 - t);
 
-/* Owl art: the icon at 3/4 of the screen width, its body continued to the sides and its stripes
-   down the page; above its head, the icon's own dark. Units below are the art's (800 wide). */
-const OWLART = { w: 800, h: 2430, eyesY: 246, eyesH: 601, k: 0.5865, P: 170, TOP: 420 };
-const owlXY = (x, y) => [(x + OWLART.P) * OWLART.k, (y + OWLART.TOP) * OWLART.k];   // icon (1024) units -> art units
-
-function owlBackground() {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.id = "owlbg"; svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("viewBox", `0 0 ${OWLART.w} ${OWLART.h}`);
-  /* a lid is a big tilted ellipse that slides down over the eye along the eye's slant */
-  const EYES = [{ c: owlXY(236.8, 419.8), rot: 30 }, { c: owlXY(787.2, 419.8), rot: -30 }];
-  const RX = 345.6 * OWLART.k, RY = 243.2 * OWLART.k, TRAVEL = 307.2 * OWLART.k;
-  svg.innerHTML = `<defs>
-      <mask id="ob-lids" maskUnits="userSpaceOnUse" x="0" y="0" width="${OWLART.w}" height="${OWLART.h}">
-        <rect width="${OWLART.w}" height="${OWLART.h}" fill="#fff"/>
-        ${EYES.map(() => `<ellipse rx="${RX}" ry="${RY}" fill="#000"/>`).join("")}
-      </mask>
-      <filter id="ob-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
-    </defs>
-    <image href="brand/owl-bg.png" width="${OWLART.w}" height="${OWLART.h}"/>
-    <g mask="url(#ob-lids)">
-      <image href="brand/owl-eyes.png" y="${OWLART.eyesY}" width="${OWLART.w}" height="${OWLART.eyesH}"/>
-      <g id="ob-evil" opacity="0">
-        <image href="brand/owl-evil.png" y="${OWLART.eyesY}" width="${OWLART.w}" height="${OWLART.eyesH}" filter="url(#ob-glow)" opacity=".8"/>
-        <image href="brand/owl-evil.png" y="${OWLART.eyesY}" width="${OWLART.w}" height="${OWLART.eyesH}"/>
+function owlEyes() {
+  /* art: the icon's eye band (x 50-974, y 250-590 of the 1024 icon) drawn 360 x 132 */
+  const S = 360 / 924, U = (x, y) => [(x - 50) * S, (y - 250) * S];
+  const EYES = [{ c: U(236.8, 419.8), rot: 30 }, { c: U(787.2, 419.8), rot: -30 }];
+  const RX = 345.6 * S, RY = 243.2 * S, TRAVEL = 307.2 * S;
+  const wrap = document.createElement("div"); wrap.className = "ptr"; wrap.setAttribute("aria-hidden", "true");
+  wrap.innerHTML = `<svg viewBox="0 0 360 132">
+      <defs>
+        <mask id="pe-lids" maskUnits="userSpaceOnUse" x="-40" y="-40" width="440" height="212">
+          <rect x="-40" y="-40" width="440" height="212" fill="#fff"/>${EYES.map(() => `<ellipse rx="${RX}" ry="${RY}" fill="#000"/>`).join("")}
+        </mask>
+        <filter id="pe-glow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+      </defs>
+      <g mask="url(#pe-lids)">
+        <image href="brand/eyes-base.png" width="360" height="132"/>
+        <g id="pe-evil" opacity="0">
+          <image href="brand/eyes-evil.png" width="360" height="132" filter="url(#pe-glow)" opacity=".85"/>
+          <image href="brand/eyes-evil.png" width="360" height="132"/>
+        </g>
       </g>
-    </g>`;
-  const lids = [...svg.querySelectorAll("#ob-lids ellipse")], evil = svg.querySelector("#ob-evil");
-  /* t = 1 shut, 0 open */
+      <image href="brand/eyes-shadow.png" width="360" height="132"/>
+    </svg>`;
+  const lids = [...wrap.querySelectorAll("#pe-lids ellipse")], evil = wrap.querySelector("#pe-evil");
+  /* t = 1 shut, 0 open: each lid is a big tilted ellipse sliding along the eye's slant */
   const setLids = t => lids.forEach((el, i) => {
     const e = EYES[i], n = [-Math.sin(e.rot * Math.PI / 180), Math.cos(e.rot * Math.PI / 180)], D = TRAVEL * (1 - t);
-    const x = e.c[0] - n[0] * D, y = e.c[1] - n[1] * D + 8 * OWLART.k;
+    const x = e.c[0] - n[0] * D, y = e.c[1] - n[1] * D + 8 * S;
     el.setAttribute("cx", x); el.setAttribute("cy", y); el.setAttribute("transform", `rotate(${e.rot} ${x} ${y})`);
   });
   setLids(1);
-  /* placement: at rest the eyes sit just above the screen; pulling brings them down with the page */
-  let scale = 1, restY = 0, follow = 1;
-  const layout = REST => {
-    scale = app.clientWidth / OWLART.w;
-    svg.style.height = OWLART.h * scale + "px";
-    const eyeBottom = (576 + OWLART.TOP) * OWLART.k * scale, eyeMid = (419.8 + OWLART.TOP) * OWLART.k * scale;
-    restY = -(eyeBottom + 12);
-    follow = (REST * .5 - eyeMid - restY) / REST;          // at the resting pull the eyes sit mid-gap
-    move(0);
-  };
-  const move = d => { svg.style.transform = `translateY(${restY + d * follow}px)`; };
   return {
-    svg, layout, move,
-    async wake() {
-      await tween(280, easeOut, t => setLids(1 - t));            // open
-      await wait(260);
-      await tween(120, easeIn, setLids);                         // blink: shut…
+    el: wrap, setLids,
+    async blinkEvil() {
+      await tween(120, easeIn, setLids);                          // blink: shut…
       evil.setAttribute("opacity", 1);
       await wait(60);
-      await tween(220, easeOut, t => setLids(1 - t));            // …and open, amber / red
+      await tween(220, easeOut, t => setLids(1 - t));             // …and open, amber / red
     },
-    async sleep() {
-      await tween(320, t => t * t * (3 - 2 * t), setLids);       // close slowly
-      evil.setAttribute("opacity", 0);
-    },
+    async shut() { await tween(300, t => t * t * (3 - 2 * t), setLids); evil.setAttribute("opacity", 0); },
   };
 }
 
 function pullToRefresh() {
-  const view = document.getElementById("view"), LINE = 140, REST = 250;
+  const view = document.getElementById("view"), LINE = 64, REST = 76;
   app.style.position = "relative";
-  const owl = owlBackground(); app.prepend(owl.svg); owl.layout(REST);
-  view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "transparent";
+  const eyes = owlEyes(); app.prepend(eyes.el);
+  view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
   let y0 = null, x0 = 0, d = 0, busy = false, locked = false;
-  const show = d => { view.style.transform = d ? `translateY(${d}px)` : ""; owl.move(d); };
+  const show = (d, live) => {
+    view.style.transform = d ? `translateY(${d}px)` : "";
+    const k = Math.min(1, d / LINE);
+    eyes.el.style.transition = live ? "none" : "opacity .3s ease";
+    eyes.el.style.opacity = Math.min(1, d / 30);
+    if (live) eyes.setLids(1 - k * k);                            // the eyes open as you pull
+  };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
-  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); owl.svg.classList.remove("settle"); };
+  const start = (x, y) => { if (busy || view.scrollTop > 0) return; y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle"); };
   const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
@@ -445,25 +428,28 @@ function pullToRefresh() {
       if (Math.abs(x - x0) > Math.abs(raw) || raw < 0) { y0 = null; return; }
       locked = true;
     }
-    if (raw <= 0) { if (d) show(d = 0); return; }
+    if (raw <= 0) { if (d) show(d = 0, true); return; }
     if (view.scrollTop > 0) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
-    d = 300 * (1 - Math.exp(-raw / 320));           // rubber band: easy at first, then stiffer
-    show(d);
+    d = 150 * (1 - Math.exp(-raw / 170));           // rubber band: easy at first, then stiffer
+    show(d, true);
   };
   const end = async () => {
     if (y0 == null) return; y0 = null;
     if (!locked) return;
     const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
     window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
-    view.classList.add("settle"); owl.svg.classList.add("settle");
-    if (d < LINE) { show(d = 0); return; }    // not far enough: the page glides back, the owl sleeps on
-    busy = true; show(d = REST);
-    await wait(200);
-    await owl.wake();
+    view.classList.add("settle");
+    if (d < LINE) {                                                // not far enough: eyes shut, page glides back
+      const from = 1 - Math.min(1, d / LINE) ** 2;
+      tween(200, easeOut, t => eyes.setLids(lerp(from, 1, t)));
+      show(d = 0); return;
+    }
+    busy = true; show(d = REST); eyes.setLids(0);
+    await wait(380);
+    await eyes.blinkEvil();
     await wait(700);
-    await owl.sleep();
-    /* reload: the page glides back over the owl, then its sections rise in */
+    await eyes.shut();
     clearInterval(slideTimer); show(0);
     await wait(380);
     home(); const v = document.getElementById("view"); v.classList.add("refreshed");
