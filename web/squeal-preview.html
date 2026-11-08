@@ -24,7 +24,7 @@ button, input { font: inherit; color: inherit; background: none; border: 0; }
 button { cursor: pointer; }
 button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; }
-.view { flex: 1; overflow-y: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 18px 24px; display: flex; flex-direction: column; gap: 14px; }
+.view { flex: 1; overflow-y: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 18px 24px; display: flex; flex-direction: column; gap: 14px; overscroll-behavior-y: contain; }
 .label { color: var(--muted); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-top: 6px; }
 
 /* Tab bar */
@@ -156,6 +156,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .cap.one h1 { white-space: nowrap; text-wrap: nowrap; }
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
 .screen { position: fixed; top: 0; bottom: 0; background: var(--bg); display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
+/* Pull to refresh (home) */
+.ptr { position: absolute; left: 0; right: 0; top: 0; height: 64px; display: grid; place-items: center; pointer-events: none; opacity: 0; z-index: 0; }
+.ptr svg { width: 28px; height: 28px; }
+.ptr.spin svg { animation: ptrspin .8s steps(8) infinite; }
+@keyframes ptrspin { to { transform: rotate(360deg); } }
+.view.pulling { transition: none; }
+.view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
+.refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
+.refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
 /* Chat */
 .chat { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .head { display: flex; align-items: center; gap: 12px; padding: 12px max(18px, env(safe-area-inset-right, 0px)) 12px max(18px, env(safe-area-inset-left, 0px)); background: var(--tabbar); }
@@ -277,6 +286,54 @@ function home() {
     b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
   });
   startSlider();
+  pullToRefresh();
+}
+
+/* iPhone-style pull to refresh on the home screen: the page follows the finger with resistance,
+   the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
+const SPOKES = `<svg viewBox="0 0 28 28" aria-hidden="true">${Array.from({ length: 8 }, (_, i) =>
+  `<rect x="12.75" y="2" width="2.5" height="7" rx="1.25" fill="#fff" opacity="${(.25 + i * .75 / 7).toFixed(2)}" transform="rotate(${i * 45 - 315} 14 14)"/>`).join("")}</svg>`;
+function pullToRefresh() {
+  const view = document.getElementById("view"), LINE = 64, REST = 56;
+  app.style.position = "relative";
+  const ptr = document.createElement("div"); ptr.className = "ptr"; ptr.innerHTML = SPOKES; ptr.setAttribute("aria-hidden", "true");
+  app.prepend(ptr); view.style.position = "relative"; view.style.zIndex = 1; view.style.background = "var(--bg)";
+  const spokes = [...ptr.querySelectorAll("rect")];
+  let y0 = null, d = 0, busy = false;
+  const show = d => {
+    view.style.transform = d ? `translateY(${d}px)` : "";
+    const k = Math.min(1, d / LINE);
+    ptr.style.opacity = Math.min(1, d / 24);
+    ptr.style.transform = `translateY(${Math.min(d, REST) / 2 - 18}px)`;
+    if (!ptr.classList.contains("spin")) spokes.forEach((r, i) => r.style.display = i < Math.ceil(k * 8) ? "" : "none");
+  };
+  const start = (y, target) => { if (busy || view.scrollTop > 0 || target.closest(".slider")) return; y0 = y; d = 0; view.classList.remove("settle"); };
+  const move = (y, e) => {
+    if (y0 == null) return;
+    const raw = y - y0;
+    if (raw <= 0) { if (d) show(d = 0); return; }
+    if (view.scrollTop > 0) { y0 = null; return; }
+    if (e.cancelable) e.preventDefault();
+    d = 170 * (1 - Math.exp(-raw / 210));           // rubber band: easy at first, then stiffer
+    show(d);
+  };
+  const end = () => {
+    if (y0 == null) return; y0 = null;
+    view.classList.add("settle");
+    if (d < LINE) { show(d = 0); setTimeout(() => ptr.style.opacity = 0, 380); return; }
+    busy = true; show(d = REST); ptr.classList.add("spin"); spokes.forEach(r => r.style.display = "");
+    setTimeout(() => {
+      /* Reload: back to the first slide, fresh progress and favourites, the page glides back up and its sections rise in. */
+      clearInterval(slideTimer); show(0);
+      setTimeout(() => { home(); const v = document.getElementById("view"); v.classList.add("refreshed");
+        setTimeout(() => v.classList.remove("refreshed"), 700); }, 260);
+    }, 900);
+  };
+  view.addEventListener("touchstart", e => start(e.touches[0].clientY, e.target), { passive: true });
+  view.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
+  view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
+  view.addEventListener("mousedown", e => start(e.clientY, e.target));
+  window.onmousemove = e => move(e.clientY, e); window.onmouseup = end;
 }
 
 /* Featured slider: swipe by hand, auto-advances every 4 s, pauses while touched. */
