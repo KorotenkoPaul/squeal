@@ -50,6 +50,10 @@ for st in stories:
                 problems.append("%s: unknown speaker %r" % (at, m["from"]))
             if not t.strip():
                 problems.append("%s: empty text" % at)
+            if m.get("video") and not (0 < m.get("dur", 0) <= 10):
+                problems.append("%s: video message must be 1-10 s long (dur=%r)" % (at, m.get("dur")))
+            if m.get("video") and not (ROOT / "web" / m["video"]).exists():
+                problems.append("%s: video file missing %s" % (at, m["video"]))
             if m.get("voice") and not (0 < m.get("dur", 0) <= 10):
                 problems.append("%s: voice message must be 1-10 s long (dur=%r)" % (at, m.get("dur")))
             if m.get("voice") and not (ROOT / "web" / m["voice"]).exists():

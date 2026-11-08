@@ -175,6 +175,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .turn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px 7px 10px; border-radius: 999px; border: 1.5px solid #9b7ff0; color: var(--text); font-weight: 700; font-size: 14px; }
 .turn svg { width: 14px; height: 14px; }
 .turn:active { background: rgba(123,87,201,.25); }
+/* round video message */
+.msg.vcircle { background: none !important; padding: 0; }
+.vc { position: relative; width: 210px; height: 210px; border-radius: 50%; overflow: hidden; cursor: pointer; background: #000; }
+.vc video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vc .ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none; }
+.vc .ring circle { fill: none; stroke: #fff; stroke-width: 2.4; opacity: 0; transition: opacity .2s; }
+.msg.vcircle.playing .ring circle { opacity: .9; }
+.vcdur { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); font-size: 12px; color: #fff; background: rgba(0,0,0,.45); padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.msg.vcircle .vtext { max-width: 210px; padding: 0 4px; }
 /* voice message bubble */
 .msg.voice { min-width: 230px; }
 .vrow { display: flex; align-items: center; gap: 10px; }
@@ -1703,6 +1712,26 @@ const padMark = (s, dot) => s.interactive ? `${dot ? '<span class="dot" aria-hid
 /* Voice message: play button, a waveform (fixed for each clip), the length; what is said is written small
    underneath, for reading without sound. One clip plays at a time. */
 let nowPlaying = null;
+/* Round video message: plays silently on a loop as a preview; a tap plays it from the start with sound,
+   a ring around the edge shows how far it has played; a second tap stops. What it shows is written small
+   underneath. */
+function videoCircle(d, m) {
+  d.classList.add("vcircle");
+  d.innerHTML = `<div class="vc"><video src="${m.video}" muted loop playsinline preload="metadata" autoplay></video><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48.5"/></svg><span class="vcdur">0:${String(m.dur || 0).padStart(2, "0")}</span></div><div class="vtext">${esc(m.text)}</div>`;
+  const v = d.querySelector("video"), ring = d.querySelector(".ring circle"), lab = d.querySelector(".vcdur"), L = 2 * Math.PI * 48.5;
+  ring.style.strokeDasharray = L; ring.style.strokeDashoffset = L;
+  const paint = () => { ring.style.strokeDashoffset = d.classList.contains("playing") && v.duration ? L * (1 - v.currentTime / v.duration) : L;
+    lab.textContent = "0:" + String(Math.floor(d.classList.contains("playing") ? v.currentTime : m.dur || 0)).padStart(2, "0"); };
+  const stop = () => { d.classList.remove("playing"); v.muted = true; v.loop = true; v.play().catch(() => {}); paint(); };
+  v.ontimeupdate = paint;
+  v.onended = () => { stop(); nowPlaying = null; };
+  d.querySelector(".vc").onclick = e => {
+    e.stopPropagation();
+    if (d.classList.contains("playing")) { stop(); nowPlaying = null; return; }
+    if (nowPlaying) nowPlaying();
+    nowPlaying = stop; d.classList.add("playing"); v.loop = false; v.muted = false; v.currentTime = 0; v.play().catch(() => stop());
+  };
+}
 function voiceBubble(d, m) {
   d.classList.add("voice");
   let x = [...m.voice].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 3);
@@ -1809,7 +1838,7 @@ function openStory(id, epIndex) {
   }
   const add = m => {
     const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them");
-    if (m.voice) voiceBubble(d, m); else d.textContent = m.text;
+    if (m.video) videoCircle(d, m); else if (m.voice) voiceBubble(d, m); else d.textContent = m.text;
     log.appendChild(d);
   };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);
@@ -1898,14 +1927,14 @@ function openStory(id, epIndex) {
     if (!spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
-    busy = true; status.textContent = m.voice ? "recording audio…" : "typing…";
+    busy = true; status.textContent = m.video ? "recording video…" : m.voice ? "recording audio…" : "typing…";
     const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
     /* a voice message is "recorded" first: a bubble with a microphone and a running timer, for exactly as
        long as the message lasts; then the voice message itself appears */
     let rec = null;
-    if (m.voice) {
+    if (m.voice || m.video) {
       t.className = "typing rec";
-      t.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>0:00</span>`;
+      t.innerHTML = m.video ? `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>0:00</span>` : `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>0:00</span>`;
       const t0 = Date.now(), lab = t.querySelector("span");
       rec = setInterval(() => {
         const sec = Math.min(m.dur || 3, Math.floor((Date.now() - t0) / 1000));
@@ -1914,7 +1943,7 @@ function openStory(id, epIndex) {
       }, 250);
     }
     log.appendChild(t); log.scrollTop = log.scrollHeight;
-    const delay = reduce() ? 150 : m.voice ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);
+    const delay = reduce() ? 150 : (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);
     timer = setTimeout(() => { clearInterval(rec); t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
