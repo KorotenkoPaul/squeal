@@ -157,6 +157,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile .fav svg { width: 14px; height: 14px; }
 .tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
 .tile .fav.out { animation: favOut .2s ease-in both; }
+.tile .fav { cursor: pointer; }
+.tile .fav::after { content: ""; position: absolute; inset: -10px; }   /* a finger-sized target around the small badge */
 @keyframes favPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes favOut { to { transform: scale(0); opacity: 0; } }
 @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
@@ -537,7 +539,7 @@ function wireCards(root) {
       favBeat(b, on);
       document.querySelectorAll(`.tile[data-id="${b.dataset.id}"]`).forEach(t => {
         const h = t.querySelector(".fav");
-        if (!on && h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+        if (!on && h) heartOut(h, t === b);
         if (on && !h && t !== b) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
       });
     });
@@ -555,7 +557,7 @@ function favBeat(card, on) {
   if (on && tile && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`);
   if (reduce() || !card.animate) return;
   card.animate([{ transform: "scale(.96)" }, { transform: `scale(${on ? 1.08 : 1.03})`, offset: .4 }, { transform: "none" }], { duration: 480, easing: "cubic-bezier(.3,1.2,.5,1)" });
-  const h = tile && on && card.querySelector(".fav");
+  const h = tile && on ? card.querySelector(".fav") : null;
   h?.animate([
     { transform: "scale(0) rotate(-30deg)", opacity: 0 },
     { transform: "scale(1.5) rotate(12deg)", opacity: 1, offset: .35 },
@@ -564,6 +566,30 @@ function favBeat(card, on) {
     { transform: "none" },
   ], { duration: 560, easing: "ease-out" });
 }
+/* Unliked: the badge goes the way it came, backwards: a small swell and twist, then it shrinks away.
+   big = after a long press on the card (fuller); otherwise a quick, quiet exit. */
+function heartOut(h, big) {
+  if (h._going) return; h._going = true;
+  if (reduce() || !h.animate) return h.remove();
+  h.animate(big ? [
+    { transform: "none", opacity: 1 },
+    { transform: "scale(1.35) rotate(10deg)", opacity: 1, offset: .35 },
+    { transform: "scale(0) rotate(-30deg)", opacity: 0 },
+  ] : [
+    { transform: "none", opacity: 1 },
+    { transform: "scale(1.15)", opacity: 1, offset: .3 },
+    { transform: "scale(0)", opacity: 0 },
+  ], { duration: big ? 460 : 280, easing: "ease-in", fill: "forwards" }).onfinish = () => h.remove();
+}
+/* a tap on the heart badge itself unlikes the story; the card stays still and does not open */
+document.addEventListener("pointerdown", e => { if (e.target.closest?.(".tile .fav")) e.stopPropagation(); }, true);
+document.addEventListener("click", e => {
+  const h = e.target.closest?.(".tile .fav"); if (!h) return;
+  e.stopPropagation(); e.preventDefault();
+  const id = h.closest(".tile").dataset.id;
+  if (favs().includes(id)) toggleFav(id);
+  document.querySelectorAll(`.tile[data-id="${id}"] .fav`).forEach(x => heartOut(x, false));
+}, true);
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
   syncBars();
