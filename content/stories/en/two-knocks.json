@@ -85,7 +85,13 @@
       },
       {
        "from": "Lily",
-       "text": "he's knocking again. \"Lil, it's freezing, let me in\""
+       "text": "he's knocking again. listen"
+      },
+      {
+       "from": "Lily",
+       "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
+       "voice": "voice/two-knocks-door.mp3",
+       "dur": 9
       }
      ],
      "choices": [
@@ -348,7 +354,13 @@
     },
     {
      "from": "Lily",
-     "text": "he's knocking again. \"Lil, it's freezing, let me in\""
+     "text": "he's knocking again. listen"
+    },
+    {
+     "from": "Lily",
+     "text": "Lil… it's me. It's freezing out here. Lil. Let me in.",
+     "voice": "voice/two-knocks-door.mp3",
+     "dur": 9
     },
     {
      "from": "Sam",
