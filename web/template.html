@@ -97,18 +97,30 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .read svg, .read span { position: relative; } .read svg { width: 16px; height: 16px; }
 .part { position: relative; overflow: hidden; }
 .part > * { position: relative; }
-/* water: the part fills from the bottom up to how much of it is read; a wave rolls on the surface */
-.part .water { position: absolute; inset: 0; pointer-events: none; }
-.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100%); background: #554a8a;
-  animation: rise .9s cubic-bezier(.25,.8,.25,1) both; }
-.part .water i::before { content: ""; position: absolute; left: 0; bottom: 100%; width: 200%; height: 7px; margin-bottom: -1px;
-  scale: 1 1; transform-origin: 50% 100%;
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8' preserveAspectRatio='none'><path d='M-2 4 Q10 0 20 4 T42 4 V8 H-2Z' fill='%23554a8a'/></svg>") repeat-x 0 0 / 40px 7px; animation: wave 1.4s linear 3, calm 2.4s cubic-bezier(.4,0,.2,1) 1.4s forwards; }
-.part.done .water i::before { display: none; }
+/* fog: the part fills from the bottom up with mist to how much of it is read; it curls and drifts
+   for a few seconds, then hangs still. Its top edge is soft, never a line. (Was water: see git.) */
+.part .water { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
+.part .water i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--f, 0) * 100% + 10px);
+  background: linear-gradient(to top, rgba(196,186,240,.30), rgba(196,186,240,.16));
+  -webkit-mask-image: linear-gradient(to top, #000 calc(100% - 16px), transparent);
+          mask-image: linear-gradient(to top, #000 calc(100% - 16px), transparent);
+  animation: rise 1.1s cubic-bezier(.25,.8,.25,1) both; }
+.part.done .water i { height: 100%; -webkit-mask-image: none; mask-image: none; }
+/* the curls: two layers of soft blobs drifting opposite ways, fading out as the fog settles */
+.part .water i::before, .part .water i::after { content: ""; position: absolute; left: -50%; right: -50%; top: -6px; bottom: 0; filter: blur(5px);
+  background:
+    radial-gradient(18px 10px at 10% 20%, rgba(225,218,255,.55), transparent 70%),
+    radial-gradient(26px 12px at 32% 45%, rgba(225,218,255,.45), transparent 70%),
+    radial-gradient(20px 9px at 55% 15%, rgba(225,218,255,.5), transparent 70%),
+    radial-gradient(30px 14px at 78% 40%, rgba(225,218,255,.4), transparent 70%),
+    radial-gradient(16px 8px at 92% 22%, rgba(225,218,255,.5), transparent 70%);
+  animation: drift 3.6s ease-in-out both, settle 1.6s ease-out 2.4s forwards; }
+.part .water i::after { transform: scaleX(-1); animation: drift2 3.6s ease-in-out both, settle 1.6s ease-out 2.4s forwards; opacity: .8; }
 @keyframes rise { from { height: 0; } }
-@keyframes wave { to { transform: translateX(-40px); } }
-@keyframes calm { to { scale: 1 0; } }                       /* the waves die down to still water */
-@media (prefers-reduced-motion: reduce) { .part .water i, .part .water i::before { animation: none; } }
+@keyframes drift { from { translate: -14% 3px; } 50% { translate: 4% -2px; } to { translate: 12% 1px; } }
+@keyframes drift2 { from { translate: 12% -1px; } 50% { translate: -4% 3px; } to { translate: -12% 0; } }
+@keyframes settle { to { opacity: 0; } }                     /* the curls fade: the fog hangs still */
+@media (prefers-reduced-motion: reduce) { .part .water i, .part .water i::before, .part .water i::after { animation: none; } .part .water i::before, .part .water i::after { opacity: 0; } }
 .part.here { box-shadow: inset 0 0 0 1.5px #9b7ff0; }
 .part { transition: box-shadow .2s, transform .15s; }
 .part:active { transform: scale(.97); }
