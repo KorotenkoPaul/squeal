@@ -1676,7 +1676,7 @@ function wallpaper(names, seed) {
 const padPill = s => s.interactive ? `<span class="pill pad" aria-label="Interactive story">${ICON.pad}</span>` : "";
 const padMark = (s, dot) => s.interactive ? `${dot ? '<span class="dot" aria-hidden="true"></span>' : " · "}<span class="padmark" aria-label="Interactive story">${ICON.pad}</span>` : "";
 const FREE_TAPS = 100;
-const premium = () => store.get("premium", false);
+const premium = () => store.get("premium", true);   // prototype: the owner reads as a subscriber by default (Menu → Subscription switches it)
 const freeTaps = () => store.get("taps", FREE_TAPS);
 let timer = null;
 function openStory(id, epIndex) {
@@ -1778,6 +1778,9 @@ function openStory(id, epIndex) {
         e.stopPropagation();
         path.push(node.choices[+b.dataset.k].next); ep.messages = flatten();
         foot.classList.remove("choose"); step();
+        /* the choice is the tap: the other side answers on its own, no extra tap */
+        const nx = ep.messages[st.i];
+        if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(); }, reduce() ? 0 : 350);
       });
       log.scrollTop = log.scrollHeight;
       return;
