@@ -19,9 +19,9 @@ for sid, files in PICK:
     eps = [json.loads((SRC / (f + ".json")).read_text()) for f in files]
     first = eps[0]
     title = _re.sub(r"\s+Part 1$", "", first["title"])
-    stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""),
+    stories.append({"id": sid, "title": title, "description": first["description"], "genre": first["genre"], "author": first.get("author", ""), **{k: first[k] for k in ("interactive", "featured") if first.get(k)},
                     "episodes": [{"left": e["left"], "right": e["right"], "description": e["description"],
-                                  "messages": e["messages"], **({"wallpaper": e["wallpaper"]} if e.get("wallpaper") else {})} for e in eps]})
+                                  "messages": e["messages"], **({"wallpaper": e["wallpaper"]} if e.get("wallpaper") else {}), **({"nodes": e["nodes"], "start": e["start"]} if e.get("nodes") else {})} for e in eps]})
 COPY = {  # store-style descriptions written for the preview (originals stay in content/)
     "nobodys-home": "Patrick is late to Sandra's party, but when he finally pulls up, the house is dark. "
                     "The front door is wide open. No music, no cars, no one answers. "
@@ -37,6 +37,7 @@ COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "clinical-love": "clinical-love", "frenemy": "frenemy", "perfect-match": "perfect-match",
     "the-crushing-love": "the-crushing-love", "mystery-girlfriend": "mystery-girlfriend",
     "the-reunion-affair": "the-reunion-affair", "under-wrong-hands": "under-wrong-hands",
+    "two-knocks": "two-knocks",   # drawn for the story (web/covers/make_two_knocks.html)
 }
 for st in stories:
     st["description"] = COPY.get(st["id"], st["description"])

@@ -1,0 +1,406 @@
+{
+ "id": "two-knocks",
+ "title": "Two Knocks",
+ "author": "Claude",
+ "genre": "horror",
+ "interactive": true,
+ "featured": true,
+ "description": "It's 3 a.m. when Lily texts you: someone is knocking on her door. Twice — your secret knock. The voice on the other side swears it's you. You're in bed. You decide what she does next. Three endings.",
+ "left": "Lily",
+ "right": "Sam",
+ "start": "start",
+ "nodes": {
+  "start": {
+   "messages": [
+    {
+     "from": "Lily",
+     "text": "Sam, are you awake?"
+    },
+    {
+     "from": "Sam",
+     "text": "barely. it's 3am, what's up"
+    },
+    {
+     "from": "Lily",
+     "text": "someone just knocked on my door"
+    },
+    {
+     "from": "Lily",
+     "text": "three times. slow."
+    },
+    {
+     "from": "Sam",
+     "text": "a neighbour?"
+    },
+    {
+     "from": "Lily",
+     "text": "there's no one else on my floor. the other flat has been empty since June"
+    },
+    {
+     "from": "Sam",
+     "text": "ok. maybe they got the wrong door"
+    },
+    {
+     "from": "Lily",
+     "text": "they knocked again"
+    },
+    {
+     "from": "Lily",
+     "text": "twice this time"
+    },
+    {
+     "from": "Lily",
+     "text": "Sam. that's our knock"
+    },
+    {
+     "from": "Sam",
+     "text": "what? I'm home. I'm literally in bed"
+    },
+    {
+     "from": "Lily",
+     "text": "then who knows our knock??"
+    },
+    {
+     "from": "Lily",
+     "text": "he's talking through the door now. he says it's you."
+    },
+    {
+     "from": "Lily",
+     "text": "it sounds exactly like you"
+    }
+   ],
+   "choices": [
+    {
+     "text": "It's probably Mike messing with you. Open it, I'm right here.",
+     "next": "open"
+    },
+    {
+     "text": "Don't open the door. That's not me.",
+     "next": "stay"
+    }
+   ]
+  },
+  "open": {
+   "messages": [
+    {
+     "from": "Lily",
+     "text": "ok. opening"
+    },
+    {
+     "from": "Lily",
+     "text": "there's nobody here"
+    },
+    {
+     "from": "Lily",
+     "text": "the hallway light is off"
+    },
+    {
+     "from": "Lily",
+     "text": "wait"
+    },
+    {
+     "from": "Lily",
+     "text": "there are wet footprints on my floor"
+    },
+    {
+     "from": "Lily",
+     "text": "they go INTO my flat"
+    },
+    {
+     "from": "Sam",
+     "text": "get out of there. now"
+    },
+    {
+     "from": "Lily",
+     "text": "they stop at my bedroom"
+    },
+    {
+     "from": "Lily",
+     "text": "the door's closed. I left it open"
+    },
+    {
+     "from": "Lily",
+     "text": "someone's breathing behind it"
+    },
+    {
+     "from": "Lily",
+     "text": "he just said my name. in your voice"
+    },
+    {
+     "from": "Lily",
+     "text": "Sam why did you tell me to open it"
+    }
+   ],
+   "ending": "Wrong Door"
+  },
+  "stay": {
+   "messages": [
+    {
+     "from": "Lily",
+     "text": "ok. I'm not opening"
+    },
+    {
+     "from": "Lily",
+     "text": "he stopped knocking"
+    },
+    {
+     "from": "Lily",
+     "text": "now he's whispering through the keyhole"
+    },
+    {
+     "from": "Lily",
+     "text": "he knows what you said to me last night. word for word"
+    },
+    {
+     "from": "Lily",
+     "text": "nobody else heard that"
+    },
+    {
+     "from": "Lily",
+     "text": "should I call the police or look through the peephole?"
+    }
+   ],
+   "choices": [
+    {
+     "text": "Call the police. Stay on with me.",
+     "next": "police"
+    },
+    {
+     "text": "Look through the peephole. Tell me what you see.",
+     "next": "peephole"
+    }
+   ]
+  },
+  "police": {
+   "messages": [
+    {
+     "from": "Lily",
+     "text": "they're coming. 8 minutes"
+    },
+    {
+     "from": "Lily",
+     "text": "the whispering stopped"
+    },
+    {
+     "from": "Sam",
+     "text": "good. stay away from the door"
+    },
+    {
+     "from": "Lily",
+     "text": "Sam"
+    },
+    {
+     "from": "Lily",
+     "text": "why does my phone say you're nearby"
+    },
+    {
+     "from": "Sam",
+     "text": "what? I'm at home"
+    },
+    {
+     "from": "Lily",
+     "text": "it says 3 metres away"
+    },
+    {
+     "from": "Lily",
+     "text": "the police are here"
+    },
+    {
+     "from": "Lily",
+     "text": "they're knocking"
+    },
+    {
+     "from": "Lily",
+     "text": "twice"
+    }
+   ],
+   "ending": "Our Knock"
+  },
+  "peephole": {
+   "messages": [
+    {
+     "from": "Lily",
+     "text": "ok. looking"
+    },
+    {
+     "from": "Lily",
+     "text": "it's you"
+    },
+    {
+     "from": "Lily",
+     "text": "your jacket. your face"
+    },
+    {
+     "from": "Lily",
+     "text": "but you're smiling. you never smile like that"
+    },
+    {
+     "from": "Sam",
+     "text": "Lily I swear I'm in bed"
+    },
+    {
+     "from": "Lily",
+     "text": "prove it. send me a photo. now"
+    },
+    {
+     "from": "Sam",
+     "text": "ok. hold on"
+    },
+    {
+     "from": "Sam",
+     "text": "sent"
+    },
+    {
+     "from": "Lily",
+     "text": "Sam"
+    },
+    {
+     "from": "Lily",
+     "text": "there's someone standing behind you in your photo"
+    }
+   ],
+   "ending": "Behind You"
+  }
+ },
+ "messages": [
+  {
+   "from": "Lily",
+   "text": "Sam, are you awake?"
+  },
+  {
+   "from": "Sam",
+   "text": "barely. it's 3am, what's up"
+  },
+  {
+   "from": "Lily",
+   "text": "someone just knocked on my door"
+  },
+  {
+   "from": "Lily",
+   "text": "three times. slow."
+  },
+  {
+   "from": "Sam",
+   "text": "a neighbour?"
+  },
+  {
+   "from": "Lily",
+   "text": "there's no one else on my floor. the other flat has been empty since June"
+  },
+  {
+   "from": "Sam",
+   "text": "ok. maybe they got the wrong door"
+  },
+  {
+   "from": "Lily",
+   "text": "they knocked again"
+  },
+  {
+   "from": "Lily",
+   "text": "twice this time"
+  },
+  {
+   "from": "Lily",
+   "text": "Sam. that's our knock"
+  },
+  {
+   "from": "Sam",
+   "text": "what? I'm home. I'm literally in bed"
+  },
+  {
+   "from": "Lily",
+   "text": "then who knows our knock??"
+  },
+  {
+   "from": "Lily",
+   "text": "he's talking through the door now. he says it's you."
+  },
+  {
+   "from": "Lily",
+   "text": "it sounds exactly like you"
+  },
+  {
+   "from": "Sam",
+   "text": "Don't open the door. That's not me."
+  },
+  {
+   "from": "Lily",
+   "text": "ok. I'm not opening"
+  },
+  {
+   "from": "Lily",
+   "text": "he stopped knocking"
+  },
+  {
+   "from": "Lily",
+   "text": "now he's whispering through the keyhole"
+  },
+  {
+   "from": "Lily",
+   "text": "he knows what you said to me last night. word for word"
+  },
+  {
+   "from": "Lily",
+   "text": "nobody else heard that"
+  },
+  {
+   "from": "Lily",
+   "text": "should I call the police or look through the peephole?"
+  },
+  {
+   "from": "Sam",
+   "text": "Look through the peephole. Tell me what you see."
+  },
+  {
+   "from": "Lily",
+   "text": "ok. looking"
+  },
+  {
+   "from": "Lily",
+   "text": "it's you"
+  },
+  {
+   "from": "Lily",
+   "text": "your jacket. your face"
+  },
+  {
+   "from": "Lily",
+   "text": "but you're smiling. you never smile like that"
+  },
+  {
+   "from": "Sam",
+   "text": "Lily I swear I'm in bed"
+  },
+  {
+   "from": "Lily",
+   "text": "prove it. send me a photo. now"
+  },
+  {
+   "from": "Sam",
+   "text": "ok. hold on"
+  },
+  {
+   "from": "Sam",
+   "text": "sent"
+  },
+  {
+   "from": "Lily",
+   "text": "Sam"
+  },
+  {
+   "from": "Lily",
+   "text": "there's someone standing behind you in your photo"
+  }
+ ],
+ "wallpaper": [
+  "door",
+  "key",
+  "moon",
+  "phone",
+  "lock",
+  "clock",
+  "window",
+  "lamp",
+  "stairs"
+ ]
+}
