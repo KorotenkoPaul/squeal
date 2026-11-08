@@ -210,17 +210,10 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 #results { display: flex; flex-direction: column; gap: 14px; }
 
 /* Menu */
-/* Menu: one column of equal, soft buttons centred on the screen; subscription is the filled one.
-   Groups are set apart by a little more space. Same width, same height, same type for every item. */
-.view.menu { justify-content: center; align-items: center; gap: 22px; padding-block: 24px; }
-.m-list { flex: none; width: min(300px, 100%); display: flex; flex-direction: column; gap: 10px; }
-.m-row, .m-sub { flex: none; width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 0 18px;
-  border-radius: 16px; font-size: 17px; font-weight: 700; transition: transform .15s, background .15s; }
-.m-row { background: #2e2b50; color: var(--text); }
-.m-row:active { background: #363262; transform: scale(.98); }
-.m-sub { background: var(--accent); color: #fff; box-shadow: 0 8px 22px rgba(123,87,201,.3); }
-.m-sub svg { width: 19px; height: 19px; }
-.m-sub:active { transform: scale(.98); }
+/* Menu: plain white words, centred, evenly spaced. Nothing else. */
+.view.menu { justify-content: center; align-items: center; gap: 30px; padding-block: 24px; }
+.m-row { flex: none; padding: 4px 16px; font-size: 20px; font-weight: 600; color: #fff; transition: opacity .15s; }
+.m-row:active { opacity: .5; }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -1057,10 +1050,8 @@ function menu() {
     mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>'),
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
-  const row = (k, name) => `<button class="m-row" id="m-${k}" data-m="${name}">${name}</button>`;
-  shell(`<div class="m-list"><button class="m-sub" id="m-sub" data-m="Subscription">${ic.sub}<span>Subscription</span></button>${row("restore", "Restore Purchases")}</div>
-    <div class="m-list">${row("lang", "Language")}${row("rate", "Rate the App")}${row("share", "Share the App")}</div>
-    <div class="m-list">${row("idea", "Suggest a Story")}${row("mail", "E-mail Support")}</div>`);
+  const row = name => `<button class="m-row" data-m="${name}">${name}</button>`;
+  shell(["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"].map(row).join(""));
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
 
