@@ -401,6 +401,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
 .typing.rec { align-items: center; gap: 8px; padding: 9px 14px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 .typing.rec svg { width: 18px; height: 18px; fill: currentColor; color: var(--red); animation: blink 1.2s infinite; }
+.typing.rec.sending svg { animation: none; color: var(--muted); }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
@@ -1906,10 +1907,14 @@ function openStory(id, epIndex) {
       t.className = "typing rec";
       t.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>0:00</span>`;
       const t0 = Date.now(), lab = t.querySelector("span");
-      rec = setInterval(() => { const sec = Math.floor((Date.now() - t0) / 1000); lab.textContent = "0:" + String(sec).padStart(2, "0"); }, 250);
+      rec = setInterval(() => {
+        const sec = Math.min(m.dur || 3, Math.floor((Date.now() - t0) / 1000));
+        lab.textContent = "0:" + String(sec).padStart(2, "0");
+        if (sec >= (m.dur || 3) && !t.classList.contains("sending")) { t.classList.add("sending"); status.textContent = "sending…"; }   // recorded: about a second to send
+      }, 250);
     }
     log.appendChild(t); log.scrollTop = log.scrollHeight;
-    const delay = reduce() ? 150 : m.voice ? (m.dur || 3) * 1000 : Math.min(1800, 450 + m.text.length * 22);
+    const delay = reduce() ? 150 : m.voice ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);
     timer = setTimeout(() => { clearInterval(rec); t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
