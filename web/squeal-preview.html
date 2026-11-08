@@ -261,6 +261,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ep-seg button[aria-selected="true"] .pl { background: rgba(255,255,255,.3); }
 .ep-seg button[aria-selected="true"] .pl i { background: #fff; }
 .tile .fav.pop { animation: favIn .3s ease-out both; }
+.bigheart { position: absolute; left: 50%; top: 50%; z-index: 4; width: 64px; height: 64px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; pointer-events: none; }
+.bigheart svg { width: 34px; height: 34px; }
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
 
@@ -495,7 +497,6 @@ function toast(text) {
 function toggleFav(id) {
   const f = favs(), on = f.includes(id);
   store.set("favs", on ? f.filter(x => x !== id) : [...f, id]);
-  toast(on ? "Removed from favourites" : "Added to favourites");
 }
 function longPress(el, fn) {
   let t, fired = false, x0 = 0, y0 = 0;
@@ -544,12 +545,14 @@ function wireCards(root) {
   root.querySelectorAll("[data-id]").forEach(b => {
     const pressed = longPress(b, () => {
       toggleFav(b.dataset.id);
+      const on = favs().includes(b.dataset.id);
+      b.classList.remove("pressing");
+      favBeat(b, on);
       document.querySelectorAll(`.tile[data-id="${b.dataset.id}"]`).forEach(t => {
         const h = t.querySelector(".fav");
-        if (h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
-        else { t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);  }
+        if (!on && h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
+        if (on && !h && t !== b) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
       });
-      b.classList.remove("pressing");
     });
     /* the card sinks a little while the finger holds it */
     b.addEventListener("pointerdown", () => b.classList.add("pressing"));
@@ -558,6 +561,24 @@ function wireCards(root) {
   });
 }
 
+/* Liked: the card springs back from the press, a big heart beats in its middle and then flies into the
+   corner, where it stays as the small badge. Unliked: the card springs back and the badge shrinks away. */
+function favBeat(card, on) {
+  if (reduce() || !card.animate) { if (on && card.matches(".tile") && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`); return; }
+  card.animate([{ transform: "scale(.96)" }, { transform: "scale(1.03)" }, { transform: "none" }], { duration: 420, easing: "cubic-bezier(.3,1.4,.5,1)" });
+  if (!on) return;
+  const big = document.createElement("span"); big.className = "bigheart"; big.innerHTML = ICON.heart; card.appendChild(big);
+  const r = card.getBoundingClientRect(), S = 64, s = 26 / S;
+  const tx = card.matches(".tile") ? r.width / 2 - 10 - 13 : 0, ty = card.matches(".tile") ? -(r.height / 2 - 10 - 13) : 0;
+  const a = big.animate([
+    { transform: "translate(-50%,-50%) scale(.2)", opacity: 0 },
+    { transform: "translate(-50%,-50%) scale(1.15)", opacity: 1, offset: .22 },
+    { transform: "translate(-50%,-50%) scale(.95)", opacity: 1, offset: .36 },
+    { transform: "translate(-50%,-50%) scale(1)", opacity: 1, offset: .5 },
+    card.matches(".tile") ? { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${s})`, opacity: 1 } : { transform: "translate(-50%,-50%) scale(1)", opacity: 0 },
+  ], { duration: 900, easing: "cubic-bezier(.45,0,.25,1)", fill: "forwards" });
+  a.onfinish = () => { big.remove(); if (card.matches(".tile") && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`); };
+}
 /* home after a like/unlike elsewhere: only the hearts change, each with its own small animation */
 function syncHearts() {
   syncBars();
@@ -1409,7 +1430,8 @@ function wire(sheet, s) {
       redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over");
     };
   }
-  sheet.querySelector("#pv-like").onclick = e => { const btn = e.currentTarget; toggleFav(id); const on = favs().includes(id); btn.setAttribute("aria-pressed", on); };
+  sheet.querySelector("#pv-like").onclick = e => { const btn = e.currentTarget; toggleFav(id); const on = favs().includes(id); btn.setAttribute("aria-pressed", on);
+    if (!reduce()) btn.animate([{ transform: "scale(1)" }, { transform: `scale(${on ? 1.3 : .8})` }, { transform: "scale(1)" }], { duration: 380, easing: "cubic-bezier(.3,1.4,.5,1)" }); };
   /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
   const read = sheet.querySelector("#pv-read"), parts = [...sheet.querySelectorAll(".part[data-ep]")];
   let sel = parts.length ? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep) : null;
