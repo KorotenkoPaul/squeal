@@ -304,12 +304,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .view { -webkit-user-select: none; user-select: none; }
 .rnd { position: absolute; left: 0; right: 0; top: 0; bottom: var(--tabs-h, 64px); z-index: 5; pointer-events: none; overflow: hidden; visibility: hidden; }
 .rnd.on { visibility: visible; }
-.slot { position: absolute; left: 0; right: 0; bottom: 0; height: var(--lift, 0px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.slot { position: absolute; left: 0; right: 0; bottom: 0; top: var(--top, 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; }
 .slot .say { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .2s; flex: none; }
 .rnd.ready .slot .say { color: #e4dbff; }
 /* the window is exactly one story tall and as wide as the page; rows look like search results */
 .reel { position: relative; flex: none; width: calc(100% - 2 * max(18px, env(safe-area-inset-left, 0px))); height: 84px; overflow: hidden;
-  border-radius: 16px; background: rgba(123,87,201,.16); box-shadow: inset 0 0 0 1.5px rgba(185,163,255,.45); }
+  border-radius: 16px; background: var(--field); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.06); transition: box-shadow .2s, transform .25s cubic-bezier(.3,1.4,.5,1); }
 .reel .strip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 .reel .row { height: 84px; display: flex; align-items: center; gap: 14px; padding: 0 10px; }
 .reel .row .th { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: none; background: var(--deep); }
@@ -317,8 +317,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .reel .row .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .reel .row b { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .reel .row small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
-.reel.chosen { animation: chosen .5s cubic-bezier(.3,1.5,.5,1) both; }
-@keyframes chosen { 0% { transform: scale(1); } 55% { transform: scale(1.06); box-shadow: inset 0 0 0 2px #cbb8ff, 0 0 24px rgba(185,163,255,.45); } 100% { transform: scale(1.04); box-shadow: inset 0 0 0 2px #cbb8ff, 0 0 18px rgba(185,163,255,.35); } }
+.reel.chosen { transform: scale(1.03); box-shadow: inset 0 0 0 1.5px #9b7ff0; }   /* picked: outlined like a selected part, a touch forward */
 .view.lift { transition: none; }
 .view.drop { transition: transform .35s cubic-bezier(.32,.72,0,1); }
 
@@ -657,7 +656,13 @@ function pullForRandom() {
   app.appendChild(rnd);
   const slot = rnd.querySelector(".slot"), say = rnd.querySelector(".say"), reel = rnd.querySelector(".reel"), strip = rnd.querySelector(".strip");
   const ROW = 84, LOOPS = 8;
-  let y0 = null, d = 0, pick = null, busy = false, list = [], offset = 0;
+  let y0 = null, d = 0, pick = null, busy = false, list = [], offset = 0, free = 0;
+  /* the empty space already under the last card (the hint line, the page's bottom padding) is used
+     first, so the page lifts only as much as the reel still needs */
+  let lastBottom = 0;
+  const measureFree = () => { const cards = [...view.querySelectorAll(".tile")].map(t => t.getBoundingClientRect().bottom);
+    lastBottom = cards.length ? Math.max(...cards) : tabs.getBoundingClientRect().top;
+    free = Math.max(0, tabs.getBoundingClientRect().top - lastBottom); };
   const LINE = () => view.clientHeight * .5;                      // half a screen of pull
   const atBottom = () => view.scrollTop + view.clientHeight >= view.scrollHeight - 2;
   const deal = () => {
@@ -674,13 +679,17 @@ function pullForRandom() {
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
   const show = raw => {
-    const lift = Math.min(raw, LINE()), k = Math.min(1, raw / LINE());
+    const GAP = 16, NEED = GAP + 14 + 10 + 84 + GAP;              // gap + words + gap + reel + gap
+    const lift = Math.min(raw, Math.max(0, NEED - free)), k = Math.min(1, raw / LINE());
     rnd.style.setProperty("--tabs-h", (app.clientHeight - tabs.offsetTop) + "px");
     rnd.classList.toggle("on", raw > 0);
-    slot.style.setProperty("--lift", lift + "px");                 // the reel lives only in the space that opened
+    /* the reel sits GAP below the last card (as it is now, lifted) and never lower than GAP above the tabs */
+    const rTop = rnd.getBoundingClientRect().top, tabsTop = tabs.getBoundingClientRect().top;
+    const top = Math.max(lastBottom - lift + GAP, tabsTop - (NEED - GAP));
+    slot.style.setProperty("--top", raw ? (top - rTop) + "px" : "100%");
     view.style.transform = raw ? `translateY(${-lift}px)` : "";
     say.textContent = k >= 1 ? "Release for a random story" : "Keep pulling";
-    say.style.opacity = lift > 220 ? 1 : 0;                        // words only once there is room for them
+    say.style.opacity = tabsTop - (lastBottom - lift) >= NEED - 4 ? 1 : 0;   // words only once there is room
     rnd.classList.toggle("ready", k >= 1);
     document.getElementById("pull-hint")?.classList.toggle("hide", raw > 0);
     if (raw) setStrip(offset + raw * .9);                           // the reel turns with your finger
@@ -692,7 +701,7 @@ function pullForRandom() {
     if (raw <= 0) { if (d) show(d = 0); return; }
     if (!atBottom() && !d) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
-    if (!d) deal();
+    if (!d) { measureFree(); deal(); }
     d = raw; show(d);
   };
   const end = async () => {
