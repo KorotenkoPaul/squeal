@@ -324,7 +324,12 @@ function prog(s) {
 }
 const setProg = (s, p) => store.set("p:" + s.id, p);
 const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
-const readMin = s => Math.max(1, Math.round(totalOf(s) * 4 / 60)) + " min";
+/* Reading time as the chat really plays: the other side "types" before each of its messages
+   (the same delay the chat uses), plus about a second to read each message and tap on. */
+const partSec = e => e.messages.reduce((t, m) => t + 1 + (m.from === e.right ? 0 : Math.min(1.8, .45 + m.text.length * .022)), 0);
+const fmtMin = sec => Math.max(1, Math.round(sec / 60)) + " min";
+const readMin = s => fmtMin(s.episodes.reduce((t, e) => t + partSec(e), 0));
+const partMin = (s, k) => fmtMin(partSec(s.episodes[k]));
 function progress(s) {
   const p = prog(s);
   return Math.min(100, Math.round(p.pos.reduce((a, b) => a + b, 0) * 100 / totalOf(s)));
@@ -779,7 +784,7 @@ function sheetHTML(s) {
   const readLabel = pct >= 100 ? `${AGAIN}<span>Read again</span>` : `${PLAY}<span>${multi ? "Part " + (at + 1) : "Read"}</span>`;
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
-      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span>${readMin(s)}</small><h1>${esc(s.title)}</h1></div></div>
+      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${multi ? partMin(s, at) : readMin(s)}</span></small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
@@ -954,6 +959,7 @@ function wire(sheet, s) {
     const icon = f >= 1 ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
     read.innerHTML = `${icon}<span>Part ${k + 1}</span>`;
+    sheet.querySelector("#pv-time").textContent = partMin(s, k);   // the time shown is the selected part's
     read.style.setProperty("--f", f >= 1 ? 0 : f);
   };
   read.onclick = () => openStory(id, sel == null ? undefined : sel);
