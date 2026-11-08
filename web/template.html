@@ -325,7 +325,7 @@ function syncHearts() {
 
 /* Fetch fresh stories. The preview has them built in, so this only waits like a short network call;
    in the app it is the real request. */
-function reloadStories() { return new Promise(r => setTimeout(r, 500 + Math.random() * 500)); }
+function reloadStories() { return new Promise(r => setTimeout(r, 300 + Math.random() * 300)); }
 
 /* Swap the home page's content in place while it is pulled down; the eyes above are not touched. */
 function refreshHome(view) {
@@ -374,7 +374,8 @@ function wireHome() {
    the spinner's spokes appear one by one as you pull; let go past the line and the screen reloads. */
 /* ---------- Pull to refresh: the owl's eyes ----------
    Pull the page down and the owl's eyes come down from above the screen with it, opening as you pull.
-   Let go past the line: they blink once and open amber / red, then shut and the page returns.
+   Let go past the line: they blink; the page refreshes while they are shut; they open red and the
+   page goes back up with them still open.
    The brow's shadow lies on the open eye (white or red) and goes away with it when the lid shuts.
    The reload starts as soon as you let go; the eyes keep cycling until it is done, then finish the
    cycle they are in and the page goes back up. */
@@ -419,21 +420,18 @@ function owlEyes() {
   setLids(1);
   return {
     el: wrap, setLids,
-    /* one cycle: open, look, blink, open red, look, shut */
-    async cycle(from = 1) {
-      await tween(280 * from + 1, easeOut, t => setLids(from * (1 - t)));
-      await wait(380);
-      await this.blinkEvil();
-      await wait(700);
-      await this.shut();
-    },
-    async blinkEvil() {
-      await tween(120, easeIn, setLids);                          // blink: shut…
-      evil.setAttribute("opacity", 1);
+    async open(from = 1) { await tween(280 * from + 1, easeOut, t => setLids(from * (1 - t))); },
+    /* one blink; if `ready()` says the page is fresh by the time the lids are shut, the page is
+       swapped behind the closed eyes and they open red; otherwise they open white again */
+    async blink(ready, onShut) {
+      await tween(120, easeIn, setLids);                          // shut…
+      const fresh = ready();
+      if (fresh) { onShut(); evil.setAttribute("opacity", 1); }
       await wait(60);
-      await tween(220, easeOut, t => setLids(1 - t));             // …and open, amber / red
+      await tween(220, easeOut, t => setLids(1 - t));             // …and open, red if fresh
+      return fresh;
     },
-    async shut() { await tween(300, t => t * t * (3 - 2 * t), setLids); evil.setAttribute("opacity", 0); },
+    reset() { evil.setAttribute("opacity", 0); setLids(1); },
   };
 }
 
@@ -493,12 +491,17 @@ function pullToRefresh() {
     show(d = REST);
     /* reload now, in the background of the animation */
     let done = false;
-    reloadStories().then(() => { refreshHome(view); done = true; });
+    reloadStories().then(() => { done = true; });
     let from = lidNow;
-    do { await eyes.cycle(from); from = 1; } while (!done);   // slow network: whole cycles repeat
+    /* white eyes open, look, blink; the page is refreshed while they are shut and they open red.
+       Slow network: they keep blinking white until the stories are in. */
+    await eyes.open(from);
+    do { await wait(380); } while (!(await eyes.blink(() => done, () => refreshHome(view))));
+    await wait(500);
     clearInterval(slideTimer); startSlider();
     show(0);
     await wait(380);
+    eyes.reset();
     busy = false;
   };
   view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
