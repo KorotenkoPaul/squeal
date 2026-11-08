@@ -211,7 +211,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 
 /* Menu */
 /* Menu: plain white words, centred, evenly spaced. Nothing else. */
-.view.menu { justify-content: center; align-items: center; gap: 30px; padding-block: 24px; }
+.view.menu { justify-content: center; align-items: center; gap: 44px; padding-block: 24px; }
+.m-row.sub { color: var(--red); }                                /* Subscription in the app's red */
 .m-row { flex: none; padding: 4px 16px; font-size: 20px; font-weight: 600; color: #fff; transition: opacity .15s; }
 .m-row:active { opacity: .5; }
 
@@ -1054,7 +1055,7 @@ function menu() {
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
   const row = name => `<button class="m-row" data-m="${name}">${name}</button>`;
-  shell(["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"].map(row).join(""));
+  shell(["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"].map(row).join("").replace('class="m-row" data-m="Subscription"', 'class="m-row sub" data-m="Subscription"'));
   app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => toast(b.dataset.m + " — in the iPhone app"));
 }
 
