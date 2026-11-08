@@ -41,7 +41,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .row-card .face img.cover { left: 40%; width: 60%; }
 
 /* Home */
-.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 14px; }
+/* the slider runs edge to edge of the screen, so whole cards slide out left and the next comes in
+   from the right, whether you swipe or it turns by itself (it used to clip inside a rounded frame) */
+.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: max(18px, env(safe-area-inset-left, 0px)); scrollbar-width: none;
+  margin-inline: calc(-1 * max(18px, env(safe-area-inset-left, 0px))); padding-inline: max(18px, env(safe-area-inset-left, 0px));
+  scroll-padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
 .slider::-webkit-scrollbar { display: none; }
 .slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
 /* Slider dots: a "worm". The active pill stretches its head to the next dot as the slide moves,
