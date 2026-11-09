@@ -16,13 +16,13 @@
     "door",
     "key",
     "moon",
-    "phone",
-    "lock",
-    "stairs",
-    "window",
-    "drop",
     "clock"
    ],
+   "wallpaperEndings": {
+    "open": ["keyhole", "sms"],
+    "run": ["stairs", "window"],
+    "hide": ["bath", "drop", "phone", "lock"]
+   },
    "start": "start",
    "nodes": {
     "start": {

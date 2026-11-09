@@ -2065,58 +2065,101 @@ const DOODLE = {
   star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4 1.3 6L12 16.4 6.6 19.3l1.3-6-4.5-4 6-.7z"/>',
   coffee: '<path d="M5 9h11v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.5 1 2.5 0 4M12 3c-1 1.5 1 2.5 0 4"/>',
   fork: '<path d="M8 3v6a2 2 0 0 0 4 0V3M10 3v18M16 21V3c2 2 2 6 0 8"/>',
+  keyhole: '<circle cx="12" cy="9" r="3.5"/><path d="M10.4 12 9 20h6l-1.4-8"/>',
+  bath: '<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/>',
+  sms: '<path d="M4 5h16v11H9l-4 4v-4H4z"/><path d="M8 9h8M8 12h5"/>',
 };
 /* the doodles of one 280 px tile: name, place, size, turn (the same numbers draw the wallpaper and the
    falling / arriving doodles of a part switch) */
 const WALL_T = 280;
-function wallItems(names, seed) {
-  if (!names || !names.length) return [];
+/* A part's wallpaper is either a list of doodles, or (interactive stories) { common, endings: { endingId:
+   [...] } }: some doodles belong to the whole story, others to one ending each. Shares (2026-11-09): with E
+   endings the tile is cut into E + 2 shares — 2 for the whole story, 1 for each ending (3 endings: 2/5,
+   1/5, 1/5, 1/5) — rounded to whole doodles, at least one per ending; each group is spread evenly over the
+   tile. As choices close off endings, those endings' doodles fall away. */
+const wallGroups = cfg => Array.isArray(cfg) ? [{ g: "*", names: cfg }]
+  : [{ g: "*", names: cfg.common || [] }, ...Object.entries(cfg.endings || {}).map(([g, names]) => ({ g, names }))];
+function wallItems(cfg, seed) {
+  const groups = wallGroups(cfg).filter(x => x.names && x.names.length);
+  if (!groups.length) return [];
   let x = [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
   const rnd = () => (x = (x * 1664525 + 1013904223) >>> 0) / 4294967296;
-  const T = WALL_T, N = 5, C = T / N, out = [];
+  const E = groups.length - (groups[0].g === "*" ? 1 : 0), N = Math.max(5, Math.ceil(Math.sqrt(E + 2))), NN = N * N;
+  const T = WALL_T, C = T / N, out = [];
+  /* which group each of the N×N places belongs to */
+  let label = null;
+  if (groups.length > 1) {
+    const each = groups.filter(q => q.g !== "*").map(() => Math.max(1, Math.round(NN / (E + 2))));
+    let common = NN - each.reduce((a, b) => a + b, 0);
+    while (common < 1) { const k = each.indexOf(Math.max(...each)); each[k]--; common++; }
+    const counts = groups.map(q => q.g === "*" ? common : each.shift());
+    /* spread: every group's members evenly along a sequence, then laid on the tile in a scattered order */
+    const seq = []; groups.forEach((q, gi) => { for (let j = 0; j < counts[gi]; j++) seq.push({ gi, at: (j + .5) / counts[gi] + gi * 1e-6 }); });
+    seq.sort((a, b) => a.at - b.at);
+    let step = Math.round(NN * .38); const gcd = (a, b) => b ? gcd(b, a % b) : a; while (gcd(step, NN) !== 1) step++;
+    label = new Array(NN); seq.forEach((q, i) => { label[(i * step + 3) % NN] = q.gi; });
+  }
+  const used = groups.map(() => 0);
   for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
-    const name = names[(r * N + c + r * 2) % names.length], s = 22 + rnd() * 10;
+    const i = r * N + c, gi = label ? label[i] : 0, grp = groups[gi];
+    const name = label ? grp.names[used[gi]++ % grp.names.length] : grp.names[(r * N + c + r * 2) % grp.names.length], s = 22 + rnd() * 10;
     const px = c * C + (C - s) / 2 + (rnd() - .5) * 18 + (r % 2) * C / 2, py = r * C + (C - s) / 2 + (rnd() - .5) * 18, rot = (rnd() - .5) * 50;
-    out.push({ name, s, px, py, rot });
+    out.push({ name, s, px, py, rot, g: grp.g });
   }
   return out;
 }
-function wallpaper(names, seed) {
-  if (!names || !names.length) return "";
+/* vis: the groups to draw ("*" and the endings still within reach); none given = all */
+const wallShows = (vis, g) => !vis || vis.has(g);
+function wallpaper(cfg, seed, vis) {
+  const items = wallItems(cfg, seed).filter(it => wallShows(vis, it.g));
+  if (!items.length) return "";
   const T = WALL_T; let g = "";
-  for (const { name, s, px, py, rot } of wallItems(names, seed)) {
+  for (const { name, s, px, py, rot } of items) {
     const k = s / 24;
     for (const dx of [0, -T]) g += `<g transform="translate(${(px + dx).toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(0)} ${s / 2} ${s / 2}) scale(${k.toFixed(3)})">${DOODLE[name] || ""}</g>`;
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${T}" height="${T}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`;
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
+/* the endings still within reach from a node of an interactive part */
+function endingsFrom(nodes, id, seen = new Set()) {
+  const out = new Set(); if (!nodes || !nodes[id] || seen.has(id)) return out; seen.add(id);
+  const n = nodes[id]; if (n.ending) out.add(id);
+  (n.choices || []).forEach(c => endingsFrom(nodes, c.next, seen).forEach(x => out.add(x)));
+  return out;
+}
 /* The chat wallpaper's doodles, alive (2026-11-09). One keeper (WALL) knows where every doodle is and what
-   it is doing, so any number of part switches, at any moment, carry on smoothly instead of restarting:
+   it is doing, so part switches and choices, at any moment, carry on smoothly instead of restarting:
    - every chat (opening, or a part switch) starts with no doodles; the part's doodles fly in from all four
      sides and settle exactly where the wallpaper has them (never overlapping); then the plain wallpaper
      takes over;
    - a part switch: doodles that are flying in or resting stop where they are and fall off the bottom,
      accelerating as under gravity, not all at once; doodles already falling just finish their fall; the
-     new part's doodles start flying in only as the falling ends;
+     new part's doodles start flying in only as the falling ends; doodles still waiting off screen never
+     appear;
+   - interactive stories: a choice that closes off endings makes those endings' doodles fall the same way;
+     going back to a choice (or starting over) brings them flying back;
    - the description at the top of the chat: the old one fades out over 1 s as the falling starts; the new
      one fades in over the last 1 s of the arriving, so it is fully there when the last doodle lands; the
      two never show together.
    It all runs behind the messages and takes no taps: reading can start at once. */
 let PART_T = 0;                                                     // a part switch waiting for the disc to arrive
-const WALL = { fx: null, chat: null, items: [], raf: 0, rest: null, intro: null, introAt: 0, ghost: null, seed: 9 };
+const WALL = { fx: null, chat: null, items: [], raf: 0, rest: null, vis: null, bgVis: null, restOn: false, intro: null, introAt: 0, ghost: null, seed: 9 };
 const wallRnd = () => (WALL.seed = (WALL.seed * 1664525 + 1013904223) >>> 0) / 4294967296;
-function wallLay(names, seed, W, H) { const T = WALL_T, out = [];
-  for (const it of wallItems(names, seed)) for (let ox = -T; ox < W + T; ox += T) for (let oy = 0; oy < H + T; oy += T) {
-    const x = ox + it.px, y = oy + it.py; if (x > -it.s && x < W && y > -it.s && y < H) out.push({ ...it, x, y }); }
+function wallLay(cfg, seed, W, H, vis) { const T = WALL_T, out = [];
+  for (const it of wallItems(cfg, seed)) { if (!wallShows(vis, it.g)) continue;
+    for (let ox = -T; ox < W + T; ox += T) for (let oy = 0; oy < H + T; oy += T) {
+      const x = ox + it.px, y = oy + it.py; if (x > -it.s && x < W && y > -it.s && y < H) out.push({ ...it, x, y }); } }
   return out; }
 function wallEl(it) {
   const el = document.createElement("span"); el.className = "wpi"; el.style.width = el.style.height = it.s.toFixed(1) + "px";
   el.innerHTML = `<svg viewBox="0 0 24 24" width="${it.s.toFixed(1)}" height="${it.s.toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${DOODLE[it.name] || ""}</svg>`;
+  el.style.transform = `translate(${it.cx.toFixed(1)}px, ${it.cy.toFixed(1)}px) rotate(${it.crot.toFixed(1)}deg)`;
   WALL.fx.appendChild(el); return el; }
 const WALL_G = 2800;                                                    // px/s²: a brisk, natural fall on a phone screen
 function wallFall(d, now, delay) {                                      // a doodle stops where it is and falls from there
   d.phase = "fall"; d.fx0 = d.cx; d.fy0 = d.cy; d.frot = d.crot; d.ft0 = now + delay; d.spin = (wallRnd() - .5) * 80; }
+const wallBg = vis => WALL.rest ? wallpaper(WALL.rest.cfg, WALL.rest.seed, vis) : "";
 function wallTick(now) {
   const chat = WALL.chat; if (!chat || !chat.isConnected || !WALL.fx) { WALL.raf = 0; return; }
   const H = chat.clientHeight; let busy = false;
@@ -2133,57 +2176,88 @@ function wallTick(now) {
     if (q >= 1) { WALL.ghost.el.remove(); WALL.ghost = null; } else busy = true; }
   if (WALL.intro) { const q = Math.max(0, Math.min(1, (now - WALL.introAt) / 1000)); WALL.intro.style.opacity = q.toFixed(3); if (q < 1) busy = true; else WALL.intro.style.opacity = ""; }
   if (busy) { WALL.raf = requestAnimationFrame(wallTick); return; }
-  /* all landed: the plain wallpaper takes over */
-  WALL.raf = 0; chat.style.backgroundImage = WALL.rest.bg; WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true;
+  /* all landed: the plain wallpaper (of what is in reach) takes over */
+  WALL.raf = 0; chat.style.backgroundImage = wallBg(WALL.vis) || "none"; WALL.bgVis = WALL.vis;
+  WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true;
 }
+/* the doodles drawn by the plain wallpaper come back as pieces at rest, so they can move */
+function wallUnrest(chat, groups) {
+  if (!WALL.rest || !WALL.bgVis || !WALL.bgVis.size) return;          // nothing is drawn by the plain wallpaper
+  const W = chat.clientWidth, H = chat.clientHeight;
+  const vis = groups ? new Set([...(WALL.bgVis || [])].filter(g => groups.has(g))) : WALL.bgVis;
+  for (const it of wallLay(WALL.rest.cfg, WALL.rest.seed, W, H, vis)) { const d = { ...it, phase: "rest", cx: it.x, cy: it.y, crot: it.rot }; d.el = wallEl(d); WALL.items.push(d); }
+  if (groups) { WALL.bgVis = new Set([...(WALL.bgVis || [])].filter(g => !groups.has(g))); chat.style.backgroundImage = wallBg(WALL.bgVis) || "none"; }
+  else { chat.style.backgroundImage = "none"; WALL.bgVis = new Set(); WALL.restOn = false; }
+}
+/* make these doodles go: the ones still waiting off screen just vanish, the rest fall from where they are */
+function wallDrop(now, test) {
+  for (const d of WALL.items) if (test(d) && d.phase === "in" && now < d.t0) { d.el.remove(); d.gone = true; }
+  WALL.items = WALL.items.filter(d => !d.gone);
+  for (const d of WALL.items) if (test(d) && d.phase !== "fall") wallFall(d, now, wallRnd() * 450);
+}
+/* bring doodles flying in once whatever is falling has gone */
+function wallBring(chat, cfg, seed, vis, now) {
+  const W = chat.clientWidth, H = chat.clientHeight;
+  let fallEnd = now;
+  for (const d of WALL.items) if (d.phase === "fall") fallEnd = Math.max(fallEnd, d.ft0 + Math.sqrt(2 * Math.max(0, H + 40 - d.fy0) / WALL_G) * 1000);
+  const start = WALL.items.some(d => d.phase === "fall") ? Math.max(now + 200, fallEnd - 150) : now + 120;
+  let inEnd = start;
+  for (const it of wallLay(cfg, seed, W, H, vis)) {
+    const side = Math.floor(wallRnd() * 4), off = it.s + 24;
+    const sx = side === 0 ? -off : side === 1 ? W + off : it.x, sy = side === 2 ? -off : side === 3 ? H + off : it.y;
+    const d = { ...it, phase: "in", sx, sy, srot: it.rot + (wallRnd() - .5) * 120, t0: start + wallRnd() * 900, dur: 650 + wallRnd() * 350 };
+    d.cx = sx; d.cy = sy; d.crot = d.srot; d.el = wallEl(d);
+    inEnd = Math.max(inEnd, d.t0 + d.dur); WALL.items.push(d);
+  }
+  return inEnd;
+}
+const wallRun = () => { if (!WALL.raf) WALL.raf = requestAnimationFrame(wallTick); };
 /* show a part's doodles in a chat (a fresh chat, or the same story's chat after a part switch) */
-function wallTo(chat, { names, seed, bg, intro, prevIntro, same }) {
-  if (!names || !names.length) return;
-  const now = performance.now(), W = chat.clientWidth, H = chat.clientHeight;
-  if (reduce()) { chat.style.backgroundImage = bg; return; }
+function wallTo(chat, { cfg, seed, vis, intro, prevIntro, same }) {
+  if (!wallItems(cfg, seed).length) return;
+  const now = performance.now();
+  if (reduce()) { WALL.rest = { cfg, seed }; WALL.vis = vis; chat.style.backgroundImage = wallpaper(cfg, seed, vis); return; }
   const switching = WALL.chat && !WALL.chat.isConnected && WALL.rest && WALL.fx;   // the same story's chat was just replaced
-  /* the same part again (read again / start over): nothing falls; whatever is under way just carries on here */
   if (switching && same) {
-    chat.prepend(WALL.fx); WALL.chat = chat; chat.style.backgroundImage = WALL.restOn ? bg : "none";
+    /* the same part again (read again, back to a choice, start over): it carries on here; only the endings
+       that came back into reach (or went out of it) fly in (or fall) */
+    chat.prepend(WALL.fx); WALL.chat = chat; chat.style.backgroundImage = (WALL.bgVis && wallBg(WALL.bgVis)) || "none";
     if (WALL.intro && intro) { intro.style.opacity = WALL.intro.style.opacity; WALL.intro = intro; }
     if (WALL.ghost) chat.appendChild(WALL.ghost.el);
-    if (!WALL.restOn && !WALL.raf) WALL.raf = requestAnimationFrame(wallTick);
+    wallVis(vis);
+    if (!WALL.restOn) wallRun();
     return;
   }
-  if (!switching) { cancelAnimationFrame(WALL.raf); WALL.items = []; WALL.ghost = null; WALL.fx?.remove(); WALL.fx = null; WALL.restOn = false; }
+  if (!switching) { cancelAnimationFrame(WALL.raf); WALL.raf = 0; WALL.items = []; WALL.ghost = null; WALL.fx?.remove(); WALL.fx = null; WALL.restOn = false; WALL.bgVis = null; }
   if (!WALL.fx) { WALL.fx = document.createElement("div"); WALL.fx.className = "wpfx"; WALL.fx.setAttribute("aria-hidden", "true"); }
   chat.prepend(WALL.fx); chat.style.backgroundImage = "none";
   if (switching) {
-    /* the part on screen: if it was resting as plain wallpaper, its doodles come back as pieces at rest */
-    if (WALL.restOn) { WALL.items = wallLay(WALL.rest.names, WALL.rest.seed, W, H).map(it => ({ ...it, phase: "rest", cx: it.x, cy: it.y, crot: it.rot, el: wallEl(it) })); WALL.restOn = false; }
-    /* doodles still waiting off screen for their turn to fly in never appeared: they simply go */
-    for (const d of WALL.items) if (d.phase === "in" && now < d.t0) { d.el.remove(); d.gone = true; }
-    WALL.items = WALL.items.filter(d => !d.gone);
-    for (const d of WALL.items) if (d.phase !== "fall") wallFall(d, now, wallRnd() * 450);
-    /* the old description fades out from wherever it stood */
-    if (prevIntro && prevIntro.text) {
+    wallUnrest(chat);                                                   // the old part's resting doodles become pieces
+    wallDrop(now, () => true);
+    if (prevIntro && prevIntro.text) {                                  // the old description fades out from where it stood
       WALL.ghost?.el.remove();
       const g = document.createElement("div"); g.className = "intro wp-ghost"; g.textContent = prevIntro.text;
       Object.assign(g.style, { left: prevIntro.left + "px", top: prevIntro.top + "px", width: prevIntro.width + "px", opacity: prevIntro.o });
       chat.appendChild(g); WALL.ghost = { el: g, t0: now, o0: prevIntro.o };
     }
   }
-  /* the new doodles start flying in as the falling ends */
-  let fallEnd = now;
-  for (const d of WALL.items) if (d.phase === "fall") fallEnd = Math.max(fallEnd, d.ft0 + Math.sqrt(2 * Math.max(0, H + 40 - d.fy0) / WALL_G) * 1000);
-  const start = WALL.items.length ? Math.max(now + 200, fallEnd - 150) : now + 120;
-  let inEnd = start;
-  for (const it of wallLay(names, seed, W, H)) {
-    const side = Math.floor(wallRnd() * 4), off = it.s + 24;
-    const sx = side === 0 ? -off : side === 1 ? W + off : it.x, sy = side === 2 ? -off : side === 3 ? H + off : it.y;
-    const d = { ...it, phase: "in", sx, sy, srot: it.rot + (wallRnd() - .5) * 120, t0: start + wallRnd() * 900, dur: 650 + wallRnd() * 350 };
-    d.cx = sx; d.cy = sy; d.crot = d.srot; d.el = wallEl(d); d.el.style.transform = `translate(${sx}px, ${sy}px)`;
-    inEnd = Math.max(inEnd, d.t0 + d.dur); WALL.items.push(d);
-  }
-  WALL.rest = { names, seed, bg }; WALL.chat = chat;
-  /* the new description is fully in when the last doodle lands */
-  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 1000; }
-  if (!WALL.raf) WALL.raf = requestAnimationFrame(wallTick);
+  WALL.rest = { cfg, seed }; WALL.vis = vis; WALL.chat = chat; WALL.restOn = false; WALL.bgVis = new Set();
+  const inEnd = wallBring(chat, cfg, seed, vis, now);
+  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 1000; }   // fully in when the last doodle lands
+  wallRun();
+}
+/* interactive: the endings within reach changed (a choice, or back to a choice) */
+function wallVis(vis) {
+  const chat = WALL.chat; if (!chat || !chat.isConnected || !WALL.rest) return;
+  const was = WALL.vis; WALL.vis = vis;
+  if (!vis || !was) return;
+  if (reduce()) { chat.style.backgroundImage = wallBg(vis); WALL.bgVis = vis; return; }
+  const now = performance.now(), gone = new Set([...was].filter(g => !vis.has(g))), back = new Set([...vis].filter(g => !was.has(g)));
+  if (!gone.size && !back.size) return;
+  if (gone.size) { wallUnrest(chat, gone); wallDrop(now, d => gone.has(d.g)); }
+  if (back.size) { WALL.restOn = false; wallBring(chat, WALL.rest.cfg, WALL.rest.seed, back, now); }
+  else if (WALL.items.length) WALL.restOn = false;
+  wallRun();
 }
 /* interactive stories (you choose what happens) carry a small gamepad next to genre and time */
 const padPill = s => s.interactive ? `<span class="pill pad" aria-label="Interactive story">${ICON.pad}</span>` : "";
@@ -2281,9 +2355,11 @@ function openStory(id, epIndex) {
   /* a part switch replaces the chat in place, in the same frame: nothing blinks, the preview never shows */
   if (scr.animate && !reduce() && !prev) scr.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
-  const wp = wallpaper(ep.wallpaper, s.id + ":" + st.ep);
-  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles");
-    wallTo(c, { names: ep.wallpaper, seed: s.id + ":" + st.ep, bg: wp, intro: scr.querySelector(".log .intro"), prevIntro, same: prevEp === st.ep }); }
+  /* the wallpaper: interactive parts show the whole story's doodles plus those of the endings still in reach */
+  const wallCfg = base.wallpaperEndings ? { common: base.wallpaper, endings: base.wallpaperEndings } : ep.wallpaper;
+  const inReach = () => path && base.wallpaperEndings ? new Set(["*", ...endingsFrom(base.nodes, path.at(-1))]) : null;
+  if (wallItems(wallCfg, s.id + ":" + st.ep).length) { const c = scr.querySelector(".chat"); c.classList.add("doodles");
+    wallTo(c, { cfg: wallCfg, seed: s.id + ":" + st.ep, vis: inReach(), intro: scr.querySelector(".log .intro"), prevIntro, same: prevEp === st.ep }); }
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
@@ -2354,6 +2430,7 @@ function openStory(id, epIndex) {
         e.stopPropagation();
         if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
         path.push(node.choices[+b.dataset.k].next); ep.messages = flatten();
+        wallVis(inReach());                                            // the endings this choice closed off: their doodles fall
         foot.classList.remove("choose"); step();
         /* the choice is the tap: the other side answers on its own, no extra tap */
         const nx = ep.messages[st.i];

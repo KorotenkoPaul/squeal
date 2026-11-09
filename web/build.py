@@ -14,7 +14,8 @@ for _f in sorted(SRC.glob("*.json"), key=lambda f: (f.stem != "nobodys-home", f.
     stories.append({"id": d["id"], "title": d["title"], "description": d["description"], "genre": d["genre"],
                     "author": d.get("author", ""), "fear": d["fear"], **{k: True for k in ("interactive", "featured") if d.get(k)},
                     "episodes": [{"left": p["left"], "right": p["right"], "prologue": p["prologue"], "messages": p["messages"],
-                                  "wallpaper": p["wallpaper"], **({"nodes": p["nodes"], "start": p["start"]} if p.get("nodes") else {})}
+                                  "wallpaper": p["wallpaper"], **({"nodes": p["nodes"], "start": p["start"]} if p.get("nodes") else {}),
+                                  **({"wallpaperEndings": p["wallpaperEndings"]} if p.get("wallpaperEndings") else {})}
                                  for p in d["parts"]]})
 COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "nobodys-home": "legs-doorway", "first-impressions": "laptop-dark", "the-doctor": "forest-path",
@@ -49,6 +50,19 @@ for st in stories:
 # name glued to the message, unknown speakers, empty lines). The build stops and says where.
 import re
 problems = []
+# doodle names must exist in the app's library (DOODLE in template.html)
+_doodles = set(_re.findall(r"^  ([a-z]+): '", (ROOT / "web" / "template.html").read_text().split("const DOODLE")[1].split("};")[0], _re.M))
+for st in stories:
+    for k, ep in enumerate(st["episodes"]):
+        we = ep.get("wallpaperEndings")
+        for n in ep["wallpaper"] + [n for v in (we or {}).values() for n in v]:
+            if n not in _doodles: problems.append("%s part %d: unknown doodle %r" % (st["id"], k + 1, n))
+        if we:   # interactive: every ending has its own doodles (at least one), and only endings are listed
+            ends = {i for i, n in (ep.get("nodes") or {}).items() if n.get("ending")}
+            for i in ends - set(we): problems.append("%s part %d: ending %r has no doodles in wallpaperEndings" % (st["id"], k + 1, i))
+            for i in set(we) - ends: problems.append("%s part %d: wallpaperEndings names %r, which is not an ending" % (st["id"], k + 1, i))
+            for i, v in we.items():
+                if not v: problems.append("%s part %d: ending %r has an empty doodle list" % (st["id"], k + 1, i))
 for st in stories:
     for k, ep in enumerate(st["episodes"]):
         who = {ep["left"], ep["right"]}
