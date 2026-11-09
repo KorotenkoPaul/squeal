@@ -174,7 +174,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
 .tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
 .tile div { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }   /* long German and Russian words break by syllable */
+.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; }   /* whole words, as many lines as needed, never a hyphen (2026-11-09) */
 .pills { display: flex; gap: 6px; flex-wrap: wrap; }
 .pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 4px 8px 2px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
 .tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
@@ -510,6 +510,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .cont { color: var(--muted); opacity: .9; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 /* after 10 s without a tap it starts to breathe, as a gentle nudge */
 .foot > * { transition: opacity .25s ease-out; }                /* after a picked answer lands, what comes next fades in over 0.25 s (2026-11-09: twice faster) */
+.foot.endfoot > * { transition-duration: .125s; }               /* the end's buttons: 0.125 s (2026-11-09: twice faster again) */
 .foot.wait > * { opacity: 0 !important; animation: none !important; pointer-events: none; transition: none; }
 .foot.idle .cont { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: .9 } 50% { opacity: .4 } }
@@ -786,7 +787,13 @@ function tilesHTML(list, f) {
 /* tap opens; hold toggles favourite, and the tile's heart pops in or shrinks away in place */
 const centre = el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
 
+/* a title with a word longer than its card is set a little smaller, until every word fits whole (no hyphens) */
+function fitTileTitles(root) {
+  root.querySelectorAll(".tile b").forEach(b => { b.style.fontSize = "";
+    for (let f = 17; f > 11 && b.scrollWidth > b.clientWidth + .5; f -= .5) b.style.fontSize = f - .5 + "px"; });
+}
 function wireCards(root) {
+  requestAnimationFrame(() => fitTileTitles(root)); document.fonts?.ready.then(() => fitTileTitles(root));
   root.querySelectorAll("[data-id]").forEach(b => {
     /* the slider's cards only open; holding one does not like it (2026-11-09) */
     const pressed = b.matches(".hero") ? () => false : longPress(b, () => {
@@ -1776,12 +1783,28 @@ function menu() {
     back.classList.toggle("on", to === "lang");
     if (quick) { mode = to; fill(); busy = false; return; }
     rows.forEach(b => b.getAnimations().forEach(a => a.cancel()));      // still appearing? go from where it is
-    rows.forEach((b, i) => b.animate(out, { duration: 250, delay: i * 15, easing: "ease-in", fill: "forwards" }));   // twice as fast as at first (2026-11-09)
-    setTimeout(() => { mode = to; fill();
+    rows.forEach((b, i) => { const at = b.style.transform || "";                // a swipe leaves the words where the finger took them
+      b.animate([{ ...out[0], transform: at || "none" }, { ...out[1], transform: at + " " + out[1].transform }], { duration: 250, delay: i * 15, easing: "ease-in", fill: "forwards" }); });   // twice as fast as at first (2026-11-09)
+    setTimeout(() => { mode = to; fill(); rows.forEach(b => b.style.transform = "");
       rows.forEach((b, i) => { b.getAnimations().forEach(a => a.cancel()); b.animate(inn, { duration: 175, delay: i * 15, easing: "ease-out", fill: "backwards" }); });
       busy = false; }, 250 + (rows.length - 1) * 15);                 // the new words take taps as soon as they start to show
   };
   back.onclick = () => swap("menu");
+  /* …or a swipe from left to right anywhere on the page (2026-11-09): the words follow the finger a little,
+     and let go after 60 px (or a quick flick) the list folds back into the menu */
+  const view = app.querySelector("#view");
+  let sx = null, sy = 0, st0 = 0, horiz = null;
+  view.addEventListener("touchstart", e => { if (mode !== "lang" || busy) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY; st0 = performance.now(); horiz = null; }, { passive: true });
+  view.addEventListener("touchmove", e => { if (sx == null) return;
+    const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+    if (horiz == null && Math.hypot(dx, dy) > 8) horiz = Math.abs(dx) > Math.abs(dy) && dx > 0;
+    if (!horiz) return; if (e.cancelable) e.preventDefault();
+    rows.forEach(r => r.style.transform = `translateX(${Math.max(0, dx) * .35}px)`); }, { passive: false });
+  const let_go = e => { if (sx == null) return; const dx = (e.changedTouches?.[0]?.clientX ?? sx) - sx, fast = dx / Math.max(1, performance.now() - st0) > .3;
+    const go = horiz && (dx > 60 || (fast && dx > 20)); sx = null;
+    if (go) return swap("menu");
+    rows.forEach(r => { const from = r.style.transform; r.style.transform = ""; if (from && r.animate && !reduce()) r.animate([{ transform: from }, { transform: "none" }], { duration: 180, easing: "ease-out" }); }); };
+  view.addEventListener("touchend", let_go); view.addEventListener("touchcancel", let_go);
   rows.forEach(b => b.onclick = () => {
     const m = b.dataset.m;
     if (busy) return;
@@ -2766,7 +2789,7 @@ function openStory(id, epIndex) {
     const ending = endIn; endIn = null;
     /* the end: the story's / ending's title comes up from below with the conversation, like a message; meanwhile
        "Tap to continue" fades out (0.25 s) and the panel makes room; then the buttons fade in (0.25 s) (2026-11-09) */
-    if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 250);   // "Tap to continue" out in 0.25 s, then the buttons in, 0.25 s
+    if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 125);   // "Tap to continue" out in 0.125 s, then the buttons in, 0.125 s
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
       if (h1 < h0 - 1) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing jumps down
       if (glide || gliding || reduce()) glideDown(); return; }
@@ -2861,7 +2884,7 @@ function openStory(id, epIndex) {
         if (old) { const r = old.getBoundingClientRect(), g = old.cloneNode(true);
           const o = scr.getBoundingClientRect();                         // in the chat screen's own coordinates
           Object.assign(g.style, { position: "fixed", left: (r.left - o.left) + "px", top: (r.top - o.top) + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
-          scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 250, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
+          scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 125, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · " + tr("part", { n: st.ep + 1 }) : ""}</span>${path ? `<em>${tr("ending", { n: which, m: endings.length })} · ${esc(node.ending)}</em>` : ""}</div>`);
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
