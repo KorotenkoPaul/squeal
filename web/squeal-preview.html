@@ -141,6 +141,10 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @keyframes settle { to { scale: 1 0; opacity: .0; } }        /* the surface goes flat and still */
 @media (prefers-reduced-motion: reduce) { .part .water i, .part .water svg { animation: none; } .part .water svg { display: none; } }
 .part.here::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px #9b7ff0; pointer-events: none; }   /* above the water */
+/* the draggable outline (one frame for all parts) replaces each part's own outline */
+.parts.ind { position: relative; touch-action: none; }
+.parts.ind .part.here::after { display: none; }
+.part-ind { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2; border-radius: 12px; box-shadow: inset 0 0 0 1.5px #9b7ff0; pointer-events: none; will-change: transform; }
 .part { transition: box-shadow .2s, transform .15s; }
 .part:active { transform: scale(.97); }
 .part .ok { font-style: normal; color: #b9a3ff; font-size: 12px; }
@@ -1862,7 +1866,46 @@ function wire(sheet, s) {
   };
   if (sheet._keepSel != null && parts.length) selectPart(sel);
   read.onclick = () => openStory(id, sel == null ? undefined : sel);
-  parts.forEach(b => b.onclick = e => { e.stopPropagation(); selectPart(+b.dataset.ep); });
+  parts.forEach(b => b.onclick = e => { e.stopPropagation(); if (e.detail === 0) selectPart(+b.dataset.ep); });   // keyboard; touch/mouse below
+  /* The selected part's outline is one frame that can be dragged along the parts with a finger, like the
+     part disc in the chat: it follows the finger 1:1 (sideways when the parts sit in a row, up and down
+     when in a column), and on letting go glides to the nearest part, which becomes the selected one.
+     Pressing another part glides it there at once; a drag from there carries on. (2026-11-09) */
+  const box = sheet.querySelector(".parts");
+  if (box && parts.length > 1) {
+    const frame = document.createElement("span"); frame.className = "part-ind"; frame.setAttribute("aria-hidden", "true");
+    box.appendChild(frame); box.classList.add("ind");
+    const row = () => getComputedStyle(box).flexDirection.startsWith("row");
+    const cells = () => { const r = row(); return parts.map(b => { const a = r ? b.offsetLeft : b.offsetTop, z = r ? b.offsetWidth : b.offsetHeight; return { a, z, c: a + z / 2 }; }); };
+    let at = 0, glideF = 0;
+    const put = c => { const g = cells(), r = row(); c = Math.max(g[0].c, Math.min(g[g.length - 1].c, c)); at = c;
+      let i = 0; while (i < g.length - 2 && c > g[i + 1].c) i++;
+      const f = (c - g[i].c) / (g[i + 1].c - g[i].c), z = lerp(g[i].z, g[i + 1].z, f), b0 = parts[0];
+      if (r) { frame.style.width = z + "px"; frame.style.height = b0.offsetHeight + "px"; frame.style.transform = `translate(${(c - z / 2).toFixed(2)}px, ${b0.offsetTop}px)`; }
+      else { frame.style.height = z + "px"; frame.style.width = b0.offsetWidth + "px"; frame.style.transform = `translate(${b0.offsetLeft}px, ${(c - z / 2).toFixed(2)}px)`; } };
+    const nearestPart = () => { const g = cells(); let k = 0; g.forEach((q, j) => { if (Math.abs(q.c - at) < Math.abs(g[k].c - at)) k = j; }); return k; };
+    const glideTo = k => { cancelAnimationFrame(glideF); const from = at, to = cells()[k].c, t0 = performance.now(), ms = reduce() ? 0 : Math.min(320, 150 + Math.abs(to - from) * .8);
+      const f = now => { const q = ms ? Math.min(1, (now - t0) / ms) : 1; put(lerp(from, to, 1 - Math.pow(1 - q, 3))); if (q < 1) glideF = requestAnimationFrame(f); };
+      glideF = requestAnimationFrame(f); selectPart(+parts[k].dataset.ep); };
+    put(cells()[Math.max(0, parts.findIndex(b => +b.dataset.ep === sel))].c);
+    let p0 = null, base = 0, moved = false, pressed = -1;
+    const coord = e => row() ? e.clientX : e.clientY;
+    box.addEventListener("pointerdown", e => { const b = e.target.closest(".part"); if (!b) return; e.stopPropagation();
+      p0 = coord(e); moved = false; box.setPointerCapture(e.pointerId);
+      pressed = parts.indexOf(b); base = cells()[pressed].c;
+      if (pressed !== nearestPart()) glideTo(pressed); });            // another part: the frame goes there at once
+    box.addEventListener("pointermove", e => { if (p0 == null) return; const d = coord(e) - p0;
+      if (!moved && Math.abs(d) < 5) return;
+      if (!moved) { moved = true; cancelAnimationFrame(glideF); }
+      put(base + d); });
+    const let_ = () => { if (p0 == null) return; p0 = null; glideTo(moved ? nearestPart() : pressed); };
+    box.addEventListener("pointerup", let_); box.addEventListener("pointercancel", let_);
+    /* the parts may still be settling into their row when the page opens (and on resize): keep the frame on
+       the selected part whenever the row changes size */
+    const home = () => { if (p0 == null && box.isConnected) put(cells()[Math.max(0, parts.findIndex(b => +b.dataset.ep === sel))].c); };
+    if (window.ResizeObserver) new ResizeObserver(home).observe(box); else addEventListener("resize", home);
+    requestAnimationFrame(() => requestAnimationFrame(home));
+  }
   /* Two swipes close the page (besides the cross): left to right (anywhere, mostly sideways), and down
      (when the page is scrolled to its top). The page follows the finger; let go past a third of the way,
      or with a quick flick, and it slides off that way; otherwise it settles back. */
