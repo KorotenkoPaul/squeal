@@ -1670,7 +1670,7 @@ function sheetHTML(s) {
   const readLabel = "Read";   // the part is chosen above; the button just reads
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
-      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${multi ? partMin(s, at) : readMin(s)}</span>${padMark(s, true)}</small><h1>${esc(s.title)}</h1></div></div>
+      <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${readMin(s)}</span>${padMark(s, true)}</small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
@@ -1897,7 +1897,7 @@ function wire(sheet, s) {
     const icon = f >= 1 ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
 
-    sheet.querySelector("#pv-time").textContent = partMin(s, k);   // the time shown is the selected part's
+    /* the time is the whole story's, the same as on its card everywhere (2026-11-09) */
 
   };
   if (sheet._keepSel != null && parts.length) selectPart(sel);
