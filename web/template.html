@@ -572,7 +572,16 @@ const setProg = (s, p) => store.set("p:" + s.id, { ...p, v: s.v });
 const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
 /* Reading time as the chat really plays: the other side "types" before each of its messages
    (the same delay the chat uses), plus about a second to read each message and tap on. */
-const partSec = e => e.messages.reduce((t, m) => t + 1 + (m.from === e.right ? 0 : Math.min(1.8, .45 + m.text.length * .022)), 0);
+/* Reading time (rule set 2026-11-09): the time spent waiting, plus the time spent reading.
+   - waiting: everything the other side takes before a message appears — typing a text, recording a voice
+     note or a video circle (and sending it) — exactly the delays the chat itself uses (msgWait);
+     the reader's own messages appear at once;
+   - reading: READ_SEC seconds for every message in the chat, the reader's and the other side's.
+   Change READ_SEC and every story's time (cards, previews, parts, search) follows. Interactive stories
+   count their longest path. */
+const READ_SEC = 2;
+const msgWait = m => (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);   // ms
+const partSec = e => e.messages.reduce((t, m) => t + READ_SEC + (m.from === e.right ? 0 : msgWait(m) / 1000), 0);
 const fmtMin = sec => Math.max(1, Math.round(sec / 60)) + " min";
 const readMin = s => fmtMin(s.episodes.reduce((t, e) => t + partSec(e), 0));
 const partMin = (s, k) => fmtMin(partSec(s.episodes[k]));
@@ -2516,7 +2525,7 @@ function openStory(id, epIndex) {
       }, 250);
     }
     log.appendChild(t); log.scrollTop = log.scrollHeight;
-    const delay = reduce() ? 150 : (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);
+    const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
     timer = setTimeout(() => { clearInterval(rec); t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; log.scrollTop = log.scrollHeight; controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
