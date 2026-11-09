@@ -847,14 +847,19 @@ function pullForRandom() {
     if (!busy) say.textContent = k >= 1 ? "Release for a random story" : "Keep pulling";
     say.style.opacity = busy && liftAs == null ? say.style.opacity : Math.max(0, Math.min(1, (rise - .35) / .5)).toFixed(2);   // the words fade in as they come up
     rnd.classList.toggle("ready", k >= 1);
-    const hint = document.getElementById("pull-hint");               // the hint under the cards gives way smoothly
-    if (hint) hint.style.opacity = Math.max(0, 1 - raw / 40).toFixed(2);
+    const hint = document.getElementById("pull-hint");               // the hint goes at once (never under the words), comes back softly
+    if (hint) { hint.style.transition = raw > 0 ? "none" : "opacity .3s ease"; hint.style.opacity = raw > 0 ? 0 : 1; }
     if (raw) setStrip(offset + raw * .9);                           // the reel turns with your finger
   };
-  const start = y => { if (busy || !atBottom()) return; y0 = y; d = 0; view.classList.remove("drop"); view.classList.add("lift"); };
+  /* sinking back is a spring that can be caught: a new touch takes the reel from where it is */
+  let sinkRaf = 0, sinking = false, vy = 0, lastY = 0, lastT = 0;
+  const start = y => {
+    if (sinking) { cancelAnimationFrame(sinkRaf); sinking = false; busy = false; y0 = y + d; view.classList.remove("drop"); view.classList.add("lift"); lastY = y; lastT = performance.now(); vy = 0; return; }
+    if (busy || !atBottom()) return; y0 = y; d = 0; vy = 0; lastY = y; lastT = performance.now(); view.classList.remove("drop"); view.classList.add("lift"); };
   const move = (y, e) => {
     if (y0 == null) return;
-    const raw = y0 - y;
+    const raw = y0 - y, now = performance.now();
+    vy = .7 * vy + .3 * ((lastY - y) / Math.max(1, now - lastT) * 1000); lastY = y; lastT = now;   // finger speed upwards, px/s
     if (raw <= 0) { if (d) show(d = 0); return; }
     if (!atBottom() && !d) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
@@ -865,10 +870,22 @@ function pullForRandom() {
     if (y0 == null) return; y0 = null;
     view.classList.remove("lift");
     if (d < LINE()) {                                              // not far enough: the reel sinks back behind the tabs as the page slides down
-      busy = true; const from = d, lift0 = lastLift; d = 0;
-      /* page and reel go back together and land at the same moment */
-      await tween(340, t => 1 - Math.pow(1 - t, 3), t => show(Math.max(0, lerp(from, 0, t)), lerp(lift0, 0, t)));
-      show(0); busy = false; return;
+      /* Pulled past the point where the reel is fully up, more pull changes nothing on screen: start the
+         way back from what you see (the reel's turn keeps its place), so it moves the moment you let go.
+         Then a critically damped spring from the finger's own speed: no drop, no snap. Page and reel
+         land together. */
+      const CAP = 140 * 1.6;
+      if (d > CAP) { offset += (d - CAP) * .9; d = CAP; }
+      const x0 = d, lift0 = lastLift, w = 12, v0 = Math.max(-1500, Math.min(1500, vy * .6)), t0 = performance.now();
+      busy = true; sinking = true;
+      const f = now => {
+        const tt = (now - t0) / 1000, x = Math.max(0, (x0 + (v0 + w * x0) * tt) * Math.exp(-w * tt));
+        d = x;
+        if (tt > .08 && x < .4) { sinking = false; busy = false; d = 0; show(0); return; }
+        show(x, Math.min(x0 ? lift0 * x / x0 : 0, x)); sinkRaf = requestAnimationFrame(f);
+      };
+      sinkRaf = requestAnimationFrame(f);
+      return;
     }
     busy = true;
     const eat = e => { e.stopPropagation(); e.preventDefault(); };
