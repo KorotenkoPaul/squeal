@@ -1772,28 +1772,37 @@ function wire(sheet, s) {
       sheet.querySelector(".chrome").appendChild(n);
       setTimeout(() => { n.classList.add("out"); setTimeout(() => n.remove(), 300); }, 1800);
     }, Math.max(380, drain(ks))); };
-    /* holding (the ring fills, then every part starts over) only where there are parts; a one-part story
-       just takes a tap */
+    /* A tap starts the selected part over (no ring). Holding: after a short beat (0.2 s, so a tap never
+       shows it) the ring starts round the button; when it closes (0.6 s) every part starts over. Let go
+       before it closes and nothing happens at all (no reset, no note); the ring winds back. Holding only
+       where there are parts; a one-part story just takes a tap. (2026-11-09) */
     const multi = s.episodes.length > 1;
-    reset.addEventListener("pointerdown", e => {
-      if (!multi) return;
-      e.preventDefault(); longDone = false; reset.classList.add("holding");
-      holdT = setTimeout(() => {
-        longDone = true; reset.classList.remove("holding");
-        store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
-        redraw(s.episodes.length > 1 ? "All parts start over" : "Story starts over", s.episodes.map((_, i) => i));
-      }, 600);
-    });
-    const cancel = () => { clearTimeout(holdT); reset.classList.remove("holding"); };
-    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => reset.addEventListener(ev, cancel));
-    reset.addEventListener("contextmenu", e => e.preventDefault());
-    reset.onclick = e => {
-      e.stopPropagation();
-      if (longDone) { longDone = false; return; }
+    let beatT = null, ringOn = false, down = false;
+    const one = () => {
       const pr = prog(s), k = sel ?? pr.ep;                         // the part selected below, not the one last read
       pr.pos[k] = 0; if (s.episodes[k].nodes) delete pr.path; setProg(s, pr);
-      redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over", [k]);
+      redraw(multi ? `Part ${k + 1} starts over` : "Story starts over", [k]);
     };
+    reset.addEventListener("pointerdown", e => {
+      e.preventDefault(); e.stopPropagation(); down = true; longDone = false; ringOn = false;
+      if (!multi) return;
+      beatT = setTimeout(() => { ringOn = true; reset.classList.add("holding");
+        holdT = setTimeout(() => {
+          longDone = true; reset.classList.remove("holding");
+          store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
+          redraw("All parts start over", s.episodes.map((_, i) => i));
+        }, 600); }, 200);
+    });
+    const stop = () => { clearTimeout(beatT); clearTimeout(holdT); reset.classList.remove("holding"); };
+    reset.addEventListener("pointerup", e => {
+      if (!down) return; down = false; stop();
+      if (longDone) return;                                          // the ring closed: all parts already done
+      if (ringOn) return;                                            // let go before the ring closed: nothing
+      one();                                                         // a tap
+    });
+    ["pointerleave", "pointercancel"].forEach(ev => reset.addEventListener(ev, () => { down = false; stop(); }));
+    reset.addEventListener("contextmenu", e => e.preventDefault());
+    reset.onclick = e => { e.stopPropagation(); if (e.detail === 0) one(); };   // keyboard only; touch and mouse use the pointer
   }
   /* the same heart as on the home tiles: a like draws it with a pen stroke and fills it; an unlike cracks it
      like the broken-heart emoji, the halves part a little and fade, and the plain (unliked) heart returns */
