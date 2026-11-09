@@ -160,8 +160,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile b { font-size: 17px; font-weight: 600; line-height: 1.2; }
 .pills { display: flex; gap: 6px; flex-wrap: wrap; }
 .pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 4px 8px 2px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
-.tile .fav { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
-.tile .fav svg { width: 14px; height: 14px; }
+.tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
+.tile .fav svg { width: 21px; height: 21px; overflow: visible; }
+.tile .fav .hs { stroke-dasharray: 1; stroke-dashoffset: 0; }
+/* prototype only: a cover that must be replaced before release (build.py COVER_FIX) */
+.tile .fix { position: absolute; top: 9px; left: 9px; z-index: 2; width: 30px; height: 30px; border-radius: 50%; background: #e0233b; color: #fff; display: grid; place-items: center; pointer-events: none; }
+.tile .fix svg { width: 16px; height: 16px; }
 .tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
 .tile .fav.out { animation: favOut .2s ease-in both; }
 .tile .fav { cursor: pointer; }
@@ -310,7 +314,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @keyframes barIn { from { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { .bar i { animation: none; } }
 .bar.still i { animation: none; }
-.tile .fav.pop { animation: favIn .3s ease-out both; }
+.tile .fav .hf { transform-box: fill-box; transform-origin: 50% 60%; }
 
 @keyframes favIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .empty > * { animation: none; } .tile .fav.pop { animation: none; } }
@@ -462,6 +466,8 @@ const ICON = {
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3.5" width="14" height="17" rx="2"/><rect x="8.5" y="7" width="7" height="4" rx="1"/></svg>',
   heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>',
+  /* the favourite badge's heart: an outline drawn like a pen stroke from the tip round both lobes, then filled */
+  heartDrawn: '<svg viewBox="0 0 24 24"><path class="hf" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="currentColor"/><path class="hs" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>',
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
 };
 const OWL = '<svg viewBox="0 0 150 160" aria-hidden="true"><path fill="#a7a3bb" d="M30 30q45-14 90 0l-2 8q30 20 26 62-6 38-69 40-63-2-69-40-4-42 26-62z"/><circle cx="52" cy="70" r="20" fill="#26243f"/><circle cx="98" cy="70" r="20" fill="#26243f"/><circle cx="52" cy="70" r="15" fill="#a7a3bb"/><circle cx="98" cy="70" r="15" fill="#a7a3bb"/><circle cx="50" cy="76" r="6" fill="#26243f"/><circle cx="96" cy="76" r="6" fill="#26243f"/><path d="M68 84l7 9 7-9" fill="none" stroke="#26243f" stroke-width="4" stroke-linejoin="round"/><path d="M58 140v14l-6 6M58 154l6 6M92 140v14l-6 6M92 154l6 6" stroke="#a7a3bb" stroke-width="5" stroke-linecap="round" fill="none"/></svg>';
@@ -586,8 +592,8 @@ function syncBars(root = document) {
   });
 }
 function tilesHTML(list, f) {
-  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}
-      ${f.includes(s.id) ? `<span class="fav">${ICON.heart}</span>` : ""}
+  return list.map(s => `<button class="tile" id="t-${s.id}" data-id="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}${s.coverFix ? `<span class="fix" title="Replace this cover before release: ${esc(s.coverFix)}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>` : ""}
+      ${f.includes(s.id) ? `<span class="fav">${ICON.heartDrawn}</span>` : ""}
       <div><b>${esc(s.title)}</b><span class="pills"><span class="pill">${GENRES[s.genre]}</span><span class="pill">${readMin(s)}</span>${padPill(s)}</span></div></button>`).join("");
 }
 /* tap opens; hold toggles favourite, and the tile's heart pops in or shrinks away in place */
@@ -603,7 +609,7 @@ function wireCards(root) {
       document.querySelectorAll(`.tile[data-id="${b.dataset.id}"]`).forEach(t => {
         const h = t.querySelector(".fav");
         if (!on && h) heartOut(h, t === b);
-        if (on && !h && t !== b) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
+        if (on && !h && t !== b) { t.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`), drawHeart(t.querySelector(".fav"), 420); }
       });
     });
     /* the card sinks a little while the finger holds it */
@@ -617,17 +623,20 @@ function wireCards(root) {
    wobbles, settles). Unliked: the card swells a little and the badge shrinks away. */
 function favBeat(card, on) {
   const tile = card.matches(".tile");
-  if (on && tile && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heart}</span>`);
+  if (on && tile && !card.querySelector(".fav")) card.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`);
   if (reduce() || !card.animate) return;
   card.animate([{ transform: "scale(.96)" }, { transform: `scale(${on ? 1.08 : 1.03})`, offset: .4 }, { transform: "none" }], { duration: 480, easing: "cubic-bezier(.3,1.2,.5,1)" });
   const h = tile && on ? card.querySelector(".fav") : null;
-  h?.animate([
-    { transform: "scale(0) rotate(-30deg)", opacity: 0 },
-    { transform: "scale(1.5) rotate(12deg)", opacity: 1, offset: .35 },
-    { transform: "scale(.85) rotate(-6deg)", offset: .6 },
-    { transform: "scale(1.1) rotate(2deg)", offset: .8 },
-    { transform: "none" },
-  ], { duration: 560, easing: "ease-out" });
+  if (h) drawHeart(h, 560);
+}
+/* A like: the round badge pops in, then a pen draws the heart's outline from its tip round both lobes
+   and back, and the ink fills it. Same time as before (about half a second). */
+function drawHeart(h, ms = 560) {
+  if (reduce() || !h.animate) return;
+  const hs = h.querySelector(".hs"), hf = h.querySelector(".hf");
+  h.animate([{ transform: "scale(0)" }, { transform: "scale(1.12)", offset: .3 }, { transform: "scale(.97)", offset: .5 }, { transform: "none" }], { duration: ms, easing: "ease-out" });
+  hs?.animate([{ strokeDashoffset: 1, opacity: 0, offset: 0 }, { strokeDashoffset: 1, opacity: 0, offset: .14 }, { strokeDashoffset: .97, opacity: 1, offset: .17 }, { strokeDashoffset: 0, opacity: 1, offset: .78 }], { duration: ms, easing: "cubic-bezier(.45,.05,.35,1)", fill: "backwards" });
+  hf?.animate([{ opacity: 0, transform: "scale(.6)", offset: 0 }, { opacity: 0, transform: "scale(.6)", offset: .66 }, { opacity: 1, transform: "none", offset: 1 }], { duration: ms, easing: "ease-out", fill: "backwards" });
 }
 /* Unliked: the badge goes the way it came, backwards: a small swell and twist, then it shrinks away.
    big = after a long press on the card (fuller); otherwise a quick, quiet exit. */
@@ -659,7 +668,7 @@ function syncHearts() {
   const f = favs();
   document.querySelectorAll(".tile[data-id]").forEach(t => {
     const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
-    if (on && !h) t.insertAdjacentHTML("beforeend", `<span class="fav pop">${ICON.heart}</span>`);
+    if (on && !h) { t.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`), drawHeart(t.querySelector(".fav"), 420); }
     if (!on && h) { h.classList.add("out"); setTimeout(() => h.remove(), 200); }
   });
 }

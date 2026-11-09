@@ -34,9 +34,18 @@ import hashlib
 for st in stories:
     body = json.dumps([[e["messages"], e.get("nodes")] for e in st["episodes"]], ensure_ascii=False, sort_keys=True)
     st["v"] = hashlib.sha1(body.encode()).hexdigest()[:10]
+# covers that must be replaced before release (checked 2026-11-09): shown in the prototype as a red cross
+# on the story's tile, so the owner sees what to make new pictures for. Remove an entry once replaced.
+COVER_FIX = {
+    "clinical-love": "a recognisable real person in a professional (magazine/film-style) photo, not free stock: likeness and copyright",
+    "perfect-match": "same photo as First Impressions",
+    "under-wrong-hands": "same photo as Unwanted Guest",
+}
 for st in stories:
     if st["id"] in COVERS:
         st["cover"] = "covers/%s.jpg" % COVERS[st["id"]]
+    if st["id"] in COVER_FIX:
+        st["coverFix"] = COVER_FIX[st["id"]]
 # Guard: no story may reach the app with broken chat text (table pipes, Markdown escapes, a speaker's
 # name glued to the message, unknown speakers, empty lines). The build stops and says where.
 import re
