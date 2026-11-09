@@ -2709,6 +2709,11 @@ function openStory(id, epIndex) {
   if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log:not(.log-ghost)");
     ghosts = [...prev.querySelectorAll(".log-ghost")].map(g => ({ el: g, top: g.scrollTop }));
     if (ol) { oldLog = ol; oldTop = ol.scrollTop; oldH = ol.clientHeight; oldRef = ol.lastElementChild ? ol.lastElementChild.getBoundingClientRect().top : null; prevIntro = null; } }
+  /* the part selector is the same one across a part switch (2026-11-09): taken out of the old chat before it goes and
+     put into the new one — a finger pressed on it before the switch is still heard after it, and the disc carries
+     on from where it is */
+  const keepSeg = prev && prev._story === id ? prev.querySelector(".ep-seg") : null;
+  keepSeg?.remove();
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
@@ -2783,18 +2788,25 @@ function openStory(id, epIndex) {
   };
   /* part switch: tap a number, or drag the disc along the numbers; it follows the finger and on letting
      go settles on the nearest part, which then opens */
+  { const fresh = scr.querySelector(".ep-seg"); if (fresh && keepSeg) fresh.replaceWith(keepSeg); }
   const seg = scr.querySelector(".ep-seg");
-  const goPart = k => {
-    scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === k));
-    scr.querySelector(".ep-ind").style.transform = `translateX(${k * SEG_STEP}px)`;
-    clearTimeout(PART_T);                                            // only the last choice counts, however quick the taps
-    if (k === st.ep) return;                                         // back on the open part: nothing was stopped, it reads on
-    PART_T = setTimeout(() => { if (scr.isConnected) { scr._stop(); openStory(id, k); } }, reduce() ? 0 : 260);
-  };
-  if (seg) {
+  if (seg) {                                                        // whatever chat it sits in now: the part open there
+    seg.querySelectorAll("[data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === st.ep));
+    if (!seg.classList.contains("drag")) seg.querySelector(".ep-ind").style.transform = `translateX(${st.ep * SEG_STEP}px)`;
+  }
+  if (seg && !seg._wired) {
+    seg._wired = true;
+    const here = () => seg.closest(".screen"), openNow = () => here()?._ep ?? 0;
+    const goPart = k => {
+      seg.querySelectorAll("[data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === k));
+      seg.querySelector(".ep-ind").style.transform = `translateX(${k * SEG_STEP}px)`;
+      clearTimeout(PART_T);                                          // only the last choice counts, however quick the taps
+      if (k === openNow()) return;                                   // back on the open part: nothing was stopped, it reads on
+      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);
+    };
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
     let sx = null, base = 0, moved = false;
-    seg.addEventListener("pointerdown", e => { e.stopPropagation(); sx = e.clientX; base = st.ep * SEG_STEP; moved = false; seg.setPointerCapture(e.pointerId); });
+    seg.addEventListener("pointerdown", e => { e.stopPropagation(); sx = e.clientX; base = openNow() * SEG_STEP; moved = false; try { seg.setPointerCapture(e.pointerId); } catch {} });
     seg.addEventListener("pointermove", e => {
       if (sx == null) return;
       const dx = e.clientX - sx;
@@ -2811,7 +2823,7 @@ function openStory(id, epIndex) {
       else { const b = document.elementFromPoint(e.clientX, e.clientY)?.closest(".ep-seg [data-ep]"); if (b) goPart(+b.dataset.ep); }   // the seg holds the pointer, so find the number under the finger
       sx = null;
     };
-    seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", e => { seg.classList.remove("drag"); sx = null; goPart(st.ep); });
+    seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", () => { seg.classList.remove("drag"); sx = null; goPart(openNow()); });
     seg.addEventListener("click", e => e.stopPropagation());
   }
   /* like WhatsApp (2026-11-09): a new bubble does not come up from under the bottom panel, it grows out of its
@@ -2847,14 +2859,20 @@ function openStory(id, epIndex) {
   /* the messages on screen slide in from their own sides (the other side's from the left, the reader's from the
      right) at the answer-choice speed: on every opening of a chat (after the chat itself slides in) and after
      a part switch (after the old ones have slid out) (2026-11-09) */
-  const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
+  /* animations started during a part switch run from this very moment, not from the next frame (2026-11-09): that
+     frame is a long one (the new chat is being built) and anything started "next frame" would stand still through it */
+  const now0 = el => (frames, opts) => { const a = el.animate(frames, opts); try { if (document.timeline.currentTime != null) a.startTime = document.timeline.currentTime; } catch {} return a; };
+  const boxR = new WeakMap();                                       // the box's rectangle, measured once per moment
+  const seen = (box, el) => { let c = boxR.get(box); const now = performance.now(); if (!c || now - c.t > 4) { c = { r: box.getBoundingClientRect(), t: now }; boxR.set(box, c); }
+    const a = c.r, r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
   const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
   const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
   const slideIn = start => { let end = start + 340;
     [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
       const delay = start + Math.min(k * 25, 200); end = Math.max(end, delay + 340);
-      el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 340, delay, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
+      /* the slide keeps its quick start; the fade-in runs evenly beside it, so a bubble never flashes up (2026-11-09) */
+      if (side(el)) now0(el)([{ transform: off(el) }, { transform: "none" }], { duration: 340, delay, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" });
+      now0(el)([{ opacity: 0 }, { opacity: 1 }], { duration: 340, delay, easing: "cubic-bezier(.4,0,.6,1)", fill: "backwards" }); });
     return end; };
   /* run once the bottom panel is in place (after the first controls()): only then are the chat's height, its
      scroll and the messages really on screen known — before, the old messages were laid over "Tap to continue"
@@ -2880,20 +2898,33 @@ function openStory(id, epIndex) {
     let k = 0;
     [...oldLog.children].reverse().forEach(el => {                    // nearest the bottom first
       const intro = el.classList.contains("intro"), running = el.getAnimations().filter(a => a.playState !== "finished");
-      if (running.length) { running.forEach(a => { a.reverse(); outEnd = Math.max(outEnd, left(a)); }); return; }   // half way in: back out the same way
+      if (running.length) {
+        /* half way in: its speed never jumps (2026-11-09) — it runs on a touch further the way it was going, slowing
+           to a stop (60 ms), then picks up speed back out to its side; nothing restarts from a standstill */
+        const a0 = running[0], mx = () => { const m = new DOMMatrix(getComputedStyle(el).transform); return m.m41; };
+        const op = +getComputedStyle(el).opacity, x0 = mx();
+        let v = 0; try { const ct = a0.currentTime; if (ct != null && a0.playState !== "paused") { a0.currentTime = ct + 16; v = (mx() - x0) / 16; a0.currentTime = ct; } } catch {}
+        running.forEach(a => a.cancel());
+        if (op < .02) { el.style.opacity = 0; return; }
+        if (intro) { now0(el)([{ opacity: op }, { opacity: 0 }], { duration: Math.round(240 * op), fill: "forwards" }); outEnd = Math.max(outEnd, Math.round(240 * op)); return; }
+        const dur = Math.max(80, Math.round(240 * op)), stopMs = Math.abs(v) > .05 ? Math.round(Math.max(80, Math.min(170, Math.abs(v) * 45))) : 0, x1 = x0 + v * stopMs / 2;   // the faster it came, the longer and softer it stops
+        const frames = side(el) ? (stopMs ? [{ transform: `translateX(${x0}px)`, opacity: op, easing: "cubic-bezier(.33,.66,.66,1)" }, { transform: `translateX(${x1}px)`, opacity: op, offset: stopMs / (stopMs + dur), easing: "cubic-bezier(.5,0,.75,0)" }, { transform: off(el), opacity: 0 }]
+          : [{ transform: `translateX(${x0}px)`, opacity: op, easing: "cubic-bezier(.5,0,.75,0)" }, { transform: off(el), opacity: 0 }]) : [{ opacity: op }, { opacity: 0 }];
+        now0(el)(frames, { duration: stopMs + dur, fill: "forwards" });
+        outEnd = Math.max(outEnd, stopMs + dur); return; }
       if (intro) return;
       if (!seen(oldLog, el) || +getComputedStyle(el).opacity < .02) { el.style.opacity = 0; return; }
       const delay = Math.min(k++ * 25, 200); outEnd = Math.max(outEnd, delay + 240);
-      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: 1 }, { opacity: 0 }],
+      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }]   /* from rest: starts with the first frame shown, softly */ : [{ opacity: 1 }, { opacity: 0 }],
         { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
     const oi = oldLog.querySelector(".intro");
     if (oi && !oi.getAnimations().some(a => a.playState !== "finished")) {
-      if (seen(oldLog, oi) && +getComputedStyle(oi).opacity > .02) oi.animate([{ opacity: 1 }, { opacity: 0 }], { duration: Math.max(120, outEnd), easing: "linear", fill: "forwards" }); else oi.style.opacity = 0; }
+      if (seen(oldLog, oi) && +getComputedStyle(oi).opacity > .02) now0(oi)([{ opacity: 1 }, { opacity: 0 }], { duration: Math.max(120, outEnd), easing: "linear", fill: "forwards" }); else oi.style.opacity = 0; }
     outEnd = Math.max(outEnd, 120);
     setTimeout(() => oldLog.remove(), outEnd + 20);
     const inStart = Math.max(120, outEnd - 60), inEnd = slideIn(inStart);              // after the old ones are gone
     const ni = log.querySelector(".intro");
-    if (ni) ni.animate([{ opacity: 0 }, { opacity: 1 }], { duration: inEnd - inStart, delay: inStart, easing: "linear", fill: "backwards" });
+    if (ni) now0(ni)([{ opacity: 0 }, { opacity: 1 }], { duration: inEnd - inStart, delay: inStart, easing: "linear", fill: "backwards" });
   }
   };
   let busy = false;
@@ -3156,6 +3187,24 @@ function openStory(id, epIndex) {
       setTimeout(() => { scr._dragged = false; }, 80);             // the tap that ends a pull does not read on, the next one does
     };
     log.addEventListener("touchend", rlet); log.addEventListener("touchcancel", rlet);
+    /* a fling that runs into the top (or the end) does not stop dead (2026-11-09): from the speed it hits with, the
+       messages run on a little past the edge and the same spring brings them back — the description stays put at
+       the top, as when pulling */
+    let sv = 0, lastS = log.scrollTop, lastST = performance.now(), finger = false, lastUp = 0, kicked = 0;
+    log.addEventListener("touchstart", () => { finger = true; }, { passive: true });
+    ["touchend", "touchcancel"].forEach(n => log.addEventListener(n, () => { finger = false; lastUp = performance.now(); }, { passive: true }));
+    const kick = v0 => { cancelAnimationFrame(rspring); const w = 13, t0 = performance.now();
+      const f = now => { const tt = (now - t0) / 1000, x = v0 * tt * Math.exp(-w * tt); if (tt > .1 && Math.abs(x) < .3) return rset(0); rset(x); rspring = requestAnimationFrame(f); };
+      rspring = requestAnimationFrame(f); };
+    log.addEventListener("scroll", () => {
+      const now = performance.now(), dt = now - lastST;
+      if (dt > 0 && dt < 100) sv = .5 * sv + .5 * ((log.scrollTop - lastS) / dt * 1000); else sv = 0;
+      lastS = log.scrollTop; lastST = now;
+      if (finger || gliding || rpull || now - lastUp > 2500 || now - kicked < 400) return;   // only a free-running fling, never our own glide
+      const max = log.scrollHeight - log.clientHeight;
+      if (log.scrollTop <= 0 && sv < -250) { kicked = now; kick(Math.min(2600, -sv * .7)); }
+      else if (log.scrollTop >= max - .5 && sv > 250) { kicked = now; kick(-Math.min(2600, sv * .7)); }
+    }, { passive: true });
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
