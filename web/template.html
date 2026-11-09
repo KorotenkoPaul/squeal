@@ -73,6 +73,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chrome .back.rb svg { width: 21px; height: 21px; }
 .chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
 .head .back { padding: 0; display: grid; place-items: center; line-height: 0; }
+.head .undo-test { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.08); color: var(--muted); font-size: 17px; line-height: 1; display: grid; place-items: center; flex: none; }   /* TEST-UNDO */
+.head .undo-test { margin-left: auto; }   /* TEST-UNDO */
+.head .undo-test + .ep-seg { margin-left: 8px; }   /* TEST-UNDO */
 .chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; }
 .chrome .like svg { transform: translateY(-.5px); }
 .pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
@@ -2370,6 +2373,7 @@ function openStory(id, epIndex) {
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
         <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
+        <button class="undo-test" id="undo-test" aria-label="Test: back one message">↶</button><!-- TEST-UNDO -->
         ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * 34}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}</button>`).join("")}</div>` : ""}</div>
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.prologue || "")}</div></div>
       <div class="foot" id="foot"></div></section>`;
@@ -2394,6 +2398,21 @@ function openStory(id, epIndex) {
   const inReach = () => path && base.wallpaperEndings ? new Set(["*", ...endingsFrom(base.nodes, path.at(-1))]) : null;
   if (wallItems(wallCfg, s.id + ":" + st.ep).length) { const c = scr.querySelector(".chat"); c.classList.add("doodles");
     wallTo(c, { cfg: wallCfg, seed: s.id + ":" + st.ep, vis: inReach(), intro: scr.querySelector(".log .intro"), prevIntro, same: prevEp === st.ep }); }
+  /* TEST-UNDO (temporary, for the owner's testing; remove everything marked TEST-UNDO when asked):
+     the ↶ button takes the chat one message back, as if it had not been read; going back over the
+     reader's own choice in an interactive story brings the choice back. */
+  scr.querySelector("#undo-test").onclick = e => {
+    e.stopPropagation(); scr._stop(); busy = false;
+    if (st.i <= 0) return;
+    const n = st.i - 1, p = prog(s);
+    if (path) {                                   // where each chosen branch starts in the chat: drop the ones undone
+      let at = 0; const keep = [];
+      for (let k = 0; k < path.length; k++) { if (k) { if (n <= at) break; at++; } keep.push(path[k]); at += base.nodes[path[k]].messages.length; }
+      p.path = keep;
+    }
+    p.ep = st.ep; p.pos[st.ep] = n; setProg(s, p);
+    openStory(id, st.ep);
+  };
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
