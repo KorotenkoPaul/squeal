@@ -696,8 +696,9 @@ function syncHearts() {
   const f = favs();
   document.querySelectorAll(".tile[data-id]").forEach(t => {
     const h = t.querySelector(".fav"), on = f.includes(t.dataset.id);
-    if (on && !h) { t.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`), drawHeart(t.querySelector(".fav"), 295); }
-    if (!on && h) heartOut(h, false);
+    /* the like already played on the preview: here the tile simply shows the result, no second animation */
+    if (on && !h) t.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`);
+    if (!on && h) h.remove();
   });
 }
 
@@ -1770,7 +1771,8 @@ function wire(sheet, s) {
   sheet.querySelector("#pv-like").onclick = e => {
     const btn = e.currentTarget; toggleFav(id); const on = favs().includes(id);
     btn.getAnimations({ subtree: true }).forEach(a => a.cancel()); clearTimeout(btn._t);
-    if (on) { btn.setAttribute("aria-pressed", true); btn.innerHTML = ICON.heartDrawn; return drawHeart(btn, 390, false); }
+    /* the heart is already there: a like just fills it white (the circle turns purple), no drawing */
+    if (on) { btn.innerHTML = ICON.heartDrawn; btn.setAttribute("aria-pressed", true); return; }   // colours fade in .2 s (CSS)
     if (reduce() || !btn.animate) { btn.setAttribute("aria-pressed", false); btn.innerHTML = ICON.heartDrawn; return; }
     /* it cracks while still lit; then the circle dims and the plain heart comes back */
     const s = btn.querySelector("svg"), ms = 320;
