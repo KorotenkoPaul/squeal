@@ -710,7 +710,11 @@ function reloadStories() { return new Promise(r => setTimeout(r, 300 + Math.rand
 /* Swap the home page's content in place while it is pulled down; the eyes above are not touched. */
 function refreshHome(view) {
   cancelAnimationFrame(slideTimer);
+  /* the genre row is not rebuilt: the very same row (oval, words, colours) stays on screen through the
+     refresh, so nothing in it can blink (2026-11-09) */
+  const keep = view.querySelector(".chips");
   view.innerHTML = homeContent();
+  if (keep) view.querySelector(".chips").replaceWith(keep);
   view.classList.remove("refreshed"); void view.offsetWidth; view.classList.add("refreshed");
   setTimeout(() => view.classList.remove("refreshed"), 700);
   wireHome();
@@ -737,6 +741,8 @@ function homeContent() {
 }
 
 function wireHome() {
+  const chipRow = app.querySelector(".chips");
+  if (chipRow && !chipRow._wired) { chipRow._wired = true;      // kept through a refresh: wired once
   /* a genre change swaps only the grid: old tiles fade, new ones rise in; the slider is not touched */
   const setGenre = g => {
     if (genre === g) return;
@@ -828,6 +834,7 @@ function wireHome() {
   row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null;            // the phone took the touch anyway:
     pull = null; if (!moved) return; glideTo(nearest()); });   // settle where it is, not back
   chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
+  }
   wireCards(app);
   startSlider();
 }
