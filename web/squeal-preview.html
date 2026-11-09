@@ -2616,9 +2616,14 @@ function openStory(id, epIndex) {
         if (reduce() || !b.animate) { commit(); return reply(); }
         /* 1) the other answers slide back out to the right */
         foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
-        const r = b.getBoundingClientRect(), hasOthers = node.choices.length > 1;
+        const hasOthers = node.choices.length > 1;
+        /* scrolled up to reread? the chat first glides down to its end while the other answers leave, so no
+           message slides past under the flying answer (2026-11-09) */
+        const away = log.scrollHeight - log.clientHeight - log.scrollTop > 8;
+        if (away) glideDown();
         setTimeout(() => {
           if (!scr.isConnected) return;
+          const r = b.getBoundingClientRect();
           /* 2) the picked one travels to its place as a sent message, filling with water on the way */
           const g = document.createElement("div"); g.className = "choice-ghost";
           g.innerHTML = `<span class="water"><i>${WAVES}</i></span><span class="t">${esc(c.text)}</span>`;
@@ -2652,7 +2657,7 @@ function openStory(id, epIndex) {
           const ride = () => { if (!g.isConnected) return; const m = msg.getBoundingClientRect(), L = log.getBoundingClientRect();
             const o = O(); g.style.left = (m.left - o.left) + "px"; g.style.top = (m.top - o.top) + "px"; g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; };
           requestAnimationFrame(f);
-        }, hasOthers ? 240 : 0);
+        }, away ? 280 : hasOthers ? 240 : 0);
       });
       wantGlide = true;
       return;
