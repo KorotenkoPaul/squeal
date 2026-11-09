@@ -2292,7 +2292,12 @@ function wire(sheet, s) {
       if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
       if (Math.abs(ddx) > Math.abs(ddy) && ddx > 0) axis = "x";
       else if (Math.abs(ddy) >= Math.abs(ddx) && ddy > 0 && scroller.scrollTop <= 0) axis = "y";
-      else { x0 = null; return; }                                            // scrolling, or the other way: not ours
+      /* the other two swipes open the story (2026-11-09): right to left, or up (when the page is at its end). Not
+         following the finger: the moment the swipe is made, the chat slides in from that side, as from "Read" */
+      else if (Math.abs(ddx) > Math.abs(ddy) && ddx < 0) axis = "open-x";
+      else if (Math.abs(ddy) >= Math.abs(ddx) && ddy < 0 && scroller.scrollTop >= scroller.scrollHeight - scroller.clientHeight - 1) axis = "open-y";
+      else { x0 = null; return; }                                            // scrolling: not ours
+      if (axis.startsWith("open")) { if (e.cancelable) e.preventDefault(); x0 = null; OPEN_FROM = axis === "open-y" ? "bottom" : "right"; read.onclick(); OPEN_FROM = "right"; return; }
       sheet.style.transition = "none"; lastP = axis === "x" ? x : y;
     }
     if (e.cancelable) e.preventDefault();
@@ -2659,6 +2664,7 @@ const FREE_TAPS = 100;
 const premium = () => store.get("premium", true);   // prototype: the owner reads as a subscriber by default (Menu → Subscription switches it)
 const freeTaps = () => store.get("taps", FREE_TAPS);
 let timer = null;
+let OPEN_FROM = "right";                                            // where a new chat slides in from ("Read" and a swipe left: right; a swipe up: bottom)
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
   store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
@@ -2716,7 +2722,7 @@ function openStory(id, epIndex) {
       <div class="foot" id="foot"></div></section>`;
   layer.appendChild(scr);
   /* a part switch replaces the chat in place, in the same frame: nothing blinks, the preview never shows */
-  if (scr.animate && !reduce() && !prev) scr.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
+  if (scr.animate && !reduce() && !prev) scr.animate([{ transform: OPEN_FROM === "bottom" ? "translateY(100%)" : "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
   /* like WhatsApp: when something new appears at the bottom, the conversation glides up to make room
      (0.26 s, easing out) instead of jumping; a finger on the chat stops the glide */
