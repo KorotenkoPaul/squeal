@@ -443,6 +443,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .wpfx { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .wpfx .wpi { position: absolute; left: 0; top: 0; will-change: transform; }
 .wpfx .wpi svg { display: block; }
+.chat > .wp-ghost { position: absolute; margin: 0; pointer-events: none; z-index: 0; }
 /* no scroll bar in the chat (it still scrolls) */
 .log { scrollbar-width: none; }
 /* search: the page itself never moves; only the list of stories scrolls (and springs) */
@@ -2090,44 +2091,99 @@ function wallpaper(names, seed) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${T}" height="${T}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`;
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
-/* Switching parts in the chat (2026-11-09): the old part's doodles fall off the bottom of the screen, as
-   under gravity (accelerating), not all at once; then the new part's doodles come in from all four sides
-   and settle exactly where the wallpaper has them (so they never overlap). It all runs behind the
-   messages and takes no taps: the chat can be read at once. At the end the wallpaper itself is back. */
-function wallSwap(chat, from, to, bg) {
-  const W = chat.clientWidth, H = chat.clientHeight, T = WALL_T;
-  const lay = (names, seed) => { const out = [];
-    for (const it of wallItems(names, seed)) for (let ox = -T; ox < W + T; ox += T) for (let oy = 0; oy < H + T; oy += T) {
-      const x = ox + it.px, y = oy + it.py; if (x > -it.s && x < W && y > -it.s && y < H) out.push({ ...it, x, y }); }
-    return out; };
-  const draw = it => `<svg viewBox="0 0 24 24" width="${it.s.toFixed(1)}" height="${it.s.toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${DOODLE[it.name] || ""}</svg>`;
-  const fx = document.createElement("div"); fx.className = "wpfx"; fx.setAttribute("aria-hidden", "true");
-  chat.querySelector(".wpfx")?.remove(); chat.prepend(fx);
-  chat.style.backgroundImage = "none";
-  let seedN = 9; const rnd = () => (seedN = (seedN * 1664525 + 1013904223) >>> 0) / 4294967296;
-  const at = (it, dx = 0, dy = 0, r = 0) => `translate(${(it.x + dx).toFixed(1)}px, ${(it.y + dy).toFixed(1)}px) rotate(${(it.rot + r).toFixed(1)}deg)`;
-  const size = (el, it) => { el.style.width = el.style.height = it.s.toFixed(1) + "px"; };   // turns about its own centre, as in the wallpaper
-  const G = 2800;                                                         // px/s²: a brisk, natural fall on a phone screen
-  let fallEnd = 0;
-  for (const it of lay(from.names, from.seed)) {
-    const el = document.createElement("span"); el.className = "wpi"; el.innerHTML = draw(it); size(el, it); el.style.transform = at(it); fx.appendChild(el);
-    const d = H - it.y + 30, ms = Math.sqrt(2 * d / G) * 1000, delay = rnd() * 700, spin = (rnd() - .5) * 80;
-    fallEnd = Math.max(fallEnd, delay + ms);
-    el.animate([{ transform: at(it) }, { transform: at(it, 0, d, spin) }], { duration: ms, delay, easing: "cubic-bezier(.55,.085,.68,.53)", fill: "both" })
-      .onfinish = () => el.remove();
+/* The chat wallpaper's doodles, alive (2026-11-09). One keeper (WALL) knows where every doodle is and what
+   it is doing, so any number of part switches, at any moment, carry on smoothly instead of restarting:
+   - every chat (opening, or a part switch) starts with no doodles; the part's doodles fly in from all four
+     sides and settle exactly where the wallpaper has them (never overlapping); then the plain wallpaper
+     takes over;
+   - a part switch: doodles that are flying in or resting stop where they are and fall off the bottom,
+     accelerating as under gravity, not all at once; doodles already falling just finish their fall; the
+     new part's doodles start flying in only as the falling ends;
+   - the description at the top of the chat: the old one fades out over 1 s as the falling starts; the new
+     one fades in over the last 1 s of the arriving, so it is fully there when the last doodle lands; the
+     two never show together.
+   It all runs behind the messages and takes no taps: reading can start at once. */
+let PART_T = 0;                                                     // a part switch waiting for the disc to arrive
+const WALL = { fx: null, chat: null, items: [], raf: 0, rest: null, intro: null, introAt: 0, ghost: null, seed: 9 };
+const wallRnd = () => (WALL.seed = (WALL.seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+function wallLay(names, seed, W, H) { const T = WALL_T, out = [];
+  for (const it of wallItems(names, seed)) for (let ox = -T; ox < W + T; ox += T) for (let oy = 0; oy < H + T; oy += T) {
+    const x = ox + it.px, y = oy + it.py; if (x > -it.s && x < W && y > -it.s && y < H) out.push({ ...it, x, y }); }
+  return out; }
+function wallEl(it) {
+  const el = document.createElement("span"); el.className = "wpi"; el.style.width = el.style.height = it.s.toFixed(1) + "px";
+  el.innerHTML = `<svg viewBox="0 0 24 24" width="${it.s.toFixed(1)}" height="${it.s.toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${DOODLE[it.name] || ""}</svg>`;
+  WALL.fx.appendChild(el); return el; }
+const WALL_G = 2800;                                                    // px/s²: a brisk, natural fall on a phone screen
+function wallFall(d, now, delay) {                                      // a doodle stops where it is and falls from there
+  d.phase = "fall"; d.fx0 = d.cx; d.fy0 = d.cy; d.frot = d.crot; d.ft0 = now + delay; d.spin = (wallRnd() - .5) * 80; }
+function wallTick(now) {
+  const chat = WALL.chat; if (!chat || !chat.isConnected || !WALL.fx) { WALL.raf = 0; return; }
+  const H = chat.clientHeight; let busy = false;
+  for (const d of WALL.items) {
+    if (d.phase === "fall") { const t = Math.max(0, (now - d.ft0) / 1000); d.cx = d.fx0; d.cy = d.fy0 + .5 * WALL_G * t * t; d.crot = d.frot + d.spin * Math.min(1, t / .8);
+      if (d.cy > H + 40) { d.el.remove(); d.gone = true; } else busy = true; }
+    else if (d.phase === "in") { const q = Math.max(0, Math.min(1, (now - d.t0) / d.dur)), e = 1 - Math.pow(1 - q, 3);
+      d.cx = lerp(d.sx, d.x, e); d.cy = lerp(d.sy, d.y, e); d.crot = lerp(d.srot, d.rot, e); if (q >= 1) d.phase = "rest"; else busy = true; }
+    if (!d.gone) d.el.style.transform = `translate(${d.cx.toFixed(1)}px, ${d.cy.toFixed(1)}px) rotate(${d.crot.toFixed(1)}deg)`;
   }
-  const start = Math.max(300, fallEnd * .85);
-  let inEnd = 0;
-  const news = lay(to.names, to.seed);
-  for (const it of news) {
-    const el = document.createElement("span"); el.className = "wpi"; el.innerHTML = draw(it); size(el, it); fx.appendChild(el);
-    const side = Math.floor(rnd() * 4), off = it.s + 24;
-    const sx = side === 0 ? -it.x - off : side === 1 ? W - it.x + off : 0, sy = side === 2 ? -it.y - off : side === 3 ? H - it.y + off : 0;
-    const ms = 650 + rnd() * 350, delay = start + rnd() * 900, spin = (rnd() - .5) * 120;
-    inEnd = Math.max(inEnd, delay + ms);
-    el.animate([{ transform: at(it, sx, sy, spin) }, { transform: at(it) }], { duration: ms, delay, easing: "cubic-bezier(.22,.9,.3,1)", fill: "both" });
+  WALL.items = WALL.items.filter(d => !d.gone);
+  /* the description: the old one (a copy left where it stood) fades out, the new one fades in */
+  if (WALL.ghost) { const q = Math.min(1, (now - WALL.ghost.t0) / 1000); WALL.ghost.el.style.opacity = (WALL.ghost.o0 * (1 - q)).toFixed(3);
+    if (q >= 1) { WALL.ghost.el.remove(); WALL.ghost = null; } else busy = true; }
+  if (WALL.intro) { const q = Math.max(0, Math.min(1, (now - WALL.introAt) / 1000)); WALL.intro.style.opacity = q.toFixed(3); if (q < 1) busy = true; else WALL.intro.style.opacity = ""; }
+  if (busy) { WALL.raf = requestAnimationFrame(wallTick); return; }
+  /* all landed: the plain wallpaper takes over */
+  WALL.raf = 0; chat.style.backgroundImage = WALL.rest.bg; WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true;
+}
+/* show a part's doodles in a chat (a fresh chat, or the same story's chat after a part switch) */
+function wallTo(chat, { names, seed, bg, intro, prevIntro, same }) {
+  if (!names || !names.length) return;
+  const now = performance.now(), W = chat.clientWidth, H = chat.clientHeight;
+  if (reduce()) { chat.style.backgroundImage = bg; return; }
+  const switching = WALL.chat && !WALL.chat.isConnected && WALL.rest && WALL.fx;   // the same story's chat was just replaced
+  /* the same part again (read again / start over): nothing falls; whatever is under way just carries on here */
+  if (switching && same) {
+    chat.prepend(WALL.fx); WALL.chat = chat; chat.style.backgroundImage = WALL.restOn ? bg : "none";
+    if (WALL.intro && intro) { intro.style.opacity = WALL.intro.style.opacity; WALL.intro = intro; }
+    if (WALL.ghost) chat.appendChild(WALL.ghost.el);
+    if (!WALL.restOn && !WALL.raf) WALL.raf = requestAnimationFrame(wallTick);
+    return;
   }
-  setTimeout(() => { if (!fx.isConnected) return; chat.style.backgroundImage = bg; fx.remove(); }, inEnd + 30);
+  if (!switching) { cancelAnimationFrame(WALL.raf); WALL.items = []; WALL.ghost = null; WALL.fx?.remove(); WALL.fx = null; WALL.restOn = false; }
+  if (!WALL.fx) { WALL.fx = document.createElement("div"); WALL.fx.className = "wpfx"; WALL.fx.setAttribute("aria-hidden", "true"); }
+  chat.prepend(WALL.fx); chat.style.backgroundImage = "none";
+  if (switching) {
+    /* the part on screen: if it was resting as plain wallpaper, its doodles come back as pieces at rest */
+    if (WALL.restOn) { WALL.items = wallLay(WALL.rest.names, WALL.rest.seed, W, H).map(it => ({ ...it, phase: "rest", cx: it.x, cy: it.y, crot: it.rot, el: wallEl(it) })); WALL.restOn = false; }
+    /* doodles still waiting off screen for their turn to fly in never appeared: they simply go */
+    for (const d of WALL.items) if (d.phase === "in" && now < d.t0) { d.el.remove(); d.gone = true; }
+    WALL.items = WALL.items.filter(d => !d.gone);
+    for (const d of WALL.items) if (d.phase !== "fall") wallFall(d, now, wallRnd() * 450);
+    /* the old description fades out from wherever it stood */
+    if (prevIntro && prevIntro.text) {
+      WALL.ghost?.el.remove();
+      const g = document.createElement("div"); g.className = "intro wp-ghost"; g.textContent = prevIntro.text;
+      Object.assign(g.style, { left: prevIntro.left + "px", top: prevIntro.top + "px", width: prevIntro.width + "px", opacity: prevIntro.o });
+      chat.appendChild(g); WALL.ghost = { el: g, t0: now, o0: prevIntro.o };
+    }
+  }
+  /* the new doodles start flying in as the falling ends */
+  let fallEnd = now;
+  for (const d of WALL.items) if (d.phase === "fall") fallEnd = Math.max(fallEnd, d.ft0 + Math.sqrt(2 * Math.max(0, H + 40 - d.fy0) / WALL_G) * 1000);
+  const start = WALL.items.length ? Math.max(now + 200, fallEnd - 150) : now + 120;
+  let inEnd = start;
+  for (const it of wallLay(names, seed, W, H)) {
+    const side = Math.floor(wallRnd() * 4), off = it.s + 24;
+    const sx = side === 0 ? -off : side === 1 ? W + off : it.x, sy = side === 2 ? -off : side === 3 ? H + off : it.y;
+    const d = { ...it, phase: "in", sx, sy, srot: it.rot + (wallRnd() - .5) * 120, t0: start + wallRnd() * 900, dur: 650 + wallRnd() * 350 };
+    d.cx = sx; d.cy = sy; d.crot = d.srot; d.el = wallEl(d); d.el.style.transform = `translate(${sx}px, ${sy}px)`;
+    inEnd = Math.max(inEnd, d.t0 + d.dur); WALL.items.push(d);
+  }
+  WALL.rest = { names, seed, bg }; WALL.chat = chat;
+  /* the new description is fully in when the last doodle lands */
+  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 1000; }
+  if (!WALL.raf) WALL.raf = requestAnimationFrame(wallTick);
 }
 /* interactive stories (you choose what happens) carry a small gamepad next to genre and time */
 const padPill = s => s.interactive ? `<span class="pill pad" aria-label="Interactive story">${ICON.pad}</span>` : "";
@@ -2206,7 +2262,12 @@ function openStory(id, epIndex) {
   };
   if (path) { ep.messages = flatten(); st.i = Math.min(st.i, ep.messages.length); }
   const prev = layer.querySelector(".screen");
-  const swap = prev && prev._story === id && prev._ep !== st.ep && !reduce() ? { names: prev._wall, seed: id + ":" + prev._ep } : null;
+  /* a part switch within the same story: note where its description stands, so it can fade from there */
+  let prevIntro = null;
+  if (prev && prev._story === id) { const pi = prev.querySelector(".log .intro"), pc = prev.querySelector(".chat");
+    if (pi && pc) { const r = pi.getBoundingClientRect(), c = pc.getBoundingClientRect(); prevIntro = { text: pi.textContent, left: r.left - c.left, top: r.top - c.top, width: r.width, o: +getComputedStyle(pi).opacity }; } }
+  if (!(prev && prev._story === id)) WALL.chat = null;               // another story (or a fresh open): start clean
+  const prevEp = prev && prev._story === id ? prev._ep : null;
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
@@ -2221,8 +2282,8 @@ function openStory(id, epIndex) {
   if (scr.animate && !reduce() && !prev) scr.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
   const wp = wallpaper(ep.wallpaper, s.id + ":" + st.ep);
-  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles"); c.style.backgroundImage = wp;
-    if (swap && swap.names?.length) wallSwap(c, swap, { names: ep.wallpaper, seed: s.id + ":" + st.ep }, wp); }
+  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles");
+    wallTo(c, { names: ep.wallpaper, seed: s.id + ":" + st.ep, bg: wp, intro: scr.querySelector(".log .intro"), prevIntro, same: prevEp === st.ep }); }
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
@@ -2240,9 +2301,10 @@ function openStory(id, epIndex) {
   const goPart = k => {
     scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === k));
     scr.querySelector(".ep-ind").style.transform = `translateX(${k * 34}px)`;
+    clearTimeout(PART_T);                                            // only the last choice counts, however quick the taps
     if (k === st.ep) return;
     scr._stop();
-    setTimeout(() => openStory(id, k), reduce() ? 0 : 260);
+    PART_T = setTimeout(() => { if (scr.isConnected) openStory(id, k); }, reduce() ? 0 : 260);
   };
   if (seg) {
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
