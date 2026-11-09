@@ -777,22 +777,38 @@ function wireHome() {
   settle(); document.fonts?.ready.then(() => { if (row.isConnected) settle(); });
   /* one gesture, one job: the first clear move decides. Sideways — only the oval moves (the page will not
      pull down for a refresh until the finger lifts); down — it is the refresh, the oval stays put. */
-  let px0 = null, py0 = 0, base = 0, moved = false;
-  row.addEventListener("pointerdown", e => { cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; base = pos; moved = false; row.setPointerCapture(e.pointerId); });
+  /* Press on the oval (or its own chip): it moves from where it is. Press on another chip: the oval at
+     once slides over to that chip (~0.18 s), and from there follows the finger; a drag that starts while
+     it is still sliding just carries on smoothly (the slide's remainder fades into the finger's place). */
+  let px0 = null, py0 = 0, base = 0, moved = false, target = 0, pull = null;
+  const nearest = () => { const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); return k; };
+  const follow = () => { cancelAnimationFrame(glide);
+    const step = now => { let x = target;
+      if (pull) { const t = Math.min(1, (now - pull.t0) / pull.ms); x = target + pull.res * Math.pow(1 - t, 3); if (t >= 1) pull = null; }
+      place(x); if (pull) glide = requestAnimationFrame(step); };
+    glide = requestAnimationFrame(step); };
+  row.addEventListener("pointerdown", e => {
+    cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; moved = false; pull = null; row.setPointerCapture(e.pointerId);
+    const hit = e.target.closest?.(".chip"), k = hit ? chips.indexOf(hit) : -1;
+    if (k >= 0 && k !== nearest() && !reduce()) { base = target = slots()[k].c; pull = { res: pos - base, t0: performance.now(), ms: 180 }; follow(); }
+    else base = target = pos;
+  });
   row.addEventListener("pointermove", e => {
     if (px0 == null) return;
     const dx = e.clientX - px0, dy = e.clientY - py0;
     if (!moved) {
       if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      if (Math.abs(dy) >= Math.abs(dx) || GESTURE === "refresh") { px0 = null; return; }      // the page's gesture, not ours
+      if (Math.abs(dy) >= Math.abs(dx) || GESTURE === "refresh") {             // the page's gesture, not ours: the oval goes home
+        px0 = null; if (base !== pos || pull) glideTo(Math.max(0, chips.findIndex(c => c.dataset.g === genre))); return; }
       moved = true; GESTURE = "genre";
     }
-    place(base + dx);
+    target = base + dx;
+    if (!pull) place(target);                                                  // while sliding over, the frame loop places it
   });
   const up = e => {
     if (px0 == null) return; px0 = null;
     if (GESTURE === "genre") GESTURE = null;
-    if (moved) { const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); return glideTo(k); }
+    if (moved) { pull = null; return glideTo(nearest()); }
     const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest(".chip");
     if (hit && row.contains(hit)) glideTo(chips.indexOf(hit));
   };
@@ -801,7 +817,7 @@ function wireHome() {
      and let the page pull down for a refresh): the rest of this touch is the oval's */
   row.addEventListener("touchmove", e => { if (moved && px0 != null && e.cancelable) e.preventDefault(); }, { passive: false });
   row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null;            // the phone took the touch anyway:
-    if (!moved) return; const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); glideTo(k); });   // settle where it is, not back
+    pull = null; if (!moved) return; glideTo(nearest()); });   // settle where it is, not back
   chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
   wireCards(app);
   startSlider();
