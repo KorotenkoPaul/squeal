@@ -197,8 +197,26 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .cap .padmark svg { transform: translateY(-.08em); }
 /* interactive chat: when it's your turn, your possible replies stand in for "Tap to continue" */
 .foot.choose { flex-direction: column; gap: 8px; }
-.choice { width: 100%; text-align: left; padding: 12px 14px; border-radius: 16px; border: 1.5px solid #9b7ff0; color: var(--text); font-size: 15px; line-height: 1.3; background: transparent; }
-.choice:active { background: rgba(123,87,201,.25); }
+/* answers in an interactive chat (2026-11-09): outlined in the colour of the reader's own messages; they
+   slide in from the right, one after another; once one is picked the others slide back out to the right,
+   then the picked one travels to where it lands as a sent message, filling with water on the way (like
+   the parts on the story page) */
+.choice { width: 100%; text-align: left; padding: 12px 14px; border-radius: 16px; border: 1.5px solid var(--me); color: var(--text); font-size: 15px; line-height: 1.3; background: transparent; }
+.choice:active { background: rgba(106,75,184,.25); }
+.foot.choose .choice { animation: choiceIn .34s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes choiceIn { from { transform: translateX(calc(100% + 40px)); opacity: 0; } to { transform: none; opacity: 1; } }
+.foot.choose .choice.leave { animation: choiceOut .24s cubic-bezier(.5,0,.75,0) both; pointer-events: none; }
+@keyframes choiceOut { from { transform: none; opacity: 1; } to { transform: translateX(calc(100% + 40px)); opacity: 0; } }
+.choice-ghost { position: fixed; z-index: 30; box-sizing: border-box; border: 1.5px solid var(--me); border-radius: 16px; overflow: hidden; color: var(--text); font-size: 15px; line-height: 1.3; pointer-events: none; }
+.choice-ghost .t { position: relative; z-index: 2; display: block; padding: 12px 14px; }
+.choice-ghost .water { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+.choice-ghost .water i { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: var(--me); }
+.choice-ghost .water svg { position: absolute; left: 0; bottom: calc(100% - 1px); width: 200%; height: 8px; transform-origin: 50% 100%; overflow: visible; }
+.choice-ghost .water .w1 { z-index: 1; animation: roll 1.2s linear infinite; }
+.choice-ghost .water .w1 .body { fill: var(--me); }
+.choice-ghost .water .w1 .crest { fill: none; stroke: rgba(214,204,255,.45); stroke-width: .5; vector-effect: non-scaling-stroke; }
+.choice-ghost .water .w2 { height: 10px; animation: roll2 1.7s linear infinite; }
+.choice-ghost .water .w2 path { fill: #5a3fa0; }
 .foot.choose .ask { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; text-align: center; margin-bottom: 2px; }
 /* end of an interactive story: small buttons back to each turning point of the path just read */
 .foot.ended { flex-wrap: wrap; }
@@ -2478,16 +2496,52 @@ function openStory(id, epIndex) {
     const node = path && base.nodes[path.at(-1)];
     if (node && node.choices && st.i >= ep.messages.length) {          // your turn: pick what you write
       foot.classList.remove("hint", "idle"); foot.classList.add("choose"); foot.onclick = null;
-      foot.innerHTML = `<span class="ask">What do you say?</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}">${esc(c.text)}</button>`).join("");
+      foot.innerHTML = `<span class="ask">What do you say?</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}" style="animation-delay:${k * 70}ms">${esc(c.text)}</button>`).join("");
+      let picked = false;
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
+        if (picked || busy) return;
         if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
-        path.push(node.choices[+b.dataset.k].next); ep.messages = flatten();
-        wallVis(inReach());                                            // the endings this choice closed off: their doodles fall
-        foot.classList.remove("choose"); step();
+        picked = true; busy = true;
+        const c = node.choices[+b.dataset.k];
         /* the choice is the tap: the other side answers on its own, no extra tap */
-        const nx = ep.messages[st.i];
-        if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, reduce() ? 0 : 350);   // free: the choice was the tap
+        const commit = () => {
+          path.push(c.next); ep.messages = flatten();
+          wallVis(inReach());                                          // the endings this choice closed off: their doodles fall
+          foot.classList.remove("choose"); busy = false; step();
+          return log.lastElementChild;                                 // the sent message
+        };
+        const reply = () => { const nx = ep.messages[st.i];
+          if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, reduce() ? 0 : 200); };
+        if (reduce() || !b.animate) { commit(); return reply(); }
+        /* 1) the other answers slide back out to the right */
+        foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
+        const r = b.getBoundingClientRect(), hasOthers = node.choices.length > 1;
+        setTimeout(() => {
+          if (!scr.isConnected) return;
+          /* 2) the picked one travels to its place as a sent message, filling with water on the way */
+          const g = document.createElement("div"); g.className = "choice-ghost";
+          g.innerHTML = `<span class="water"><i>${WAVES}</i></span><span class="t">${esc(c.text)}</span>`;
+          Object.assign(g.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+          scr.appendChild(g); b.style.visibility = "hidden";
+          const msg = commit(); msg.style.animation = "none"; msg.style.visibility = "hidden"; busy = true;
+          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), t0 = performance.now(), ms = 460;
+          /* the words grow into the message's own type and padding on the way, so at the end the two match exactly */
+          const mcs = getComputedStyle(msg), fs1 = parseFloat(mcs.fontSize), lh1 = parseFloat(mcs.lineHeight) || fs1 * 1.38, pt1 = parseFloat(mcs.paddingTop), pl1 = parseFloat(mcs.paddingLeft);
+          const f = now => {
+            if (!scr.isConnected) return g.remove();
+            const q = Math.min(1, (now - t0) / ms), e = q < .5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2, m = msg.getBoundingClientRect();
+            g.style.left = lerp(r.left, m.left, e) + "px"; g.style.top = lerp(r.top, m.top, e) + "px";
+            g.style.width = lerp(r.width, m.width, e) + "px"; g.style.height = lerp(r.height, m.height, e) + "px";
+            g.style.borderRadius = `${lerp(16, 18, e)}px ${lerp(16, 18, e)}px ${lerp(16, 5, e)}px ${lerp(16, 18, e)}px`;
+            fill.style.height = Math.min(100, q * 112) + "%";                              // full a little before it lands
+            txt.style.padding = `${lerp(12, pt1, e)}px ${lerp(14, pl1, e)}px`; txt.style.fontSize = lerp(15, fs1, e) + "px"; txt.style.lineHeight = lerp(15 * 1.3, lh1, e) + "px";
+            if (q < 1) return requestAnimationFrame(f);
+            msg.style.visibility = ""; g.remove();                                         // the same picture: the message simply takes over
+            busy = false; reply();
+          };
+          requestAnimationFrame(f);
+        }, hasOthers ? 240 : 0);
       });
       glideDown();
       return;
