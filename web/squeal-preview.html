@@ -581,9 +581,30 @@ function toast(text) {
   const t = document.createElement("div"); t.className = "toast"; t.textContent = text; app.appendChild(t);
   clearTimeout(toastTimer); toastTimer = setTimeout(() => gone(t), 1800);
 }
+/* Haptics (2026-11-09). A web page on iPhone has no vibration API; two ways are tried: the standard one
+   (navigator.vibrate: Android) and, on iOS 18+, a hidden "switch" control whose toggle the system answers
+   with a light tap. In the Swift app: UIImpactFeedbackGenerator — see IDEAS.md. */
+const haptic = (() => {
+  let lab = null;
+  const iosTick = () => { try {
+    if (!lab) { lab = document.createElement("label"); lab.setAttribute("aria-hidden", "true");
+      lab.style.cssText = "position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;pointer-events:none";
+      lab.innerHTML = '<input type="checkbox" switch tabindex="-1">'; document.body.appendChild(lab); }
+    lab.click(); } catch (e) {} };
+  const tick = ms => { if (navigator.vibrate) navigator.vibrate(ms); else iosTick(); };
+  let rampT = [];
+  return {
+    tap: () => tick(10),                                   // one light, very short tap
+    /* growing: taps closer together and (where the phone can) longer, from faint to strong, over ms */
+    ramp: ms => { haptic.stop(); const n = 6;
+      for (let k = 0; k < n; k++) { const at = ms * (1 - Math.pow(1 - k / n, 1.6)); rampT.push(setTimeout(() => tick(4 + k * 4), at)); } },
+    stop: () => { rampT.forEach(clearTimeout); rampT = []; if (navigator.vibrate) navigator.vibrate(0); },
+  };
+})();
 function toggleFav(id) {
   const f = favs(), on = f.includes(id);
   store.set("favs", on ? f.filter(x => x !== id) : [...f, id]);
+  haptic.tap();                                            // like or unlike, from any screen: one light tap
 }
 function longPress(el, fn) {
   let t, fired = false, x0 = 0, y0 = 0;
@@ -1809,8 +1830,9 @@ function wire(sheet, s) {
       e.preventDefault(); e.stopPropagation(); down = true; longDone = false; ringOn = false;
       if (!multi) return;
       reset.classList.remove("done", "fade");
-      beatT = setTimeout(() => { ringOn = true; reset.classList.add("holding");
+      beatT = setTimeout(() => { ringOn = true; reset.classList.add("holding"); haptic.ramp(300);   // a growing buzz while the ring fills
         holdT = setTimeout(() => {
+          haptic.stop();
           /* the ring has closed: it stays round the button for a second, then dissolves */
           longDone = true; reset.classList.add("done"); reset.classList.remove("holding");
           sheet._ringAt = performance.now();
@@ -1818,7 +1840,7 @@ function wire(sheet, s) {
           redraw("All parts start over", s.episodes.map((_, i) => i));
         }, 300); }, 150);
     });
-    const stop = () => { clearTimeout(beatT); clearTimeout(holdT); reset.classList.remove("holding"); };
+    const stop = () => { clearTimeout(beatT); clearTimeout(holdT); reset.classList.remove("holding"); if (!longDone) haptic.stop(); };
     reset.addEventListener("pointerup", e => {
       if (!down) return; down = false; stop();
       if (longDone) return;                                          // the ring closed: all parts already done
