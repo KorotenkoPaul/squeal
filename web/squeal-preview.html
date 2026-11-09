@@ -730,7 +730,7 @@ function homeContent() {
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
-    <div class="chips" role="group" aria-label="Genre"><span class="chip-ind" aria-hidden="true"></span>${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}"><span>${v}</span></button>`).join("")}</div>
+    <div class="chips" role="group" aria-label="Genre"><span class="chip-ind" aria-hidden="true"></span>${Object.entries(GENRES).map(([k, v]) => `<button class="chip${k === genre ? " near" : ""}" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}"><span>${v}</span></button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint pull-hint" id="pull-hint">Pull up for a random story</p>`);
 }
@@ -791,17 +791,24 @@ function wireHome() {
   row.addEventListener("pointerdown", e => {
     cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; moved = false; pull = null; row.setPointerCapture(e.pointerId);
     const hit = e.target.closest?.(".chip"), k = hit ? chips.indexOf(hit) : -1;
-    if (k >= 0 && k !== nearest() && !reduce()) { base = target = slots()[k].c; pull = { res: pos - base, t0: performance.now(), ms: 180 }; follow(); }
-    else base = target = pos;
+    base = target = pos; clearTimeout(slideT);
+    /* the slide-over to a pressed chip waits a blink (90 ms) or the first sideways move, so a touch that
+       turns into a pull down (refresh) never twitches the oval */
+    if (k >= 0 && k !== nearest() && !reduce()) { pending = k; slideT = setTimeout(slideOver, 90); }
   });
+  let pending = -1, slideT = 0;
+  function slideOver() { clearTimeout(slideT); if (pending < 0 || px0 == null) return pending = -1;
+    const k = pending; pending = -1; const from = pos; base = slots()[k].c; target += base - from; pull = { res: from - target, t0: performance.now(), ms: 180 }; follow(); }
   row.addEventListener("pointermove", e => {
     if (px0 == null) return;
     const dx = e.clientX - px0, dy = e.clientY - py0;
     if (!moved) {
       if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
       if (Math.abs(dy) >= Math.abs(dx) || GESTURE === "refresh") {             // the page's gesture, not ours: the oval goes home
+        clearTimeout(slideT); pending = -1;
         px0 = null; if (base !== pos || pull) glideTo(Math.max(0, chips.findIndex(c => c.dataset.g === genre))); return; }
       moved = true; GESTURE = "genre";
+      if (pending >= 0) slideOver();                                           // sideways at once: slide over now
     }
     target = base + dx;
     if (!pull) place(target);                                                  // while sliding over, the frame loop places it
