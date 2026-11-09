@@ -2416,7 +2416,7 @@ function openStory(id, epIndex) {
   /* like WhatsApp: when something new appears at the bottom, the conversation glides up to make room
      (0.26 s, easing out) instead of jumping; a finger on the chat stops the glide */
   let glideRaf = 0;
-  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0;
+  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0, endIn = null;
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
     if (reduce()) { log.scrollTop = log.scrollHeight; return; }
@@ -2428,7 +2428,9 @@ function openStory(id, epIndex) {
       log.scrollTop = to - off0 * Math.pow(1 - q, 3); gliding = q < 1; if (gliding) glideRaf = requestAnimationFrame(f); };
     gliding = true; glideRaf = requestAnimationFrame(f);
   };
-  ["touchstart", "wheel"].forEach(n => log.addEventListener(n, () => { cancelAnimationFrame(glideRaf); gliding = false; }, { passive: true }));
+  /* only a real scroll (a finger moving, a wheel) stops the glide; a quick tap to read on must not freeze the
+     "typing…" bubble half behind the bottom panel (2026-11-09) */
+  ["touchmove", "wheel"].forEach(n => log.addEventListener(n, () => { cancelAnimationFrame(glideRaf); gliding = false; }, { passive: true }));
   /* the wallpaper: interactive parts show the whole story's doodles plus those of the endings still in reach */
   const wallCfg = base.wallpaperEndings ? { common: base.wallpaper, endings: base.wallpaperEndings } : ep.wallpaper;
   const inReach = () => path && base.wallpaperEndings ? new Set(["*", ...endingsFrom(base.nodes, path.at(-1))]) : null;
@@ -2552,10 +2554,16 @@ function openStory(id, epIndex) {
     controlsNow();
     const h1 = foot.offsetHeight;
     if (footFirst) { footFirst = false; return; }
-    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) return;
+    const ending = endIn; endIn = null;
+    /* the end: "Tap to continue" fades out while the conversation moves up by exactly the room the ending's
+       title and buttons need; only then do they fade in, so nothing ever lies over anything (2026-11-09) */
+    if (ending) setTimeout(() => { if (!scr.isConnected) return; foot.classList.remove("wait");
+      ending.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: "ease-out" }); ending.style.opacity = ""; }, Math.max(300, (Math.abs(h1 - h0) < 2 ? 0 : 400)));
+    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) { if (ending) glideDown(); return; }
     footAnim?.cancel();
-    /* growing while a new message is still gliding into view: the message settles first, then the panel opens */
-    const now = performance.now(), d = h1 > h0 && gliding ? Math.max(0, glideEnd - now) : 0, ms = 400; footEnd = now + d + ms;
+    /* growing while a new message is still gliding into view: the message settles first, then the panel opens
+       (not at the end: there everything moves up together, while "Tap to continue" fades) */
+    const now = performance.now(), d = h1 > h0 && gliding && !ending ? Math.max(0, glideEnd - now) : 0, ms = 400; footEnd = now + d + ms;
     const k = { overflow: "hidden", boxSizing: "border-box" };
     footAnim = foot.animate([{ ...k, height: h0 + "px" }, { ...k, height: h0 + "px", offset: d / (d + ms), easing: "cubic-bezier(.25,.8,.3,1)" }, { ...k, height: h1 + "px" }], { duration: d + ms });
     if (d) foot.querySelectorAll(".choice").forEach(c => c.style.animationDelay = (parseFloat(c.style.animationDelay) || 0) + d + "ms");
@@ -2630,7 +2638,13 @@ function openStory(id, epIndex) {
       const last = st.ep + 1 >= s.episodes.length;
       const endings = path ? Object.values(base.nodes).filter(n => n.ending) : [];
       const which = path ? endings.indexOf(node) + 1 : 0;
+      const calm = !footFirst && !reduce() && !!foot.animate;            // reached now, while reading (not opened already finished)
+      if (calm) { const old = foot.querySelector(".cont");               // "Tap to continue" fades out where it stands
+        if (old) { const r = old.getBoundingClientRect(), g = old.cloneNode(true);
+          Object.assign(g.style, { position: "fixed", left: r.left + "px", top: r.top + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
+          scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 300, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
+      if (calm) { endIn = log.lastElementChild; endIn.style.opacity = 0; foot.classList.add("wait"); }   // shown once there is room
       glideDown();
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
