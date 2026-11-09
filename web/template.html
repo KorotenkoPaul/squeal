@@ -173,8 +173,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* the genre pill (like the part disc in the chat): one oval that slides along the chips under the words,
    taking on each chip's width as it nears it; drag it with a finger or tap a chip (2026-11-09) */
 .chip > span { position: relative; z-index: 1; }
+/* #52 (2026-11-09): on iPhone, while the page is pulled down (the page is moved), Safari draws an element that has
+   its own layer (the oval) over plain text whatever the z-index — the chosen genre's word vanished, and blinked
+   when let go. The words get their own layers too, above the oval, inside an isolated row; the oval keeps no
+   standing layer of its own. */
+.chips { isolation: isolate; }
+.chip > span { display: inline-block; -webkit-transform: translateZ(0); transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .chip.near { color: var(--text); }
-.chip-ind { position: absolute; top: 0; bottom: 0; left: 0; width: 0; z-index: 0; border-radius: 999px; background: var(--accent); pointer-events: none; will-change: transform, width; }
+.chip-ind { position: absolute; top: 0; bottom: 0; left: 0; width: 0; z-index: 0; border-radius: 999px; background: var(--accent); pointer-events: none; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
 .tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
@@ -899,8 +905,13 @@ function refreshHome(view) {
   /* the genre row is not rebuilt: the very same row (oval, words, colours) stays on screen through the
      refresh, so nothing in it can blink (2026-11-09) */
   const keep = view.querySelector(".chips");
-  view.innerHTML = homeContent();
-  if (keep) view.querySelector(".chips").replaceWith(keep);
+  if (keep) {                         /* the row never even leaves the page: everything around it is replaced (2026-11-09) */
+    const tmp = document.createElement("div"); tmp.innerHTML = homeContent();
+    const fresh = tmp.querySelector(".chips"), kids = [...tmp.childNodes], at = kids.indexOf(fresh);
+    [...view.childNodes].forEach(n => { if (n !== keep) n.remove(); });
+    kids.slice(0, at).forEach(n => view.insertBefore(n, keep));
+    kids.slice(at + 1).forEach(n => view.appendChild(n));
+  } else view.innerHTML = homeContent();
   view.classList.remove("refreshed"); void view.offsetWidth; view.classList.add("refreshed");
   setTimeout(() => view.classList.remove("refreshed"), 700);
   wireHome();
