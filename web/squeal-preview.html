@@ -56,16 +56,10 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .dots { flex: none; position: relative; display: flex; justify-content: center; gap: 10px; height: 6px; margin-top: -2px; }
 .dots i { flex: none; }
 .dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
-/* EXPERIMENT 2026-11-09 #2 "torch + drop" (the worm is in git 11a717c; #1 "eyes" rejected):
-   a new card comes out of the dark, lit by a torch beam that sweeps over it and widens until the whole
-   card is lit; the card leaving goes dark as its beam shrinks. Under the current dot a red drop slowly
-   swells (that is the time to the next slide), breaks off and falls, and the slider turns. */
-.dots { height: 22px; align-items: flex-start; margin-top: -2px; margin-bottom: -16px; }
-.dots i { position: relative; border-radius: 50%; transition: background .25s; }
-.dots i.on { background: #e6dcff; }
-.dots i u { position: absolute; left: .5px; top: 1px; width: 5px; height: 5px; background: var(--red); border-radius: 0 50% 50% 50%;
-  transform-origin: 50% 0; opacity: 0; pointer-events: none; }
-.slider .hero .torch { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; }
+.dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
+  overflow: hidden; will-change: transform, width; }
+.dots .worm b { position: absolute; inset: 0 auto 0 0; width: 100%; border-radius: 3px; transform-origin: left;
+  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); transform: scaleX(0); }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
 .pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
@@ -711,10 +705,10 @@ function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
   const heroHTML = h => { const L = LETTERING[h.id];
     const art = L ? `<span class="lt" style="${L.box}"><b class="art" style="${L.css}">${L.html ? L.html(esc(h.title)) : esc(h.title)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
-    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}<span class="torch"></span></button>`; };
+    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}</button>`; };
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
-    <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i><u></u></i>").join("")}</div>
+    <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint pull-hint" id="pull-hint">Pull up for a random story</p>`);
@@ -922,6 +916,11 @@ function pullForRandom() {
   window.addEventListener("mousemove", e => move(e.clientY, e)); window.addEventListener("mouseup", end);
 }
 
+/* how many fingers are on the screen right now (one set of listeners for the whole app) */
+let FINGERS = 0;
+window.addEventListener("touchstart", e => { FINGERS = e.touches.length; }, { passive: true, capture: true });
+["touchend", "touchcancel"].forEach(n => window.addEventListener(n, e => { FINGERS = e.touches.length; }, { passive: true, capture: true }));
+window.addEventListener("mousedown", () => { FINGERS = 1; }, true); window.addEventListener("mouseup", () => { FINGERS = 0; }, true);
 function pullToRefresh() {
   const view = document.getElementById("view"), LINE = 64, REST = 76;
   app.style.position = "relative";
@@ -987,6 +986,10 @@ function pullToRefresh() {
     await eyes.blink(loaded, () => refreshHome(view));
     await wait(500);
     cancelAnimationFrame(slideTimer); startSlider();
+    /* a finger resting on the screen holds the page down; the eyes wait with it, and both go up together
+       once the finger lifts (2026-11-09) */
+    while (FINGERS) await new Promise(r => { const go = () => { if (!FINGERS) { ["touchend", "touchcancel", "mouseup"].forEach(n => window.removeEventListener(n, go, true)); r(); } };
+      ["touchend", "touchcancel", "mouseup"].forEach(n => window.addEventListener(n, go, true)); });
     show(0);
     await wait(380);
     eyes.reset();
@@ -1105,8 +1108,7 @@ function startSlider() {
   fitAll(); document.fonts?.ready.then(fitAll);
   const el = document.getElementById("slider"), box = document.getElementById("dots");
   if (!el || !box) return;
-  const dots = [...box.querySelectorAll("i")], pupils = dots.map(d => d.querySelector("u"));
-  const cards = [...el.children], torches = cards.map(c => c.querySelector(".torch"));
+  const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");
   /* a copy of the first card sits after the last: the slider always moves one step right, and on
      reaching the copy it quietly jumps back to the real first card (they look the same) */
   const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
@@ -1129,15 +1131,20 @@ function startSlider() {
     if (p >= n - .001 && !held) { el.scrollLeft -= n * step; p = 0; }                     // on the copy: back to the real first
     const wrap = p > n - 1;                                                               // between the last card and the copy
     const i = Math.min(n - 2, Math.floor(Math.min(p, n - 1))), f = n > 1 ? Math.min(p, n - 1) - i : 0;
-    /* the dot of the card in view is lit (the first one also for the copy at the end) */
-    const near = Math.round(p) % n;
-    dots.forEach((d, k) => d.classList.toggle("on", k === near));
-    /* torch: a soft round beam over each card; settled, it is wide enough to light the whole card */
-    cards.forEach((c, k) => { const d = Math.min(1, Math.abs(p - k)), lit = (1 - d) * (1 - d);
-      if (still || d < .002) { torches[k].style.opacity = 0; return; }
-      const r = 24 + 520 * lit * lit, x = 50 - (p - k) * 70, y = 45 + 12 * Math.sin((p - k) * Math.PI);
-      torches[k].style.opacity = 1;
-      torches[k].style.background = `radial-gradient(circle at ${x.toFixed(1)}% ${y.toFixed(1)}%, transparent ${r.toFixed(0)}px, rgba(9,7,20,.97) ${(r + 70).toFixed(0)}px)`; });
+    /* the slot under the pill is as wide as the pill, so every gap (dot-dot and pill-dot) is the same;
+       slots trade width as the slide moves */
+    const ws = dots.map((d, k) => DOT + (W - DOT) * Math.max(0, 1 - Math.abs(p - k), k === 0 ? 1 - Math.abs(p - n) : 0));
+    const total = ws.reduce((a, b) => a + b, 0) + GAP * (n - 1);
+    const L = [], R = []; let x = (box.clientWidth - total) / 2;
+    ws.forEach((w, k) => { dots[k].style.width = w + "px"; L.push(x); R.push(x + w); x += w + GAP; });
+    /* the worm between slot i and i+1: head leads over the first half, tail follows over the second.
+       From the last card to the first it does not crawl back: the last pill shrinks to a dot while the
+       first dot grows into the pill (dots light up with their share) */
+    dots.forEach((d, k) => d.style.background = wrap && (k === n - 1 || k === 0) ? `color-mix(in srgb, #5d5888 ${Math.round((k === 0 ? p - (n - 1) : n - p) * 100)}%, #4a4670)` : "");
+    worm.style.opacity = wrap ? 0 : 1;
+    const right = n > 1 ? lerp(R[i], R[i + 1], Math.min(1, f * 2)) : R[0];
+    const left = n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
+    worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
     const cur = Math.round(p) % n;
     if (cur !== at) { at = cur; since = now; }
     /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
@@ -1151,13 +1158,7 @@ function startSlider() {
     last = now;
     const t = Math.min(1, (now - since) / SLIDE);
     SL.at = cur; SL.elapsed = Math.min(SLIDE, now - since); SL.seen = Date.now();
-    /* the drop under the current dot: swells for most of the time, then breaks off and falls */
-    pupils.forEach((u, k) => {
-      if (k !== cur || !settled || still) { u.style.opacity = 0; return; }
-      const grow = Math.min(1, t / .85), fall = Math.max(0, (t - .85) / .15);
-      const sc = .25 + 1.15 * grow * grow, len = 1 + .6 * grow;      // hangs longer as it gets heavy
-      u.style.opacity = 1 - fall;
-      u.style.transform = `translateY(${(2 + 3 * grow + 14 * fall * fall).toFixed(1)}px) scale(${sc.toFixed(2)}, ${(sc * len).toFixed(2)}) rotate(45deg)`; });
+    fill.style.transform = `scaleX(${settled ? t : 0})`;
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
