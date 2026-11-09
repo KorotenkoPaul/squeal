@@ -286,8 +286,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
 .empty svg { width: 265px; height: 225px; }   /* 1.5x the old picture; the viewBox is centred on the 2x2 squares at rest, so they sit exactly in the middle */
-.empty b { font-size: 20px; }
-.empty span { color: var(--muted); }
+.empty b { font-size: 20px; margin-top: 10px; }   /* a little more air: squares → title 24 px, title → line 16 px (2026-11-09) */
+.empty span { color: var(--muted); margin-top: 6px; }
 .empty > * { animation: emptyIn .6s cubic-bezier(.25,.8,.25,1) both; }
 .empty > :nth-child(2) { animation-delay: .1s; }
 /* the picture acts out adding a favourite: all four squares the same; one is held, it grows a little,
