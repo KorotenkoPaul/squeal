@@ -67,28 +67,28 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
 /* the round buttons over the photo: no padding (iPhone gives buttons some by default, which pushed the
    icons off centre), each icon an SVG centred in its circle */
-/* preview buttons (close, start over, favourite): 1.5x (57 px circles, icons 1.5x), and each takes taps
-   in an invisible 76 px area round it — twice the old 38 px (2026-11-09) */
-.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 57px; height: 57px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
+/* preview buttons (close, start over, favourite): icons 1.5x, circles about as before (40 px), and each
+   takes taps in an invisible 56 px area — about twice the icon (2026-11-09) */
+.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
 .chrome .back.rb svg { width: 21px; height: 21px; }
-.chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -9.5px; border-radius: 50%; }
+.chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
 .head .back { padding: 0; display: grid; place-items: center; line-height: 0; }
 .chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; }
 .chrome .like svg { transform: translateY(-.5px); }
-.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 57px; height: 57px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
+.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
 .pv-cover .like svg, .chrome .like svg { width: 27px; height: 27px; }
 .sheet .cap small { display: flex; align-items: center; line-height: 1; }
 .cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
 /* start over: tap clears the part being read; hold (a ring fills round the button) clears every part */
-.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 69px); width: 57px; height: 57px;
+.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 52px); width: 40px; height: 40px;
   border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
 .chrome .reset svg { width: 25px; height: 25px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
-.chrome .reset .hold { position: absolute; inset: 0; width: 57px; height: 57px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
+.chrome .reset .hold { position: absolute; inset: 0; width: 40px; height: 40px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
 .chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
 .chrome .reset.spin svg:not(.hold) { transform: rotate(-360deg); }
-.chrome .note { position: absolute; top: 76px; right: max(12px, env(safe-area-inset-right, 0px)); padding: 8px 13px; border-radius: 12px;
+.chrome .note { position: absolute; top: 58px; right: max(12px, env(safe-area-inset-right, 0px)); padding: 8px 13px; border-radius: 12px;
   background: rgba(23,18,44,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--text); font-size: 13px; font-weight: 600;
   white-space: nowrap; transform-origin: top right; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
 .chrome .note.out { animation: noteOut .25s ease-in both; }
@@ -360,7 +360,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 10px; transform-origin: 0 100%; }
 .sheet .cap small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .sheet .cap h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
-.sheet .chrome { position: absolute; inset: 0 0 auto; height: 80px; pointer-events: none; }
+.sheet .chrome { position: absolute; inset: 0 0 auto; height: 64px; pointer-events: none; }
 .sheet .chrome > * { pointer-events: auto; }
 .sheet .cap.one h1 { white-space: nowrap; text-wrap: nowrap; }
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
