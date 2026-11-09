@@ -985,7 +985,7 @@ function pullForRandom() {
     offset = 0; setStrip(0);
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
-  let lastLift = 0;
+  let lastLift = 0, spin = null;
   /* Everything moves with the finger, 1:1. The reel hangs under the words at the same gap as the words
      hang under the last card, and comes out from behind the tab bar at the finger's speed; once it has
      reached its place under the words, the page and the reel go up together, so the gap never changes.
@@ -1008,26 +1008,33 @@ function pullForRandom() {
     /* one line of words, always in the hint's place: pull up… → keep pulling → release */
     const hint = document.getElementById("pull-hint");
     if (hint && !(busy && liftAs == null && raw)) hint.textContent = !raw ? "Pull up for a random story" : k >= 1 ? "Release for a random story" : "Keep pulling";
-    if (raw) setStrip(offset + raw * .9);                           // the reel turns with your finger
+    if (raw) setStrip(offset + (spin ?? raw * .9));                 // the reel turns with your finger
   };
   /* sinking back is a spring that can be caught: a new touch takes the reel from where it is */
-  let sinkRaf = 0, sinking = false, vy = 0, lastY = 0, lastT = 0;
+  let sinkRaf = 0, sinking = false, vy = 0, lastY = 0, lastT = 0, lastRaw = 0;
+  /* Where the reel stands follows each move of the finger, not how far it is from where it started: pulled
+     on past the top, the extra only turns the rows; the moment the finger goes back down, the reel (and the
+     page) go down with it — no unwinding of the extra first (2026-11-09). */
   const start = y => {
-    if (sinking) { cancelAnimationFrame(sinkRaf); sinking = false; busy = false; y0 = y + d; view.classList.remove("drop"); view.classList.add("lift"); lastY = y; lastT = performance.now(); vy = 0; return; }
-    if (busy || !atBottom()) return; y0 = y; d = 0; vy = 0; lastY = y; lastT = performance.now(); view.classList.remove("drop"); view.classList.add("lift"); };
+    if (sinking) { cancelAnimationFrame(sinkRaf); sinking = false; busy = false; y0 = y + d; lastRaw = d; spin = d * .9; view.classList.remove("drop"); view.classList.add("lift"); lastY = y; lastT = performance.now(); vy = 0; return; }
+    if (busy || !atBottom()) return; y0 = y; d = 0; lastRaw = 0; spin = 0; vy = 0; lastY = y; lastT = performance.now(); view.classList.remove("drop"); view.classList.add("lift"); };
   const move = (y, e) => {
     if (y0 == null) return;
-    const raw = y0 - y, now = performance.now();
+    const raw = y0 - y, now = performance.now(), step = raw - lastRaw; lastRaw = raw;
     vy = .7 * vy + .3 * ((lastY - y) / Math.max(1, now - lastT) * 1000); lastY = y; lastT = now;   // finger speed upwards, px/s
-    if (raw <= 0) { if (d) show(d = 0); return; }
+    if (!d && raw <= 0) return;
     if (!atBottom() && !d) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
-    if (!d) { measureFree(); deal(); }
-    d = raw; show(d);
+    if (!d) { measureFree(); deal(); spin = 0; }
+    const eff = Math.max(0, Math.min(geo().full, d + step));       // where the reel stands now
+    spin += step * .9;                                             // the rows turn with every move of the finger
+    if (eff <= 0) { d = 0; spin = 0; show(0); return; }
+    d = eff; show(d);
   };
   const end = async () => {
     if (y0 == null) return; y0 = null;
     view.classList.remove("lift");
+    if (spin != null) { offset += spin - d * .9; spin = null; }   // the rows keep their turn as the finger lets go
     if (d < LINE()) {                                              // not far enough: the reel sinks back behind the tabs as the page slides down
       /* Pulled past the point where the reel is fully up, more pull changes nothing on screen: start the
          way back from what you see (the reel's turn keeps its place), so it moves the moment you let go.
