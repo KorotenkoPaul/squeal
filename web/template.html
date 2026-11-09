@@ -2631,8 +2631,14 @@ function openStory(id, epIndex) {
      messages slide out to their own sides (the other side's to the left, the reader's to the right), then the
      new part's conversation — already laid out, the description's room kept — slides in the same way, at the
      speed of the answer choices; only what is on screen moves (2026-11-09) */
-  let oldLog = null, oldTop = 0, oldH = 0, oldRef = null;
-  if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log"); if (ol) { oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; oldH = ol.clientHeight; oldRef = ol.lastElementChild ? ol.lastElementChild.getBoundingClientRect().top : null; prevIntro = null; } }
+  let oldLog = null, oldTop = 0, oldH = 0, oldRef = null, oldStates = [], ghostPrev = null, ghostStates = [], ghostTop = 0;
+  /* where every message is right now, mid-animation or not (2026-11-09): a quick second switch carries on from
+     there — the ones still sliding out keep going, the ones half slid in turn back from where they are, the ones
+     that had not started never show */
+  const snap = el => [...el.children].map(c => { const cs = getComputedStyle(c); return { tf: cs.transform, op: +cs.opacity }; });
+  if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log:not(.log-ghost)"), pgh = prev.querySelector(".log-ghost");
+    if (pgh) { ghostPrev = pgh.cloneNode(true); ghostStates = snap(pgh); ghostTop = pgh.scrollTop; }
+    if (ol) { oldStates = snap(ol); oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; oldH = ol.clientHeight; oldRef = ol.lastElementChild ? ol.lastElementChild.getBoundingClientRect().top : null; prevIntro = null; } }
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
@@ -2796,15 +2802,33 @@ function openStory(id, epIndex) {
     /* the description shows still when a chat opens; only on a part switch does it go and come back:
        it fades out while the old messages slide out, and fades in while the new ones slide in (2026-11-09) */
     let outEnd = 0;
-    const going = [...oldLog.children].filter(el => seen(oldLog, el) && !el.classList.contains("intro")).reverse();   // nearest the bottom first
-    going.forEach((el, k) => {
-      const delay = Math.min(k * 25, 200); outEnd = Math.max(outEnd, delay + 240);
-      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: 1 }, { opacity: 0 }],
-        { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
-    outEnd = Math.max(outEnd, 240);
-    const oi = oldLog.querySelector(".intro");
-    if (oi && seen(oldLog, oi)) oi.animate([{ opacity: 1 }, { opacity: 0 }], { duration: outEnd, easing: "linear", fill: "forwards" });
+    /* each message leaves from where it is now: fully in → the usual slide out (bottom first, 25 ms apart); caught
+       half way → straight back from there; never shown yet → stays hidden */
+    const leave = (box, states, full) => {
+      let k = 0, end = 0;
+      [...box.children].map((el, i) => [el, states[i] || { tf: "none", op: 1 }]).reverse().forEach(([el, s]) => {
+        const intro = el.classList.contains("intro");
+        if (s.op < .02 || !seen(box, el)) { el.style.opacity = 0; return; }
+        if (intro) return;
+        const whole = s.tf === "none" && s.op > .98, delay = whole && full ? Math.min(k++ * 25, 200) : 0, dur = whole ? 240 : Math.max(60, Math.round(240 * s.op));
+        el.style.transform = s.tf === "none" ? "" : s.tf; el.style.opacity = s.op;
+        el.animate(side(el) ? [{ transform: s.tf, opacity: s.op }, { transform: off(el), opacity: 0 }] : [{ opacity: s.op }, { opacity: 0 }],
+          { duration: dur, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" });
+        end = Math.max(end, delay + dur); });
+      return end; };
+    if (ghostPrev) {                                                    // the ones still on their way out from the switch before
+      ghostPrev.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
+      log.parentNode.insertBefore(ghostPrev, log.nextSibling); ghostPrev.scrollTop = ghostTop;
+      outEnd = Math.max(outEnd, leave(ghostPrev, ghostStates, false));
+      const gi = ghostPrev.querySelector(".intro"), gs = ghostStates[[...ghostPrev.children].indexOf(gi)];
+      if (gi && gs && gs.op > .02) gi.animate([{ opacity: gs.op }, { opacity: 0 }], { duration: Math.round(240 * gs.op), fill: "forwards" });
+      const gp = ghostPrev; setTimeout(() => gp.remove(), outEnd + 20);
+    }
+    outEnd = Math.max(outEnd, leave(oldLog, oldStates, true), oldStates.some(s => s.op > .02) ? 240 : 0);
+    const oi = oldLog.querySelector(".intro"), os = oldStates[[...oldLog.children].indexOf(oi)];
+    if (oi && os && os.op > .02 && seen(oldLog, oi)) oi.animate([{ opacity: os.op }, { opacity: 0 }], { duration: Math.max(60, outEnd), easing: "linear", fill: "forwards" });
     else if (oi) oi.style.opacity = 0;
+    outEnd = Math.max(outEnd, 120);
     setTimeout(() => oldLog.remove(), outEnd + 20);
     const inStart = Math.max(120, outEnd - 60), inEnd = slideIn(inStart);              // after the old ones are gone
     const ni = log.querySelector(".intro");
