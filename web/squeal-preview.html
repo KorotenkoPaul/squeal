@@ -2616,7 +2616,9 @@ function openStory(id, epIndex) {
           /* 2) the picked one travels to its place as a sent message, filling with water on the way */
           const g = document.createElement("div"); g.className = "choice-ghost";
           g.innerHTML = `<span class="water"><i>${WAVES}</i></span><span class="t">${esc(c.text)}</span>`;
-          Object.assign(g.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+          /* the chat screen is the ghost's frame (it can sit off the window's edge): place it in the screen's own coordinates */
+          const O = () => scr.getBoundingClientRect(), o0 = O();
+          Object.assign(g.style, { left: (r.left - o0.left) + "px", top: (r.top - o0.top) + "px", width: r.width + "px", height: r.height + "px" });
           scr.appendChild(g); b.style.visibility = "hidden";
           foot.classList.add("wait");                                  // "Tap to continue" waits until the message has landed
           const msg = commit(); msg.style.animation = "none"; msg.style.visibility = "hidden"; busy = true;
@@ -2629,7 +2631,7 @@ function openStory(id, epIndex) {
           const f = now => {
             if (!scr.isConnected || !msg.isConnected) { foot.classList.remove("wait"); return g.remove(); }
             const q = Math.min(1, (now - t0) / ms), e = q < .5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2, m = msg.getBoundingClientRect();
-            g.style.left = lerp(r.left, m.left, e) + "px"; g.style.top = lerp(r.top, m.top, e) + "px";
+            const o = O(); g.style.left = (lerp(r.left, m.left, e) - o.left) + "px"; g.style.top = (lerp(r.top, m.top, e) - o.top) + "px";
             g.style.width = lerp(r.width, m.width, e) + "px"; g.style.height = lerp(r.height, m.height, e) + "px";
             g.style.borderRadius = `${lerp(16, 18, e)}px ${lerp(16, 18, e)}px ${lerp(16, 5, e)}px ${lerp(16, 18, e)}px`;
             const w = Math.min(1, (now - t0) / WATER); fill.style.height = (100 * (1 - Math.pow(1 - w, 1.6))) + "%";
@@ -2642,7 +2644,7 @@ function openStory(id, epIndex) {
           };
           /* after landing it sticks to its message in the very same frame the chat scrolls */
           const ride = () => { if (!g.isConnected) return; const m = msg.getBoundingClientRect(), L = log.getBoundingClientRect();
-            g.style.left = m.left + "px"; g.style.top = m.top + "px"; g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; };
+            const o = O(); g.style.left = (m.left - o.left) + "px"; g.style.top = (m.top - o.top) + "px"; g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; };
           requestAnimationFrame(f);
         }, hasOthers ? 240 : 0);
       });
@@ -2656,7 +2658,8 @@ function openStory(id, epIndex) {
       const calm = !footFirst && !reduce() && !!foot.animate;            // reached now, while reading (not opened already finished)
       if (calm) { const old = foot.querySelector(".cont");               // "Tap to continue" fades out where it stands
         if (old) { const r = old.getBoundingClientRect(), g = old.cloneNode(true);
-          Object.assign(g.style, { position: "fixed", left: r.left + "px", top: r.top + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
+          const o = scr.getBoundingClientRect();                         // in the chat screen's own coordinates
+          Object.assign(g.style, { position: "fixed", left: (r.left - o.left) + "px", top: (r.top - o.top) + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
           scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 250, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
