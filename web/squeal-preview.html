@@ -77,7 +77,6 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chrome .like svg { transform: translateY(-.5px); }
 .pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
-.chrome .like { transition: background-color .2s, color .2s; }
 .pv-cover .like svg, .chrome .like svg { width: 27px; height: 27px; }
 .sheet .cap small { display: flex; align-items: center; line-height: 1; }
 .cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
@@ -88,7 +87,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chrome .reset .hold { position: absolute; inset: 0; width: 40px; height: 40px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0;
   transition: stroke-dashoffset .3s cubic-bezier(.4,0,.2,1), opacity .12s linear .26s; }   /* let go early: the ring winds back the way it came, then fades */
-.chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
+.chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .3s linear, opacity .1s; }   /* twice as quick (2026-11-09) */
+.chrome .reset.done .hold { opacity: 1; stroke-dashoffset: 0; transition: none; }                 /* closed: stays a second… */
+.chrome .reset.done.fade .hold { opacity: 0; transition: opacity .45s ease; }                     /* …then dissolves */
+/* a press on start-over or the heart: the button (with its round background) gives a little and springs back */
+.chrome .reset, .chrome .like { transition: transform .12s ease-out, background-color .2s, color .2s; }
+.chrome .reset.pressed, .chrome .like.pressed { transform: scale(.88); }
 
 /* the note sits to the left of the buttons, level with them, so the finger on the button never hides it */
 .chrome .note { position: absolute; top: 14px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 100px); padding: 8px 13px; border-radius: 12px;
@@ -1753,10 +1757,18 @@ function fitStill(sheet) {
 function wire(sheet, s) {
   requestAnimationFrame(() => fitStill(sheet));
   const id = s.id, scroller = sheet.querySelector(".scroll");
-  sheet.querySelector("#pv-back").onclick = () => closeSheet(sheet);
+  /* the cross closes the moment it is touched (no waiting for the finger to lift; holding means nothing) */
+  const back = sheet.querySelector("#pv-back");
+  back.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); closeSheet(sheet); });
+  back.onclick = e => { if (e.detail === 0) closeSheet(sheet); };            // keyboard
   /* closes with the cross, a swipe from left to right, or a swipe down (no tap-anywhere; 2026-11-09) */
   /* start over: a tap clears the part being read; holding for 0.6 s (the ring closes) clears all parts */
   const reset = sheet.querySelector("#pv-reset");
+  if (reset && sheet._ringAt) {                                    // the page was redrawn after a full hold: keep the closed ring
+    reset.classList.add("done"); const left = Math.max(0, 1000 - (performance.now() - sheet._ringAt)); sheet._ringAt = 0;
+    void reset.offsetWidth;                                      // let the closed ring be drawn first, so the fade really fades
+    setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(() => reset.classList.add("fade"))), left);
+  }
   if (reset) {
     let holdT = null, longDone = false;
     /* the note appears just under the button, over the photo, where nothing else sits */
@@ -1792,12 +1804,15 @@ function wire(sheet, s) {
     reset.addEventListener("pointerdown", e => {
       e.preventDefault(); e.stopPropagation(); down = true; longDone = false; ringOn = false;
       if (!multi) return;
+      reset.classList.remove("done", "fade");
       beatT = setTimeout(() => { ringOn = true; reset.classList.add("holding");
         holdT = setTimeout(() => {
-          longDone = true; reset.classList.remove("holding");
+          /* the ring has closed: it stays round the button for a second, then dissolves */
+          longDone = true; reset.classList.add("done"); reset.classList.remove("holding");
+          sheet._ringAt = performance.now();
           store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
           redraw("All parts start over", s.episodes.map((_, i) => i));
-        }, 600); }, 200);
+        }, 300); }, 150);
     });
     const stop = () => { clearTimeout(beatT); clearTimeout(holdT); reset.classList.remove("holding"); };
     reset.addEventListener("pointerup", e => {
@@ -1810,6 +1825,12 @@ function wire(sheet, s) {
     reset.addEventListener("contextmenu", e => e.preventDefault());
     reset.onclick = e => { e.stopPropagation(); if (e.detail === 0) one(); };   // keyboard only; touch and mouse use the pointer
   }
+  sheet.querySelectorAll("#pv-reset, #pv-like").forEach(b => {
+    b.addEventListener("pointerdown", () => b.classList.add("pressed"));
+    const out = () => { if (!b.classList.contains("pressed")) return; b.classList.remove("pressed");
+      if (!reduce()) b.animate?.([{ transform: "scale(.88)" }, { transform: "scale(1.08)", offset: .55 }, { transform: "none" }], { duration: 320, easing: "ease-out" }); };
+    ["pointerup", "pointercancel", "pointerleave"].forEach(ev => b.addEventListener(ev, out));
+  });
   /* the same heart as on the home tiles: a like draws it with a pen stroke and fills it; an unlike cracks it
      like the broken-heart emoji, the halves part a little and fade, and the plain (unliked) heart returns */
   sheet.querySelector("#pv-like").onclick = e => {
@@ -1846,7 +1867,8 @@ function wire(sheet, s) {
      (when the page is scrolled to its top). The page follows the finger; let go past a third of the way,
      or with a quick flick, and it slides off that way; otherwise it settles back. */
   let x0 = null, y0 = 0, dx = 0, dy = 0, axis = null, v = 0, lastP = 0, lastT = 0;
-  const start = (x, y) => { if (sheet._closing) return; x0 = x; y0 = y; dx = dy = 0; axis = null; v = 0; lastT = performance.now(); };
+  /* a touch that starts on any button never swipes the page away */
+  const start = (x, y, target) => { if (sheet._closing || target?.closest?.("button")) return; x0 = x; y0 = y; dx = dy = 0; axis = null; v = 0; lastT = performance.now(); };
   const move = (x, y, e) => {
     if (x0 == null) return;
     const ddx = x - x0, ddy = y - y0;
@@ -1871,10 +1893,10 @@ function wire(sheet, s) {
     sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`;
     setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
-  sheet.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  sheet.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
   sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   sheet.addEventListener("touchend", end); sheet.addEventListener("touchcancel", end);
-  sheet.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  sheet.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
   sheet.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
   sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
 }
