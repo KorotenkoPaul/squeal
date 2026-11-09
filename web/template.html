@@ -500,7 +500,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .view.s-tab #results::-webkit-scrollbar { display: none; }
 .view.s-tab #results > * { flex: none; }
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
-.log { overscroll-behavior-y: none; }   /* the phone's own bounce would move the description too: the chat does its own (below) */
+.log { overscroll-behavior-y: none; }
+.view.rubber { overscroll-behavior-y: none; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* the phone's own bounce would move the description too: the chat does its own (below) */
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 /* a new message (or the typing / recording bubble) grows out of its own bottom corner, like WhatsApp */
@@ -1543,7 +1544,10 @@ function startSlider() {
        the slide back (2026-11-09) */
     const away = Math.min(1, Math.abs(p - at), at === 0 ? Math.abs(n - p) : 1);
     fill.style.width = (W * t * (1 - away)).toFixed(2) + "px";
-    fill.style.transform = `translateX(${(L[at] - left).toFixed(2)}px)`;
+    /* anchored where its slot starts at rest: dragging back, the line shrinks towards its own start (left), it is
+       not carried right by the slots trading width (2026-11-09) */
+    const atRest = (box.clientWidth - (W + (n - 1) * DOT + GAP * (n - 1))) / 2 + at * (DOT + GAP);
+    fill.style.transform = `translateX(${(atRest - left).toFixed(2)}px)`;
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (Math.round(raw) + 2) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
@@ -1580,11 +1584,13 @@ function favourites() {
     setTimeout(() => {
       toggleFav(card.dataset.id);
       if (!favs().length) return refresh();                          // nothing left: the empty picture fades in
-      const below = []; for (let el = card.nextElementSibling; el; el = el.nextElementSibling) below.push(el);
-      const before = below.map(el => el.getBoundingClientRect().top);
+      /* every item glides from where it was to where it now is — those below up into the space, and, when the list
+         was scrolled to its end, those above down (the page could not stay where it was): never a jump (2026-11-09) */
+      const all = [...card.parentElement.children].filter(el => el !== card && el !== label);
+      const before = all.map(el => el.getBoundingClientRect().top);
       card.remove(); label?.remove();
-      below.forEach((el, k) => { const dy = before[k] - el.getBoundingClientRect().top;
-        if (dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 340, easing: "cubic-bezier(.32,.72,0,1)" }); });
+      all.forEach((el, k) => { const dy = before[k] - el.getBoundingClientRect().top;
+        if (Math.abs(dy) > .5) el.animate([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 340, easing: "cubic-bezier(.32,.72,0,1)" }); });
     }, 220);
   };
   const cards = [...app.querySelectorAll(".row-card")];
@@ -1620,6 +1626,45 @@ function favourites() {
     if (card._x) return snap(card, 0);
     preview(b.dataset.open); });
   app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => removeRow(b.closest(".row-card")));
+  rubberBand(app.querySelector("#view"));
+}
+/* The Search list's rubber band for a whole page (Favourites, 2026-11-09): however few stories, the page (headings
+   too) can be pulled down at its top or up at its end, stiffer the further you pull; let go and a critically damped
+   spring brings it home from the finger's speed; it can be caught on the way. The phone's own bounce is off, no
+   scroll bar. A sideways drag (a row's swipe) is left alone. */
+function rubberBand(sc) {
+  if (!sc) return;
+  sc.classList.add("rubber");
+  let y0 = null, x0 = 0, pull = 0, mine = false, base = 0, v = 0, lastY = 0, lastT = 0, spring = 0;
+  const K = .55, H = () => sc.clientHeight || 1;
+  const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
+  const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
+  const set = x => { pull = x; for (const c of sc.children) c.style.translate = Math.abs(x) > .05 ? `0 ${x.toFixed(2)}px` : ""; };
+  sc.addEventListener("touchstart", e => { cancelAnimationFrame(spring); base = pull ? unrubber(pull) : 0;
+    y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; mine = !!pull; v = 0; lastY = y0; lastT = e.timeStamp; }, { passive: true });
+  sc.addEventListener("touchmove", e => {
+    if (y0 == null) return;
+    const y = e.touches[0].clientY, dy = y - y0, dx = e.touches[0].clientX - x0, max = sc.scrollHeight - sc.clientHeight;
+    if (!mine) {
+      if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 8) y0 = null; return; }
+      const atTop = sc.scrollTop <= 0 && dy > 0, atEnd = sc.scrollTop >= max - .5 && dy < 0;
+      if (!(atTop || atEnd) || Math.abs(dy) < 6) return;
+      mine = true; y0 = y - Math.sign(dy) * 6; base = 0;
+    }
+    if (e.cancelable) e.preventDefault();
+    const dt = Math.max(1, e.timeStamp - lastT); v = .8 * v + .2 * ((y - lastY) / dt * 1000); lastY = y; lastT = e.timeStamp;
+    const d = base + (y - y0);
+    if ((d > 0 && sc.scrollTop > 0) || (d < 0 && sc.scrollTop < max - .5)) return set(0);
+    set(rubber(d));
+  }, { passive: false });
+  const let_go = () => {
+    if (y0 == null) return; y0 = null; if (!mine && !pull) return;
+    const w = 13, x0_ = pull, v0 = Math.max(-2500, Math.min(2500, v * (1 - Math.abs(pull) / H()) * .5)), t0 = performance.now();
+    const f = now => { const t = (now - t0) / 1000, x = (x0_ + (v0 + w * x0_) * t) * Math.exp(-w * t);
+      if (t > .1 && Math.abs(x) < .3) return set(0); set(x); spring = requestAnimationFrame(f); };
+    spring = requestAnimationFrame(f);
+  };
+  sc.addEventListener("touchend", let_go); sc.addEventListener("touchcancel", let_go);
 }
 
 /* How scary a story is, 1 to 5. A stand-in until stories get their own rating: horror sits high,
@@ -3076,19 +3121,17 @@ function openStory(id, epIndex) {
   }
   /* the rubber band, as in the Search list (2026-11-09): the description at the top stays put like the search field;
      the messages, however few, can be pulled down at the top or up at the end, stiffer the further you pull, and a
-     critically damped spring brings them home from the finger's own speed (can be caught again on the way). Pulled
-     up, they slide under the description, never over it. No scroll bar. */
+     critically damped spring brings them home from the finger's own speed (can be caught again on the way). No
+     scroll bar. */
   {
     let ry0 = null, rx0 = 0, rpull = 0, rmine = false, rbase = 0, rv = 0, rlastY = 0, rlastT = 0, rspring = 0, rmoved = false;
     const K = .55, H = () => log.clientHeight || 1;
     const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
     const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
-    const rset = x => { rpull = x; const move = Math.abs(x) > .05, it = log.querySelector(".intro"), ib = it ? it.getBoundingClientRect().bottom + 4 : -1e9;
-      for (const c of log.children) { if (c.classList.contains("intro")) continue;
-        c.style.translate = move ? `0 ${x.toFixed(2)}px` : "";
-        let cut = 0; if (move && x < 0) cut = ib - c.getBoundingClientRect().top;
-        const mk = cut > -16 ? `linear-gradient(to bottom, transparent ${cut.toFixed(1)}px, #000 ${(cut + 16).toFixed(1)}px)` : "";   // a soft edge, not a cut
-        c.style.webkitMaskImage = mk; c.style.maskImage = mk; } };
+    /* pulled down: the messages come down, the description stays where it is (never below its place); pulled up:
+       everything goes up together, the description too, as when a new message pushes the chat up (2026-11-09) */
+    const rset = x => { rpull = x; const move = Math.abs(x) > .05;
+      for (const c of log.children) { c.style.translate = move && (x < 0 || !c.classList.contains("intro")) ? `0 ${x.toFixed(2)}px` : ""; } };
     const busyNow = () => !!document.querySelector(".choice-ghost");
     log.addEventListener("touchstart", e => { if (busyNow()) return; cancelAnimationFrame(rspring); rbase = rpull ? unrubber(rpull) : 0;
       ry0 = e.touches[0].clientY; rx0 = e.touches[0].clientX; rmine = !!rpull; rmoved = false; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
