@@ -163,9 +163,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
 .tile .fav svg { width: 21px; height: 21px; overflow: visible; }
 .tile .fav .hs { stroke-dasharray: 1; stroke-dashoffset: 0; }
-/* breaking heart (unlike): the badge's circle and the two halves of the heart, each a cut-out copy */
-.tile .fav .bg { position: absolute; inset: 0; z-index: 0; border-radius: 50%; background: var(--accent); }
-.tile .fav .half { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; transform-origin: 50% 85%; }
+/* breaking heart (unlike): the two halves of the heart, each a cut-out copy */
+.tile .fav .half { position: absolute; inset: 0; display: grid; place-items: center; transform-origin: 50% 74%; }   /* hinged at the heart's tip */
 /* prototype only: a cover that must be replaced before release (build.py COVER_FIX) */
 .tile .fix { position: absolute; top: 9px; left: 9px; z-index: 2; width: 30px; height: 30px; border-radius: 50%; background: #e0233b; color: #fff; display: grid; place-items: center; pointer-events: none; }
 .tile .fix svg { width: 16px; height: 16px; }
@@ -640,24 +639,29 @@ function drawHeart(h, ms = 560) {
   hs?.animate([{ strokeDashoffset: 1, opacity: 0, offset: 0 }, { strokeDashoffset: 1, opacity: 0, offset: .14 }, { strokeDashoffset: .97, opacity: 1, offset: .17 }, { strokeDashoffset: 0, opacity: 1, offset: .78 }], { duration: ms, easing: "cubic-bezier(.45,.05,.35,1)", fill: "backwards" });
   hf?.animate([{ opacity: 0, transform: "scale(.6)", offset: 0 }, { opacity: 0, transform: "scale(.6)", offset: .66 }, { opacity: 1, transform: "none", offset: 1 }], { duration: ms, easing: "ease-out", fill: "backwards" });
 }
-/* Unliked: the heart breaks. A zigzag crack runs down its middle, the two halves lean apart, then fall
-   away to the sides and fade while the round badge behind them shrinks. Same timing as before:
+/* Unliked: the heart breaks like the broken-heart emoji: a zigzag crack opens from the dip at the top to
+   the tip, the two halves part a little (a V hinged at the tip), and the badge goes away as it always
+   did, a small swell and twist and it shrinks to nothing. Nothing flies out of the circle.
    big = after a long press on the card (fuller); otherwise a quick, quiet exit. */
-const CRACK = "50% 18%, 43% 36%, 56% 50%, 45% 66%, 53% 82%, 50% 100%";
+const CRACK = "50% 24%, 42% 41%, 58% 55%, 45% 70%, 52% 86%, 50% 100%";
 function heartOut(h, big) {
   if (h._going) return; h._going = true;
   if (reduce() || !h.animate) return h.remove();
-  const ms = big ? 460 : 280, svg = h.querySelector("svg").outerHTML;
-  const pts = CRACK.split(", ");
-  h.style.background = "transparent";
-  h.innerHTML = `<i class="bg"></i><span class="half l" style="clip-path:polygon(0 0, 50% 0, ${pts.join(", ")}, 0 100%)">${svg}</span><span class="half r" style="clip-path:polygon(50% 0, 100% 0, 100% 100%, ${pts.slice().reverse().join(", ")})">${svg}</span>`;
-  const [bg, l, r] = h.children, o = { duration: ms, easing: "cubic-bezier(.4,0,.7,.2)", fill: "forwards" };
-  bg.animate([{ transform: "none", opacity: 1 }, { transform: "scale(1.06)", opacity: 1, offset: .25 }, { transform: "scale(.5)", opacity: 0, offset: .6 }, { transform: "scale(.5)", opacity: 0 }], o);
-  const fall = s => [{ transform: "none", opacity: 1 }, { transform: `translateX(${s * 1.5}px) rotate(${s * 8}deg)`, opacity: 1, offset: .3 },
-    { transform: `translate(${s * 6}px, 5px) rotate(${s * 22}deg)`, opacity: 1, offset: .6 },
-    { transform: `translate(${s * 10}px, 13px) rotate(${s * 36}deg)`, opacity: 0 }];
-  l.animate(fall(-1), o);
-  r.animate(fall(1), o).onfinish = () => h.remove();
+  const ms = big ? 460 : 280, svg = h.querySelector("svg").outerHTML, pts = CRACK.split(", ");
+  h.innerHTML = `<span class="half l" style="clip-path:polygon(0 0, 50% 0, ${pts.join(", ")}, 0 100%)">${svg}</span><span class="half r" style="clip-path:polygon(50% 0, 100% 0, 100% 100%, ${pts.slice().reverse().join(", ")})">${svg}</span>`;
+  const [l, r] = h.children;
+  const part = s => [{ transform: "none" }, { transform: `translateX(${s * .7}px) rotate(${s * 4}deg)`, offset: .3 }, { transform: `translateX(${s * .7}px) rotate(${s * 4}deg)` }];
+  l.animate(part(-1), { duration: ms, easing: "ease-out", fill: "forwards" });
+  r.animate(part(1), { duration: ms, easing: "ease-out", fill: "forwards" });
+  h.animate(big ? [
+    { transform: "none", opacity: 1 },
+    { transform: "scale(1.2) rotate(8deg)", opacity: 1, offset: .35 },
+    { transform: "scale(0) rotate(-24deg)", opacity: 0 },
+  ] : [
+    { transform: "none", opacity: 1 },
+    { transform: "scale(1.1)", opacity: 1, offset: .3 },
+    { transform: "scale(0)", opacity: 0 },
+  ], { duration: ms, easing: "ease-in", fill: "forwards" }).onfinish = () => h.remove();
 }
 /* a tap on the heart badge itself unlikes the story; the card stays still and does not open */
 document.addEventListener("pointerdown", e => { if (e.target.closest?.(".tile .fav")) e.stopPropagation(); }, true);
