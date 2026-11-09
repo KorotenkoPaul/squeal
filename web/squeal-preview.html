@@ -522,7 +522,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing.rec { font-size: inherit; } .typing.rec span { font-size: 14px; }
 /* the chat is a column that may be longer than the screen: nothing in it may be squeezed to fit (the bubble
    was flattened to a 7 px strip once the chat was longer than the screen; 2026-11-09) */
-.log > * { flex-shrink: 0; }
+.log > * { flex-shrink: 0; translate: var(--sx, 0px) var(--ry, 0px); }   /* --sx: sliding on a part switch; --ry: the rubber band */
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
@@ -1544,10 +1544,9 @@ function startSlider() {
        the slide back (2026-11-09) */
     const away = Math.min(1, Math.abs(p - at), at === 0 ? Math.abs(n - p) : 1);
     fill.style.width = (W * t * (1 - away)).toFixed(2) + "px";
-    /* anchored where its slot starts at rest: dragging back, the line shrinks towards its own start (left), it is
-       not carried right by the slots trading width (2026-11-09) */
-    const atRest = (box.clientWidth - (W + (n - 1) * DOT + GAP * (n - 1))) / 2 + at * (DOT + GAP);
-    fill.style.transform = `translateX(${(atRest - left).toFixed(2)}px)`;
+    /* inside the pill itself (2026-11-09, last): it starts at the pill's left end and moves with the pill under the
+       finger, shrinking within it — never left behind where the pill stood */
+    fill.style.transform = "";
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (Math.round(raw) + 2) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
@@ -1632,15 +1631,15 @@ function favourites() {
    too) can be pulled down at its top or up at its end, stiffer the further you pull; let go and a critically damped
    spring brings it home from the finger's speed; it can be caught on the way. The phone's own bounce is off, no
    scroll bar. A sideways drag (a row's swipe) is left alone. */
-function rubberBand(sc) {
+function rubberBand(sc, o = {}) {
   if (!sc) return;
   sc.classList.add("rubber");
   let y0 = null, x0 = 0, pull = 0, mine = false, base = 0, v = 0, lastY = 0, lastT = 0, spring = 0;
   const K = .55, H = () => sc.clientHeight || 1;
   const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
   const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
-  const set = x => { pull = x; for (const c of sc.children) c.style.translate = Math.abs(x) > .05 ? `0 ${x.toFixed(2)}px` : ""; };
-  sc.addEventListener("touchstart", e => { cancelAnimationFrame(spring); base = pull ? unrubber(pull) : 0;
+  const set = x => { pull = x; if (o.move) return o.move(x); for (const c of sc.children) c.style.translate = Math.abs(x) > .05 ? `0 ${x.toFixed(2)}px` : ""; };
+  sc.addEventListener("touchstart", e => { if (o.skip?.()) return; cancelAnimationFrame(spring); base = pull ? unrubber(pull) : 0;
     y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; mine = !!pull; v = 0; lastY = y0; lastT = e.timeStamp; }, { passive: true });
   sc.addEventListener("touchmove", e => {
     if (y0 == null) return;
@@ -1658,7 +1657,7 @@ function rubberBand(sc) {
     set(rubber(d));
   }, { passive: false });
   const let_go = () => {
-    if (y0 == null) return; y0 = null; if (!mine && !pull) return;
+    if (y0 == null) return; y0 = null; if (!mine && !pull) return; if (mine) o.pulled?.();
     const w = 13, x0_ = pull, v0 = Math.max(-2500, Math.min(2500, v * (1 - Math.abs(pull) / H()) * .5)), t0 = performance.now();
     const f = now => { const t = (now - t0) / 1000, x = (x0_ + (v0 + w * x0_) * t) * Math.exp(-w * t);
       if (t > .1 && Math.abs(x) < .3) return set(0); set(x); spring = requestAnimationFrame(f); };
@@ -2665,6 +2664,44 @@ const premium = () => store.get("premium", true);   // prototype: the owner read
 const freeTaps = () => store.get("taps", FREE_TAPS);
 let timer = null;
 let OPEN_FROM = "right";                                            // where a new chat slides in from ("Read" and a swipe left: right; a swipe up: bottom)
+/* Messages sliding sideways (a part switch, a chat opening) — rewritten simply, like the doodles (2026-11-09):
+   every message has one sideways offset pulled by a spring towards its goal: home (0) or just past its own side of
+   the screen (the other side's to the left, the reader's to the right). Leaving and arriving are the same spring, so a
+   switch at any moment only changes goals: whatever is moving keeps its speed and turns smoothly, nothing restarts.
+   Nothing fades — a message is fully there all the way; only the description and an ending's title fade. Arrivals
+   wait until everything leaving has gone off the screen, then come in nearest the bottom first, 25 ms apart. */
+const SLIDE = { items: new Set(), raf: 0, t: 0 };
+const SLIDE_IN = 14, SLIDE_OUT = 9;      // spring rates: an arrival is 99% home in 0.33 s; a leaver starts softly and is off in ≈0.19 s
+const slideSide = el => el.classList.contains("me") ? 1 : el.matches(".them, .typing") ? -1 : 0;
+function slideTick(now) {
+  const dt = Math.max(0, Math.min(.1, (now - SLIDE.t) / 1000)); SLIDE.t = now;
+  const leaving = [...SLIDE.items].some(s => s.goal);
+  for (const s of SLIDE.items) {
+    if (!s.el.isConnected) { SLIDE.items.delete(s); continue; }
+    if (s.wait) { if (leaving) continue; s.wait = false; s.at = s.lag ? now + s.lag : 0; }
+    if (now < s.at) continue;
+    if (s.fade) { s.el.style.opacity = ""; s.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 340 }); SLIDE.items.delete(s); continue; }
+    const w = s.goal ? SLIDE_OUT : SLIDE_IN, y = s.x - s.goal, c = s.v + w * y, e = Math.exp(-w * dt);      // a critically damped spring, exact for any frame length
+    s.x = s.goal + (y + c * dt) * e; s.v = (c - w * (y + c * dt)) * e;
+    if (s.goal ? Math.abs(s.x) >= s.need : Math.abs(s.x) < .3 && Math.abs(s.v) < 20) { if (!s.goal) s.x = s.v = 0; SLIDE.items.delete(s); }   // off the screen / home
+    s.el.style.setProperty("--sx", s.x.toFixed(2) + "px");
+  }
+  SLIDE.raf = SLIDE.items.size ? requestAnimationFrame(slideTick) : 0;
+}
+function slideRun(s) { SLIDE.items.add(s); if (!SLIDE.raf) { SLIDE.t = performance.now(); SLIDE.raf = requestAnimationFrame(slideTick); } }
+/* how far it must go to be fully off the screen (box: the chat's rectangle) */
+function slidePrep(el, box) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }), r = el.getBoundingClientRect();
+  s.need = (slideSide(el) < 0 ? r.right - s.x - box.left : box.right - r.left + s.x) + 12; return s; }
+function slideOut(el, box, lag) { const s = slidePrep(el, box); s.goal = slideSide(el) * s.need * 2; s.wait = false; s.at = lag ? performance.now() + lag : 0; slideRun(s); }
+function slideIn(el, box, lag, wait) { const s = slidePrep(el, box);
+  s.x = slideSide(el) * s.need; s.v = -SLIDE_IN * s.x; s.goal = 0;                   // with this start speed it slows all the way home
+  s.wait = wait; s.lag = lag; s.at = lag ? performance.now() + lag : 0; el.style.setProperty("--sx", s.x.toFixed(2) + "px"); slideRun(s); }
+function slideFadeIn(el, lag, wait) { el.style.opacity = 0; el._fd = { el, fade: true, goal: 0, wait, lag, at: lag ? performance.now() + lag : 0 }; slideRun(el._fd); }
+function slideFadeOut(el) { if (el._fd) SLIDE.items.delete(el._fd); const op = +getComputedStyle(el).opacity;
+  el.getAnimations().forEach(a => a.cancel()); el.style.opacity = 0; if (op > .02) el.animate([{ opacity: op }, { opacity: 0 }], { duration: 200 * op }); }
+/* an old part's conversation goes once nothing in it moves any more */
+function slideGhostGone(g) { const t = setInterval(() => { if ([...g.children].some(c => (c._sl && SLIDE.items.has(c._sl)) || c.getAnimations().some(a => a.playState === "running"))) return; clearInterval(t); g.remove(); }, 50); }
+
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
   store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
@@ -2731,23 +2768,22 @@ function openStory(id, epIndex) {
   /* like WhatsApp: when something new appears at the bottom, the conversation glides up to make room
      (0.26 s, easing out) instead of jumping; a finger on the chat stops the glide */
   let glideRaf = 0;
-  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0, endIn = null, wantGlide = false;
-  /* the conversation only ever moves UP on its own, never down (2026-11-09): something new at the bottom glides
-     it up (0.26 s, easing out); a growing bottom panel pushes it up exactly with its edge; a shrinking panel leaves
-     it where it is — the freed room is kept as empty space under the last message ("slack") and is used up first
-     by whatever comes next */
-  let slack = 0, gT0 = 0, gOff = 0, ownScroll = 0;                  // ownScroll: when the app itself last moved the chat
-  const natural = () => log.scrollHeight - slack - log.clientHeight;        // the scroll that shows the very bottom with no slack
-  const setSlack = v => { v = v < .5 ? 0 : v; if (Math.abs(v - slack) < .01) return; slack = v; log.style.paddingBottom = v ? (8 + v) + "px" : ""; };
+  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0, endIn = null, wantGlide = false, growNext = false;
+  /* the bottom of the conversation keeps to the bottom panel's edge (2026-11-09, last): something new at the bottom
+     glides it up (0.26 s, easing out); a growing panel pushes it up with its edge. After an answer is picked the panel
+     shrinks while the answer arrives at the bottom: the two make one smooth movement, so the answer lands exactly
+     where every sent message does (no empty room left under it) and nothing above it jerks */
+  let gT0 = 0, gOff = 0;
+  const natural = () => log.scrollHeight - log.clientHeight;               // the scroll that shows the very bottom
   const keep = now => {
     const n = natural(), q = Math.min(1, (now - gT0) / 260);
     const top = Math.max(log.scrollTop, n - gOff * Math.pow(1 - q, 3));   // never down
-    setSlack(now < footEnd ? Math.max(slack, top - n) : top - n); log.scrollTop = top; ownScroll = performance.now();   // while the panel moves, room is only added
+    log.scrollTop = top;
     gliding = q < 1 || now < footEnd; if (gliding) glideRaf = requestAnimationFrame(keep);
   };
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
-    if (reduce()) { const n = natural(), top = Math.max(log.scrollTop, n); setSlack(top - n); log.scrollTop = top; ownScroll = performance.now(); return; }   // at once, but still never down
+    if (reduce()) { log.scrollTop = Math.max(log.scrollTop, natural()); return; }   // at once, but still never down
     gT0 = performance.now(); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
     gliding = true; glideRaf = requestAnimationFrame(keep);
   };
@@ -2833,14 +2869,14 @@ function openStory(id, epIndex) {
     const h = el.getBoundingClientRect().height, gap = parseFloat(getComputedStyle(log).rowGap) || 6;
     /* a chat shorter than the screen: the bubble just grows in its own place; a full chat: it grows at the bottom
        edge and pushes the conversation up as it grows */
-    const over = log.scrollHeight - slack - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room), over) : 0;   // just the part that does not fit
+    const over = log.scrollHeight - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room), over) : 0;   // just the part that does not fit
     /* always from small, out of its pointed corner: bottom left for theirs, bottom right for yours (2026-11-09) */
     el.animate([{ transform: "scale(.35)", opacity: 0, marginTop: m0 + "px" }, { transform: "none", opacity: 1, marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" }); };
   /* "typing…" turns into the message (2026-11-09): the same bubble stretches from its size to the message's, from its
      pointed corner, while the words fade in — no second bubble grows */
   const morph = (el, from) => { if (reduce() || !el.animate) return;
     const r = el.getBoundingClientRect(), sx = Math.min(1, from.width / r.width), sy = Math.min(1, from.height / r.height);
-    const over = log.scrollHeight - slack - log.clientHeight - 8, grow = Math.max(0, r.height - from.height);
+    const over = log.scrollHeight - log.clientHeight - 8, grow = Math.max(0, r.height - from.height);
     el.animate([{ transform: `scale(${sx}, ${sy})`, marginTop: -Math.min(grow, Math.max(grow, over > 0 ? grow : grow)) + "px" }, { transform: "none", marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" });
     const fade = [{ opacity: 0 }, { opacity: 0, offset: .3 }, { opacity: 1 }];
     if (el.children.length) [...el.children].forEach(c => c.animate(fade, { duration: 260 }));
@@ -2854,32 +2890,20 @@ function openStory(id, epIndex) {
   };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);              // messages already read are simply there
   fresh = true;
-  log.scrollTop = log.scrollHeight; ownScroll = performance.now();
-  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; ownScroll = performance.now(); });    // land on the last message read
-  /* the messages on screen slide in from their own sides (the other side's from the left, the reader's from the
-     right) at the answer-choice speed: on every opening of a chat (after the chat itself slides in) and after
-     a part switch (after the old ones have slid out) (2026-11-09) */
-  /* animations started during a part switch run from this very moment, not from the next frame (2026-11-09): that
-     frame is a long one (the new chat is being built) and anything started "next frame" would stand still through it */
-  const now0 = el => (frames, opts) => { const a = el.animate(frames, opts); try { if (document.timeline.currentTime != null) a.startTime = document.timeline.currentTime; } catch {} return a; };
-  const boxR = new WeakMap();                                       // the box's rectangle, measured once per moment
-  const seen = (box, el) => { let c = boxR.get(box); const now = performance.now(); if (!c || now - c.t > 4) { c = { r: box.getBoundingClientRect(), t: now }; boxR.set(box, c); }
-    const a = c.r, r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
-  const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
-  const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
-  const slideIn = start => { let end = start + 340;
-    [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
-      const delay = start + Math.min(k * 25, 200); end = Math.max(end, delay + 340);
-      /* the slide keeps its quick start; the fade-in runs evenly beside it, so a bubble never flashes up (2026-11-09) */
-      if (side(el)) now0(el)([{ transform: off(el) }, { transform: "none" }], { duration: 340, delay, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" });
-      now0(el)([{ opacity: 0 }, { opacity: 1 }], { duration: 340, delay, easing: "cubic-bezier(.4,0,.6,1)", fill: "backwards" }); });
-    return end; };
-  /* run once the bottom panel is in place (after the first controls()): only then are the chat's height, its
-     scroll and the messages really on screen known — before, the old messages were laid over "Tap to continue"
-     and the wrong ones slid (2026-11-09) */
+  log.scrollTop = log.scrollHeight;
+  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
+  /* run once the bottom panel is in place (after the first controls()): only then are the chat's height, its scroll
+     and the messages really on screen known. Sliding: see SLIDE above openStory (2026-11-09, rewritten simply). */
+  const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
   const slides = () => {
-  if (!prev && !reduce()) slideIn(240);
-  if (oldLog) {
+    const box = scr.querySelector(".chat").getBoundingClientRect();
+    /* the messages on screen come in from their own sides, nearest the bottom first; the description (and an
+       ending's title) only fades — and on opening a chat the description is simply there */
+    const arrive = (lag, wait, intro) => { let k = 0;
+      [...log.children].reverse().forEach(el => { if (!seen(log, el)) return;
+        if (slideSide(el)) slideIn(el, box, lag + Math.min(k++ * 25, 150), wait); else if (intro || !el.classList.contains("intro")) slideFadeIn(el, lag, wait); }); };
+    if (!prev) { if (!reduce()) arrive(240, false, false); return; }
+    if (!oldLog) return;
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
     oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
     /* as tall as it was (so its messages stay exactly where they stood), but cut off where the new panel begins */
@@ -2887,45 +2911,16 @@ function openStory(id, epIndex) {
     Object.assign(oldLog.style, { top: log.offsetTop + "px", height: gh + "px", boxSizing: "border-box", clipPath: `inset(0 -100vw ${Math.max(0, gh - log.clientHeight)}px -100vw)` });
     log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
     if (oldRef != null && oldLog.lastElementChild) oldLog.scrollTop += oldLog.lastElementChild.getBoundingClientRect().top - oldRef;   // to the pixel where it stood
-    /* the description shows still when a chat opens; only on a part switch does it go and come back:
-       it fades out while the old messages slide out, and fades in while the new ones slide in (2026-11-09) */
-    let outEnd = 0;
-    const left = a => { const tm = a.effect.getComputedTiming(), rate = a.playbackRate || 1, ct = a.currentTime || 0;
-      return Math.max(0, rate > 0 ? (tm.endTime - ct) / rate : ct / -rate); };
-    ghosts.forEach(g => { log.parentNode.insertBefore(g.el, log.nextSibling); g.el.scrollTop = g.top;     // still on their way out
-      g.el.querySelectorAll("*").forEach(x => x.getAnimations().forEach(a => { outEnd = Math.max(outEnd, left(a)); }));
-      const ge = g.el; setTimeout(() => ge.remove(), outEnd + 40); });
+    ghosts.forEach(g => { log.parentNode.insertBefore(g.el, log.nextSibling); g.el.scrollTop = g.top; });   // still on their way out
+    /* the old part's messages go off to their own sides: those moving keep their speed and turn, those at rest
+       start softly (nearest the bottom first); the ones not on screen are simply hidden */
     let k = 0;
-    [...oldLog.children].reverse().forEach(el => {                    // nearest the bottom first
-      const intro = el.classList.contains("intro"), running = el.getAnimations().filter(a => a.playState !== "finished");
-      if (running.length) {
-        /* half way in: its speed never jumps (2026-11-09) — it runs on a touch further the way it was going, slowing
-           to a stop (60 ms), then picks up speed back out to its side; nothing restarts from a standstill */
-        const a0 = running[0], mx = () => { const m = new DOMMatrix(getComputedStyle(el).transform); return m.m41; };
-        const op = +getComputedStyle(el).opacity, x0 = mx();
-        let v = 0; try { const ct = a0.currentTime; if (ct != null && a0.playState !== "paused") { a0.currentTime = ct + 16; v = (mx() - x0) / 16; a0.currentTime = ct; } } catch {}
-        running.forEach(a => a.cancel());
-        if (op < .02) { el.style.opacity = 0; return; }
-        if (intro) { now0(el)([{ opacity: op }, { opacity: 0 }], { duration: Math.round(240 * op), fill: "forwards" }); outEnd = Math.max(outEnd, Math.round(240 * op)); return; }
-        const dur = Math.max(80, Math.round(240 * op)), stopMs = Math.abs(v) > .05 ? Math.round(Math.max(80, Math.min(170, Math.abs(v) * 45))) : 0, x1 = x0 + v * stopMs / 2;   // the faster it came, the longer and softer it stops
-        const frames = side(el) ? (stopMs ? [{ transform: `translateX(${x0}px)`, opacity: op, easing: "cubic-bezier(.33,.66,.66,1)" }, { transform: `translateX(${x1}px)`, opacity: op, offset: stopMs / (stopMs + dur), easing: "cubic-bezier(.5,0,.75,0)" }, { transform: off(el), opacity: 0 }]
-          : [{ transform: `translateX(${x0}px)`, opacity: op, easing: "cubic-bezier(.5,0,.75,0)" }, { transform: off(el), opacity: 0 }]) : [{ opacity: op }, { opacity: 0 }];
-        now0(el)(frames, { duration: stopMs + dur, fill: "forwards" });
-        outEnd = Math.max(outEnd, stopMs + dur); return; }
-      if (intro) return;
-      if (!seen(oldLog, el) || +getComputedStyle(el).opacity < .02) { el.style.opacity = 0; return; }
-      const delay = Math.min(k++ * 25, 200); outEnd = Math.max(outEnd, delay + 240);
-      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }]   /* from rest: starts with the first frame shown, softly */ : [{ opacity: 1 }, { opacity: 0 }],
-        { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
-    const oi = oldLog.querySelector(".intro");
-    if (oi && !oi.getAnimations().some(a => a.playState !== "finished")) {
-      if (seen(oldLog, oi) && +getComputedStyle(oi).opacity > .02) now0(oi)([{ opacity: 1 }, { opacity: 0 }], { duration: Math.max(120, outEnd), easing: "linear", fill: "forwards" }); else oi.style.opacity = 0; }
-    outEnd = Math.max(outEnd, 120);
-    setTimeout(() => oldLog.remove(), outEnd + 20);
-    const inStart = Math.max(120, outEnd - 60), inEnd = slideIn(inStart);              // after the old ones are gone
-    const ni = log.querySelector(".intro");
-    if (ni) now0(ni)([{ opacity: 0 }, { opacity: 1 }], { duration: inEnd - inStart, delay: inStart, easing: "linear", fill: "backwards" });
-  }
+    [...oldLog.children].reverse().forEach(el => {
+      if (!slideSide(el)) return slideFadeOut(el);
+      if (!seen(oldLog, el)) { if (el._sl) SLIDE.items.delete(el._sl); el.style.visibility = "hidden"; return; }
+      slideOut(el, box, el._sl && SLIDE.items.has(el._sl) ? 0 : Math.min(k++ * 25, 150)); });
+    slideGhostGone(oldLog);
+    arrive(0, true, true);                                          // the new ones: as soon as the old ones are off screen
   };
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
@@ -2938,12 +2933,13 @@ function openStory(id, epIndex) {
   /* the bottom panel never jumps to a new height: it grows (or shrinks) over 0.4 s and the conversation
      glides with its edge, as if a new message had pushed it — nothing slips behind an invisible edge (2026-11-09) */
   function controls() {
-    const s0 = log.scrollTop, h0 = foot.getBoundingClientRect().height, atBottom = log.scrollHeight - log.clientHeight - log.scrollTop < 8;
+    const h0 = foot._h0 ?? foot.getBoundingClientRect().height, atBottom = log.scrollHeight - log.clientHeight - log.scrollTop < 8;
     /* a change still under way (an answer picked while the panel is still opening) is stopped where it stands
        before measuring the new height, so the new change starts from there (2026-11-09) */
-    footAnim?.cancel(); footAnim = null;
+    footAnim?.cancel(); footAnim = null; foot._h0 = null;
     controlsNow();
     const h1 = foot.getBoundingClientRect().height, glide = wantGlide; wantGlide = false;
+    const grow = growNext ? log.lastElementChild : null; growNext = false;   // the answer just sent
     if (footFirst) { footFirst = false; return; }
     const ending = endIn; endIn = null;
     /* the end: the story's / ending's title comes up from below with the conversation, like a message; meanwhile
@@ -2956,7 +2952,6 @@ function openStory(id, epIndex) {
     const showUpper = ms => setTimeout(() => upper.forEach(c => c.style.opacity = ""), ms);
     if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 125);
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
-      if (h1 < h0 - 1) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); ownScroll = performance.now(); }   // a shrinking panel: nothing jumps down
       if (glide || gliding || reduce()) glideDown(); showUpper(125); return; }
     footAnim?.cancel();
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
@@ -2966,15 +2961,19 @@ function openStory(id, epIndex) {
        start a frame late on iPhone, and for that frame the panel would jump to its new height and the chat with it */
     footAnim = (() => { let raf = 0, done = false; const t0 = performance.now(), api = { onfinish: null, oncancel: null };
       Object.assign(foot.style, { boxSizing: "border-box", overflow: "hidden", height: h0 + "px" });
-      const end = cb => { if (done) return; done = true; cancelAnimationFrame(raf); Object.assign(foot.style, { boxSizing: "", overflow: "", height: "" }); (cb || api.onfinish)?.(); };
+      /* the answer just sent takes its room at the very pace the panel gives it back: of its height, the part that
+         does not fit on screen yet starts tucked in (negative margin) and opens with the panel */
+      let m0 = 0;
+      if (grow && atBottom) { const gh = grow.getBoundingClientRect().height + (parseFloat(getComputedStyle(log).rowGap) || 6);
+        m0 = -Math.min(gh, Math.max(0, log.scrollHeight - log.clientHeight - log.scrollTop)); grow.style.marginTop = m0 + "px"; }
+      const end = cb => { if (done) return; done = true; cancelAnimationFrame(raf); Object.assign(foot.style, { boxSizing: "", overflow: "", height: "" }); if (m0) grow.style.marginTop = ""; (cb || api.onfinish)?.(); };
       const f = now => { const q = Math.max(0, Math.min(1, (now - t0 - d) / ms)), e = 1 - Math.pow(1 - q, 3);
-        foot.style.height = (h0 + (h1 - h0) * e) + "px"; if (q < 1) raf = requestAnimationFrame(f); else end(); };
+        foot.style.height = (h0 + (h1 - h0) * e) + "px"; if (m0) grow.style.marginTop = (m0 * (1 - e)) + "px"; if (q < 1) raf = requestAnimationFrame(f); else end(); };
       raf = requestAnimationFrame(f); api.cancel = () => end(api.oncancel); return api; })();
     if (d) foot.querySelectorAll(".choice").forEach(c => c.style.animationDelay = (parseFloat(c.style.animationDelay) || 0) + d + "ms");
     if (foot.classList.contains("choose") || ending) foot.style.justifyContent = "flex-end";   // the panel opens upwards: what is at the bottom stays put
     showUpper(125);                                                   // as quick as "Read again" (2026-11-09)
     footAnim.onfinish = footAnim.oncancel = () => { foot.style.justifyContent = ""; };
-    if (h1 < h0) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); ownScroll = performance.now(); }   // a shrinking panel: nothing slides down
     if (atBottom || gliding || glide) glideDown();                      // followed frame by frame until the panel settles
   }
   function controlsNow() {
@@ -2998,8 +2997,11 @@ function openStory(id, epIndex) {
         const commit = () => {
           path.push(c.next); ep.messages = flatten();
           wallVis(inReach());                                          // the endings this choice closed off: their doodles fall
+          foot._h0 = foot.getBoundingClientRect().height;               // its height as shown, before the answers' layout goes
+          const s0 = log.scrollTop;                                    // (measuring on the way may clamp the scroll for a moment)
           foot.classList.remove("choose"); busy = false;
-          fresh = false; step(); fresh = true;                         // the sent answer does not grow: the flying answer becomes it
+          fresh = false; growNext = true; step(); fresh = true;
+          log.scrollTop = Math.max(log.scrollTop, s0);                 // the panel is held at its old height again: back where it stood                         // the sent answer does not grow: the flying answer becomes it
           return log.lastElementChild;                                 // the sent message
         };
         const reply = () => { const nx = ep.messages[st.i];
@@ -3146,75 +3148,13 @@ function openStory(id, epIndex) {
     timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return;
       fromTyping = t.getBoundingClientRect(); t.remove(); add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
   }
-  /* the rubber band, as in the Search list (2026-11-09): the description at the top stays put like the search field;
-     the messages, however few, can be pulled down at the top or up at the end, stiffer the further you pull, and a
-     critically damped spring brings them home from the finger's own speed (can be caught again on the way). No
-     scroll bar. */
-  {
-    let ry0 = null, rx0 = 0, rpull = 0, rmine = false, rbase = 0, rv = 0, rlastY = 0, rlastT = 0, rspring = 0, rmoved = false;
-    const K = .55, H = () => log.clientHeight || 1;
-    const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
-    const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
-    /* pulled down: the messages come down, the description stays where it is (never below its place); pulled up:
-       everything goes up together, the description too, as when a new message pushes the chat up (2026-11-09) */
-    const rset = x => { rpull = x; const move = Math.abs(x) > .05;
-      for (const c of log.children) { c.style.translate = move && (x < 0 || !c.classList.contains("intro")) ? `0 ${x.toFixed(2)}px` : ""; } };
-    const busyNow = () => !!document.querySelector(".choice-ghost");
-    let caught = false;
-    log.addEventListener("touchstart", e => { if (busyNow()) return;
-      /* a finger on a bounce still settling does not take it over at once (2026-11-09): only if it goes on pulling the
-         same way; otherwise the bounce settles by itself and the finger simply scrolls */
-      caught = !!rpull; rmine = false; rbase = 0;
-      ry0 = e.touches[0].clientY; rx0 = e.touches[0].clientX; rmoved = false; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
-    log.addEventListener("touchmove", e => {
-      if (ry0 == null) return;
-      const y = e.touches[0].clientY, dy = y - ry0, dx = e.touches[0].clientX - rx0, max = log.scrollHeight - log.clientHeight;
-      if (!rmine) {
-        if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 8) ry0 = null; return; }      // sideways: the swipe back's
-        if (caught && Math.abs(dy) >= 6) { caught = false;
-          if (Math.sign(dy) === Math.sign(rpull)) { cancelAnimationFrame(rspring); rmine = true; rbase = unrubber(rpull); ry0 = y; } else { ry0 = null; return; } }
-        const atTop = log.scrollTop <= 0 && dy > 0, atEnd = log.scrollTop >= max - .5 && dy < 0;
-        if (!(atTop || atEnd) || Math.abs(dy) < 6) return;
-        rmine = true; ry0 = y - Math.sign(dy) * 6; rbase = 0;
-      }
-      if (e.cancelable) e.preventDefault();
-      rmoved = true;
-      const dt = Math.max(1, e.timeStamp - rlastT); rv = .8 * rv + .2 * ((y - rlastY) / dt * 1000); rlastY = y; rlastT = e.timeStamp;
-      const d = rbase + (y - ry0);
-      if ((d > 0 && log.scrollTop > 0) || (d < 0 && log.scrollTop < max - .5)) return rset(0);
-      rset(rubber(d));
-    }, { passive: false });
-    const rlet = () => {
-      if (ry0 == null) return; ry0 = null; if (rmoved) scr._dragged = true; if (!rmine && !rpull) return;
-      const w = 13, x0 = rpull, v0 = Math.max(-2500, Math.min(2500, rv * (1 - Math.abs(rpull) / H()) * .5)), t0 = performance.now();
-      const f = now => { const t = (now - t0) / 1000, x = (x0 + (v0 + w * x0) * t) * Math.exp(-w * t);
-        if (t > .1 && Math.abs(x) < .3) return rset(0); rset(x); rspring = requestAnimationFrame(f); };
-      rspring = requestAnimationFrame(f);
-      setTimeout(() => { scr._dragged = false; }, 80);             // the tap that ends a pull does not read on, the next one does
-    };
-    log.addEventListener("touchend", rlet); log.addEventListener("touchcancel", rlet);
-    /* a fling that runs into the top (or the end) does not stop dead (2026-11-09): from the speed it hits with, the
-       messages run on a little past the edge and the same spring brings them back — the description stays put at
-       the top, as when pulling */
-    let sv = 0, lastS = log.scrollTop, lastST = performance.now(), finger = false, lastUp = 0, kicked = 0;
-    log.addEventListener("touchstart", () => { finger = true; }, { passive: true });
-    ["touchend", "touchcancel"].forEach(n => log.addEventListener(n, () => { finger = false; lastUp = performance.now(); }, { passive: true }));
-    const kick = v0 => { cancelAnimationFrame(rspring); const w = 13, t0 = performance.now();
-      const f = now => { const tt = (now - t0) / 1000, x = v0 * tt * Math.exp(-w * tt); if (tt > .1 && Math.abs(x) < .3) return rset(0); rset(x); rspring = requestAnimationFrame(f); };
-      rspring = requestAnimationFrame(f); };
-    log.addEventListener("scroll", () => {
-      const now = performance.now(), dt = now - lastST;
-      if (dt > 0 && dt < 100) sv = .5 * sv + .5 * ((log.scrollTop - lastS) / dt * 1000); else sv = 0;
-      lastS = log.scrollTop; lastST = now;
-      if (finger || gliding || rpull || now - lastUp > 2500 || now - kicked < 400 || now - ownScroll < 250) return;   // only a free-running fling by the finger, never the app's own scrolling
-      const max = log.scrollHeight - log.clientHeight;
-      if (log.scrollTop <= 0 && sv < -250) { kicked = now; kick(Math.min(2600, -sv * .7)); }
-      else if (log.scrollTop >= max - .5 && sv > 250) { kicked = now; kick(-Math.min(2600, sv * .7)); }
-    }, { passive: true });
-  }
+  /* the rubber band: exactly the one of Search and Favourites (2026-11-09) — the whole chat, the description too */
+  rubberBand(log, { move: x => log.style.setProperty("--ry", Math.abs(x) > .05 ? x.toFixed(2) + "px" : "0px"),
+    skip: () => !!scr.querySelector(".choice-ghost"),                          // not while a picked answer is flying
+    pulled: () => { scr._dragged = true; setTimeout(() => { scr._dragged = false; }, 80); } });   // the tap that ends a pull does not read on
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
-  log.scrollTop = log.scrollHeight; ownScroll = performance.now();                                // the panel is in: land on the last message read
+  log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
   slides();
   swipeBack(scr);
 }
