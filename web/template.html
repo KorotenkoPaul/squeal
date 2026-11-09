@@ -58,8 +58,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
 .dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
   overflow: hidden; will-change: transform, width; }
-.dots .worm b { position: absolute; inset: 0 auto 0 0; width: 100%; border-radius: 3px; transform-origin: left;
-  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); transform: scaleX(0); }
+.dots .worm b { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 3px;
+  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
 .pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
@@ -1263,9 +1263,10 @@ function startSlider() {
     const left = n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
     worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
     const cur = Math.round(p) % n;
-    if (cur !== at) { at = cur; since = now; }
-    /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
     const settled = Math.abs(p - cur) < .02;
+    /* the slide the clock belongs to changes only once a new slide has come to rest with no finger on it:
+       while you hold and drag, the clock (and its white line) stay with the slide you started from */
+    if (cur !== at && settled && !held) { at = cur; since = now; }
     /* guard: if the slider ever comes to rest between two cards (an interrupted swipe or smooth scroll,
        a resize), glide it to the nearest card */
     if (el.scrollLeft !== lastLeft) { lastLeft = el.scrollLeft; stillSince = now; }
@@ -1276,8 +1277,13 @@ function startSlider() {
     if (busy) since += now - last;                                     // hidden, covered or held: time stands still
     last = now;
     const t = Math.max(0, Math.min(1, (now - since) / SLIDE));
-    SL.at = cur; SL.elapsed = Math.max(0, Math.min(SLIDE, now - since)); SL.seen = Date.now();
-    fill.style.transform = `scaleX(${settled ? t : 0})`;
+    SL.at = at; SL.elapsed = Math.max(0, Math.min(SLIDE, now - since)); SL.seen = Date.now();
+    /* the white line (time run out) stays put on its own slide's place in the pill and shortens as you drag
+       towards a neighbour, by how near you are: gone at the neighbour, back to full length if you bring
+       the slide back (2026-11-09) */
+    const away = Math.min(1, Math.abs(p - at), at === 0 ? Math.abs(n - p) : 1);
+    fill.style.width = (W * t * (1 - away)).toFixed(2) + "px";
+    fill.style.transform = `translateX(${(L[at] - left).toFixed(2)}px)`;
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
