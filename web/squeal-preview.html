@@ -612,7 +612,7 @@ const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
    - reading: READ_SEC seconds for every message in the chat, the reader's and the other side's.
    Change READ_SEC and every story's time (cards, previews, parts, search) follows. Interactive stories
    count every branch and ending (all of it); stories in parts count all their parts together. */
-const READ_SEC = 2;
+const READ_SEC = 3;
 const msgWait = m => (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);   // ms
 /* every message a part holds: for an interactive part, all branches and all endings, and every answer the
    reader can choose (2026-11-09: an interactive story's time is the time to read all of it) */
