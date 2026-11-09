@@ -836,18 +836,23 @@ function pullForRandom() {
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
   let lastLift = 0;
+  /* Everything moves with the finger, 1:1. The reel hangs under the words at the same gap as the words
+     hang under the last card, and comes out from behind the tab bar at the finger's speed; once it has
+     reached its place under the words, the page and the reel go up together, so the gap never changes.
+     When everything is up (the reel 16 px above the tabs) it all stops and only the reel turns. */
+  const geo = () => { const T = tabs.getBoundingClientRect().top, R0 = hintBottom + hintGap;   // where the reel belongs, page at rest
+    const S = Math.max(R0, T), need = Math.max(0, R0 + 84 + 16 - T);                         // it starts behind the tabs
+    return { T, R0, S, need, full: (S - R0) + need }; };                                      // full: pull at which all is up
   const show = (raw, liftAs) => {
-    const tabsTop = tabs.getBoundingClientRect().top, NEED = hintGap + 84 + 16;   // under the words: gap + reel + gap to the tabs
-    const lift = liftAs ?? Math.min(raw, Math.max(0, NEED - (tabsTop - hintBottom))), k = Math.min(1, raw / LINE());
+    const g = geo(), m = Math.max(0, raw);
+    const lift = liftAs ?? Math.min(g.need, Math.max(0, m - (g.S - g.R0))), k = Math.min(1, raw / LINE());
     lastLift = lift;
     rnd.style.setProperty("--tabs-h", (app.clientHeight - tabs.offsetTop) + "px");
     rnd.classList.toggle("on", raw > 0);
-    /* the reel sits as far below the words as the words sit below the last card (all as lifted now) */
     const rTop = rnd.getBoundingClientRect().top;
-    const top = hintBottom - lift + hintGap;
+    const top = Math.max(g.S - m, g.R0 - lift);                    // risen with the finger, never past its place under the words
     slot.style.setProperty("--top", raw ? (top - rTop) + "px" : "100%");
-    const rise = Math.min(1, raw / (NEED * 1.6));                    // 0 = behind the tabs, 1 = fully up
-    slot.style.setProperty("--rise", ((1 - rise) * (tabsTop - top)) + "px");
+    slot.style.setProperty("--rise", "0px");
     view.style.transform = raw ? `translateY(${-lift}px)` : "";
     rnd.classList.toggle("ready", k >= 1);
     /* one line of words, always in the hint's place: pull up… → keep pulling → release */
@@ -878,7 +883,7 @@ function pullForRandom() {
          way back from what you see (the reel's turn keeps its place), so it moves the moment you let go.
          Then a critically damped spring from the finger's own speed: no drop, no snap. Page and reel
          land together. */
-      const CAP = (hintGap + 100) * 1.6;            // where the reel is fully up (rise = 1)
+      const CAP = geo().full;                       // past this, more pull changed nothing on screen
       if (d > CAP) { offset += (d - CAP) * .9; d = CAP; }
       const x0 = d, lift0 = lastLift, w = 12, v0 = Math.max(-1500, Math.min(1500, vy * .6)), t0 = performance.now();
       busy = true; sinking = true;
@@ -886,7 +891,7 @@ function pullForRandom() {
         const tt = (now - t0) / 1000, x = Math.max(0, (x0 + (v0 + w * x0) * tt) * Math.exp(-w * tt));
         d = x;
         if (tt > .08 && x < .4) { sinking = false; busy = false; d = 0; show(0); return; }
-        show(x, Math.min(x0 ? lift0 * x / x0 : 0, x)); sinkRaf = requestAnimationFrame(f);
+        show(x); sinkRaf = requestAnimationFrame(f);        // same 1:1 rule on the way back: the gap holds
       };
       sinkRaf = requestAnimationFrame(f);
       return;
