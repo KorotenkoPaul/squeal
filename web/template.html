@@ -147,9 +147,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hero .lt { position: absolute; display: block; }           /* lettering block, placed per story */
 .hero .lt span, .hero .lt i { display: inline-block; font-style: inherit; }
 .hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
-.chips { flex: none; display: flex; gap: 8px; overflow-x: auto; }
-.chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; }
-.chip[aria-pressed="true"] { background: var(--accent); color: var(--text); }
+.chips { flex: none; display: flex; gap: 8px; overflow-x: auto; position: relative; scrollbar-width: none; touch-action: pan-y; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; transition: color .15s; }
+/* the genre pill (like the part disc in the chat): one oval that slides along the chips under the words,
+   taking on each chip's width as it nears it; drag it with a finger or tap a chip (2026-11-09) */
+.chip > span { position: relative; z-index: 1; }
+.chip.near { color: var(--text); }
+.chip-ind { position: absolute; top: 0; bottom: 0; left: 0; width: 0; z-index: 0; border-radius: 999px; background: var(--accent); pointer-events: none; will-change: transform, width; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
 .tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
@@ -713,16 +718,16 @@ function homeContent() {
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
-    <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
+    <div class="chips" role="group" aria-label="Genre"><span class="chip-ind" aria-hidden="true"></span>${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}"><span>${v}</span></button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint pull-hint" id="pull-hint">Pull up for a random story</p>`);
 }
 
 function wireHome() {
   /* a genre change swaps only the grid: old tiles fade, new ones rise in; the slider is not touched */
-  app.querySelectorAll(".chip").forEach(b => b.onclick = () => {
-    if (genre === b.dataset.g) return;
-    genre = b.dataset.g;
+  const setGenre = g => {
+    if (genre === g) return;
+    genre = g;
     app.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.g === genre));
     const grid = document.getElementById("grid");
     grid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: "ease-in", fill: "forwards" }).onfinish = () => {
@@ -731,7 +736,51 @@ function wireHome() {
       grid.classList.remove("swap"); void grid.offsetWidth; grid.classList.add("swap");
       wireCards(grid);
     };
+  };
+  /* The oval: its centre follows the finger 1:1; between two chips its width is blended by how far it has
+     come from one to the other, so it is exactly each chip's shape on that chip, however fast it is moved.
+     Let go and it glides to the nearest chip, which becomes the genre; a tap glides it to the tapped chip. */
+  const row = app.querySelector(".chips"), ind = row.querySelector(".chip-ind"), chips = [...row.querySelectorAll(".chip")];
+  const slots = () => chips.map(c => ({ w: c.offsetWidth, c: c.offsetLeft + c.offsetWidth / 2 }));
+  let pos = 0, glide = 0;
+  const place = cx => {
+    const g = slots(); cx = Math.max(g[0].c, Math.min(g[g.length - 1].c, cx)); pos = cx;
+    let i = 0; while (i < g.length - 2 && cx > g[i + 1].c) i++;
+    const f = g.length > 1 ? (cx - g[i].c) / (g[i + 1].c - g[i].c) : 0, w = g.length > 1 ? lerp(g[i].w, g[i + 1].w, f) : g[0].w;
+    ind.style.width = w + "px"; ind.style.transform = `translateX(${(cx - w / 2).toFixed(2)}px)`;
+    const near = g.length > 1 && f > .5 ? i + 1 : i;
+    chips.forEach((c, k) => c.classList.toggle("near", k === near));
+    /* on a narrow phone the chips scroll: keep the oval in sight */
+    if (cx - w / 2 < row.scrollLeft) row.scrollLeft = cx - w / 2 - 4;
+    else if (cx + w / 2 > row.scrollLeft + row.clientWidth) row.scrollLeft = cx + w / 2 - row.clientWidth + 4;
+    return near;
+  };
+  const glideTo = k => {
+    cancelAnimationFrame(glide);
+    const from = pos, to = slots()[k].c, t0 = performance.now(), ms = reduce() ? 0 : Math.min(340, 160 + Math.abs(to - from) * .6);
+    const f = now => { const t = ms ? Math.min(1, (now - t0) / ms) : 1; place(lerp(from, to, 1 - Math.pow(1 - t, 3))); if (t < 1) glide = requestAnimationFrame(f); };
+    glide = requestAnimationFrame(f);
+    setGenre(chips[k].dataset.g);
+  };
+  const settle = () => place(slots()[Math.max(0, chips.findIndex(c => c.dataset.g === genre))].c);
+  settle(); document.fonts?.ready.then(() => { if (row.isConnected) settle(); });
+  let px0 = null, base = 0, moved = false;
+  row.addEventListener("pointerdown", e => { cancelAnimationFrame(glide); px0 = e.clientX; base = pos; moved = false; row.setPointerCapture(e.pointerId); });
+  row.addEventListener("pointermove", e => {
+    if (px0 == null) return;
+    const dx = e.clientX - px0;
+    if (!moved && Math.abs(dx) < 5) return;
+    moved = true; place(base + dx);
   });
+  const up = e => {
+    if (px0 == null) return; px0 = null;
+    if (moved) { const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); return glideTo(k); }
+    const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest(".chip");
+    if (hit && row.contains(hit)) glideTo(chips.indexOf(hit));
+  };
+  row.addEventListener("pointerup", up);
+  row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null; glideTo(chips.findIndex(c => c.dataset.g === genre)); });
+  chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
   wireCards(app);
   startSlider();
 }
