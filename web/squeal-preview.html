@@ -578,10 +578,13 @@ const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
      the reader's own messages appear at once;
    - reading: READ_SEC seconds for every message in the chat, the reader's and the other side's.
    Change READ_SEC and every story's time (cards, previews, parts, search) follows. Interactive stories
-   count their longest path. */
+   count every branch and ending (all of it); stories in parts count all their parts together. */
 const READ_SEC = 2;
 const msgWait = m => (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.min(1800, 450 + m.text.length * 22);   // ms
-const partSec = e => e.messages.reduce((t, m) => t + READ_SEC + (m.from === e.right ? 0 : msgWait(m) / 1000), 0);
+/* every message a part holds: for an interactive part, all branches and all endings, and every answer the
+   reader can choose (2026-11-09: an interactive story's time is the time to read all of it) */
+const partAll = e => !e.nodes ? e.messages : Object.values(e.nodes).flatMap(n => [...n.messages, ...(n.choices || []).map(c => ({ from: e.right, text: c.text }))]);
+const partSec = e => partAll(e).reduce((t, m) => t + READ_SEC + (m.from === e.right ? 0 : msgWait(m) / 1000), 0);
 const fmtMin = sec => Math.max(1, Math.round(sec / 60)) + " min";
 const readMin = s => fmtMin(s.episodes.reduce((t, e) => t + partSec(e), 0));
 const partMin = (s, k) => fmtMin(partSec(s.episodes[k]));
