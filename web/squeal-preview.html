@@ -764,22 +764,29 @@ function wireHome() {
   };
   const settle = () => place(slots()[Math.max(0, chips.findIndex(c => c.dataset.g === genre))].c);
   settle(); document.fonts?.ready.then(() => { if (row.isConnected) settle(); });
-  let px0 = null, base = 0, moved = false;
-  row.addEventListener("pointerdown", e => { cancelAnimationFrame(glide); px0 = e.clientX; base = pos; moved = false; row.setPointerCapture(e.pointerId); });
+  /* one gesture, one job: the first clear move decides. Sideways — only the oval moves (the page will not
+     pull down for a refresh until the finger lifts); down — it is the refresh, the oval stays put. */
+  let px0 = null, py0 = 0, base = 0, moved = false;
+  row.addEventListener("pointerdown", e => { cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; base = pos; moved = false; row.setPointerCapture(e.pointerId); });
   row.addEventListener("pointermove", e => {
     if (px0 == null) return;
-    const dx = e.clientX - px0;
-    if (!moved && Math.abs(dx) < 5) return;
-    moved = true; place(base + dx);
+    const dx = e.clientX - px0, dy = e.clientY - py0;
+    if (!moved) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dy) >= Math.abs(dx) || GESTURE === "refresh") { px0 = null; return; }      // the page's gesture, not ours
+      moved = true; GESTURE = "genre";
+    }
+    place(base + dx);
   });
   const up = e => {
     if (px0 == null) return; px0 = null;
+    if (GESTURE === "genre") GESTURE = null;
     if (moved) { const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); return glideTo(k); }
     const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest(".chip");
     if (hit && row.contains(hit)) glideTo(chips.indexOf(hit));
   };
   row.addEventListener("pointerup", up);
-  row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null; glideTo(chips.findIndex(c => c.dataset.g === genre)); });
+  row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null; if (GESTURE === "genre") GESTURE = null; glideTo(chips.findIndex(c => c.dataset.g === genre)); });
   chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
   wireCards(app);
   startSlider();
@@ -971,6 +978,9 @@ function pullForRandom() {
 
 /* how many fingers are on the screen right now (one set of listeners for the whole app) */
 let FINGERS = 0;
+/* which gesture owns the current touch ("genre" oval or "refresh" pull), so the two never run together */
+let GESTURE = null;
+["touchend", "touchcancel", "pointerup", "pointercancel", "mouseup"].forEach(n => window.addEventListener(n, () => { setTimeout(() => { if (!FINGERS) GESTURE = null; }, 0); }, true));
 window.addEventListener("touchstart", e => { FINGERS = e.touches.length; }, { passive: true, capture: true });
 ["touchend", "touchcancel"].forEach(n => window.addEventListener(n, e => { FINGERS = e.touches.length; }, { passive: true, capture: true }));
 window.addEventListener("mousedown", () => { FINGERS = 1; }, true); window.addEventListener("mouseup", () => { FINGERS = 0; }, true);
@@ -1007,8 +1017,8 @@ function pullToRefresh() {
     const raw = y - y0;
     if (!locked) {
       if (Math.abs(x - x0) < 6 && Math.abs(raw) < 6) return;
-      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0) { y0 = null; return; }
-      locked = true;
+      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0 || GESTURE === "genre") { y0 = null; return; }
+      locked = true; GESTURE = "refresh";
     }
     if (raw <= 0) { if (d) show(d = 0, true); return; }
     if (view.scrollTop > 0) { y0 = null; return; }
