@@ -1844,7 +1844,15 @@ function wire(sheet, s) {
   const id = s.id, scroller = sheet.querySelector(".scroll");
   /* the cross closes the moment it is touched (no waiting for the finger to lift; holding means nothing) */
   const back = sheet.querySelector("#pv-back");
-  back.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); closeSheet(sheet); });
+  /* …and the lift of that same finger must not land as a tap on whatever lies under the cross once the
+     preview is gone (a card behind it opened another story; 2026-11-09) */
+  back.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation();
+    const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
+    window.addEventListener("click", eat, { capture: true, once: true });
+    const done = () => { window.removeEventListener("click", eat, true); };
+    window.addEventListener("pointerup", () => setTimeout(done, 50), { capture: true, once: true });
+    setTimeout(done, 1500);
+    closeSheet(sheet); });
   back.onclick = e => { if (e.detail === 0) closeSheet(sheet); };            // keyboard
   /* closes with the cross, a swipe from left to right, or a swipe down (no tap-anywhere; 2026-11-09) */
   /* start over: a tap clears the part being read; holding for 0.6 s (the ring closes) clears all parts */
