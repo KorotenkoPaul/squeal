@@ -1801,8 +1801,11 @@ function openStory(id, epIndex) {
   const wp = wallpaper(ep.wallpaper, s.id + ":" + st.ep);
   if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles"); c.style.backgroundImage = wp; }
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
+  /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
+  let rec = null;
+  scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
-    clearTimeout(timer);
+    scr._stop();
     const finish = () => { scr.remove(); syncBars(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
     const sh = layer.querySelector(".sheet"); if (sh) sh.style.visibility = "hidden";
     if (!scr.animate || reduce()) return finish();
@@ -1815,7 +1818,7 @@ function openStory(id, epIndex) {
     scr.querySelectorAll(".ep-seg [data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === k));
     scr.querySelector(".ep-ind").style.transform = `translateX(${k * 34}px)`;
     if (k === st.ep) return;
-    clearTimeout(timer);
+    scr._stop();
     setTimeout(() => openStory(id, k), reduce() ? 0 : 260);
   };
   if (seg) {
@@ -1864,11 +1867,12 @@ function openStory(id, epIndex) {
       foot.innerHTML = `<span class="ask">What do you say?</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}">${esc(c.text)}</button>`).join("");
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
+        if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
         path.push(node.choices[+b.dataset.k].next); ep.messages = flatten();
         foot.classList.remove("choose"); step();
         /* the choice is the tap: the other side answers on its own, no extra tap */
         const nx = ep.messages[st.i];
-        if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(); }, reduce() ? 0 : 350);
+        if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, reduce() ? 0 : 350);   // free: the choice was the tap
       });
       log.scrollTop = log.scrollHeight;
       return;
@@ -1909,6 +1913,8 @@ function openStory(id, epIndex) {
           });
         }
       }
+      /* the end buttons take room at the bottom: scroll again so the ending's name is not hidden under them */
+      log.scrollTop = log.scrollHeight; requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });
       return;
     }
     foot.classList.add("hint");
@@ -1931,9 +1937,9 @@ function openStory(id, epIndex) {
     return true;
   }
   let stepped = false;   // a message was shown in this visit (the end sound is for reaching the end, not reopening it)
-  function step() {
+  function step(free) {
     if (busy || st.i >= ep.messages.length) return;
-    if (!spendTap()) return;
+    if (free !== true && !spendTap()) return;
     stepped = true;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
@@ -1941,7 +1947,7 @@ function openStory(id, epIndex) {
     const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
     /* a voice message is "recorded" first: a bubble with a microphone and a running timer, for exactly as
        long as the message lasts; then the voice message itself appears */
-    let rec = null;
+    rec = null;
     if (m.voice || m.video) {
       t.className = "typing rec";
       t.innerHTML = m.video ? `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>0:00</span>` : `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>0:00</span>`;
@@ -1979,7 +1985,7 @@ function swipeBack(scr) {
     if (!locked) {
       if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
       if (ddx <= 0 || Math.abs(ddy) > Math.abs(ddx)) { x0 = null; return; }      // vertical scroll or leftwards: not ours
-      locked = true; scr._dragged = true; clearTimeout(timer);
+      locked = true; scr._dragged = true;     // the message being typed keeps coming: the swipe may be called off
       const sh = sheetOf(); if (sh) sh.style.visibility = "hidden";             // show the screen you came from
       scr.style.transition = "none";
     }
@@ -1992,8 +1998,9 @@ function swipeBack(scr) {
     if (!locked) return;
     const go = dx > W() * .35 || vx > .5;
     scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
-    if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
-    scr._leaving = true; setX(W());
+    if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { scr._dragged = false; }, 60);   // the next tap reads on
+      setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
+    scr._leaving = true; scr._stop?.(); setX(W());
     setTimeout(() => {
       scr.remove(); syncBars();
       const sh = sheetOf(); if (sh) { sh.style.visibility = ""; closeSheet(sh); }
