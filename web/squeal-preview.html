@@ -2216,9 +2216,9 @@ function wallTick(now) {
   }
   WALL.items = WALL.items.filter(d => !d.gone);
   /* the description: the old one (a copy left where it stood) fades out, the new one fades in */
-  if (WALL.ghost) { const q = Math.min(1, (now - WALL.ghost.t0) / 1000); WALL.ghost.el.style.opacity = (WALL.ghost.o0 * (1 - q)).toFixed(3);
+  if (WALL.ghost) { const q = Math.min(1, (now - WALL.ghost.t0) / 500); WALL.ghost.el.style.opacity = (WALL.ghost.o0 * (1 - q)).toFixed(3);
     if (q >= 1) { WALL.ghost.el.remove(); WALL.ghost = null; } else busy = true; }
-  if (WALL.intro) { const q = Math.max(0, Math.min(1, (now - WALL.introAt) / 1000)); WALL.intro.style.opacity = q.toFixed(3); if (q < 1) busy = true; else WALL.intro.style.opacity = ""; }
+  if (WALL.intro) { const q = Math.max(0, Math.min(1, (now - WALL.introAt) / 500)); WALL.intro.style.opacity = q.toFixed(3); if (q < 1) busy = true; else WALL.intro.style.opacity = ""; }
   if (busy) { WALL.raf = requestAnimationFrame(wallTick); return; }
   /* all landed: the plain wallpaper (of what is in reach) takes over */
   WALL.raf = 0; chat.style.backgroundImage = wallBg(WALL.vis) || "none"; WALL.bgVis = WALL.vis;
@@ -2289,7 +2289,7 @@ function wallTo(chat, { cfg, seed, vis, intro, prevIntro, same }) {
   }
   WALL.rest = { cfg, seed }; WALL.vis = vis; WALL.chat = chat; WALL.restOn = false; WALL.bgVis = new Set();
   const inEnd = wallBring(chat, cfg, seed, vis, now);
-  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 1000; }   // fully in when the last doodle lands
+  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 500; }    // 0.5 s, fully in when the last doodle lands
   wallRun();
 }
 /* interactive: the endings within reach changed (a choice, or back to a choice) */
@@ -2493,24 +2493,30 @@ function openStory(id, epIndex) {
   for (let k = 0; k < st.i; k++) { add(ep.messages[k]); log.lastElementChild.style.animation = "none"; }   // messages already read are simply there
   log.scrollTop = log.scrollHeight;
   requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
+  /* the messages on screen slide in from their own sides (the other side's from the left, the reader's from the
+     right) at the answer-choice speed: on every opening of a chat (after the chat itself slides in) and after
+     a part switch (after the old ones have slid out) (2026-11-09) */
+  const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
+  const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
+  const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
+  const slideIn = start => [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
+    el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
+      { duration: 340, delay: start + Math.min(k * 25, 200), easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
+  if (!prev && !reduce()) slideIn(240);
   if (oldLog) {
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
     oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
     Object.assign(oldLog.style, { top: log.offsetTop + "px", height: log.clientHeight + "px" });
     log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
-    const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
-    const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
-    const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
     let outEnd = 0;
     [...oldLog.children].filter(el => seen(oldLog, el)).reverse().forEach((el, k) => {          // nearest the bottom first
       const delay = Math.min(k * 25, 200); outEnd = Math.max(outEnd, delay + 240);
-      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: 1 }, { opacity: 0 }],
-        { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
+      const intro = el.classList.contains("intro");                                     // the description fades out over 0.5 s
+      if (intro) outEnd = Math.max(outEnd, 500);
+      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: +getComputedStyle(el).opacity || 1 }, { opacity: 0 }],
+        { duration: intro ? 500 : 240, delay: intro ? 0 : delay, easing: intro ? "ease-out" : "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
     setTimeout(() => oldLog.remove(), outEnd + 20);
-    const start = Math.max(120, outEnd - 120);
-    [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
-      el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 340, delay: start + Math.min(k * 25, 200), easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
+    slideIn(Math.max(120, outEnd - 60));                                               // after the old ones (and the old description) are gone
   }
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
