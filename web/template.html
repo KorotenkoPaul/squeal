@@ -2736,18 +2736,18 @@ function openStory(id, epIndex) {
      it up (0.26 s, easing out); a growing bottom panel pushes it up exactly with its edge; a shrinking panel leaves
      it where it is — the freed room is kept as empty space under the last message ("slack") and is used up first
      by whatever comes next */
-  let slack = 0, gT0 = 0, gOff = 0;
+  let slack = 0, gT0 = 0, gOff = 0, ownScroll = 0;                  // ownScroll: when the app itself last moved the chat
   const natural = () => log.scrollHeight - slack - log.clientHeight;        // the scroll that shows the very bottom with no slack
   const setSlack = v => { v = v < .5 ? 0 : v; if (Math.abs(v - slack) < .01) return; slack = v; log.style.paddingBottom = v ? (8 + v) + "px" : ""; };
   const keep = now => {
     const n = natural(), q = Math.min(1, (now - gT0) / 260);
     const top = Math.max(log.scrollTop, n - gOff * Math.pow(1 - q, 3));   // never down
-    setSlack(now < footEnd ? Math.max(slack, top - n) : top - n); log.scrollTop = top;   // while the panel moves, room is only added
+    setSlack(now < footEnd ? Math.max(slack, top - n) : top - n); log.scrollTop = top; ownScroll = performance.now();   // while the panel moves, room is only added
     gliding = q < 1 || now < footEnd; if (gliding) glideRaf = requestAnimationFrame(keep);
   };
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
-    if (reduce()) { const n = natural(), top = Math.max(log.scrollTop, n); setSlack(top - n); log.scrollTop = top; return; }   // at once, but still never down
+    if (reduce()) { const n = natural(), top = Math.max(log.scrollTop, n); setSlack(top - n); log.scrollTop = top; ownScroll = performance.now(); return; }   // at once, but still never down
     gT0 = performance.now(); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
     gliding = true; glideRaf = requestAnimationFrame(keep);
   };
@@ -2854,8 +2854,8 @@ function openStory(id, epIndex) {
   };
   for (let k = 0; k < st.i; k++) add(ep.messages[k]);              // messages already read are simply there
   fresh = true;
-  log.scrollTop = log.scrollHeight;
-  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
+  log.scrollTop = log.scrollHeight; ownScroll = performance.now();
+  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; ownScroll = performance.now(); });    // land on the last message read
   /* the messages on screen slide in from their own sides (the other side's from the left, the reader's from the
      right) at the answer-choice speed: on every opening of a chat (after the chat itself slides in) and after
      a part switch (after the old ones have slid out) (2026-11-09) */
@@ -2956,7 +2956,7 @@ function openStory(id, epIndex) {
     const showUpper = ms => setTimeout(() => upper.forEach(c => c.style.opacity = ""), ms);
     if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 125);
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
-      if (h1 < h0 - 1) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing jumps down
+      if (h1 < h0 - 1) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); ownScroll = performance.now(); }   // a shrinking panel: nothing jumps down
       if (glide || gliding || reduce()) glideDown(); showUpper(125); return; }
     footAnim?.cancel();
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
@@ -2974,7 +2974,7 @@ function openStory(id, epIndex) {
     if (foot.classList.contains("choose") || ending) foot.style.justifyContent = "flex-end";   // the panel opens upwards: what is at the bottom stays put
     showUpper(125);                                                   // as quick as "Read again" (2026-11-09)
     footAnim.onfinish = footAnim.oncancel = () => { foot.style.justifyContent = ""; };
-    if (h1 < h0) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing slides down
+    if (h1 < h0) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); ownScroll = performance.now(); }   // a shrinking panel: nothing slides down
     if (atBottom || gliding || glide) glideDown();                      // followed frame by frame until the panel settles
   }
   function controlsNow() {
@@ -3160,13 +3160,19 @@ function openStory(id, epIndex) {
     const rset = x => { rpull = x; const move = Math.abs(x) > .05;
       for (const c of log.children) { c.style.translate = move && (x < 0 || !c.classList.contains("intro")) ? `0 ${x.toFixed(2)}px` : ""; } };
     const busyNow = () => !!document.querySelector(".choice-ghost");
-    log.addEventListener("touchstart", e => { if (busyNow()) return; cancelAnimationFrame(rspring); rbase = rpull ? unrubber(rpull) : 0;
-      ry0 = e.touches[0].clientY; rx0 = e.touches[0].clientX; rmine = !!rpull; rmoved = false; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
+    let caught = false;
+    log.addEventListener("touchstart", e => { if (busyNow()) return;
+      /* a finger on a bounce still settling does not take it over at once (2026-11-09): only if it goes on pulling the
+         same way; otherwise the bounce settles by itself and the finger simply scrolls */
+      caught = !!rpull; rmine = false; rbase = 0;
+      ry0 = e.touches[0].clientY; rx0 = e.touches[0].clientX; rmoved = false; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
     log.addEventListener("touchmove", e => {
       if (ry0 == null) return;
       const y = e.touches[0].clientY, dy = y - ry0, dx = e.touches[0].clientX - rx0, max = log.scrollHeight - log.clientHeight;
       if (!rmine) {
         if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 8) ry0 = null; return; }      // sideways: the swipe back's
+        if (caught && Math.abs(dy) >= 6) { caught = false;
+          if (Math.sign(dy) === Math.sign(rpull)) { cancelAnimationFrame(rspring); rmine = true; rbase = unrubber(rpull); ry0 = y; } else { ry0 = null; return; } }
         const atTop = log.scrollTop <= 0 && dy > 0, atEnd = log.scrollTop >= max - .5 && dy < 0;
         if (!(atTop || atEnd) || Math.abs(dy) < 6) return;
         rmine = true; ry0 = y - Math.sign(dy) * 6; rbase = 0;
@@ -3200,7 +3206,7 @@ function openStory(id, epIndex) {
       const now = performance.now(), dt = now - lastST;
       if (dt > 0 && dt < 100) sv = .5 * sv + .5 * ((log.scrollTop - lastS) / dt * 1000); else sv = 0;
       lastS = log.scrollTop; lastST = now;
-      if (finger || gliding || rpull || now - lastUp > 2500 || now - kicked < 400) return;   // only a free-running fling, never our own glide
+      if (finger || gliding || rpull || now - lastUp > 2500 || now - kicked < 400 || now - ownScroll < 250) return;   // only a free-running fling by the finger, never the app's own scrolling
       const max = log.scrollHeight - log.clientHeight;
       if (log.scrollTop <= 0 && sv < -250) { kicked = now; kick(Math.min(2600, -sv * .7)); }
       else if (log.scrollTop >= max - .5 && sv > 250) { kicked = now; kick(-Math.min(2600, sv * .7)); }
@@ -3208,7 +3214,7 @@ function openStory(id, epIndex) {
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
-  log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
+  log.scrollTop = log.scrollHeight; ownScroll = performance.now();                                // the panel is in: land on the last message read
   slides();
   swipeBack(scr);
 }
