@@ -2473,7 +2473,7 @@ function openStory(id, epIndex) {
   let rec = null;
   scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
-    scr._stop();
+    scr._leaving = true; scr._stop();
     const finish = () => { scr.remove(); syncBars(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
     const sh = layer.querySelector(".sheet"); if (sh) sh.style.visibility = "hidden";
     if (!scr.animate || reduce()) return finish();
@@ -2597,7 +2597,7 @@ function openStory(id, epIndex) {
       let picked = false;
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
-        if (picked || busy) return;
+        if (picked || busy || scr._leaving) return;
         if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
         picked = true; busy = true;
         const c = node.choices[+b.dataset.k];
@@ -2717,7 +2717,8 @@ function openStory(id, epIndex) {
     return true;
   }
   function step(free) {
-    if (busy || st.i >= ep.messages.length) return;
+    /* a chat on its way out (back, swipe, another part) takes no more taps: nothing new is read or saved there (2026-11-09) */
+    if (busy || st.i >= ep.messages.length || scr._leaving || !scr.isConnected) return;
     if (free !== true && !spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); glideDown(); return controls(); }
@@ -2738,7 +2739,7 @@ function openStory(id, epIndex) {
     }
     log.appendChild(t); glideDown();
     const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
-    timer = setTimeout(() => { clearInterval(rec); t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; glideDown(); controls(); }, delay);
+    timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return; t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; glideDown(); controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
