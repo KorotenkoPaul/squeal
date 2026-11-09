@@ -104,7 +104,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
    gap to the reset button as between reset and heart, and the preview description's type */
 .chrome .note { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 104px); height: 40px; box-sizing: border-box;
   display: flex; align-items: center; padding: 0 16px; border-radius: 20px;
-  background: rgba(23,18,44,.6); color: #dcd9ea; font-size: 15px; font-weight: 400; line-height: 1.45;
+  background: rgba(23,18,44,.6); color: var(--muted); font-size: 15px; font-weight: 400; line-height: 1.45;   /* the arrow's and the plain heart's colour (2026-11-09) */
   white-space: nowrap; transform-origin: right center; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
 .chrome .note.out { animation: noteOut .25s ease-in both; }
 @keyframes noteIn { from { opacity: 0; transform: translateX(8px) scale(.96); } to { opacity: 1; transform: none; } }
@@ -138,13 +138,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
   animation: rise 1s cubic-bezier(.25,.8,.25,1) both; }
 .part .water svg, .tfill .water svg { position: absolute; left: 0; bottom: calc(100% - 1px); width: 200%; height: 8px; transform-origin: 50% 100%; overflow: visible; }
 .part .water .w1, .tfill .water .w1 { z-index: 1; animation: roll 2.2s linear 2, settle 2.4s cubic-bezier(.4,0,.2,1) 1.9s forwards; }
+.part .water .w1 { animation: roll 2.2s linear 2, settle 2.4s cubic-bezier(.4,0,.2,1) .9s forwards; }   /* the preview's parts: 1 s shorter (2026-11-09) */
 .part .water .w1 .body, .tfill .water .w1 .body { fill: #554a8a; }
 .part .water .w1 .crest, .tfill .water .w1 .crest { fill: none; stroke: rgba(214,204,255,.45); stroke-width: .5; vector-effect: non-scaling-stroke; }
 .part .water .w2, .tfill .water .w2 { height: 10px; animation: roll2 3.1s linear 2, settle 2.2s cubic-bezier(.4,0,.2,1) 1.7s forwards; }
+.part .water .w2 { animation: roll2 3.1s linear 2, settle 2.2s cubic-bezier(.4,0,.2,1) .7s forwards; }
 .part .water .w2 path, .tfill .water .w2 path { fill: #463d78; }
 .part.done .water svg { display: none; }
 @keyframes rise { from { height: 0; } }
-.parts.still .water i, .parts.still .water svg { animation: none; } .parts.still .water svg { display: none; }
+.parts.still .water i, .parts.still .part:not(.wake) .water svg { animation: none; } .parts.still .part:not(.wake) .water svg { display: none; }
 @keyframes roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes roll2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @keyframes settle { to { scale: 1 0; opacity: .0; } }        /* the surface goes flat and still */
@@ -230,6 +232,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .choice-ghost .water .w1 .crest { fill: none; stroke: rgba(214,204,255,.45); stroke-width: .5; vector-effect: non-scaling-stroke; }
 .choice-ghost .water .w2 { height: 10px; animation: roll2 1.7s linear infinite; }
 .choice-ghost .water .w2 path { fill: #5a3fa0; }
+.foot.choose .ask.leave { opacity: 0; transition: opacity .24s ease-out; }
 .foot.choose .ask { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; text-align: center; margin-bottom: 2px; }
 /* end of an interactive story: small buttons back to each turning point of the path just read */
 .foot.ended { flex-wrap: wrap; }
@@ -2160,6 +2163,7 @@ function wire(sheet, s) {
       if (reduce() || !btn.animate) { btn.innerHTML = ICON.heartDrawn; return; }
       btn.innerHTML = `<span class="ph ph-base">${ICON.heartDrawn}</span><span class="ph ph-top">${ICON.heartDrawn}</span>`;
       drawHeart(btn.querySelector(".ph-top"), 390, false);
+      btn.animate([{ transform: "scale(.6)" }, { transform: "scale(1.12)", offset: .3 }, { transform: "scale(.97)", offset: .5 }, { transform: "none" }], { duration: 390, easing: "ease-out" });   // the circle pops, as the card's badge does
       btn._t = setTimeout(() => { if (favs().includes(id)) btn.innerHTML = ICON.heartDrawn; }, 420); return; }
     if (reduce() || !btn.animate) { btn.setAttribute("aria-pressed", false); btn.innerHTML = ICON.heartDrawn; return; }
     /* it cracks while still lit; then the circle dims and the plain heart comes back */
@@ -2173,7 +2177,12 @@ function wire(sheet, s) {
   /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
   const read = sheet.querySelector("#pv-read"), parts = [...sheet.querySelectorAll(".part[data-ep]")];
   let sel = parts.length ? (sheet._keepSel ?? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep)) : null;
-  const selectPart = k => {
+  const selectPart = (k, wake = false) => {
+    /* chosen by hand: a part with water whose waves have calmed down plays them again (same as on opening); if they
+       are still moving, nothing changes (2026-11-09) */
+    if (wake && !reduce()) { const pb = parts.find(b => +b.dataset.ep === k), w = pb && !pb.classList.contains("done") && pb.querySelector(".water");
+      if (w) { const svgs = [...w.querySelectorAll("svg")];
+        if (!svgs.some(x => x.getAnimations().some(a => a.animationName === "settle" && a.playState === "running"))) { pb.classList.add("wake"); svgs.forEach(x => x.replaceWith(x.cloneNode(true))); } } }
     sel = k;
     parts.forEach(b => b.classList.toggle("here", +b.dataset.ep === k));
     const p = prog(s), f = partPct(s, p, k);
@@ -2185,7 +2194,7 @@ function wire(sheet, s) {
   };
   if (sheet._keepSel != null && parts.length) selectPart(sel);
   read.onclick = () => openStory(id, sel == null ? undefined : sel);
-  parts.forEach(b => b.onclick = e => { e.stopPropagation(); if (e.detail === 0) selectPart(+b.dataset.ep); });   // keyboard; touch/mouse below
+  parts.forEach(b => b.onclick = e => { e.stopPropagation(); if (e.detail === 0) selectPart(+b.dataset.ep, true); });   // keyboard; touch/mouse below
   /* The selected part's outline is one frame that can be dragged along the parts with a finger, like the
      part disc in the chat: it follows the finger 1:1 (sideways when the parts sit in a row, up and down
      when in a column), and on letting go glides to the nearest part, which becomes the selected one.
@@ -2205,7 +2214,7 @@ function wire(sheet, s) {
     const nearestPart = () => { const g = cells(); let k = 0; g.forEach((q, j) => { if (Math.abs(q.c - at) < Math.abs(g[k].c - at)) k = j; }); return k; };
     const glideTo = k => { cancelAnimationFrame(glideF); const from = at, to = cells()[k].c, t0 = performance.now(), ms = reduce() ? 0 : Math.min(320, 150 + Math.abs(to - from) * .8);
       const f = now => { const q = ms ? Math.min(1, (now - t0) / ms) : 1; put(lerp(from, to, 1 - Math.pow(1 - q, 3))); if (q < 1) glideF = requestAnimationFrame(f); };
-      glideF = requestAnimationFrame(f); selectPart(+parts[k].dataset.ep); };
+      glideF = requestAnimationFrame(f); selectPart(+parts[k].dataset.ep, true); };
     put(cells()[Math.max(0, parts.findIndex(b => +b.dataset.ep === sel))].c);
     let p0 = null, base = 0, moved = false, pressed = -1;
     const coord = e => row() ? e.clientX : e.clientY;
@@ -2881,11 +2890,17 @@ function openStory(id, epIndex) {
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
        (not at the end: there everything moves up together, while "Tap to continue" fades) */
     const now = performance.now(), d = h1 > h0 && gliding && !ending ? Math.max(0, glideEnd - now) : 0, ms = 400; footEnd = now + d + ms;
-    const k = { overflow: "hidden", boxSizing: "border-box" };
-    footAnim = foot.animate([{ ...k, height: h0 + "px" }, { ...k, height: h0 + "px", offset: d / (d + ms), easing: "cubic-bezier(.25,.8,.3,1)" }, { ...k, height: h1 + "px" }], { duration: d + ms });
+    /* the panel's height is set by hand, frame by frame, from this very moment (2026-11-09): a browser animation may
+       start a frame late on iPhone, and for that frame the panel would jump to its new height and the chat with it */
+    footAnim = (() => { let raf = 0, done = false; const t0 = performance.now(), api = { onfinish: null, oncancel: null };
+      Object.assign(foot.style, { boxSizing: "border-box", overflow: "hidden", height: h0 + "px" });
+      const end = cb => { if (done) return; done = true; cancelAnimationFrame(raf); Object.assign(foot.style, { boxSizing: "", overflow: "", height: "" }); (cb || api.onfinish)?.(); };
+      const f = now => { const q = Math.max(0, Math.min(1, (now - t0 - d) / ms)), e = 1 - Math.pow(1 - q, 3);
+        foot.style.height = (h0 + (h1 - h0) * e) + "px"; if (q < 1) raf = requestAnimationFrame(f); else end(); };
+      raf = requestAnimationFrame(f); api.cancel = () => end(api.oncancel); return api; })();
     if (d) foot.querySelectorAll(".choice").forEach(c => c.style.animationDelay = (parseFloat(c.style.animationDelay) || 0) + d + "ms");
     if (foot.classList.contains("choose") || ending) foot.style.justifyContent = "flex-end";   // the panel opens upwards: what is at the bottom stays put
-    showUpper(Math.max(125, d + ms));
+    showUpper(125);                                                   // as quick as "Read again" (2026-11-09)
     footAnim.onfinish = footAnim.oncancel = () => { foot.style.justifyContent = ""; };
     if (h1 < h0) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing slides down
     if (atBottom || gliding || glide) glideDown();                      // followed frame by frame until the panel settles
@@ -2920,6 +2935,7 @@ function openStory(id, epIndex) {
         if (reduce() || !b.animate) { commit(); return reply(); }
         /* 1) the other answers slide back out to the right */
         foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
+        foot.querySelector(".ask")?.classList.add("leave");             // "What do you say?" fades with them, never just vanishes (2026-11-09)
         const hasOthers = node.choices.length > 1;
         /* scrolled up to reread? the chat first glides down to its end while the other answers leave, so no
            message slides past under the flying answer (2026-11-09) */
