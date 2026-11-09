@@ -465,6 +465,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .wpfx .wpi { position: absolute; left: 0; top: 0; will-change: transform; }
 .wpfx .wpi svg { display: block; }
 .chat > .wp-ghost { position: absolute; margin: 0; pointer-events: none; z-index: 0; }
+.chat > .log-ghost { position: absolute; left: 0; right: 0; overflow: hidden; pointer-events: none; z-index: 1; }
 /* no scroll bar in the chat (it still scrolls) */
 .log { scrollbar-width: none; }
 /* search: the page itself never moves; only the list of stories scrolls (and springs) */
@@ -2387,6 +2388,11 @@ function openStory(id, epIndex) {
     if (pi && pc) { const r = pi.getBoundingClientRect(), c = pc.getBoundingClientRect(); prevIntro = { text: pi.textContent, left: r.left - c.left, top: r.top - c.top, width: r.width, o: +getComputedStyle(pi).opacity }; } }
   if (!(prev && prev._story === id)) WALL.chat = null;               // another story (or a fresh open): start clean
   const prevEp = prev && prev._story === id ? prev._ep : null;
+  /* a part switch: the old conversation (description and messages, as it stood, scrolled where it was) is kept
+     as a still picture that fades out over 0.5 s, while the new part's conversation, already laid out with its
+     description's room kept, fades in — nothing jumps, nothing pops, nothing overlaps (2026-11-09) */
+  let oldLog = null, oldTop = 0;
+  if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log"); if (ol) { oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; prevIntro = null; } }
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
@@ -2483,9 +2489,17 @@ function openStory(id, epIndex) {
     if (m.video) videoCircle(d, m); else if (m.voice) voiceBubble(d, m); else d.textContent = m.text;
     log.appendChild(d);
   };
-  for (let k = 0; k < st.i; k++) add(ep.messages[k]);
+  for (let k = 0; k < st.i; k++) { add(ep.messages[k]); log.lastElementChild.style.animation = "none"; }   // messages already read are simply there
   log.scrollTop = log.scrollHeight;
   requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
+  if (oldLog) {
+    oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
+    oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
+    Object.assign(oldLog.style, { top: log.offsetTop + "px", height: log.clientHeight + "px" });
+    log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
+    oldLog.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, easing: "ease-out", fill: "forwards" }).onfinish = () => oldLog.remove();
+    log.animate([{ opacity: 0 }, { opacity: 0, offset: .4 }, { opacity: 1 }], { duration: 850, easing: "ease-out" });
+  }
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
     if (path) { p.path = path; if (st.i >= ep.messages.length && base.nodes[path.at(-1)].ending) p.pos[st.ep] = Math.max(st.i, base.messages.length); }   // an ending reached = read
