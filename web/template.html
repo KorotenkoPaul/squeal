@@ -2416,17 +2416,25 @@ function openStory(id, epIndex) {
   /* like WhatsApp: when something new appears at the bottom, the conversation glides up to make room
      (0.26 s, easing out) instead of jumping; a finger on the chat stops the glide */
   let glideRaf = 0;
-  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0, endIn = null;
+  let footAnim = null, footEnd = 0, footFirst = true, gliding = false, glideEnd = 0, endIn = null, wantGlide = false;
+  /* the conversation only ever moves UP on its own, never down (2026-11-09): something new at the bottom glides
+     it up (0.26 s, easing out); a growing bottom panel pushes it up exactly with its edge; a shrinking panel leaves
+     it where it is — the freed room is kept as empty space under the last message ("slack") and is used up first
+     by whatever comes next */
+  let slack = 0, gT0 = 0, gOff = 0;
+  const natural = () => log.scrollHeight - slack - log.clientHeight;        // the scroll that shows the very bottom with no slack
+  const setSlack = v => { v = v < .5 ? 0 : v; if (Math.abs(v - slack) < .01) return; slack = v; log.style.paddingBottom = v ? (8 + v) + "px" : ""; };
+  const keep = now => {
+    const n = natural(), q = Math.min(1, (now - gT0) / 260);
+    const top = Math.max(log.scrollTop, n - gOff * Math.pow(1 - q, 3));   // never down
+    setSlack(now < footEnd ? Math.max(slack, top - n) : top - n); log.scrollTop = top;   // while the panel moves, room is only added
+    gliding = q < 1 || now < footEnd; if (gliding) glideRaf = requestAnimationFrame(keep);
+  };
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
-    if (reduce()) { log.scrollTop = log.scrollHeight; return; }
-    const from = log.scrollTop, t0 = performance.now(), ms = Math.max(260, footEnd - t0);   // while the foot grows or shrinks, glide with it
-    glideEnd = t0 + ms;
-    /* the distance still to go shrinks with an ease-out; a growing or shrinking foot is followed exactly, frame by frame */
-    const off0 = log.scrollHeight - log.clientHeight - from;
-    const f = now => { const to = log.scrollHeight - log.clientHeight, q = Math.min(1, (now - t0) / ms);
-      log.scrollTop = to - off0 * Math.pow(1 - q, 3); gliding = q < 1; if (gliding) glideRaf = requestAnimationFrame(f); };
-    gliding = true; glideRaf = requestAnimationFrame(f);
+    if (reduce()) { setSlack(0); log.scrollTop = log.scrollHeight; return; }
+    gT0 = performance.now(); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
+    gliding = true; glideRaf = requestAnimationFrame(keep);
   };
   /* only a real scroll (a finger moving, a wheel) stops the glide; a quick tap to read on must not freeze the
      "typing…" bubble half behind the bottom panel (2026-11-09) */
@@ -2550,16 +2558,16 @@ function openStory(id, epIndex) {
   /* the bottom panel never jumps to a new height: it grows (or shrinks) over 0.4 s and the conversation
      glides with its edge, as if a new message had pushed it — nothing slips behind an invisible edge (2026-11-09) */
   function controls() {
-    const h0 = foot.offsetHeight, atBottom = log.scrollHeight - log.clientHeight - log.scrollTop < 8;
+    const s0 = log.scrollTop, h0 = foot.getBoundingClientRect().height, atBottom = log.scrollHeight - log.clientHeight - log.scrollTop < 8;
     controlsNow();
-    const h1 = foot.offsetHeight;
+    const h1 = foot.getBoundingClientRect().height, glide = wantGlide; wantGlide = false;
     if (footFirst) { footFirst = false; return; }
     const ending = endIn; endIn = null;
     /* the end: "Tap to continue" fades out while the conversation moves up by exactly the room the ending's
        title and buttons need; only then do they fade in, so nothing ever lies over anything (2026-11-09) */
     if (ending) setTimeout(() => { if (!scr.isConnected) return; foot.classList.remove("wait");
       ending.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: "ease-out" }); ending.style.opacity = ""; }, Math.max(300, (Math.abs(h1 - h0) < 2 ? 0 : 400)));
-    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) { if (ending) glideDown(); return; }
+    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) { if (glide || gliding) glideDown(); return; }
     footAnim?.cancel();
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
        (not at the end: there everything moves up together, while "Tap to continue" fades) */
@@ -2569,7 +2577,8 @@ function openStory(id, epIndex) {
     if (d) foot.querySelectorAll(".choice").forEach(c => c.style.animationDelay = (parseFloat(c.style.animationDelay) || 0) + d + "ms");
     if (foot.classList.contains("choose")) foot.style.justifyContent = "flex-end";   // the lowest answers show first, the panel opens upwards
     footAnim.onfinish = footAnim.oncancel = () => { foot.style.justifyContent = ""; };
-    if (atBottom || gliding) { if (d) setTimeout(() => { if (scr.isConnected) glideDown(); }, d); else glideDown(); }
+    if (h1 < h0) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing slides down
+    if (atBottom || gliding || glide) glideDown();                      // followed frame by frame until the panel settles
   }
   function controlsNow() {
     const node = path && base.nodes[path.at(-1)];
@@ -2631,7 +2640,7 @@ function openStory(id, epIndex) {
           requestAnimationFrame(f);
         }, hasOthers ? 240 : 0);
       });
-      glideDown();
+      wantGlide = true;
       return;
     }
     if (st.i >= ep.messages.length) {
@@ -2645,7 +2654,7 @@ function openStory(id, epIndex) {
           scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 300, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       if (calm) { endIn = log.lastElementChild; endIn.style.opacity = 0; foot.classList.add("wait"); }   // shown once there is room
-      glideDown();
+      wantGlide = true;
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
       const next = foot.querySelector("#next");
@@ -2674,7 +2683,6 @@ function openStory(id, epIndex) {
         }
       }
       /* the end buttons take room at the bottom: scroll again so the ending's name is not hidden under them */
-      requestAnimationFrame(glideDown);
       return;
     }
     foot.classList.add("hint");
