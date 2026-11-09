@@ -2667,8 +2667,8 @@ function openStory(id, epIndex) {
   let k0 = epIndex;
   if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
     k0 = pr.ep; while (k0 < N - 1 && pr.pos[k0] >= len(k0)) k0++;
-    if (pr.pos.every((n, k) => n >= len(k)) && !s.interactive) { pr.pos = pr.pos.map(() => 0); k0 = 0; }   // all read: from the top
-    /* an interactive story read to an ending stays at that ending; the reader resets it if they want */
+    /* all read (2026-11-09): it opens where the reader left it — the end of the chat, with "Read again" — so the
+       progress on its card and what opens always agree; it starts over only with "Read again" or the reset button */
   }                                                   // a finished part opened on purpose shows whole, still marked read
   pr.ep = k0; setProg(s, pr);
   let st = { ep: k0, i: pr.pos[k0] };
