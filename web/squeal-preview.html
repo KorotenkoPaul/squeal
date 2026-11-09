@@ -89,12 +89,13 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
 .chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
 .chrome .reset.spin svg:not(.hold) { transform: rotate(-360deg); }
-.chrome .note { position: absolute; top: 58px; right: max(12px, env(safe-area-inset-right, 0px)); padding: 8px 13px; border-radius: 12px;
+/* the note sits to the left of the buttons, level with them, so the finger on the button never hides it */
+.chrome .note { position: absolute; top: 14px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 100px); padding: 8px 13px; border-radius: 12px;
   background: rgba(23,18,44,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--text); font-size: 13px; font-weight: 600;
-  white-space: nowrap; transform-origin: top right; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
+  white-space: nowrap; transform-origin: right center; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
 .chrome .note.out { animation: noteOut .25s ease-in both; }
-@keyframes noteIn { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
-@keyframes noteOut { to { opacity: 0; transform: translateY(-4px); } }
+@keyframes noteIn { from { opacity: 0; transform: translateX(8px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes noteOut { to { opacity: 0; transform: translateX(6px); } }
 .pv-cover div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .pv-cover small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .pv-cover h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
@@ -1748,7 +1749,8 @@ function wire(sheet, s) {
         w.querySelectorAll("svg").forEach(sv => sv.animate([{ scale: "1 1", opacity: 1 }, { scale: "1 1", opacity: 1, offset: .85 }, { scale: "1 0", opacity: 0 }], { duration: DRAIN, fill: "forwards" })); });
       return any ? DRAIN : 0;
     };
-    const redraw = (msg, ks = []) => { reset.classList.add("spin"); setTimeout(() => {
+    const redraw = (msg, ks = []) => { reset.classList.add("spin"); const keep = sel; setTimeout(() => {
+      sheet._keepSel = keep;                                       // the part you had selected stays selected
       sheet.innerHTML = sheetHTML(s); wire(sheet, s);
       const n = document.createElement("div"); n.className = "note"; n.textContent = msg; n.setAttribute("role", "status");
       sheet.querySelector(".chrome").appendChild(n);
@@ -1768,8 +1770,8 @@ function wire(sheet, s) {
     reset.onclick = e => {
       e.stopPropagation();
       if (longDone) { longDone = false; return; }
-      const pr = prog(s), k = pr.ep;
-      pr.pos[k] = 0; setProg(s, pr);
+      const pr = prog(s), k = sel ?? pr.ep;                         // the part selected below, not the one last read
+      pr.pos[k] = 0; if (s.episodes[k].nodes) delete pr.path; setProg(s, pr);
       redraw(s.episodes.length > 1 ? `Part ${k + 1} starts over` : "Story starts over", [k]);
     };
   }
@@ -1791,7 +1793,7 @@ function wire(sheet, s) {
   };
   /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
   const read = sheet.querySelector("#pv-read"), parts = [...sheet.querySelectorAll(".part[data-ep]")];
-  let sel = parts.length ? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep) : null;
+  let sel = parts.length ? (sheet._keepSel ?? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep)) : null;
   const selectPart = k => {
     sel = k;
     parts.forEach(b => b.classList.toggle("here", +b.dataset.ep === k));
@@ -1802,6 +1804,7 @@ function wire(sheet, s) {
     sheet.querySelector("#pv-time").textContent = partMin(s, k);   // the time shown is the selected part's
 
   };
+  if (sheet._keepSel != null && parts.length) selectPart(sel);
   read.onclick = () => openStory(id, sel == null ? undefined : sel);
   parts.forEach(b => b.onclick = e => { e.stopPropagation(); selectPart(+b.dataset.ep); });
   /* Two swipes close the page (besides the cross): left to right (anywhere, mostly sideways), and down
