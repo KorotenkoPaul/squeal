@@ -2292,7 +2292,7 @@ function wallTo(chat, { cfg, seed, vis, intro, prevIntro, same }) {
   }
   WALL.rest = { cfg, seed }; WALL.vis = vis; WALL.chat = chat; WALL.restOn = false; WALL.bgVis = new Set();
   const inEnd = wallBring(chat, cfg, seed, vis, now);
-  if (intro) { intro.style.opacity = 0; WALL.intro = intro; WALL.introAt = inEnd - 500; }    // 0.5 s, fully in when the last doodle lands
+  WALL.intro = null;            // the description is the chat's own business now: it fades only with the messages on a part switch (2026-11-09)
   wallRun();
 }
 /* interactive: the endings within reach changed (a choice, or back to a choice) */
@@ -2502,24 +2502,34 @@ function openStory(id, epIndex) {
   const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
   const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
   const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
-  const slideIn = start => [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
-    el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
-      { duration: 340, delay: start + Math.min(k * 25, 200), easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
+  const slideIn = start => { let end = start + 340;
+    [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
+      const delay = start + Math.min(k * 25, 200); end = Math.max(end, delay + 340);
+      el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 340, delay, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
+    return end; };
   if (!prev && !reduce()) slideIn(240);
   if (oldLog) {
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
     oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
     Object.assign(oldLog.style, { top: log.offsetTop + "px", height: log.clientHeight + "px" });
     log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
+    /* the description shows still when a chat opens; only on a part switch does it go and come back:
+       it fades out while the old messages slide out, and fades in while the new ones slide in (2026-11-09) */
     let outEnd = 0;
-    [...oldLog.children].filter(el => seen(oldLog, el)).reverse().forEach((el, k) => {          // nearest the bottom first
+    const going = [...oldLog.children].filter(el => seen(oldLog, el) && !el.classList.contains("intro")).reverse();   // nearest the bottom first
+    going.forEach((el, k) => {
       const delay = Math.min(k * 25, 200); outEnd = Math.max(outEnd, delay + 240);
-      const intro = el.classList.contains("intro");                                     // the description fades out over 0.5 s
-      if (intro) outEnd = Math.max(outEnd, 500);
-      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: +getComputedStyle(el).opacity || 1 }, { opacity: 0 }],
-        { duration: intro ? 500 : 240, delay: intro ? 0 : delay, easing: intro ? "ease-out" : "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
+      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: 1 }, { opacity: 0 }],
+        { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
+    outEnd = Math.max(outEnd, 240);
+    const oi = oldLog.querySelector(".intro");
+    if (oi && seen(oldLog, oi)) oi.animate([{ opacity: 1 }, { opacity: 0 }], { duration: outEnd, easing: "linear", fill: "forwards" });
+    else if (oi) oi.style.opacity = 0;
     setTimeout(() => oldLog.remove(), outEnd + 20);
-    slideIn(Math.max(120, outEnd - 60));                                               // after the old ones (and the old description) are gone
+    const inStart = Math.max(120, outEnd - 60), inEnd = slideIn(inStart);              // after the old ones are gone
+    const ni = log.querySelector(".intro");
+    if (ni) ni.animate([{ opacity: 0 }, { opacity: 1 }], { duration: inEnd - inStart, delay: inStart, easing: "linear", fill: "backwards" });
   }
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
