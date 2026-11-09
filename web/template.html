@@ -86,7 +86,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
   border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
 .chrome .reset svg { width: 25px; height: 25px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
 .chrome .reset .hold { position: absolute; inset: 0; width: 40px; height: 40px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
-  stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
+  stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0;
+  transition: stroke-dashoffset .3s cubic-bezier(.4,0,.2,1), opacity .12s linear .26s; }   /* let go early: the ring winds back the way it came, then fades */
 .chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
 
 /* the note sits to the left of the buttons, level with them, so the finger on the button never hides it */
