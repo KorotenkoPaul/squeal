@@ -208,7 +208,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @keyframes choiceIn { from { transform: translateX(calc(100% + 40px)); opacity: 0; } to { transform: none; opacity: 1; } }
 .foot.choose .choice.leave { animation: choiceOut .24s cubic-bezier(.5,0,.75,0) both; pointer-events: none; }
 @keyframes choiceOut { from { transform: none; opacity: 1; } to { transform: translateX(calc(100% + 40px)); opacity: 0; } }
-.choice-ghost { position: fixed; z-index: 30; box-sizing: border-box; border: 1.5px solid var(--me); border-radius: 16px; overflow: hidden; color: var(--text); font-size: 15px; line-height: 1.3; pointer-events: none; }
+.choice-ghost { position: fixed; z-index: 30; box-sizing: border-box; border: 0; box-shadow: inset 0 0 0 1.5px var(--me); border-radius: 16px; overflow: hidden; color: var(--text); font-size: 15px; line-height: 1.3; pointer-events: none; }
 .choice-ghost .t { position: relative; z-index: 2; display: block; padding: 12px 14px; }
 .choice-ghost .water { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
 .choice-ghost .water i { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: var(--me); }
@@ -488,9 +488,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 /* a new message (or the typing / recording bubble) grows out of its own bottom corner, like WhatsApp */
-.msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; animation: msgIn .26s cubic-bezier(.2,.9,.3,1) both; transform-origin: 0 100%; }
+.msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; transform-origin: 0 100%; }
 .msg.me { transform-origin: 100% 100%; }
-.typing { animation: msgIn .26s cubic-bezier(.2,.9,.3,1) both; transform-origin: 0 100%; }
+.typing { transform-origin: 0 100%; }
 .them { align-self: flex-start; background: var(--them); border-bottom-left-radius: 5px; }
 .me { align-self: flex-end; background: var(--me); border-bottom-right-radius: 5px; }
 .typing { align-self: flex-start; background: var(--them); border-radius: 18px; padding: 12px 14px; display: flex; gap: 4px; }
@@ -500,7 +500,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing.rec svg { width: 18px; height: 18px; fill: currentColor; color: var(--red); animation: blink 1.2s infinite; }
 .typing.rec.sending svg { animation: none; color: var(--muted); }
 /* "typing…" and "recording…" bubbles are exactly as tall as a one-line message (2026-11-09) */
-.typing, .typing.rec { box-sizing: border-box; height: var(--one-line, 36px); padding-block: 0; align-items: center; }
+.typing, .typing.rec { padding: 9px 14px; line-height: 1.38; align-items: center; }
+.typing::before { content: "\200b"; width: 0; }                 /* an invisible line of text: exactly as tall as a one-line message, with no measuring (2026-11-09) */
+.typing.rec { font-size: inherit; } .typing.rec span { font-size: 14px; }
 /* the chat is a column that may be longer than the screen: nothing in it may be squeezed to fit (the bubble
    was flattened to a 7 px strip once the chat was longer than the screen; 2026-11-09) */
 .log > * { flex-shrink: 0; }
@@ -1783,24 +1785,19 @@ function menu() {
     if (mode === "menu") { b.dataset.m = KEYS[i]; b.classList.toggle("sub", i === 0); b.classList.remove("cur"); sp.textContent = trA("menu")[i]; b.removeAttribute("lang"); }
     else { const [code, name] = LANGS[i]; b.dataset.m = "l:" + code; b.classList.remove("sub"); b.classList.toggle("cur", code === LANG); sp.textContent = name; b.setAttribute("lang", code); }
   });
+  /* menu ⇄ languages (2026-11-09): the words fade out where they stand (0.3 s) and the others fade in in the very
+     same places (0.3 s); nothing moves. Back: the arrow, or a swipe from left to right anywhere on the page —
+     the words do not follow the finger, the swipe just starts the same change */
   const swap = to => {
     if (busy || mode === to) return; busy = true;
-    const quick = reduce() || !rows[0].animate;
-    /* no blur (2026-11-09): the words simply fade with a small lift */
-    const out = [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-6px)" }];
-    const inn = [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }];
     back.classList.toggle("on", to === "lang");
-    if (quick) { mode = to; fill(); busy = false; return; }
-    rows.forEach(b => b.getAnimations().forEach(a => a.cancel()));      // still appearing? go from where it is
-    rows.forEach((b, i) => { const at = b.style.transform || "";                // a swipe leaves the words where the finger took them
-      b.animate([{ ...out[0], transform: at || "none" }, { ...out[1], transform: at + " " + out[1].transform }], { duration: 125, delay: i * 8, easing: "ease-in", fill: "forwards" }); });   // 0.125 s (2026-11-09: twice as fast, then twice again)
-    setTimeout(() => { mode = to; fill(); rows.forEach(b => b.style.transform = "");
-      rows.forEach((b, i) => { b.getAnimations().forEach(a => a.cancel()); b.animate(inn, { duration: 90, delay: i * 8, easing: "ease-out", fill: "backwards" }); });
-      busy = false; }, 125 + (rows.length - 1) * 8);                 // the new words take taps as soon as they start to show
+    if (reduce() || !rows[0].animate) { mode = to; fill(); busy = false; return; }
+    rows.forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
+    setTimeout(() => { mode = to; fill();
+      rows.forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "backwards" }); });
+      busy = false; }, 300);
   };
   back.onclick = () => swap("menu");
-  /* …or a swipe from left to right anywhere on the page (2026-11-09): the words follow the finger a little,
-     and let go after 60 px (or a quick flick) the list folds back into the menu */
   const view = app.querySelector("#view");
   let sx = null, sy = 0, st0 = 0, horiz = null;
   view.addEventListener("touchstart", e => { if (mode !== "lang" || busy) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY; st0 = performance.now(); horiz = null; }, { passive: true });
@@ -1808,11 +1805,9 @@ function menu() {
     const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
     if (horiz == null && Math.hypot(dx, dy) > 8) horiz = Math.abs(dx) > Math.abs(dy) && dx > 0;
     if (!horiz) return; if (e.cancelable) e.preventDefault();
-    rows.forEach(r => r.style.transform = `translateX(${Math.max(0, dx) * .35}px)`); }, { passive: false });
-  const let_go = e => { if (sx == null) return; const dx = (e.changedTouches?.[0]?.clientX ?? sx) - sx, fast = dx / Math.max(1, performance.now() - st0) > .3;
-    const go = horiz && (dx > 60 || (fast && dx > 20)); sx = null;
-    if (go) return swap("menu");
-    rows.forEach(r => { const from = r.style.transform; r.style.transform = ""; if (from && r.animate && !reduce()) r.animate([{ transform: from }, { transform: "none" }], { duration: 180, easing: "ease-out" }); }); };
+    if (dx > 50) { sx = null; swap("menu"); } }, { passive: false });
+  const let_go = e => { if (sx == null) return; const dx = (e.changedTouches?.[0]?.clientX ?? sx) - sx;
+    const go = horiz && (dx > 50 || (dx > 20 && dx / Math.max(1, performance.now() - st0) > .3)); sx = null; if (go) swap("menu"); };
   view.addEventListener("touchend", let_go); view.addEventListener("touchcancel", let_go);
   rows.forEach(b => b.onclick = () => {
     const m = b.dataset.m;
@@ -1821,7 +1816,7 @@ function menu() {
       const code = m.slice(2); if (code === LANG) return;
       store.set("lang", code); setLang(code);
       rows.forEach((x, i) => x.classList.toggle("cur", LANGS[i][0] === code));
-      setTimeout(() => swap("menu"), 90);                        // the tick moves, then the list folds back into the menu (in the new language)
+      setTimeout(() => swap("menu"), 150);                        // the tick moves, then the list folds back into the menu (in the new language)
       app.querySelectorAll("[data-tab]").forEach(x => { const lab = { home: "Stories", fav: "Favourites", search: "Search", menu: "Menu" }[x.dataset.tab]; if (lab) x.setAttribute("aria-label", lab); });
       back.setAttribute("aria-label", tr("back")); haptic.tap?.();
       return;
@@ -2724,14 +2719,25 @@ function openStory(id, epIndex) {
     seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", e => { seg.classList.remove("drag"); sx = null; goPart(st.ep); });
     seg.addEventListener("click", e => e.stopPropagation());
   }
+  /* like WhatsApp (2026-11-09): a new bubble does not come up from under the bottom panel, it grows out of its
+     own corner, small to full size (0.26 s), and the chat makes room for it as it grows */
+  /* `room`: space already standing for it (the "typing…" bubble it replaces): it grows from there, never shrinks the chat */
+  const inflate = (el, room = 0) => { if (reduce() || !el.animate) return;
+    const h = el.getBoundingClientRect().height, gap = parseFloat(getComputedStyle(log).rowGap) || 6;
+    /* a chat shorter than the screen: the bubble just grows in its own place; a full chat: it grows at the bottom
+       edge and pushes the conversation up as it grows */
+    const over = log.scrollHeight - slack - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room), over) : 0;   // just the part that does not fit
+    const s0 = room ? Math.min(1, Math.max(.35, room / (h + gap))) : .35;
+    el.animate([{ transform: `scale(${s0})`, opacity: room ? 1 : 0, marginTop: m0 + "px" }, { transform: "none", opacity: 1, marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" }); };
+  let room = 0;
+  let fresh = false;                                                 // messages read before are simply there
   const add = m => {
     const d = document.createElement("div"); d.className = "msg " + (m.from === ep.right ? "me" : "them");
     if (m.video) videoCircle(d, m); else if (m.voice) voiceBubble(d, m); else d.textContent = m.text;
-    log.appendChild(d);
+    log.appendChild(d); if (fresh) inflate(d, room); room = 0;
   };
-  { const probe = document.createElement("div"); probe.className = "msg them"; probe.style.cssText = "position:absolute;visibility:hidden;animation:none"; probe.textContent = "x";
-    log.appendChild(probe); log.style.setProperty("--one-line", probe.getBoundingClientRect().height + "px"); probe.remove(); }   // the bubbles' height
-  for (let k = 0; k < st.i; k++) { add(ep.messages[k]); log.lastElementChild.style.animation = "none"; }   // messages already read are simply there
+  for (let k = 0; k < st.i; k++) add(ep.messages[k]);              // messages already read are simply there
+  fresh = true;
   log.scrollTop = log.scrollHeight;
   requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });    // land on the last message read
   /* the messages on screen slide in from their own sides (the other side's from the left, the reader's from the
@@ -2830,7 +2836,8 @@ function openStory(id, epIndex) {
         const commit = () => {
           path.push(c.next); ep.messages = flatten();
           wallVis(inReach());                                          // the endings this choice closed off: their doodles fall
-          foot.classList.remove("choose"); busy = false; step();
+          foot.classList.remove("choose"); busy = false;
+          fresh = false; step(); fresh = true;                         // the sent answer does not grow: the flying answer becomes it
           return log.lastElementChild;                                 // the sent message
         };
         const reply = () => { const nx = ep.messages[st.i];
@@ -2854,10 +2861,10 @@ function openStory(id, epIndex) {
           Object.assign(g.style, { left: (r.left - o0.left) + "px", top: (r.top - o0.top) + "px", width: r.width + "px", height: r.height + "px" });
           scr.appendChild(g); b.style.visibility = "hidden";
           foot.classList.add("wait");                                  // "Tap to continue" waits until the message has landed
-          const msg = commit(); msg.style.animation = "none"; msg.style.visibility = "hidden"; busy = true;
+          const msg = commit(); msg.getAnimations().forEach(a => a.cancel()); msg.style.visibility = "hidden"; busy = true;
           /* the move takes 1 s; the water takes 3 s from the pick, so it goes on filling the message after it
              has landed (the chat is usable and the other side answers as soon as it lands) (2026-11-09) */
-          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), t0 = performance.now(), ms = 500, WATER = 2000;   // 2026-11-09: flight 0.5 s (was 1), water 2 s (was 3)
+          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), t0 = performance.now(), ms = 500, WATER = 1500;   // 2026-11-09: flight 0.5 s (was 1), water 1.5 s (was 3, then 2)
           let landed = false;
           /* the words grow into the message's own type and padding on the way, so at the end the two match exactly */
           const mcs = getComputedStyle(msg), fs1 = parseFloat(mcs.fontSize), lh1 = parseFloat(mcs.lineHeight) || fs1 * 1.38, pt1 = parseFloat(mcs.paddingTop), pl1 = parseFloat(mcs.paddingLeft);
@@ -2967,9 +2974,10 @@ function openStory(id, epIndex) {
         if (sec >= (m.dur || 3) && !t.classList.contains("sending")) { t.classList.add("sending"); status.textContent = tr("sending"); }   // recorded: about a second to send
       }, 250);
     }
-    log.appendChild(t); glideDown();
+    log.appendChild(t); inflate(t); glideDown();
     const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
-    timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return; t.remove(); add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
+    timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return;
+      room = t.getBoundingClientRect().height + (parseFloat(getComputedStyle(log).rowGap) || 6); t.remove(); add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
