@@ -37,7 +37,34 @@ const path = require('path');
       return out; });
     if (bad.length) fails.push(`width ${w}: slider title sticks out for ${bad.join(', ')}`);
   }
+  /* chat wallpaper doodles: a part switch makes the old part's doodles fall and the new part's fly in;
+     an interactive choice drops the doodles of the endings it closes off (both broke once unnoticed) */
+  {
+    const p = await b.newPage({ viewport: { width: 390, height: 844 } });
+    p.on('pageerror', e => fails.push('doodles: ' + e.message));
+    await p.goto('file://' + path.resolve(__dirname, '..', 'squeal-preview.html')); await p.waitForTimeout(300);
+    const multi = await p.evaluate(() => STORIES.find(s => s.episodes.length > 1 && s.episodes.every(e => e.wallpaper?.length))?.id);
+    if (multi) {
+      await p.evaluate(id => openStory(id, 0), multi); await p.waitForTimeout(4200);
+      const settled = await p.evaluate(() => !WALL.items.length && document.querySelector('.screen .chat').style.backgroundImage.startsWith('url('));
+      await p.evaluate(id => openStory(id, 1), multi); await p.waitForTimeout(120);
+      const ph = await p.evaluate(() => WALL.items.reduce((a, d) => (a[d.phase] = (a[d.phase] || 0) + 1, a), {}));
+      if (!settled) fails.push(`doodles: ${multi} part 1 never settled into the plain wallpaper`);
+      if (!ph.fall) fails.push(`doodles: switching ${multi} to part 2, nothing fell (${JSON.stringify(ph)})`);
+      if (!ph.in) fails.push(`doodles: switching ${multi} to part 2, nothing flew in (${JSON.stringify(ph)})`);
+    }
+    const inter = await p.evaluate(() => STORIES.find(s => s.interactive && s.episodes[0].wallpaperEndings)?.id);
+    if (inter) {
+      await p.evaluate(id => { const s = STORIES.find(x => x.id === id), e = s.episodes[0];
+        localStorage.setItem('squeal:p:' + id, JSON.stringify({ ep: 0, pos: [e.nodes[e.start].messages.length], path: [e.start], v: s.v })); document.querySelector('.screen')?.remove(); WALL.chat = null; openStory(id, 0); }, inter);
+      await p.waitForTimeout(4200);
+      await p.locator('.screen .choice').first().click(); await p.waitForTimeout(400);
+      const fell = await p.evaluate(() => [...new Set(WALL.items.filter(d => d.phase === 'fall').map(d => d.g))]);
+      if (!fell.length || fell.includes('*')) fails.push(`doodles: a choice in ${inter} should drop only closed-off endings' doodles, fell: ${JSON.stringify(fell)}`);
+    }
+    await p.close();
+  }
   await b.close();
   if (fails.length) { console.error('SMOKE FAILED\n  ' + fails.join('\n  ')); process.exit(1); }
-  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs, slider titles fit at 320/390/430`);
+  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs, slider titles fit at 320/390/430, chat doodles fall and fly in`);
 })();

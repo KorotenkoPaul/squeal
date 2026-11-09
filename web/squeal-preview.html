@@ -2224,13 +2224,15 @@ function wallTick(now) {
   WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true;
 }
 /* the doodles drawn by the plain wallpaper come back as pieces at rest, so they can move */
+/* WALL.bgVis: what the plain wallpaper draws right now — null = every doodle (a story without endings),
+   an empty set = nothing, else those groups */
 function wallUnrest(chat, groups) {
-  if (!WALL.rest || !WALL.bgVis || !WALL.bgVis.size) return;          // nothing is drawn by the plain wallpaper
+  if (!WALL.rest || (WALL.bgVis && !WALL.bgVis.size)) return;        // nothing is drawn by the plain wallpaper
   const W = chat.clientWidth, H = chat.clientHeight;
-  const vis = groups ? new Set([...(WALL.bgVis || [])].filter(g => groups.has(g))) : WALL.bgVis;
+  const vis = groups ? new Set([...(WALL.bgVis || groups)].filter(g => groups.has(g))) : WALL.bgVis;
   for (const it of wallLay(WALL.rest.cfg, WALL.rest.seed, W, H, vis)) { const d = { ...it, phase: "rest", cx: it.x, cy: it.y, crot: it.rot }; d.el = wallEl(d); WALL.items.push(d); }
-  if (groups) { WALL.bgVis = new Set([...(WALL.bgVis || [])].filter(g => !groups.has(g))); chat.style.backgroundImage = wallBg(WALL.bgVis) || "none"; }
-  else { chat.style.backgroundImage = "none"; WALL.bgVis = new Set(); WALL.restOn = false; }
+  if (groups && WALL.bgVis) { WALL.bgVis = new Set([...WALL.bgVis].filter(g => !groups.has(g))); chat.style.backgroundImage = wallBg(WALL.bgVis) || "none"; }
+  else if (!groups) { chat.style.backgroundImage = "none"; WALL.bgVis = new Set(); WALL.restOn = false; }
 }
 /* make these doodles go: the ones still waiting off screen just vanish, the rest fall from where they are */
 function wallDrop(now, test) {
@@ -2264,7 +2266,7 @@ function wallTo(chat, { cfg, seed, vis, intro, prevIntro, same }) {
   if (switching && same) {
     /* the same part again (read again, back to a choice, start over): it carries on here; only the endings
        that came back into reach (or went out of it) fly in (or fall) */
-    chat.prepend(WALL.fx); WALL.chat = chat; chat.style.backgroundImage = (WALL.bgVis && wallBg(WALL.bgVis)) || "none";
+    chat.prepend(WALL.fx); WALL.chat = chat; chat.style.backgroundImage = (WALL.bgVis && !WALL.bgVis.size ? "" : wallBg(WALL.bgVis)) || "none";
     if (WALL.intro && intro) { intro.style.opacity = WALL.intro.style.opacity; WALL.intro = intro; }
     if (WALL.ghost) chat.appendChild(WALL.ghost.el);
     wallVis(vis);
