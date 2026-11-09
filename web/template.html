@@ -67,25 +67,28 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
 /* the round buttons over the photo: no padding (iPhone gives buttons some by default, which pushed the
    icons off centre), each icon an SVG centred in its circle */
-.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
-.chrome .back.rb svg { width: 16px; height: 16px; }
+/* preview buttons (close, start over, favourite): 1.5x (57 px circles, icons 1.5x), and each takes taps
+   in an invisible 76 px area round it — twice the old 38 px (2026-11-09) */
+.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 57px; height: 57px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
+.chrome .back.rb svg { width: 21px; height: 21px; }
+.chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -9.5px; border-radius: 50%; }
 .head .back { padding: 0; display: grid; place-items: center; line-height: 0; }
 .chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; }
 .chrome .like svg { transform: translateY(-.5px); }
-.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
+.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 57px; height: 57px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
-.pv-cover .like svg, .chrome .like svg { width: 18px; height: 18px; }
+.pv-cover .like svg, .chrome .like svg { width: 27px; height: 27px; }
 .sheet .cap small { display: flex; align-items: center; line-height: 1; }
 .cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
 /* start over: tap clears the part being read; hold (a ring fills round the button) clears every part */
-.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 46px); width: 38px; height: 38px;
+.chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 69px); width: 57px; height: 57px;
   border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
-.chrome .reset svg { width: 17px; height: 17px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
-.chrome .reset .hold { position: absolute; inset: 0; width: 38px; height: 38px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
+.chrome .reset svg { width: 25px; height: 25px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
+.chrome .reset .hold { position: absolute; inset: 0; width: 57px; height: 57px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0; }
 .chrome .reset.holding .hold { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s linear, opacity .1s; }
 .chrome .reset.spin svg:not(.hold) { transform: rotate(-360deg); }
-.chrome .note { position: absolute; top: 56px; right: max(12px, env(safe-area-inset-right, 0px)); padding: 8px 13px; border-radius: 12px;
+.chrome .note { position: absolute; top: 76px; right: max(12px, env(safe-area-inset-right, 0px)); padding: 8px 13px; border-radius: 12px;
   background: rgba(23,18,44,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--text); font-size: 13px; font-weight: 600;
   white-space: nowrap; transform-origin: top right; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
 .chrome .note.out { animation: noteOut .25s ease-in both; }
@@ -352,7 +355,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 10px; transform-origin: 0 100%; }
 .sheet .cap small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .sheet .cap h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
-.sheet .chrome { position: absolute; inset: 0 0 auto; height: 60px; pointer-events: none; }
+.sheet .chrome { position: absolute; inset: 0 0 auto; height: 80px; pointer-events: none; }
 .sheet .chrome > * { pointer-events: auto; }
 .sheet .cap.one h1 { white-space: nowrap; text-wrap: nowrap; }
 .sheet .chrome .pull { position: absolute; top: 6px; left: 50%; margin-left: -18px; }
@@ -608,7 +611,8 @@ const centre = el => { const r = el.getBoundingClientRect(); return [r.left + r.
 
 function wireCards(root) {
   root.querySelectorAll("[data-id]").forEach(b => {
-    const pressed = longPress(b, () => {
+    /* the slider's cards only open; holding one does not like it (2026-11-09) */
+    const pressed = b.matches(".hero") ? () => false : longPress(b, () => {
       toggleFav(b.dataset.id);
       const on = favs().includes(b.dataset.id);
       b.classList.remove("pressing");
@@ -1510,7 +1514,7 @@ function sheetHTML(s) {
       <button class="read" id="pv-read">${readLabel}</button>
     </div></div>
     <div class="chrome">
-      <button class="back rb" id="pv-back" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="back rb" id="pv-back" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <button class="reset" id="pv-reset" aria-label="Tap: start this part over. Hold: start every part over"><svg class="hold" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="17.5"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="like" id="pv-like" aria-pressed="${liked}" aria-label="Favourite">${ICON.heart}</button></div>`;
 }
@@ -1629,13 +1633,7 @@ function wire(sheet, s) {
   requestAnimationFrame(() => fitStill(sheet));
   const id = s.id, scroller = sheet.querySelector(".scroll");
   sheet.querySelector("#pv-back").onclick = () => closeSheet(sheet);
-  /* one tap anywhere that is not a control (photo, title, description, empty space) closes the page;
-     the numbers (stats) are left alone: they will become buttons */
-  sheet.onclick = e => {
-    if (!sheet.classList.contains("still") || sheet._closing) return;
-    if (e.target.closest("button, a, input, .stats")) return;
-    closeSheet(sheet);
-  };
+  /* closes only with the cross or a swipe from left to right (no tap-anywhere, no swipe down; 2026-11-09) */
   /* start over: a tap clears the part being read; holding for 0.6 s (the ring closes) clears all parts */
   const reset = sheet.querySelector("#pv-reset");
   if (reset) {
@@ -1694,27 +1692,36 @@ function wire(sheet, s) {
   };
   read.onclick = () => openStory(id, sel == null ? undefined : sel);
   parts.forEach(b => b.onclick = e => { e.stopPropagation(); selectPart(+b.dataset.ep); });
-  /* Swipe down from the top: the sheet follows the finger and shrinks; let go far enough and it returns to its card. */
-  let y0 = null, dy = 0;
-  const start = y => { if (scroller.scrollTop <= 0 && !sheet._closing) { y0 = y; dy = 0; } };
-  const move = (y, e) => {
-    if (y0 == null) return; dy = Math.max(0, y - y0);
-    if (!CARD_MORPH) { if (dy > 10 && e.cancelable) e.preventDefault(); if (dy > 80) { y0 = null; closeSheet(sheet); } return; }   // a tap's small jitter stays a tap
-    if (dy > 0 && e.cancelable) e.preventDefault();
-    const k = 1 - Math.min(dy, 500) / 1800;
-    sheet.style.transformOrigin = "50% 0"; sheet.style.transition = "none";
-    sheet.style.transform = dy ? `translateY(${dy * .5}px) scale(${k})` : ""; sheet.style.borderRadius = dy ? Math.min(22, dy / 5) + "px" : "";
+  /* Swipe from left to right (anywhere on the page, as long as the move is mostly sideways): the page
+     follows the finger; let go past a third of the width, or with a quick flick, and it slides away. */
+  let x0 = null, y0 = 0, dx = 0, locked = false, vx = 0, lastX = 0, lastT = 0;
+  const start = (x, y) => { if (sheet._closing) return; x0 = x; y0 = y; dx = 0; locked = false; vx = 0; lastX = x; lastT = performance.now(); };
+  const move = (x, y, e) => {
+    if (x0 == null) return;
+    const ddx = x - x0, ddy = y - y0;
+    if (!locked) {
+      if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
+      if (ddx <= 0 || Math.abs(ddy) > Math.abs(ddx)) { x0 = null; return; }       // scrolling, or leftwards: not ours
+      locked = true; sheet.style.transition = "none";
+    }
+    if (e.cancelable) e.preventDefault();
+    const now = performance.now(); vx = .7 * vx + .3 * (x - lastX) / Math.max(1, now - lastT); lastX = x; lastT = now;
+    dx = Math.max(0, ddx); sheet.style.transform = dx ? `translateX(${dx}px)` : "";
   };
   const end = () => {
-    if (y0 == null) return; y0 = null;
-    if (dy > 100) return closeSheet(sheet, true);
-    sheet.style.transition = "transform .32s " + EASE + ", border-radius .32s"; sheet.style.transform = ""; sheet.style.borderRadius = "";
+    if (x0 == null) return; x0 = null;
+    if (!locked) return;
+    const W = sheet.offsetWidth, go = dx > W * .33 || vx > .5;
+    sheet.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
+    if (!go) { sheet.style.transform = ""; return; }
+    sheet.style.transform = `translateX(${W}px)`;
+    setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
-  sheet.addEventListener("touchstart", e => start(e.touches[0].clientY), { passive: true });
-  sheet.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
+  sheet.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   sheet.addEventListener("touchend", end); sheet.addEventListener("touchcancel", end);
-  sheet.addEventListener("mousedown", e => start(e.clientY));
-  sheet.addEventListener("mousemove", e => move(e.clientY, e));
+  sheet.addEventListener("mousedown", e => start(e.clientX, e.clientY));
+  sheet.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
   sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
 }
 
@@ -2000,9 +2007,6 @@ function openStory(id, epIndex) {
       const which = path ? endings.indexOf(node) + 1 : 0;
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       log.scrollTop = log.scrollHeight;
-      /* optional end sound (story "endSound"): played once, right after the last message of the story
-         appears, whatever the ending; not when a finished story is just reopened */
-      if (last && s.endSound && stepped) setTimeout(() => { if (scr.isConnected) new Audio(s.endSound).play().catch(() => {}); }, reduce() ? 0 : 700);
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
       const next = foot.querySelector("#next");
@@ -2053,11 +2057,9 @@ function openStory(id, epIndex) {
     store.set("taps", left - 1);
     return true;
   }
-  let stepped = false;   // a message was shown in this visit (the end sound is for reaching the end, not reopening it)
   function step(free) {
     if (busy || st.i >= ep.messages.length) return;
     if (free !== true && !spendTap()) return;
-    stepped = true;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); log.scrollTop = log.scrollHeight; return controls(); }
     busy = true; status.textContent = m.video ? "recording video…" : m.voice ? "recording audio…" : "typing…";

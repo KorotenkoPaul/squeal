@@ -13,7 +13,6 @@ for _f in sorted(SRC.glob("*.json"), key=lambda f: (f.stem != "nobodys-home", f.
     d = json.loads(_f.read_text())
     stories.append({"id": d["id"], "title": d["title"], "description": d["description"], "genre": d["genre"],
                     "author": d.get("author", ""), "fear": d["fear"], **{k: True for k in ("interactive", "featured") if d.get(k)},
-                    **({"endSound": d["endSound"]} if d.get("endSound") else {}),   # optional sound after the last message
                     "episodes": [{"left": p["left"], "right": p["right"], "prologue": p["prologue"], "messages": p["messages"],
                                   "wallpaper": p["wallpaper"], **({"nodes": p["nodes"], "start": p["start"]} if p.get("nodes") else {})}
                                  for p in d["parts"]]})
@@ -51,8 +50,6 @@ for st in stories:
 import re
 problems = []
 for st in stories:
-    if st.get("endSound") and not (ROOT / "web" / st["endSound"]).exists():
-        problems.append("%s: endSound file missing %s" % (st["id"], st["endSound"]))
     for k, ep in enumerate(st["episodes"]):
         who = {ep["left"], ep["right"]}
         every = ep["messages"] + [m for node in (ep.get("nodes") or {}).values() for m in node["messages"]]   # all branches too

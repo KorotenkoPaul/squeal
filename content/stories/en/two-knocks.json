@@ -7,7 +7,6 @@
  "description": "It's 3 a.m. Someone knocks on Lily's door — twice, your secret knock — and speaks in your voice. You're home in bed. The flat next door has been empty since June. Or so everyone thought.",
  "interactive": true,
  "featured": true,
- "endSound": "sfx/two-knocks-end.mp3",
  "parts": [
   {
    "prologue": "Lily and Sam have had a secret knock since they were kids: two quick taps, nothing more. Nobody else has ever known it. Lily lives on the fourth floor, next to Mrs Hale's flat — empty since June.",
