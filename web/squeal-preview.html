@@ -1266,27 +1266,40 @@ function search() {
     inner.style.minHeight = results.querySelector("[data-id]") ? (results.clientHeight - parseFloat(getComputedStyle(results).paddingBottom) + 1) + "px" : ""; };
   new MutationObserver(fit).observe(results, { childList: true });
   if (window.ResizeObserver) new ResizeObserver(fit).observe(results);
-  let ry0 = null, rpull = 0, rmine = false;
-  const rubber = x => Math.sign(x) * (1 - 1 / (Math.abs(x) * .55 / results.clientHeight + 1)) * results.clientHeight;   // iOS-like give
+  /* the rubber band: the further you pull, the stiffer it gets; let go and a critically damped spring brings
+     the list home from the finger's own speed, frame by frame (no CSS transition to skip or snap). Grab it
+     again on the way back and it carries on from where it is. */
+  let ry0 = null, rpull = 0, rmine = false, rbase = 0, rv = 0, rlastY = 0, rlastT = 0, rspring = 0;
+  const K = .55, H = () => results.clientHeight || 1;
+  const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
+  const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
   const rinner = () => results.firstElementChild;
-  results.addEventListener("touchstart", e => { if (!results.querySelector("[data-id]")) return; ry0 = e.touches[0].clientY; rpull = 0; rmine = false;
-    const i = rinner(); if (i) i.style.transition = ""; }, { passive: true });
+  const rset = x => { rpull = x; const i = rinner(); if (i) i.style.transform = Math.abs(x) > .05 ? `translate3d(0,${x.toFixed(2)}px,0)` : ""; };
+  results.addEventListener("touchstart", e => { if (!results.querySelector("[data-id]")) return;
+    cancelAnimationFrame(rspring); rbase = rpull ? unrubber(rpull) : 0;            // caught mid-spring: carry on from here
+    ry0 = e.touches[0].clientY; rmine = !!rpull; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
   results.addEventListener("touchmove", e => {
     if (ry0 == null) return;
-    const dy = e.touches[0].clientY - ry0, max = results.scrollHeight - results.clientHeight;
-    const atTop = results.scrollTop <= 0 && dy > 0, atEnd = results.scrollTop >= max - .5 && dy < 0;
+    const y = e.touches[0].clientY, dy = y - ry0, max = results.scrollHeight - results.clientHeight;
     if (!rmine) {
       if (results.scrollTop < 0 || results.scrollTop > max) { ry0 = null; return; }            // the phone springs it itself
+      const atTop = results.scrollTop <= 0 && dy > 0, atEnd = results.scrollTop >= max - .5 && dy < 0;
       if (!(atTop || atEnd) || Math.abs(dy) < 6) return;
-      rmine = true; ry0 = e.touches[0].clientY - Math.sign(dy) * 6;
+      rmine = true; ry0 = y - Math.sign(dy) * 6; rbase = 0;
     }
     if (e.cancelable) e.preventDefault();
-    rpull = rubber(e.touches[0].clientY - ry0);
-    if ((rpull > 0 && results.scrollTop > 0) || (rpull < 0 && results.scrollTop < max - .5)) rpull = 0;
-    rinner().style.transform = rpull ? `translateY(${rpull.toFixed(1)}px)` : "";
+    const dt = Math.max(1, e.timeStamp - rlastT); rv = .8 * rv + .2 * ((y - rlastY) / dt * 1000); rlastY = y; rlastT = e.timeStamp;
+    const d = rbase + (y - ry0);
+    if ((d > 0 && results.scrollTop > 0) || (d < 0 && results.scrollTop < max - .5)) return rset(0);
+    rset(rubber(d));
   }, { passive: false });
-  const rlet = () => { if (ry0 == null) return; ry0 = null; if (!rmine) return; const i = rinner(); if (!i) return;
-    i.style.transition = "transform .45s cubic-bezier(.25,1,.5,1)"; i.style.transform = ""; };
+  const rlet = () => {
+    if (ry0 == null) return; ry0 = null; if (!rmine && !rpull) return;
+    const w = 13, x0 = rpull, v0 = Math.max(-2500, Math.min(2500, rv * (1 - Math.abs(rpull) / H()) * .5)), t0 = performance.now();
+    const f = now => { const t = (now - t0) / 1000, x = (x0 + (v0 + w * x0) * t) * Math.exp(-w * t);
+      if (t > .1 && Math.abs(x) < .3) return rset(0); rset(x); rspring = requestAnimationFrame(f); };
+    rspring = requestAnimationFrame(f);
+  };
   results.addEventListener("touchend", rlet); results.addEventListener("touchcancel", rlet);
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
   const showLevel = () => {
