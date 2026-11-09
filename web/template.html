@@ -503,6 +503,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .foot.idle .cont { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: .9 } 50% { opacity: .4 } }
 .tap { flex: 1; padding: 14px; border-radius: 14px; background: var(--field); color: var(--muted); font-weight: 600; }
+/* the end (2026-11-09): the start-over / read-again button sits at the very bottom, its word exactly where
+   "Tap to continue" stood (same place, same type); "Next part" and "Back to a choice" go above it */
+.foot.endfoot { flex-direction: column; flex-wrap: nowrap; }
+.foot.endfoot .tap, .foot.endfoot .turns { flex: none; width: 100%; }
+.tap.again { padding: 14px; line-height: normal; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .tap.primary { background: var(--accent); color: var(--text); }
 .end { align-self: center; text-align: center; padding: 16px 8px 4px; display: flex; flex-direction: column; gap: 4px; }
 .end strong { font-size: 26px; font-weight: 700; }
@@ -2654,8 +2659,8 @@ function openStory(id, epIndex) {
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
-      foot.classList.remove("hint"); foot.onclick = null;
-      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
+      foot.classList.remove("hint"); foot.classList.add("endfoot"); foot.onclick = null;
+      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap again" id="again">${path ? "Start over" : "Read again"}</button>`;
       const next = foot.querySelector("#next");
       if (next) next.onclick = () => openStory(id, st.ep + 1);
       foot.querySelector("#again").onclick = () => {
