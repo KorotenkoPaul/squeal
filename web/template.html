@@ -2413,8 +2413,8 @@ function openStory(id, epIndex) {
      messages slide out to their own sides (the other side's to the left, the reader's to the right), then the
      new part's conversation — already laid out, the description's room kept — slides in the same way, at the
      speed of the answer choices; only what is on screen moves (2026-11-09) */
-  let oldLog = null, oldTop = 0;
-  if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log"); if (ol) { oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; prevIntro = null; } }
+  let oldLog = null, oldTop = 0, oldH = 0, oldRef = null;
+  if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log"); if (ol) { oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; oldH = ol.clientHeight; oldRef = ol.lastElementChild ? ol.lastElementChild.getBoundingClientRect().top : null; prevIntro = null; } }
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
@@ -2540,12 +2540,19 @@ function openStory(id, epIndex) {
       el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
         { duration: 340, delay, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
     return end; };
+  /* run once the bottom panel is in place (after the first controls()): only then are the chat's height, its
+     scroll and the messages really on screen known — before, the old messages were laid over "Tap to continue"
+     and the wrong ones slid (2026-11-09) */
+  const slides = () => {
   if (!prev && !reduce()) slideIn(240);
   if (oldLog) {
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
     oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
-    Object.assign(oldLog.style, { top: log.offsetTop + "px", height: log.clientHeight + "px" });
+    /* as tall as it was (so its messages stay exactly where they stood), but cut off where the new panel begins */
+    const gh = oldH || log.clientHeight;
+    Object.assign(oldLog.style, { top: log.offsetTop + "px", height: gh + "px", boxSizing: "border-box", clipPath: `inset(0 -100vw ${Math.max(0, gh - log.clientHeight)}px -100vw)` });
     log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
+    if (oldRef != null && oldLog.lastElementChild) oldLog.scrollTop += oldLog.lastElementChild.getBoundingClientRect().top - oldRef;   // to the pixel where it stood
     /* the description shows still when a chat opens; only on a part switch does it go and come back:
        it fades out while the old messages slide out, and fades in while the new ones slide in (2026-11-09) */
     let outEnd = 0;
@@ -2563,6 +2570,7 @@ function openStory(id, epIndex) {
     const ni = log.querySelector(".intro");
     if (ni) ni.animate([{ opacity: 0 }, { opacity: 1 }], { duration: inEnd - inStart, delay: inStart, easing: "linear", fill: "backwards" });
   }
+  };
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
     if (path) { p.path = path; if (st.i >= ep.messages.length && base.nodes[path.at(-1)].ending) p.pos[st.ep] = Math.max(st.i, base.messages.length); }   // an ending reached = read
@@ -2759,6 +2767,8 @@ function openStory(id, epIndex) {
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();
+  log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
+  slides();
   swipeBack(scr);
 }
 
