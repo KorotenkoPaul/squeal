@@ -501,6 +501,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .typing.rec.sending svg { animation: none; color: var(--muted); }
 /* "typing…" and "recording…" bubbles are exactly as tall as a one-line message (2026-11-09) */
 .typing, .typing.rec { box-sizing: border-box; height: var(--one-line, 36px); padding-block: 0; align-items: center; }
+/* the chat is a column that may be longer than the screen: nothing in it may be squeezed to fit (the bubble
+   was flattened to a 7 px strip once the chat was longer than the screen; 2026-11-09) */
+.log > * { flex-shrink: 0; }
 .foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
