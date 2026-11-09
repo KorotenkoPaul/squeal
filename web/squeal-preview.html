@@ -940,7 +940,9 @@ function pullToRefresh() {
   const show = (d, live) => {
     view.style.transform = d ? `translateY(${d}px)` : "";
     const k = Math.min(1, d / LINE);
-    eyes.el.style.transform = `translateY(${d - REST}px)`;          // the eyes ride just above the page's top edge
+    /* the eyes ride just above the page's top edge, but never lower than the place where they blink
+       (d = REST): pull further and only the page goes on down (2026-11-09) */
+    eyes.el.style.transform = `translateY(${Math.min(d, REST) - REST}px)`;
     eyes.el.classList.toggle("settle", !live);
     if (live) eyes.setLids(1 - k * k);                            // the eyes open as you pull
   };
