@@ -56,10 +56,17 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .dots { flex: none; position: relative; display: flex; justify-content: center; gap: 10px; height: 6px; margin-top: -2px; }
 .dots i { flex: none; }
 .dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
-.dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
-  overflow: hidden; will-change: transform, width; }
-.dots .worm b { position: absolute; inset: 0 auto 0 0; width: 100%; border-radius: 3px; transform-origin: left;
-  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); transform: scaleX(0); }
+/* EXPERIMENT 2026-11-09 "eyes" (the worm is in git 11a717c): the current story's dot opens into an eye;
+   its pupil slowly looks from left to right while the time to the next slide runs out, then the eye
+   closes as the next one opens. The cards blink too: dark lids close over the card leaving and open
+   over the one arriving, and the title drifts a little behind the picture. */
+.dots { height: 10px; align-items: center; margin-top: -4px; }
+.dots i { position: relative; overflow: hidden; border-radius: 50%; will-change: width, height; }
+.dots i u { position: absolute; top: 50%; left: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #17122c; opacity: 0; }
+.slider .hero .lid { position: absolute; left: 0; right: 0; height: 51%; z-index: 3; pointer-events: none; transform: scaleY(0); will-change: transform;
+  background: #0d0a1c; }
+.slider .hero .lid.t { top: 0; transform-origin: 50% 0; border-radius: 0 0 50% 50% / 0 0 18% 18%; }
+.slider .hero .lid.b { bottom: 0; transform-origin: 50% 100%; border-radius: 50% 50% 0 0 / 18% 18% 0 0; }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
 .pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
 .pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
@@ -681,10 +688,10 @@ function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
   const heroHTML = h => { const L = LETTERING[h.id];
     const art = L ? `<span class="lt" style="${L.box}"><b class="art" style="${L.css}">${L.html ? L.html(esc(h.title)) : esc(h.title)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
-    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}</button>`; };
+    return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}<span class="lid t"></span><span class="lid b"></span></button>`; };
   return (`<span class="label">Top this week</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
-    <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
+    <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i><u></u></i>").join("")}</div>
     <div class="chips" role="group" aria-label="Genre">${Object.entries(GENRES).map(([k, v]) => `<button class="chip" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}">${v}</button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
     <p class="hint pull-hint" id="pull-hint">Pull up for a random story</p>`);
@@ -1037,7 +1044,8 @@ function startSlider() {
   fitAll(); document.fonts?.ready.then(fitAll);
   const el = document.getElementById("slider"), box = document.getElementById("dots");
   if (!el || !box) return;
-  const dots = [...box.querySelectorAll("i")], worm = box.querySelector(".worm"), fill = worm.querySelector("b");
+  const dots = [...box.querySelectorAll("i")], pupils = dots.map(d => d.querySelector("u"));
+  const cards = [...el.children], lids = cards.map(c => [...c.querySelectorAll(".lid")]), titles = cards.map(c => c.querySelector(".lt, div"));
   /* a copy of the first card sits after the last: the slider always moves one step right, and on
      reaching the copy it quietly jumps back to the real first card (they look the same) */
   const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
@@ -1060,20 +1068,15 @@ function startSlider() {
     if (p >= n - .001 && !held) { el.scrollLeft -= n * step; p = 0; }                     // on the copy: back to the real first
     const wrap = p > n - 1;                                                               // between the last card and the copy
     const i = Math.min(n - 2, Math.floor(Math.min(p, n - 1))), f = n > 1 ? Math.min(p, n - 1) - i : 0;
-    /* the slot under the pill is as wide as the pill, so every gap (dot-dot and pill-dot) is the same;
-       slots trade width as the slide moves */
-    const ws = dots.map((d, k) => DOT + (W - DOT) * Math.max(0, 1 - Math.abs(p - k), k === 0 ? 1 - Math.abs(p - n) : 0));
-    const total = ws.reduce((a, b) => a + b, 0) + GAP * (n - 1);
-    const L = [], R = []; let x = (box.clientWidth - total) / 2;
-    ws.forEach((w, k) => { dots[k].style.width = w + "px"; L.push(x); R.push(x + w); x += w + GAP; });
-    /* the worm between slot i and i+1: head leads over the first half, tail follows over the second.
-       From the last card to the first it does not crawl back: the last pill shrinks to a dot while the
-       first dot grows into the pill (dots light up with their share) */
-    dots.forEach((d, k) => d.style.background = wrap && (k === n - 1 || k === 0) ? `color-mix(in srgb, #5d5888 ${Math.round((k === 0 ? p - (n - 1) : n - p) * 100)}%, #4a4670)` : "");
-    worm.style.opacity = wrap ? 0 : 1;
-    const right = n > 1 ? lerp(R[i], R[i + 1], Math.min(1, f * 2)) : R[0];
-    const left = n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
-    worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
+    /* each dot opens into an eye by how close its card is (the first one also for the copy at the end) */
+    const open = dots.map((d, k) => Math.max(0, 1 - Math.abs(p - k), k === 0 ? 1 - Math.abs(p - n) : 0));
+    open.forEach((o, k) => { const e = o * o * (3 - 2 * o);                 // eased: the lid snaps open, then settles
+      dots[k].style.width = (DOT + (W - DOT) * e) + "px"; dots[k].style.height = (DOT + 4 * e) + "px";
+      dots[k].style.background = e > .05 ? `color-mix(in srgb, #d9ccff ${Math.round(e * 100)}%, #4a4670)` : ""; });
+    /* the cards blink: lids close over the card leaving, open over the one arriving; the title lags */
+    cards.forEach((c, k) => { const d = Math.min(1, Math.abs(p - k)), shut = Math.sin(Math.min(1, d * 1.6) * Math.PI / 2);
+      lids[k].forEach(l => l.style.transform = `scaleY(${still ? 0 : shut.toFixed(3)})`);
+      if (titles[k] && !still) titles[k].style.translate = `${((p - k) * 40).toFixed(1)}px 0`; });
     const cur = Math.round(p) % n;
     if (cur !== at) { at = cur; since = now; }
     /* time to the next slide runs out inside the pill; it only shows while the pill sits still */
@@ -1087,7 +1090,9 @@ function startSlider() {
     last = now;
     const t = Math.min(1, (now - since) / SLIDE);
     SL.at = cur; SL.elapsed = Math.min(SLIDE, now - since); SL.seen = Date.now();
-    fill.style.transform = `scaleX(${settled ? t : 0})`;
+    /* the pupil looks across the eye as the time runs out; it shows only while the eye is fully open */
+    pupils.forEach((u, k) => { const w = parseFloat(dots[k].style.width) || DOT;
+      u.style.opacity = k === cur && settled ? 1 : 0; u.style.transform = `translateX(${(4 + (w - 8) * (k === cur && settled ? t : 0)).toFixed(1)}px)`; });
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
