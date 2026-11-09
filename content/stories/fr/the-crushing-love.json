@@ -1,0 +1,315 @@
+{
+ "id": "the-crushing-love",
+ "title": "Un amour écrasant",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Henna se confie à son meilleur ami, Ben, et lui révèle le secret de son histoire d'amour tordue. Pour découvrir que sa relation cache bien plus de rebondissements qu'elle ne le croit.",
+ "parts": [
+  {
+   "prologue": "Henna et Ben sont meilleurs amis depuis leur première semaine à la fac. Ils se disent tout. Enfin, presque tout.",
+   "left": "Henna",
+   "right": "Ben",
+   "wallpaper": [
+    "heart",
+    "coffee",
+    "book",
+    "ring",
+    "phone",
+    "lock",
+    "star",
+    "music"
+   ],
+   "messages": [
+    {
+     "from": "Henna",
+     "text": "Salut Ben, comment ça va ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Salut Henna, ça va."
+    },
+    {
+     "from": "Ben",
+     "text": "Et toi ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Ça va aussi."
+    },
+    {
+     "from": "Henna",
+     "text": "Alors, quoi de neuf ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Pas grand-chose."
+    },
+    {
+     "from": "Ben",
+     "text": "J'allais justement retrouver Harry."
+    },
+    {
+     "from": "Henna",
+     "text": "Hmm. Harry, ton pote grand, c'est ça ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Ouais, tu le connais ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Euh. Oui."
+    },
+    {
+     "from": "Henna",
+     "text": "Enfin non."
+    },
+    {
+     "from": "Henna",
+     "text": "Enfin oui, je sais que c'est ton pote."
+    },
+    {
+     "from": "Ben",
+     "text": "Tu as l'air bizarre."
+    },
+    {
+     "from": "Ben",
+     "text": "Qu'est-ce qu'il y a, Henna ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Pas grand-chose."
+    },
+    {
+     "from": "Ben",
+     "text": "Allez, je suis ton meilleur ami."
+    },
+    {
+     "from": "Henna",
+     "text": "Merci, Ben."
+    },
+    {
+     "from": "Henna",
+     "text": "Je ne sais pas trop."
+    },
+    {
+     "from": "Ben",
+     "text": "Tu ne sais pas trop quoi, Henna ?"
+    },
+    {
+     "from": "Henna",
+     "text": "J'ai mal, Ben."
+    },
+    {
+     "from": "Henna",
+     "text": "Mais d'abord, promets-moi que tu ne le diras à personne."
+    },
+    {
+     "from": "Ben",
+     "text": "Bien sûr Henna, ça fait deux ans qu'on est amis."
+    },
+    {
+     "from": "Henna",
+     "text": "Mais je n'en ai parlé à personne."
+    },
+    {
+     "from": "Henna",
+     "text": "Même pas à ma sœur."
+    },
+    {
+     "from": "Ben",
+     "text": "Alors ça doit être très grave."
+    },
+    {
+     "from": "Henna",
+     "text": "Oui."
+    },
+    {
+     "from": "Henna",
+     "text": "J'ai peur que ça puisse provoquer un divorce."
+    },
+    {
+     "from": "Ben",
+     "text": "Waouh !"
+    },
+    {
+     "from": "Ben",
+     "text": "C'est vraiment grave."
+    },
+    {
+     "from": "Henna",
+     "text": "Ouais, je sais."
+    },
+    {
+     "from": "Henna",
+     "text": "C'est pour ça que j'ai si peur."
+    },
+    {
+     "from": "Ben",
+     "text": "Vide ton sac, ma belle."
+    },
+    {
+     "from": "Ben",
+     "text": "Tu te sentiras beaucoup mieux."
+    },
+    {
+     "from": "Henna",
+     "text": "Ok, je me lance."
+    },
+    {
+     "from": "Henna",
+     "text": "J'ai rencontré un mec il y a quelques mois."
+    },
+    {
+     "from": "Henna",
+     "text": "Et il m'a plu."
+    },
+    {
+     "from": "Henna",
+     "text": "On avait des centres d'intérêt en commun."
+    },
+    {
+     "from": "Ben",
+     "text": "D'accord, ET ?"
+    },
+    {
+     "from": "Henna",
+     "text": "On a commencé à traîner ensemble après les cours."
+    },
+    {
+     "from": "Henna",
+     "text": "Ça s'est développé et on a commencé à sortir ensemble."
+    },
+    {
+     "from": "Ben",
+     "text": "Enfin, tu avais une liaison. Bon à savoir."
+    },
+    {
+     "from": "Henna",
+     "text": "Oui. Et puis on est vraiment tombés amoureux."
+    },
+    {
+     "from": "Henna",
+     "text": "Notre relation était très passionnée."
+    },
+    {
+     "from": "Henna",
+     "text": "On n'arrivait pas à se passer l'un de l'autre."
+    },
+    {
+     "from": "Ben",
+     "text": "Si c'est le cas, pourquoi t'es si mal ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Un truc horrible est sorti."
+    },
+    {
+     "from": "Ben",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Il m'a dit qu'il était déjà marié."
+    },
+    {
+     "from": "Ben",
+     "text": "QUOI ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Je vais tuer ce connard."
+    },
+    {
+     "from": "Ben",
+     "text": "Il s'appelle comment ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Non, Ben, je ne veux pas que ça se sache."
+    },
+    {
+     "from": "Ben",
+     "text": "Dis-moi juste son nom."
+    },
+    {
+     "from": "Ben",
+     "text": "Je ne vais pas le laisser vivre en paix."
+    },
+    {
+     "from": "Henna",
+     "text": "Je ne peux pas te dire son nom."
+    },
+    {
+     "from": "Ben",
+     "text": "POURQUOI ? DONNE-MOI SON NOM, Henna."
+    },
+    {
+     "from": "Henna",
+     "text": "D'abord, promets-moi que tu ne lui feras pas de mal."
+    },
+    {
+     "from": "Henna",
+     "text": "Il a dit que la personne avec qui il est marié est psychopathe."
+    },
+    {
+     "from": "Henna",
+     "text": "Et qu'il m'aime toujours."
+    },
+    {
+     "from": "Ben",
+     "text": "DONNE-MOI JUSTE SON NOM, Henna."
+    },
+    {
+     "from": "Henna",
+     "text": "Je savais que je n'aurais jamais dû te le dire."
+    },
+    {
+     "from": "Henna",
+     "text": "S'il te plaît, ne lui fais pas de mal."
+    },
+    {
+     "from": "Henna",
+     "text": "C'est ton pote Harry."
+    },
+    {
+     "from": "Ben",
+     "text": "QUOI ?"
+    },
+    {
+     "from": "Ben",
+     "text": "COMMENT C'EST POSSIBLE, BORDEL ?"
+    },
+    {
+     "from": "Henna",
+     "text": "Je sais, j'aurais dû te le dire quand j'ai appris que tu étais son pote."
+    },
+    {
+     "from": "Henna",
+     "text": "Je suis vraiment désolée, Ben."
+    },
+    {
+     "from": "Ben",
+     "text": "Comment il a pu me faire ça, à moi ?"
+    },
+    {
+     "from": "Henna",
+     "text": "À toi ? C'est moi qu'on a trahie, là."
+    },
+    {
+     "from": "Ben",
+     "text": "Un conjoint psychopathe ? Il m'a traité de psychopathe ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Il ne t'a jamais dit qu'il était homo ?"
+    },
+    {
+     "from": "Ben",
+     "text": "Vous allez payer tous les deux pour ce que vous avez fait."
+    }
+   ]
+  }
+ ]
+}

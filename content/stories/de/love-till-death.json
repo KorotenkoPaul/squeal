@@ -1,0 +1,352 @@
+{
+ "id": "love-till-death",
+ "title": "Bis dass der Tod uns scheidet",
+ "author": "Asjad Ullah",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Eine dunkle Affäre aus der Vergangenheit lässt Jake um sein Leben betteln. Ihm bleiben fünf Minuten, und er muss ein Geständnis ablegen, das ihn retten kann. Doch Jake erfährt, dass es Dinge gibt, die schmerzhafter sind als der Tod.",
+ "parts": [
+  {
+   "prologue": "Jake hat zehn Jahre lang versucht, einen Hausbrand am Stadtrand zu vergessen. Er ist umgezogen, hat seine Nummer gewechselt, neu angefangen. Heute Nacht wacht er an einem Ort auf, den er nicht kennt, sein Handy in der Hand.",
+   "left": "Anna",
+   "right": "Jake",
+   "wallpaper": [
+    "heart",
+    "clock",
+    "rose",
+    "ring",
+    "phone",
+    "house",
+    "envelope",
+    "hourglass",
+    "key"
+   ],
+   "messages": [
+    {
+     "from": "Anna",
+     "text": "Du hast noch fünf Minuten zu leben."
+    },
+    {
+     "from": "Jake",
+     "text": "Wer bist du? Wo bin ich?"
+    },
+    {
+     "from": "Jake",
+     "text": "Was ist das hier?"
+    },
+    {
+     "from": "Anna",
+     "text": "Entspann dich! Mein Liebster."
+    },
+    {
+     "from": "Anna",
+     "text": "Bald ist alles vorbei."
+    },
+    {
+     "from": "Jake",
+     "text": "Was willst du?"
+    },
+    {
+     "from": "Anna",
+     "text": "Ich?"
+    },
+    {
+     "from": "Anna",
+     "text": "Ich will nur zusehen, wie dich diese Klinge in Stücke reißt."
+    },
+    {
+     "from": "Anna",
+     "text": "Und ja, auch deine Schreie hören."
+    },
+    {
+     "from": "Jake",
+     "text": "Wieso? Was hab ich dir getan?"
+    },
+    {
+     "from": "Anna",
+     "text": "Das ist eine sehr interessante Frage."
+    },
+    {
+     "from": "Anna",
+     "text": "Wo soll ich da anfangen?"
+    },
+    {
+     "from": "Jake",
+     "text": "Ich mach alles."
+    },
+    {
+     "from": "Jake",
+     "text": "Halt nur diese Klinge an."
+    },
+    {
+     "from": "Anna",
+     "text": "Diesen Satz kenne ich doch irgendwoher."
+    },
+    {
+     "from": "Anna",
+     "text": "Wo hab ich den bloß gehört?"
+    },
+    {
+     "from": "Anna",
+     "text": "Ach, jetzt weiß ich’s wieder!"
+    },
+    {
+     "from": "Anna",
+     "text": "Sagt dir der Name Anna etwas, Mr. Jake?"
+    },
+    {
+     "from": "Jake",
+     "text": "Anna?"
+    },
+    {
+     "from": "Jake",
+     "text": "Welche Anna?"
+    },
+    {
+     "from": "Anna",
+     "text": "Und jetzt erinnerst du dich nicht mal mehr an Anna?"
+    },
+    {
+     "from": "Anna",
+     "text": "Armer Jake, die Angst hat dein Gedächtnis geschwächt."
+    },
+    {
+     "from": "Jake",
+     "text": "Halt einfach diese gottverdammte Klinge an."
+    },
+    {
+     "from": "Jake",
+     "text": "Sie kommt immer näher."
+    },
+    {
+     "from": "Anna",
+     "text": "Weißt du noch, wie Anna um ihr Leben gebettelt hat?"
+    },
+    {
+     "from": "Anna",
+     "text": "Sie war damals schwanger."
+    },
+    {
+     "from": "Jake",
+     "text": "Aber Anna ist bei einem Hausbrand gestorben."
+    },
+    {
+     "from": "Anna",
+     "text": "Du blutrünstiger Abschaum."
+    },
+    {
+     "from": "Anna",
+     "text": "Du hast Anna zu Tode gefoltert."
+    },
+    {
+     "from": "Anna",
+     "text": "Du und dein Flittchen, diese Hure Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Wer bist du? Woher weißt du das alles?"
+    },
+    {
+     "from": "Anna",
+     "text": "ICH BIN ANNA."
+    },
+    {
+     "from": "Jake",
+     "text": "Das kann nicht sein. Wir haben dich umgebracht."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich hab das ganze Haus abgefackelt."
+    },
+    {
+     "from": "Jake",
+     "text": "Das ist unmöglich."
+    },
+    {
+     "from": "Anna",
+     "text": "Hier bin ich, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Und sehe genüsslich zu, wie du abgeschlachtet wirst, auf meinem Bildschirm."
+    },
+    {
+     "from": "Anna",
+     "text": "Durch genau die Klinge, mit der du mich getötet hast."
+    },
+    {
+     "from": "Anna",
+     "text": "Und nichts ist frei außer deinen Fingern, damit du mir schreiben kannst."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich liebe dich, Anna."
+    },
+    {
+     "from": "Anna",
+     "text": "Schau dir den armen Kerl an."
+    },
+    {
+     "from": "Anna",
+     "text": "Du hast wohl vergessen, wie brutal du versucht hast, mich umzubringen."
+    },
+    {
+     "from": "Jake",
+     "text": "Das war alles Megs Idee."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich kann alles erklären."
+    },
+    {
+     "from": "Jake",
+     "text": "Bitte gib mir eine Chance."
+    },
+    {
+     "from": "Anna",
+     "text": "Nimm den Namen dieser Hure nicht mal in den Mund."
+    },
+    {
+     "from": "Jake",
+     "text": "Ja, ich hasse sie auch."
+    },
+    {
+     "from": "Jake",
+     "text": "Es war ihr Plan, dich umzubringen."
+    },
+    {
+     "from": "Jake",
+     "text": "Sie hat mich nur benutzt."
+    },
+    {
+     "from": "Anna",
+     "text": "Noch 2 Minuten, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "BITTE HÖR AUF, ANNA."
+    },
+    {
+     "from": "Jake",
+     "text": "Um Himmels willen."
+    },
+    {
+     "from": "Anna",
+     "text": "Ich kann dein Lachen nicht vergessen, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Nachdem du mir die Beine abgetrennt hattest."
+    },
+    {
+     "from": "Anna",
+     "text": "Du dachtest, ich wäre ohnmächtig."
+    },
+    {
+     "from": "Anna",
+     "text": "Ich hab zugehört, Jake, und ihr zwei habt gelacht."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich schwöre bei Gott, Meg hat mich dazu gebracht."
+    },
+    {
+     "from": "Jake",
+     "text": "Sie hatte mich einfach im Griff, wie in Trance."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich hab immer dich geliebt, Anna."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich stand nur auf Megs Körper."
+    },
+    {
+     "from": "Jake",
+     "text": "Sie hab ich nie geliebt."
+    },
+    {
+     "from": "Anna",
+     "text": "Ach wirklich, Jake?"
+    },
+    {
+     "from": "Anna",
+     "text": "Wie willst du das beweisen?"
+    },
+    {
+     "from": "Jake",
+     "text": "Gib mir eine Chance."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich geh vor Gericht."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich sage gegen sie aus."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich beweise, dass alles ihr Plan war."
+    },
+    {
+     "from": "Anna",
+     "text": "Du hast noch 1 Minute, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Anna, bitte, du hast nichts davon, wenn du mich tötest."
+    },
+    {
+     "from": "Jake",
+     "text": "Du kannst dich an Meg rächen."
+    },
+    {
+     "from": "Jake",
+     "text": "Ich helfe dir."
+    },
+    {
+     "from": "Anna",
+     "text": "Du kannst mir nicht helfen, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Oh bitte, halt die Klinge an."
+    },
+    {
+     "from": "Jake",
+     "text": "Bitte."
+    },
+    {
+     "from": "Anna",
+     "text": "Du bist so dumm, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Haben wir Annas Leiche nicht zusammen verbrannt?"
+    },
+    {
+     "from": "Jake",
+     "text": "Meg?"
+    },
+    {
+     "from": "Anna",
+     "text": "Natürlich, MEIN LIEBSTER."
+    },
+    {
+     "from": "Anna",
+     "text": "Und jetzt hast du genau das bewiesen, was ich befürchtet hab."
+    },
+    {
+     "from": "Anna",
+     "text": "Um deine Haut zu retten, verrätst du mich ohne Zögern."
+    },
+    {
+     "from": "Anna",
+     "text": "Wir sehen uns in der Hölle, Jake."
+    }
+   ]
+  }
+ ]
+}

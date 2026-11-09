@@ -1,0 +1,356 @@
+{
+ "id": "mystery-girlfriend",
+ "title": "La Mystérieuse Petite Amie",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Bruce, fils de milliardaire, a rencontré la fille de ses rêves sur Facebook – du moins, c’est ce qu’il croit. Son père est farouchement opposé à son projet de l’épouser. Mais pourquoi ?",
+ "parts": [
+  {
+   "prologue": "Bruce n’a jamais eu à faire d’efforts pour quoi que ce soit. L’argent, les voitures, les filles — tout lui tombe dessus. Laila est arrivée il y a deux semaines, dans un message Facebook.",
+   "left": "Genry",
+   "right": "Bruce",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "ring",
+    "dollar",
+    "fork",
+    "rose",
+    "camera",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Genry",
+     "text": "Hé mon pote, pourquoi tu réponds pas à tes messages ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Désolé. J’étais occupé."
+    },
+    {
+     "from": "Genry",
+     "text": "Occupé à faire quoi, ou qui ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "J’ai rencontré la fille de mes rêves sur Facebook."
+    },
+    {
+     "from": "Genry",
+     "text": "Sérieux ? C’est ce que tu pensais de Linda."
+    },
+    {
+     "from": "Bruce",
+     "text": "Mais là, c’est différent."
+    },
+    {
+     "from": "Genry",
+     "text": "Différent comment ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Elle me comprend, elle est belle, douce et gentille."
+    },
+    {
+     "from": "Genry",
+     "text": "Tu la connais depuis combien de temps ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Seulement deux semaines, et je l’aime."
+    },
+    {
+     "from": "Genry",
+     "text": "Au bout de deux semaines ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "C’est juste qu’elle compte tellement pour moi. Le coup de foudre."
+    },
+    {
+     "from": "Genry",
+     "text": "Désolé, je crois pas au coup de foudre, ni à aucun autre coup."
+    },
+    {
+     "from": "Bruce",
+     "text": "Toutes les filles sont pas des garces comme Colleen."
+    },
+    {
+     "from": "Genry",
+     "text": "J’en ai pas encore trouvé une qui l’est pas."
+    },
+    {
+     "from": "Bruce",
+     "text": "Tu veux que je demande si Laila a une sœur ou une copine ?"
+    },
+    {
+     "from": "Genry",
+     "text": "Non merci. J’en ai fini avec les rencards pour un moment."
+    },
+    {
+     "from": "Bruce",
+     "text": "Si t’es sûr."
+    },
+    {
+     "from": "Genry",
+     "text": "Je suis sûr, mais merci."
+    },
+    {
+     "from": "Bruce",
+     "text": "Si tu changes d’avis, dis-le-moi."
+    },
+    {
+     "from": "Genry",
+     "text": "Alors, parle-moi un peu plus de Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Elle est belle, avec des cheveux et des yeux sombres, et très pulpeuse."
+    },
+    {
+     "from": "Genry",
+     "text": "Vous avez fait quoi, tous les deux ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Je l’ai emmenée sur des plages romantiques."
+    },
+    {
+     "from": "Genry",
+     "text": "Ça a l’air sympa."
+    },
+    {
+     "from": "Bruce",
+     "text": "J’ai même loué une salle de concert rien que pour nous deux."
+    },
+    {
+     "from": "Genry",
+     "text": "Ça a l’air cool."
+    },
+    {
+     "from": "Bruce",
+     "text": "C’est le grand amour, et ça va durer pour toujours."
+    },
+    {
+     "from": "Genry",
+     "text": "Toujours, c’est long."
+    },
+    {
+     "from": "Bruce",
+     "text": "Je sais."
+    },
+    {
+     "from": "Genry",
+     "text": "C’est quoi, son nom de famille ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Lafontaine."
+    },
+    {
+     "from": "Genry",
+     "text": "Une des filles du magnat de la chaussure ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Non, juste une fille normale."
+    },
+    {
+     "from": "Genry",
+     "text": "Et ton père, il le prend comment ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Pas très bien. Il est contre."
+    },
+    {
+     "from": "Genry",
+     "text": "Ouais, ton père voulait que tu épouses Gloria Van House."
+    },
+    {
+     "from": "Bruce",
+     "text": "Oui, mais elle est écervelée et…"
+    },
+    {
+     "from": "Genry",
+     "text": "Et quoi, mon pote ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Un vrai glaçon au lit."
+    },
+    {
+     "from": "Genry",
+     "text": "Elle fait quoi comme boulot, Laila ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Je sais pas trop. Elle a des horaires variables."
+    },
+    {
+     "from": "Genry",
+     "text": "Elle te l’a pas dit ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Non, et tout ce que je sais, c’est que c’est dans les relations publiques."
+    },
+    {
+     "from": "Genry",
+     "text": "Je la rencontre quand ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Faudra que je voie quand elle a congé."
+    },
+    {
+     "from": "Genry",
+     "text": "Elle doit d’abord avoir mon feu vert."
+    },
+    {
+     "from": "Bruce",
+     "text": "Ton feu vert, c’est tout ce qu’il me faut."
+    },
+    {
+     "from": "Genry",
+     "text": "Et le feu vert de ton père ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Mon père a dit qu’il me déshériterait si je la revoyais."
+    },
+    {
+     "from": "Genry",
+     "text": "Tu vas faire quoi ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Continuer à la voir."
+    },
+    {
+     "from": "Genry",
+     "text": "Même si tu perds tout ton fric, tes voitures, ta maison ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Oui, parce que je l’aime."
+    },
+    {
+     "from": "Genry",
+     "text": "Comment l’amour va te mettre un toit au-dessus de la tête ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "On se débrouillera. Elle a un boulot."
+    },
+    {
+     "from": "Genry",
+     "text": "Ton père l’a rencontrée ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Non."
+    },
+    {
+     "from": "Genry",
+     "text": "Alors comment ton père a su que tu voyais quelqu’un d’autre que Gloria ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Les relevés de carte bancaire et l’argent que je dépense pour elle."
+    },
+    {
+     "from": "Genry",
+     "text": "Beaucoup d’argent ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Oui."
+    },
+    {
+     "from": "Genry",
+     "text": "Waouh ! Et maintenant ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Mon père m’emmène déjeuner."
+    },
+    {
+     "from": "Genry",
+     "text": "Où ça ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Au Bistrot Italien. Mon père a insisté pour ce restaurant."
+    },
+    {
+     "from": "Genry",
+     "text": "Pourquoi un déjeuner ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Pourquoi pas ? Faut bien manger, et cet endroit en vaut bien un autre."
+    },
+    {
+     "from": "Genry",
+     "text": "Pourquoi ce restaurant ? T’es pas fan de cuisine italienne."
+    },
+    {
+     "from": "Bruce",
+     "text": "Attends. Message de Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Me revoilà. Mon père a dit qu’il était prêt à faire un compromis au sujet de Laila et moi."
+    },
+    {
+     "from": "Genry",
+     "text": "C’est un pas dans la bonne direction"
+    },
+    {
+     "from": "Bruce",
+     "text": "Il veut parler de notre futur mariage."
+    },
+    {
+     "from": "Genry",
+     "text": "Profite. Écris-moi pour me dire comment ça s’est passé."
+    },
+    {
+     "from": "Genry",
+     "text": "Alors, ce déjeuner ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "J’ai compris pourquoi mon père m’avait invité au Bistrot Italien."
+    },
+    {
+     "from": "Genry",
+     "text": "Pourquoi ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "On roulait vers le restaurant."
+    },
+    {
+     "from": "Genry",
+     "text": "Et ?"
+    },
+    {
+     "from": "Bruce",
+     "text": "On est passés devant l’endroit où les prostituées attendent les clients de midi."
+    },
+    {
+     "from": "Genry",
+     "text": "Et alors ? Elles sont toujours là."
+    },
+    {
+     "from": "Bruce",
+     "text": "Laila était parmi elles."
+    }
+   ]
+  }
+ ]
+}

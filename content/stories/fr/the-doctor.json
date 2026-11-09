@@ -1,0 +1,488 @@
+{
+ "id": "the-doctor",
+ "title": "Le Docteur",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Josh campe seul, à des kilomètres de toute civilisation. Il est blessé et a désespérément besoin de soins. Incapable de rejoindre la vallée à pied, il compte sur son ami, qui lui trouve un médecin prêt à le conseiller par textos.",
+ "parts": [
+  {
+   "prologue": "Josh est parti seul dans la montagne pour une semaine — pas de gens, pas de programme, pas de réseau. Le quatrième jour, il est tombé. Sur la crête au-dessus de sa tente, il y a exactement une barre.",
+   "left": "Docteur",
+   "right": "Josh",
+   "wallpaper": [
+    "tent",
+    "tree",
+    "bandage",
+    "lamp",
+    "backpack",
+    "compass",
+    "moon",
+    "phone",
+    "drop"
+   ],
+   "messages": [
+    {
+     "from": "Docteur",
+     "text": "Bonjour, Josh. Je suis le docteur Beslow"
+    },
+    {
+     "from": "Josh",
+     "text": "Salut Doc – merci de m’écrire."
+    },
+    {
+     "from": "Docteur",
+     "text": "Votre ami Johnny m’a parlé de vous, il paraît que vous avez un problème."
+    },
+    {
+     "from": "Josh",
+     "text": "Ouais, un gros problème. Je fais du camping. Je suis un peu au milieu de nulle part."
+    },
+    {
+     "from": "Josh",
+     "text": "Genre vraiment loin."
+    },
+    {
+     "from": "Josh",
+     "text": "Je crois que je me suis blessé."
+    },
+    {
+     "from": "Docteur",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Je sais pas trop, c’est genre dans les côtes, quelque part."
+    },
+    {
+     "from": "Docteur",
+     "text": "Et personne ne peut vous aider ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Je suis seul. Genre il faudrait des jours pour venir jusqu’ici."
+    },
+    {
+     "from": "Josh",
+     "text": "Et ça fait vraiment super mal."
+    },
+    {
+     "from": "Josh",
+     "text": "C’est pour ça que Johnny vous a trouvé."
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous dites que c’est au niveau des côtes ?"
+    },
+    {
+     "from": "Josh",
+     "text": "C’est plein de bleus."
+    },
+    {
+     "from": "Docteur",
+     "text": "Ça a l’air assez grave."
+    },
+    {
+     "from": "Josh",
+     "text": "Ouais, je sais. Je fais quoi."
+    },
+    {
+     "from": "Docteur",
+     "text": "Eh bien, vous avez bien fait de ne pas essayer de redescendre à pied."
+    },
+    {
+     "from": "Josh",
+     "text": "Mais ça fait toujours mal."
+    },
+    {
+     "from": "Docteur",
+     "text": "Il va falloir que j’examine ça de plus près."
+    },
+    {
+     "from": "Josh",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous avez un couteau."
+    },
+    {
+     "from": "Josh",
+     "text": "Mon couteau de chasse… pourquoi ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous allez devoir faire quelque chose pour moi."
+    },
+    {
+     "from": "Josh",
+     "text": "Comment ça, « faire quelque chose » ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous allez devoir faire une incision."
+    },
+    {
+     "from": "Josh",
+     "text": "QUOI ? Je peux pas faire ça !"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous voulez mourir là-bas ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Non."
+    },
+    {
+     "from": "Docteur",
+     "text": "Alors vous allez devoir faire une incision."
+    },
+    {
+     "from": "Josh",
+     "text": "Et si ça saigne ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Ne vous en faites pas pour ça."
+    },
+    {
+     "from": "Josh",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Qui est le médecin, ici ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Vous, mais ça va pas saigner ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Bien sûr que ça va saigner, mais ça, c’est mon affaire."
+    },
+    {
+     "from": "Docteur",
+     "text": "Faites l’incision."
+    },
+    {
+     "from": "Docteur",
+     "text": "De gauche à droite."
+    },
+    {
+     "from": "Docteur",
+     "text": "Huit… non, dix centimètres de long."
+    },
+    {
+     "from": "Docteur",
+     "text": "Ensuite, montrez-moi ce que vous avez fait."
+    },
+    {
+     "from": "Josh",
+     "text": "Vous êtes sûr de vous ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Absolument sûr. Je suis médecin, vous vous rappelez."
+    },
+    {
+     "from": "Josh",
+     "text": "Vous êtes sûr qu’il y a pas d’autre solution ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Faites l’incision, Josh."
+    },
+    {
+     "from": "Josh",
+     "text": "Je vais essayer"
+    },
+    {
+     "from": "Josh",
+     "text": "OK, j’ai fait l’incision."
+    },
+    {
+     "from": "Docteur",
+     "text": "Très bien."
+    },
+    {
+     "from": "Docteur",
+     "text": "Maintenant, écartez les bords."
+    },
+    {
+     "from": "Josh",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Écartez-les, pour voir sous la peau."
+    },
+    {
+     "from": "Josh",
+     "text": "Mais ça va faire mal !"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous préférez mourir ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Non."
+    },
+    {
+     "from": "Docteur",
+     "text": "Écartez la peau."
+    },
+    {
+     "from": "Josh",
+     "text": "Ça va faire tellement mal."
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous préférez mourir ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Non."
+    },
+    {
+     "from": "Docteur",
+     "text": "Écartez."
+    },
+    {
+     "from": "Docteur",
+     "text": "Aussi grand que vous pouvez !"
+    },
+    {
+     "from": "Josh",
+     "text": "Ça s’ouvre pas tant que ça."
+    },
+    {
+     "from": "Docteur",
+     "text": "Il faut faire une incision plus grande."
+    },
+    {
+     "from": "Josh",
+     "text": "PLUS GRANDE ???"
+    },
+    {
+     "from": "Docteur",
+     "text": "Environ deux fois plus longue."
+    },
+    {
+     "from": "Josh",
+     "text": "S’il vous plaît, je préférerais pas."
+    },
+    {
+     "from": "Docteur",
+     "text": "Il le faut."
+    },
+    {
+     "from": "Docteur",
+     "text": "Faites-le vite, c’est tout."
+    },
+    {
+     "from": "Josh",
+     "text": "Je saigne de partout."
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous l’avez fait ?"
+    },
+    {
+     "from": "Josh",
+     "text": "Ouais."
+    },
+    {
+     "from": "Docteur",
+     "text": "Bien."
+    },
+    {
+     "from": "Josh",
+     "text": "Vous pensez que j’ai quoi, docteur ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous avez une blessure assez grave."
+    },
+    {
+     "from": "Josh",
+     "text": "Je sais, mais genre, je fais quoi ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je pense qu’on va peut-être devoir opérer."
+    },
+    {
+     "from": "Josh",
+     "text": "Opérer ? Comment ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous allez devoir vous opérer vous-même."
+    },
+    {
+     "from": "Josh",
+     "text": "Quoi ???"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je pense que vous en êtes capable."
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous n’avez pas le choix. Avec une plaie pareille, vous pouvez vous vider de votre sang."
+    },
+    {
+     "from": "Josh",
+     "text": "Mais c’est vous qui m’avez dit de le faire !"
+    },
+    {
+     "from": "Docteur",
+     "text": "Et maintenant, je veux que vous fassiez ce que je dis."
+    },
+    {
+     "from": "Josh",
+     "text": "Je peux pas m’opérer moi-même !"
+    },
+    {
+     "from": "Josh",
+     "text": "Vous pouvez pas venir en hélico et le faire vous-même ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Ne soyez pas ridicule."
+    },
+    {
+     "from": "Josh",
+     "text": "Plus ridicule que moi en train de m’opérer moi-même ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Ça va juste demander un peu de concentration."
+    },
+    {
+     "from": "Josh",
+     "text": "Ça va demander BEAUCOUP plus que ça !"
+    },
+    {
+     "from": "Docteur",
+     "text": "Faites ce que je dis ! C’est moi le médecin !"
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Quel genre de médecin ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous me remettez en question ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Ouais. Quel genre de médecin ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je devrais peut-être vous laisser comme ça."
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous feriez ça ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je suis médecin."
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je crois pas."
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous avez une grande incision dans le ventre."
+    },
+    {
+     "from": "Docteur",
+     "text": "Alors vous avez intérêt à espérer que je sois médecin."
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Vous êtes médecin ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Je suis la seule chance que vous ayez."
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Mais vous êtes médecin ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Maintenant, envoyez-moi une autre photo."
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Pourquoi vous me répondez pas ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "Sinon, pourquoi je vous demanderais de vous ouvrir le ventre ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "S’IL VOUS PLAÎT, dites-moi que vous êtes médecin"
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Allô ?"
+    },
+    {
+     "from": "Docteur",
+     "text": "John"
+    },
+    {
+     "from": "Docteur",
+     "text": "Allô ?"
+    }
+   ]
+  }
+ ]
+}

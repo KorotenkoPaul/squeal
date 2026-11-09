@@ -1,0 +1,461 @@
+{
+  "id": "two-knocks",
+  "title": "Dos golpes",
+  "author": "Claude",
+  "genre": "horror",
+  "fear": 3,
+  "description": "Son las 3 de la madrugada. Alguien llama a la puerta de Lily — dos golpes, tu llamada secreta — y habla con tu voz. Tú estás en casa, en la cama. El apartamento de al lado está vacío desde junio. O eso creían todos.",
+  "interactive": true,
+  "featured": true,
+  "parts": [
+    {
+      "prologue": "Lily y Sam tienen una llamada secreta desde niños: dos golpecitos rápidos, nada más. Nadie más la ha conocido nunca. Lily vive en el cuarto piso, junto al apartamento de la señora Hale, vacío desde junio.",
+      "left": "Lily",
+      "right": "Sam",
+      "wallpaper": [
+        "door",
+        "key",
+        "moon",
+        "clock"
+      ],
+      "wallpaperEndings": {
+        "open": [
+          "keyhole",
+          "sms"
+        ],
+        "run": [
+          "stairs",
+          "window"
+        ],
+        "hide": [
+          "bath",
+          "drop",
+          "phone",
+          "lock"
+        ]
+      },
+      "start": "start",
+      "nodes": {
+        "start": {
+          "messages": [
+            {
+              "from": "Lily",
+              "text": "Sam, ¿estás despierto?"
+            },
+            {
+              "from": "Sam",
+              "text": "apenas. son las 3. qué pasa"
+            },
+            {
+              "from": "Lily",
+              "text": "alguien acaba de llamar a mi puerta. dos veces."
+            },
+            {
+              "from": "Lily",
+              "text": "nuestra llamada."
+            },
+            {
+              "from": "Sam",
+              "text": "Lil, estoy en casa. En la cama."
+            },
+            {
+              "from": "Lily",
+              "text": "Lo sé. Te veo escribiendo."
+            },
+            {
+              "from": "Lily",
+              "text": "pero él está ahí fuera diciendo que es tú. dice que perdió el móvil."
+            },
+            {
+              "from": "Lily",
+              "text": "Sam, es tu voz. exactamente tu voz."
+            },
+            {
+              "from": "Sam",
+              "text": "¿quién más conoce nuestra llamada?"
+            },
+            {
+              "from": "Lily",
+              "text": "nadie. a menos que alguien haya estado escuchando"
+            },
+            {
+              "from": "Sam",
+              "text": "el apartamento de al lado está vacío. la señora Hale se mudó en junio"
+            },
+            {
+              "from": "Lily",
+              "text": "nadie la vio mudarse. sus cosas siguen ahí dentro"
+            },
+            {
+              "from": "Lily",
+              "text": "y desde hace semanas oigo a alguien ahí por las noches. repitiendo mis llamadas a través de la pared. palabra por palabra."
+            },
+            {
+              "from": "Lily",
+              "text": "con mi voz"
+            },
+            {
+              "from": "Lily",
+              "text": "está llamando otra vez. escucha"
+            },
+            {
+              "from": "Lily",
+              "text": "Sam… Sam, escucha… escucha… no para… suena como tú… (detrás de la puerta: Lil, soy yo, soy Sam… ábreme la puerta)",
+              "voice": "voice/two-knocks-door.mp3",
+              "dur": 10
+            }
+          ],
+          "choices": [
+            {
+              "text": "Ábrele. A ver quién es. Estoy aquí contigo.",
+              "next": "open"
+            },
+            {
+              "text": "No abras. Sea lo que sea, no soy yo.",
+              "next": "stay"
+            }
+          ]
+        },
+        "open": {
+          "messages": [
+            {
+              "from": "Lily",
+              "text": "ok. quitando el cerrojo"
+            },
+            {
+              "from": "Lily",
+              "text": "no hay nadie"
+            },
+            {
+              "from": "Lily",
+              "text": "la puerta de la señora Hale está abierta. huele a tierra mojada"
+            },
+            {
+              "from": "Lily",
+              "text": "detrás de mí"
+            },
+            {
+              "from": "Sam",
+              "text": "¿Lily?"
+            },
+            {
+              "from": "Sam",
+              "text": "Lily, qué hay detrás de ti"
+            },
+            {
+              "from": "Sam",
+              "text": "LILY"
+            },
+            {
+              "from": "Lily",
+              "text": "perdón. se me cayó el móvil. todo bien, eran solo las tuberías :)"
+            },
+            {
+              "from": "Sam",
+              "text": "tú nunca usas caritas"
+            },
+            {
+              "from": "Lily",
+              "text": "ven. no puedo dormir"
+            },
+            {
+              "from": "Lily",
+              "text": "llama dos veces para saber que eres tú"
+            }
+          ],
+          "ending": "Invitado a pasar"
+        },
+        "stay": {
+          "messages": [
+            {
+              "from": "Lily",
+              "text": "ok. no abro"
+            },
+            {
+              "from": "Lily",
+              "text": "paró"
+            },
+            {
+              "from": "Lily",
+              "text": "ahora es la voz de mi mamá. luego un niño pequeño llorando. luego tú otra vez"
+            },
+            {
+              "from": "Lily",
+              "text": "está probando voces. como llaves de un llavero"
+            },
+            {
+              "from": "Lily",
+              "text": "Sam, los arañazos se movieron. está en la pared. la pared entre mi casa y el apartamento de la señora Hale"
+            },
+            {
+              "from": "Lily",
+              "text": "esa pared la pusieron en junio. es solo de yeso"
+            },
+            {
+              "from": "Lily",
+              "text": "la está atravesando. ¿qué hago??"
+            }
+          ],
+          "choices": [
+            {
+              "text": "Corre. Sal del edificio, ya.",
+              "next": "run"
+            },
+            {
+              "text": "Enciérrate en el baño y llama a la policía.",
+              "next": "hide"
+            }
+          ]
+        },
+        "run": {
+          "messages": [
+            {
+              "from": "Lily",
+              "text": "corriendo"
+            },
+            {
+              "from": "Sam",
+              "text": "¿Lily?"
+            },
+            {
+              "from": "Sam",
+              "text": "Lil, contéstame"
+            },
+            {
+              "from": "Sam",
+              "text": "por favor"
+            },
+            {
+              "from": "Lily",
+              "text": "afuera"
+            },
+            {
+              "from": "Lily",
+              "text": "estoy afuera, Sam. estoy bien"
+            },
+            {
+              "from": "Lily",
+              "text": "su puerta estaba abierta de par en par. vi su pared. tiene un agujero. justo donde está mi cama"
+            },
+            {
+              "from": "Sam",
+              "text": "ve a la tienda 24 horas de la esquina. voy para allá"
+            },
+            {
+              "from": "Lily",
+              "text": "ok"
+            },
+            {
+              "from": "Lily",
+              "text": "Sam"
+            },
+            {
+              "from": "Lily",
+              "text": "se acaba de encender la luz en mi apartamento"
+            },
+            {
+              "from": "Lily",
+              "text": "hay alguien de pie en mi ventana. saludando con la mano"
+            }
+          ],
+          "ending": "Con vida"
+        },
+        "hide": {
+          "messages": [
+            {
+              "from": "Lily",
+              "text": "en el baño. con el seguro puesto"
+            },
+            {
+              "from": "Lily",
+              "text": "llamé al 999. contestó una mujer. está tan tranquila"
+            },
+            {
+              "from": "Lily",
+              "text": "dice que los agentes ya están subiendo. llamarán dos veces para que sepa que son ellos"
+            },
+            {
+              "from": "Sam",
+              "text": "¿dos veces? ¿le contaste lo de nuestra llamada?"
+            },
+            {
+              "from": "Lily",
+              "text": "no"
+            },
+            {
+              "from": "Lily",
+              "text": "cómo iba a saberlo"
+            },
+            {
+              "from": "Lily",
+              "text": "su voz. Sam, conozco su voz"
+            },
+            {
+              "from": "Lily",
+              "text": "es la señora Hale"
+            },
+            {
+              "from": "Lily",
+              "text": "Bajo la puerta del baño: la sombra de dos pies.",
+              "video": "video/two-knocks-bathroom.mp4",
+              "dur": 10
+            }
+          ],
+          "ending": "La llamada"
+        }
+      },
+      "messages": [
+        {
+          "from": "Lily",
+          "text": "Sam, ¿estás despierto?"
+        },
+        {
+          "from": "Sam",
+          "text": "apenas. son las 3. qué pasa"
+        },
+        {
+          "from": "Lily",
+          "text": "alguien acaba de llamar a mi puerta. dos veces."
+        },
+        {
+          "from": "Lily",
+          "text": "nuestra llamada."
+        },
+        {
+          "from": "Sam",
+          "text": "Lil, estoy en casa. En la cama."
+        },
+        {
+          "from": "Lily",
+          "text": "Lo sé. Te veo escribiendo."
+        },
+        {
+          "from": "Lily",
+          "text": "pero él está ahí fuera diciendo que es tú. dice que perdió el móvil."
+        },
+        {
+          "from": "Lily",
+          "text": "Sam, es tu voz. exactamente tu voz."
+        },
+        {
+          "from": "Sam",
+          "text": "¿quién más conoce nuestra llamada?"
+        },
+        {
+          "from": "Lily",
+          "text": "nadie. a menos que alguien haya estado escuchando"
+        },
+        {
+          "from": "Sam",
+          "text": "el apartamento de al lado está vacío. la señora Hale se mudó en junio"
+        },
+        {
+          "from": "Lily",
+          "text": "nadie la vio mudarse. sus cosas siguen ahí dentro"
+        },
+        {
+          "from": "Lily",
+          "text": "y desde hace semanas oigo a alguien ahí por las noches. repitiendo mis llamadas a través de la pared. palabra por palabra."
+        },
+        {
+          "from": "Lily",
+          "text": "con mi voz"
+        },
+        {
+          "from": "Lily",
+          "text": "está llamando otra vez. escucha"
+        },
+        {
+          "from": "Lily",
+          "text": "Sam… Sam, escucha… escucha… no para… suena como tú… (detrás de la puerta: Lil, soy yo, soy Sam… ábreme la puerta)",
+          "voice": "voice/two-knocks-door.mp3",
+          "dur": 10
+        },
+        {
+          "from": "Sam",
+          "text": "No abras. Sea lo que sea, no soy yo."
+        },
+        {
+          "from": "Lily",
+          "text": "ok. no abro"
+        },
+        {
+          "from": "Lily",
+          "text": "paró"
+        },
+        {
+          "from": "Lily",
+          "text": "ahora es la voz de mi mamá. luego un niño pequeño llorando. luego tú otra vez"
+        },
+        {
+          "from": "Lily",
+          "text": "está probando voces. como llaves de un llavero"
+        },
+        {
+          "from": "Lily",
+          "text": "Sam, los arañazos se movieron. está en la pared. la pared entre mi casa y el apartamento de la señora Hale"
+        },
+        {
+          "from": "Lily",
+          "text": "esa pared la pusieron en junio. es solo de yeso"
+        },
+        {
+          "from": "Lily",
+          "text": "la está atravesando. ¿qué hago??"
+        },
+        {
+          "from": "Sam",
+          "text": "Corre. Sal del edificio, ya."
+        },
+        {
+          "from": "Lily",
+          "text": "corriendo"
+        },
+        {
+          "from": "Sam",
+          "text": "¿Lily?"
+        },
+        {
+          "from": "Sam",
+          "text": "Lil, contéstame"
+        },
+        {
+          "from": "Sam",
+          "text": "por favor"
+        },
+        {
+          "from": "Lily",
+          "text": "afuera"
+        },
+        {
+          "from": "Lily",
+          "text": "estoy afuera, Sam. estoy bien"
+        },
+        {
+          "from": "Lily",
+          "text": "su puerta estaba abierta de par en par. vi su pared. tiene un agujero. justo donde está mi cama"
+        },
+        {
+          "from": "Sam",
+          "text": "ve a la tienda 24 horas de la esquina. voy para allá"
+        },
+        {
+          "from": "Lily",
+          "text": "ok"
+        },
+        {
+          "from": "Lily",
+          "text": "Sam"
+        },
+        {
+          "from": "Lily",
+          "text": "se acaba de encender la luz en mi apartamento"
+        },
+        {
+          "from": "Lily",
+          "text": "hay alguien de pie en mi ventana. saludando con la mano"
+        }
+      ]
+    }
+  ]
+}

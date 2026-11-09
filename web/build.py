@@ -1,4 +1,4 @@
-"""Build web/squeal-preview.html from web/template.html and content/stories/en."""
+"""Build web/squeal-preview.html from web/template.html and content/stories/<lang> (en, de, fr, es, ru)."""
 import json
 from pathlib import Path
 
@@ -8,15 +8,19 @@ SRC = ROOT / "content" / "stories" / "en"
 # id, title, author, genre, fear, description (preview), [interactive, featured],
 # parts: [{prologue (chat intro), left, right, wallpaper, messages | start + nodes + messages}]
 import re as _re
-stories = []
-for _f in sorted(SRC.glob("*.json"), key=lambda f: (f.stem != "nobodys-home", f.stem)):
+LANGS = ["en", "de", "fr", "es", "ru"]
+def load(lang):
+  out = []
+  for _f in sorted((ROOT / "content" / "stories" / lang).glob("*.json"), key=lambda f: (f.stem != "nobodys-home", f.stem)):
     d = json.loads(_f.read_text())
-    stories.append({"id": d["id"], "title": d["title"], "description": d["description"], "genre": d["genre"],
+    out.append({"id": d["id"], "title": d["title"], "description": d["description"], "genre": d["genre"],
                     "author": d.get("author", ""), "fear": d["fear"], **{k: True for k in ("interactive", "featured") if d.get(k)},
                     "episodes": [{"left": p["left"], "right": p["right"], "prologue": p["prologue"], "messages": p["messages"],
                                   "wallpaper": p["wallpaper"], **({"nodes": p["nodes"], "start": p["start"]} if p.get("nodes") else {}),
                                   **({"wallpaperEndings": p["wallpaperEndings"]} if p.get("wallpaperEndings") else {})}
                                  for p in d["parts"]]})
+  return out
+stories = load("en")
 COVERS = {  # web/covers/*.jpg from the owner's "Messed images" folder
     "nobodys-home": "legs-doorway", "first-impressions": "laptop-dark", "the-doctor": "forest-path",
     "skinless": "dark-body", "last-train-out": "night-train", "clown": "clown-hush", "grave": "rising-hand",
@@ -46,6 +50,17 @@ for st in stories:
         st["cover"] = "covers/%s.jpg" % COVERS[st["id"]]
     if st["id"] in COVER_FIX:
         st["coverFix"] = COVER_FIX[st["id"]]
+# the other languages: same stories one for one (content/check_translations.py checks that); progress belongs
+# to the story, not the language, so the version, cover and cover note come from the English original
+import subprocess, sys
+ALL = {"en": stories}
+for lang in LANGS[1:]:
+    if not (ROOT / "content" / "stories" / lang).exists(): continue
+    r = subprocess.run([sys.executable, str(ROOT / "content" / "check_translations.py"), lang], capture_output=True, text=True)
+    bad = [l for l in r.stdout.splitlines() if r.returncode and not l.endswith(": missing")]   # not translated yet: English is shown
+    if bad: raise SystemExit("Translation %s does not match the English stories:\n%s" % (lang, "\n".join(bad)))
+    en_by = {s["id"]: s for s in stories}
+    ALL[lang] = [dict(s, **{k: en_by[s["id"]][k] for k in ("v", "cover", "coverFix") if k in en_by[s["id"]]}) for s in load(lang)]
 # Guard: no story may reach the app with broken chat text (table pipes, Markdown escapes, a speaker's
 # name glued to the message, unknown speakers, empty lines). The build stops and says where.
 import re
@@ -63,7 +78,7 @@ for st in stories:
             for i in set(we) - ends: problems.append("%s part %d: wallpaperEndings names %r, which is not an ending" % (st["id"], k + 1, i))
             for i, v in we.items():
                 if not v: problems.append("%s part %d: ending %r has an empty doodle list" % (st["id"], k + 1, i))
-for st in stories:
+for st in [s for l in ALL.values() for s in l]:
     for k, ep in enumerate(st["episodes"]):
         who = {ep["left"], ep["right"]}
         every = ep["messages"] + [m for node in (ep.get("nodes") or {}).values() for m in node["messages"]]   # all branches too
@@ -95,6 +110,6 @@ for st in stories:
 if problems:
     raise SystemExit("Broken story text, fix content/ first:\n  " + "\n  ".join(problems[:40]))
 
-html = (ROOT / "web" / "template.html").read_text().replace("/*STORIES*/[]", json.dumps(stories, ensure_ascii=False))
+html = (ROOT / "web" / "template.html").read_text().replace("/*STORIES*/{}", json.dumps(ALL, ensure_ascii=False))
 (ROOT / "web" / "squeal-preview.html").write_text(html)
-print(len(stories), "stories,", len(html) // 1024, "KB")
+print(len(stories), "stories in", len(ALL), "languages (" + ", ".join(ALL) + "),", len(html) // 1024, "KB")

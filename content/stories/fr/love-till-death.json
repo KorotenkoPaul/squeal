@@ -1,0 +1,352 @@
+{
+ "id": "love-till-death",
+ "title": "Jusqu’à ce que la mort nous sépare",
+ "author": "Asjad Ullah",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Une sordide liaison passée pousse Jake à supplier qu’on l’épargne. Il lui reste cinq minutes à vivre, et un aveu à faire qui pourrait le sauver. Mais Jake va découvrir qu’il existe des choses plus douloureuses que la mort elle-même.",
+ "parts": [
+  {
+   "prologue": "Depuis dix ans, Jake essaie d’oublier l’incendie d’une maison à la sortie de la ville. Il a changé de ville, changé de numéro, tout recommencé. Ce soir, il se réveille dans un endroit qu’il ne reconnaît pas, son téléphone à la main.",
+   "left": "Anna",
+   "right": "Jake",
+   "wallpaper": [
+    "heart",
+    "clock",
+    "rose",
+    "ring",
+    "phone",
+    "house",
+    "envelope",
+    "hourglass",
+    "key"
+   ],
+   "messages": [
+    {
+     "from": "Anna",
+     "text": "Il te reste cinq minutes à vivre."
+    },
+    {
+     "from": "Jake",
+     "text": "Qui êtes-vous ? Où je suis ?"
+    },
+    {
+     "from": "Jake",
+     "text": "C’est quoi, cet endroit ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Détends-toi ! Mon amour."
+    },
+    {
+     "from": "Anna",
+     "text": "Tout sera bientôt fini."
+    },
+    {
+     "from": "Jake",
+     "text": "Qu’est-ce que vous voulez ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Moi ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Je veux juste te voir déchiqueté par cette lame."
+    },
+    {
+     "from": "Anna",
+     "text": "Et oui, entendre tes cris, aussi."
+    },
+    {
+     "from": "Jake",
+     "text": "Pourquoi ? Qu’est-ce que je vous ai fait ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Très bonne question."
+    },
+    {
+     "from": "Anna",
+     "text": "Voyons, par où je commence ?"
+    },
+    {
+     "from": "Jake",
+     "text": "Je suis prêt à faire n’importe quoi."
+    },
+    {
+     "from": "Jake",
+     "text": "Arrêtez juste cette lame."
+    },
+    {
+     "from": "Anna",
+     "text": "Tiens, cette réplique me dit quelque chose."
+    },
+    {
+     "from": "Anna",
+     "text": "Où est-ce que je l’ai entendue, déjà ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Ah, ça me revient !"
+    },
+    {
+     "from": "Anna",
+     "text": "Le nom d’Anna, ça vous dit quelque chose, monsieur Jake ?"
+    },
+    {
+     "from": "Jake",
+     "text": "Anna ?"
+    },
+    {
+     "from": "Jake",
+     "text": "Quelle Anna ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Et maintenant, tu te souviens même plus d’Anna ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Pauvre Jake, la peur t’a ramolli la mémoire."
+    },
+    {
+     "from": "Jake",
+     "text": "Arrêtez cette putain de lame."
+    },
+    {
+     "from": "Jake",
+     "text": "Elle se rapproche."
+    },
+    {
+     "from": "Anna",
+     "text": "Tu te souviens comme Anna a supplié qu’on l’épargne ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Elle était enceinte, à ce moment-là."
+    },
+    {
+     "from": "Jake",
+     "text": "Mais Anna est morte dans l’incendie d’une maison."
+    },
+    {
+     "from": "Anna",
+     "text": "Ordure assoiffée de sang."
+    },
+    {
+     "from": "Anna",
+     "text": "Tu as torturé Anna à mort."
+    },
+    {
+     "from": "Anna",
+     "text": "Toi et ta pute, Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Qui êtes-vous ? Comment vous savez tout ça ?"
+    },
+    {
+     "from": "Anna",
+     "text": "JE SUIS ANNA."
+    },
+    {
+     "from": "Jake",
+     "text": "C’est impossible. On t’a tuée."
+    },
+    {
+     "from": "Jake",
+     "text": "J’ai brûlé toute la maison."
+    },
+    {
+     "from": "Jake",
+     "text": "C’est impossible."
+    },
+    {
+     "from": "Anna",
+     "text": "Me voilà, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "À savourer ton massacre sur mon écran."
+    },
+    {
+     "from": "Anna",
+     "text": "Avec la lame même qui t’a servi à me tuer."
+    },
+    {
+     "from": "Anna",
+     "text": "Et rien d’autre de libre que tes doigts pour m’écrire."
+    },
+    {
+     "from": "Jake",
+     "text": "Je t’aime, Anna."
+    },
+    {
+     "from": "Anna",
+     "text": "Regardez-moi ce pauvre homme."
+    },
+    {
+     "from": "Anna",
+     "text": "J’imagine que t’as oublié avec quelle brutalité t’as essayé de me tuer."
+    },
+    {
+     "from": "Jake",
+     "text": "C’était entièrement l’idée de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Je peux tout t’expliquer."
+    },
+    {
+     "from": "Jake",
+     "text": "S’il te plaît, laisse-moi une chance."
+    },
+    {
+     "from": "Anna",
+     "text": "Prononce même pas le nom de cette pute."
+    },
+    {
+     "from": "Jake",
+     "text": "Oui, moi aussi je la déteste."
+    },
+    {
+     "from": "Jake",
+     "text": "C’était son plan, de te tuer."
+    },
+    {
+     "from": "Jake",
+     "text": "Elle s’est servie de moi."
+    },
+    {
+     "from": "Anna",
+     "text": "Plus que 2 minutes, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "ARRÊTE, ANNA, PITIÉ."
+    },
+    {
+     "from": "Jake",
+     "text": "Pour l’amour du ciel."
+    },
+    {
+     "from": "Anna",
+     "text": "J’arrive pas à oublier ton rire, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Après que tu m’as détaché les jambes."
+    },
+    {
+     "from": "Anna",
+     "text": "Tu croyais que je m’étais évanouie."
+    },
+    {
+     "from": "Anna",
+     "text": "J’écoutais, Jake, et vous riiez tous les deux."
+    },
+    {
+     "from": "Jake",
+     "text": "Je te jure devant Dieu, c’est Meg qui m’a obligé."
+    },
+    {
+     "from": "Jake",
+     "text": "Elle avait pris le contrôle de moi, comme une transe."
+    },
+    {
+     "from": "Jake",
+     "text": "Je t’ai toujours aimée, Anna."
+    },
+    {
+     "from": "Jake",
+     "text": "J’aimais juste le corps de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Je l’ai jamais aimée."
+    },
+    {
+     "from": "Anna",
+     "text": "Ah oui, Jake ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Comment tu peux le prouver ?"
+    },
+    {
+     "from": "Jake",
+     "text": "Laisse-moi une chance."
+    },
+    {
+     "from": "Jake",
+     "text": "J’irai au tribunal."
+    },
+    {
+     "from": "Jake",
+     "text": "Je témoignerai contre elle."
+    },
+    {
+     "from": "Jake",
+     "text": "Je prouverai que c’était entièrement son plan."
+    },
+    {
+     "from": "Anna",
+     "text": "Il te reste 1 minute, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Anna, pitié, tu gagneras rien à me tuer."
+    },
+    {
+     "from": "Jake",
+     "text": "Tu peux te venger de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Je vais t’aider."
+    },
+    {
+     "from": "Anna",
+     "text": "Tu peux pas m’aider, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Oh pitié, arrête la lame."
+    },
+    {
+     "from": "Jake",
+     "text": "Pitié."
+    },
+    {
+     "from": "Anna",
+     "text": "T’es tellement bête, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "On l’a pas brûlé ensemble, le corps d’Anna ?"
+    },
+    {
+     "from": "Jake",
+     "text": "Meg ?"
+    },
+    {
+     "from": "Anna",
+     "text": "Bien sûr, MON AMOUR."
+    },
+    {
+     "from": "Anna",
+     "text": "Et maintenant, tu viens de prouver la seule chose que je craignais."
+    },
+    {
+     "from": "Anna",
+     "text": "Pour sauver ta peau, tu me trahiras sans hésiter."
+    },
+    {
+     "from": "Anna",
+     "text": "On se retrouve en enfer, Jake."
+    }
+   ]
+  }
+ ]
+}

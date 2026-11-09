@@ -1,0 +1,520 @@
+{
+ "id": "haunted",
+ "title": "La casa embrujada",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 4,
+ "description": "Por doscientos dólares, Carl y David aceptan el reto de pasar la noche en una casa embrujada. Al fin y al cabo, las casas embrujadas no existen, y no tienen nada de qué preocuparse… ¿o sí?",
+ "parts": [
+  {
+   "prologue": "La casa de Marlowe Hill lleva cuarenta años vacía. Cada otoño alguien le apuesta a otro que no aguanta una noche adentro. Nadie ha cobrado nunca.",
+   "left": "David",
+   "right": "Carl",
+   "wallpaper": [
+    "door",
+    "house",
+    "candle",
+    "moon",
+    "key",
+    "dollar",
+    "clock",
+    "stairs",
+    "wind"
+   ],
+   "messages": [
+    {
+     "from": "David",
+     "text": "¿Qué tan difícil puede ser? Es solo una casa vieja."
+    },
+    {
+     "from": "Carl",
+     "text": "Una casa embrujada."
+    },
+    {
+     "from": "Carl",
+     "text": "FOTO: EXTERIOR DE LA CASA EMBRUJADA"
+    },
+    {
+     "from": "David",
+     "text": "Es solo una casa vieja. Si nos quedamos toda la noche, nos llevamos $200."
+    },
+    {
+     "from": "Carl",
+     "text": "Nadie se ha quedado aquí nunca toda la noche"
+    },
+    {
+     "from": "David",
+     "text": "Porque les da miedo."
+    },
+    {
+     "from": "David",
+     "text": "Y no hay nada de qué tener miedo."
+    },
+    {
+     "from": "Carl",
+     "text": "Eso espero."
+    },
+    {
+     "from": "David",
+     "text": "¿Ves algo?"
+    },
+    {
+     "from": "Carl",
+     "text": "Todavía no es de noche."
+    },
+    {
+     "from": "Carl",
+     "text": "No entiendo por qué no podemos estar juntos. ¿Por qué tienes que estar hasta arriba?"
+    },
+    {
+     "from": "David",
+     "text": "Así es más divertido."
+    },
+    {
+     "from": "Carl",
+     "text": "¿Divertido? No creo."
+    },
+    {
+     "from": "David",
+     "text": "De verdad crees que está embrujada, ¿no?"
+    },
+    {
+     "from": "Carl",
+     "text": "No quiero arriesgarme."
+    },
+    {
+     "from": "David",
+     "text": "Bueno, no te preocupes."
+    },
+    {
+     "from": "Carl",
+     "text": "Me preocupo si quiero."
+    },
+    {
+     "from": "David",
+     "text": "Te vas a sentir muy tonto en la mañana."
+    },
+    {
+     "from": "Carl",
+     "text": "Si es que llega la mañana."
+    },
+    {
+     "from": "Carl",
+     "text": "9 pm"
+    },
+    {
+     "from": "David",
+     "text": "Sigo vivo"
+    },
+    {
+     "from": "Carl",
+     "text": "Cállate."
+    },
+    {
+     "from": "David",
+     "text": "Te lo dije."
+    },
+    {
+     "from": "Carl",
+     "text": "Apenas son las nueve."
+    },
+    {
+     "from": "Carl",
+     "text": "Falta mucho."
+    },
+    {
+     "from": "David",
+     "text": "Me entra una luz de luna bonita por la ventana. Está genial."
+    },
+    {
+     "from": "Carl",
+     "text": "Me pusiste en el sótano, así que está todo oscuro."
+    },
+    {
+     "from": "David",
+     "text": "Yo no te puse en ningún lado."
+    },
+    {
+     "from": "Carl",
+     "text": "Fuera del teléfono, está todo oscuro."
+    },
+    {
+     "from": "David",
+     "text": "Dicen que hay ratas en el sótano."
+    },
+    {
+     "from": "Carl",
+     "text": "No digas eso."
+    },
+    {
+     "from": "David",
+     "text": "Seguro es cierto."
+    },
+    {
+     "from": "Carl",
+     "text": "Pues no me lo recuerdes."
+    },
+    {
+     "from": "Carl",
+     "text": "Y no he visto ninguna rataa, para que sepas."
+    },
+    {
+     "from": "David",
+     "text": "$200, acuérdate."
+    },
+    {
+     "from": "David",
+     "text": "12, medianoche"
+    },
+    {
+     "from": "David",
+     "text": "Es medianoche, Carl."
+    },
+    {
+     "from": "Carl",
+     "text": "Ya sé."
+    },
+    {
+     "from": "David",
+     "text": "¿Sigues vivo?"
+    },
+    {
+     "from": "Carl",
+     "text": "Muy gracioso."
+    },
+    {
+     "from": "David",
+     "text": "¿Ha pasado algo raro?"
+    },
+    {
+     "from": "Carl",
+     "text": "Muy gracioso."
+    },
+    {
+     "from": "David",
+     "text": "¿Ves? Nada raro."
+    },
+    {
+     "from": "Carl",
+     "text": "Salvo tus bromitas."
+    },
+    {
+     "from": "Carl",
+     "text": "¿Crees que no lo sé?"
+    },
+    {
+     "from": "David",
+     "text": "¿Saber qué?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿Que eres tú?"
+    },
+    {
+     "from": "David",
+     "text": "¿Que soy yo qué?"
+    },
+    {
+     "from": "Carl",
+     "text": "Todos los ruidos, los golpecitos."
+    },
+    {
+     "from": "David",
+     "text": "Te lo estás imaginando."
+    },
+    {
+     "from": "Carl",
+     "text": "Sí, claro. Lo que tú digas."
+    },
+    {
+     "from": "David",
+     "text": "De verdad estás asustado."
+    },
+    {
+     "from": "Carl",
+     "text": "No me vas a asustar."
+    },
+    {
+     "from": "David",
+     "text": "Parece que te estás asustando tú solo jaja."
+    },
+    {
+     "from": "Carl",
+     "text": "Para nada. Tus bromas no me asustan."
+    },
+    {
+     "from": "David",
+     "text": "Das pena."
+    },
+    {
+     "from": "David",
+     "text": "2 am"
+    },
+    {
+     "from": "Carl",
+     "text": "Bueno, ya puedes parar."
+    },
+    {
+     "from": "Carl",
+     "text": "¿David?"
+    },
+    {
+     "from": "David",
+     "text": "¿Qué? Estoy tratando de dormir."
+    },
+    {
+     "from": "Carl",
+     "text": "Sí, claro."
+    },
+    {
+     "from": "David",
+     "text": "¿Qué más iba a hacer? Son las dos de la mañana."
+    },
+    {
+     "from": "Carl",
+     "text": "Ah, no sé. Bajar a escondidas. Tocar mi puerta. Soplarme."
+    },
+    {
+     "from": "David",
+     "text": "Eso sería gracioso, pero no jaja"
+    },
+    {
+     "from": "Carl",
+     "text": "Ni intentes hacerte el inocente."
+    },
+    {
+     "from": "David",
+     "text": "No me estoy haciendo nada. De verdad deberías calmarte."
+    },
+    {
+     "from": "Carl",
+     "text": "¿No te aburres?"
+    },
+    {
+     "from": "David",
+     "text": "Por eso estoy durmiendo."
+    },
+    {
+     "from": "Carl",
+     "text": "Digo, de pasarte toda la noche tratando de asustarme."
+    },
+    {
+     "from": "David",
+     "text": "¿Para qué haría eso? $200, ¿te acuerdas? Si te vas, perdemos los dos."
+    },
+    {
+     "from": "Carl",
+     "text": "Aunque no sé cómo me estás soplando."
+    },
+    {
+     "from": "David",
+     "text": "No te estoy soplando."
+    },
+    {
+     "from": "Carl",
+     "text": "La puerta está cerrada con llave."
+    },
+    {
+     "from": "David",
+     "text": "No te estoy soplando."
+    },
+    {
+     "from": "Carl",
+     "text": "A lo mejor hay un pasadizo secreto."
+    },
+    {
+     "from": "Carl",
+     "text": "¿Lo hay?"
+    },
+    {
+     "from": "David",
+     "text": "Me haces reír aquí arriba. No te estoy haciendo nada."
+    },
+    {
+     "from": "David",
+     "text": "Te lo estás imaginando."
+    },
+    {
+     "from": "David",
+     "text": "2:25 am"
+    },
+    {
+     "from": "David",
+     "text": "Muy gracioso."
+    },
+    {
+     "from": "Carl",
+     "text": "¿Qué?"
+    },
+    {
+     "from": "David",
+     "text": "Ya entendí, todo lo que dijiste era una trampa."
+    },
+    {
+     "from": "Carl",
+     "text": "¿De qué hablas?"
+    },
+    {
+     "from": "David",
+     "text": "Todo lo que decías que yo te hacía, ahora me lo estás haciendo tú."
+    },
+    {
+     "from": "Carl",
+     "text": "Claro que no. Ya deja de hacerme bromas."
+    },
+    {
+     "from": "David",
+     "text": "¿Qué son esos susurros?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿Los qué?"
+    },
+    {
+     "from": "David",
+     "text": "Los susurros escalofriantes. Oigo lo que dices."
+    },
+    {
+     "from": "Carl",
+     "text": "Nada"
+    },
+    {
+     "from": "David",
+     "text": "Estás justo afuera de mi puerta."
+    },
+    {
+     "from": "David",
+     "text": "Haciéndote el fantasma, obviamente."
+    },
+    {
+     "from": "Carl",
+     "text": "Estoy abajo. En el sótano, ¿te acuerdas?"
+    },
+    {
+     "from": "Carl",
+     "text": "A diferencia de ti, yo no ando a escondidas por esta casa espeluznante."
+    },
+    {
+     "from": "David",
+     "text": "Ni lo intentes."
+    },
+    {
+     "from": "David",
+     "text": "Lo estás haciendo ahora mismo."
+    },
+    {
+     "from": "Carl",
+     "text": "¿Haciendo qué?"
+    },
+    {
+     "from": "David",
+     "text": "Susurrar."
+    },
+    {
+     "from": "Carl",
+     "text": "No es cierto."
+    },
+    {
+     "from": "David",
+     "text": "Ya veremos."
+    },
+    {
+     "from": "Carl",
+     "text": "Bueno."
+    },
+    {
+     "from": "David",
+     "text": "¿Cómo hiciste eso?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿Hacer qué?"
+    },
+    {
+     "from": "David",
+     "text": "¿Cómo te moviste tan rápido?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿De qué hablas?"
+    },
+    {
+     "from": "David",
+     "text": "Abrí la puerta."
+    },
+    {
+     "from": "David",
+     "text": "Estabas susurrando, justo del otro lado."
+    },
+    {
+     "from": "David",
+     "text": "Y no hay nada."
+    },
+    {
+     "from": "David",
+     "text": "¿Cómo sabías que la iba a abrir?"
+    },
+    {
+     "from": "Carl",
+     "text": "Yo no estaba allá arriba."
+    },
+    {
+     "from": "Carl",
+     "text": "Y no podía estar susurrando afuera de tu puerta en el mismo segundo en que tú me estás soplando."
+    },
+    {
+     "from": "David",
+     "text": "Yo no te estaba soplando."
+    },
+    {
+     "from": "Carl",
+     "text": "Y yo no estaba susurrando afuera de tu puerta."
+    },
+    {
+     "from": "David",
+     "text": "¡Pues ALGUIEN lo estaba!"
+    },
+    {
+     "from": "David",
+     "text": "Voy a bajar."
+    },
+    {
+     "from": "Carl",
+     "text": "Sí, sería buena idea."
+    },
+    {
+     "from": "Carl",
+     "text": "$200 no valen esto."
+    },
+    {
+     "from": "Carl",
+     "text": "¿David?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿Dónde estás, David?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿Eres tú?"
+    },
+    {
+     "from": "Carl",
+     "text": "¿David? Di algo."
+    },
+    {
+     "from": "Carl",
+     "text": "No solo toques."
+    },
+    {
+     "from": "Carl",
+     "text": "Di algo."
+    },
+    {
+     "from": "Carl",
+     "text": "Por favor."
+    }
+   ]
+  }
+ ]
+}

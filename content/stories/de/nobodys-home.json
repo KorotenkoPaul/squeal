@@ -1,0 +1,987 @@
+{
+ "id": "nobodys-home",
+ "title": "Keiner zu Hause",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Patrick kommt zu spät zu Sandras Party, doch als er endlich vorfährt, ist das Haus dunkel. Die Haustür steht sperrangelweit offen. Keine Musik, keine Autos, niemand antwortet. Sein Freund James schreibt ihm die ganze Zeit von woanders – und James fallen an diesem Haus allmählich Dinge auf, die Patrick nicht sehen kann. Drei Teile. Lies es mit Licht an.",
+ "parts": [
+  {
+   "prologue": "Über Sandras Partys reden die Leute noch wochenlang. Patrick wäre heute Abend fast zu Hause geblieben – seit der Heimfahrt ist er nicht ganz er selbst. Die Country Village Lane ist um diese Uhrzeit still. Vielleicht zu still.",
+   "left": "James",
+   "right": "Patrick",
+   "wallpaper": [
+    "house",
+    "key",
+    "balloon",
+    "music",
+    "bulb",
+    "moon",
+    "door",
+    "phone",
+    "mailbox",
+    "lamp"
+   ],
+   "messages": [
+    {
+     "from": "James",
+     "text": "Wo bist du?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Was denkst du denn? Zu Hause."
+    },
+    {
+     "from": "James",
+     "text": "Wieso bist du zu Hause?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wo soll ich denn sonst sein?"
+    },
+    {
+     "from": "James",
+     "text": "Bei Sandra, wo denn sonst?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wieso sollte ich da sein??"
+    },
+    {
+     "from": "James",
+     "text": "Alle anderen sind da!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wieso sind alle anderen da?"
+    },
+    {
+     "from": "James",
+     "text": "Ihre Party! Komm her!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich bin müde. Hab keine Lust."
+    },
+    {
+     "from": "James",
+     "text": "Das ist keine Ausrede."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ist das ein Streich?"
+    },
+    {
+     "from": "James",
+     "text": "Komm her!"
+    },
+    {
+     "from": "James",
+     "text": "Willst du der Einzige sein, der fehlt?"
+    },
+    {
+     "from": "James",
+     "text": "Alle fragen nach dir!"
+    },
+    {
+     "from": "James",
+     "text": "Du bist der EINZIGE, der nicht hier ist!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Echt? Alle anderen sind da?"
+    },
+    {
+     "from": "James",
+     "text": "Alle."
+    },
+    {
+     "from": "James",
+     "text": "Also, kommst du?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Okay."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bin in ungefähr einer halben Stunde da."
+    },
+    {
+     "from": "Patrick",
+     "text": "------"
+    },
+    {
+     "from": "Patrick",
+     "text": "Äh … James?"
+    },
+    {
+     "from": "James",
+     "text": "Bist du schon da?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Na ja, ja. Ich steh direkt vor Sandras Haus."
+    },
+    {
+     "from": "James",
+     "text": "Direkt davor? Wo?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Glaub ich zumindest. Direkt vorm Haus."
+    },
+    {
+     "from": "Patrick",
+     "text": "Country Village Lane 143, oder?"
+    },
+    {
+     "from": "James",
+     "text": "Genau gegenüber von meinem Haus."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ja, und wo seid ihr?"
+    },
+    {
+     "from": "James",
+     "text": "Wir sind drinnen und im Garten."
+    },
+    {
+     "from": "Patrick",
+     "text": "Aber … das Haus ist komplett dunkel."
+    },
+    {
+     "from": "James",
+     "text": "Wovon redest du?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Sieht aus, als wär keiner zu Hause!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Soll das ein Witz sein?"
+    },
+    {
+     "from": "James",
+     "text": "Wenn du nicht zur Party kommen wolltest, sag’s einfach."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich steh direkt vorm Haus!"
+    },
+    {
+     "from": "James",
+     "text": "Ich guck gerade nach vorne raus, und du bist nicht da."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das IST ein Streich, oder?"
+    },
+    {
+     "from": "James",
+     "text": "Hast du was genommen?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich bin in der richtigen Straße."
+    },
+    {
+     "from": "James",
+     "text": "Vielleicht ja nicht. Klopf an die Tür."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ihr springt mir doch gleich alle entgegen, oder?"
+    },
+    {
+     "from": "James",
+     "text": "Du bist am falschen Haus."
+    },
+    {
+     "from": "Patrick",
+     "text": "Kann nicht sein."
+    },
+    {
+     "from": "James",
+     "text": "Klopf."
+    },
+    {
+     "from": "Patrick",
+     "text": "Okay, na gut."
+    },
+    {
+     "from": "Patrick",
+     "text": "Keiner macht auf."
+    },
+    {
+     "from": "James",
+     "text": "Klopf lauter!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Keiner macht auf."
+    },
+    {
+     "from": "James",
+     "text": "Du halluzinierst eindeutig."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bei dir zu Hause brennt Licht."
+    },
+    {
+     "from": "James",
+     "text": "Bei mir?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Du wohnst doch direkt gegenüber von Sandra, oder?"
+    },
+    {
+     "from": "James",
+     "text": "Ja."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich frag deine Eltern."
+    },
+    {
+     "from": "Patrick",
+     "text": "Die sagen mir schon, was hier los ist."
+    },
+    {
+     "from": "James",
+     "text": "Lass meine Eltern in Ruhe."
+    },
+    {
+     "from": "Patrick",
+     "text": "Wieso? Versteckt ihr euch da?"
+    },
+    {
+     "from": "James",
+     "text": "Du bildest dir was ein."
+    },
+    {
+     "from": "James",
+     "text": "Dann geh halt klopfen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Sind die weg?"
+    },
+    {
+     "from": "James",
+     "text": "Wieso?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Das Haus ist dunkel. Wie bei Sandra."
+    },
+    {
+     "from": "Patrick",
+     "text": "Und keiner macht auf."
+    },
+    {
+     "from": "Patrick",
+     "text": "Wieso tust du mir das an?"
+    },
+    {
+     "from": "James",
+     "text": "Tu ich doch gar nicht."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich geh nach Hause. Hoffentlich bist du jetzt zufrieden."
+    },
+    {
+     "from": "James",
+     "text": "Komm doch einfach zur Party."
+    },
+    {
+     "from": "Patrick",
+     "text": "GEHT NICHT, WENN DU MIR NICHT SAGST, WO SIE IST!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Hey, ist der Strom ausgefallen oder so?"
+    },
+    {
+     "from": "James",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Alle Häuser sind dunkel."
+    },
+    {
+     "from": "Patrick",
+     "text": "Jedes Haus, an dem ich vorbeilaufe."
+    },
+    {
+     "from": "Patrick",
+     "text": "Sogar meins."
+    },
+    {
+     "from": "Patrick",
+     "text": "Und ich WEISS, dass meine Familie zu Hause ist."
+    },
+    {
+     "from": "James",
+     "text": "Vielleicht sind sie weggegangen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich komm nicht rein."
+    },
+    {
+     "from": "James",
+     "text": "Was?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Mein Schlüssel geht nicht. Ich komm nicht in mein eigenes Haus."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich komm nicht in mein eigenes Haus!"
+    }
+   ]
+  },
+  {
+   "prologue": "Patrick wohnt sein ganzes Leben schon in dieser Straße. Er kennt jede Verandalampe, jeden Briefkasten, jeden Hund, der nachts bellt. Heute Nacht bellt kein einziger.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "mailbox",
+    "camera",
+    "lamp",
+    "road",
+    "house",
+    "key",
+    "phone",
+    "clock",
+    "question",
+    "moon"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "Das ergibt keinen Sinn."
+    },
+    {
+     "from": "James",
+     "text": "Vielleicht bist du in der falschen Straße."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bin ich nicht."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das ist komisch. Alles ist so still."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich seh nicht mal Autos fahren."
+    },
+    {
+     "from": "James",
+     "text": "Ich glaub, du hast irgendwas im Kopf. Ernsthaft."
+    },
+    {
+     "from": "Patrick",
+     "text": "Sag mir, wo die Party ist."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das gefällt mir nicht."
+    },
+    {
+     "from": "James",
+     "text": "Ich hol dich ab."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich steh direkt vor meinem Haus."
+    },
+    {
+     "from": "James",
+     "text": "Bist du sicher?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ja, bin ich. Wir haben einen roten Briefkasten, weißt du noch?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich steh direkt davor."
+    },
+    {
+     "from": "Patrick",
+     "text": "Hier ist noch kein einziges Auto vorbeigefahren."
+    },
+    {
+     "from": "James",
+     "text": "Bin unterwegs."
+    },
+    {
+     "from": "Patrick",
+     "text": "Beeil dich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bitte."
+    },
+    {
+     "from": "Patrick",
+     "text": "-----"
+    },
+    {
+     "from": "Patrick",
+     "text": "Bist du da?"
+    },
+    {
+     "from": "James",
+     "text": "Wo bist DU?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Vor meinem Haus!"
+    },
+    {
+     "from": "James",
+     "text": "Bist du sicher, dass du nicht auf Drogen bist?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Du kennst mich doch."
+    },
+    {
+     "from": "Patrick",
+     "text": "Vielleicht bin ich verrückt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Keine Ahnung."
+    },
+    {
+     "from": "James",
+     "text": "Ich steh vor deinem Briefkasten."
+    },
+    {
+     "from": "James",
+     "text": "FOTO: James’ Foto von Patricks rotem Briefkasten"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich steh vor dem Briefkasten."
+    },
+    {
+     "from": "Patrick",
+     "text": "FOTO: Patricks Foto von Patricks rotem Briefkasten (derselbe Briefkasten)"
+    },
+    {
+     "from": "Patrick",
+     "text": "Das kann nicht sein."
+    },
+    {
+     "from": "James",
+     "text": "Aber wenn du nicht hier bist, wo bist du dann?"
+    },
+    {
+     "from": "Patrick",
+     "text": "ICH WEISS ES NICHT!"
+    },
+    {
+     "from": "James",
+     "text": "Ich hab’s gerade deinen Eltern gesagt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Was meinst du?"
+    },
+    {
+     "from": "James",
+     "text": "Dass du verschwunden bist!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Bin ich aber nicht!"
+    },
+    {
+     "from": "James",
+     "text": "Sie rufen die Polizei."
+    },
+    {
+     "from": "Patrick",
+     "text": "Aber ich steh direkt vor meinem Haus."
+    },
+    {
+     "from": "James",
+     "text": "Und wenn du dir das nur einbildest?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Tu ich NICHT."
+    },
+    {
+     "from": "Patrick",
+     "text": "Glaub ich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Außerdem hast du das Foto gesehen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich hab das Foto gemacht."
+    },
+    {
+     "from": "Patrick",
+     "text": "Du WEISST, dass ich genau hier bin."
+    },
+    {
+     "from": "James",
+     "text": "Hörst du die Sirenen?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Welche Sirenen?"
+    },
+    {
+     "from": "James",
+     "text": "Die Polizei."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich hör gar nichts."
+    },
+    {
+     "from": "Patrick",
+     "text": "Brennt bei mir zu Hause Licht?"
+    },
+    {
+     "from": "James",
+     "text": "Ja."
+    },
+    {
+     "from": "Patrick",
+     "text": "Hier nicht."
+    },
+    {
+     "from": "Patrick",
+     "text": "Und gerade sind die Straßenlaternen ausgegangen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bei dir sind die Straßenlaternen noch an, oder?"
+    },
+    {
+     "from": "James",
+     "text": "Alles ganz normal."
+    },
+    {
+     "from": "Patrick",
+     "text": "Kein Licht, keine Autos, keine Menschen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Du hast keine Ahnung, wie still es hier ist."
+    },
+    {
+     "from": "James",
+     "text": "Die Polizei fragt, wann du zuletzt Menschen gesehen hast?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Keine Ahnung, meine Familie, bevor ich los bin? Oder vielleicht auf dem Weg hin?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich weiß es nicht genau."
+    },
+    {
+     "from": "James",
+     "text": "Sie schicken Leute los, die dich suchen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Aber ich steh direkt vorm Haus."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich fass den Briefkasten an."
+    },
+    {
+     "from": "Patrick",
+     "text": "Er ist echt."
+    },
+    {
+     "from": "James",
+     "text": "Vielleicht glaubst du das nur."
+    },
+    {
+     "from": "Patrick",
+     "text": "ABER DU HAST DAS FOTO GESEHEN!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Es ist ECHT!"
+    },
+    {
+     "from": "James",
+     "text": "Die Polizei hat uns gerade was gesagt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Was?"
+    },
+    {
+     "from": "James",
+     "text": "Jemand hat dich gefunden."
+    },
+    {
+     "from": "Patrick",
+     "text": "Hä? Hier ist niemand."
+    },
+    {
+     "from": "James",
+     "text": "In einem Graben am Straßenrand."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das bin offensichtlich nicht ich."
+    },
+    {
+     "from": "James",
+     "text": "Sie sagen, du wurdest von einem Auto angefahren."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das bin ich nicht!"
+    },
+    {
+     "from": "James",
+     "text": "Doch, das bist du."
+    },
+    {
+     "from": "Patrick",
+     "text": "OFFENSICHTLICH bin ich das nicht."
+    },
+    {
+     "from": "James",
+     "text": "Es ist offensichtlich, dass du es bist."
+    },
+    {
+     "from": "Patrick",
+     "text": "„Es“?"
+    },
+    {
+     "from": "James",
+     "text": "Sie sagen, du bist tot."
+    }
+   ]
+  },
+  {
+   "prologue": "Manche Leute verstehen keinen Wink. Patrick ist noch nie früh von einer Party gegangen, und er wird jetzt nicht damit anfangen.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "rock",
+    "shards",
+    "balloon",
+    "cup",
+    "camera",
+    "door",
+    "moon",
+    "music",
+    "house",
+    "nostar"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "Ich bin nicht tot."
+    },
+    {
+     "from": "Patrick",
+     "text": "FOTO: Selfie von Patrick"
+    },
+    {
+     "from": "Patrick",
+     "text": "Seh ich tot aus?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Die haben sich geirrt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich wurde nicht von einem Auto angefahren."
+    },
+    {
+     "from": "James",
+     "text": "Du bist es."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bin ich nicht."
+    },
+    {
+     "from": "James",
+     "text": "Es sind deine Klamotten, dein Ausweis."
+    },
+    {
+     "from": "Patrick",
+     "text": "Tote können nicht schreiben, James."
+    },
+    {
+     "from": "Patrick",
+     "text": "Und sie können keine Fotos machen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich meine, vielleicht bin ich verrückt, aber ich bin nicht tot."
+    },
+    {
+     "from": "James",
+     "text": "Sie haben uns ein Foto gezeigt"
+    },
+    {
+     "from": "Patrick",
+     "text": "Von was?"
+    },
+    {
+     "from": "James",
+     "text": "Von dir."
+    },
+    {
+     "from": "Patrick",
+     "text": "FOTO: Selfie von Patrick (dasselbe wie vorher)"
+    },
+    {
+     "from": "Patrick",
+     "text": "Das bin ich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich bin noch hier."
+    },
+    {
+     "from": "James",
+     "text": "Wo?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Vor meinem Haus?"
+    },
+    {
+     "from": "James",
+     "text": "In das du nicht reinkommst?"
+    },
+    {
+     "from": "James",
+     "text": "Vielleicht kamst du deshalb nicht auf die Party."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das ist alles ein riesiger Streich, oder?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ihr versteckt euch hinter den Büschen, stimmt’s?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Keine Ahnung, wie ihr den Strom abgestellt habt, aber ich wette, das wart ihr."
+    },
+    {
+     "from": "James",
+     "text": "Das ist kein Streich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich lebe."
+    },
+    {
+     "from": "Patrick",
+     "text": "Aber ich seh wohl Gespenster."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich meine, ich seh nicht mal Sterne am Himmel, wie krass ist das?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich wette, du bist noch auf der Party. Ich geh wieder hin."
+    },
+    {
+     "from": "James",
+     "text": "Das bringt nichts."
+    },
+    {
+     "from": "James",
+     "text": "Wir werden trotzdem nicht da sein."
+    },
+    {
+     "from": "Patrick",
+     "text": "Sagst du."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich komm trotzdem zurück."
+    },
+    {
+     "from": "James",
+     "text": "Das bringt nichts."
+    },
+    {
+     "from": "James",
+     "text": "Ich hab die Schnauze voll von deinem bescheuerten Streich."
+    },
+    {
+     "from": "James",
+     "text": "Nur damit du’s weißt, ich bin auf dem Rückweg."
+    },
+    {
+     "from": "James",
+     "text": "Ich brech ein, wenn ich da bin, wenn’s sein muss."
+    },
+    {
+     "from": "James",
+     "text": "Wenn du mich nicht reinlässt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Wir können nichts machen. Hab ich dir doch gesagt!"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wir sind einfach nicht mehr am selben Ort"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wenn keiner die Tür aufmacht, schlag ich das Fenster ein."
+    },
+    {
+     "from": "Patrick",
+     "text": "Nur als Warnung."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ihr versteckt euch da drin doch bestimmt alle."
+    },
+    {
+     "from": "James",
+     "text": "Keiner versteckt sich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Gut. Denn wenn doch, find ich euch."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich steh direkt draußen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Das Haus ist dunkel, ich wette, du hast alle gewarnt, dass ich zurückkomme."
+    },
+    {
+     "from": "James",
+     "text": "Keiner versteckt sich, und ich hab niemanden gewarnt."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich brech jetzt ein."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich komm auf diese Party."
+    },
+    {
+     "from": "Patrick",
+     "text": "Entweder macht jemand die Tür auf, oder ich schlag das Fenster ein."
+    },
+    {
+     "from": "James",
+     "text": "Du kannst nicht auf die Party kommen."
+    },
+    {
+     "from": "Patrick",
+     "text": "FOTO: Hand, die einen Stein hält (nachts)"
+    },
+    {
+     "from": "Patrick",
+     "text": "Der fliegt gleich durchs Fenster"
+    },
+    {
+     "from": "Patrick",
+     "text": "Hast du das gehört? Ich hab gerade das Fenster eingeschlagen."
+    },
+    {
+     "from": "Patrick",
+     "text": "Kommt besser aus euren Verstecken, ich komm jetzt rein."
+    },
+    {
+     "from": "James",
+     "text": "Keiner versteckt sich."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich hör was."
+    },
+    {
+     "from": "Patrick",
+     "text": "Endlich. Wusste ich’s doch."
+    },
+    {
+     "from": "James",
+     "text": "Was wusstest du? Da ist nichts."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ich hab die Party gefunden."
+    },
+    {
+     "from": "James",
+     "text": "Echt?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ja, siehst du?"
+    },
+    {
+     "from": "Patrick",
+     "text": "FOTO: Jugendliche auf einer Party"
+    },
+    {
+     "from": "James",
+     "text": "Was sind das?"
+    },
+    {
+     "from": "James",
+     "text": "Das ist keiner, den ich kenne"
+    },
+    {
+     "from": "James",
+     "text": "Aber wenn DU sie sehen kannst …"
+    },
+    {
+     "from": "Patrick",
+     "text": "Wenn ich sie sehen kann, was?"
+    },
+    {
+     "from": "Patrick",
+     "text": "WAS?"
+    },
+    {
+     "from": "James",
+     "text": "… dann sind sie genau wie du."
+    }
+   ]
+  }
+ ]
+}

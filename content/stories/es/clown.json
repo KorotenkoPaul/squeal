@@ -1,0 +1,324 @@
+{
+  "id": "clown",
+  "title": "Payaso",
+  "author": "Rich Samuels",
+  "genre": "thriller",
+  "fear": 3,
+  "description": "Michael odia a los payasos con toda su alma, pero ahora le está escribiendo Zippo el Payaso, y está muy enfadado. Zippo solo quiere ser su amigo, pero la cosa no va nada bien.",
+  "parts": [
+    {
+      "prologue": "Michael odia a los payasos desde su séptimo cumpleaños, cuando apareció uno sin invitación y no se quería ir. Nunca le contó a nadie lo que pasó aquella tarde. Pero, por lo visto, alguien se enteró igualmente.",
+      "left": "Zippo",
+      "right": "Michael",
+      "wallpaper": [
+        "balloon",
+        "nose",
+        "flower",
+        "hat",
+        "door",
+        "house",
+        "phone",
+        "star",
+        "music"
+      ],
+      "messages": [
+        {
+          "from": "Zippo",
+          "text": "¡Hola!"
+        },
+        {
+          "from": "Michael",
+          "text": "¿Quién eres?"
+        },
+        {
+          "from": "Zippo",
+          "text": "FOTO DE UN PAYASO"
+        },
+        {
+          "from": "Michael",
+          "text": "Ja, ja. Muy gracioso."
+        },
+        {
+          "from": "Zippo",
+          "text": "¡Sí, muy gracioso!"
+        },
+        {
+          "from": "Zippo",
+          "text": "LA MISMA FOTO DEL PAYASO."
+        },
+        {
+          "from": "Michael",
+          "text": "¡Ya basta, para!"
+        },
+        {
+          "from": "Michael",
+          "text": "No me gustan los payasos."
+        },
+        {
+          "from": "Zippo",
+          "text": "¿No te gustan los payasos?"
+        },
+        {
+          "from": "Zippo",
+          "text": "LA MISMA FOTO DEL PAYASO"
+        },
+        {
+          "from": "Zippo",
+          "text": "¿No te gusto YO?"
+        },
+        {
+          "from": "Michael",
+          "text": "Esto no tiene gracia."
+        },
+        {
+          "from": "Zippo",
+          "text": "¡Pero si acabas de decir que era muy gracioso!"
+        },
+        {
+          "from": "Michael",
+          "text": "¿Quién eres? ¿Eric?"
+        },
+        {
+          "from": "Zippo",
+          "text": "¡Soy Zippo el Payaso!"
+        },
+        {
+          "from": "Michael",
+          "text": "Eres Zippo el Pesado."
+        },
+        {
+          "from": "Zippo",
+          "text": "Ooooh, ¿por qué no te gustan los payasos?"
+        },
+        {
+          "from": "Michael",
+          "text": "Porque dan escalofríos."
+        },
+        {
+          "from": "Zippo",
+          "text": "LA MISMA FOTO DEL PAYASO"
+        },
+        {
+          "from": "Zippo",
+          "text": "¡Zippo no da escalofríos!"
+        },
+        {
+          "from": "Michael",
+          "text": "Además, odio cómo se ven."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo está triste."
+        },
+        {
+          "from": "Michael",
+          "text": "Deja de escribirme."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo se siente herido."
+        },
+        {
+          "from": "Zippo",
+          "text": "¿Qué te han hecho los payasos?"
+        },
+        {
+          "from": "Michael",
+          "text": "¡Déjame en paz!"
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo cree que estás siendo grosero."
+        },
+        {
+          "from": "Michael",
+          "text": "¡¡¡Deja de escribirme!!!"
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo se está enfadando."
+        },
+        {
+          "from": "Michael",
+          "text": "No puedes obligarme a que me gusten los payasos."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo solo quiere ser tu amigo."
+        },
+        {
+          "from": "Michael",
+          "text": "¡Me da igual, déjame en paz!"
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo está FURIOSO con Michael."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo es un payaso bueno."
+        },
+        {
+          "from": "Michael",
+          "text": "¿Por qué no paras de una vez?"
+        },
+        {
+          "from": "Michael",
+          "text": "¡NO QUIERO VOLVER A VER UN PAYASO NUNCA MÁS!"
+        },
+        {
+          "from": "Zippo",
+          "text": "Verás otro payaso."
+        },
+        {
+          "from": "Michael",
+          "text": "Nunca."
+        },
+        {
+          "from": "Michael",
+          "text": "ODIO a los payasos."
+        },
+        {
+          "from": "Zippo",
+          "text": "Verás uno hoy."
+        },
+        {
+          "from": "Michael",
+          "text": "No pienso ir a ningún sitio."
+        },
+        {
+          "from": "Zippo",
+          "text": "Aun así verás uno hoy."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo irá a tu casa."
+        },
+        {
+          "from": "Michael",
+          "text": "ALÉJATE de mi casa."
+        },
+        {
+          "from": "Zippo",
+          "text": "Y Zippo te matará."
+        },
+        {
+          "from": "Michael",
+          "text": "Ni siquiera sabes dónde vivo."
+        },
+        {
+          "from": "Zippo",
+          "text": "Jazzman Drive 2712."
+        },
+        {
+          "from": "Michael",
+          "text": "Bueno, sí lo sabes."
+        },
+        {
+          "from": "Michael",
+          "text": "Ni se te OCURRA acercarte a mi puerta, payaso."
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo quiere conocer a Michael."
+        },
+        {
+          "from": "Zippo",
+          "text": "Y darle una lección."
+        },
+        {
+          "from": "Michael",
+          "text": "¿Qué?"
+        },
+        {
+          "from": "Zippo",
+          "text": "Zippo quiere matar a Michael."
+        },
+        {
+          "from": "Michael",
+          "text": "¿MATARME?"
+        },
+        {
+          "from": "Zippo",
+          "text": "A Zippo no le gustan los que son groseros con los payasos."
+        },
+        {
+          "from": "Michael",
+          "text": "Si te veo delante de mi puerta, llamo a la policía."
+        },
+        {
+          "from": "Zippo",
+          "text": "Eso no será posible, Michael."
+        },
+        {
+          "from": "Michael",
+          "text": "¿Por qué?"
+        },
+        {
+          "from": "Zippo",
+          "text": "Porque Zippo ya está en tu casa."
+        },
+        {
+          "from": "Zippo",
+          "text": "…y Zippo no lo permitirá."
+        },
+        {
+          "from": "Michael",
+          "text": "NO estás en mi casa."
+        },
+        {
+          "from": "Zippo",
+          "text": "Los azulejos amarillos de la cocina son muy poco comunes."
+        },
+        {
+          "from": "Michael",
+          "text": "Saca tu cara de payaso de mi casa YA."
+        },
+        {
+          "from": "Zippo",
+          "text": "Pero antes Zippo tiene algo que hacer."
+        },
+        {
+          "from": "Michael",
+          "text": "Este no es tu sitio."
+        },
+        {
+          "from": "Zippo",
+          "text": "Los payasos son amigos de todos."
+        },
+        {
+          "from": "Zippo",
+          "text": "Menos de Michael"
+        },
+        {
+          "from": "Michael",
+          "text": "¡Vete ya!"
+        },
+        {
+          "from": "Zippo",
+          "text": "Cuando Zippo mate a Michael…"
+        },
+        {
+          "from": "Zippo",
+          "text": "Los payasos volverán a ser amigos de todos."
+        },
+        {
+          "from": "Michael",
+          "text": "¿Sigues en la casa?"
+        },
+        {
+          "from": "Zippo",
+          "text": "Date la vuelta, Michael…"
+        },
+        {
+          "from": "Zippo",
+          "text": "…y mira."
+        },
+        {
+          "from": "Zippo",
+          "text": "LA MISMA FOTO DEL PAYASO"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+ "id": "the-reunion-affair",
+ "title": "Amor de reencuentro",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 2,
+ "description": "Mary y Bill fueron novios desde el colegio, pero la guerra los separó. Cada uno se casó con otra persona, pero en la reunión de exalumnos descubrieron que la chispa seguía ahí.",
+ "parts": [
+  {
+   "prologue": "Mary y Bill eran la pareja que todos esperaban ver casada. Luego llegaron la guerra y un telegrama. Sesenta años después, su generación organiza una reunión.",
+   "left": "Bill",
+   "right": "Mary",
+   "wallpaper": [
+    "heart",
+    "glasses",
+    "ring",
+    "rose",
+    "music",
+    "plane",
+    "car",
+    "clock",
+    "envelope"
+   ],
+   "messages": [
+    {
+     "from": "Bill",
+     "text": "¿Es mal momento para escribirte, Mary?"
+    },
+    {
+     "from": "Mary",
+     "text": "No, Bill. Jack se fue a trabajar."
+    },
+    {
+     "from": "Bill",
+     "text": "Qué bonito fue verte en la reunión."
+    },
+    {
+     "from": "Mary",
+     "text": "Sí. No has cambiado nada."
+    },
+    {
+     "from": "Bill",
+     "text": "Entonces necesitas gafas."
+    },
+    {
+     "from": "Mary",
+     "text": "Para mí sigues siendo el hombre guapo que amé."
+    },
+    {
+     "from": "Bill",
+     "text": "Y tú sigues siendo la animadora sexy."
+    },
+    {
+     "from": "Mary",
+     "text": "¿Y ahora quién necesita gafas?"
+    },
+    {
+     "from": "Bill",
+     "text": "¿Nos vemos esta noche?"
+    },
+    {
+     "from": "Mary",
+     "text": "Estoy casada, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Yo también, pero la chispa sigue ahí."
+    },
+    {
+     "from": "Mary",
+     "text": "Sí, pero los dos estamos casados."
+    },
+    {
+     "from": "Bill",
+     "text": "Ya lo sé. Me lo has recordado bastante."
+    },
+    {
+     "from": "Mary",
+     "text": "No debimos besarnos."
+    },
+    {
+     "from": "Bill",
+     "text": "Sí debimos. Estuvo bien."
+    },
+    {
+     "from": "Mary",
+     "text": "Nunca le he sido infiel a Jack."
+    },
+    {
+     "from": "Bill",
+     "text": "Y yo nunca le he sido infiel a Sue."
+    },
+    {
+     "from": "Mary",
+     "text": "¿Entonces por qué estamos hablando de esto?"
+    },
+    {
+     "from": "Bill",
+     "text": "Porque todavía nos deseamos."
+    },
+    {
+     "from": "Mary",
+     "text": "Puede ser cierto, pero eso no lo hace correcto."
+    },
+    {
+     "from": "Bill",
+     "text": "La guerra nos separó."
+    },
+    {
+     "from": "Mary",
+     "text": "Debimos casarnos antes de que te embarcaras."
+    },
+    {
+     "from": "Bill",
+     "text": "No lo hicimos, pero debiste esperarme. Lo prometiste."
+    },
+    {
+     "from": "Mary",
+     "text": "Dijeron que habías muerto. Te lloré durante un año."
+    },
+    {
+     "from": "Bill",
+     "text": "Debiste esperar más."
+    },
+    {
+     "from": "Mary",
+     "text": "Lo sé, pero me sentía sola."
+    },
+    {
+     "from": "Bill",
+     "text": "Me arrepiento de haber seguido las reglas de esa época."
+    },
+    {
+     "from": "Mary",
+     "text": "Yo también. Pero tenía miedo de quedar embarazada"
+    },
+    {
+     "from": "Bill",
+     "text": "Me habría casado contigo."
+    },
+    {
+     "from": "Mary",
+     "text": "Lo sé, pero no quería una «boda a la fuerza»."
+    },
+    {
+     "from": "Bill",
+     "text": "Eso es el pasado. Esto es el ahora. Vamos a vernos."
+    },
+    {
+     "from": "Mary",
+     "text": "Nunca he estado con otro hombre."
+    },
+    {
+     "from": "Bill",
+     "text": "Ojalá yo pudiera decir lo mismo, pero no puedo."
+    },
+    {
+     "from": "Mary",
+     "text": "No sé, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "No me rechaces otra vez como la noche del baile de graduación."
+    },
+    {
+     "from": "Mary",
+     "text": "Está bien, nos vemos."
+    },
+    {
+     "from": "Bill",
+     "text": "¿En serio? Eso me hace feliz."
+    },
+    {
+     "from": "Mary",
+     "text": "A mediodía, en el Airport Motel."
+    },
+    {
+     "from": "Bill",
+     "text": "No te acobardes otra vez."
+    },
+    {
+     "from": "Mary",
+     "text": "No lo haré."
+    },
+    {
+     "from": "Bill",
+     "text": "Te amo. Llevo protección."
+    },
+    {
+     "from": "Mary",
+     "text": "Te amo. ¿Qué habitación?"
+    },
+    {
+     "from": "Bill",
+     "text": "La habitación 13."
+    },
+    {
+     "from": "Mary",
+     "text": "Ya salgo."
+    },
+    {
+     "from": "Bill",
+     "text": "Nos vemos pronto, mi amor."
+    },
+    {
+     "from": "Mary",
+     "text": "Bill, el auto no arranca. Voy a llegar tarde."
+    },
+    {
+     "from": "Bill",
+     "text": "Lo siento, pero tengo que tomar mi vuelo."
+    },
+    {
+     "from": "Mary",
+     "text": "Por favor, espérame."
+    },
+    {
+     "from": "Bill",
+     "text": "No puedo esperar. Me tengo que ir."
+    },
+    {
+     "from": "Mary",
+     "text": "¡No!"
+    },
+    {
+     "from": "Bill",
+     "text": "Nunca estuvimos destinados a consumar nuestro amor."
+    },
+    {
+     "from": "Mary",
+     "text": "Te amaré siempre, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Siempre te voy a amar, Mary."
+    },
+    {
+     "from": "Mary",
+     "text": "Es tan injusto."
+    },
+    {
+     "from": "Bill",
+     "text": "Sí, pero la vida no es justa."
+    },
+    {
+     "from": "Mary",
+     "text": "Espera, quiero irme contigo."
+    },
+    {
+     "from": "Bill",
+     "text": "No puedes, Mary. No es tu hora."
+    },
+    {
+     "from": "Mary",
+     "text": "¿Que no es mi hora? ¿Qué quieres decir?"
+    },
+    {
+     "from": "Bill",
+     "text": "Mira tu almohada."
+    },
+    {
+     "from": "Mary",
+     "text": "¿Tus placas de identificación? Pero eso significa…"
+    },
+    {
+     "from": "Bill",
+     "text": "Sí, estoy muerto."
+    },
+    {
+     "from": "Mary",
+     "text": "Pero tu cuerpo…"
+    },
+    {
+     "from": "Bill",
+     "text": "En las playas de Normandía… una fosa común."
+    },
+    {
+     "from": "Mary",
+     "text": "Pero se sintió tan real… la reunión."
+    },
+    {
+     "from": "Bill",
+     "text": "Mi espíritu… diciéndote que te amo y adiós, mi amor."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,352 @@
+{
+ "id": "love-till-death",
+ "title": "Amor hasta la muerte",
+ "author": "Asjad Ullah",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Un turbio romance del pasado tiene a Jake suplicando por su vida. Le quedan cinco minutos de vida y una confesión que podría salvarlo. Pero Jake descubre que hay cosas más dolorosas que la muerte misma.",
+ "parts": [
+  {
+   "prologue": "Jake lleva diez años intentando olvidar el incendio de una casa en las afueras del pueblo. Se mudó de ciudad, cambió de número, empezó de cero. Esta noche despierta en un lugar que no reconoce, con el teléfono en la mano.",
+   "left": "Anna",
+   "right": "Jake",
+   "wallpaper": [
+    "heart",
+    "clock",
+    "rose",
+    "ring",
+    "phone",
+    "house",
+    "envelope",
+    "hourglass",
+    "key"
+   ],
+   "messages": [
+    {
+     "from": "Anna",
+     "text": "Te quedan cinco minutos de vida."
+    },
+    {
+     "from": "Jake",
+     "text": "¿Quién eres? ¿Dónde estoy?"
+    },
+    {
+     "from": "Jake",
+     "text": "¿Qué es este lugar?"
+    },
+    {
+     "from": "Anna",
+     "text": "¡Tranquilo! Mi amor."
+    },
+    {
+     "from": "Anna",
+     "text": "Pronto se va a acabar todo."
+    },
+    {
+     "from": "Jake",
+     "text": "¿Qué quieres?"
+    },
+    {
+     "from": "Anna",
+     "text": "¿Yo?"
+    },
+    {
+     "from": "Anna",
+     "text": "Solo quiero ver cómo esa cuchilla te hace pedazos."
+    },
+    {
+     "from": "Anna",
+     "text": "Y sí, también oír tus gritos."
+    },
+    {
+     "from": "Jake",
+     "text": "¿Por qué? ¿Qué te hice?"
+    },
+    {
+     "from": "Anna",
+     "text": "Esa es una pregunta muy interesante."
+    },
+    {
+     "from": "Anna",
+     "text": "A ver, ¿por dónde empiezo?"
+    },
+    {
+     "from": "Jake",
+     "text": "Estoy dispuesto a hacer lo que sea."
+    },
+    {
+     "from": "Jake",
+     "text": "Solo detén esa cuchilla."
+    },
+    {
+     "from": "Anna",
+     "text": "Vaya, esa frase me suena mucho."
+    },
+    {
+     "from": "Anna",
+     "text": "¿Dónde la habré oído?"
+    },
+    {
+     "from": "Anna",
+     "text": "¡Ah, ya me acuerdo!"
+    },
+    {
+     "from": "Anna",
+     "text": "¿Le suena de algo el nombre Anna, señor Jake?"
+    },
+    {
+     "from": "Jake",
+     "text": "¿Anna?"
+    },
+    {
+     "from": "Jake",
+     "text": "¿Qué Anna?"
+    },
+    {
+     "from": "Anna",
+     "text": "¿Y ahora ni siquiera te acuerdas de Anna?"
+    },
+    {
+     "from": "Anna",
+     "text": "Pobre Jake, el miedo te debilitó la memoria."
+    },
+    {
+     "from": "Jake",
+     "text": "Solo detén esa maldita cuchilla."
+    },
+    {
+     "from": "Jake",
+     "text": "Se está acercando."
+    },
+    {
+     "from": "Anna",
+     "text": "¿Te acuerdas de cómo Anna suplicó por su vida?"
+    },
+    {
+     "from": "Anna",
+     "text": "En ese momento estaba embarazada."
+    },
+    {
+     "from": "Jake",
+     "text": "Pero Anna murió en el incendio de una casa."
+    },
+    {
+     "from": "Anna",
+     "text": "Escoria sedienta de sangre."
+    },
+    {
+     "from": "Anna",
+     "text": "Torturaste a Anna hasta matarla."
+    },
+    {
+     "from": "Anna",
+     "text": "Tú y la perra de tu amante, Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "¿Quién eres? ¿Cómo sabes todo esto?"
+    },
+    {
+     "from": "Anna",
+     "text": "SOY ANNA."
+    },
+    {
+     "from": "Jake",
+     "text": "No puede ser. Te matamos."
+    },
+    {
+     "from": "Jake",
+     "text": "Quemé la casa entera."
+    },
+    {
+     "from": "Jake",
+     "text": "Es imposible."
+    },
+    {
+     "from": "Anna",
+     "text": "Aquí estoy, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Disfrutando de tu matanza en mi pantalla."
+    },
+    {
+     "from": "Anna",
+     "text": "Con la misma cuchilla que usaste para matarme."
+    },
+    {
+     "from": "Anna",
+     "text": "Sin nada libre más que tus dedos para escribirme."
+    },
+    {
+     "from": "Jake",
+     "text": "Te amo, Anna."
+    },
+    {
+     "from": "Anna",
+     "text": "Miren al pobre hombre."
+    },
+    {
+     "from": "Anna",
+     "text": "Supongo que olvidaste con qué brutalidad intentaste matarme."
+    },
+    {
+     "from": "Jake",
+     "text": "Todo fue idea de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Puedo explicarlo todo."
+    },
+    {
+     "from": "Jake",
+     "text": "Por favor, dame una oportunidad."
+    },
+    {
+     "from": "Anna",
+     "text": "Ni siquiera pronuncies el nombre de esa zorra."
+    },
+    {
+     "from": "Jake",
+     "text": "Sí, yo también la odio."
+    },
+    {
+     "from": "Jake",
+     "text": "Fue su plan matarte."
+    },
+    {
+     "from": "Jake",
+     "text": "Me usó como herramienta."
+    },
+    {
+     "from": "Anna",
+     "text": "Quedan 2 minutos, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "POR FAVOR, DETENTE, ANNA."
+    },
+    {
+     "from": "Jake",
+     "text": "Por el amor de Dios."
+    },
+    {
+     "from": "Anna",
+     "text": "No puedo olvidar tu risa, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "Después de que me cortaste las piernas."
+    },
+    {
+     "from": "Anna",
+     "text": "Creíste que me había desmayado."
+    },
+    {
+     "from": "Anna",
+     "text": "Yo estaba escuchando, Jake, y ustedes dos se reían."
+    },
+    {
+     "from": "Jake",
+     "text": "Te lo juro por Dios, Meg me obligó a hacerlo."
+    },
+    {
+     "from": "Jake",
+     "text": "Me tenía dominado, como en trance."
+    },
+    {
+     "from": "Jake",
+     "text": "Siempre te amé, Anna."
+    },
+    {
+     "from": "Jake",
+     "text": "Solo me gustaba el cuerpo de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Nunca la amé."
+    },
+    {
+     "from": "Anna",
+     "text": "¿Ah, sí, Jake?"
+    },
+    {
+     "from": "Anna",
+     "text": "¿Cómo lo puedes demostrar?"
+    },
+    {
+     "from": "Jake",
+     "text": "Dame una oportunidad."
+    },
+    {
+     "from": "Jake",
+     "text": "Voy a ir a los tribunales."
+    },
+    {
+     "from": "Jake",
+     "text": "Voy a testificar en su contra."
+    },
+    {
+     "from": "Jake",
+     "text": "Voy a demostrar que todo fue su plan."
+    },
+    {
+     "from": "Anna",
+     "text": "Te queda 1 minuto, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Anna, por favor, no vas a ganar nada matándome."
+    },
+    {
+     "from": "Jake",
+     "text": "Puedes vengarte de Meg."
+    },
+    {
+     "from": "Jake",
+     "text": "Yo te voy a ayudar."
+    },
+    {
+     "from": "Anna",
+     "text": "No puedes ayudarme, Jake."
+    },
+    {
+     "from": "Jake",
+     "text": "Ay, por favor, detén la cuchilla."
+    },
+    {
+     "from": "Jake",
+     "text": "Por favor."
+    },
+    {
+     "from": "Anna",
+     "text": "Qué estúpido eres, Jake."
+    },
+    {
+     "from": "Anna",
+     "text": "¿No quemamos juntos el cuerpo de Anna?"
+    },
+    {
+     "from": "Jake",
+     "text": "¿Meg?"
+    },
+    {
+     "from": "Anna",
+     "text": "Claro, MI AMOR."
+    },
+    {
+     "from": "Anna",
+     "text": "Y ahora demostraste justo lo que yo temía."
+    },
+    {
+     "from": "Anna",
+     "text": "Para salvar el pellejo, me traicionarías sin pensarlo."
+    },
+    {
+     "from": "Anna",
+     "text": "Nos vemos en el infierno, Jake."
+    }
+   ]
+  }
+ ]
+}

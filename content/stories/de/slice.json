@@ -1,0 +1,336 @@
+{
+ "id": "slice",
+ "title": "In Scheiben",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Ein Serienmörder schreibt Colin, dass er sein nächstes Opfer sein wird. Colin ist zunächst nicht überzeugt, aber der Mörder scheint ein bisschen zu viel über ihn zu wissen… und darüber, wo er gerade ist.",
+ "parts": [
+  {
+   "prologue": "Colin kauft spät ein, wenn der Supermarkt fast leer ist. Er mag die Ruhe. Die Person, die sie auch mag, ist ihm noch nie aufgefallen.",
+   "left": "Unbekannt",
+   "right": "Colin",
+   "wallpaper": [
+    "cart",
+    "apple",
+    "car",
+    "key",
+    "moon",
+    "phone",
+    "clock",
+    "lamp",
+    "question"
+   ],
+   "messages": [
+    {
+     "from": "Unbekannt",
+     "text": "Du bist mein nächstes Opfer."
+    },
+    {
+     "from": "Colin",
+     "text": "Was? Wer ist da?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du bist der, den ich als Nächstes aufschneide."
+    },
+    {
+     "from": "Colin",
+     "text": "Jack, bist du das? Das ist ein bescheuerter Witz."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Das ist kein Witz."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich werde dich in winzig kleine Stücke schneiden."
+    },
+    {
+     "from": "Colin",
+     "text": "Sehr witzig."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Das ist sehr ernst."
+    },
+    {
+     "from": "Colin",
+     "text": "Na klar."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich bin sehr gut darin. Im Schneiden, meine ich."
+    },
+    {
+     "from": "Colin",
+     "text": "Bestimmt bist du das LOL"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich warte nur auf genau den richtigen Moment…"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Und dann fange ich mit meiner Arbeit an."
+    },
+    {
+     "from": "Colin",
+     "text": "Deiner Arbeit?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich dachte, du hättest es inzwischen verstanden. Ich werde dich aufschneiden."
+    },
+    {
+     "from": "Colin",
+     "text": "Klar – in winzig kleine Stücke."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Genau im richtigen Moment."
+    },
+    {
+     "from": "Colin",
+     "text": "Und wann ist der?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Das weiß ich, wenn ich ihn sehe."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich würde zum Beispiel nicht jetzt anfangen, während du im Supermarkt bist."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "FOTO VON COLIN (Alter: 18–22) IM SUPERMARKT"
+    },
+    {
+     "from": "Colin",
+     "text": "Verfolgst du mich?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Und an der Tankstelle, von der du gerade kommst, waren zu viele Leute."
+    },
+    {
+     "from": "Colin",
+     "text": "Man verfolgt keine Leute."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Wenn deine Mitbewohner Tom und Alan nicht zu Hause sind, mache ich es vielleicht, wenn du heimkommst."
+    },
+    {
+     "from": "Colin",
+     "text": "Okay, jetzt reicht's. Jack, bist du das?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich bin nicht Jack."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du kennst mich nicht."
+    },
+    {
+     "from": "Colin",
+     "text": "Wenn ich dich nicht kenne, warum willst du mich dann aufschneiden?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du siehst aus, als könntest du ein bisschen Aufschneiden vertragen."
+    },
+    {
+     "from": "Colin",
+     "text": "Das ist einfach nur schräg."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du schaust dir hier echt das Gemüse an?"
+    },
+    {
+     "from": "Colin",
+     "text": "Verfolgst du mich?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Das Gemüse ist nicht besonders gut, nur damit du's weißt."
+    },
+    {
+     "from": "Colin",
+     "text": "Wo bist du?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich finde, du hast deinen Einkaufswagen sowieso viel zu voll gemacht."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich finde, du hast für heute genug Lebensmittel eingekauft."
+    },
+    {
+     "from": "Colin",
+     "text": "Das nervt langsam."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Warum schaust du die alte Frau da an? Glaubst du, ich könnte sie sein?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "LOL"
+    },
+    {
+     "from": "Colin",
+     "text": "Du könntest jeder sein."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Genau."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du wirst mich nie finden."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Aber ich finde dich LOL"
+    },
+    {
+     "from": "Colin",
+     "text": "Falls du denkst, ich glaube dir, dass du irgend so ein Serienmörder bist, liegst du falsch."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich weiß nicht, ob „Serienmörder“ die richtige Bezeichnung wäre."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Es ist keine gute Idee, deine Einkäufe mit Kreditkarte zu bezahlen."
+    },
+    {
+     "from": "Colin",
+     "text": "Hör auf, mich zu beobachten."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich will dir nur einen kleinen Rat geben."
+    },
+    {
+     "from": "Colin",
+     "text": "Warum, wenn du mich doch umbringen willst?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Macht der Gewohnheit, schätze ich!"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du bist schon lange im Supermarkt."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Kaum zu glauben, dass es draußen schon dunkel ist, oder?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Ich liebe diese Jahreszeit."
+    },
+    {
+     "from": "Colin",
+     "text": "Schön für dich."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Schade, dass sie die Lichter auf dem Parkplatz noch nicht angemacht haben."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Na ja, schade für dich."
+    },
+    {
+     "from": "Colin",
+     "text": "Was soll das heißen?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Na ja, gut für mich, natürlich"
+    },
+    {
+     "from": "Colin",
+     "text": "Natürlich."
+    },
+    {
+     "from": "Colin",
+     "text": "Mein Auto hat Licht. Es ist ja nicht so, als stünde ich im Stockdunkeln."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Stimmt, aber du siehst trotzdem nicht, was dich aus der Dunkelheit anspringen könnte."
+    },
+    {
+     "from": "Colin",
+     "text": "Ich pass auf."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Heute Nacht ist nicht mal der Mond zu sehen."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Es ist sehr, sehr dunkel."
+    },
+    {
+     "from": "Colin",
+     "text": "Auf dem Parkplatz ist viel los."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Es ist ein dunkler Parkplatz.."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Und ehrlich gesagt brauche ich für meine Arbeit gar nicht so viel Zeit."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Und ich sehe dir an, dass du einer von denen bist, bei denen das Fleisch einfach vom Knochen gleitet."
+    },
+    {
+     "from": "Colin",
+     "text": "Das siehst du mir an?"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Man könnte sagen, ich bin so eine Art Experte."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Schau mal an, du hast deinen Kofferraum fast voll mit Einkäufen. Und du hast noch mehr!"
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Du kannst bestimmt noch ein bisschen Platz machen… greif einfach mal ganz nach hinten."
+    },
+    {
+     "from": "Colin",
+     "text": "Mach ich gerade."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Darauf hatte ich gehofft."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Genau wie ich dachte."
+    },
+    {
+     "from": "Unbekannt",
+     "text": "Gleitet einfach vom Knochen."
+    }
+   ]
+  }
+ ]
+}

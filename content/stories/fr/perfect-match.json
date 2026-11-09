@@ -1,0 +1,392 @@
+{
+ "id": "perfect-match",
+ "title": "Match parfait",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Sam pense ne plus aimer sa femme. Pour pimenter un peu sa vie, il se met à chercher quelqu'un sur un site de rencontre, sous un faux profil. Il finit par trouver le match parfait… un peu trop parfait pour pouvoir continuer.",
+ "parts": [
+  {
+   "prologue": "Sam est marié depuis onze ans. Depuis quelque temps, il passe ses soirées sur un site de rencontre sous un faux nom. Il n'est pas le seul dans la maison à s'ennuyer.",
+   "left": "Sam",
+   "right": "Eve",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "wineglass",
+    "cutlery",
+    "car",
+    "ring",
+    "mask",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Sam",
+     "text": "Salut, ça va ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Coucou, ça va."
+    },
+    {
+     "from": "Eve",
+     "text": "Et toi ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ça va aussi."
+    },
+    {
+     "from": "Sam",
+     "text": "Je parcourais les profils, et."
+    },
+    {
+     "from": "Sam",
+     "text": "J'ai trouvé le tien très intéressant."
+    },
+    {
+     "from": "Eve",
+     "text": "Merci."
+    },
+    {
+     "from": "Eve",
+     "text": "Alors, parle-moi un peu de toi."
+    },
+    {
+     "from": "Sam",
+     "text": "Bah, je suis un homme simple, je travaille dans le privé."
+    },
+    {
+     "from": "Eve",
+     "text": "Donc tu es là pour trouver quelqu'un avec qui sortir ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ouais, je cherche un rencard."
+    },
+    {
+     "from": "Sam",
+     "text": "Quelqu'un d'intéressant et de charmant."
+    },
+    {
+     "from": "Eve",
+     "text": "C'est cool, ça."
+    },
+    {
+     "from": "Eve",
+     "text": "Moi aussi, je cherche quelqu'un d'intéressant."
+    },
+    {
+     "from": "Eve",
+     "text": "Et tu as quel genre de personnalité ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Je suis extraverti, j'adore sortir, bouger."
+    },
+    {
+     "from": "Sam",
+     "text": "Les restos, la danse, le sport, et la liste est longue."
+    },
+    {
+     "from": "Eve",
+     "text": "Ah, sympa."
+    },
+    {
+     "from": "Sam",
+     "text": "Et toi ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Moi, je suis entre les deux."
+    },
+    {
+     "from": "Eve",
+     "text": "J'adore sortir, mais j'ai besoin de temps pour recharger les batteries."
+    },
+    {
+     "from": "Sam",
+     "text": "C'est quoi, tes centres d'intérêt ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Euh. J'adore cuisiner, la peinture et l'art en général."
+    },
+    {
+     "from": "Sam",
+     "text": "Waouh, c'est trop cool."
+    },
+    {
+     "from": "Eve",
+     "text": "Merci."
+    },
+    {
+     "from": "Sam",
+     "text": "Alors, on se voit un de ces jours ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Oui, avec plaisir."
+    },
+    {
+     "from": "Sam",
+     "text": "On va où ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Un resto préféré ?"
+    },
+    {
+     "from": "Eve",
+     "text": "J'adore manger au Shack Stone."
+    },
+    {
+     "from": "Sam",
+     "text": "Oh là !"
+    },
+    {
+     "from": "Eve",
+     "text": "Quoi ? Tu n'aimes pas cet endroit ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Non, ce n'est pas ça, j'aime bien cet endroit."
+    },
+    {
+     "from": "Eve",
+     "text": "Alors pourquoi cette réaction ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Bah, une idée un peu folle m'est passée par la tête."
+    },
+    {
+     "from": "Sam",
+     "text": "Laisse tomber."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm"
+    },
+    {
+     "from": "Eve",
+     "text": "C'est difficile de laisser tomber, quand même."
+    },
+    {
+     "from": "Eve",
+     "text": "Mais allons-y."
+    },
+    {
+     "from": "Sam",
+     "text": "Ok, alors samedi soir, 20 h ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Euh. Je pensais à autre chose."
+    },
+    {
+     "from": "Sam",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Eve",
+     "text": "C'est quoi ton endroit préféré, à toi ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Pourquoi c'est important ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Je crois que le Shack Stone ne te plaît pas."
+    },
+    {
+     "from": "Sam",
+     "text": "Non, ce n'est pas ça."
+    },
+    {
+     "from": "Sam",
+     "text": "C'est juste quelqu'un que je connaissais."
+    },
+    {
+     "from": "Sam",
+     "text": "Elle aussi, elle adorait le Shack Stone."
+    },
+    {
+     "from": "Eve",
+     "text": "Ok, et c'est qui ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Si ce n'est pas trop indiscret. ;p"
+    },
+    {
+     "from": "Sam",
+     "text": "Mdr. Rien de tout ça."
+    },
+    {
+     "from": "Sam",
+     "text": "Juste une vieille amie."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm."
+    },
+    {
+     "from": "Eve",
+     "text": "J'aimerais quand même connaître ton resto préféré."
+    },
+    {
+     "from": "Sam",
+     "text": "J'adore manger au Wao Tang."
+    },
+    {
+     "from": "Eve",
+     "text": "Quoi ? Sérieux ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oui, tu aimes bien ?"
+    },
+    {
+     "from": "Eve",
+     "text": "C'est pas mal, mais sérieux ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Tu aimes le Wao Tang ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oui, pourquoi tu as l'air si étonnée ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Tu ne vas pas me croire."
+    },
+    {
+     "from": "Eve",
+     "text": "Quelqu'un que je connaissais adorait manger au Wao Tang."
+    },
+    {
+     "from": "Sam",
+     "text": "Bon, à mon tour. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "Et c'était qui ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Nan, juste un vieil ami. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "On dirait qu'on a un passé lié."
+    },
+    {
+     "from": "Eve",
+     "text": "Ouais, comme si on avait été en couple dans une vie antérieure."
+    },
+    {
+     "from": "Sam",
+     "text": "Mdr."
+    },
+    {
+     "from": "Eve",
+     "text": "Alors, voyons-nous."
+    },
+    {
+     "from": "Sam",
+     "text": "Ok, je passe te prendre devant Tiffany's"
+    },
+    {
+     "from": "Eve",
+     "text": "Super."
+    },
+    {
+     "from": "Sam",
+     "text": "J'ai une berline grise."
+    },
+    {
+     "from": "Eve",
+     "text": "Waouh. Là, je suis vraiment perdue."
+    },
+    {
+     "from": "Sam",
+     "text": "Pourquoi, qu'est-ce qui se passe ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Je ne sais pas si je dois te demander ou pas."
+    },
+    {
+     "from": "Eve",
+     "text": "Ce sera super gênant si je me trompe."
+    },
+    {
+     "from": "Sam",
+     "text": "Si tu te trompes sur quoi ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Tu peux répondre à une autre question ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oui, vas-y."
+    },
+    {
+     "from": "Eve",
+     "text": "Tu travailles chez Smith's ?"
+    },
+    {
+     "from": "Sam",
+     "text": "OMG comment tu sais ça ?"
+    },
+    {
+     "from": "Eve",
+     "text": "Jack ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Comment tu connais mon vrai prénom ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oh mon Dieu. Ça veut dire que tu es…"
+    },
+    {
+     "from": "Sam",
+     "text": "Tu es Maria."
+    },
+    {
+     "from": "Eve",
+     "text": "Oui Jack, et cette fois tu es fichu."
+    },
+    {
+     "from": "Eve",
+     "text": "Tu devrais avoir honte."
+    },
+    {
+     "from": "Sam",
+     "text": "Maria, sois raisonnable, ma chérie."
+    },
+    {
+     "from": "Sam",
+     "text": "On s'est fait prendre tous les deux sur le même site."
+    },
+    {
+     "from": "Eve",
+     "text": "Qu'est-ce que tu fichais ici, nom de Dieu ?"
+    },
+    {
+     "from": "Sam",
+     "text": "Chérie, on en parle quand je rentre."
+    }
+   ]
+  }
+ ]
+}

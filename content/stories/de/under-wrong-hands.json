@@ -1,0 +1,652 @@
+{
+ "id": "under-wrong-hands",
+ "title": "In falschen Händen",
+ "author": "Rutaba Shahzad",
+ "genre": "thriller",
+ "fear": 2,
+ "description": "Amy wird zu Unrecht des Mordes an ihrem Mann beschuldigt. Zwischen dem verzweifelten Versuch, ihre Unschuld zu beweisen, und der Suche nach dem wahren Mörder trifft sie die falschen Entscheidungen – erst unbewusst, später ganz bewusst.",
+ "parts": [
+  {
+   "prologue": "Amys Mann Mark wurde letzte Nacht tot in ihrem Haus gefunden. Am Morgen hatte die Polizei eine Verdächtige und Amy ein Wegwerfhandy. Nur ein Mensch antwortet noch auf ihre Nachrichten.",
+   "left": "Amy",
+   "right": "Winona",
+   "wallpaper": [
+    "rattle",
+    "window",
+    "house",
+    "key",
+    "phone",
+    "clock",
+    "magnifier",
+    "moon",
+    "coffee"
+   ],
+   "messages": [
+    {
+     "from": "Amy",
+     "text": "Winona, bist du da?"
+    },
+    {
+     "from": "Winona",
+     "text": "Ja, bin ich. Wo bist du?"
+    },
+    {
+     "from": "Amy",
+     "text": "Das kann ich nicht sagen! Du hast es bestimmt gehört."
+    },
+    {
+     "from": "Winona",
+     "text": "Ja, hab ich. Das mit deinem Mann tut mir so schrecklich leid."
+    },
+    {
+     "from": "Winona",
+     "text": "Warum bist du nicht hier?"
+    },
+    {
+     "from": "Amy",
+     "text": "Okay, ich weiß, wie das aussieht, aber ich hab ihn nicht umgebracht."
+    },
+    {
+     "from": "Winona",
+     "text": "Ach komm, Amy! Du bist auf der Flucht, du benutzt sogar ein Wegwerfhandy."
+    },
+    {
+     "from": "Winona",
+     "text": "Du warst in der Mordnacht da und hast neben ihm geschlafen."
+    },
+    {
+     "from": "Amy",
+     "text": "Woher weißt du das?"
+    },
+    {
+     "from": "Winona",
+     "text": "Na ja, ich hab euch beide nach Hause kommen sehen, das ist meine Aussage."
+    },
+    {
+     "from": "Amy",
+     "text": "Und die von vielen anderen Leuten."
+    },
+    {
+     "from": "Winona",
+     "text": "Ich mache nichts Illegales."
+    },
+    {
+     "from": "Amy",
+     "text": "Hey, ich verlange ja auch nichts in der Richtung von dir."
+    },
+    {
+     "from": "Winona",
+     "text": "Es ist eine Straftat, eine Aussage wegzulassen oder zu verfälschen, das weißt du hoffentlich."
+    },
+    {
+     "from": "Amy",
+     "text": "Sag ihnen, was du sagen musst. Deswegen schreib ich dir nicht."
+    },
+    {
+     "from": "Winona",
+     "text": "Ja, warum genau schreibst du mir eigentlich?"
+    },
+    {
+     "from": "Winona",
+     "text": "Dir ist klar, dass ich diese Nachrichten der Polizei zeigen kann?"
+    },
+    {
+     "from": "Amy",
+     "text": "Ja, ich weiß, dass du das kannst, aber ich weiß auch, dass du es nicht tust."
+    },
+    {
+     "from": "Winona",
+     "text": "Und warum nicht?"
+    },
+    {
+     "from": "Amy",
+     "text": "Weil ich unschuldig bin, deshalb!"
+    },
+    {
+     "from": "Winona",
+     "text": "Hör zu, ob du das getan hast oder nicht, du bist verdächtig."
+    },
+    {
+     "from": "Winona",
+     "text": "Und ich sollte nicht allzu lange mit einer Verdächtigen reden."
+    },
+    {
+     "from": "Amy",
+     "text": "Du lässt mich also hängen, jetzt, wo ich dich brauche?"
+    },
+    {
+     "from": "Winona",
+     "text": "Nein, ich bitte dich, schnell auf den Punkt zu kommen, damit ich diesen Chat löschen kann."
+    },
+    {
+     "from": "Amy",
+     "text": "Du musst etwas aus meiner Wohnung holen und es mir bringen."
+    },
+    {
+     "from": "Winona",
+     "text": "OH MEIN GOTT! Du verlangst also nicht, dass ich die Polizei anlüge."
+    },
+    {
+     "from": "Winona",
+     "text": "Sondern dass ich Beweise klaue? :O"
+    },
+    {
+     "from": "Amy",
+     "text": "OH GOTT! Das klingt echt übel!"
+    },
+    {
+     "from": "Amy",
+     "text": "Und ich weiß, du schuldest mir nichts, aber bitte, nur du kannst mir helfen."
+    },
+    {
+     "from": "Winona",
+     "text": "Wie soll ich bitte an den ganzen Polizisten vorbeikommen und holen, was du brauchst?"
+    },
+    {
+     "from": "Winona",
+     "text": "Würde mich das nicht in große Gefahr bringen?"
+    },
+    {
+     "from": "Amy",
+     "text": "Sammeln sie gerade Beweise?"
+    },
+    {
+     "from": "Winona",
+     "text": "Nein, sie warten auf ihren leitenden Ermittler."
+    },
+    {
+     "from": "Amy",
+     "text": "Das ist deine Chance. Nimm das Fenster, das wir uns am Schlafzimmer teilen, und steig ein."
+    },
+    {
+     "from": "Winona",
+     "text": "Ist es abgeschlossen?"
+    },
+    {
+     "from": "Amy",
+     "text": "Ja, aber wenn du dran ruckelst, geht es auf."
+    },
+    {
+     "from": "Winona",
+     "text": "Macht das nicht einen Riesenlärm?"
+    },
+    {
+     "from": "Winona",
+     "text": "Was willst du überhaupt?"
+    },
+    {
+     "from": "Amy",
+     "text": "Geht es auch, dass ich dir nicht sage, was es ist?"
+    },
+    {
+     "from": "Amy",
+     "text": "Es ist in meiner obersten Schublade neben dem Bett und ich will, dass du es holst."
+    },
+    {
+     "from": "Winona",
+     "text": "Für wie blöd hältst du mich?"
+    },
+    {
+     "from": "Winona",
+     "text": "Was, wenn es die Tatwaffe ist?"
+    },
+    {
+     "from": "Amy",
+     "text": "Es ist nicht die Tatwaffe!"
+    },
+    {
+     "from": "Winona",
+     "text": "Ach ja! Die Tatwaffe wurde ja schon auf dem Küchentisch gefunden!"
+    },
+    {
+     "from": "Winona",
+     "text": "Es hat mich nicht überrascht, dass deine Fingerabdrücke drauf waren."
+    },
+    {
+     "from": "Amy",
+     "text": "Es ist mein Haus! Natürlich sind da meine Fingerabdrücke drauf!"
+    },
+    {
+     "from": "Amy",
+     "text": "Woher weißt du, dass es am Tatort eine Tatwaffe gibt?"
+    },
+    {
+     "from": "Winona",
+     "text": "Ich hab die Bullen reden hören."
+    },
+    {
+     "from": "Amy",
+     "text": "Wer mir das anhängen wollte, muss sie also dort liegen gelassen haben"
+    },
+    {
+     "from": "Amy",
+     "text": "Die wussten genau, dass es meine Küche ist, also sind natürlich meine Abdrücke drauf."
+    },
+    {
+     "from": "Winona",
+     "text": "Ich weiß nicht mal, ob du es nicht doch warst, Amy, ich bin nicht überzeugt."
+    },
+    {
+     "from": "Amy",
+     "text": "Dann sei es halt nicht, wenn's dir damit besser geht, aber hol mir die Schachtel."
+    },
+    {
+     "from": "Winona",
+     "text": "Nicht, bevor du mir sagst, was in der Schachtel ist."
+    },
+    {
+     "from": "Amy",
+     "text": "Okay, na gut! Es ist ein Babyfon."
+    },
+    {
+     "from": "Winona",
+     "text": "Du hast Sally also mitgenommen?"
+    },
+    {
+     "from": "Amy",
+     "text": "Musste ich. Sie durfte ihren Vater nicht so sehen."
+    },
+    {
+     "from": "Winona",
+     "text": "Und jetzt brauchst du das Babyfon für dein Baby?"
+    },
+    {
+     "from": "Winona",
+     "text": "Irgendwie hab ich das Gefühl, du verheimlichst was."
+    },
+    {
+     "from": "Amy",
+     "text": "Es ist ein Babyfon und ich brauche es."
+    },
+    {
+     "from": "Winona",
+     "text": "Oh, ich glaub dir beides, aber irgendwas stimmt nicht."
+    },
+    {
+     "from": "Winona",
+     "text": "Du kannst dir doch jederzeit ein neues im Laden kaufen."
+    },
+    {
+     "from": "Amy",
+     "text": "Ich will das, das ich schon habe."
+    },
+    {
+     "from": "Winona",
+     "text": "Außer, das Babyfon hat aufgenommen, wie du das alles getan hast."
+    },
+    {
+     "from": "Winona",
+     "text": "Und jetzt machst du dir Sorgen wegen der Aufnahme."
+    },
+    {
+     "from": "Amy",
+     "text": "Du verstehst das nicht! Es ist genau das Gegenteil von dem, was du denkst."
+    },
+    {
+     "from": "Winona",
+     "text": "Oh, bitte klär mich auf."
+    },
+    {
+     "from": "Winona",
+     "text": "Aber beeil dich, die Polizei kann jeden Moment hier sein."
+    },
+    {
+     "from": "Amy",
+     "text": "Kannst du nicht einfach die Schachtel holen und wir reden später darüber!"
+    },
+    {
+     "from": "Amy",
+     "text": "Du kannst dir sogar ansehen, was drauf ist, solange du die Schachtel für dich behältst."
+    },
+    {
+     "from": "Winona",
+     "text": "Ich glaub nicht, dass ich die Schachtel für mich behalten könnte, wenn ich sehe, wie du deinen Mann umbringst."
+    },
+    {
+     "from": "Winona",
+     "text": "Auf der Schachtel wären meine Fingerabdrücke."
+    },
+    {
+     "from": "Amy",
+     "text": "Argh!"
+    },
+    {
+     "from": "Winona",
+     "text": "Außerdem könnte ich den Bullen nicht erklären, warum ich Beweise rausschmuggeln wollte."
+    },
+    {
+     "from": "Winona",
+     "text": "Um Himmels willen, aus einem Haus, das als Tatort abgesperrt ist."
+    },
+    {
+     "from": "Amy",
+     "text": "Na schön! Ich bin nicht auf dem Video, aber jemand anderes!"
+    },
+    {
+     "from": "Amy",
+     "text": "Wenn jemand meinen Mann umgebracht hat, während er im Kinderzimmer war, hat die Kamera das garantiert aufgenommen!"
+    },
+    {
+     "from": "Winona",
+     "text": "Du gehst also nur einer Ahnung nach?"
+    },
+    {
+     "from": "Amy",
+     "text": "Ich bin mir sicher! Holst du es mir jetzt bitte?"
+    },
+    {
+     "from": "Winona",
+     "text": "Okay, warte."
+    },
+    {
+     "from": "Amy",
+     "text": "Ok dankeeeee soooo sehr."
+    },
+    {
+     "from": "Amy",
+     "text": "Schreib mir einfach und wir treffen uns um 6 Uhr abends am Garden Square."
+    },
+    {
+     "from": "Amy",
+     "text": "Ich will nicht an einem offenen Ort sein, also treffen wir uns in einem Restaurant namens Giovanni."
+    },
+    {
+     "from": "Amy",
+     "text": "Hast du es?"
+    },
+    {
+     "from": "Winona",
+     "text": "Ja, hab ich."
+    },
+    {
+     "from": "Amy",
+     "text": "Was ist los?"
+    },
+    {
+     "from": "Winona",
+     "text": "Ich kann klar sehen, wer den Mord begangen hat!"
+    },
+    {
+     "from": "Amy",
+     "text": "OH GOTT, DU HAST ES GEÖFFNET! WARUM MACHST DU ES AUF?"
+    },
+    {
+     "from": "Winona",
+     "text": "Ich musste wissen, ob ich einer Mörderin helfe oder ob man dir das angehängt hat."
+    },
+    {
+     "from": "Amy",
+     "text": "Gott, das ist alles so kaputt."
+    },
+    {
+     "from": "Amy",
+     "text": "Wer das getan hat, schreckt vor nichts zurück, um lose Enden zu beseitigen!"
+    },
+    {
+     "from": "Amy",
+     "text": "Und du bist gerade eins geworden, weil du das Video gesehen hast"
+    },
+    {
+     "from": "Winona",
+     "text": "Auch wenn ich jetzt sicher sagen kann, dass du nicht die Mörderin bist, kann ich ihr Gesicht immer noch nicht richtig erkennen."
+    },
+    {
+     "from": "Amy",
+     "text": "Ihr? Ist es eine Frau?"
+    },
+    {
+     "from": "Winona",
+     "text": "Sag mal, hatte er eine Affäre?"
+    },
+    {
+     "from": "Amy",
+     "text": "Gott, nein. So einer war Mark nicht."
+    },
+    {
+     "from": "Winona",
+     "text": "Tut mir leid, Süße, aber da sehe ich das anders."
+    },
+    {
+     "from": "Amy",
+     "text": "Was?! Echt jetzt?!"
+    },
+    {
+     "from": "Winona",
+     "text": "Tut mir leid, schlecht über einen Toten zu reden."
+    },
+    {
+     "from": "Winona",
+     "text": "Du leidest wahrscheinlich schon genug, aber ich hab neulich nachts was gesehen."
+    },
+    {
+     "from": "Amy",
+     "text": "Was denn?"
+    },
+    {
+     "from": "Winona",
+     "text": "Bitte verurteil mich nicht dafür, dass ich damit nicht zur Polizei gegangen bin."
+    },
+    {
+     "from": "Winona",
+     "text": "Ich wusste, dass ihr finanziell zu kämpfen hattet, und ich wollte nicht, dass er ins Gefängnis kommt."
+    },
+    {
+     "from": "Amy",
+     "text": "Oh Gott! GEFÄNGNIS?!"
+    },
+    {
+     "from": "Winona",
+     "text": "Ich sollte es dir sowieso nicht erzählen."
+    },
+    {
+     "from": "Amy",
+     "text": "Nein, bitte sag's mir, ich muss wissen, ob er mich betrogen hat."
+    },
+    {
+     "from": "Winona",
+     "text": "Nicht nur betrogen, sondern belästigt."
+    },
+    {
+     "from": "Amy",
+     "text": "Er hat andere Frauen belästigt? Gott, nein!"
+    },
+    {
+     "from": "Amy",
+     "text": "Deshalb haben also diese Leute angerufen und sich beschwert."
+    },
+    {
+     "from": "Winona",
+     "text": "Aber du hast nicht mal mit der Wimper gezuckt, oder?"
+    },
+    {
+     "from": "Amy",
+     "text": "Na ja, es klang damals so absurd, und ich hab ihn gefragt und er hat Nein gesagt."
+    },
+    {
+     "from": "Winona",
+     "text": "Und das war's dann für dich? Du hast ihn gefragt?"
+    },
+    {
+     "from": "Winona",
+     "text": "Fragst du jemanden, ob er deine Tochter belästigt hat?"
+    },
+    {
+     "from": "Amy",
+     "text": "Hör mal, Winona, du weißt doch, wenn ich auch nur geahnt hätte, dass er so was macht."
+    },
+    {
+     "from": "Amy",
+     "text": "Wenn ja, hätte ich ihn sofort verlassen."
+    },
+    {
+     "from": "Winona",
+     "text": "Oh, du wolltest es gar nicht wissen."
+    },
+    {
+     "from": "Winona",
+     "text": "Du hast ihm immer blind vertraut, sogar als er Kinder belästigt hat."
+    },
+    {
+     "from": "Amy",
+     "text": "Kinder und Frauen?"
+    },
+    {
+     "from": "Winona",
+     "text": "Mädchen!"
+    },
+    {
+     "from": "Amy",
+     "text": "omg"
+    },
+    {
+     "from": "Winona",
+     "text": "Hättest du doch nur auf die Beschwerden gehört."
+    },
+    {
+     "from": "Winona",
+     "text": "Und hätte die Polizei das kleine Mädchen doch nur ernst genommen."
+    },
+    {
+     "from": "Amy",
+     "text": "Es tut mir so leid, dass ein kleines Mädchen das durchmachen musste."
+    },
+    {
+     "from": "Amy",
+     "text": "Ich hab ihm in die Augen gesehen und…"
+    },
+    {
+     "from": "Winona",
+     "text": "Oh, du widerst mich an!"
+    },
+    {
+     "from": "Amy",
+     "text": "Warum nimmt dich das so mit?"
+    },
+    {
+     "from": "Winona",
+     "text": "Dieses Babyfon wird nie wieder das Tageslicht sehen."
+    },
+    {
+     "from": "Amy",
+     "text": "WAS?! NEIN! Denk an das Baby!"
+    },
+    {
+     "from": "Winona",
+     "text": "Hast du an die Kinder gedacht, als sie belästigt wurden?"
+    },
+    {
+     "from": "Amy",
+     "text": "Kinder? Oh Gott, nein!"
+    },
+    {
+     "from": "Amy",
+     "text": "Es tut mir so leid, Winona, aber damit hatte ich nichts zu tun!"
+    },
+    {
+     "from": "Winona",
+     "text": "Du hättest aussagen und ihn ins Gefängnis bringen können."
+    },
+    {
+     "from": "Winona",
+     "text": "Stattdessen bist diesmal du diejenige, die ins Gefängnis geht."
+    },
+    {
+     "from": "Amy",
+     "text": "Warum sollte ich für ein Verbrechen ins Gefängnis gehen, das ich nicht begangen habe?"
+    },
+    {
+     "from": "Winona",
+     "text": "Genauso, wie sich ein Kind für ein Verbrechen umgebracht hat, das es nicht begangen hat!"
+    },
+    {
+     "from": "Amy",
+     "text": "OMG! Winona, wenn ich das gewusst hätte!"
+    },
+    {
+     "from": "Winona",
+     "text": "Oh, ich kann dir nicht helfen, selbst wenn ich wollte."
+    },
+    {
+     "from": "Winona",
+     "text": "Denn das Babyfon ist längst in meinem Kamin verbrannt."
+    },
+    {
+     "from": "Amy",
+     "text": "Nein!! Wer kümmert sich dann um Sally?"
+    },
+    {
+     "from": "Winona",
+     "text": "Weißt du, ich hatte monatelang Mitleid mit dir, aber jetzt finde ich, du hast es nicht verdient."
+    },
+    {
+     "from": "Amy",
+     "text": "Moment mal, ist deine Tochter nicht vor vier Monaten gestorben?"
+    },
+    {
+     "from": "Winona",
+     "text": "Was hat das damit zu tun?"
+    },
+    {
+     "from": "Amy",
+     "text": "Du hast gerade Selbstmord erwähnt."
+    },
+    {
+     "from": "Winona",
+     "text": "Können nicht zwei Leute Selbstmord begehen?"
+    },
+    {
+     "from": "Amy",
+     "text": "Die Polizei erzählt Bürgern nichts über laufende Ermittlungen!"
+    },
+    {
+     "from": "Amy",
+     "text": "Woher weißt du, dass das Messer auf dem Küchentisch lag?"
+    },
+    {
+     "from": "Winona",
+     "text": "Das hab ich mir ausgedacht!"
+    },
+    {
+     "from": "Amy",
+     "text": "Hast du dir auch ausgedacht, dass du monatelang Mitleid mit mir hattest?"
+    },
+    {
+     "from": "Winona",
+     "text": "Dafür hab ich keine Zeit! Ich bin weg!"
+    },
+    {
+     "from": "Amy",
+     "text": "Du hast letzte Nacht gar nichts gesehen, oder?"
+    },
+    {
+     "from": "Winona",
+     "text": "Heißt nicht, dass es nicht stimmt."
+    },
+    {
+     "from": "Amy",
+     "text": "Du warst es! Und du wusstest schon, dass man das Fenster öffnen kann, auch wenn es abgeschlossen ist!"
+    },
+    {
+     "from": "Amy",
+     "text": "Das musst du seit Monaten geplant haben!"
+    },
+    {
+     "from": "Winona",
+     "text": "Erzähl das den Bullen! Mit etwas Glück lassen sie dich deine Tochter im Gefängnis besuchen."
+    },
+    {
+     "from": "Amy",
+     "text": "Meine Tochter! Was hast du mit ihr gemacht?"
+    },
+    {
+     "from": "Winona",
+     "text": "Sally? Noch nichts, aber um dein Baby musst du dir keine Sorgen machen."
+    },
+    {
+     "from": "Winona",
+     "text": "Ich werde mich persönlich darum kümmern, sie zu adoptieren."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,424 @@
+{
+ "id": "grave",
+ "title": "Six pieds sous terre",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Aaron reçoit des messages affolés de Jenna, une fille qu'il ne connaît pas et qui affirme être retenue prisonnière, enfermée dans un cercueil enterré. Elle le supplie de l'aider.",
+ "parts": [
+  {
+   "prologue": "Le numéro d'Aaron appartenait autrefois à quelqu'un d'autre. Il reçoit encore parfois des messages destinés à un inconnu — mauvaises commandes, vœux d'anniversaire. Celui de ce soir dit seulement : aide-moi.",
+   "left": "Jenna",
+   "right": "Aaron",
+   "wallpaper": [
+    "cross",
+    "flower",
+    "moon",
+    "train",
+    "phone",
+    "clock",
+    "question",
+    "candle",
+    "star"
+   ],
+   "messages": [
+    {
+     "from": "Jenna",
+     "text": "Aide-moi"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je crois que tu t'es trompée de numéro."
+    },
+    {
+     "from": "Jenna",
+     "text": "S'il te plaît, aide-moi."
+    },
+    {
+     "from": "Aaron",
+     "text": "Sérieux, tu t'es trompée de numéro."
+    },
+    {
+     "from": "Jenna",
+     "text": "Je suis coincée, j'ai besoin d'aide."
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu voulais écrire à qui ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "J'ai juste besoin d'aide, c'est tout !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu t'es trompée."
+    },
+    {
+     "from": "Jenna",
+     "text": "S'il te plaît !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je ne sais même pas qui tu es !"
+    },
+    {
+     "from": "Jenna",
+     "text": "Il faut que tu m'aides à sortir d'ici !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Sortir d'où ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ils m'ont enterrée !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Qui t'a enterrée ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ces gens… ils m'ont enterrée."
+    },
+    {
+     "from": "Aaron",
+     "text": "Enterrée où ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je ne sais pas. Sous terre."
+    },
+    {
+     "from": "Aaron",
+     "text": "Comment tu peux m'écrire, alors ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je suis dans une boîte."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ils t'ont mise dans une boîte ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Genre un cercueil."
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu es dans un cercueil ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je suis dans un cercueil."
+    },
+    {
+     "from": "Aaron",
+     "text": "Qui ferait un truc pareil ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je ne sais pas qui c'était."
+    },
+    {
+     "from": "Aaron",
+     "text": "Et ils t'ont enterrée comme ça, au hasard."
+    },
+    {
+     "from": "Jenna",
+     "text": "Ils m'ont enterrée, oui. Et je ne sais pas pourquoi."
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu essaies de m'arnaquer ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "C'est une sorte de blague ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je suis coincée ici."
+    },
+    {
+     "from": "Jenna",
+     "text": "Tu es mon seul espoir !"
+    },
+    {
+     "from": "Jenna",
+     "text": "PAR PITIÉ !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Bon, et je suis censé faire quoi ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Et d'abord, tu es où ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Sous terre."
+    },
+    {
+     "from": "Aaron",
+     "text": "Non, je veux dire où, sous terre."
+    },
+    {
+     "from": "Aaron",
+     "text": "Genre, dans quel cimetière ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je ne sais pas."
+    },
+    {
+     "from": "Aaron",
+     "text": "Alors comment je suis censé t'aider ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je ne sais pas trop."
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu es sûre que ce n'est pas une blague ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ce n'est pas une blague."
+    },
+    {
+     "from": "Aaron",
+     "text": "Si je ne sais pas où tu es enterrée, je ne peux pas t'aider !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu veux que j'appelle la police ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Non, ça ne servira à rien."
+    },
+    {
+     "from": "Jenna",
+     "text": "Je crois qu'il y a une voie ferrée près d'ici. J'entends des trains de temps en temps."
+    },
+    {
+     "from": "Aaron",
+     "text": "Il y a des trains ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Tu peux trouver un cimetière près d'une voie ferrée ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Genre, sur Google ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je peux regarder, j'imagine."
+    },
+    {
+     "from": "Aaron",
+     "text": "On dirait qu'il y en a un, au nord de la ville."
+    },
+    {
+     "from": "Jenna",
+     "text": "Il faut que tu y ailles !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Et que je fasse quoi ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Que tu me déterres ! Sauve-moi !"
+    },
+    {
+     "from": "Jenna",
+     "text": "Au cimetière"
+    },
+    {
+     "from": "Aaron",
+     "text": "Comment je suis censé te trouver ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Regarde autour de toi"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je ne sais même pas ce que je cherche !"
+    },
+    {
+     "from": "Jenna",
+     "text": "Cherche une tombe fraîchement creusée"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je n'ai pas de pelle."
+    },
+    {
+     "from": "Jenna",
+     "text": "Continue de chercher…"
+    },
+    {
+     "from": "Jenna",
+     "text": "Il y en a toujours une qui traîne."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ok, j'en ai trouvé une… j'ai trouvé une pelle."
+    },
+    {
+     "from": "Jenna",
+     "text": "Tu as trouvé la tombe ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je crois."
+    },
+    {
+     "from": "Jenna",
+     "text": "Creuse."
+    },
+    {
+     "from": "Aaron",
+     "text": "Je ne crois pas, non. C'est un cimetière."
+    },
+    {
+     "from": "Jenna",
+     "text": "S'il te plaît, creuse ! Je ne crois pas que je vais tenir."
+    },
+    {
+     "from": "Aaron",
+     "text": "Je vais chercher la police."
+    },
+    {
+     "from": "Jenna",
+     "text": "Je serai morte d'ici là."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ok, d'accord. Je creuse."
+    },
+    {
+     "from": "Aaron",
+     "text": "Mais dès que la police arrive, je me tire."
+    },
+    {
+     "from": "Jenna",
+     "text": "Tu creuses ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Je creuse."
+    },
+    {
+     "from": "Jenna",
+     "text": "Je t'entends ! Dieu merci, tu es là !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu as entendu ça ? Je viens d'atteindre le cercueil."
+    },
+    {
+     "from": "Jenna",
+     "text": "Ouvre-le."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ouvrir un cercueil ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Je suis coincée là-dedans !"
+    },
+    {
+     "from": "Jenna",
+     "text": "Il faut que tu me fasses sortir !"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ok, ok. Je le fais."
+    },
+    {
+     "from": "Jenna",
+     "text": "Merci mille fois."
+    },
+    {
+     "from": "Aaron",
+     "text": "Qu'est-ce qui se passe, là ?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "J'ai ouvert le couvercle."
+    },
+    {
+     "from": "Jenna",
+     "text": "Non, tu ne l'as pas ouvert."
+    },
+    {
+     "from": "Aaron",
+     "text": "Si, je l'ai ouvert."
+    },
+    {
+     "from": "Aaron",
+     "text": "C'est un cadavre. Un corps en décomposition."
+    },
+    {
+     "from": "Jenna",
+     "text": "Tu as peut-être ouvert la mauvaise tombe."
+    },
+    {
+     "from": "Aaron",
+     "text": "Je n'ai pas ouvert la mauvaise tombe."
+    },
+    {
+     "from": "Jenna",
+     "text": "Comment tu le sais ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Parce qu'il y a quelque chose d'écrit sur le couvercle."
+    },
+    {
+     "from": "Jenna",
+     "text": "Écrit quoi ?"
+    },
+    {
+     "from": "Aaron",
+     "text": "« À notre chère Jenna. »"
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu es morte."
+    },
+    {
+     "from": "Jenna",
+     "text": "Non, je suis coincée."
+    },
+    {
+     "from": "Aaron",
+     "text": "Je te regarde, là."
+    },
+    {
+     "from": "Aaron",
+     "text": "Tu es vraiment, vraiment morte."
+    }
+   ]
+  }
+ ]
+}

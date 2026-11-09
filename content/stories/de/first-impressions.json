@@ -1,0 +1,415 @@
+{
+ "id": "first-impressions",
+ "title": "Der erste Eindruck",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Ellen lädt ihren neuen Freund zum Abendessen mit ihrer Familie ein. Der erste Eindruck zählt, also ist Jim ein bisschen nervös. Ellen dagegen macht sich keine Sorgen. Ihre Familie ist überzeugt, dass sie bei Männern einen guten Geschmack hat.",
+ "parts": [
+  {
+   "prologue": "Ellens Familie wohnt am Ende eines langen Schotterwegs, hinter der alten Scheune des Metzgers. Sie bekommen nicht viel Besuch. Wenn doch, ist die ganze Familie zur Stelle.",
+   "left": "Ellen",
+   "right": "Jim",
+   "wallpaper": [
+    "cutlery",
+    "candle",
+    "wineglass",
+    "heart",
+    "house",
+    "gift",
+    "people",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Ellen",
+     "text": "Ich hätte dich echt gern zum Abendessen da."
+    },
+    {
+     "from": "Jim",
+     "text": "Okay!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Bei meinen Eltern."
+    },
+    {
+     "from": "Jim",
+     "text": "Ich weiß. Hab’s kommen sehen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ich glaub, sie würden dich mögen."
+    },
+    {
+     "from": "Jim",
+     "text": "Ich muss zugeben, ich bin ein bisschen nervös."
+    },
+    {
+     "from": "Ellen",
+     "text": "Musst du nicht sein. Alle werden dich mögen."
+    },
+    {
+     "from": "Jim",
+     "text": "Alle?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Meine Brüder und Schwestern."
+    },
+    {
+     "from": "Jim",
+     "text": "Alle werden da sein."
+    },
+    {
+     "from": "Ellen",
+     "text": "Na klar! Alle wollen dabei sein."
+    },
+    {
+     "from": "Jim",
+     "text": "Wow, deine Familie nimmt ja echt Anteil an deinem Leben."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ja, so sind sie."
+    },
+    {
+     "from": "Jim",
+     "text": "Wie ist deine Mutter so?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Die ist schon in Ordnung. Sie wird dich mögen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie wird sich freuen, dass du „Fleisch auf den Rippen“ hast lol"
+    },
+    {
+     "from": "Jim",
+     "text": "Ich versuch immer noch, das loszuwerden."
+    },
+    {
+     "from": "Ellen",
+     "text": "Aber bis nächstes Wochenende schaffst du das nicht, also passt das."
+    },
+    {
+     "from": "Jim",
+     "text": "Ja."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie wird so glücklich sein, dass ich jemanden gefunden hab, den ich mögen würde."
+    },
+    {
+     "from": "Jim",
+     "text": "Mögen würde?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Na ja, den ich MAG."
+    },
+    {
+     "from": "Jim",
+     "text": "Wie viele Geschwister hast du?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Fünf, ich bin die Älteste."
+    },
+    {
+     "from": "Jim",
+     "text": "Na, das ist doch wenigstens was."
+    },
+    {
+     "from": "Ellen",
+     "text": "Schon. Ist eine Verantwortung."
+    },
+    {
+     "from": "Ellen",
+     "text": "Weißt du, manchmal muss ich mich um sie kümmern."
+    },
+    {
+     "from": "Ellen",
+     "text": "Dafür sorgen, dass sie was zu essen kriegen."
+    },
+    {
+     "from": "Jim",
+     "text": "Na ja, wenigstens bist du jetzt älter. Du kannst dein eigenes Leben haben."
+    },
+    {
+     "from": "Ellen",
+     "text": "Stimmt."
+    },
+    {
+     "from": "Jim",
+     "text": "Deine Familie klingt jedenfalls nett."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie sind nett."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wie gesagt, alle werden dich mögen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie haben einen guten Geschmack."
+    },
+    {
+     "from": "Jim",
+     "text": "Na, da bin ich mir nicht so sicher!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Da musst du mir einfach vertrauen."
+    },
+    {
+     "from": "Jim",
+     "text": "Sind die so, na ja, beschützerisch?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Na ja, nein."
+    },
+    {
+     "from": "Ellen",
+     "text": "Die können teilen."
+    },
+    {
+     "from": "Jim",
+     "text": "Das ist gut."
+    },
+    {
+     "from": "Jim",
+     "text": "Ich geb mir Mühe, einen guten Eindruck zu machen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wie man so schön sagt: Für den ersten Eindruck gibt es keine zweite Chance."
+    },
+    {
+     "from": "Jim",
+     "text": "Ich weiß. Sie werden mich mögen, versprochen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ach, eins noch."
+    },
+    {
+     "from": "Jim",
+     "text": "Was denn?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Kein Parfüm."
+    },
+    {
+     "from": "Jim",
+     "text": "Sind sie allergisch?"
+    },
+    {
+     "from": "Ellen",
+     "text": "So ungefähr."
+    },
+    {
+     "from": "Jim",
+     "text": "Okay. Kein Problem."
+    },
+    {
+     "from": "Jim",
+     "text": "------"
+    },
+    {
+     "from": "Jim",
+     "text": "Freitagnachmittag"
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Hi, bist du so weit?"
+    },
+    {
+     "from": "Jim",
+     "text": "Ich mach mich gleich auf den Weg."
+    },
+    {
+     "from": "Ellen",
+     "text": "Super! Sie freuen sich schon alle auf dich."
+    },
+    {
+     "from": "Ellen",
+     "text": "…. darauf, dich zu sehen."
+    },
+    {
+     "from": "Jim",
+     "text": "Ich freu mich auch, sie zu sehen!"
+    },
+    {
+     "from": "Jim",
+     "text": "Und, was gibt’s zum Abendessen?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Wahrscheinlich Steak."
+    },
+    {
+     "from": "Ellen",
+     "text": "Meine Mutter liebt Steak. Mein Vater auch."
+    },
+    {
+     "from": "Ellen",
+     "text": "Na ja, alle."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wir sind alle Steakesser."
+    },
+    {
+     "from": "Jim",
+     "text": "Dann gibt’s wohl Steak!"
+    },
+    {
+     "from": "Jim",
+     "text": "Gut, dass ich kein Vegetarier bin!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Gut, dass wir keine sind!"
+    },
+    {
+     "from": "Jim",
+     "text": "Wird bestimmt super."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wird es, meine Mutter kocht super."
+    },
+    {
+     "from": "Jim",
+     "text": "Soll ich dich um halb sieben abholen?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Nein, du kannst direkt zu ihnen fahren."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ich helf meinen Eltern bei den Vorbereitungen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Da gibt’s viel zu tun."
+    },
+    {
+     "from": "Jim",
+     "text": "Ja, kann ich mir vorstellen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie wollen grillen."
+    },
+    {
+     "from": "Jim",
+     "text": "Geil! Ich liebe Grillen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Du kannst auch gern etwas früher kommen."
+    },
+    {
+     "from": "Jim",
+     "text": "Wie früh?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Ich bin um vier da. Da könntest du kommen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Dann müssten sie sich nicht so beeilen."
+    },
+    {
+     "from": "Jim",
+     "text": "Okay. Kriege ich hin."
+    },
+    {
+     "from": "Ellen",
+     "text": "Super! Ich sag’s meiner Mutter. Sie wird sich freuen!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Meine Brüder und Schwestern auch!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Sie essen gern früh."
+    },
+    {
+     "from": "Jim",
+     "text": "Bestimmt dauert es, so viel Steak zu braten."
+    },
+    {
+     "from": "Ellen",
+     "text": "Die Vorbereitung dauert so lange."
+    },
+    {
+     "from": "Ellen",
+     "text": "Bevor man es brät."
+    },
+    {
+     "from": "Jim",
+     "text": "Marinieren oder so?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Nur das Schlachten. Du weißt schon, das Zerlegen …"
+    },
+    {
+     "from": "Jim",
+     "text": "Wow, das klingt ja, als hättet ihr da eine ganze Kuh!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Wohl kaum. Ich versprech dir, wir haben KEINE Kuh."
+    },
+    {
+     "from": "Jim",
+     "text": "Na, da bin ich ja erleichtert!"
+    },
+    {
+     "from": "Jim",
+     "text": "Klingt, als würde das ein geniales Abendessen."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wird es!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Es wird köstlich."
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen, ich bin echt froh, Teil deines Lebens zu sein."
+    },
+    {
+     "from": "Jim",
+     "text": "Und vielleicht sogar Teil deiner Familie."
+    },
+    {
+     "from": "Ellen",
+     "text": "Wir auch."
+    },
+    {
+     "from": "Ellen",
+     "text": "Meine Mutter sagt, ich hab einen guten Geschmack bei Männern."
+    }
+   ]
+  }
+ ]
+}

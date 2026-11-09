@@ -1,0 +1,415 @@
+{
+ "id": "first-impressions",
+ "title": "La primera impresión",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Ellen invita a su nuevo novio a cenar con su familia. La primera impresión lo es todo, así que Jim está un poco nervioso. Ellen, en cambio, no está preocupada. Su familia está convencida de que tiene buen gusto para los hombres.",
+ "parts": [
+  {
+   "prologue": "La familia de Ellen vive al final de un largo camino de grava, más allá del viejo granero del carnicero. No reciben muchas visitas. Cuando las reciben, sale toda la familia.",
+   "left": "Ellen",
+   "right": "Jim",
+   "wallpaper": [
+    "cutlery",
+    "candle",
+    "wineglass",
+    "heart",
+    "house",
+    "gift",
+    "people",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Ellen",
+     "text": "Me gustaría mucho que vinieras a cenar."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Claro!"
+    },
+    {
+     "from": "Ellen",
+     "text": "A casa de mis padres."
+    },
+    {
+     "from": "Jim",
+     "text": "Ya sé. Lo veía venir."
+    },
+    {
+     "from": "Ellen",
+     "text": "Creo que les gustarías."
+    },
+    {
+     "from": "Jim",
+     "text": "Tengo que admitir que estoy un poco nervioso."
+    },
+    {
+     "from": "Ellen",
+     "text": "No tienes por qué. Le vas a gustar a todos."
+    },
+    {
+     "from": "Jim",
+     "text": "¿A todos?"
+    },
+    {
+     "from": "Ellen",
+     "text": "A mis hermanos y hermanas."
+    },
+    {
+     "from": "Jim",
+     "text": "Van a estar todos."
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Claro! Todos quieren ser parte de esto."
+    },
+    {
+     "from": "Jim",
+     "text": "Vaya, a tu familia de verdad le gusta ser parte de tu vida."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sí, son así."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Cómo es tu mamá?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Va a estar bien. Le vas a gustar."
+    },
+    {
+     "from": "Ellen",
+     "text": "Le va a encantar que tengas «carne en los huesos» jaja"
+    },
+    {
+     "from": "Jim",
+     "text": "Todavía estoy tratando de bajarla."
+    },
+    {
+     "from": "Ellen",
+     "text": "Pero no lo vas a lograr para el próximo fin de semana, así que está bien."
+    },
+    {
+     "from": "Jim",
+     "text": "Sí."
+    },
+    {
+     "from": "Ellen",
+     "text": "Va a estar feliz de que encontré a alguien que me gustaría."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Que te gustaría?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Bueno, que me GUSTA."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Cuántos hermanos tienes?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Cinco, yo soy la mayor."
+    },
+    {
+     "from": "Jim",
+     "text": "Bueno, eso por lo menos está bien."
+    },
+    {
+     "from": "Ellen",
+     "text": "Supongo. Es una responsabilidad."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sabes, a veces tengo que cuidarlos."
+    },
+    {
+     "from": "Ellen",
+     "text": "Asegurarme de que coman."
+    },
+    {
+     "from": "Jim",
+     "text": "Bueno, al menos ya eres mayor. Puedes tener tu propia vida."
+    },
+    {
+     "from": "Ellen",
+     "text": "Es cierto."
+    },
+    {
+     "from": "Jim",
+     "text": "De todos modos, tu familia suena agradable."
+    },
+    {
+     "from": "Ellen",
+     "text": "Son agradables."
+    },
+    {
+     "from": "Ellen",
+     "text": "Como te dije, le vas a gustar a todos."
+    },
+    {
+     "from": "Ellen",
+     "text": "Tienen buen gusto."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Bueno, eso no lo sé!"
+    },
+    {
+     "from": "Ellen",
+     "text": "En esto tienes que confiar en mí."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Van a ser, no sé, sobreprotectores?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Pues no."
+    },
+    {
+     "from": "Ellen",
+     "text": "Saben compartir."
+    },
+    {
+     "from": "Jim",
+     "text": "Qué bueno."
+    },
+    {
+     "from": "Jim",
+     "text": "Voy a hacer lo posible por dar una buena impresión."
+    },
+    {
+     "from": "Ellen",
+     "text": "Como dicen, solo tienes una oportunidad de dar una primera impresión."
+    },
+    {
+     "from": "Jim",
+     "text": "Ya sé. Les voy a caer bien, te lo prometo."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ah, una cosa."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Qué?"
+    },
+    {
+     "from": "Ellen",
+     "text": "No te pongas colonia."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Son alérgicos?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Algo así."
+    },
+    {
+     "from": "Jim",
+     "text": "Ok. No hay problema."
+    },
+    {
+     "from": "Jim",
+     "text": "------"
+    },
+    {
+     "from": "Jim",
+     "text": "Viernes por la tarde"
+    },
+    {
+     "from": "Jim",
+     "text": "¿Ellen?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Hola, ¿ya estás listo?"
+    },
+    {
+     "from": "Jim",
+     "text": "Salgo para allá en un rato."
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Genial! Todos tienen muchas ganas de comerte."
+    },
+    {
+     "from": "Ellen",
+     "text": "….de conocerte."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Yo también tengo ganas de conocerlos!"
+    },
+    {
+     "from": "Jim",
+     "text": "Entonces, ¿qué vamos a cenar?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Bistec, seguramente."
+    },
+    {
+     "from": "Ellen",
+     "text": "A mi mamá le encanta el bistec. A mi papá también."
+    },
+    {
+     "from": "Ellen",
+     "text": "Bueno, a todos."
+    },
+    {
+     "from": "Ellen",
+     "text": "Todos somos muy de bistec."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Entonces supongo que será bistec!"
+    },
+    {
+     "from": "Jim",
+     "text": "¡Menos mal que no soy vegetariano!"
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Menos mal que nosotros tampoco!"
+    },
+    {
+     "from": "Jim",
+     "text": "Seguro que va a estar buenísimo."
+    },
+    {
+     "from": "Ellen",
+     "text": "Sí, mi mamá cocina muy bien."
+    },
+    {
+     "from": "Jim",
+     "text": "Entonces, ¿paso por ti a las 6:30?"
+    },
+    {
+     "from": "Ellen",
+     "text": "No, puedes ir directo a su casa."
+    },
+    {
+     "from": "Ellen",
+     "text": "Estoy ayudando a mis padres a preparar todo."
+    },
+    {
+     "from": "Ellen",
+     "text": "Hay mucho que hacer."
+    },
+    {
+     "from": "Jim",
+     "text": "Sí, me imagino."
+    },
+    {
+     "from": "Ellen",
+     "text": "Van a hacer una parrillada."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Genial! Me encanta la parrillada."
+    },
+    {
+     "from": "Ellen",
+     "text": "De hecho, puedes venir un poco antes, si quieres."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Qué tan antes?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Yo voy a estar ahí a las cuatro. Podrías venir a esa hora."
+    },
+    {
+     "from": "Ellen",
+     "text": "Así no tendrían que apurarse."
+    },
+    {
+     "from": "Jim",
+     "text": "Ok. Puedo hacerlo."
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Genial! Le voy a decir a mi mamá. ¡Se va a poner feliz!"
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Y mis hermanos también!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Les gusta comer temprano."
+    },
+    {
+     "from": "Jim",
+     "text": "Seguro que se tarda en cocinar tanto bistec."
+    },
+    {
+     "from": "Ellen",
+     "text": "Lo que lleva tiempo es prepararlo."
+    },
+    {
+     "from": "Ellen",
+     "text": "Antes de cocinarlo."
+    },
+    {
+     "from": "Jim",
+     "text": "¿Como marinarlo o algo así?"
+    },
+    {
+     "from": "Ellen",
+     "text": "No, descuartizarlo. Ya sabes, cortarlo en pedazos…"
+    },
+    {
+     "from": "Jim",
+     "text": "¡Vaya, lo dices como si tuvieran una vaca entera ahí!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Para nada. Te lo prometo, NO tenemos ninguna vaca."
+    },
+    {
+     "from": "Jim",
+     "text": "¡Qué alivio!"
+    },
+    {
+     "from": "Jim",
+     "text": "Suena a que va a ser una cena increíble."
+    },
+    {
+     "from": "Ellen",
+     "text": "¡Lo será!"
+    },
+    {
+     "from": "Ellen",
+     "text": "Va a estar deliciosa."
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen, estoy muy feliz de ser parte de tu vida."
+    },
+    {
+     "from": "Jim",
+     "text": "Y quizá hasta parte de tu familia."
+    },
+    {
+     "from": "Ellen",
+     "text": "Nosotros también."
+    },
+    {
+     "from": "Ellen",
+     "text": "Mi mamá dice que tengo buen gusto para los hombres."
+    }
+   ]
+  }
+ ]
+}

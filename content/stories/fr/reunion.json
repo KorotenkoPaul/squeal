@@ -1,0 +1,400 @@
+{
+ "id": "reunion",
+ "title": "Retrouvailles",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 3,
+ "description": "Un midi, à l’heure du déjeuner, Emily tombe sur quelqu’un qu’elle a connu des années plus tôt au collège. Ce n’est qu’après l’avoir invité à une soirée qu’elle découvre que c’est un tueur en série.",
+ "parts": [
+  {
+   "prologue": "Le collège, c’était il y a longtemps. Emily en garde un bon souvenir — les fêtes, les copains, le garçon discret que tout le monde appelait Kenny le Taré. Elle n’avait plus pensé à lui depuis des années.",
+   "left": "Mike",
+   "right": "Emily",
+   "wallpaper": [
+    "book",
+    "cutlery",
+    "balloon",
+    "music",
+    "phone",
+    "star",
+    "question",
+    "coffee",
+    "house"
+   ],
+   "messages": [
+    {
+     "from": "Mike",
+     "text": "Emily ! Ça fait une éternité que j’ai pas eu de tes nouvelles !"
+    },
+    {
+     "from": "Emily",
+     "text": "Salut, Mike. Il FALLAIT que je te le dise…"
+    },
+    {
+     "from": "Emily",
+     "text": "Tu vas JAMAIS croire sur qui je suis tombée ce midi."
+    },
+    {
+     "from": "Mike",
+     "text": "Qui ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Devine !"
+    },
+    {
+     "from": "Mike",
+     "text": "J’en ai aucune idée."
+    },
+    {
+     "from": "Emily",
+     "text": "Non, devine !"
+    },
+    {
+     "from": "Mike",
+     "text": "Charlie ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Hein ? Non, pourquoi Charlie ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Je sais pas. Il bosse en centre-ville."
+    },
+    {
+     "from": "Emily",
+     "text": "C’est pas Charlie."
+    },
+    {
+     "from": "Emily",
+     "text": "Devine encore."
+    },
+    {
+     "from": "Mike",
+     "text": "Pourquoi t’en fais tout un plat ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Parce que c’est dingue. Je l’invite à la soirée ce soir."
+    },
+    {
+     "from": "Mike",
+     "text": "QUI ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Tu te souviens du petit Kenny… au collège ? Le gamin ringard ?"
+    },
+    {
+     "from": "Mike",
+     "text": "QUOI ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Je suis tombée sur lui !"
+    },
+    {
+     "from": "Emily",
+     "text": "C’est dingue, non ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Non, c’est PAS dingue."
+    },
+    {
+     "from": "Mike",
+     "text": "T’es pas au courant pour lui, hein ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Je pensais que t’en aurais entendu parler."
+    },
+    {
+     "from": "Mike",
+     "text": "Ça passe en boucle aux infos : il est recherché."
+    },
+    {
+     "from": "Emily",
+     "text": "Comment ça, « recherché » ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Par la police. Le FBI."
+    },
+    {
+     "from": "Emily",
+     "text": "C’est n’importe quoi !"
+    },
+    {
+     "from": "Mike",
+     "text": "Comment tu peux PAS être au courant ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Tu rigoles."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily, il est recherché pour meurtre."
+    },
+    {
+     "from": "Emily",
+     "text": "C’est n’importe quoi. Je sais qu’il était bizarre, mais c’était il y a longtemps."
+    },
+    {
+     "from": "Mike",
+     "text": "Je suis sérieux ! C’était aux infos !"
+    },
+    {
+     "from": "Emily",
+     "text": "Je regarde pas les infos."
+    },
+    {
+     "from": "Mike",
+     "text": "Tu l’invites vraiment chez toi ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Il sait où t’habites ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Je te l’ai dit, je fais une soirée. Dans deux heures."
+    },
+    {
+     "from": "Emily",
+     "text": "Et puis, il avait pas l’air de quelqu’un qui est recherché."
+    },
+    {
+     "from": "Emily",
+     "text": "Alors tu te trompes peut-être."
+    },
+    {
+     "from": "Emily",
+     "text": "C’était peut-être juste quelqu’un avec le même nom."
+    },
+    {
+     "from": "Mike",
+     "text": "C’était LUI. Tu te souviens pas à quel point il était bizarre ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Attends… on sonne à la porte."
+    },
+    {
+     "from": "Mike",
+     "text": "C’est lui ???"
+    },
+    {
+     "from": "Mike",
+     "text": "Il est déjà là ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Je croyais qu’il venait plus tard !!"
+    },
+    {
+     "from": "Emily",
+     "text": "Bah… il est venu en avance."
+    },
+    {
+     "from": "Mike",
+     "text": "Il est là ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Oui."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily, faut que tu te tires de là !"
+    },
+    {
+     "from": "Emily",
+     "text": "T’es sûr de toi pour lui ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Oui !"
+    },
+    {
+     "from": "Emily",
+     "text": "Franchement, je crois que tu te trompes. Il est assis juste en face de moi."
+    },
+    {
+     "from": "Mike",
+     "text": "Tu peux sortir de là ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Essaie pas de m’affoler."
+    },
+    {
+     "from": "Mike",
+     "text": "Reste calme. Qu’est-ce qu’il dit ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Il me demande comment je vais."
+    },
+    {
+     "from": "Mike",
+     "text": "Dis-lui que ça va."
+    },
+    {
+     "from": "Emily",
+     "text": "C’est fait, et je lui ai dit que j’écrivais à ma mère."
+    },
+    {
+     "from": "Emily",
+     "text": "Je crois qu’il t’aimait pas, à l’époque."
+    },
+    {
+     "from": "Mike",
+     "text": "Je vais appeler la police"
+    },
+    {
+     "from": "Emily",
+     "text": "Il a rien fait."
+    },
+    {
+     "from": "Mike",
+     "text": "À part des meurtres ! Tire-toi tant que tu peux !"
+    },
+    {
+     "from": "Emily",
+     "text": "Je vais pas faire ça."
+    },
+    {
+     "from": "Emily",
+     "text": "Il est poli."
+    },
+    {
+     "from": "Emily",
+     "text": "Il a dit que ça lui faisait plaisir de me voir. Tu vois, il est gentil."
+    },
+    {
+     "from": "Mike",
+     "text": "Hein ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Il dit qu’il a pas revu grand monde du collège."
+    },
+    {
+     "from": "Emily",
+     "text": "Il dit que c’était pas une bonne période pour lui."
+    },
+    {
+     "from": "Mike",
+     "text": "Ouais. C’était un ringard."
+    },
+    {
+     "from": "Emily",
+     "text": "Il dit que personne l’aimait."
+    },
+    {
+     "from": "Emily",
+     "text": "Mike… ça le met en colère d’en parler."
+    },
+    {
+     "from": "Mike",
+     "text": "Reste calme."
+    },
+    {
+     "from": "Emily",
+     "text": "Je le vois sur son visage."
+    },
+    {
+     "from": "Mike",
+     "text": "Tu vois quoi ?"
+    },
+    {
+     "from": "Emily",
+     "text": "À quel point il est en colère. Il est tout rouge."
+    },
+    {
+     "from": "Emily",
+     "text": "Il a dit qu’il détestait tout le monde."
+    },
+    {
+     "from": "Emily",
+     "text": "Mais il a dit qu’il détesterait plus."
+    },
+    {
+     "from": "Mike",
+     "text": "Qu’est-ce qu’il veut dire ?"
+    },
+    {
+     "from": "Emily",
+     "text": "Ben…"
+    },
+    {
+     "from": "Emily",
+     "text": "Il a dit que ça allait mieux."
+    },
+    {
+     "from": "Emily",
+     "text": "Il s’est débarrassé des méchants, il dit."
+    },
+    {
+     "from": "Emily",
+     "text": "… de la plupart des méchants"
+    },
+    {
+     "from": "Mike",
+     "text": "Il s’en est DÉBARRASSÉ ?"
+    },
+    {
+     "from": "Emily",
+     "text": "C’est ce qu’il a dit."
+    },
+    {
+     "from": "Emily",
+     "text": "« La plupart. »"
+    },
+    {
+     "from": "Emily",
+     "text": "Il a dit qu’il en restait quelques-uns."
+    },
+    {
+     "from": "Mike",
+     "text": "Quelques-uns…"
+    },
+    {
+     "from": "Emily",
+     "text": "Des gens qu’il aimait pas. Du collège."
+    },
+    {
+     "from": "Mike",
+     "text": "Quels gens ?"
+    },
+    {
+     "from": "Mike",
+     "text": "On était gentils avec lui, non ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Je m’en souviens plus trop."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily ?"
+    },
+    {
+     "from": "Mike",
+     "text": "On était gentils avec lui, hein ?"
+    },
+    {
+     "from": "Mike",
+     "text": "Emily ?"
+    }
+   ]
+  }
+ ]
+}

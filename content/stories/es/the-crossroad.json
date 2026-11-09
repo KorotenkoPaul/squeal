@@ -1,0 +1,597 @@
+{
+ "id": "the-crossroad",
+ "title": "La encrucijada",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Mia quiere aprovecharse de un contrato prenupcial con su esposo millonario, Jones. Le tiende una trampa para quedarse con toda su fortuna y disfrutar la vida con su novio, Dan. ¡Pero las cosas se salen de control y todos acaban boquiabiertos!",
+ "parts": [
+  {
+   "prologue": "Mia se casó con Jones por amor, o eso le dijo al abogado que redactó el acuerdo prenupcial. El primero que sea infiel lo pierde todo. Mia tiene un plan para asegurarse de que no sea ella.",
+   "left": "Mia",
+   "right": "Dan",
+   "wallpaper": [
+    "camera",
+    "fork",
+    "ring",
+    "dollar",
+    "briefcase",
+    "heart",
+    "wineglass",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Mia",
+     "text": "Hola, cariño."
+    },
+    {
+     "from": "Mia",
+     "text": "Ya le tendí la trampa a mi esposo."
+    },
+    {
+     "from": "Dan",
+     "text": "Eres una perra. ;P"
+    },
+    {
+     "from": "Dan",
+     "text": "Me impresionas."
+    },
+    {
+     "from": "Mia",
+     "text": "No lo habría logrado sin ti."
+    },
+    {
+     "from": "Dan",
+     "text": "Yo solo puse la guinda."
+    },
+    {
+     "from": "Mia",
+     "text": "Sí, pero esa bomba de Sandy que me recomendaste."
+    },
+    {
+     "from": "Mia",
+     "text": "Apuesto a que a mi esposo se le va a caer la baba en cuanto la vea."
+    },
+    {
+     "from": "Dan",
+     "text": "Jajaja…"
+    },
+    {
+     "from": "Mia",
+     "text": "Sí, es un perdedor."
+    },
+    {
+     "from": "Dan",
+     "text": "Sandy es la mejor en el negocio."
+    },
+    {
+     "from": "Mia",
+     "text": "Estamos tan cerca de nuestro sueño, Dan."
+    },
+    {
+     "from": "Mia",
+     "text": "Me muero por echarle mano al dinero de ese vejestorio."
+    },
+    {
+     "from": "Dan",
+     "text": "Sí, todo el dinero será nuestro."
+    },
+    {
+     "from": "Mia",
+     "text": "Sí, en cuanto lo atrapemos con los pantalones bajados, literalmente."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Sabes lo que pienso a veces?"
+    },
+    {
+     "from": "Mia",
+     "text": "¿Qué?"
+    },
+    {
+     "from": "Dan",
+     "text": "Qué idiota es tu esposo."
+    },
+    {
+     "from": "Dan",
+     "text": "Es millonario y aun así firmó un contrato así."
+    },
+    {
+     "from": "Mia",
+     "text": "En ese entonces estaba cegado por mi amor."
+    },
+    {
+     "from": "Mia",
+     "text": "Acordamos que no nos seríamos infieles."
+    },
+    {
+     "from": "Dan",
+     "text": "Y cuando lo atrapemos engañándote… ¡zas!"
+    },
+    {
+     "from": "Mia",
+     "text": "Ahí viene el dinero."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Cuánto le pagaste a Sandy?"
+    },
+    {
+     "from": "Mia",
+     "text": "Acordamos 50 mil."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Ya le pagaste?"
+    },
+    {
+     "from": "Mia",
+     "text": "Dudaba en pagarle todo."
+    },
+    {
+     "from": "Mia",
+     "text": "Pero tuve que hacerlo, no había opción."
+    },
+    {
+     "from": "Dan",
+     "text": "Ok."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Y tu abogada?"
+    },
+    {
+     "from": "Mia",
+     "text": "Ella también está lista."
+    },
+    {
+     "from": "Mia",
+     "text": "Ay, estoy tan emocionada."
+    },
+    {
+     "from": "Dan",
+     "text": "¡Y yo, querida, y yo!"
+    },
+    {
+     "from": "Mia",
+     "text": "Entonces, este es el plan."
+    },
+    {
+     "from": "Mia",
+     "text": "Sandy le organizó una cita para mañana."
+    },
+    {
+     "from": "Mia",
+     "text": "Se van a ver en un hotel."
+    },
+    {
+     "from": "Mia",
+     "text": "Sandy va a seducir a Jones y va a tomar algunas fotos como prueba."
+    },
+    {
+     "from": "Mia",
+     "text": "Nos va a mandar las fotos al día siguiente."
+    },
+    {
+     "from": "Mia",
+     "text": "Luego te toca a ti."
+    },
+    {
+     "from": "Dan",
+     "text": "Voy a tener listo nuestro transporte."
+    },
+    {
+     "from": "Dan",
+     "text": "Y nos vamos directo a la Isla."
+    },
+    {
+     "from": "Mia",
+     "text": "Y mi abogada se encarga de limpiar todo."
+    },
+    {
+     "from": "Mia",
+     "text": "Supongo que entonces lo tenemos todo atado."
+    },
+    {
+     "from": "Mia",
+     "text": "Ahora es solo cuestión de tiempo."
+    },
+    {
+     "from": "Dan",
+     "text": "Sí, Jones va a quedar atado de pies y manos."
+    },
+    {
+     "from": "Dan",
+     "text": "De todas las formas posibles."
+    }
+   ]
+  },
+  {
+   "prologue": "Jones construyó su fortuna con una sola regla: nunca confíes en nadie que te llame cariño. Esta noche, una desconocida le escribe con una oferta.",
+   "left": "Sandy",
+   "right": "Jones",
+   "wallpaper": [
+    "dollar",
+    "briefcase",
+    "document",
+    "key",
+    "ring",
+    "house",
+    "wineglass",
+    "lock"
+   ],
+   "messages": [
+    {
+     "from": "Sandy",
+     "text": "Hola, Jones."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Quién eres?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Alguien a quien tu esposa, Mia, acaba de pagarle 100 mil."
+    },
+    {
+     "from": "Sandy",
+     "text": "Para tener un amorío contigo."
+    },
+    {
+     "from": "Jones",
+     "text": "Qué tontería."
+    },
+    {
+     "from": "Sandy",
+     "text": "No te preocupes."
+    },
+    {
+     "from": "Sandy",
+     "text": "Tengo un plan para darle la vuelta a la situación."
+    },
+    {
+     "from": "Jones",
+     "text": "No te creo."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Por qué me cuentas todo esto?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Yo trabajo por dinero, Jones"
+    },
+    {
+     "from": "Sandy",
+     "text": "Tu esposa solo me pagó 30 mil del total."
+    },
+    {
+     "from": "Sandy",
+     "text": "Y no estoy muy segura de que vaya a pagarme el resto."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Y qué me sugieres?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Puedo darle la vuelta a la situación."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Cómo?"
+    },
+    {
+     "from": "Jones",
+     "text": "¿Y a qué precio?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Con descuento… 150 mil."
+    },
+    {
+     "from": "Jones",
+     "text": "Eres una puta."
+    },
+    {
+     "from": "Sandy",
+     "text": "Tsk, tsk."
+    },
+    {
+     "from": "Sandy",
+     "text": "Yo que tú no diría eso."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Qué quieres decir?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Sé que firmaste un contrato con tu esposa."
+    },
+    {
+     "from": "Sandy",
+     "text": "El que sea descubierto siendo infiel… lo pierde todo."
+    },
+    {
+     "from": "Sandy",
+     "text": "Y si no me equivoco, ella tiene una buena parte de tu patrimonio."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Qué estás sugiriendo?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Solo digo: ¿y si eres tú quien la descubre a ella siendo infiel?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Lo recuperarías todo."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Cómo?"
+    },
+    {
+     "from": "Jones",
+     "text": "Primero tendría que encontrar a un tipo y luego tenderle una trampa."
+    },
+    {
+     "from": "Sandy",
+     "text": "Ese es el punto, jones."
+    },
+    {
+     "from": "Sandy",
+     "text": "No tienes que encontrar a un tipo."
+    },
+    {
+     "from": "Sandy",
+     "text": "Solo tienes que encontrar «al» tipo."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Quieres decir que ya hay alguien?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Sí, y ya estoy en contacto con él."
+    },
+    {
+     "from": "Sandy",
+     "text": "Y puedo conseguir todas las pruebas para los tribunales."
+    },
+    {
+     "from": "Jones",
+     "text": "¿Por qué debería confiar en una mujer como tú?"
+    },
+    {
+     "from": "Sandy",
+     "text": "No tienes opción, querido."
+    },
+    {
+     "from": "Jones",
+     "text": "No confío en ti."
+    },
+    {
+     "from": "Sandy",
+     "text": "¡El reloj corre, Jones, cariño!"
+    },
+    {
+     "from": "Sandy",
+     "text": "150 mil son una miseria comparados con su patrimonio."
+    },
+    {
+     "from": "Jones",
+     "text": "Y si digo que no."
+    },
+    {
+     "from": "Jones",
+     "text": "Ya conozco su plan, quedaste expuesta."
+    },
+    {
+     "from": "Jones",
+     "text": "¡Ya gané!"
+    },
+    {
+     "from": "Jones",
+     "text": "Sin gastar ni un centavo."
+    },
+    {
+     "from": "Sandy",
+     "text": "Jajajaja."
+    },
+    {
+     "from": "Sandy",
+     "text": "Qué ingenuo eres, jones."
+    },
+    {
+     "from": "Sandy",
+     "text": "A ver, ¿cuáles quieres que te mande?"
+    },
+    {
+     "from": "Jones",
+     "text": "No tienes nada contra mí."
+    },
+    {
+     "from": "Sandy",
+     "text": "Tengo fotos comprometedoras de ti divirtiéndote."
+    },
+    {
+     "from": "Sandy",
+     "text": "Emily, Sandra, Kylie, Jane…."
+    },
+    {
+     "from": "Sandy",
+     "text": "¿Cuáles te gustaría ver?"
+    },
+    {
+     "from": "Jones",
+     "text": "¡Dios mío! Debí imaginarlo."
+    },
+    {
+     "from": "Jones",
+     "text": "Está bien, tendrás tu dinero."
+    },
+    {
+     "from": "Sandy",
+     "text": "150 mil, antes de las 8 de esta noche."
+    }
+   ]
+  },
+  {
+   "prologue": "Todo el mundo tiene un precio. Dan estaba seguro de conocer el de Sandy.",
+   "left": "Dan",
+   "right": "Sandy",
+   "wallpaper": [
+    "dollar",
+    "heart",
+    "wineglass",
+    "ring",
+    "globe",
+    "suitcase",
+    "star",
+    "plane"
+   ],
+   "messages": [
+    {
+     "from": "Dan",
+     "text": "Hola, cariño, ¿cómo va la actuación?"
+    },
+    {
+     "from": "Sandy",
+     "text": "¡Genial! Los dos son unos tontos."
+    },
+    {
+     "from": "Sandy",
+     "text": "Tengo 200 mil en mi cuenta."
+    },
+    {
+     "from": "Dan",
+     "text": "Perfecto."
+    },
+    {
+     "from": "Dan",
+     "text": "Te he extrañado muchísimo."
+    },
+    {
+     "from": "Sandy",
+     "text": "¿Por qué?"
+    },
+    {
+     "from": "Sandy",
+     "text": "O sea que Mia no logra satisfacerte ;P."
+    },
+    {
+     "from": "Dan",
+     "text": "Sí, tú eres maravillosa."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Y cuándo nos vemos?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Mira, este mundo es cruel, Dan."
+    },
+    {
+     "from": "Dan",
+     "text": "Sí, ya lo sé."
+    },
+    {
+     "from": "Dan",
+     "text": "Son marido y mujer, y lo único que les importa es el dinero."
+    },
+    {
+     "from": "Sandy",
+     "text": "No, no lo entiendes."
+    },
+    {
+     "from": "Sandy",
+     "text": "Solo pensaba en lo mal que te va a ir a ti."
+    },
+    {
+     "from": "Dan",
+     "text": "¿Qué, amor?"
+    },
+    {
+     "from": "Sandy",
+     "text": "Que vas a tener que vivir con la aburrida de Mia."
+    },
+    {
+     "from": "Dan",
+     "text": "Pero eso es temporal, y luego voy a estar contigo."
+    },
+    {
+     "from": "Sandy",
+     "text": "El mundo es tan cruel, Dan."
+    },
+    {
+     "from": "Sandy",
+     "text": "Nunca me vas a volver a ver, querido."
+    },
+    {
+     "from": "Sandy",
+     "text": "Estoy en el aeropuerto."
+    },
+    {
+     "from": "Dan",
+     "text": "Eres una puta."
+    },
+    {
+     "from": "Sandy",
+     "text": "Jaja… una orgullosa y exitosa."
+    },
+    {
+     "from": "Dan",
+     "text": "Tenías razón, Sandy."
+    },
+    {
+     "from": "Dan",
+     "text": "Este mundo es un lugar cruel."
+    },
+    {
+     "from": "Dan",
+     "text": "Una puta siempre será una puta."
+    },
+    {
+     "from": "Dan",
+     "text": "Así que hice mi tarea."
+    },
+    {
+     "from": "Sandy",
+     "text": "¿Qué quieres decir?"
+    },
+    {
+     "from": "Dan",
+     "text": "Mira a tu alrededor, preciosa."
+    },
+    {
+     "from": "Dan",
+     "text": "Estás rodeada de guardias de seguridad."
+    },
+    {
+     "from": "Dan",
+     "text": "Jones lo planeó todo de maravilla."
+    },
+    {
+     "from": "Dan",
+     "text": "Se deshizo de su esposa infiel, salvó su imperio y borró toda la mugre que había sobre él."
+    },
+    {
+     "from": "Dan",
+     "text": "Y todo esto sin costo alguno."
+    },
+    {
+     "from": "Dan",
+     "text": "Que la pases bien en la cárcel, cariño."
+    },
+    {
+     "from": "Dan",
+     "text": "De verdad el mundo es un lugar cruel."
+    }
+   ]
+  }
+ ]
+}

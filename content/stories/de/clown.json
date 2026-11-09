@@ -1,0 +1,324 @@
+{
+ "id": "clown",
+ "title": "Der Clown",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 3,
+ "description": "Michael hasst Clowns – und jetzt bekommt er Nachrichten von einem sehr wütenden Zippo dem Clown. Zippo will doch nur Freunde sein, aber das läuft überhaupt nicht gut.",
+ "parts": [
+  {
+   "prologue": "Michael hasst Clowns seit seinem siebten Geburtstag, als einer uneingeladen auftauchte und nicht mehr gehen wollte. Er hat nie jemandem erzählt, was an jenem Nachmittag passiert ist. Irgendwer hat es offenbar trotzdem herausgefunden.",
+   "left": "Zippo",
+   "right": "Michael",
+   "wallpaper": [
+    "balloon",
+    "nose",
+    "flower",
+    "hat",
+    "door",
+    "house",
+    "phone",
+    "star",
+    "music"
+   ],
+   "messages": [
+    {
+     "from": "Zippo",
+     "text": "Hallo!"
+    },
+    {
+     "from": "Michael",
+     "text": "Wer ist da?"
+    },
+    {
+     "from": "Zippo",
+     "text": "FOTO EINES CLOWNS"
+    },
+    {
+     "from": "Michael",
+     "text": "Haha. Sehr witzig."
+    },
+    {
+     "from": "Zippo",
+     "text": "Ja, sehr witzig!"
+    },
+    {
+     "from": "Zippo",
+     "text": "DASSELBE CLOWNSFOTO."
+    },
+    {
+     "from": "Michael",
+     "text": "Okay, hör auf damit!"
+    },
+    {
+     "from": "Michael",
+     "text": "Ich mag keine Clowns."
+    },
+    {
+     "from": "Zippo",
+     "text": "Du magst keine Clowns?"
+    },
+    {
+     "from": "Zippo",
+     "text": "DASSELBE CLOWNSFOTO"
+    },
+    {
+     "from": "Zippo",
+     "text": "Du magst MICH nicht?"
+    },
+    {
+     "from": "Michael",
+     "text": "Das ist nicht witzig."
+    },
+    {
+     "from": "Zippo",
+     "text": "Aber du hast doch gerade gesagt, das ist sehr witzig!"
+    },
+    {
+     "from": "Michael",
+     "text": "Wer ist da? Eric?"
+    },
+    {
+     "from": "Zippo",
+     "text": "Ich bin Zippo der Clown!"
+    },
+    {
+     "from": "Michael",
+     "text": "Du bist Zippo der Nervige."
+    },
+    {
+     "from": "Zippo",
+     "text": "Ooooch, warum magst du keine Clowns?"
+    },
+    {
+     "from": "Michael",
+     "text": "Weil sie gruselig sind."
+    },
+    {
+     "from": "Zippo",
+     "text": "DASSELBE CLOWNSFOTO"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo ist nicht gruselig!"
+    },
+    {
+     "from": "Michael",
+     "text": "Ich hasse auch, wie sie aussehen."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo ist traurig."
+    },
+    {
+     "from": "Michael",
+     "text": "Hör auf, mir zu schreiben."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippos Gefühle sind verletzt."
+    },
+    {
+     "from": "Zippo",
+     "text": "Was haben dir Clowns denn je getan?"
+    },
+    {
+     "from": "Michael",
+     "text": "Lass mich in Ruhe!"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo findet, dass du unhöflich bist."
+    },
+    {
+     "from": "Michael",
+     "text": "Hör auf, mir zu schreiben!!!"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo wird langsam wütend."
+    },
+    {
+     "from": "Michael",
+     "text": "Du kannst mich nicht zwingen, Clowns zu mögen."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo will doch nur Freunde sein."
+    },
+    {
+     "from": "Michael",
+     "text": "Ist mir egal, lass mich in Ruhe!"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo ist SAUER auf Michael."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo ist ein guter Clown."
+    },
+    {
+     "from": "Michael",
+     "text": "Warum kannst du nicht einfach aufhören?"
+    },
+    {
+     "from": "Michael",
+     "text": "ICH WILL NIE WIEDER EINEN CLOWN SEHEN!"
+    },
+    {
+     "from": "Zippo",
+     "text": "Du wirst wieder einen Clown sehen."
+    },
+    {
+     "from": "Michael",
+     "text": "Niemals."
+    },
+    {
+     "from": "Michael",
+     "text": "Ich HASSE Clowns."
+    },
+    {
+     "from": "Zippo",
+     "text": "Du wirst heute einen sehen."
+    },
+    {
+     "from": "Michael",
+     "text": "Ich geh nirgendwohin."
+    },
+    {
+     "from": "Zippo",
+     "text": "Du wirst trotzdem heute einen sehen."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo kommt zu dir nach Hause."
+    },
+    {
+     "from": "Michael",
+     "text": "Bleib WEG von meinem Haus."
+    },
+    {
+     "from": "Zippo",
+     "text": "Und Zippo wird dich umbringen."
+    },
+    {
+     "from": "Michael",
+     "text": "Du weißt ja nicht mal, wo ich wohne."
+    },
+    {
+     "from": "Zippo",
+     "text": "Jazzman Drive 2712."
+    },
+    {
+     "from": "Michael",
+     "text": "Okay, weißt du also doch."
+    },
+    {
+     "from": "Michael",
+     "text": "Wag es ja NICHT, vor meiner Tür aufzutauchen, Clown."
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo will Michael kennenlernen."
+    },
+    {
+     "from": "Zippo",
+     "text": "Und ihm eine Lektion erteilen."
+    },
+    {
+     "from": "Michael",
+     "text": "Was?"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo will Michael umbringen."
+    },
+    {
+     "from": "Michael",
+     "text": "Mich UMBRINGEN?"
+    },
+    {
+     "from": "Zippo",
+     "text": "Zippo mag keine Leute, die zu Clowns unhöflich sind."
+    },
+    {
+     "from": "Michael",
+     "text": "Wenn ich dich vor meiner Tür sehe, rufe ich die Polizei."
+    },
+    {
+     "from": "Zippo",
+     "text": "Das wird nicht möglich sein, Michael."
+    },
+    {
+     "from": "Michael",
+     "text": "Warum?"
+    },
+    {
+     "from": "Zippo",
+     "text": "Weil Zippo schon in deinem Haus ist."
+    },
+    {
+     "from": "Zippo",
+     "text": "…und Zippo wird es nicht zulassen."
+    },
+    {
+     "from": "Michael",
+     "text": "Du bist NICHT in meinem Haus."
+    },
+    {
+     "from": "Zippo",
+     "text": "Gelbe Küchenfliesen sind sehr ungewöhnlich."
+    },
+    {
+     "from": "Michael",
+     "text": "Schaff dein Clownsgesicht RAUS aus meinem Haus."
+    },
+    {
+     "from": "Zippo",
+     "text": "Aber Zippo muss vorher noch etwas erledigen."
+    },
+    {
+     "from": "Michael",
+     "text": "Du hast hier nichts zu suchen."
+    },
+    {
+     "from": "Zippo",
+     "text": "Clowns sind jedermanns Freund."
+    },
+    {
+     "from": "Zippo",
+     "text": "Außer Michaels"
+    },
+    {
+     "from": "Michael",
+     "text": "Hau einfach ab!"
+    },
+    {
+     "from": "Zippo",
+     "text": "Wenn Zippo Michael umbringt…"
+    },
+    {
+     "from": "Zippo",
+     "text": "werden Clowns wieder jedermanns Freund sein."
+    },
+    {
+     "from": "Michael",
+     "text": "Bist du noch im Haus?"
+    },
+    {
+     "from": "Zippo",
+     "text": "Dreh dich um, Michael…"
+    },
+    {
+     "from": "Zippo",
+     "text": "…und sieh selbst."
+    },
+    {
+     "from": "Zippo",
+     "text": "DASSELBE CLOWNSFOTO"
+    }
+   ]
+  }
+ ]
+}

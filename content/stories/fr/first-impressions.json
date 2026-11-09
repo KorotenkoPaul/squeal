@@ -1,0 +1,415 @@
+{
+ "id": "first-impressions",
+ "title": "Première impression",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Ellen invite son nouveau copain à dîner avec sa famille. La première impression, c’est tout, alors Jim est un peu nerveux. Ellen, elle, ne s’inquiète pas. Sa famille est convaincue qu’elle a bon goût en matière d’hommes.",
+ "parts": [
+  {
+   "prologue": "La famille d’Ellen vit au bout d’un long chemin de gravier, après la vieille grange du boucher. Ils n’ont pas beaucoup de visites. Quand quelqu’un vient, toute la famille est là.",
+   "left": "Ellen",
+   "right": "Jim",
+   "wallpaper": [
+    "cutlery",
+    "candle",
+    "wineglass",
+    "heart",
+    "house",
+    "gift",
+    "people",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Ellen",
+     "text": "J’aimerais vraiment que tu viennes dîner."
+    },
+    {
+     "from": "Jim",
+     "text": "OK !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Chez mes parents."
+    },
+    {
+     "from": "Jim",
+     "text": "Je sais. Je m’y attendais."
+    },
+    {
+     "from": "Ellen",
+     "text": "Je crois que tu vas leur plaire."
+    },
+    {
+     "from": "Jim",
+     "text": "Je dois avouer que je suis un peu nerveux."
+    },
+    {
+     "from": "Ellen",
+     "text": "T’as pas à l’être. Tu vas plaire à tout le monde."
+    },
+    {
+     "from": "Jim",
+     "text": "Tout le monde ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Mes frères et sœurs."
+    },
+    {
+     "from": "Jim",
+     "text": "Tout le monde va être là."
+    },
+    {
+     "from": "Ellen",
+     "text": "Évidemment ! Tout le monde veut en être."
+    },
+    {
+     "from": "Jim",
+     "text": "Waouh, ta famille aime vraiment faire partie de ta vie."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ouais, ils sont comme ça."
+    },
+    {
+     "from": "Jim",
+     "text": "Elle est comment, ta mère ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Elle sera cool. Tu vas lui plaire."
+    },
+    {
+     "from": "Ellen",
+     "text": "Elle va être contente que t’aies « un peu de viande sur les os » mdr"
+    },
+    {
+     "from": "Jim",
+     "text": "J’essaie toujours de la perdre."
+    },
+    {
+     "from": "Ellen",
+     "text": "Mais tu l’auras pas perdue d’ici le week-end prochain, donc ça va."
+    },
+    {
+     "from": "Jim",
+     "text": "Ouais."
+    },
+    {
+     "from": "Ellen",
+     "text": "Elle va être tellement contente que j’aie trouvé quelqu’un qui me plairait."
+    },
+    {
+     "from": "Jim",
+     "text": "Qui te plairait ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Enfin, qui me PLAÎT."
+    },
+    {
+     "from": "Jim",
+     "text": "T’as combien de frères et sœurs ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Cinq, je suis l’aînée."
+    },
+    {
+     "from": "Jim",
+     "text": "Bon, c’est déjà ça."
+    },
+    {
+     "from": "Ellen",
+     "text": "J’imagine. C’est une responsabilité."
+    },
+    {
+     "from": "Ellen",
+     "text": "Tu sais, des fois je dois m’occuper d’eux."
+    },
+    {
+     "from": "Ellen",
+     "text": "Veiller à ce qu’ils soient nourris."
+    },
+    {
+     "from": "Jim",
+     "text": "Bon, au moins maintenant t’es plus grande. Tu peux avoir ta propre vie."
+    },
+    {
+     "from": "Ellen",
+     "text": "C’est vrai."
+    },
+    {
+     "from": "Jim",
+     "text": "En tout cas, ta famille a l’air sympa."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ils sont sympas."
+    },
+    {
+     "from": "Ellen",
+     "text": "Comme je t’ai dit, tu vas plaire à tout le monde."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ils ont bon goût."
+    },
+    {
+     "from": "Jim",
+     "text": "Ça, j’en sais rien !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Fais-moi confiance là-dessus."
+    },
+    {
+     "from": "Jim",
+     "text": "Ils vont être, genre, protecteurs ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Bah, non."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ils savent partager."
+    },
+    {
+     "from": "Jim",
+     "text": "Tant mieux."
+    },
+    {
+     "from": "Jim",
+     "text": "Je vais faire de mon mieux pour faire bonne impression."
+    },
+    {
+     "from": "Ellen",
+     "text": "Comme on dit, on n’a jamais une deuxième chance de faire une première impression."
+    },
+    {
+     "from": "Jim",
+     "text": "Je sais. Je vais leur plaire, promis."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ah, un truc."
+    },
+    {
+     "from": "Jim",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Mets pas d’eau de Cologne."
+    },
+    {
+     "from": "Jim",
+     "text": "Ils sont allergiques ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "En quelque sorte."
+    },
+    {
+     "from": "Jim",
+     "text": "OK. Pas de problème."
+    },
+    {
+     "from": "Jim",
+     "text": "------"
+    },
+    {
+     "from": "Jim",
+     "text": "Vendredi après-midi"
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Coucou, t’es prêt ?"
+    },
+    {
+     "from": "Jim",
+     "text": "Je vais partir d’ici un petit moment."
+    },
+    {
+     "from": "Ellen",
+     "text": "Super ! Ils ont tous hâte de t’avoir."
+    },
+    {
+     "from": "Ellen",
+     "text": "….de te voir."
+    },
+    {
+     "from": "Jim",
+     "text": "Moi aussi, j’ai hâte de les voir !"
+    },
+    {
+     "from": "Jim",
+     "text": "Alors, on mange quoi ce soir ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Du steak, sûrement."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ma mère adore le steak. Mon père aussi."
+    },
+    {
+     "from": "Ellen",
+     "text": "Enfin, tout le monde."
+    },
+    {
+     "from": "Ellen",
+     "text": "On est tous des mangeurs de viande."
+    },
+    {
+     "from": "Jim",
+     "text": "Va pour du steak, alors !"
+    },
+    {
+     "from": "Jim",
+     "text": "Heureusement que je suis pas végétarien !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Heureusement qu’on l’est pas !"
+    },
+    {
+     "from": "Jim",
+     "text": "Je suis sûr que ça va être génial."
+    },
+    {
+     "from": "Ellen",
+     "text": "Oui, ma mère cuisine super bien."
+    },
+    {
+     "from": "Jim",
+     "text": "Alors, je passe te chercher à 18 h 30 ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Non, tu peux aller directement chez eux."
+    },
+    {
+     "from": "Ellen",
+     "text": "J’aide mes parents à tout préparer."
+    },
+    {
+     "from": "Ellen",
+     "text": "Y a beaucoup de boulot."
+    },
+    {
+     "from": "Jim",
+     "text": "Ouais, j’imagine."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ils vont faire un barbecue."
+    },
+    {
+     "from": "Jim",
+     "text": "Génial ! J’adore les barbecues."
+    },
+    {
+     "from": "Ellen",
+     "text": "Tu peux même venir un peu plus tôt, si tu veux."
+    },
+    {
+     "from": "Jim",
+     "text": "Tôt comment ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Je serai là-bas à quatre heures. Tu pourrais venir à ce moment-là."
+    },
+    {
+     "from": "Ellen",
+     "text": "Comme ça, ils auraient pas à se presser."
+    },
+    {
+     "from": "Jim",
+     "text": "OK. Ça marche."
+    },
+    {
+     "from": "Ellen",
+     "text": "Super ! Je vais le dire à ma mère. Elle va être contente !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Mes frères et sœurs aussi !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Ils aiment bien manger tôt."
+    },
+    {
+     "from": "Jim",
+     "text": "J’imagine que ça prend du temps de cuire autant de steak."
+    },
+    {
+     "from": "Ellen",
+     "text": "C’est la préparation qui prend du temps."
+    },
+    {
+     "from": "Ellen",
+     "text": "Avant la cuisson."
+    },
+    {
+     "from": "Jim",
+     "text": "Genre, le faire mariner ?"
+    },
+    {
+     "from": "Ellen",
+     "text": "Juste, la découpe. Tu sais, le débiter en morceaux…"
+    },
+    {
+     "from": "Jim",
+     "text": "Waouh, à t’entendre on dirait que vous avez une vache entière !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Pas vraiment. Je te promets, on n’a AUCUNE vache."
+    },
+    {
+     "from": "Jim",
+     "text": "Ouf, me voilà rassuré !"
+    },
+    {
+     "from": "Jim",
+     "text": "Ce dîner a l’air de s’annoncer génial."
+    },
+    {
+     "from": "Ellen",
+     "text": "Il le sera !"
+    },
+    {
+     "from": "Ellen",
+     "text": "Ça va être délicieux."
+    },
+    {
+     "from": "Jim",
+     "text": "Ellen, je suis vraiment heureux de faire partie de ta vie."
+    },
+    {
+     "from": "Jim",
+     "text": "Et peut-être même de ta famille."
+    },
+    {
+     "from": "Ellen",
+     "text": "Nous aussi."
+    },
+    {
+     "from": "Ellen",
+     "text": "Ma mère dit que j’ai bon goût en matière d’hommes."
+    }
+   ]
+  }
+ ]
+}

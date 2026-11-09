@@ -1,0 +1,488 @@
+{
+ "id": "the-doctor",
+ "title": "El doctor",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Josh, acampando solo y a kilómetros de la civilización, está herido y necesita ayuda médica con urgencia. Como no puede caminar hasta un lugar seguro, su amigo consigue que un doctor le dé indicaciones por mensaje.",
+ "parts": [
+  {
+   "prologue": "Josh se fue a la montaña a estar solo una semana: sin gente, sin planes, sin señal. El cuarto día se cayó. En la cresta sobre su tienda hay exactamente una rayita de señal.",
+   "left": "Doctor",
+   "right": "Josh",
+   "wallpaper": [
+    "tent",
+    "tree",
+    "bandage",
+    "lamp",
+    "backpack",
+    "compass",
+    "moon",
+    "phone",
+    "drop"
+   ],
+   "messages": [
+    {
+     "from": "Doctor",
+     "text": "Hola, Josh. Soy el doctor Beslow"
+    },
+    {
+     "from": "Josh",
+     "text": "Hola, doc. Gracias por escribirme."
+    },
+    {
+     "from": "Doctor",
+     "text": "Tu amigo Johnny me habló de ti, me dijo que tienes un problema."
+    },
+    {
+     "from": "Josh",
+     "text": "Sí, un problema grave. Estoy acampando. Estoy como en medio de la nada."
+    },
+    {
+     "from": "Josh",
+     "text": "O sea, muy lejos."
+    },
+    {
+     "from": "Josh",
+     "text": "Creo que me lastimé."
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Cómo?"
+    },
+    {
+     "from": "Josh",
+     "text": "No sé bien, es como en las costillas, por algún lado."
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Y nadie puede ayudarte?"
+    },
+    {
+     "from": "Josh",
+     "text": "Estoy solo. Tardarían días en llegar aquí."
+    },
+    {
+     "from": "Josh",
+     "text": "Y me duele muchísimo."
+    },
+    {
+     "from": "Josh",
+     "text": "Por eso Johnny te buscó."
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Dices que es por las costillas?"
+    },
+    {
+     "from": "Josh",
+     "text": "Está todo morado."
+    },
+    {
+     "from": "Doctor",
+     "text": "Suena bastante mal."
+    },
+    {
+     "from": "Josh",
+     "text": "Sí, ya sé. ¿Qué hago?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Bueno, hiciste bien en no intentar salir caminando."
+    },
+    {
+     "from": "Josh",
+     "text": "Pero me sigue doliendo."
+    },
+    {
+     "from": "Doctor",
+     "text": "Voy a tener que verlo mejor."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Cómo?"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Tienes un cuchillo?"
+    },
+    {
+     "from": "Josh",
+     "text": "Mi cuchillo de caza… ¿por qué?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Vas a tener que hacer algo por mí."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Cómo que «hacer algo»?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Vas a tener que hacer una incisión."
+    },
+    {
+     "from": "Josh",
+     "text": "¿QUÉ? ¡No puedo hacer eso!"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Quieres morirte ahí?"
+    },
+    {
+     "from": "Josh",
+     "text": "No."
+    },
+    {
+     "from": "Doctor",
+     "text": "Entonces vas a tener que hacer una incisión."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Y si sangra?"
+    },
+    {
+     "from": "Doctor",
+     "text": "No te preocupes por eso."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Cómo que no?"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Quién es el doctor aquí?"
+    },
+    {
+     "from": "Josh",
+     "text": "Tú, pero ¿no va a sangrar?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Claro que va a sangrar, pero eso es asunto mío."
+    },
+    {
+     "from": "Doctor",
+     "text": "Haz la incisión."
+    },
+    {
+     "from": "Doctor",
+     "text": "De izquierda a derecha."
+    },
+    {
+     "from": "Doctor",
+     "text": "De siete… no, de diez centímetros."
+    },
+    {
+     "from": "Doctor",
+     "text": "Luego muéstrame lo que hiciste."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Estás seguro de esto?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Muy seguro. Soy doctor, acuérdate."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Seguro que no hay otra forma?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Haz la incisión, Josh."
+    },
+    {
+     "from": "Josh",
+     "text": "Lo intentaré"
+    },
+    {
+     "from": "Josh",
+     "text": "Ok, ya hice la incisión."
+    },
+    {
+     "from": "Doctor",
+     "text": "Muy bien."
+    },
+    {
+     "from": "Doctor",
+     "text": "Ahora ábrela."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Qué?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Ábrela, para que puedas ver debajo de la piel."
+    },
+    {
+     "from": "Josh",
+     "text": "¡Pero eso me va a doler!"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Prefieres morirte?"
+    },
+    {
+     "from": "Josh",
+     "text": "No."
+    },
+    {
+     "from": "Doctor",
+     "text": "Separa la piel."
+    },
+    {
+     "from": "Josh",
+     "text": "Me va a doler muchísimo."
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Prefieres morirte?"
+    },
+    {
+     "from": "Josh",
+     "text": "No."
+    },
+    {
+     "from": "Doctor",
+     "text": "Ábrela."
+    },
+    {
+     "from": "Doctor",
+     "text": "¡Lo más que puedas!"
+    },
+    {
+     "from": "Josh",
+     "text": "No se abre tanto."
+    },
+    {
+     "from": "Doctor",
+     "text": "Tienes que hacer una incisión más grande."
+    },
+    {
+     "from": "Josh",
+     "text": "¿¿¿MÁS GRANDE???"
+    },
+    {
+     "from": "Doctor",
+     "text": "Como el doble de larga."
+    },
+    {
+     "from": "Josh",
+     "text": "Por favor, prefiero no hacerlo."
+    },
+    {
+     "from": "Doctor",
+     "text": "Tienes que hacerlo."
+    },
+    {
+     "from": "Doctor",
+     "text": "Hazlo rápido."
+    },
+    {
+     "from": "Josh",
+     "text": "Estoy sangrando por todos lados."
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Lo hiciste?"
+    },
+    {
+     "from": "Josh",
+     "text": "Sí."
+    },
+    {
+     "from": "Doctor",
+     "text": "Bien."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Qué crees que tengo, doctor?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Tienes una lesión bastante grave."
+    },
+    {
+     "from": "Josh",
+     "text": "Ya sé, pero ¿qué hago?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Creo que vamos a tener que operar."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Operar? ¿Cómo?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Vas a tener que operarte tú mismo."
+    },
+    {
+     "from": "Josh",
+     "text": "¿¿¿Qué???"
+    },
+    {
+     "from": "Doctor",
+     "text": "Creo que puedes."
+    },
+    {
+     "from": "Doctor",
+     "text": "No tienes opción. Con una herida así, te puedes desangrar."
+    },
+    {
+     "from": "Josh",
+     "text": "¡Pero tú me dijiste que lo hiciera!"
+    },
+    {
+     "from": "Doctor",
+     "text": "Y ahora quiero que hagas lo que te digo."
+    },
+    {
+     "from": "Josh",
+     "text": "¡No puedo operarme yo mismo!"
+    },
+    {
+     "from": "Josh",
+     "text": "¿No puedes venir en helicóptero y hacerlo tú?"
+    },
+    {
+     "from": "Doctor",
+     "text": "No seas ridículo."
+    },
+    {
+     "from": "Josh",
+     "text": "¿Más ridículo que operarme yo mismo?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Solo hace falta un poco de concentración."
+    },
+    {
+     "from": "Josh",
+     "text": "¡Hace falta MUCHO más que eso!"
+    },
+    {
+     "from": "Doctor",
+     "text": "¡Haz lo que te digo! ¡Yo soy el doctor!"
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Qué clase de doctor?"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Me estás cuestionando?"
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "Sí. ¿Qué clase de doctor?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Quizá debería dejarte así."
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Serías capaz?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Soy doctor."
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "No creo que lo seas."
+    },
+    {
+     "from": "Doctor",
+     "text": "Tienes una incisión enorme en el estómago."
+    },
+    {
+     "from": "Doctor",
+     "text": "Así que más te vale esperar que sí sea doctor."
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Eres doctor?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Soy la única oportunidad que tienes."
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "Pero ¿eres doctor?"
+    },
+    {
+     "from": "Doctor",
+     "text": "Ahora mándame otra foto."
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Por qué no me contestas?"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Por qué otra cosa te pediría que te abrieras?"
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "POR FAVOR, dime que eres doctor"
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Hola?"
+    },
+    {
+     "from": "Doctor",
+     "text": "John"
+    },
+    {
+     "from": "Doctor",
+     "text": "¿Hola?"
+    }
+   ]
+  }
+ ]
+}

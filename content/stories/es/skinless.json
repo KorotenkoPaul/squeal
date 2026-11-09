@@ -1,0 +1,391 @@
+{
+  "id": "skinless",
+  "title": "Sin piel",
+  "author": "Rich Samuels",
+  "genre": "horror",
+  "fear": 5,
+  "description": "Joe descubre que puede arrancarse una costra del brazo sin sentir ningún dolor. Naturalmente, sigue pelándose y pelándose… y pelándose… solo para ver qué pasa. La cosa se pone un poco pegajosa.",
+  "parts": [
+    {
+      "prologue": "Joe siempre ha tenido la manía de arrancar cosas: etiquetas, costras, discusiones. A sus amigos les irrita. Esta noche ha encontrado algo que no puede dejar de arrancar.",
+      "left": "Joe",
+      "right": "Marcus",
+      "wallpaper": [
+        "bandage",
+        "drop",
+        "chair",
+        "magnifier",
+        "moon",
+        "phone",
+        "question",
+        "clock"
+      ],
+      "messages": [
+        {
+          "from": "Joe",
+          "text": "Acabo de descubrir algo."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Qué?"
+        },
+        {
+          "from": "Joe",
+          "text": "Te va a sonar raro, te aviso."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Qué es?"
+        },
+        {
+          "from": "Joe",
+          "text": "Bueno, mira, tengo una costra en el brazo desde hace muchísimo."
+        },
+        {
+          "from": "Marcus",
+          "text": "Sí, ¿y?"
+        },
+        {
+          "from": "Joe",
+          "text": "¿Sabes cuando a veces te rascas las costras?"
+        },
+        {
+          "from": "Marcus",
+          "text": "Sí."
+        },
+        {
+          "from": "Joe",
+          "text": "Pues lo estaba haciendo y como que se abrió."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Cómo que se abrió?"
+        },
+        {
+          "from": "Joe",
+          "text": "Ya sabes, se abrió sobre la herida."
+        },
+        {
+          "from": "Marcus",
+          "text": "Eso debió de doler."
+        },
+        {
+          "from": "Joe",
+          "text": "Pues esa es la cosa. No dolió."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿No estaba curada?"
+        },
+        {
+          "from": "Joe",
+          "text": "Ahora se veía la parte de la sangre por debajo."
+        },
+        {
+          "from": "Marcus",
+          "text": "Qué raro"
+        },
+        {
+          "from": "Joe",
+          "text": "Así que, como no dolía, la pelé un poco más."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿La pelaste?"
+        },
+        {
+          "from": "Joe",
+          "text": "O sea, al lado de la herida."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Qué quieres decir?"
+        },
+        {
+          "from": "Joe",
+          "text": "O sea, donde solo hay piel."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Te pelaste la piel?"
+        },
+        {
+          "from": "Joe",
+          "text": "¡Sí, y no dolió!"
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Cuánto te pelaste?"
+        },
+        {
+          "from": "Joe",
+          "text": "¿Hasta ahora? Como hasta la mitad del brazo."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Y no duele?"
+        },
+        {
+          "from": "Joe",
+          "text": "No."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Te arrancaste la piel de medio brazo?"
+        },
+        {
+          "from": "Joe",
+          "text": "Sí. La verdad es que se ve bastante genial."
+        },
+        {
+          "from": "Joe",
+          "text": "Todo rojo y brillante."
+        },
+        {
+          "from": "Marcus",
+          "text": "No sé si deberías hacer eso."
+        },
+        {
+          "from": "Joe",
+          "text": "Pero no duele."
+        },
+        {
+          "from": "Joe",
+          "text": "Ya casi llego al hombro."
+        },
+        {
+          "from": "Marcus",
+          "text": "De verdad que no deberías hacer eso."
+        },
+        {
+          "from": "Joe",
+          "text": "Bueno, ahora tengo que hacer el otro brazo, para que queden iguales."
+        },
+        {
+          "from": "Marcus",
+          "text": "Quizás deberías parar."
+        },
+        {
+          "from": "Joe",
+          "text": "¡ME ENCANTA esto!"
+        },
+        {
+          "from": "Marcus",
+          "text": "Suena asqueroso."
+        },
+        {
+          "from": "Joe",
+          "text": "Es como el mejor tatuaje que te puedas hacer."
+        },
+        {
+          "from": "Joe",
+          "text": "¿Sabes qué debería hacer?"
+        },
+        {
+          "from": "Marcus",
+          "text": "Qué"
+        },
+        {
+          "from": "Joe",
+          "text": "¡Pelarme la cara!"
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Y si no vuelve a crecer?"
+        },
+        {
+          "from": "Joe",
+          "text": "Me da igual. Va a quedar genial."
+        },
+        {
+          "from": "Joe",
+          "text": "Deberías probarlo."
+        },
+        {
+          "from": "Marcus",
+          "text": "No creo."
+        },
+        {
+          "from": "Joe",
+          "text": "¡Deberías! ¡Pélate!"
+        },
+        {
+          "from": "Joe",
+          "text": "Mi cara se ve increíble"
+        },
+        {
+          "from": "Marcus",
+          "text": "No sé."
+        },
+        {
+          "from": "Joe",
+          "text": "Tienes que venir."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Por qué? Yo no voy a hacerlo."
+        },
+        {
+          "from": "Joe",
+          "text": "Quiero pelarme entero. Necesito que me ayudes."
+        },
+        {
+          "from": "Marcus",
+          "text": "Quieres que te ayude a arrancarte la piel."
+        },
+        {
+          "from": "Joe",
+          "text": "¡Sí!"
+        },
+        {
+          "from": "Marcus",
+          "text": "No creo que pueda hacer eso."
+        },
+        {
+          "from": "Joe",
+          "text": "Sí, sí que puedes."
+        },
+        {
+          "from": "Joe",
+          "text": "Quiero quedarme totalmente SIN PIEL."
+        },
+        {
+          "from": "Marcus",
+          "text": "Eso suena asqueroso."
+        },
+        {
+          "from": "Joe",
+          "text": "¿Tú no quieres quedarte sin piel?"
+        },
+        {
+          "from": "Marcus",
+          "text": "No."
+        },
+        {
+          "from": "Joe",
+          "text": "Yo sí. Quiero quedarme totalmente sin piel."
+        },
+        {
+          "from": "Joe",
+          "text": "Es un poco pegajoso, pero podría acostumbrarme."
+        },
+        {
+          "from": "Joe",
+          "text": "¿Entonces vienes?"
+        },
+        {
+          "from": "Marcus",
+          "text": "No sé…"
+        },
+        {
+          "from": "Joe",
+          "text": "¡Entonces voy yo!"
+        },
+        {
+          "from": "Marcus",
+          "text": "No… quizás no sea buena idea."
+        },
+        {
+          "from": "Joe",
+          "text": "¿Por qué no?"
+        },
+        {
+          "from": "Marcus",
+          "text": "Ya sabes… los vecinos."
+        },
+        {
+          "from": "Joe",
+          "text": "¿Qué pasa con ellos?"
+        },
+        {
+          "from": "Marcus",
+          "text": "Puede que no les guste tu aspecto."
+        },
+        {
+          "from": "Joe",
+          "text": "Bueno, eso no es muy justo."
+        },
+        {
+          "from": "Marcus",
+          "text": "Es un poco asqueroso."
+        },
+        {
+          "from": "Joe",
+          "text": "Estás siendo injusto."
+        },
+        {
+          "from": "Joe",
+          "text": "Solo porque no tengo piel."
+        },
+        {
+          "from": "Joe",
+          "text": "Acabo de terminar con las piernas."
+        },
+        {
+          "from": "Joe",
+          "text": "Pero sigue pegándose."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Pegándose?"
+        },
+        {
+          "from": "Joe",
+          "text": "Sí, ya sabes, está todo ensangrentado y pegajoso."
+        },
+        {
+          "from": "Joe",
+          "text": "Me estoy quedando pegado a la silla."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿No puedes levantarte y ya?"
+        },
+        {
+          "from": "Joe",
+          "text": "Es como pegamento."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Y si tiras?"
+        },
+        {
+          "from": "Joe",
+          "text": "Lo estoy intentando."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Y?"
+        },
+        {
+          "from": "Joe",
+          "text": "No se despega."
+        },
+        {
+          "from": "Marcus",
+          "text": "Dale un tirón fuerte."
+        },
+        {
+          "from": "Joe",
+          "text": "Mmm, acabo de hacerlo."
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Y?"
+        },
+        {
+          "from": "Joe",
+          "text": "¿No se despega de la silla?"
+        },
+        {
+          "from": "Marcus",
+          "text": "¿Entonces qué hace?"
+        },
+        {
+          "from": "Joe",
+          "text": "Se despega del hueso."
+        }
+      ]
+    }
+  ]
+}

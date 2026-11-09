@@ -1,0 +1,424 @@
+{
+ "id": "grave",
+ "title": "Das Grab",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Aaron bekommt panische Nachrichten von Jenna, einem Mädchen, das er nicht kennt. Sie behauptet, gefangen zu sein – eingesperrt in einem vergrabenen Sarg. Sie fleht Aaron um Hilfe an.",
+ "parts": [
+  {
+   "prologue": "Aarons Nummer gehörte früher jemand anderem. Ab und zu bekommt er noch Nachrichten, die für eine Fremde gedacht sind – falsche Bestellungen, Geburtstagsglückwünsche. Die heute Nacht lautet nur: hilf mir.",
+   "left": "Jenna",
+   "right": "Aaron",
+   "wallpaper": [
+    "cross",
+    "flower",
+    "moon",
+    "train",
+    "phone",
+    "clock",
+    "question",
+    "candle",
+    "star"
+   ],
+   "messages": [
+    {
+     "from": "Jenna",
+     "text": "Hilf mir"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich glaube, du hast der falschen Person geschrieben."
+    },
+    {
+     "from": "Jenna",
+     "text": "Bitte hilf mir."
+    },
+    {
+     "from": "Aaron",
+     "text": "Im Ernst, du hast der falschen Person geschrieben."
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich bin gefangen, ich brauche Hilfe."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wem wolltest du schreiben?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich brauche einfach Hilfe, das ist alles!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Du hast dich vertan."
+    },
+    {
+     "from": "Jenna",
+     "text": "Bitte!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich weiß nicht mal, wer du bist!"
+    },
+    {
+     "from": "Jenna",
+     "text": "Du musst mir helfen, hier rauszukommen!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Wo raus?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Sie haben mich begraben!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Wer hat dich begraben?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Diese Leute… sie haben mich begraben."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wo begraben?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich weiß nicht. Unter der Erde."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wie kannst du dann überhaupt schreiben?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich bin in einer Kiste."
+    },
+    {
+     "from": "Aaron",
+     "text": "Sie haben dich in eine Kiste gesteckt?"
+    },
+    {
+     "from": "Jenna",
+     "text": "So was wie ein Sarg."
+    },
+    {
+     "from": "Aaron",
+     "text": "Du bist in einem Sarg?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich bin in einem Sarg."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wer macht denn so was?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich weiß nicht, wer die waren."
+    },
+    {
+     "from": "Aaron",
+     "text": "Und die haben dich einfach so begraben."
+    },
+    {
+     "from": "Jenna",
+     "text": "Sie haben mich begraben, ja. Und ich weiß nicht, warum."
+    },
+    {
+     "from": "Aaron",
+     "text": "Willst du mich abzocken?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ist das irgendein Witz?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich bin hier gefangen."
+    },
+    {
+     "from": "Jenna",
+     "text": "Du bist meine einzige Hoffnung!"
+    },
+    {
+     "from": "Jenna",
+     "text": "BITTE!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Na ja, was soll ich denn machen?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Wo bist du überhaupt?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Unter der Erde."
+    },
+    {
+     "from": "Aaron",
+     "text": "Nein, ich meine, wo unter der Erde."
+    },
+    {
+     "from": "Aaron",
+     "text": "Also, welcher Friedhof?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich weiß nicht."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wie soll ich dir dann helfen?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich weiß nicht genau."
+    },
+    {
+     "from": "Aaron",
+     "text": "Bist du sicher, dass das kein Witz ist?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Es ist kein Witz."
+    },
+    {
+     "from": "Aaron",
+     "text": "Wenn ich nicht weiß, wo du begraben bist, kann ich dir nicht helfen!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Soll ich die Polizei rufen?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Nein, das bringt nichts."
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich glaube, hier in der Nähe sind Bahngleise. Ich höre manchmal Züge."
+    },
+    {
+     "from": "Aaron",
+     "text": "Züge?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Kannst du einen Friedhof in der Nähe von Bahngleisen finden?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Jenna",
+     "text": "So, auf Google?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich kann ja mal schauen."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich glaube, da ist einer, im Norden der Stadt."
+    },
+    {
+     "from": "Jenna",
+     "text": "Du musst da hin!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Und dann?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Grab mich aus! Rette mich!"
+    },
+    {
+     "from": "Jenna",
+     "text": "Auf dem Friedhof"
+    },
+    {
+     "from": "Aaron",
+     "text": "Wie soll ich dich überhaupt finden?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Schau dich um"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich weiß nicht mal, wonach ich suchen soll!"
+    },
+    {
+     "from": "Jenna",
+     "text": "Such nach einem frisch ausgehobenen Grab"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich hab keine Schaufel."
+    },
+    {
+     "from": "Jenna",
+     "text": "Such weiter…"
+    },
+    {
+     "from": "Jenna",
+     "text": "Irgendwo liegt immer eine rum."
+    },
+    {
+     "from": "Aaron",
+     "text": "Okay, ich hab eine gefunden… ich hab eine Schaufel gefunden."
+    },
+    {
+     "from": "Jenna",
+     "text": "Hast du das Grab gefunden?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich glaube schon."
+    },
+    {
+     "from": "Jenna",
+     "text": "Grab es auf."
+    },
+    {
+     "from": "Aaron",
+     "text": "Lieber nicht. Das ist ein Friedhof."
+    },
+    {
+     "from": "Jenna",
+     "text": "Bitte grab es auf! Ich glaube, ich halte nicht mehr lange durch."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich hole die Polizei."
+    },
+    {
+     "from": "Jenna",
+     "text": "Bis dahin bin ich tot."
+    },
+    {
+     "from": "Aaron",
+     "text": "Okay, na gut. Ich grabe."
+    },
+    {
+     "from": "Aaron",
+     "text": "Aber sobald die Polizei da ist, bin ich weg."
+    },
+    {
+     "from": "Jenna",
+     "text": "Gräbst du?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich grabe."
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich kann dich hören! Gott sei Dank bist du da!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Hast du das gehört? Ich bin gerade auf den Sarg gestoßen."
+    },
+    {
+     "from": "Jenna",
+     "text": "Mach ihn auf."
+    },
+    {
+     "from": "Aaron",
+     "text": "Einen Sarg aufmachen?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Ich bin hier drin gefangen!"
+    },
+    {
+     "from": "Jenna",
+     "text": "Du musst mich rauslassen!"
+    },
+    {
+     "from": "Aaron",
+     "text": "Okay, okay. Ich mach's."
+    },
+    {
+     "from": "Jenna",
+     "text": "Vielen, vielen Dank."
+    },
+    {
+     "from": "Aaron",
+     "text": "Was ist hier los?"
+    },
+    {
+     "from": "Jenna",
+     "text": "Was meinst du?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich hab den Deckel aufgemacht."
+    },
+    {
+     "from": "Jenna",
+     "text": "Nein, hast du nicht."
+    },
+    {
+     "from": "Aaron",
+     "text": "Doch, hab ich."
+    },
+    {
+     "from": "Aaron",
+     "text": "Da liegt eine Leiche. Eine verwesende Leiche."
+    },
+    {
+     "from": "Jenna",
+     "text": "Vielleicht hast du das falsche Grab geöffnet."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich hab nicht das falsche Grab geöffnet."
+    },
+    {
+     "from": "Jenna",
+     "text": "Woher willst du das wissen?"
+    },
+    {
+     "from": "Aaron",
+     "text": "Weil etwas auf dem Deckel steht."
+    },
+    {
+     "from": "Jenna",
+     "text": "Was steht da?"
+    },
+    {
+     "from": "Aaron",
+     "text": "„Unsere geliebte Jenna.“"
+    },
+    {
+     "from": "Aaron",
+     "text": "Du bist tot."
+    },
+    {
+     "from": "Jenna",
+     "text": "Nein, ich bin gefangen."
+    },
+    {
+     "from": "Aaron",
+     "text": "Ich sehe dich direkt an."
+    },
+    {
+     "from": "Aaron",
+     "text": "Du bist wirklich, wirklich tot."
+    }
+   ]
+  }
+ ]
+}

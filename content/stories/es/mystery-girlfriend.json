@@ -1,0 +1,356 @@
+{
+ "id": "mystery-girlfriend",
+ "title": "La novia misteriosa",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Bruce, hijo de un multimillonario, conoció a la chica de sus sueños en Facebook, o eso cree. Su padre se opone por completo a sus planes de casarse con ella, pero ¿por qué?",
+ "parts": [
+  {
+   "prologue": "Bruce nunca ha tenido que esforzarse por nada. Dinero, autos, chicas: simplemente llegan. Laila llegó hace dos semanas, en un mensaje de Facebook.",
+   "left": "Genry",
+   "right": "Bruce",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "ring",
+    "dollar",
+    "fork",
+    "rose",
+    "camera",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Genry",
+     "text": "Oye, amigo, ¿por qué no contestas los mensajes?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Perdón. He estado ocupado."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Ocupado con qué o con quién?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Conocí a la chica de mis sueños en Facebook."
+    },
+    {
+     "from": "Genry",
+     "text": "¿En serio? Eso mismo pensaste de Linda."
+    },
+    {
+     "from": "Bruce",
+     "text": "Pero esto es diferente."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Diferente en qué?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Me entiende, es hermosa, dulce y amable."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Cuánto tiempo hace que la conoces?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Apenas dos semanas y la amo."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Después de dos semanas?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Es que significa mucho para mí. Amor a primera vista."
+    },
+    {
+     "from": "Genry",
+     "text": "Perdón, pero no creo en el amor a primera vista ni a ninguna vista."
+    },
+    {
+     "from": "Bruce",
+     "text": "No todas las chicas son unas perras como Colleen."
+    },
+    {
+     "from": "Genry",
+     "text": "Todavía no encuentro una que no lo sea."
+    },
+    {
+     "from": "Bruce",
+     "text": "¿Quieres que vea si Laila tiene una hermana o una amiga?"
+    },
+    {
+     "from": "Genry",
+     "text": "No, gracias. Ya me cansé de las citas por un tiempo."
+    },
+    {
+     "from": "Bruce",
+     "text": "Si estás seguro."
+    },
+    {
+     "from": "Genry",
+     "text": "Estoy seguro, pero gracias."
+    },
+    {
+     "from": "Bruce",
+     "text": "Si cambias de opinión, avísame."
+    },
+    {
+     "from": "Genry",
+     "text": "Bueno, cuéntame más de Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Es hermosa, de pelo y ojos oscuros, y con muchas curvas."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Qué han estado haciendo ustedes dos?"
+    },
+    {
+     "from": "Bruce",
+     "text": "La he llevado a playas románticas."
+    },
+    {
+     "from": "Genry",
+     "text": "Suena bien."
+    },
+    {
+     "from": "Bruce",
+     "text": "Hasta renté una sala de conciertos solo para los dos."
+    },
+    {
+     "from": "Genry",
+     "text": "Suena genial."
+    },
+    {
+     "from": "Bruce",
+     "text": "Esto es amor de verdad y va a durar para siempre."
+    },
+    {
+     "from": "Genry",
+     "text": "Para siempre es mucho tiempo."
+    },
+    {
+     "from": "Bruce",
+     "text": "Ya lo sé."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Cuál es su apellido?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Lafontaine."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Una de las hijas del magnate de los zapatos?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No, solo una chica normal."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y cómo se lo está tomando tu padre?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No muy bien. Está en contra."
+    },
+    {
+     "from": "Genry",
+     "text": "Sí, tu padre quería que te casaras con Gloria Van House."
+    },
+    {
+     "from": "Bruce",
+     "text": "Sí, pero es una cabeza hueca y…"
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y qué, amigo?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Un témpano en la cama."
+    },
+    {
+     "from": "Genry",
+     "text": "¿En qué trabaja Laila?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No estoy seguro. Trabaja en horarios variados."
+    },
+    {
+     "from": "Genry",
+     "text": "¿No te lo dijo?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No, y lo único que sé es que es de relaciones públicas."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Cuándo la voy a conocer?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Tengo que ver cuándo sale del trabajo."
+    },
+    {
+     "from": "Genry",
+     "text": "Primero tiene que tener mi visto bueno."
+    },
+    {
+     "from": "Bruce",
+     "text": "Tu visto bueno es lo único que necesito."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y el visto bueno de tu padre?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Mi padre dijo que me desheredaría si la volvía a ver."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Qué vas a hacer?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Seguir viéndola."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Aunque pierdas todo tu dinero, los autos, la casa?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sí, porque la amo."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y cómo te va a dar el amor un techo sobre la cabeza?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Vamos a salir adelante. Ella tiene trabajo."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Tu padre la conoce?"
+    },
+    {
+     "from": "Bruce",
+     "text": "No."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Entonces cómo se enteró tu padre de que estabas saliendo con alguien que no era Gloria?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Por las cuentas de la tarjeta de crédito y el dinero que he gastado en ella."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Mucho dinero?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sí."
+    },
+    {
+     "from": "Genry",
+     "text": "¡Vaya! ¿Y ahora qué?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Mi padre me va a llevar a almorzar."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Adónde?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Al Italian Bistro. Mi padre insistió en ese restaurante."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Por qué un almuerzo?"
+    },
+    {
+     "from": "Bruce",
+     "text": "¿Por qué no? Hay que comer, y ese lugar es tan bueno como cualquiera."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Por qué ese restaurante? A ti no te gusta la comida italiana."
+    },
+    {
+     "from": "Bruce",
+     "text": "Espera. Mensaje de Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Ya volví. Mi padre dijo que está dispuesto a ceder en lo de Laila y yo."
+    },
+    {
+     "from": "Genry",
+     "text": "Es un paso en la dirección correcta"
+    },
+    {
+     "from": "Bruce",
+     "text": "Quiere hablar de nuestra próxima boda."
+    },
+    {
+     "from": "Genry",
+     "text": "Disfruta. Escríbeme para contarme cómo te fue."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Cómo te fue en el almuerzo?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ya entendí por qué mi padre me invitó al Italian Bistro."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Por qué?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Íbamos en el auto hacia el restaurante."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Pasamos por ese lugar donde las prostitutas se juntan a buscar clientes a mediodía."
+    },
+    {
+     "from": "Genry",
+     "text": "¿Y? Siempre están ahí."
+    },
+    {
+     "from": "Bruce",
+     "text": "Laila estaba entre ellas."
+    }
+   ]
+  }
+ ]
+}

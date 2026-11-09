@@ -1,0 +1,356 @@
+{
+ "id": "last-train-out",
+ "title": "Le Dernier Train",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 2,
+ "description": "En pleine révolution, Darla et Andrew tentent de prendre le dernier train pour quitter le pays, mais ils sont arrêtés à la frontière. Les gardes commencent une inspection.",
+ "parts": [
+  {
+   "prologue": "La révolution a atteint la capitale il y a trois jours. Chaque train vers le sud est bondé de gens munis de faux papiers et de noms d’emprunt. Darla et Andrew ont les deux.",
+   "left": "Darla",
+   "right": "Andrew",
+   "wallpaper": [
+    "train",
+    "suitcase",
+    "passport",
+    "ticket",
+    "clock",
+    "star",
+    "key",
+    "moon",
+    "road"
+   ],
+   "messages": [
+    {
+     "from": "Darla",
+     "text": "Le train s’est arrêté"
+    },
+    {
+     "from": "Andrew",
+     "text": "Je sais."
+    },
+    {
+     "from": "Darla",
+     "text": "Pourquoi le train s’est arrêté ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "On est à la frontière."
+    },
+    {
+     "from": "Darla",
+     "text": "Tu crois qu’ils vont contrôler ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ouais. Surtout maintenant, avec la révolution."
+    },
+    {
+     "from": "Darla",
+     "text": "On fait quoi ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Reste calme, c’est tout."
+    },
+    {
+     "from": "Darla",
+     "text": "Et s’ils fouillent tout le train ?"
+    },
+    {
+     "from": "Darla",
+     "text": "Et s’ils contrôlent les papiers ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils l’ont pas encore fait."
+    },
+    {
+     "from": "Andrew",
+     "text": "On aura peut-être de la chance."
+    },
+    {
+     "from": "Darla",
+     "text": "Mais s’ils le font ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Fais semblant de chercher tes papiers. Comme si tu les avais égarés."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils vont pas retarder tout le train pour une seule personne."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils savent à quoi on ressemble ?"
+    },
+    {
+     "from": "Darla",
+     "text": "Ils doivent avoir nos photos."
+    },
+    {
+     "from": "Andrew",
+     "text": "J’en sais rien. De toute façon, c’est que des gardes."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils auront pas nos photos jusqu’ici."
+    },
+    {
+     "from": "Darla",
+     "text": "Mais ils sont armés."
+    },
+    {
+     "from": "Andrew",
+     "text": "Panique pas."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils montent dans le train."
+    },
+    {
+     "from": "Darla",
+     "text": "T’es toujours dans la troisième voiture ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ouais, et toi, toujours dans la première ?"
+    },
+    {
+     "from": "Darla",
+     "text": "Oui"
+    },
+    {
+     "from": "Darla",
+     "text": "Ils ont l’air sérieux."
+    },
+    {
+     "from": "Andrew",
+     "text": "C’est leur boulot."
+    },
+    {
+     "from": "Darla",
+     "text": "D’avoir l’air sérieux ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "De te faire peur."
+    },
+    {
+     "from": "Darla",
+     "text": "Eh ben, ils font bien leur boulot."
+    },
+    {
+     "from": "Andrew",
+     "text": "Rappelle-toi, aie juste l’air nerveuse."
+    },
+    {
+     "from": "Darla",
+     "text": "J’ai pas besoin de faire semblant."
+    },
+    {
+     "from": "Andrew",
+     "text": "Continue de fouiller dans tes affaires."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils vont s’énerver, mais ils vont vite se lasser."
+    },
+    {
+     "from": "Andrew",
+     "text": "Et après, ils passeront à autre chose."
+    },
+    {
+     "from": "Darla",
+     "text": "Et toi ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils finiront par arriver jusqu’à moi."
+    },
+    {
+     "from": "Darla",
+     "text": "Tu peux pas faire pareil."
+    },
+    {
+     "from": "Andrew",
+     "text": "Je trouverai un truc. Ces types sont pas très malins."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils sont presque là."
+    },
+    {
+     "from": "Andrew",
+     "text": "Tu vas t’en sortir. T’inquiète pas."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ça va ?"
+    },
+    {
+     "from": "Darla",
+     "text": "C’était plus facile que je pensais."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils avaient pas l’air de s’en soucier. Pas tant que ça, en tout cas."
+    },
+    {
+     "from": "Andrew",
+     "text": "Tant mieux. On va s’en sortir, je crois."
+    },
+    {
+     "from": "Darla",
+     "text": "Quand ils arrivent à toi, fais comme si tu parlais pas la langue."
+    },
+    {
+     "from": "Darla",
+     "text": "Et que tu les comprenais pas."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils passeront à autre chose."
+    },
+    {
+     "from": "Andrew",
+     "text": "Je crois même pas que j’aurai besoin de faire ça."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils seront à ta place dans quelques minutes."
+    },
+    {
+     "from": "Andrew",
+     "text": "Je m’inquiète pas."
+    },
+    {
+     "from": "Darla",
+     "text": "T’as pas de raison. Ils contrôlent vraiment pas de près."
+    },
+    {
+     "from": "Darla",
+     "text": "À ta place, je resterais juste aimable."
+    },
+    {
+     "from": "Andrew",
+     "text": "Bon, aimable, je sais pas."
+    },
+    {
+     "from": "Darla",
+     "text": "Aimable, c’est bien. Ils sont armés, rappelle-toi."
+    },
+    {
+     "from": "Darla",
+     "text": "Évidemment, tu peux rien tenter."
+    },
+    {
+     "from": "Andrew",
+     "text": "J’en ai pas l’intention."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils viennent d’ouvrir la porte de ma voiture."
+    },
+    {
+     "from": "Darla",
+     "text": "Ils y sont presque ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Bah, je suis tout au fond, ils doivent contrôler tout le monde avant moi."
+    },
+    {
+     "from": "Darla",
+     "text": "Ouais, ça peut prendre quelques minutes."
+    },
+    {
+     "from": "Andrew",
+     "text": "C’est bizarre."
+    },
+    {
+     "from": "Darla",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils contrôlent pas vraiment les gens."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils les regardent, mais ils vérifient pas les papiers."
+    },
+    {
+     "from": "Andrew",
+     "text": "Je crois qu’ils cherchent quelqu’un en particulier."
+    },
+    {
+     "from": "Darla",
+     "text": "Sûrement."
+    },
+    {
+     "from": "Andrew",
+     "text": "J’imagine qu’ils ont pas trouvé qui ils cherchent."
+    },
+    {
+     "from": "Darla",
+     "text": "Pas encore."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ils auront fini dans une minute. On l’a échappé belle !"
+    },
+    {
+     "from": "Darla",
+     "text": "Rappelle-toi, Andrew. Sois aimable."
+    },
+    {
+     "from": "Darla",
+     "text": "Le mieux, c’est de pas résister."
+    },
+    {
+     "from": "Andrew",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Darla",
+     "text": "C’est toi qu’ils cherchent, Andrew."
+    },
+    {
+     "from": "Andrew",
+     "text": "Comment ça ????"
+    },
+    {
+     "from": "Darla",
+     "text": "Suis-les, c’est tout. Ça va aller."
+    },
+    {
+     "from": "Andrew",
+     "text": "Attends… t’étais au courant ?"
+    },
+    {
+     "from": "Darla",
+     "text": "Je suis au courant pour toi, Andrew."
+    },
+    {
+     "from": "Darla",
+     "text": "Je suis au courant depuis longtemps."
+    },
+    {
+     "from": "Darla",
+     "text": "Personne n’aime les traîtres, Andrew."
+    },
+    {
+     "from": "Darla",
+     "text": "Maintenant, fais ce qu’on te dit et suis les gardes."
+    },
+    {
+     "from": "Darla",
+     "text": "Compris ?"
+    }
+   ]
+  }
+ ]
+}

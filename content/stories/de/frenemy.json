@@ -1,0 +1,420 @@
+{
+ "id": "frenemy",
+ "title": "Falsche Schwester",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Alana bittet ihre Schwester Sarah, ihr dabei zu helfen herauszufinden, ob ihr Mann sie betrügt. Zuerst findet Alana nichts, nicht mal mit Sarahs Hilfe – doch dann übernimmt sie sich gewaltig.",
+ "parts": [
+  {
+   "prologue": "Alana und Sarah sind unzertrennlich, seit sie kleine Mädchen waren – dieselbe Schule, dieselben Freunde, derselbe Geschmack in allem. Wenn Alana Hilfe braucht, ruft sie nur eine Person an.",
+   "left": "Alana",
+   "right": "Sarah",
+   "wallpaper": [
+    "lipstick",
+    "receipt",
+    "phone",
+    "ring",
+    "envelope",
+    "clock",
+    "wineglass",
+    "magnifier",
+    "heart"
+   ],
+   "messages": [
+    {
+     "from": "Alana",
+     "text": "Hey! Was geht?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Nicht viel, und bei dir?"
+    },
+    {
+     "from": "Alana",
+     "text": "Hier auch nicht viel."
+    },
+    {
+     "from": "Sarah",
+     "text": "Du klingst down."
+    },
+    {
+     "from": "Sarah",
+     "text": "Geht's um Harry?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nee! Dem kleinen Harry geht's gut!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Sondern?"
+    },
+    {
+     "from": "Alana",
+     "text": "Um seinen Vater."
+    },
+    {
+     "from": "Sarah",
+     "text": "Oh Gott! Ist alles okay mit ihm?"
+    },
+    {
+     "from": "Alana",
+     "text": "Okay, ich hab den Verdacht, dass er mich betrügt."
+    },
+    {
+     "from": "Sarah",
+     "text": "Wow! Das ist eine heftige Behauptung!"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich weiß, und das Schlimmste ist, ich bin mir nicht mal sicher."
+    },
+    {
+     "from": "Sarah",
+     "text": "Das ist krass! Was hast du vor?"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich weiß nicht mal, ob ich überhaupt nachbohren will oder nicht"
+    },
+    {
+     "from": "Sarah",
+     "text": "Was?"
+    },
+    {
+     "from": "Alana",
+     "text": "Na ja, ich behalte ihn seit zwei Wochen im Auge."
+    },
+    {
+     "from": "Sarah",
+     "text": "Und das hast du mir bis jetzt verschwiegen?"
+    },
+    {
+     "from": "Alana",
+     "text": "Weil ich mir nicht sicher war und kein Drama machen wollte"
+    },
+    {
+     "from": "Sarah",
+     "text": "Schon was rausgefunden, Detektivin Al?"
+    },
+    {
+     "from": "Alana",
+     "text": "Argh! Noch nicht, aber ich finde es bald raus!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Irgendwelche Spuren?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nur so komisches Verhalten."
+    },
+    {
+     "from": "Sarah",
+     "text": "Nächtliche Anrufe, klebt ständig am Handy, was ist komisch?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nein, dafür ist er zu schlau, er verwischt seine Spuren"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich hänge immer in der Warteschleife, bevor ich durchgestellt werde"
+    },
+    {
+     "from": "Alana",
+     "text": "Egal, zu welcher Tageszeit ich ihn anrufe"
+    },
+    {
+     "from": "Sarah",
+     "text": "Und was hat er für eine Ausrede?"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich war unterwegs! Ich war in einem Meeting!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Der ist gut! lol."
+    },
+    {
+     "from": "Alana",
+     "text": "Was leider nicht zu dem passt, was seine Sekretärin sagt"
+    },
+    {
+     "from": "Sarah",
+     "text": "Bist du ihm schon mal gefolgt?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Vielleicht kann ich das für dich machen?"
+    },
+    {
+     "from": "Alana",
+     "text": "Oh, vielen Dank, ich hab mir schon Gedanken gemacht, wem ich das anvertrauen kann"
+    },
+    {
+     "from": "Sarah",
+     "text": "Wofür hat man denn Schwestern?"
+    },
+    {
+     "from": "Alana",
+     "text": "Was, wenn er merkt, dass wir ihm folgen?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Hörst du mal auf, so zu dramatisieren?"
+    },
+    {
+     "from": "Alana",
+     "text": "Du hast leicht reden, du bist ja noch Single!"
+    },
+    {
+     "from": "Alana",
+     "text": "Na ja, so oder so werden wir die Wahrheit erfahren."
+    },
+    {
+     "from": "Sarah",
+     "text": "Ja, werden wir."
+    },
+    {
+     "from": "Alana",
+     "text": "Okay, also so hat alles angefangen"
+    },
+    {
+     "from": "Sarah",
+     "text": "Klar, erzähl mir alles, was du weißt."
+    },
+    {
+     "from": "Alana",
+     "text": "Dienstags und donnerstags geht er regelmäßig mittags weg."
+    },
+    {
+     "from": "Alana",
+     "text": "Ich hab bei seiner Sekretärin nachgefragt, an diesen Tagen gibt es keine Meetings"
+    },
+    {
+     "from": "Sarah",
+     "text": "Also fangen wir mit Dienstag und Donnerstag an"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah, bitte lass dich nicht erwischen"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich will die Beziehung mit ihm nicht kaputt machen, falls er ehrlich ist"
+    },
+    {
+     "from": "Sarah",
+     "text": "Keine Sorge!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Außer den Meetings, weißt du sonst noch was?"
+    },
+    {
+     "from": "Alana",
+     "text": "Ja, ich hab einen Lippenstift in seiner Tasche gefunden."
+    },
+    {
+     "from": "Sarah",
+     "text": "Vielleicht war der für dich."
+    },
+    {
+     "from": "Alana",
+     "text": "Ein benutzter?"
+    },
+    {
+     "from": "Alana",
+     "text": "Den ich selbst gefunden habe?"
+    },
+    {
+     "from": "Alana",
+     "text": "Und in einer Farbe, die ich nie trage"
+    },
+    {
+     "from": "Sarah",
+     "text": "Was noch?"
+    },
+    {
+     "from": "Alana",
+     "text": "Dieses Wochenende hat er unseren Kinoabend in letzter Minute abgesagt"
+    },
+    {
+     "from": "Sarah",
+     "text": "Warum?"
+    },
+    {
+     "from": "Alana",
+     "text": "Er meinte, es gäbe plötzlich ein dringendes Firmenessen"
+    },
+    {
+     "from": "Sarah",
+     "text": "Könnte doch stimmen?"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah? Ein spontanes Firmenessen"
+    },
+    {
+     "from": "Sarah",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Alana",
+     "text": "Ein spontanes Firmenessen, angekündigt per Nachricht, die er mit einem Lächeln gelesen hat"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich bin mir ganz sicher, Sarah"
+    },
+    {
+     "from": "Sarah",
+     "text": "Indizienbeweise lol."
+    },
+    {
+     "from": "Sarah",
+     "text": "Hast du sein Handy gecheckt?"
+    },
+    {
+     "from": "Alana",
+     "text": "Es hat ein Passwort"
+    },
+    {
+     "from": "Alana",
+     "text": "Ach du meine Güte!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ist alles okay? Du wirkst aufgewühlt."
+    },
+    {
+     "from": "Alana",
+     "text": "Ja, ich hab gerade eine Nachricht an seine Mailadresse bekommen."
+    },
+    {
+     "from": "Sarah",
+     "text": "Du hast Zugriff auf seine Mails?"
+    },
+    {
+     "from": "Alana",
+     "text": "Das ist eine gemeinsame, die mit unserem Gemeinschaftskonto verknüpft ist."
+    },
+    {
+     "from": "Sarah",
+     "text": "Okay, was steht drin?"
+    },
+    {
+     "from": "Alana",
+     "text": "In einem Restaurant wurde eine riesige Rechnung bezahlt."
+    },
+    {
+     "from": "Sarah",
+     "text": "Wow! Das ist ja verrückt! Vielleicht kauft er dir ein Geschenk."
+    },
+    {
+     "from": "Alana",
+     "text": "IN EINEM RESTAURANT?!"
+    },
+    {
+     "from": "Alana",
+     "text": "Im Ernst??"
+    },
+    {
+     "from": "Sarah",
+     "text": "Hey, krieg dich mal ein, okay? Ich hab den ganzen Tag versucht, dir zu helfen."
+    },
+    {
+     "from": "Alana",
+     "text": "Ja, sorry. Ich wollte dir nichts vorwerfen."
+    },
+    {
+     "from": "Sarah",
+     "text": "Ja, und was soll ich bitte sagen? Dich ermutigen, dich wegen einer Ahnung scheiden zu lassen?"
+    },
+    {
+     "from": "Alana",
+     "text": "Nee! Du hast recht!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Oder soll ich über ihn herziehen und dir erzählen, wie bemitleidenswert du bist?"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich hab doch gesagt, es tut mir leid!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Nein, machen wir das. Dein Mann ist einer der schäbigsten Typen überhaupt!"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ja! Er spielt mit Frauen und behält dann ihre Lippenstifte als Souvenirs!"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich bin eh schon verletzt, Sarah!"
+    },
+    {
+     "from": "Sarah",
+     "text": "Nein, warte, bitte! Dann geht er hin und gibt 1270 Dollar für irgendeine Tussi aus!"
+    },
+    {
+     "from": "Alana",
+     "text": "Vielleicht schmeißt er eine Party für seine Kollegen."
+    },
+    {
+     "from": "Sarah",
+     "text": "Oder vielleicht betrügt er dich! Das wolltest du doch hören!"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah?"
+    },
+    {
+     "from": "Sarah",
+     "text": "WAS?"
+    },
+    {
+     "from": "Alana",
+     "text": "Woher weißt du, dass David 1270 Dollar in dem Restaurant ausgegeben hat?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Weil du es mir gesagt hast!"
+    },
+    {
+     "from": "Alana",
+     "text": "Ich hab dir den Betrag nie gesagt."
+    },
+    {
+     "from": "Sarah",
+     "text": "Ich muss jetzt nach Hause, tschüss!"
+    },
+    {
+     "from": "Alana",
+     "text": "Aber du hast doch gesagt, du bist schon zu Hause?"
+    },
+    {
+     "from": "Alana",
+     "text": "Hallo?"
+    },
+    {
+     "from": "Alana",
+     "text": "Sarah?"
+    },
+    {
+     "from": "Alana",
+     "text": "Bist du da??"
+    }
+   ]
+  }
+ ]
+}

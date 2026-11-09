@@ -1,0 +1,520 @@
+{
+ "id": "haunted",
+ "title": "Hantée",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 4,
+ "description": "Pour deux cents dollars, Carl et David relèvent le défi de passer la nuit dans une maison hantée. Après tout, les maisons hantées, ça n’existe pas — et ils n’ont rien à craindre… pas vrai ?",
+ "parts": [
+  {
+   "prologue": "La maison de Marlowe Hill est vide depuis quarante ans. Chaque automne, quelqu’un parie avec quelqu’un d’autre qu’il ne tiendra pas une nuit à l’intérieur. Personne n’a jamais encaissé le pari.",
+   "left": "David",
+   "right": "Carl",
+   "wallpaper": [
+    "door",
+    "house",
+    "candle",
+    "moon",
+    "key",
+    "dollar",
+    "clock",
+    "stairs",
+    "wind"
+   ],
+   "messages": [
+    {
+     "from": "David",
+     "text": "Ça peut pas être si dur. C’est juste une vieille maison."
+    },
+    {
+     "from": "Carl",
+     "text": "Une maison hantée."
+    },
+    {
+     "from": "Carl",
+     "text": "PHOTO : EXTÉRIEUR DE LA MAISON HANTÉE"
+    },
+    {
+     "from": "David",
+     "text": "C’est juste une vieille maison. Si on reste toute la nuit, on touche 200 $."
+    },
+    {
+     "from": "Carl",
+     "text": "Personne n’est jamais resté ici toute la nuit"
+    },
+    {
+     "from": "David",
+     "text": "Parce qu’ils ont la trouille."
+    },
+    {
+     "from": "David",
+     "text": "Et y a rien à craindre."
+    },
+    {
+     "from": "Carl",
+     "text": "J’espère."
+    },
+    {
+     "from": "David",
+     "text": "Tu vois quelque chose."
+    },
+    {
+     "from": "Carl",
+     "text": "Il fait même pas encore nuit."
+    },
+    {
+     "from": "Carl",
+     "text": "Je vois pas pourquoi on peut pas rester ensemble. Pourquoi faut que tu sois tout là-haut ?"
+    },
+    {
+     "from": "David",
+     "text": "C’est plus marrant."
+    },
+    {
+     "from": "Carl",
+     "text": "Marrant ? Je trouve pas."
+    },
+    {
+     "from": "David",
+     "text": "Tu crois vraiment qu’elle est hantée, hein ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Je veux pas prendre de risques."
+    },
+    {
+     "from": "David",
+     "text": "Bon, t’inquiète pas."
+    },
+    {
+     "from": "Carl",
+     "text": "Je m’inquiète si je veux."
+    },
+    {
+     "from": "David",
+     "text": "Tu vas te sentir vraiment con demain matin."
+    },
+    {
+     "from": "Carl",
+     "text": "S’il y a un demain matin."
+    },
+    {
+     "from": "Carl",
+     "text": "21 h"
+    },
+    {
+     "from": "David",
+     "text": "Toujours vivant"
+    },
+    {
+     "from": "Carl",
+     "text": "La ferme."
+    },
+    {
+     "from": "David",
+     "text": "Je te l’avais dit."
+    },
+    {
+     "from": "Carl",
+     "text": "Il est que neuf heures."
+    },
+    {
+     "from": "Carl",
+     "text": "Y a encore du chemin."
+    },
+    {
+     "from": "David",
+     "text": "J’ai un joli clair de lune qui passe par la fenêtre. Plutôt cool."
+    },
+    {
+     "from": "Carl",
+     "text": "Tu m’as mis à la cave, alors ici il fait complètement noir."
+    },
+    {
+     "from": "David",
+     "text": "Je t’ai mis nulle part."
+    },
+    {
+     "from": "Carl",
+     "text": "À part le téléphone, il fait complètement noir."
+    },
+    {
+     "from": "David",
+     "text": "Il paraît qu’il y a des rats à la cave."
+    },
+    {
+     "from": "Carl",
+     "text": "Dis pas ça."
+    },
+    {
+     "from": "David",
+     "text": "C’est sûrement vrai."
+    },
+    {
+     "from": "Carl",
+     "text": "Bah, me le rappelle pas."
+    },
+    {
+     "from": "Carl",
+     "text": "Et j’ai vu aucun rta, pour info."
+    },
+    {
+     "from": "David",
+     "text": "200 $, oublie pas."
+    },
+    {
+     "from": "David",
+     "text": "Minuit"
+    },
+    {
+     "from": "David",
+     "text": "Il est minuit, Carl."
+    },
+    {
+     "from": "Carl",
+     "text": "Je sais."
+    },
+    {
+     "from": "David",
+     "text": "Toujours vivant ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Très drôle."
+    },
+    {
+     "from": "David",
+     "text": "Il s’est passé un truc bizarre ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Très drôle."
+    },
+    {
+     "from": "David",
+     "text": "Tu vois, rien de bizarre."
+    },
+    {
+     "from": "Carl",
+     "text": "À part tes petites blagues."
+    },
+    {
+     "from": "Carl",
+     "text": "Tu crois que je sais pas ?"
+    },
+    {
+     "from": "David",
+     "text": "Que tu sais pas quoi ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Que c’est toi ?"
+    },
+    {
+     "from": "David",
+     "text": "Que c’est moi quoi ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Tous les bruits, les petits coups."
+    },
+    {
+     "from": "David",
+     "text": "Tu te fais des films."
+    },
+    {
+     "from": "Carl",
+     "text": "Ouais, c’est ça. Si tu le dis."
+    },
+    {
+     "from": "David",
+     "text": "T’as vraiment la frousse."
+    },
+    {
+     "from": "Carl",
+     "text": "Tu vas pas me faire peur."
+    },
+    {
+     "from": "David",
+     "text": "On dirait que tu t’en charges tout seul mdr."
+    },
+    {
+     "from": "Carl",
+     "text": "Tu parles. Tes blagues me font pas peur."
+    },
+    {
+     "from": "David",
+     "text": "T’es trop pathétique."
+    },
+    {
+     "from": "David",
+     "text": "2 h"
+    },
+    {
+     "from": "Carl",
+     "text": "OK, tu peux arrêter maintenant."
+    },
+    {
+     "from": "Carl",
+     "text": "David ?"
+    },
+    {
+     "from": "David",
+     "text": "Quoi ? J’essaie de dormir."
+    },
+    {
+     "from": "Carl",
+     "text": "Mais oui, bien sûr."
+    },
+    {
+     "from": "David",
+     "text": "Qu’est-ce que je ferais d’autre ? Il est deux heures du matin."
+    },
+    {
+     "from": "Carl",
+     "text": "Oh, je sais pas. Descendre en douce. Frapper à ma porte. Me souffler dessus."
+    },
+    {
+     "from": "David",
+     "text": "Ce serait drôle, mais non mdr"
+    },
+    {
+     "from": "Carl",
+     "text": "Fais même pas semblant."
+    },
+    {
+     "from": "David",
+     "text": "Je fais pas semblant. Tu devrais vraiment te calmer."
+    },
+    {
+     "from": "Carl",
+     "text": "Tu t’ennuies pas ?"
+    },
+    {
+     "from": "David",
+     "text": "C’est pour ça que je dors."
+    },
+    {
+     "from": "Carl",
+     "text": "Je veux dire, à essayer de me faire peur toute la nuit."
+    },
+    {
+     "from": "David",
+     "text": "Pourquoi je ferais ça ? 200 $, tu te souviens ? Si tu pars, on perd tous les deux."
+    },
+    {
+     "from": "Carl",
+     "text": "Par contre, je sais pas comment tu fais pour me souffler dessus."
+    },
+    {
+     "from": "David",
+     "text": "Je te souffle pas dessus."
+    },
+    {
+     "from": "Carl",
+     "text": "La porte est fermée à clé."
+    },
+    {
+     "from": "David",
+     "text": "Je te souffle pas dessus."
+    },
+    {
+     "from": "Carl",
+     "text": "Il y a peut-être un passage secret."
+    },
+    {
+     "from": "Carl",
+     "text": "Y en a un ?"
+    },
+    {
+     "from": "David",
+     "text": "Tu me fais rire, là-haut. Je te fais rien du tout."
+    },
+    {
+     "from": "David",
+     "text": "Tu te l’imagines."
+    },
+    {
+     "from": "David",
+     "text": "2 h 25"
+    },
+    {
+     "from": "David",
+     "text": "Très drôle."
+    },
+    {
+     "from": "Carl",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "David",
+     "text": "Je comprends maintenant, tout ce que t’as dit, c’était un coup monté."
+    },
+    {
+     "from": "Carl",
+     "text": "De quoi tu parles ?"
+    },
+    {
+     "from": "David",
+     "text": "Tout ce que tu disais que je te faisais, maintenant c’est toi qui me le fais."
+    },
+    {
+     "from": "Carl",
+     "text": "N’importe quoi. Arrête de me faire des blagues, à la fin."
+    },
+    {
+     "from": "David",
+     "text": "C’est quoi, tous ces chuchotements ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Ces quoi ?"
+    },
+    {
+     "from": "David",
+     "text": "Les chuchotements flippants. J’entends ce que tu dis."
+    },
+    {
+     "from": "Carl",
+     "text": "Rien"
+    },
+    {
+     "from": "David",
+     "text": "T’es juste derrière ma porte."
+    },
+    {
+     "from": "David",
+     "text": "À essayer de faire le fantôme, évidemment."
+    },
+    {
+     "from": "Carl",
+     "text": "Je suis en bas. À la cave, tu te souviens ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Moi, contrairement à toi, je me balade pas en douce dans cette maison glauque."
+    },
+    {
+     "from": "David",
+     "text": "Essaie même pas."
+    },
+    {
+     "from": "David",
+     "text": "T’es en train de le faire, là."
+    },
+    {
+     "from": "Carl",
+     "text": "De faire quoi ?"
+    },
+    {
+     "from": "David",
+     "text": "De chuchoter."
+    },
+    {
+     "from": "Carl",
+     "text": "Pas du tout."
+    },
+    {
+     "from": "David",
+     "text": "On va voir."
+    },
+    {
+     "from": "Carl",
+     "text": "Très bien."
+    },
+    {
+     "from": "David",
+     "text": "Comment t’as fait ça ?"
+    },
+    {
+     "from": "Carl",
+     "text": "Fait quoi ?"
+    },
+    {
+     "from": "David",
+     "text": "Comment t’as pu bouger aussi vite ?"
+    },
+    {
+     "from": "Carl",
+     "text": "De quoi tu parles ?"
+    },
+    {
+     "from": "David",
+     "text": "J’ai ouvert la porte."
+    },
+    {
+     "from": "David",
+     "text": "Tu chuchotais, juste de l’autre côté."
+    },
+    {
+     "from": "David",
+     "text": "Et y a rien."
+    },
+    {
+     "from": "David",
+     "text": "Comment tu savais seulement que j’allais l’ouvrir ?"
+    },
+    {
+     "from": "Carl",
+     "text": "J’étais pas là-haut."
+    },
+    {
+     "from": "Carl",
+     "text": "Et je pouvais pas chuchoter derrière ta porte à la seconde même où tu me soufflais dessus."
+    },
+    {
+     "from": "David",
+     "text": "Je te soufflais pas dessus."
+    },
+    {
+     "from": "Carl",
+     "text": "Et moi, je chuchotais pas derrière ta porte."
+    },
+    {
+     "from": "David",
+     "text": "Ben QUELQU’UN le faisait !"
+    },
+    {
+     "from": "David",
+     "text": "Je descends."
+    },
+    {
+     "from": "Carl",
+     "text": "Ouais, bonne idée."
+    },
+    {
+     "from": "Carl",
+     "text": "200 $, ça vaut pas ça."
+    },
+    {
+     "from": "Carl",
+     "text": "David ?"
+    },
+    {
+     "from": "Carl",
+     "text": "T’es où, David ?"
+    },
+    {
+     "from": "Carl",
+     "text": "C’est toi ?"
+    },
+    {
+     "from": "Carl",
+     "text": "David ? Dis quelque chose."
+    },
+    {
+     "from": "Carl",
+     "text": "Frappe pas comme ça."
+    },
+    {
+     "from": "Carl",
+     "text": "Dis quelque chose."
+    },
+    {
+     "from": "Carl",
+     "text": "S’il te plaît."
+    }
+   ]
+  }
+ ]
+}

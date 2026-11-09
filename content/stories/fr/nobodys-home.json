@@ -1,0 +1,987 @@
+{
+ "id": "nobodys-home",
+ "title": "Personne à la maison",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 3,
+ "description": "Patrick arrive en retard à la soirée de Sandra, mais quand il se gare enfin devant, la maison est plongée dans le noir. La porte d’entrée est grande ouverte. Pas de musique, pas de voitures, personne ne répond. Son pote James n’arrête pas de lui écrire depuis ailleurs — et James commence à remarquer, dans cette maison, des choses que Patrick ne voit pas. Trois parties. À lire avec la lumière allumée.",
+ "parts": [
+  {
+   "prologue": "Les soirées de Sandra, on en parle pendant des semaines. Patrick a failli rester chez lui ce soir — il ne se sent plus tout à fait lui-même depuis le trajet du retour. Country Village Lane est calme à cette heure-ci. Peut-être un peu trop calme.",
+   "left": "James",
+   "right": "Patrick",
+   "wallpaper": [
+    "house",
+    "key",
+    "balloon",
+    "music",
+    "bulb",
+    "moon",
+    "door",
+    "phone",
+    "mailbox",
+    "lamp"
+   ],
+   "messages": [
+    {
+     "from": "James",
+     "text": "T’es où ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "À ton avis ? Chez moi."
+    },
+    {
+     "from": "James",
+     "text": "Pourquoi t’es chez toi ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je serais où, sinon ?"
+    },
+    {
+     "from": "James",
+     "text": "Chez Sandra, à ton avis ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Pourquoi je serais là-bas ??"
+    },
+    {
+     "from": "James",
+     "text": "Tout le monde y est !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Pourquoi tout le monde est là-bas ?"
+    },
+    {
+     "from": "James",
+     "text": "Sa soirée ! Ramène-toi !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis crevé. J’ai pas envie."
+    },
+    {
+     "from": "James",
+     "text": "C’est pas une excuse."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est une blague ?"
+    },
+    {
+     "from": "James",
+     "text": "Ramène-toi !"
+    },
+    {
+     "from": "James",
+     "text": "Tu veux être le seul à pas venir ?"
+    },
+    {
+     "from": "James",
+     "text": "Tout le monde demande après toi !"
+    },
+    {
+     "from": "James",
+     "text": "T’es le SEUL qui est pas là !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Sérieux ? Tout le monde est là ?"
+    },
+    {
+     "from": "James",
+     "text": "Tout le monde."
+    },
+    {
+     "from": "James",
+     "text": "Alors, tu viens ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "OK."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’y serai dans une demi-heure environ."
+    },
+    {
+     "from": "Patrick",
+     "text": "------"
+    },
+    {
+     "from": "Patrick",
+     "text": "Euh… James ?"
+    },
+    {
+     "from": "James",
+     "text": "T’es arrivé ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ben ouais. Je suis juste devant chez Sandra."
+    },
+    {
+     "from": "James",
+     "text": "Juste devant ? Où ça ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Enfin, je crois. Pile devant."
+    },
+    {
+     "from": "Patrick",
+     "text": "143 Country Village Lane, c’est ça ?"
+    },
+    {
+     "from": "James",
+     "text": "Juste en face de chez moi."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bon, vous êtes où ?"
+    },
+    {
+     "from": "James",
+     "text": "À l’intérieur, et dans le jardin."
+    },
+    {
+     "from": "Patrick",
+     "text": "Mais… la maison est complètement dans le noir."
+    },
+    {
+     "from": "James",
+     "text": "De quoi tu parles ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "On dirait qu’il y a personne !"
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est une blague ?"
+    },
+    {
+     "from": "James",
+     "text": "Si t’avais pas envie de venir, fallait le dire."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis juste devant !"
+    },
+    {
+     "from": "James",
+     "text": "Je regarde devant, et t’es pas là."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’EST une blague, hein ?"
+    },
+    {
+     "from": "James",
+     "text": "T’as pris un truc ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis dans la bonne rue."
+    },
+    {
+     "from": "James",
+     "text": "Peut-être pas. Frappe à la porte."
+    },
+    {
+     "from": "Patrick",
+     "text": "Vous allez tous me sauter dessus, c’est ça ?"
+    },
+    {
+     "from": "James",
+     "text": "T’es pas devant la bonne maison."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est pas possible."
+    },
+    {
+     "from": "James",
+     "text": "Frappe."
+    },
+    {
+     "from": "Patrick",
+     "text": "OK, d’accord."
+    },
+    {
+     "from": "Patrick",
+     "text": "Personne répond."
+    },
+    {
+     "from": "James",
+     "text": "Frappe plus fort !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Personne répond."
+    },
+    {
+     "from": "James",
+     "text": "T’as carrément des hallucinations."
+    },
+    {
+     "from": "Patrick",
+     "text": "Y a de la lumière chez toi."
+    },
+    {
+     "from": "James",
+     "text": "Chez moi ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "T’habites juste en face de Sandra, non ?"
+    },
+    {
+     "from": "James",
+     "text": "Ouais."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je vais demander à tes parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "Eux, ils vont me dire ce qui se passe."
+    },
+    {
+     "from": "James",
+     "text": "Dérange pas mes parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "Pourquoi ? Vous êtes cachés là-bas ?"
+    },
+    {
+     "from": "James",
+     "text": "Tu te fais des idées."
+    },
+    {
+     "from": "James",
+     "text": "Vas-y, frappe, alors."
+    },
+    {
+     "from": "Patrick",
+     "text": "Ils sont sortis ?"
+    },
+    {
+     "from": "James",
+     "text": "Pourquoi ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "La maison est dans le noir. Comme chez Sandra."
+    },
+    {
+     "from": "Patrick",
+     "text": "Et personne répond."
+    },
+    {
+     "from": "Patrick",
+     "text": "Pourquoi tu me fais ça ?"
+    },
+    {
+     "from": "James",
+     "text": "Je te fais rien."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je rentre chez moi. J’espère que t’es content."
+    },
+    {
+     "from": "James",
+     "text": "Viens à la soirée, c’est tout."
+    },
+    {
+     "from": "Patrick",
+     "text": "JE PEUX PAS SI TU ME DIS PAS OÙ ELLE EST !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Hé, y a une panne de courant ou quoi ?"
+    },
+    {
+     "from": "James",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Toutes les maisons sont dans le noir."
+    },
+    {
+     "from": "Patrick",
+     "text": "Toutes celles devant lesquelles je passe."
+    },
+    {
+     "from": "Patrick",
+     "text": "Même chez moi."
+    },
+    {
+     "from": "Patrick",
+     "text": "Et je SAIS que ma famille est à la maison."
+    },
+    {
+     "from": "James",
+     "text": "Ils sont peut-être sortis."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’arrive pas à rentrer."
+    },
+    {
+     "from": "James",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ma clé marche pas. J’arrive pas à rentrer chez moi."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’arrive pas à rentrer chez moi !"
+    }
+   ]
+  },
+  {
+   "prologue": "Patrick a passé toute sa vie dans cette rue. Il connaît chaque lampe de porche, chaque boîte aux lettres, chaque chien qui aboie la nuit. Ce soir, pas un seul n’aboie.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "mailbox",
+    "camera",
+    "lamp",
+    "road",
+    "house",
+    "key",
+    "phone",
+    "clock",
+    "question",
+    "moon"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "Ça n’a aucun sens."
+    },
+    {
+     "from": "James",
+     "text": "T’es peut-être pas dans la bonne rue."
+    },
+    {
+     "from": "Patrick",
+     "text": "Si."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est bizarre. Tout est tellement calme."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je vois même pas une voiture passer."
+    },
+    {
+     "from": "James",
+     "text": "Je crois que t’es en train de péter un câble. Sérieux."
+    },
+    {
+     "from": "Patrick",
+     "text": "Dis-moi où est la soirée."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’aime pas ça."
+    },
+    {
+     "from": "James",
+     "text": "Je viens te chercher."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis juste devant chez moi."
+    },
+    {
+     "from": "James",
+     "text": "T’es sûr ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ouais, sûr. On a une boîte aux lettres rouge, tu te souviens ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis pile devant."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’ai pas vu une seule voiture passer."
+    },
+    {
+     "from": "James",
+     "text": "J’arrive."
+    },
+    {
+     "from": "Patrick",
+     "text": "Dépêche-toi."
+    },
+    {
+     "from": "Patrick",
+     "text": "S’il te plaît."
+    },
+    {
+     "from": "Patrick",
+     "text": "-----"
+    },
+    {
+     "from": "Patrick",
+     "text": "T’es là ?"
+    },
+    {
+     "from": "James",
+     "text": "Et TOI, t’es où ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Devant chez moi !"
+    },
+    {
+     "from": "James",
+     "text": "T’es sûr que t’as rien pris ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Tu me connais."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je deviens peut-être fou."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’en sais rien."
+    },
+    {
+     "from": "James",
+     "text": "Je suis debout devant ta boîte aux lettres."
+    },
+    {
+     "from": "James",
+     "text": "PHOTO : la photo de James de la boîte aux lettres rouge de Patrick"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis debout devant la boîte aux lettres."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO : la photo de Patrick de la boîte aux lettres rouge de Patrick (la même boîte aux lettres)"
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est pas possible."
+    },
+    {
+     "from": "James",
+     "text": "Mais si t’es pas là, alors t’es où ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "J’EN SAIS RIEN !"
+    },
+    {
+     "from": "James",
+     "text": "Je viens de prévenir tes parents."
+    },
+    {
+     "from": "Patrick",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "James",
+     "text": "Que t’es perdu !"
+    },
+    {
+     "from": "Patrick",
+     "text": "Mais je suis pas perdu !"
+    },
+    {
+     "from": "James",
+     "text": "Ils appellent la police."
+    },
+    {
+     "from": "Patrick",
+     "text": "Mais je suis juste devant chez moi."
+    },
+    {
+     "from": "James",
+     "text": "Et si tu l’imaginais ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "J’imagine RIEN."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je crois pas."
+    },
+    {
+     "from": "Patrick",
+     "text": "De toute façon, t’as vu la photo."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est moi qui l’ai prise."
+    },
+    {
+     "from": "Patrick",
+     "text": "Tu SAIS que je suis là."
+    },
+    {
+     "from": "James",
+     "text": "T’entends les sirènes ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Quelles sirènes ?"
+    },
+    {
+     "from": "James",
+     "text": "La police."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’entends rien."
+    },
+    {
+     "from": "Patrick",
+     "text": "Y a de la lumière chez moi ?"
+    },
+    {
+     "from": "James",
+     "text": "Ouais."
+    },
+    {
+     "from": "Patrick",
+     "text": "Pas ici."
+    },
+    {
+     "from": "Patrick",
+     "text": "Et les lampadaires viennent de s’éteindre."
+    },
+    {
+     "from": "Patrick",
+     "text": "Vous avez encore des lampadaires, vous ?"
+    },
+    {
+     "from": "James",
+     "text": "Tout est normal."
+    },
+    {
+     "from": "Patrick",
+     "text": "Pas de lumière, pas de voitures, personne."
+    },
+    {
+     "from": "Patrick",
+     "text": "T’as pas idée à quel point c’est silencieux."
+    },
+    {
+     "from": "James",
+     "text": "La police demande : c’est quand, la dernière fois que tu te souviens avoir vu des gens ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Jsp, ma famille, avant de partir, je suppose ? Ou peut-être en allant là-bas ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "J’en suis pas sûr."
+    },
+    {
+     "from": "James",
+     "text": "Ils envoient des gens te chercher."
+    },
+    {
+     "from": "Patrick",
+     "text": "Mais je suis juste devant la maison."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je touche la boîte aux lettres."
+    },
+    {
+     "from": "Patrick",
+     "text": "Elle est réelle."
+    },
+    {
+     "from": "James",
+     "text": "C’est peut-être ce que tu crois."
+    },
+    {
+     "from": "Patrick",
+     "text": "MAIS T’AS VU LA PHOTO !"
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est RÉEL !"
+    },
+    {
+     "from": "James",
+     "text": "La police vient de nous dire un truc."
+    },
+    {
+     "from": "Patrick",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "James",
+     "text": "Quelqu’un t’a trouvé."
+    },
+    {
+     "from": "Patrick",
+     "text": "Hein ? Y a personne ici."
+    },
+    {
+     "from": "James",
+     "text": "Dans un fossé au bord de la route."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est évidemment pas moi."
+    },
+    {
+     "from": "James",
+     "text": "Ils disent que t’as été renversé par une voiture."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est pas moi !"
+    },
+    {
+     "from": "James",
+     "text": "C’est toi."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est ÉVIDEMMENT pas moi."
+    },
+    {
+     "from": "James",
+     "text": "C’est évident que ça, c’est toi."
+    },
+    {
+     "from": "Patrick",
+     "text": "« Ça » ?"
+    },
+    {
+     "from": "James",
+     "text": "Ils disent que t’es mort."
+    }
+   ]
+  },
+  {
+   "prologue": "Il y a des gens qui ne comprennent pas les allusions. Patrick n’a jamais quitté une soirée en avance, et ce n’est pas maintenant qu’il va commencer.",
+   "left": "Patrick",
+   "right": "James",
+   "wallpaper": [
+    "rock",
+    "shards",
+    "balloon",
+    "cup",
+    "camera",
+    "door",
+    "moon",
+    "music",
+    "house",
+    "nostar"
+   ],
+   "messages": [
+    {
+     "from": "Patrick",
+     "text": "Je suis pas mort."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO : selfie de Patrick"
+    },
+    {
+     "from": "Patrick",
+     "text": "J’ai l’air mort ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ils se sont trompés."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’ai pas été renversé par une voiture."
+    },
+    {
+     "from": "James",
+     "text": "C’est toi."
+    },
+    {
+     "from": "Patrick",
+     "text": "Non."
+    },
+    {
+     "from": "James",
+     "text": "Ce sont tes vêtements, tes papiers."
+    },
+    {
+     "from": "Patrick",
+     "text": "Les morts envoient pas de textos, James."
+    },
+    {
+     "from": "Patrick",
+     "text": "Et ils prennent pas de photos."
+    },
+    {
+     "from": "Patrick",
+     "text": "Enfin, je suis peut-être fou, mais je suis pas mort."
+    },
+    {
+     "from": "James",
+     "text": "Ils nous ont montré une photo"
+    },
+    {
+     "from": "Patrick",
+     "text": "De quoi ?"
+    },
+    {
+     "from": "James",
+     "text": "De toi."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO : selfie de Patrick (le même que tout à l’heure)"
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est moi."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis toujours là."
+    },
+    {
+     "from": "James",
+     "text": "Où ça ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Devant chez moi ?"
+    },
+    {
+     "from": "James",
+     "text": "Là où t’arrives pas à rentrer ?"
+    },
+    {
+     "from": "James",
+     "text": "C’est peut-être pour ça que t’arrivais pas à entrer à la soirée."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est une énorme blague, hein ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Vous êtes tous cachés derrière les buissons, c’est ça ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je sais pas comment vous avez coupé le courant, mais je parie que c’est vous."
+    },
+    {
+     "from": "James",
+     "text": "C’est pas une blague."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis vivant."
+    },
+    {
+     "from": "Patrick",
+     "text": "Par contre, je dois avoir des visions."
+    },
+    {
+     "from": "Patrick",
+     "text": "Genre, je vois même pas les étoiles dans le ciel, c’est pas bizarre, ça ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Je parie que t’es encore à la soirée. J’y retourne."
+    },
+    {
+     "from": "James",
+     "text": "Ça servira à rien."
+    },
+    {
+     "from": "James",
+     "text": "On sera quand même pas l à."
+    },
+    {
+     "from": "Patrick",
+     "text": "C’est toi qui le dis."
+    },
+    {
+     "from": "Patrick",
+     "text": "Bon, j’y retourne quand même."
+    },
+    {
+     "from": "James",
+     "text": "Ça servira à rien."
+    },
+    {
+     "from": "James",
+     "text": "J’en ai marre de ta blague débile."
+    },
+    {
+     "from": "James",
+     "text": "Pour info, je suis en route."
+    },
+    {
+     "from": "James",
+     "text": "Je vais entrer par effraction quand j’arrive, s’il le faut."
+    },
+    {
+     "from": "James",
+     "text": "Si tu me laisses pas entrer."
+    },
+    {
+     "from": "Patrick",
+     "text": "On peut rien faire. Je te l’ai dit !"
+    },
+    {
+     "from": "Patrick",
+     "text": "On est juste plus au même endroit"
+    },
+    {
+     "from": "Patrick",
+     "text": "Si personne m’ouvre la porte, je casse la fenêtre."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je préviens."
+    },
+    {
+     "from": "Patrick",
+     "text": "Vous êtes sûrement tous cachés là-dedans."
+    },
+    {
+     "from": "James",
+     "text": "Personne se cache."
+    },
+    {
+     "from": "Patrick",
+     "text": "Tant mieux. Parce que si c’est le cas, je vous trouverai."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je suis juste devant."
+    },
+    {
+     "from": "Patrick",
+     "text": "La maison est dans le noir, je parie que t’as prévenu tout le monde que je revenais."
+    },
+    {
+     "from": "James",
+     "text": "Personne se cache, et j’ai prévenu personne."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je vais entrer de force."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je vais aller à cette soirée."
+    },
+    {
+     "from": "Patrick",
+     "text": "Soit quelqu’un ouvre la porte, soit je casse la fenêtre."
+    },
+    {
+     "from": "James",
+     "text": "Tu peux pas venir à la soirée."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO : une main qui tient une pierre (de nuit)"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ça, ça va passer à travers la fenêtre"
+    },
+    {
+     "from": "Patrick",
+     "text": "T’as entendu ? Je viens de casser la fenêtre."
+    },
+    {
+     "from": "Patrick",
+     "text": "Vous avez intérêt à sortir de vos cachettes, parce que j’arrive."
+    },
+    {
+     "from": "James",
+     "text": "Personne se cache."
+    },
+    {
+     "from": "Patrick",
+     "text": "J’entends quelque chose."
+    },
+    {
+     "from": "Patrick",
+     "text": "Enfin. Je le savais."
+    },
+    {
+     "from": "James",
+     "text": "Tu savais quoi ? Y a rien."
+    },
+    {
+     "from": "Patrick",
+     "text": "Je viens de trouver la soirée."
+    },
+    {
+     "from": "James",
+     "text": "Ah bon ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "Ouais, regarde."
+    },
+    {
+     "from": "Patrick",
+     "text": "PHOTO : des ados à une soirée"
+    },
+    {
+     "from": "James",
+     "text": "C’est quoi, eux ?"
+    },
+    {
+     "from": "James",
+     "text": "C’est personne que je connais"
+    },
+    {
+     "from": "James",
+     "text": "Mais si TOI, tu peux les voir…"
+    },
+    {
+     "from": "Patrick",
+     "text": "Si je peux les voir, quoi ?"
+    },
+    {
+     "from": "Patrick",
+     "text": "QUOI ?"
+    },
+    {
+     "from": "James",
+     "text": "… alors ils sont exactement comme toi."
+    }
+   ]
+  }
+ ]
+}

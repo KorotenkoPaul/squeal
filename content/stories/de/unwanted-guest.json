@@ -1,0 +1,324 @@
+{
+ "id": "unwanted-guest",
+ "title": "Ungebetener Gast",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Sharon ist nachts nicht gern allein. Als sie ihre Haustür unverschlossen vorfindet, malt sie sich aus, dass noch jemand im Haus ist.",
+ "parts": [
+  {
+   "prologue": "Sharon schläft allein, seit Darrell Nachtschicht hat. Vor dem Schlafengehen prüft sie jedes Schloss. Heute Nacht weiß sie nicht mehr, ob sie es getan hat.",
+   "left": "Darrell",
+   "right": "Sharon",
+   "wallpaper": [
+    "door",
+    "key",
+    "lock",
+    "bulb",
+    "moon",
+    "house",
+    "phone",
+    "clock",
+    "stairs"
+   ],
+   "messages": [
+    {
+     "from": "Darrell",
+     "text": "Du kriegst immer gleich so Angst!"
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich bin einfach nicht gern allein. Vor allem nachts."
+    },
+    {
+     "from": "Darrell",
+     "text": "Hör mal, es gibt keinen Grund, dir Sorgen zu machen."
+    },
+    {
+     "from": "Sharon",
+     "text": "Komm einfach her."
+    },
+    {
+     "from": "Darrell",
+     "text": "Ich bin auf der Arbeit, du weißt, dass ich nicht kann."
+    },
+    {
+     "from": "Sharon",
+     "text": "Sag einfach, du bist krank."
+    },
+    {
+     "from": "Darrell",
+     "text": "Das mach ich nicht."
+    },
+    {
+     "from": "Sharon",
+     "text": "Bitte?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Mach einfach überall das Licht an, das wird schon."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich hab überall das Licht angemacht."
+    },
+    {
+     "from": "Darrell",
+     "text": "Dann mach dir keine Sorgen."
+    },
+    {
+     "from": "Darrell",
+     "text": "Du hast die Türen abgeschlossen, oder?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Ja."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich glaub schon."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich versuch mich zu erinnern."
+    },
+    {
+     "from": "Darrell",
+     "text": "Bestimmt hast du das."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich seh lieber nach."
+    },
+    {
+     "from": "Sharon",
+     "text": "Hintertür ist abgeschlossen."
+    },
+    {
+     "from": "Darrell",
+     "text": "Hast du selber abgeschlossen."
+    },
+    {
+     "from": "Sharon",
+     "text": "Die Schiebetür zur Veranda ist zu."
+    },
+    {
+     "from": "Sharon",
+     "text": "Die Fenster im Fernsehzimmer sind zu"
+    },
+    {
+     "from": "Darrell",
+     "text": "Siehst du, alles wird gut."
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Was?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Du musst herkommen."
+    },
+    {
+     "from": "Sharon",
+     "text": "Schnell."
+    },
+    {
+     "from": "Darrell",
+     "text": "Wieso?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Die Haustür."
+    },
+    {
+     "from": "Darrell",
+     "text": "War sie nicht abgeschlossen?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Sie war offen."
+    },
+    {
+     "from": "Darrell",
+     "text": "Sperrangelweit?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Weit genug."
+    },
+    {
+     "from": "Darrell",
+     "text": "Du hast nur vergessen nachzusehen, das ist alles."
+    },
+    {
+     "from": "Sharon",
+     "text": "Nein! Die Haustür ist das ERSTE, was ich chekce."
+    },
+    {
+     "from": "Darrell",
+     "text": "Vielleicht warst du abgelenkt."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich war nicht abgelenkt."
+    },
+    {
+     "from": "Sharon",
+     "text": "Sie war offen"
+    },
+    {
+     "from": "Darrell",
+     "text": "Und, hast du sie abgeschlossen?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Was, wenn jemand im Haus ist?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Da ist niemand im Haus."
+    },
+    {
+     "from": "Sharon",
+     "text": "Und wenn doch?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Keine Ahnung … geh doch zu den Nachbarn oder so."
+    },
+    {
+     "from": "Sharon",
+     "text": "Draußen ist es stockdunkel."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich weiß nicht, was ich machen soll."
+    },
+    {
+     "from": "Darrell",
+     "text": "Keine Sorge."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich MACH mir aber Sorgen!"
+    },
+    {
+     "from": "Darrell",
+     "text": "Hör mal, wie wahrscheinlich ist es, dass irgendein Einbrecher gemerkt hat, dass die Tür offen war?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Und wenn ich sie doch abgeschlossen hab? Und wenn SIE sie aufgeschlossen haben???"
+    },
+    {
+     "from": "Darrell",
+     "text": "Du bist lächerlich."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich glaub, ich hab was gehört."
+    },
+    {
+     "from": "Darrell",
+     "text": "Das hast du dir eingebildet."
+    },
+    {
+     "from": "Sharon",
+     "text": "Nein …"
+    },
+    {
+     "from": "Darrell",
+     "text": "DOCH."
+    },
+    {
+     "from": "Sharon",
+     "text": "Da ist jemand im Haus!"
+    },
+    {
+     "from": "Darrell",
+     "text": "Da ist niemand im Haus."
+    },
+    {
+     "from": "Sharon",
+     "text": "Du musst herkommen."
+    },
+    {
+     "from": "Darrell",
+     "text": "Ich arbeite."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich sag die Wahrheit."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich versteck mich unterm Bett."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ich glaub, er ist in meinem Zimmer!"
+    },
+    {
+     "from": "Darrell",
+     "text": "Da ist niemand!"
+    },
+    {
+     "from": "Sharon",
+     "text": "BILD: BEINE EINES MANNES IM SCHLAFZIMMER, AUFGENOMMEN UNTER DEM BETT"
+    },
+    {
+     "from": "Sharon",
+     "text": "Glaubst du mir jetzt?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Glaubst du mir jetzt?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Antworte mir!"
+    },
+    {
+     "from": "Sharon",
+     "text": "Moment … bist du das?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Ist das ein großer Witz? Versteck ich mich hier umsonst?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sorry, ich musste mich um einen Kunden kümmern."
+    },
+    {
+     "from": "Darrell",
+     "text": "Moment … WAS?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon, bist du da?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Antworte mir!"
+    },
+    {
+     "from": "Darrell",
+     "text": "DAS BIN NICHT ICH!"
+    }
+   ]
+  }
+ ]
+}

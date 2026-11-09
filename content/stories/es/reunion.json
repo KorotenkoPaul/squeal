@@ -1,0 +1,400 @@
+{
+ "id": "reunion",
+ "title": "El reencuentro",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 3,
+ "description": "Un mediodía, a la hora del almuerzo, Emily se encuentra con alguien a quien conoció hace años en la secundaria. Solo después de invitarlo a una fiesta descubre que es un asesino en serie.",
+ "parts": [
+  {
+   "prologue": "La secundaria fue hace mucho tiempo. Emily la recuerda con cariño: las fiestas, los amigos, el chico callado al que todos llamaban Kenny el Raro. Hace años que no piensa en él.",
+   "left": "Mike",
+   "right": "Emily",
+   "wallpaper": [
+    "book",
+    "cutlery",
+    "balloon",
+    "music",
+    "phone",
+    "star",
+    "question",
+    "coffee",
+    "house"
+   ],
+   "messages": [
+    {
+     "from": "Mike",
+     "text": "¡Emily! ¡Hace siglos que no sé nada de ti!"
+    },
+    {
+     "from": "Emily",
+     "text": "Hola, Mike. TENÍA que contarte…"
+    },
+    {
+     "from": "Emily",
+     "text": "NO vas a creer con quién me encontré hoy en el almuerzo."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Con quién?"
+    },
+    {
+     "from": "Emily",
+     "text": "¡Adivina!"
+    },
+    {
+     "from": "Mike",
+     "text": "Ni idea."
+    },
+    {
+     "from": "Emily",
+     "text": "¡No, adivina!"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Charlie?"
+    },
+    {
+     "from": "Emily",
+     "text": "¿Eh? No, ¿por qué iba a ser Charlie?"
+    },
+    {
+     "from": "Mike",
+     "text": "No sé. Trabaja en el centro."
+    },
+    {
+     "from": "Emily",
+     "text": "Charlie no."
+    },
+    {
+     "from": "Emily",
+     "text": "Adivina otra vez."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Por qué le das tanta importancia?"
+    },
+    {
+     "from": "Emily",
+     "text": "Porque es increíble. Lo invité a la fiesta de esta noche."
+    },
+    {
+     "from": "Mike",
+     "text": "¿A QUIÉN?"
+    },
+    {
+     "from": "Emily",
+     "text": "¿Te acuerdas del pequeño Kenny… de la secundaria? ¿El chico raro?"
+    },
+    {
+     "from": "Mike",
+     "text": "¿QUÉ?"
+    },
+    {
+     "from": "Emily",
+     "text": "¡Me lo encontré!"
+    },
+    {
+     "from": "Emily",
+     "text": "¿No es increíble?"
+    },
+    {
+     "from": "Mike",
+     "text": "No, NO es increíble."
+    },
+    {
+     "from": "Mike",
+     "text": "No sabes lo de él, ¿verdad?"
+    },
+    {
+     "from": "Emily",
+     "text": "¿A qué te refieres?"
+    },
+    {
+     "from": "Mike",
+     "text": "Pensé que ya te habrías enterado."
+    },
+    {
+     "from": "Mike",
+     "text": "Está en todas las noticias: lo están buscando."
+    },
+    {
+     "from": "Emily",
+     "text": "¿Cómo que «lo están buscando»?"
+    },
+    {
+     "from": "Mike",
+     "text": "La policía. El FBI."
+    },
+    {
+     "from": "Emily",
+     "text": "¡Qué locura!"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Cómo puede ser que NO lo sepas?"
+    },
+    {
+     "from": "Emily",
+     "text": "Estás bromeando."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily, lo buscan por asesinato."
+    },
+    {
+     "from": "Emily",
+     "text": "Qué locura. Sé que era raro, pero eso fue hace mucho."
+    },
+    {
+     "from": "Mike",
+     "text": "¡Lo digo en serio! ¡Salió en las noticias!"
+    },
+    {
+     "from": "Emily",
+     "text": "Yo no veo las noticias."
+    },
+    {
+     "from": "Mike",
+     "text": "¿En serio lo invitaste?"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Sabe dónde vives?"
+    },
+    {
+     "from": "Emily",
+     "text": "Te dije, voy a hacer una fiesta. En un par de horas."
+    },
+    {
+     "from": "Emily",
+     "text": "Y además, no parecía alguien a quien estén buscando."
+    },
+    {
+     "from": "Emily",
+     "text": "Así que a lo mejor te equivocas."
+    },
+    {
+     "from": "Emily",
+     "text": "A lo mejor era alguien con el mismo nombre."
+    },
+    {
+     "from": "Mike",
+     "text": "Era ÉL. ¿No te acuerdas de lo raro que era?"
+    },
+    {
+     "from": "Emily",
+     "text": "Espera… tocan la puerta."
+    },
+    {
+     "from": "Mike",
+     "text": "¿¿¿Es él???"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Ya está ahí?"
+    },
+    {
+     "from": "Mike",
+     "text": "¡¡Pensé que no iba a llegar hasta más tarde!!"
+    },
+    {
+     "from": "Emily",
+     "text": "Bueno… llegó temprano."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Está ahí?"
+    },
+    {
+     "from": "Emily",
+     "text": "Sí."
+    },
+    {
+     "from": "Mike",
+     "text": "¡Emily, tienes que irte de ahí!"
+    },
+    {
+     "from": "Emily",
+     "text": "¿Estás seguro de lo de él?"
+    },
+    {
+     "from": "Mike",
+     "text": "¡Sí!"
+    },
+    {
+     "from": "Emily",
+     "text": "De verdad creo que te equivocas. Está sentado justo enfrente de mí."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Puedes salir de ahí?"
+    },
+    {
+     "from": "Emily",
+     "text": "No me pongas nerviosa."
+    },
+    {
+     "from": "Mike",
+     "text": "Mantén la calma. ¿Qué te está diciendo?"
+    },
+    {
+     "from": "Emily",
+     "text": "Me pregunta cómo estoy."
+    },
+    {
+     "from": "Mike",
+     "text": "Dile que estás bien."
+    },
+    {
+     "from": "Emily",
+     "text": "Ya se lo dije, y le dije que le estoy escribiendo a mi mamá."
+    },
+    {
+     "from": "Emily",
+     "text": "Creo que en esa época no le caías bien."
+    },
+    {
+     "from": "Mike",
+     "text": "Voy a llamar a la policía"
+    },
+    {
+     "from": "Emily",
+     "text": "No ha hecho nada."
+    },
+    {
+     "from": "Mike",
+     "text": "¡Salvo matar gente! ¡Sal mientras puedas!"
+    },
+    {
+     "from": "Emily",
+     "text": "No voy a hacer eso."
+    },
+    {
+     "from": "Emily",
+     "text": "Está siendo amable."
+    },
+    {
+     "from": "Emily",
+     "text": "Dice que le alegra verme. ¿Ves? Es buena persona."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Eh?"
+    },
+    {
+     "from": "Emily",
+     "text": "Dice que no ha visto a mucha gente de la secundaria."
+    },
+    {
+     "from": "Emily",
+     "text": "Dice que no fue una buena época para él."
+    },
+    {
+     "from": "Mike",
+     "text": "Sí. Era un bicho raro."
+    },
+    {
+     "from": "Emily",
+     "text": "Dice que nadie lo quería."
+    },
+    {
+     "from": "Emily",
+     "text": "Mike… se está enojando al hablar de eso."
+    },
+    {
+     "from": "Mike",
+     "text": "Mantén la calma."
+    },
+    {
+     "from": "Emily",
+     "text": "Se lo veo en la cara."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Qué le ves?"
+    },
+    {
+     "from": "Emily",
+     "text": "Lo enojado que está. Tiene la cara toda roja."
+    },
+    {
+     "from": "Emily",
+     "text": "Dijo que odiaba a todos."
+    },
+    {
+     "from": "Emily",
+     "text": "Pero dijo que ya no va a odiar más."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Qué quiere decir?"
+    },
+    {
+     "from": "Emily",
+     "text": "Bueno…"
+    },
+    {
+     "from": "Emily",
+     "text": "Dijo que las cosas están mejorando."
+    },
+    {
+     "from": "Emily",
+     "text": "Dice que se deshizo de la gente mala."
+    },
+    {
+     "from": "Emily",
+     "text": "…de casi toda la gente mala"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Que se DESHIZO de ellos?"
+    },
+    {
+     "from": "Emily",
+     "text": "Eso dijo."
+    },
+    {
+     "from": "Emily",
+     "text": "«Casi toda»."
+    },
+    {
+     "from": "Emily",
+     "text": "Dijo que le quedan unos cuantos."
+    },
+    {
+     "from": "Mike",
+     "text": "Unos cuantos…"
+    },
+    {
+     "from": "Emily",
+     "text": "Gente que no le caía bien. De la secundaria."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Qué gente?"
+    },
+    {
+     "from": "Mike",
+     "text": "Fuimos buenos con él, ¿no?"
+    },
+    {
+     "from": "Mike",
+     "text": "No me acuerdo bien."
+    },
+    {
+     "from": "Mike",
+     "text": "¿Emily?"
+    },
+    {
+     "from": "Mike",
+     "text": "¿No fuimos buenos con él?"
+    },
+    {
+     "from": "Mike",
+     "text": "¿Emily?"
+    }
+   ]
+  }
+ ]
+}

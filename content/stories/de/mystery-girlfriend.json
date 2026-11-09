@@ -1,0 +1,356 @@
+{
+ "id": "mystery-girlfriend",
+ "title": "Die geheimnisvolle Freundin",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Bruce, Sohn eines Milliardärs, hat auf Facebook das Mädchen seiner Träume kennengelernt – glaubt er zumindest. Sein Vater ist strikt gegen seine Pläne, sie zu heiraten, aber warum?",
+ "parts": [
+  {
+   "prologue": "Bruce musste sich noch nie für irgendwas anstrengen. Geld, Autos, Mädchen – das kommt alles von allein. Laila kam vor zwei Wochen, in einer Facebook-Nachricht.",
+   "left": "Genry",
+   "right": "Bruce",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "ring",
+    "dollar",
+    "fork",
+    "rose",
+    "camera",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Genry",
+     "text": "Hey Kumpel, wieso antwortest du nicht auf meine Nachrichten?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sorry. War beschäftigt."
+    },
+    {
+     "from": "Genry",
+     "text": "Womit oder mit wem?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Hab auf Facebook das Mädchen meiner Träume kennengelernt."
+    },
+    {
+     "from": "Genry",
+     "text": "Echt? Das hast du bei Linda auch gedacht."
+    },
+    {
+     "from": "Bruce",
+     "text": "Aber diesmal ist es anders."
+    },
+    {
+     "from": "Genry",
+     "text": "Inwiefern anders?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sie versteht mich, ist wunderschön, süß und lieb."
+    },
+    {
+     "from": "Genry",
+     "text": "Wie lange kennst du sie schon?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Erst zwei Wochen, und ich liebe sie."
+    },
+    {
+     "from": "Genry",
+     "text": "Nach zwei Wochen?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Sie bedeutet mir einfach so viel. Liebe auf den ersten Blick."
+    },
+    {
+     "from": "Genry",
+     "text": "Sorry, ich glaub nicht an Liebe auf den ersten Blick oder auf sonst einen Blick."
+    },
+    {
+     "from": "Bruce",
+     "text": "Nicht alle Mädchen sind solche Miststücke wie Colleen."
+    },
+    {
+     "from": "Genry",
+     "text": "Hab noch keine gefunden, die keins ist."
+    },
+    {
+     "from": "Bruce",
+     "text": "Soll ich mal schauen, ob Laila eine Schwester oder Freundin hat?"
+    },
+    {
+     "from": "Genry",
+     "text": "Nein danke. Ich hab vom Dating erst mal genug."
+    },
+    {
+     "from": "Bruce",
+     "text": "Wenn du dir sicher bist."
+    },
+    {
+     "from": "Genry",
+     "text": "Bin ich, aber danke."
+    },
+    {
+     "from": "Bruce",
+     "text": "Falls du’s dir anders überlegst, sag Bescheid."
+    },
+    {
+     "from": "Genry",
+     "text": "Dann erzähl mir mal mehr über Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Sie ist wunderschön, mit dunklen Haaren und dunklen Augen und richtig kurvig."
+    },
+    {
+     "from": "Genry",
+     "text": "Was habt ihr zwei so gemacht?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ich war mit ihr an romantischen Stränden."
+    },
+    {
+     "from": "Genry",
+     "text": "Klingt schön."
+    },
+    {
+     "from": "Bruce",
+     "text": "Ich hab sogar einen Konzertsaal nur für uns zwei gemietet."
+    },
+    {
+     "from": "Genry",
+     "text": "Klingt cool."
+    },
+    {
+     "from": "Bruce",
+     "text": "Das ist wahre Liebe, und die hält für immer."
+    },
+    {
+     "from": "Genry",
+     "text": "Für immer ist eine lange Zeit."
+    },
+    {
+     "from": "Bruce",
+     "text": "Das weiß ich."
+    },
+    {
+     "from": "Genry",
+     "text": "Wie heißt sie mit Nachnamen?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Lafontaine."
+    },
+    {
+     "from": "Genry",
+     "text": "Eine der Töchter von dem Schuhmagnaten?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Nein, einfach ein ganz normales Mädchen."
+    },
+    {
+     "from": "Genry",
+     "text": "Wie nimmt dein Vater das auf?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Nicht besonders gut. Er ist dagegen."
+    },
+    {
+     "from": "Genry",
+     "text": "Ja, dein Vater wollte, dass du Gloria Van House heiratest."
+    },
+    {
+     "from": "Bruce",
+     "text": "Ja, aber die hat nur Luft im Kopf und …"
+    },
+    {
+     "from": "Genry",
+     "text": "Und was, Kumpel?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ist ein Eisklotz im Bett."
+    },
+    {
+     "from": "Genry",
+     "text": "Was arbeitet Laila eigentlich?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Weiß ich nicht genau. Sie hat unregelmäßige Arbeitszeiten."
+    },
+    {
+     "from": "Genry",
+     "text": "Sie hat’s dir nicht gesagt?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Nein, und ich weiß nur, dass es was mit Öffentlichkeitsarbeit ist."
+    },
+    {
+     "from": "Genry",
+     "text": "Wann lerne ich sie kennen?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ich muss schauen, wann sie frei hat."
+    },
+    {
+     "from": "Genry",
+     "text": "Erst muss sie meinen Segen kriegen."
+    },
+    {
+     "from": "Bruce",
+     "text": "Dein Segen ist alles, was ich brauche."
+    },
+    {
+     "from": "Genry",
+     "text": "Und was ist mit dem Segen deines Vaters?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Vater hat gesagt, er enterbt mich, wenn ich sie noch mal treffe."
+    },
+    {
+     "from": "Genry",
+     "text": "Was wirst du tun?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Mich weiter mit ihr treffen."
+    },
+    {
+     "from": "Genry",
+     "text": "Auch wenn du dein ganzes Geld, die Autos, das Haus verlierst?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ja, weil ich sie liebe."
+    },
+    {
+     "from": "Genry",
+     "text": "Und wie soll dir Liebe ein Dach über dem Kopf geben?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Wir kriegen das hin. Sie hat einen Job."
+    },
+    {
+     "from": "Genry",
+     "text": "Hat dein Vater sie kennengelernt?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Nein."
+    },
+    {
+     "from": "Genry",
+     "text": "Wie hat dein Vater dann rausgefunden, dass du dich mit einer anderen als Gloria triffst?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Die Kreditkartenabrechnungen und das Geld, das ich für sie ausgegeben hab."
+    },
+    {
+     "from": "Genry",
+     "text": "Viel Geld?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Ja."
+    },
+    {
+     "from": "Genry",
+     "text": "Wow! Und jetzt?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Vater geht mit mir mittagessen."
+    },
+    {
+     "from": "Genry",
+     "text": "Wo?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Im Italian Bistro. Vater hat auf diesem Restaurant bestanden."
+    },
+    {
+     "from": "Genry",
+     "text": "Wieso Mittagessen?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Wieso nicht? Essen muss man, und der Laden ist so gut wie jeder andere."
+    },
+    {
+     "from": "Genry",
+     "text": "Wieso dieses Restaurant? Du magst doch gar kein Italienisch."
+    },
+    {
+     "from": "Bruce",
+     "text": "Moment. Nachricht von Laila."
+    },
+    {
+     "from": "Bruce",
+     "text": "Bin wieder da. Vater sagt, er ist bereit, was Laila und mich angeht, einen Kompromiss einzugehen."
+    },
+    {
+     "from": "Genry",
+     "text": "Das ist ein Schritt in die richtige Richtung"
+    },
+    {
+     "from": "Bruce",
+     "text": "Er will über unsere bevorstehende Hochzeit reden."
+    },
+    {
+     "from": "Genry",
+     "text": "Viel Spaß. Schreib mir, wie’s gelaufen ist."
+    },
+    {
+     "from": "Genry",
+     "text": "Wie war das Mittagessen?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Jetzt weiß ich, wieso Vater mich ins Italian Bistro eingeladen hat."
+    },
+    {
+     "from": "Genry",
+     "text": "Wieso?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Wir waren auf dem Weg zum Restaurant."
+    },
+    {
+     "from": "Genry",
+     "text": "Und?"
+    },
+    {
+     "from": "Bruce",
+     "text": "Wir sind an der Ecke vorbeigefahren, wo die Prostituierten stehen und mittags auf Freier warten."
+    },
+    {
+     "from": "Genry",
+     "text": "Und? Die stehen da doch immer."
+    },
+    {
+     "from": "Bruce",
+     "text": "Laila war eine von ihnen."
+    }
+   ]
+  }
+ ]
+}

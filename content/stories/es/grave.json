@@ -1,0 +1,424 @@
+{
+  "id": "grave",
+  "title": "Enterrada",
+  "author": "Rich Samuels",
+  "genre": "thriller",
+  "fear": 4,
+  "description": "Aaron recibe mensajes desesperados de Jenna, una chica a la que no conoce y que dice estar secuestrada, atrapada en un ataúd enterrado. Le suplica a Aaron que la ayude.",
+  "parts": [
+    {
+      "prologue": "El número de Aaron antes era de otra persona. Todavía le llega algún mensaje para un desconocido: pedidos equivocados, felicitaciones de cumpleaños. El de esta noche solo dice: ayúdame.",
+      "left": "Jenna",
+      "right": "Aaron",
+      "wallpaper": [
+        "cross",
+        "flower",
+        "moon",
+        "train",
+        "phone",
+        "clock",
+        "question",
+        "candle",
+        "star"
+      ],
+      "messages": [
+        {
+          "from": "Jenna",
+          "text": "Ayúdame"
+        },
+        {
+          "from": "Aaron",
+          "text": "Creo que te equivocaste de número."
+        },
+        {
+          "from": "Jenna",
+          "text": "Por favor, ayúdame."
+        },
+        {
+          "from": "Aaron",
+          "text": "En serio, te equivocaste de número."
+        },
+        {
+          "from": "Jenna",
+          "text": "Estoy atrapada, necesito ayuda."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿A quién intentabas escribirle?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Solo necesito ayuda, nada más!"
+        },
+        {
+          "from": "Aaron",
+          "text": "Te equivocaste."
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Por favor!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¡Ni siquiera sé quién eres!"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Tienes que ayudarme a salir de aquí!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Salir de dónde?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Me enterraron!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Quién te enterró?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Esa gente… me enterraron."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Te enterraron dónde?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No lo sé. Bajo tierra."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Y entonces cómo puedes escribir?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Estoy en una caja."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Te metieron en una caja?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Como un ataúd."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Estás en un ataúd?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Estoy en un ataúd."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Quién haría algo así?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No sé quiénes eran."
+        },
+        {
+          "from": "Aaron",
+          "text": "Y te enterraron porque sí."
+        },
+        {
+          "from": "Jenna",
+          "text": "Me enterraron, sí. Y no sé por qué."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Intentas estafarme?"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Esto es algún tipo de broma?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Estoy atrapada aquí."
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Eres mi única esperanza!"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡POR FAVOR!"
+        },
+        {
+          "from": "Aaron",
+          "text": "Bueno, ¿y qué se supone que tengo que hacer?"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Y dónde estás, de todos modos?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Bajo tierra."
+        },
+        {
+          "from": "Aaron",
+          "text": "No, digo en qué lugar bajo tierra."
+        },
+        {
+          "from": "Aaron",
+          "text": "O sea, ¿en qué cementerio?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No lo sé."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Y entonces cómo se supone que te ayude?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No estoy segura."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Seguro que esto no es una broma?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No es una broma."
+        },
+        {
+          "from": "Aaron",
+          "text": "¡Si no sé dónde estás enterrada, no puedo ayudarte!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Quieres que llame a la policía?"
+        },
+        {
+          "from": "Jenna",
+          "text": "No, eso no servirá."
+        },
+        {
+          "from": "Jenna",
+          "text": "Creo que hay una vía de tren cerca. A veces oigo trenes."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Hay trenes?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Puedes ver algún cementerio cerca de una vía de tren?"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Cómo que ver?"
+        },
+        {
+          "from": "Jenna",
+          "text": "O sea, ¿en Google?"
+        },
+        {
+          "from": "Aaron",
+          "text": "Supongo que puedo buscar."
+        },
+        {
+          "from": "Aaron",
+          "text": "Creo que hay uno, en el norte de la ciudad."
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Tienes que ir!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Y hacer qué?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Desenterrarme! ¡Salvarme!"
+        },
+        {
+          "from": "Jenna",
+          "text": "En el cementerio"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Y cómo se supone que te encuentre?"
+        },
+        {
+          "from": "Jenna",
+          "text": "Mira alrededor"
+        },
+        {
+          "from": "Aaron",
+          "text": "¡Ni siquiera sé qué buscar!"
+        },
+        {
+          "from": "Jenna",
+          "text": "Busca una tumba recién cavada"
+        },
+        {
+          "from": "Aaron",
+          "text": "No tengo pala."
+        },
+        {
+          "from": "Jenna",
+          "text": "Sigue buscando…"
+        },
+        {
+          "from": "Jenna",
+          "text": "Siempre hay una por ahí."
+        },
+        {
+          "from": "Aaron",
+          "text": "Ok, encontré una… encontré una pala."
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Encontraste la tumba?"
+        },
+        {
+          "from": "Aaron",
+          "text": "Creo que sí."
+        },
+        {
+          "from": "Jenna",
+          "text": "Cava."
+        },
+        {
+          "from": "Aaron",
+          "text": "No creo. Esto es un cementerio."
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Por favor, cava! No creo que aguante mucho más."
+        },
+        {
+          "from": "Aaron",
+          "text": "Voy a buscar a la policía."
+        },
+        {
+          "from": "Jenna",
+          "text": "Para entonces ya estaré muerta."
+        },
+        {
+          "from": "Aaron",
+          "text": "Está bien, de acuerdo. Voy a cavar."
+        },
+        {
+          "from": "Aaron",
+          "text": "Pero en cuanto llegue la policía, me voy."
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Estás cavando?"
+        },
+        {
+          "from": "Aaron",
+          "text": "Estoy cavando."
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Te oigo! ¡Gracias a Dios que estás aquí!"
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Oíste eso? Acabo de llegar al ataúd."
+        },
+        {
+          "from": "Jenna",
+          "text": "Ábrelo."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Que abra un ataúd?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Estoy atrapada aquí dentro!"
+        },
+        {
+          "from": "Jenna",
+          "text": "¡Tienes que sacarme!"
+        },
+        {
+          "from": "Aaron",
+          "text": "Ok, ok. Lo haré."
+        },
+        {
+          "from": "Jenna",
+          "text": "Muchísimas gracias."
+        },
+        {
+          "from": "Aaron",
+          "text": "¿Qué está pasando aquí?"
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Qué quieres decir?"
+        },
+        {
+          "from": "Aaron",
+          "text": "Abrí la tapa."
+        },
+        {
+          "from": "Jenna",
+          "text": "No, no la abriste."
+        },
+        {
+          "from": "Aaron",
+          "text": "Sí, la abrí."
+        },
+        {
+          "from": "Aaron",
+          "text": "Es un cadáver. Un cuerpo podrido."
+        },
+        {
+          "from": "Jenna",
+          "text": "A lo mejor abriste la tumba equivocada."
+        },
+        {
+          "from": "Aaron",
+          "text": "No abrí la tumba equivocada."
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Cómo lo sabes?"
+        },
+        {
+          "from": "Aaron",
+          "text": "Porque hay algo escrito en la tapa."
+        },
+        {
+          "from": "Jenna",
+          "text": "¿Qué dice?"
+        },
+        {
+          "from": "Aaron",
+          "text": "«Nuestra querida Jenna»."
+        },
+        {
+          "from": "Aaron",
+          "text": "Estás muerta."
+        },
+        {
+          "from": "Jenna",
+          "text": "No, estoy atrapada."
+        },
+        {
+          "from": "Aaron",
+          "text": "Te estoy mirando ahora mismo."
+        },
+        {
+          "from": "Aaron",
+          "text": "Estás muerta. Muerta de verdad."
+        }
+      ]
+    }
+  ]
+}

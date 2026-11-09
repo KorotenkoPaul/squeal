@@ -64,7 +64,30 @@ const path = require('path');
     }
     await p.close();
   }
+  /* languages: every word of the interface exists in each language, every story in each language is
+     there, every screen renders in each language, and the slider titles still fit */
+  {
+    const p = await b.newPage({ viewport: { width: 320, height: 700 } });
+    const errs = []; p.on('pageerror', e => errs.push(e.message));
+    await p.goto(url); await p.waitForTimeout(500);
+    const langs = await p.evaluate(() => LANGS.map(l => l[0]));
+    for (const l of langs) {
+      const r = await p.evaluate(l => {
+        const out = [], keys = Object.keys(UI.en);
+        keys.forEach(k => { if (!(k in UI[l])) out.push('missing word ' + k); });
+        if (!STORIES_ALL[l] || STORIES_ALL[l].length !== STORIES_ALL.en.length) out.push('stories missing');
+        setLang(l); ['home', 'fav', 'search', 'menu', 'home'].forEach(x => { tab = x; render(); });
+        return out;
+      }, l);
+      await p.waitForTimeout(700);
+      const nofit = await p.evaluate(() => [...document.querySelectorAll('#slider .hero:not(.loop)')].filter(h => !fitLettering(h)).map(h => h.dataset.id));
+      r.forEach(x => fails.push(`language ${l}: ${x}`)); nofit.forEach(x => fails.push(`language ${l}: slider title of ${x} does not fit at 320`));
+    }
+    errs.forEach(e => fails.push('languages: page error ' + e));
+    await p.evaluate(() => setLang('en'));
+    await p.close();
+  }
   await b.close();
   if (fails.length) { console.error('SMOKE FAILED\n  ' + fails.join('\n  ')); process.exit(1); }
-  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs, slider titles fit at 320/390/430, chat doodles fall and fly in`);
+  console.log(`smoke ok: ${stories.length} stories x 5 progress states, 4 tabs, slider titles fit at 320/390/430, chat doodles fall and fly in, 5 languages`);
 })();

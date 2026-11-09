@@ -1,0 +1,336 @@
+{
+  "id": "slice",
+  "title": "Rebanado",
+  "author": "Rich Samuels",
+  "genre": "thriller",
+  "fear": 4,
+  "description": "Un asesino en serie le escribe a Colin para avisarle de que será su próxima víctima. Al principio Colin no se lo cree, pero el asesino parece saber demasiado sobre él… y sobre dónde está.",
+  "parts": [
+    {
+      "prologue": "Colin hace la compra tarde, cuando el supermercado está casi vacío. Le gusta la tranquilidad. Nunca se ha fijado en la persona a la que también le gusta.",
+      "left": "Desconocido",
+      "right": "Colin",
+      "wallpaper": [
+        "cart",
+        "apple",
+        "car",
+        "key",
+        "moon",
+        "phone",
+        "clock",
+        "lamp",
+        "question"
+      ],
+      "messages": [
+        {
+          "from": "Desconocido",
+          "text": "Eres mi próxima víctima."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Qué? ¿Quién eres?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Eres el siguiente al que voy a cortar."
+        },
+        {
+          "from": "Colin",
+          "text": "Jack, ¿eres tú? Qué broma más tonta."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Esto no es una broma."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Voy a rebanarte en pedacitos diminutos."
+        },
+        {
+          "from": "Colin",
+          "text": "Muy gracioso."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Esto es muy serio."
+        },
+        {
+          "from": "Colin",
+          "text": "Sí, claro."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Se me da muy bien. Rebanar, digo."
+        },
+        {
+          "from": "Colin",
+          "text": "Seguro que sí JAJAJA"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Solo estoy esperando el momento justo…"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Y entonces empezaré mi trabajo."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Tu trabajo?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Creía que ya lo habías entendido. Voy a rebanarte."
+        },
+        {
+          "from": "Colin",
+          "text": "Claro, en pedacitos diminutos."
+        },
+        {
+          "from": "Desconocido",
+          "text": "En el momento justo."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Y cuándo es eso?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Lo sabré cuando lo vea."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Por ejemplo, no empezaría ahora mismo, mientras estás en el supermercado."
+        },
+        {
+          "from": "Desconocido",
+          "text": "FOTO DE COLIN (edad: 18-22) EN EL SUPERMERCADO"
+        },
+        {
+          "from": "Colin",
+          "text": "¿Me estás siguiendo?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Y la gasolinera de la que acabas de salir tenía demasiada gente."
+        },
+        {
+          "from": "Colin",
+          "text": "No deberías seguir a la gente."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Si Tom y Alan, tus compañeros de casa, no están, quizás lo haga cuando llegues."
+        },
+        {
+          "from": "Colin",
+          "text": "Ok, esto ya ha ido demasiado lejos. Jack, ¿eres tú?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "No soy Jack."
+        },
+        {
+          "from": "Desconocido",
+          "text": "No me conoces."
+        },
+        {
+          "from": "Colin",
+          "text": "Si no te conozco, ¿por qué ibas a querer rebanarme?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Tienes pinta de necesitar que te rebanen."
+        },
+        {
+          "from": "Colin",
+          "text": "Eso es muy raro."
+        },
+        {
+          "from": "Desconocido",
+          "text": "¿En serio estás mirando la fruta y la verdura?"
+        },
+        {
+          "from": "Colin",
+          "text": "¿Me estás siguiendo?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "La fruta y la verdura no están muy buenas, para que lo sepas."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Dónde estás?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "De todas formas, creo que has llenado demasiado el carrito."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Creo que ya has comprado suficiente comida por hoy."
+        },
+        {
+          "from": "Colin",
+          "text": "Esto empieza a ser molesto."
+        },
+        {
+          "from": "Desconocido",
+          "text": "¿Por qué miras a esa anciana? ¿Crees que podría ser ella?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "JAJAJA"
+        },
+        {
+          "from": "Colin",
+          "text": "Podrías ser cualquiera."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Exacto."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Nunca me encontrarás."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Pero yo a ti sí JAJAJA"
+        },
+        {
+          "from": "Colin",
+          "text": "Si crees que me creo que eres un asesino en serie, te equivocas."
+        },
+        {
+          "from": "Desconocido",
+          "text": "No sé si «asesino en serie» sería la descripción correcta."
+        },
+        {
+          "from": "Desconocido",
+          "text": "No es buena idea pagar la compra con tarjeta de crédito."
+        },
+        {
+          "from": "Colin",
+          "text": "Deja de vigilarme."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Solo intento darte un pequeño consejo."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Por qué, si vas a matarme?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "¡La costumbre, supongo!"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Llevas mucho rato en el supermercado."
+        },
+        {
+          "from": "Desconocido",
+          "text": "¿Te puedes creer que ya es de noche?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Me encanta esta época del año."
+        },
+        {
+          "from": "Colin",
+          "text": "Me alegro por ti."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Qué pena que no hayan encendido las luces del estacionamiento."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Bueno, qué pena para ti."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Qué se supone que significa eso?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Bueno, para mí es bueno, obviamente"
+        },
+        {
+          "from": "Colin",
+          "text": "Obviamente."
+        },
+        {
+          "from": "Colin",
+          "text": "Mi coche tiene luces. No es que esté a oscuras del todo."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Cierto, pero aun así no puedes ver lo que podría salirte de la oscuridad."
+        },
+        {
+          "from": "Colin",
+          "text": "Tendré cuidado."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Esta noche ni siquiera hay luna."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Está muy, muy oscuro."
+        },
+        {
+          "from": "Colin",
+          "text": "Es un estacionamiento con mucha gente."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Es un estacionamiento oscuro.."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Y la verdad, no necesito tanto tiempo para hacer mi trabajo."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Y se nota que eres de esos a los que la carne se les desprende del hueso sin esfuerzo."
+        },
+        {
+          "from": "Colin",
+          "text": "¿Se nota?"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Digamos que soy algo así como un experto."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Mira eso, ya casi llenaste el maletero con la compra. ¡Y todavía te queda más!"
+        },
+        {
+          "from": "Desconocido",
+          "text": "Seguramente puedes hacer un poco más de sitio… solo estírate hacia el fondo."
+        },
+        {
+          "from": "Colin",
+          "text": "Eso estoy haciendo."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Eso esperaba."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Justo lo que pensaba."
+        },
+        {
+          "from": "Desconocido",
+          "text": "Se desprende del hueso sin esfuerzo."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,392 @@
+{
+ "id": "perfect-match",
+ "title": "Der perfekte Match",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Sam glaubt, seine Frau nicht mehr zu lieben. Um etwas Würze in sein Leben zu bringen, sucht er mit einem falschen Profil auf einer Datingseite nach einer Partnerin. Endlich findet er den perfekten Match – doch der stellt sich als viel zu perfekt heraus, um weiterzumachen.",
+ "parts": [
+  {
+   "prologue": "Sam ist seit elf Jahren verheiratet. In letzter Zeit verbringt er seine Abende unter falschem Namen auf einer Datingseite. Er ist nicht der Einzige im Haus, der sich langweilt.",
+   "left": "Sam",
+   "right": "Eve",
+   "wallpaper": [
+    "heart",
+    "laptop",
+    "wineglass",
+    "cutlery",
+    "car",
+    "ring",
+    "mask",
+    "question",
+    "phone"
+   ],
+   "messages": [
+    {
+     "from": "Sam",
+     "text": "Hi, wie geht's dir?"
+    },
+    {
+     "from": "Eve",
+     "text": "Hey, mir geht's gut."
+    },
+    {
+     "from": "Eve",
+     "text": "Und dir?"
+    },
+    {
+     "from": "Sam",
+     "text": "Mir auch."
+    },
+    {
+     "from": "Sam",
+     "text": "Ich hab mir die Profile angeschaut, und."
+    },
+    {
+     "from": "Sam",
+     "text": "Deins fand ich sehr interessant."
+    },
+    {
+     "from": "Eve",
+     "text": "Danke."
+    },
+    {
+     "from": "Eve",
+     "text": "Erzähl mir doch ein bisschen was über dich."
+    },
+    {
+     "from": "Sam",
+     "text": "Na ja, ich bin ein einfacher Mann, hab einen Job in der Privatwirtschaft."
+    },
+    {
+     "from": "Eve",
+     "text": "Du bist also hier, um jemanden zum Daten zu finden?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ja, ich suche ein Date."
+    },
+    {
+     "from": "Sam",
+     "text": "Jemand Interessantes und Bezauberndes."
+    },
+    {
+     "from": "Eve",
+     "text": "Das ist echt cool."
+    },
+    {
+     "from": "Eve",
+     "text": "Ich suche auch jemand Interessanten."
+    },
+    {
+     "from": "Eve",
+     "text": "Und was für eine Persönlichkeit hast du so?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ich bin extrovertiert, liebe es rauszugehen, unterwegs zu sein."
+    },
+    {
+     "from": "Sam",
+     "text": "Essen gehen, tanzen, Sport, und so weiter."
+    },
+    {
+     "from": "Eve",
+     "text": "Oh, schön."
+    },
+    {
+     "from": "Sam",
+     "text": "Und du?"
+    },
+    {
+     "from": "Eve",
+     "text": "Na ja, ich bin ambivertiert."
+    },
+    {
+     "from": "Eve",
+     "text": "Ich bin gern unter Leuten, aber ich brauche meine Zeit zum Auftanken."
+    },
+    {
+     "from": "Sam",
+     "text": "Was sind deine Interessen?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ähm. Ich liebe Kochen, Malen und Kunst."
+    },
+    {
+     "from": "Sam",
+     "text": "Wow, das ist echt cool."
+    },
+    {
+     "from": "Eve",
+     "text": "Danke."
+    },
+    {
+     "from": "Sam",
+     "text": "Wollen wir uns mal treffen?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ja, klar."
+    },
+    {
+     "from": "Sam",
+     "text": "Und wo sollen wir hingehen?"
+    },
+    {
+     "from": "Sam",
+     "text": "Hast du ein Lieblingsrestaurant?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ich esse total gern im Shack Stone."
+    },
+    {
+     "from": "Sam",
+     "text": "Wow!"
+    },
+    {
+     "from": "Eve",
+     "text": "Was? Magst du den Laden nicht?"
+    },
+    {
+     "from": "Sam",
+     "text": "Nein, das ist es nicht, ich mag den Laden."
+    },
+    {
+     "from": "Eve",
+     "text": "Warum dann die Reaktion?"
+    },
+    {
+     "from": "Sam",
+     "text": "Na ja, mir ist gerade ein verrückter Gedanke gekommen."
+    },
+    {
+     "from": "Sam",
+     "text": "Vergiss es einfach."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm"
+    },
+    {
+     "from": "Eve",
+     "text": "Auch wenn's schwer ist, das zu vergessen."
+    },
+    {
+     "from": "Eve",
+     "text": "Aber lass uns da hingehen."
+    },
+    {
+     "from": "Sam",
+     "text": "Gut, dann Samstagabend um 8?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ähm. Ich hab an was anderes gedacht."
+    },
+    {
+     "from": "Sam",
+     "text": "Was?"
+    },
+    {
+     "from": "Eve",
+     "text": "Was ist dein Lieblingsort?"
+    },
+    {
+     "from": "Sam",
+     "text": "Warum ist das wichtig?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ich glaube, dir hat das Shack Stone nicht gefallen."
+    },
+    {
+     "from": "Sam",
+     "text": "Nein, so ist das nicht."
+    },
+    {
+     "from": "Sam",
+     "text": "Es war nur jemand, den ich kannte."
+    },
+    {
+     "from": "Sam",
+     "text": "Sie mochte das Shack Stone auch total."
+    },
+    {
+     "from": "Eve",
+     "text": "Okay, und wer ist sie?"
+    },
+    {
+     "from": "Eve",
+     "text": "Falls das nicht zu privat ist. ;p"
+    },
+    {
+     "from": "Sam",
+     "text": "Lol. Nichts in der Art."
+    },
+    {
+     "from": "Sam",
+     "text": "Nur eine alte Freundin."
+    },
+    {
+     "from": "Eve",
+     "text": "Hmm."
+    },
+    {
+     "from": "Eve",
+     "text": "Ich würde trotzdem gern dein Lieblingsrestaurant wissen."
+    },
+    {
+     "from": "Sam",
+     "text": "Ich esse total gern im Wao Tang."
+    },
+    {
+     "from": "Eve",
+     "text": "Was? Im Ernst?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ja, magst du es?"
+    },
+    {
+     "from": "Eve",
+     "text": "Es ist okay, aber im Ernst?"
+    },
+    {
+     "from": "Eve",
+     "text": "Du magst das Wao Tang?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ja, warum wirkst du so erstaunt?"
+    },
+    {
+     "from": "Eve",
+     "text": "Glaubst du das?"
+    },
+    {
+     "from": "Eve",
+     "text": "Jemand, den ich kannte, hat total gern im Wao Tang gegessen."
+    },
+    {
+     "from": "Sam",
+     "text": "Na, jetzt bin ich dran. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "Und wer war er?"
+    },
+    {
+     "from": "Eve",
+     "text": "Nee, nur ein alter Freund. :p"
+    },
+    {
+     "from": "Sam",
+     "text": "Sieht aus, als hätten wir eine verbundene Vergangenheit."
+    },
+    {
+     "from": "Eve",
+     "text": "Ja, als wären wir im letzten Leben ein Paar gewesen."
+    },
+    {
+     "from": "Sam",
+     "text": "Lol."
+    },
+    {
+     "from": "Eve",
+     "text": "Dann lass uns treffen."
+    },
+    {
+     "from": "Sam",
+     "text": "Klar, ich hol dich bei Tiffany’s ab"
+    },
+    {
+     "from": "Eve",
+     "text": "Super."
+    },
+    {
+     "from": "Sam",
+     "text": "Ich hab eine graue Limousine."
+    },
+    {
+     "from": "Eve",
+     "text": "Wow. Jetzt bin ich echt verwirrt."
+    },
+    {
+     "from": "Sam",
+     "text": "Warum, was ist los?"
+    },
+    {
+     "from": "Eve",
+     "text": "Ich weiß nicht, ob ich fragen soll oder nicht."
+    },
+    {
+     "from": "Eve",
+     "text": "Es wäre echt peinlich, wenn ich falschliege."
+    },
+    {
+     "from": "Sam",
+     "text": "Womit falschliegen?"
+    },
+    {
+     "from": "Eve",
+     "text": "Kannst du mir noch eine Frage beantworten?"
+    },
+    {
+     "from": "Sam",
+     "text": "Ja, bitte, nur zu."
+    },
+    {
+     "from": "Eve",
+     "text": "Arbeitest du bei Smith’s?"
+    },
+    {
+     "from": "Sam",
+     "text": "OMG, woher weißt du das?"
+    },
+    {
+     "from": "Eve",
+     "text": "Jack?"
+    },
+    {
+     "from": "Sam",
+     "text": "Woher kennst du überhaupt meinen echten Namen?"
+    },
+    {
+     "from": "Sam",
+     "text": "Oh Gott. Das heißt, du bist…"
+    },
+    {
+     "from": "Sam",
+     "text": "Du bist Maria."
+    },
+    {
+     "from": "Eve",
+     "text": "Ja, Jack, und diesmal bist du raus."
+    },
+    {
+     "from": "Eve",
+     "text": "Schäm dich."
+    },
+    {
+     "from": "Sam",
+     "text": "Maria, Schatz, bleib vernünftig."
+    },
+    {
+     "from": "Sam",
+     "text": "Wir sind beide auf derselben Plattform erwischt worden."
+    },
+    {
+     "from": "Eve",
+     "text": "Was um Himmels willen hast du hier gemacht?"
+    },
+    {
+     "from": "Sam",
+     "text": "Schatz, lass uns darüber reden, wenn ich zu Hause bin."
+    }
+   ]
+  }
+ ]
+}

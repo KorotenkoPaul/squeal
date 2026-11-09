@@ -1,0 +1,315 @@
+{
+  "id": "the-crushing-love",
+  "title": "Amor aplastante",
+  "author": "Asjad Ullah",
+  "genre": "romance",
+  "fear": 1,
+  "description": "Henna confía en su mejor amigo, Ben, para contarle un secreto sobre su retorcida historia de amor. Solo para descubrir que su relación tiene más giros de los que ella cree.",
+  "parts": [
+    {
+      "prologue": "Henna y Ben son mejores amigos desde su primera semana en la universidad. Se lo cuentan todo. Casi todo.",
+      "left": "Henna",
+      "right": "Ben",
+      "wallpaper": [
+        "heart",
+        "coffee",
+        "book",
+        "ring",
+        "phone",
+        "lock",
+        "star",
+        "music"
+      ],
+      "messages": [
+        {
+          "from": "Henna",
+          "text": "Hola, Ben, ¿cómo estás?"
+        },
+        {
+          "from": "Ben",
+          "text": "Hola, Henna, estoy bien."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Y tú?"
+        },
+        {
+          "from": "Henna",
+          "text": "Yo también estoy bien."
+        },
+        {
+          "from": "Henna",
+          "text": "¿Qué cuentas?"
+        },
+        {
+          "from": "Ben",
+          "text": "Nada especial."
+        },
+        {
+          "from": "Ben",
+          "text": "Estaba a punto de salir para ver a Harry."
+        },
+        {
+          "from": "Henna",
+          "text": "Mmm. Harry, tu amigo alto, ¿verdad?"
+        },
+        {
+          "from": "Ben",
+          "text": "Sí, ¿lo conoces?"
+        },
+        {
+          "from": "Henna",
+          "text": "Mmm. Sí."
+        },
+        {
+          "from": "Henna",
+          "text": "Digo, no."
+        },
+        {
+          "from": "Henna",
+          "text": "Digo, sí, sé que es tu amigo."
+        },
+        {
+          "from": "Ben",
+          "text": "Te noto un poco rara."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Qué pasa, Henna?"
+        },
+        {
+          "from": "Henna",
+          "text": "Nada especial."
+        },
+        {
+          "from": "Ben",
+          "text": "Vamos, soy tu mejor amigo."
+        },
+        {
+          "from": "Henna",
+          "text": "Gracias, Ben."
+        },
+        {
+          "from": "Henna",
+          "text": "No estoy segura."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Segura de qué, Henna?"
+        },
+        {
+          "from": "Henna",
+          "text": "Estoy dolida, Ben."
+        },
+        {
+          "from": "Henna",
+          "text": "Pero primero prométeme que no se lo contarás a nadie."
+        },
+        {
+          "from": "Ben",
+          "text": "Claro, Henna, ya llevamos dos años siendo amigos."
+        },
+        {
+          "from": "Henna",
+          "text": "Pero no le he contado esto a nadie."
+        },
+        {
+          "from": "Henna",
+          "text": "Ni siquiera a mi hermana."
+        },
+        {
+          "from": "Ben",
+          "text": "Entonces debe de ser algo muy serio."
+        },
+        {
+          "from": "Henna",
+          "text": "Sí."
+        },
+        {
+          "from": "Henna",
+          "text": "Me temo que esto podría provocar un divorcio."
+        },
+        {
+          "from": "Ben",
+          "text": "¡Guau!"
+        },
+        {
+          "from": "Ben",
+          "text": "Eso es bastante serio."
+        },
+        {
+          "from": "Henna",
+          "text": "Sí, lo sé."
+        },
+        {
+          "from": "Henna",
+          "text": "Por eso estoy tan asustada."
+        },
+        {
+          "from": "Ben",
+          "text": "Suéltalo todo, querida."
+        },
+        {
+          "from": "Ben",
+          "text": "Te vas a sentir mucho mejor."
+        },
+        {
+          "from": "Henna",
+          "text": "Ok, ahí va."
+        },
+        {
+          "from": "Henna",
+          "text": "Conocí a un chico hace unos meses."
+        },
+        {
+          "from": "Henna",
+          "text": "Y me gustó."
+        },
+        {
+          "from": "Henna",
+          "text": "Teníamos intereses en común."
+        },
+        {
+          "from": "Ben",
+          "text": "Muy bien, ¿Y QUÉ?"
+        },
+        {
+          "from": "Henna",
+          "text": "Empezamos a vernos después de clase."
+        },
+        {
+          "from": "Henna",
+          "text": "La relación fue creciendo y empezamos a salir."
+        },
+        {
+          "from": "Ben",
+          "text": "Por fin, tenías un romance. Me alegra saberlo."
+        },
+        {
+          "from": "Henna",
+          "text": "Sí. Y luego nos enamoramos de verdad."
+        },
+        {
+          "from": "Henna",
+          "text": "Nuestra relación era muy apasionada."
+        },
+        {
+          "from": "Henna",
+          "text": "No nos cansábamos el uno del otro."
+        },
+        {
+          "from": "Ben",
+          "text": "Si es así, ¿por qué estás tan mal?"
+        },
+        {
+          "from": "Henna",
+          "text": "Salió a la luz algo horrible."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Qué?"
+        },
+        {
+          "from": "Henna",
+          "text": "Me dijo que ya estaba casado."
+        },
+        {
+          "from": "Ben",
+          "text": "¿QUÉ?"
+        },
+        {
+          "from": "Ben",
+          "text": "Voy a matar a ese imbécil."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Cómo se llama?"
+        },
+        {
+          "from": "Henna",
+          "text": "No, Ben, no quiero que se corra la voz."
+        },
+        {
+          "from": "Ben",
+          "text": "Solo dime cómo se llama."
+        },
+        {
+          "from": "Ben",
+          "text": "No pienso dejarlo vivir en paz."
+        },
+        {
+          "from": "Henna",
+          "text": "No puedo decirte su nombre."
+        },
+        {
+          "from": "Ben",
+          "text": "¿POR QUÉ? DAME EL NOMBRE, Henna."
+        },
+        {
+          "from": "Henna",
+          "text": "Primero prométeme que no le harás daño."
+        },
+        {
+          "from": "Henna",
+          "text": "Dijo que su pareja es psicópata."
+        },
+        {
+          "from": "Henna",
+          "text": "Y que todavía me quiere."
+        },
+        {
+          "from": "Ben",
+          "text": "SOLO DAME EL NOMBRE, Henna."
+        },
+        {
+          "from": "Henna",
+          "text": "Sabía que nunca debí contártelo."
+        },
+        {
+          "from": "Henna",
+          "text": "Por favor, no le hagas daño."
+        },
+        {
+          "from": "Henna",
+          "text": "Es tu amigo Harry."
+        },
+        {
+          "from": "Ben",
+          "text": "¿QUÉ?"
+        },
+        {
+          "from": "Ben",
+          "text": "¿PERO QUÉ DEMONIOS?"
+        },
+        {
+          "from": "Henna",
+          "text": "Sé que debí decírtelo cuando supe que eras su amigo."
+        },
+        {
+          "from": "Henna",
+          "text": "Lo siento muchísimo, Ben."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Cómo pudo hacerme esto a mí?"
+        },
+        {
+          "from": "Henna",
+          "text": "¿A ti? Aquí la traicionada soy yo."
+        },
+        {
+          "from": "Ben",
+          "text": "¿Pareja psicópata? ¿Me llamó psicópata?"
+        },
+        {
+          "from": "Ben",
+          "text": "¿Nunca te contó que es homo?"
+        },
+        {
+          "from": "Ben",
+          "text": "Los dos van a pagar por lo que han hecho."
+        }
+      ]
+    }
+  ]
+}

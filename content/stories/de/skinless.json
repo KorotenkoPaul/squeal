@@ -1,0 +1,391 @@
+{
+ "id": "skinless",
+ "title": "Hautlos",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Joe entdeckt, dass er sich den Schorf vom Arm ziehen kann, ohne Schmerzen zu spüren. Natürlich zieht er weiter und weiter… und weiter… nur um zu sehen, was passiert. Es wird ein bisschen klebrig.",
+ "parts": [
+  {
+   "prologue": "Joe hat schon immer an allem herumgezupft – an Etiketten, an Schorf, an Streitereien. Seine Freunde nervt das. Heute Nacht hat er etwas gefunden, von dem er nicht mehr ablassen kann.",
+   "left": "Joe",
+   "right": "Marcus",
+   "wallpaper": [
+    "bandage",
+    "drop",
+    "chair",
+    "magnifier",
+    "moon",
+    "phone",
+    "question",
+    "clock"
+   ],
+   "messages": [
+    {
+     "from": "Joe",
+     "text": "Ich hab gerade was entdeckt."
+    },
+    {
+     "from": "Marcus",
+     "text": "Was?"
+    },
+    {
+     "from": "Joe",
+     "text": "Das wird komisch klingen – nur damit du vorgewarnt bist."
+    },
+    {
+     "from": "Marcus",
+     "text": "Was denn?"
+    },
+    {
+     "from": "Joe",
+     "text": "Also, guck mal, ich hab seit Ewigkeiten so einen Schorf am Arm."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ja, und?"
+    },
+    {
+     "from": "Joe",
+     "text": "Du weißt doch, wie man manchmal an Schorf rumknibbelt?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ja."
+    },
+    {
+     "from": "Joe",
+     "text": "Na ja, das hab ich gemacht und er ist irgendwie aufgegangen."
+    },
+    {
+     "from": "Marcus",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Joe",
+     "text": "Na ja, so richtig aufgegangen, über der Wunde."
+    },
+    {
+     "from": "Marcus",
+     "text": "Das muss doch wehgetan haben."
+    },
+    {
+     "from": "Joe",
+     "text": "Tja, das ist ja das Ding. Hat es nicht."
+    },
+    {
+     "from": "Marcus",
+     "text": "Es war noch nicht verheilt?"
+    },
+    {
+     "from": "Joe",
+     "text": "Jetzt konnte man das blutige Zeug darunter sehen."
+    },
+    {
+     "from": "Marcus",
+     "text": "Komisch"
+    },
+    {
+     "from": "Joe",
+     "text": "Und weil es nicht wehgetan hat, hab ich noch ein bisschen weiter abgezogen."
+    },
+    {
+     "from": "Marcus",
+     "text": "Abgezogen?"
+    },
+    {
+     "from": "Joe",
+     "text": "So neben der Wunde."
+    },
+    {
+     "from": "Marcus",
+     "text": "Wie meinst du das"
+    },
+    {
+     "from": "Joe",
+     "text": "Da, wo nur Haut ist."
+    },
+    {
+     "from": "Marcus",
+     "text": "Du hast dir die Haut abgezogen?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ja, und es hat nicht wehgetan!"
+    },
+    {
+     "from": "Marcus",
+     "text": "Wie viel hast du abgezogen?"
+    },
+    {
+     "from": "Joe",
+     "text": "Bis jetzt? So bis zur Hälfte vom Arm."
+    },
+    {
+     "from": "Marcus",
+     "text": "Und es tut nicht weh?"
+    },
+    {
+     "from": "Joe",
+     "text": "Nein."
+    },
+    {
+     "from": "Marcus",
+     "text": "Du hast dir die halbe Haut vom Arm abgezogen?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ja. Sieht eigentlich ziemlich cool aus."
+    },
+    {
+     "from": "Joe",
+     "text": "Ganz rot und glänzend."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ich weiß nicht, ob du das machen solltest."
+    },
+    {
+     "from": "Joe",
+     "text": "Es tut aber nicht weh."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich bin jetzt fast bei der Schulter."
+    },
+    {
+     "from": "Marcus",
+     "text": "Das solltest du echt nicht machen."
+    },
+    {
+     "from": "Joe",
+     "text": "Na ja, jetzt muss ich auch den anderen Arm machen, damit es gleichmäßig ist."
+    },
+    {
+     "from": "Marcus",
+     "text": "Vielleicht solltest du aufhören."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich LIEBE das!"
+    },
+    {
+     "from": "Marcus",
+     "text": "Klingt eklig."
+    },
+    {
+     "from": "Joe",
+     "text": "Das ist wie das geilste Tattoo, das man kriegen kann."
+    },
+    {
+     "from": "Joe",
+     "text": "Weißt du, was ich machen sollte?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Was"
+    },
+    {
+     "from": "Joe",
+     "text": "Mein Gesicht abziehen!"
+    },
+    {
+     "from": "Marcus",
+     "text": "Und wenn die Haut nicht nachwächst?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ist mir egal. Das wird super aussehen."
+    },
+    {
+     "from": "Joe",
+     "text": "Du solltest es auch probieren."
+    },
+    {
+     "from": "Marcus",
+     "text": "Lieber nicht."
+    },
+    {
+     "from": "Joe",
+     "text": "Doch, solltest du! Abziehen!"
+    },
+    {
+     "from": "Joe",
+     "text": "Mein Gesicht sieht geil aus"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ich weiß nicht."
+    },
+    {
+     "from": "Joe",
+     "text": "Du musst herkommen."
+    },
+    {
+     "from": "Marcus",
+     "text": "Warum? Ich mach das nicht."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich will alles abziehen. Du musst mir helfen."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ich soll dir helfen, dir die Haut abzuziehen."
+    },
+    {
+     "from": "Joe",
+     "text": "Ja!"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ich glaub nicht, dass ich das könnte."
+    },
+    {
+     "from": "Joe",
+     "text": "Doch, kannst du."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich will komplett HAUTLOS sein."
+    },
+    {
+     "from": "Marcus",
+     "text": "Das klingt einfach nur eklig."
+    },
+    {
+     "from": "Joe",
+     "text": "Willst du nicht hautlos sein?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Nein."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich schon. Ich will komplett hautlos sein."
+    },
+    {
+     "from": "Joe",
+     "text": "Es ist ein bisschen klebrig, aber daran könnte ich mich gewöhnen."
+    },
+    {
+     "from": "Joe",
+     "text": "Also, kommst du?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ich weiß nicht…"
+    },
+    {
+     "from": "Joe",
+     "text": "Dann komm ich zu dir!"
+    },
+    {
+     "from": "Marcus",
+     "text": "Nein… das wäre vielleicht keine gute Idee."
+    },
+    {
+     "from": "Joe",
+     "text": "Warum nicht?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Na ja… die Nachbarn."
+    },
+    {
+     "from": "Joe",
+     "text": "Was ist mit denen?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Denen gefällt vielleicht nicht, wie du aussiehst."
+    },
+    {
+     "from": "Joe",
+     "text": "Na, das ist aber nicht sehr fair."
+    },
+    {
+     "from": "Marcus",
+     "text": "Es ist schon irgendwie eklig."
+    },
+    {
+     "from": "Joe",
+     "text": "Du bist unfair."
+    },
+    {
+     "from": "Joe",
+     "text": "Nur weil ich hautlos bin."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich bin gerade mit den Beinen fertig geworden."
+    },
+    {
+     "from": "Joe",
+     "text": "Es klebt aber immer noch."
+    },
+    {
+     "from": "Marcus",
+     "text": "Klebt?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ja, du weißt schon, alles ist blutig und klebrig."
+    },
+    {
+     "from": "Joe",
+     "text": "Ich klebe am Stuhl fest."
+    },
+    {
+     "from": "Marcus",
+     "text": "Man kann es nicht einfach so ablösen."
+    },
+    {
+     "from": "Joe",
+     "text": "Es ist wie Kleber."
+    },
+    {
+     "from": "Marcus",
+     "text": "Und wenn du einfach dran ziehst?"
+    },
+    {
+     "from": "Joe",
+     "text": "Versuch ich ja."
+    },
+    {
+     "from": "Marcus",
+     "text": "Und?"
+    },
+    {
+     "from": "Joe",
+     "text": "Es geht nicht ab."
+    },
+    {
+     "from": "Marcus",
+     "text": "Reiß einfach mal kräftig."
+    },
+    {
+     "from": "Joe",
+     "text": "Ähm, hab ich gerade."
+    },
+    {
+     "from": "Marcus",
+     "text": "Und?"
+    },
+    {
+     "from": "Joe",
+     "text": "Es geht nicht vom Stuhl ab?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Was macht es dann?"
+    },
+    {
+     "from": "Joe",
+     "text": "Es geht vom Knochen ab."
+    }
+   ]
+  }
+ ]
+}

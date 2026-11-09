@@ -1,0 +1,420 @@
+{
+  "id": "frenemy",
+  "title": "Enemiga íntima",
+  "author": "Asjad Ullah",
+  "genre": "romance",
+  "fear": 1,
+  "description": "Alana le pide a su hermana Sarah que la ayude a averiguar si su marido la engaña o no. Al principio, ni con la ayuda de Sarah encuentra nada, pero después Alana se mete en algo que le queda demasiado grande.",
+  "parts": [
+    {
+      "prologue": "Alana y Sarah son inseparables desde niñas: el mismo colegio, los mismos amigos, los mismos gustos para todo. Cuando Alana necesita ayuda, solo llama a una persona.",
+      "left": "Alana",
+      "right": "Sarah",
+      "wallpaper": [
+        "lipstick",
+        "receipt",
+        "phone",
+        "ring",
+        "envelope",
+        "clock",
+        "wineglass",
+        "magnifier",
+        "heart"
+      ],
+      "messages": [
+        {
+          "from": "Alana",
+          "text": "¡Hola! ¿Qué tal?"
+        },
+        {
+          "from": "Sarah",
+          "text": "Nada especial, ¿y tú?"
+        },
+        {
+          "from": "Alana",
+          "text": "Aquí tampoco mucho."
+        },
+        {
+          "from": "Sarah",
+          "text": "Te noto decaída."
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Es por Harry?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Nah! ¡El pequeño Harry está bien!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Entonces?"
+        },
+        {
+          "from": "Alana",
+          "text": "Es su padre."
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Dios mío! ¿Está bien?"
+        },
+        {
+          "from": "Alana",
+          "text": "Bueno, sospecho que me está engañando."
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Guau! ¡Eso es mucho decir!"
+        },
+        {
+          "from": "Alana",
+          "text": "Lo sé, y lo peor es que ni siquiera estoy segura."
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Esto es enorme! ¿Qué vas a hacer?"
+        },
+        {
+          "from": "Alana",
+          "text": "Ni siquiera sé si quiero llegar al fondo de esto o no"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Qué?"
+        },
+        {
+          "from": "Alana",
+          "text": "Bueno, llevo dos semanas vigilándolo."
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Y me lo has ocultado hasta ahora?"
+        },
+        {
+          "from": "Alana",
+          "text": "Porque no estaba segura y no quería montar un escándalo"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Algún avance, detective Al?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Argh! Todavía no, ¡pero pronto lo averiguaré!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Alguna pista?"
+        },
+        {
+          "from": "Alana",
+          "text": "Solo algunos comportamientos raros."
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Llamadas a medianoche, pegado al móvil todo el rato? ¿Qué es lo raro?"
+        },
+        {
+          "from": "Alana",
+          "text": "No, es lo bastante listo para borrar sus huellas"
+        },
+        {
+          "from": "Alana",
+          "text": "Siempre me deja en espera antes de atenderme"
+        },
+        {
+          "from": "Alana",
+          "text": "Da igual a qué hora del día lo llame"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Y qué excusa pone?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Estaba fuera! ¡Estaba en una reunión!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Qué bueno! jaja."
+        },
+        {
+          "from": "Alana",
+          "text": "Que, por desgracia, no coincide con la versión de su secretaria"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Y ya lo has seguido?"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Quieres que lo haga yo por ti?"
+        },
+        {
+          "from": "Alana",
+          "text": "Ay, muchísimas gracias, no sabía a quién encargarle esto"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Para qué están las hermanas?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Y si descubre que lo estamos siguiendo?"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Quieres dejar de dramatizar?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Qué fácil es decirlo para ti, que sigues soltera!"
+        },
+        {
+          "from": "Alana",
+          "text": "Bueno, de una forma u otra sabremos la verdad."
+        },
+        {
+          "from": "Sarah",
+          "text": "Sí, la sabremos."
+        },
+        {
+          "from": "Alana",
+          "text": "Bueno, así empezó todo"
+        },
+        {
+          "from": "Sarah",
+          "text": "Claro, cuéntame todo lo que sepas."
+        },
+        {
+          "from": "Alana",
+          "text": "Los martes y los jueves sale siempre a mediodía."
+        },
+        {
+          "from": "Alana",
+          "text": "Su secretaria me confirmó que esos días no hay reuniones"
+        },
+        {
+          "from": "Sarah",
+          "text": "Pues empecemos por el martes y el jueves"
+        },
+        {
+          "from": "Alana",
+          "text": "Sarah, por favor, que no te descubran"
+        },
+        {
+          "from": "Alana",
+          "text": "No quiero arruinar mi relación con él si es honesto"
+        },
+        {
+          "from": "Sarah",
+          "text": "¡No te preocupes!"
+        },
+        {
+          "from": "Sarah",
+          "text": "Aparte de las reuniones, ¿sabes algo más?"
+        },
+        {
+          "from": "Alana",
+          "text": "Sí, encontré un pintalabios en su maletín."
+        },
+        {
+          "from": "Sarah",
+          "text": "A lo mejor era para ti."
+        },
+        {
+          "from": "Alana",
+          "text": "¿Uno usado?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Que encontré yo misma?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Y de un tono que yo nunca uso?"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Qué más?"
+        },
+        {
+          "from": "Alana",
+          "text": "Este fin de semana canceló nuestro plan de ir al cine en el último momento"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Por qué?"
+        },
+        {
+          "from": "Alana",
+          "text": "Me dijo que le había surgido una cena urgente de la empresa"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿No podría ser verdad?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Sarah? Una cena de empresa de un momento a otro"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Qué quieres decir?"
+        },
+        {
+          "from": "Alana",
+          "text": "Una cena de empresa de un momento a otro, avisada por mensaje, que leyó sonriendo"
+        },
+        {
+          "from": "Alana",
+          "text": "Estoy segurísima, Sarah"
+        },
+        {
+          "from": "Sarah",
+          "text": "Pruebas circunstanciales jaja."
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Le has revisado el móvil?"
+        },
+        {
+          "from": "Alana",
+          "text": "Tiene contraseña"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Ay, Dios!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Todo bien? Pareces alterada."
+        },
+        {
+          "from": "Alana",
+          "text": "Sí, acaba de llegarle un mensaje a su correo."
+        },
+        {
+          "from": "Sarah",
+          "text": "¿Tienes acceso a su correo?"
+        },
+        {
+          "from": "Alana",
+          "text": "Es uno compartido, vinculado a nuestra cuenta conjunta."
+        },
+        {
+          "from": "Sarah",
+          "text": "Ok, ¿y qué dice?"
+        },
+        {
+          "from": "Alana",
+          "text": "Que se ha pagado una cuenta enorme en un restaurante."
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Guau! ¡Qué locura! A lo mejor te está comprando un regalo."
+        },
+        {
+          "from": "Alana",
+          "text": "¿¡EN UN RESTAURANTE!?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿¿En serio??"
+        },
+        {
+          "from": "Sarah",
+          "text": "Oye, cálmate, ¿sí? Llevo todo el día intentando ayudarte."
+        },
+        {
+          "from": "Alana",
+          "text": "Sí, perdona. No quería acusarte."
+        },
+        {
+          "from": "Sarah",
+          "text": "Ya, bueno, ¿y qué quieres que te diga? ¿Que te divorcies por una corazonada?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Nah! ¡Tienes razón!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿O tengo que criticar lo que hace y decirte lo patética que eres?"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Ya te he dicho que lo siento!"
+        },
+        {
+          "from": "Sarah",
+          "text": "No, hagámoslo así. ¡Tu marido es uno de los tipos más rastreros del mundo!"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Sarah!"
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Sí! ¡Juega con las mujeres y luego se queda con sus pintalabios de recuerdo!"
+        },
+        {
+          "from": "Alana",
+          "text": "¡Ya me duele bastante, Sarah!"
+        },
+        {
+          "from": "Sarah",
+          "text": "No, espera, ¡por favor! ¡Y luego va y se gasta 1270 dólares en una cualquiera!"
+        },
+        {
+          "from": "Alana",
+          "text": "A lo mejor está dando una fiesta para sus compañeros."
+        },
+        {
+          "from": "Sarah",
+          "text": "¡O a lo mejor te está engañando! ¡Eso es lo que querías oír!"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Sarah?"
+        },
+        {
+          "from": "Sarah",
+          "text": "¿QUÉ?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Cómo sabías que David se gastó 1270 $ en ese restaurante?"
+        },
+        {
+          "from": "Sarah",
+          "text": "¡Porque me lo dijiste tú!"
+        },
+        {
+          "from": "Alana",
+          "text": "Nunca te dije la cantidad."
+        },
+        {
+          "from": "Sarah",
+          "text": "Tengo que irme a casa, ¡adiós!"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Pero no me dijiste que ya estabas en casa?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Hola?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿Sarah?"
+        },
+        {
+          "from": "Alana",
+          "text": "¿¿Estás ahí??"
+        }
+      ]
+    }
+  ]
+}

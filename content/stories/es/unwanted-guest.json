@@ -1,0 +1,324 @@
+{
+ "id": "unwanted-guest",
+ "title": "Visita indeseada",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "A Sharon no le gusta quedarse sola de noche. Cuando descubre que la puerta principal no tiene llave, se imagina que hay alguien más en la casa con ella.",
+ "parts": [
+  {
+   "prologue": "Sharon duerme sola desde que Darrell empezó a trabajar de noche. Revisa cada cerradura antes de acostarse. Esta noche no recuerda si lo hizo.",
+   "left": "Darrell",
+   "right": "Sharon",
+   "wallpaper": [
+    "door",
+    "key",
+    "lock",
+    "bulb",
+    "moon",
+    "house",
+    "phone",
+    "clock",
+    "stairs"
+   ],
+   "messages": [
+    {
+     "from": "Darrell",
+     "text": "¡Siempre te asustas tanto!"
+    },
+    {
+     "from": "Sharon",
+     "text": "Es que no me gusta estar sola. Sobre todo de noche."
+    },
+    {
+     "from": "Darrell",
+     "text": "Mira, no hay nada de qué preocuparse."
+    },
+    {
+     "from": "Sharon",
+     "text": "Solo ven."
+    },
+    {
+     "from": "Darrell",
+     "text": "Estoy en el trabajo, sabes que no puedo."
+    },
+    {
+     "from": "Sharon",
+     "text": "Di que estás enfermo."
+    },
+    {
+     "from": "Darrell",
+     "text": "No voy a hacer eso."
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Por favor?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Enciende todas las luces, todo va a estar bien."
+    },
+    {
+     "from": "Sharon",
+     "text": "Ya encendí todas las luces."
+    },
+    {
+     "from": "Darrell",
+     "text": "Entonces no te preocupes."
+    },
+    {
+     "from": "Darrell",
+     "text": "Cerraste las puertas con llave, ¿verdad?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Sí."
+    },
+    {
+     "from": "Sharon",
+     "text": "Creo que sí."
+    },
+    {
+     "from": "Sharon",
+     "text": "Estoy tratando de acordarme."
+    },
+    {
+     "from": "Darrell",
+     "text": "Seguro que sí."
+    },
+    {
+     "from": "Sharon",
+     "text": "Mejor reviso."
+    },
+    {
+     "from": "Sharon",
+     "text": "La puerta de atrás tiene llave."
+    },
+    {
+     "from": "Darrell",
+     "text": "La cerraste tú misma."
+    },
+    {
+     "from": "Sharon",
+     "text": "La puerta corrediza del porche está bien."
+    },
+    {
+     "from": "Sharon",
+     "text": "Las ventanas de la sala de la tele están bien"
+    },
+    {
+     "from": "Darrell",
+     "text": "Todo va a estar bien, ¿ves?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Darrell?"
+    },
+    {
+     "from": "Darrell",
+     "text": "¿Qué?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Tienes que venir."
+    },
+    {
+     "from": "Sharon",
+     "text": "Rápido."
+    },
+    {
+     "from": "Darrell",
+     "text": "¿Por qué?"
+    },
+    {
+     "from": "Sharon",
+     "text": "La puerta principal."
+    },
+    {
+     "from": "Darrell",
+     "text": "¿No tenía llave?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Estaba abierta."
+    },
+    {
+     "from": "Darrell",
+     "text": "¿Abierta de par en par?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Lo bastante abierta."
+    },
+    {
+     "from": "Darrell",
+     "text": "Solo se te olvidó revisarla, eso es todo."
+    },
+    {
+     "from": "Sharon",
+     "text": "¡No! La puerta principal es lo PRIMERO que reivso."
+    },
+    {
+     "from": "Darrell",
+     "text": "A lo mejor estabas distraída."
+    },
+    {
+     "from": "Sharon",
+     "text": "No estaba distraída."
+    },
+    {
+     "from": "Sharon",
+     "text": "Estaba abierta"
+    },
+    {
+     "from": "Darrell",
+     "text": "Bueno, ¿ya la cerraste?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Y si hay alguien en la casa?"
+    },
+    {
+     "from": "Darrell",
+     "text": "No hay nadie en la casa."
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Y si lo hay?"
+    },
+    {
+     "from": "Darrell",
+     "text": "No sé… ¿por qué no vas a casa de algún vecino o algo?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Afuera está todo oscuro."
+    },
+    {
+     "from": "Sharon",
+     "text": "No sé qué hacer."
+    },
+    {
+     "from": "Darrell",
+     "text": "No te preocupes."
+    },
+    {
+     "from": "Sharon",
+     "text": "¡Sí me preocupo!"
+    },
+    {
+     "from": "Darrell",
+     "text": "Mira, ¿qué probabilidad hay de que un ladrón haya descubierto que la puerta no tenía llave?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Y si no se me olvidó? ¿¿¿Y si ELLOS la abrieron???"
+    },
+    {
+     "from": "Darrell",
+     "text": "Estás exagerando."
+    },
+    {
+     "from": "Sharon",
+     "text": "Creo que oí algo."
+    },
+    {
+     "from": "Darrell",
+     "text": "Fue tu imaginación."
+    },
+    {
+     "from": "Sharon",
+     "text": "No…"
+    },
+    {
+     "from": "Darrell",
+     "text": "SÍ."
+    },
+    {
+     "from": "Sharon",
+     "text": "¡Hay alguien en la casa!"
+    },
+    {
+     "from": "Darrell",
+     "text": "No hay nadie en la casa."
+    },
+    {
+     "from": "Sharon",
+     "text": "Tienes que venir."
+    },
+    {
+     "from": "Darrell",
+     "text": "Estoy trabajando."
+    },
+    {
+     "from": "Sharon",
+     "text": "Te estoy diciendo la verdad."
+    },
+    {
+     "from": "Sharon",
+     "text": "Estoy escondida debajo de la cama."
+    },
+    {
+     "from": "Sharon",
+     "text": "¡Creo que está en mi cuarto!"
+    },
+    {
+     "from": "Darrell",
+     "text": "¡No hay nadie ahí!"
+    },
+    {
+     "from": "Sharon",
+     "text": "FOTO: LAS PIERNAS DE UN HOMBRE EN UN DORMITORIO, TOMADA DESDE DEBAJO DE LA CAMA"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Ahora sí me crees?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Darrell?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Ahora me crees?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¡Contéstame!"
+    },
+    {
+     "from": "Sharon",
+     "text": "Espera... ¿eres tú?"
+    },
+    {
+     "from": "Sharon",
+     "text": "¿Es una broma pesada? ¿Me estoy escondiendo para nada?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Perdón, tuve que atender a un cliente."
+    },
+    {
+     "from": "Darrell",
+     "text": "Espera… ¿QUÉ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon, ¿estás ahí?"
+    },
+    {
+     "from": "Darrell",
+     "text": "¿Sharon?"
+    },
+    {
+     "from": "Darrell",
+     "text": "¡Contéstame!"
+    },
+    {
+     "from": "Darrell",
+     "text": "¡ESE NO SOY YO!"
+    }
+   ]
+  }
+ ]
+}

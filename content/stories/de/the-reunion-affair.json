@@ -1,0 +1,288 @@
+{
+ "id": "the-reunion-affair",
+ "title": "Die Affäre nach dem Klassentreffen",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 2,
+ "description": "Mary und Bill waren in der Highschool ein Paar, doch der Krieg hat sie getrennt. Beide haben jemand anderen geheiratet, aber beim Klassentreffen merken sie, dass es noch immer funkt.",
+ "parts": [
+  {
+   "prologue": "Mary und Bill waren das Paar, von dem alle erwarteten, dass es heiratet. Dann kamen der Krieg und ein Telegramm. Sechzig Jahre später veranstaltet ihr Jahrgang ein Klassentreffen.",
+   "left": "Bill",
+   "right": "Mary",
+   "wallpaper": [
+    "heart",
+    "glasses",
+    "ring",
+    "rose",
+    "music",
+    "plane",
+    "car",
+    "clock",
+    "envelope"
+   ],
+   "messages": [
+    {
+     "from": "Bill",
+     "text": "Ist es ein schlechter Zeitpunkt zum Schreiben, Mary?"
+    },
+    {
+     "from": "Mary",
+     "text": "Nein, ist es nicht, Bill. Jack ist zur Arbeit gegangen."
+    },
+    {
+     "from": "Bill",
+     "text": "Es war wirklich schön, dich beim Klassentreffen zu sehen."
+    },
+    {
+     "from": "Mary",
+     "text": "Das war es. Du hast dich kein bisschen verändert."
+    },
+    {
+     "from": "Bill",
+     "text": "Dann brauchst du wohl eine Brille."
+    },
+    {
+     "from": "Mary",
+     "text": "Für mich bist du immer noch der gut aussehende Mann, den ich geliebt habe."
+    },
+    {
+     "from": "Bill",
+     "text": "Und du bist immer noch die sexy Cheerleaderin."
+    },
+    {
+     "from": "Mary",
+     "text": "Wer braucht jetzt eine Brille?"
+    },
+    {
+     "from": "Bill",
+     "text": "Triffst du dich heute Abend mit mir?"
+    },
+    {
+     "from": "Mary",
+     "text": "Ich bin verheiratet, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich auch, aber der Funke ist noch da."
+    },
+    {
+     "from": "Mary",
+     "text": "Ja, das ist er, aber wir sind beide verheiratet."
+    },
+    {
+     "from": "Bill",
+     "text": "Das weiß ich. Du hast mich oft genug daran erinnert."
+    },
+    {
+     "from": "Mary",
+     "text": "Wir hätten uns nicht küssen dürfen."
+    },
+    {
+     "from": "Bill",
+     "text": "Doch, das hätten wir. Es war richtig."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich habe Jack noch nie betrogen."
+    },
+    {
+     "from": "Bill",
+     "text": "Und ich habe Sue noch nie betrogen."
+    },
+    {
+     "from": "Mary",
+     "text": "Warum reden wir dann darüber?"
+    },
+    {
+     "from": "Bill",
+     "text": "Weil wir uns immer noch begehren."
+    },
+    {
+     "from": "Mary",
+     "text": "Das mag stimmen, aber es macht es nicht richtig."
+    },
+    {
+     "from": "Bill",
+     "text": "Der Krieg hat uns getrennt."
+    },
+    {
+     "from": "Mary",
+     "text": "Wir hätten heiraten sollen, bevor du eingeschifft wurdest."
+    },
+    {
+     "from": "Bill",
+     "text": "Haben wir nicht, aber du hättest warten sollen. Du hast es versprochen."
+    },
+    {
+     "from": "Mary",
+     "text": "Sie sagten, du seist gefallen. Ich habe ein Jahr lang getrauert."
+    },
+    {
+     "from": "Bill",
+     "text": "Du hättest länger warten sollen."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich weiß, aber ich war einsam."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich bereue, dass ich mich an die Regeln von damals gehalten habe."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich auch. Aber ich hatte Angst, schwanger zu werden"
+    },
+    {
+     "from": "Bill",
+     "text": "Ich hätte dich geheiratet."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich weiß, aber ich wollte keine „Muss-Ehe“."
+    },
+    {
+     "from": "Bill",
+     "text": "Das ist Vergangenheit. Jetzt ist jetzt. Triff dich mit mir."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich war noch nie mit einem anderen Mann zusammen."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich wünschte, ich könnte dasselbe sagen, aber das kann ich nicht."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich weiß nicht, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Weis mich nicht wieder ab wie am Abend des Abschlussballs."
+    },
+    {
+     "from": "Mary",
+     "text": "Okay, ich treffe mich mit dir."
+    },
+    {
+     "from": "Bill",
+     "text": "Wirklich? Das macht mich glücklich."
+    },
+    {
+     "from": "Mary",
+     "text": "Mittags, Airport Motel."
+    },
+    {
+     "from": "Bill",
+     "text": "Kneif nicht wieder."
+    },
+    {
+     "from": "Mary",
+     "text": "Werde ich nicht."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich liebe dich. Ich habe Kondome dabei."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich liebe dich. Welches Zimmer?"
+    },
+    {
+     "from": "Bill",
+     "text": "Zimmer 13."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich fahre jetzt los."
+    },
+    {
+     "from": "Bill",
+     "text": "Bis gleich, mein Schatz."
+    },
+    {
+     "from": "Mary",
+     "text": "Bill, das Auto springt nicht an. Ich komme zu spät."
+    },
+    {
+     "from": "Bill",
+     "text": "Tut mir leid, aber ich muss meinen Flug erwischen."
+    },
+    {
+     "from": "Mary",
+     "text": "Bitte warte."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich kann nicht warten. Ich muss los."
+    },
+    {
+     "from": "Mary",
+     "text": "Nein!"
+    },
+    {
+     "from": "Bill",
+     "text": "Es war uns nie bestimmt, unsere Liebe zu vollziehen."
+    },
+    {
+     "from": "Mary",
+     "text": "Ich liebe dich, Bill, für immer."
+    },
+    {
+     "from": "Bill",
+     "text": "Ich werde dich immer lieben, Mary."
+    },
+    {
+     "from": "Mary",
+     "text": "Es ist so ungerecht."
+    },
+    {
+     "from": "Bill",
+     "text": "Ja, das ist es, aber das Leben ist nicht gerecht."
+    },
+    {
+     "from": "Mary",
+     "text": "Warte, ich will mit dir gehen."
+    },
+    {
+     "from": "Bill",
+     "text": "Das kannst du nicht, Mary. Deine Zeit ist noch nicht gekommen."
+    },
+    {
+     "from": "Mary",
+     "text": "Meine Zeit nicht gekommen? Was meinst du damit?"
+    },
+    {
+     "from": "Bill",
+     "text": "Schau auf dein Kopfkissen."
+    },
+    {
+     "from": "Mary",
+     "text": "Deine Erkennungsmarke? Aber das heißt …"
+    },
+    {
+     "from": "Bill",
+     "text": "Ja, ich bin tot."
+    },
+    {
+     "from": "Mary",
+     "text": "Aber deine Leiche …"
+    },
+    {
+     "from": "Bill",
+     "text": "An den Stränden der Normandie … Massengrab."
+    },
+    {
+     "from": "Mary",
+     "text": "Aber es hat sich so echt angefühlt … das Klassentreffen."
+    },
+    {
+     "from": "Bill",
+     "text": "Mein Geist … um dir zu sagen, dass ich dich liebe, und lebe wohl, meine Liebste."
+    }
+   ]
+  }
+ ]
+}

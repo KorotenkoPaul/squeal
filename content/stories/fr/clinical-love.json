@@ -1,0 +1,484 @@
+{
+ "id": "clinical-love",
+ "title": "Amour sur ordonnance",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Psychiatre émotionnellement fragile, le Dr Rick tombe éperdument amoureux de sa patiente, Sarah. Cet amour aveugle va le mener face à une réalité qu'il refuse d'accepter.",
+ "parts": [
+  {
+   "prologue": "Le Dr Rick voit Sarah tous les mardis et jeudis depuis huit mois. Il dit qu'elle est sa meilleure patiente. Depuis quelque temps, il ne prend plus de notes pendant leurs séances.",
+   "left": "Dr. Rick",
+   "right": "Sarah",
+   "wallpaper": [
+    "clipboard",
+    "pill",
+    "heart",
+    "couch",
+    "clock",
+    "glasses",
+    "flower",
+    "phone",
+    "question"
+   ],
+   "messages": [
+    {
+     "from": "Dr. Rick",
+     "text": "Ça va bébé ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Coucou, ça va bien. Et toi ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Super bien."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "J'ai trop hâte d'être à la prochaine séance."
+    },
+    {
+     "from": "Sarah",
+     "text": "Hmmm."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu n'as pas hâte, toi ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Je ne sais pas trop, Rick."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu ne sais pas trop ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu es presque redevenue toi-même."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Sauter des séances, ça ne va pas t'aider."
+    },
+    {
+     "from": "Sarah",
+     "text": "Je veux te dire quelque chose d'important."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Qu'est-ce qu'il y a, ma chérie ? Tu peux tout me dire."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Après tout, je suis ton médecin. ;)"
+    },
+    {
+     "from": "Sarah",
+     "text": "Rick, on ne peut plus faire ces séances."
+    },
+    {
+     "from": "Sarah",
+     "text": "Il faut qu'on arrête."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Quoi ? Comment ça, arrêter ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "C'est un traitement, pourquoi on arrêterait ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est compliqué."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Qu'est-ce qui est compliqué, mon amour ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu as arrêté de prendre tes médicaments ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu te comportes exactement comme au début de ton traitement."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Allez Sarah, qu'est-ce qui te tracasse ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Parle-moi, mon amour."
+    },
+    {
+     "from": "Sarah",
+     "text": "Je ne voulais pas te briser le cœur."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Ok, Sarah, là tu me fais peur."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "J'arrive tout de suite."
+    },
+    {
+     "from": "Sarah",
+     "text": "Non, ne viens pas."
+    },
+    {
+     "from": "Sarah",
+     "text": "J'ai peur que tu ne puisses pas accepter la réalité."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Quelle réalité, Sarah ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "On s'aime tous les deux, ce n'est pas ça, la réalité ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ce n'est pas vrai."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Notre amour n'est pas vrai ? Qu'est-ce que tu racontes ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ce n'est pas ce que tu crois."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Alors quoi ? Explique-moi ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est plus profond que ça."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Sarah ! Tu veux bien me le dire franchement ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Je ne peux pas."
+    },
+    {
+     "from": "Sarah",
+     "text": "J'ai peur que tu fasses une dépression nerveuse."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Waouh… C'est si dur que ça ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est pire."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Assez de cinéma, Sarah ; parle maintenant."
+    },
+    {
+     "from": "Sarah",
+     "text": "Comment pourras-tu me pardonner un jour ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "C'était mon idée."
+    },
+    {
+     "from": "Sarah",
+     "text": "Et maintenant, je ne sais même plus quoi faire."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Écoute Sarah, tu n'as pas l'air d'aller bien, là."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Repose-toi un peu et on en reparlera plus tard."
+    },
+    {
+     "from": "Sarah",
+     "text": "Je vais parfaitement bien."
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est toi, Rick."
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est toi qui ne vas pas bien."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Comment ça, je ne vais pas bien ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Ça fait des mois qu'on est ensemble."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et toutes ces soirées qu'on a passées ensemble ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et les séances, Sarah ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Rien n'est ce qu'il paraît."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Qu'est-ce que tu veux dire ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu as perdu la tête, Sarah."
+    },
+    {
+     "from": "Sarah",
+     "text": "Accroche-toi bien, s'il te plaît."
+    },
+    {
+     "from": "Sarah",
+     "text": "Je vais te dire quelque chose de vraiment choquant."
+    },
+    {
+     "from": "Sarah",
+     "text": "Et je ne sais pas comment tu vas réagir."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Je suis tout ouïe, Sarah, arrête le suspense."
+    },
+    {
+     "from": "Sarah",
+     "text": "Toutes ces séances de thérapie, Rick."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Oui, quoi ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ce n'étaient pas mes séances de thérapie."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Je ne comprends pas ce que tu dis, Sarah."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Comment ça, ce n'étaient pas mes séances ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Oui Rick, je te dis la vérité."
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu n'es pas médecin. Plus maintenant."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Sarah, je ne comprends rien à tout ça."
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu étais psychiatre avant l'accident."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Quel accident ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu as eu un grave accident l'année dernière."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Un accident ? Pourquoi je ne m'en souviens pas du tout ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu as perdu la mémoire dans l'accident."
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu as perdu la mémoire et tes émotions."
+    },
+    {
+     "from": "Sarah",
+     "text": "Tout avait disparu."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et ensuite, il s'est passé quoi ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu devais suivre un traitement spécial."
+    },
+    {
+     "from": "Sarah",
+     "text": "Il fallait te stimuler émotionnellement pour faire revenir tes émotions."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Mais si je n'avais plus aucune émotion, comment je peux t'aimer ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "L'amour aussi, c'est une émotion, non ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu as retrouvé tes émotions."
+    },
+    {
+     "from": "Sarah",
+     "text": "Mais ta mémoire n'est pas revenue."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et notre amour, Sarah ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Tu ne sais même pas qui je suis."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Pourquoi je croirais un seul mot de ce que tu dis ?"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu es une patiente psychiatrique qui souffre de pertes de mémoire."
+    },
+    {
+     "from": "Sarah",
+     "text": "Non Rick, je ne suis pas une patiente psychiatrique."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu mens ; j'ai lu ton dossier je ne sais combien de fois."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Oh mon Dieu !"
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Je comprends maintenant, c'est ton histoire à toi."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "C'est toi qui as eu un accident, suivi d'une perte de mémoire."
+    },
+    {
+     "from": "Sarah",
+     "text": "Tout ça a été inventé pour te faire retrouver la mémoire."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu mens. Pourquoi je croirais une patiente psychiatrique ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Je ne suis pas une patiente psychiatrique."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu ne peux même pas le prouver, Sarah."
+    },
+    {
+     "from": "Sarah",
+     "text": "J'ai tellement de peine pour toi."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Ne t'inquiète pas Sarah, tu vas bientôt guérir."
+    },
+    {
+     "from": "Sarah",
+     "text": "En fait, c'était mon idée."
+    },
+    {
+     "from": "Sarah",
+     "text": "D'essayer cette thérapie avec toi."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Je suis ton médecin, Sarah."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Je suis un psychiatre reconnu."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et on s'aime."
+    },
+    {
+     "from": "Sarah",
+     "text": "Non Rick. C'est moi ton médecin, et toi, tu es le patient."
+    },
+    {
+     "from": "Sarah",
+     "text": "Et notre amour, ça faisait partie du traitement."
+    },
+    {
+     "from": "Sarah",
+     "text": "Je suis désolée, je n'ai pas réussi à te ramener."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Tu ne m'aimes pas, Sarah ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Je m'appelle Dr Martha."
+    },
+    {
+     "from": "Sarah",
+     "text": "Sarah, c'était le prénom de ta femme."
+    },
+    {
+     "from": "Sarah",
+     "text": "C'était un faux prénom pour t'aider à retrouver la mémoire."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Quoi ? Et où est-elle maintenant ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Elle est morte, Rick."
+    },
+    {
+     "from": "Sarah",
+     "text": "C'est elle qui conduisait quand vous avez eu l'accident."
+    },
+    {
+     "from": "Dr. Rick",
+     "text": "Et mon amour, Sarah ?"
+    },
+    {
+     "from": "Sarah",
+     "text": "Ce n'était pas de l'amour, Rick, c'était ton traitement."
+    }
+   ]
+  }
+ ]
+}

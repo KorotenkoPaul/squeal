@@ -1,0 +1,392 @@
+{
+  "id": "perfect-match",
+  "title": "Pareja perfecta",
+  "author": "Asjad Ullah",
+  "genre": "romance",
+  "fear": 1,
+  "description": "Sam cree que ya no quiere a su esposa y empieza a buscar a alguien para darle un poco de chispa a su vida, con un perfil falso en una web de citas. Por fin encuentra a la pareja perfecta, pero resulta que es demasiado perfecta para seguir adelante.",
+  "parts": [
+    {
+      "prologue": "Sam lleva once años casado. Últimamente pasa las noches en una web de citas con un nombre inventado. No es el único en casa que se aburre.",
+      "left": "Sam",
+      "right": "Eve",
+      "wallpaper": [
+        "heart",
+        "laptop",
+        "wineglass",
+        "cutlery",
+        "car",
+        "ring",
+        "mask",
+        "question",
+        "phone"
+      ],
+      "messages": [
+        {
+          "from": "Sam",
+          "text": "Hola, ¿cómo estás?"
+        },
+        {
+          "from": "Eve",
+          "text": "Hola, estoy bien."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Y tú?"
+        },
+        {
+          "from": "Sam",
+          "text": "Yo también estoy bien."
+        },
+        {
+          "from": "Sam",
+          "text": "Estaba mirando los perfiles y."
+        },
+        {
+          "from": "Sam",
+          "text": "El tuyo me pareció muy interesante."
+        },
+        {
+          "from": "Eve",
+          "text": "Gracias."
+        },
+        {
+          "from": "Eve",
+          "text": "Bueno, cuéntame un poco de ti."
+        },
+        {
+          "from": "Sam",
+          "text": "Pues soy un hombre sencillo, trabajo en una empresa privada."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Entonces estás aquí para buscar una cita?"
+        },
+        {
+          "from": "Sam",
+          "text": "Sí, estoy buscando una cita."
+        },
+        {
+          "from": "Sam",
+          "text": "Busco a alguien interesante y encantador."
+        },
+        {
+          "from": "Eve",
+          "text": "Qué bien."
+        },
+        {
+          "from": "Eve",
+          "text": "Yo también busco a alguien interesante."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Y qué tipo de personalidad tienes?"
+        },
+        {
+          "from": "Sam",
+          "text": "Soy extrovertido, me encanta salir, ir a sitios."
+        },
+        {
+          "from": "Sam",
+          "text": "Comer fuera, bailar, hacer deporte, y la lista sigue."
+        },
+        {
+          "from": "Eve",
+          "text": "Ah, qué bien."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Y tú?"
+        },
+        {
+          "from": "Eve",
+          "text": "Bueno, yo soy ambivertida."
+        },
+        {
+          "from": "Eve",
+          "text": "Me encanta salir, pero necesito mi tiempo para recargar pilas."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Qué te interesa?"
+        },
+        {
+          "from": "Eve",
+          "text": "Mmm. Me encanta cocinar, pintar y el arte."
+        },
+        {
+          "from": "Sam",
+          "text": "Guau, qué genial."
+        },
+        {
+          "from": "Eve",
+          "text": "Gracias."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Y si nos vemos algún día?"
+        },
+        {
+          "from": "Eve",
+          "text": "Sí, claro."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Y adónde vamos?"
+        },
+        {
+          "from": "Sam",
+          "text": "¿Algún restaurante favorito?"
+        },
+        {
+          "from": "Eve",
+          "text": "Me encanta comer en el Shack Stone."
+        },
+        {
+          "from": "Sam",
+          "text": "¡Uy!"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Qué? ¿No te gusta el sitio?"
+        },
+        {
+          "from": "Sam",
+          "text": "No, no es eso, me gusta ese sitio."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Entonces por qué esa reacción?"
+        },
+        {
+          "from": "Sam",
+          "text": "Bueno, se me pasó una idea loca por la cabeza."
+        },
+        {
+          "from": "Sam",
+          "text": "Ignóralo."
+        },
+        {
+          "from": "Eve",
+          "text": "Mmm"
+        },
+        {
+          "from": "Eve",
+          "text": "Aunque cuesta ignorarlo."
+        },
+        {
+          "from": "Eve",
+          "text": "Pero vamos allí."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Entonces el sábado por la noche a las 8?"
+        },
+        {
+          "from": "Eve",
+          "text": "Mmm. Estaba pensando en otra cosa."
+        },
+        {
+          "from": "Sam",
+          "text": "¿En qué?"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Cuál es tu sitio favorito?"
+        },
+        {
+          "from": "Sam",
+          "text": "¿Por qué importa eso?"
+        },
+        {
+          "from": "Eve",
+          "text": "Creo que no te gustó el Shack Stone."
+        },
+        {
+          "from": "Sam",
+          "text": "No, no es eso."
+        },
+        {
+          "from": "Sam",
+          "text": "Es que era alguien que conocía."
+        },
+        {
+          "from": "Sam",
+          "text": "A ella también le encantaba el Shack Stone."
+        },
+        {
+          "from": "Eve",
+          "text": "Ok, ¿y quién es ella?"
+        },
+        {
+          "from": "Eve",
+          "text": "Si no es muy personal. ;p"
+        },
+        {
+          "from": "Sam",
+          "text": "Jaja. Nada de eso."
+        },
+        {
+          "from": "Sam",
+          "text": "Solo una vieja amiga."
+        },
+        {
+          "from": "Eve",
+          "text": "Mmm."
+        },
+        {
+          "from": "Eve",
+          "text": "Aun así, me encantaría saber cuál es tu restaurante favorito."
+        },
+        {
+          "from": "Sam",
+          "text": "Me encanta comer en el Wao Tang."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Qué? ¿En serio?"
+        },
+        {
+          "from": "Sam",
+          "text": "Sí, ¿te gusta?"
+        },
+        {
+          "from": "Eve",
+          "text": "No está mal, pero ¿en serio?"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Te gusta el Wao Tang?"
+        },
+        {
+          "from": "Sam",
+          "text": "Sí, ¿por qué pareces tan sorprendida?"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Te lo puedes creer?"
+        },
+        {
+          "from": "Eve",
+          "text": "A alguien que conocía le encantaba comer en el Wao Tang."
+        },
+        {
+          "from": "Sam",
+          "text": "Bueno, ahora me toca a mí. :p"
+        },
+        {
+          "from": "Sam",
+          "text": "¿Y quién era él?"
+        },
+        {
+          "from": "Eve",
+          "text": "Nah, solo un viejo amigo. :p"
+        },
+        {
+          "from": "Sam",
+          "text": "Parece que tenemos un pasado entrelazado."
+        },
+        {
+          "from": "Eve",
+          "text": "Sí, como si en otra vida hubiéramos sido pareja."
+        },
+        {
+          "from": "Sam",
+          "text": "Jaja."
+        },
+        {
+          "from": "Eve",
+          "text": "Pues veámonos."
+        },
+        {
+          "from": "Sam",
+          "text": "Claro, te recojo en Tiffany’s"
+        },
+        {
+          "from": "Eve",
+          "text": "Genial."
+        },
+        {
+          "from": "Sam",
+          "text": "Tengo un sedán gris."
+        },
+        {
+          "from": "Eve",
+          "text": "Uy. Ahora sí que estoy confundida."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Por qué, qué pasó?"
+        },
+        {
+          "from": "Eve",
+          "text": "No sé si debería preguntarlo o no."
+        },
+        {
+          "from": "Eve",
+          "text": "Sería muy vergonzoso si me equivoco."
+        },
+        {
+          "from": "Sam",
+          "text": "¿Si te equivocas en qué?"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Puedes contestarme otra pregunta?"
+        },
+        {
+          "from": "Sam",
+          "text": "Sí, adelante."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Trabajas en Smith’s?"
+        },
+        {
+          "from": "Sam",
+          "text": "Dios mío, ¿cómo sabes eso?"
+        },
+        {
+          "from": "Eve",
+          "text": "¿Jack?"
+        },
+        {
+          "from": "Sam",
+          "text": "¿Cómo sabes mi nombre real?"
+        },
+        {
+          "from": "Sam",
+          "text": "Ay, Dios. Esto significa que eres…"
+        },
+        {
+          "from": "Sam",
+          "text": "Eres Maria."
+        },
+        {
+          "from": "Eve",
+          "text": "Sí, Jack, y esta vez estás acabado."
+        },
+        {
+          "from": "Eve",
+          "text": "Qué vergüenza."
+        },
+        {
+          "from": "Sam",
+          "text": "Maria, sé razonable, cariño."
+        },
+        {
+          "from": "Sam",
+          "text": "Nos han descubierto a los dos en la misma web."
+        },
+        {
+          "from": "Eve",
+          "text": "¿Qué demonios hacías tú aquí?"
+        },
+        {
+          "from": "Sam",
+          "text": "Cariño, hablemos de esto cuando llegue a casa."
+        }
+      ]
+    }
+  ]
+}

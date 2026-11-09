@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
 <!-- slider titles: each story's name is drawn in its own lettering -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Major+Mono+Display&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Major+Mono+Display&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&family=Oswald:wght@600&family=Marck+Script&family=PT+Mono&family=Russo+One&display=swap">
 <style>
 /* Layout: the original 2018 Squeal design — indigo night, four tabs (menu, home, favourites, search) and a full-screen chat reader. */
 :root {
@@ -174,7 +174,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
 .tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
 .tile div { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; }
+.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }   /* long German and Russian words break by syllable */
 .pills { display: flex; gap: 6px; flex-wrap: wrap; }
 .pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 4px 8px 2px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
 .tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
@@ -319,6 +319,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .m-row.sub { color: var(--red); }                                /* Subscription in the app's red */
 .m-row { flex: none; padding: 4px 16px; font-size: 20px; font-weight: 600; color: #fff; transition: opacity .15s; }
 .m-row:active { opacity: .5; }
+.m-row { position: relative; }
+.m-row.cur::after { content: ""; position: absolute; left: 100%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 2px;   /* the tick sits beside the word, the word stays centred */
+  background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L20 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L20 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; color: var(--me, #8a6be0); }
+.m-back { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--text); opacity: 0; pointer-events: none; transition: opacity .35s; }
+.m-back svg { width: 18px; height: 18px; }
+.m-back.on { opacity: 1; pointer-events: auto; }
+.m-back::after { content: ""; position: absolute; inset: -8px; }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -521,12 +530,88 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 <div class="app" id="app"></div>
 
 <script>
-const STORIES = /*STORIES*/[];
+const STORIES_ALL = /*STORIES*/{};
+const STORIES = [];
 const GENRES = { all: "All", horror: "Horror", thriller: "Thriller", romance: "Romance" };
 const store = {
   get(k, d) { try { const v = localStorage.getItem("squeal:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem("squeal:" + k, JSON.stringify(v)); } catch {} },
 };
+/* ---------- Languages (2026-11-09). The app speaks English, German, French, Spanish and Russian: every word
+   of the interface below, and every story (content/stories/<lang>/, same messages one for one). First start:
+   the phone's own language if we have it, else English; Menu → Language changes it at once, everywhere. ---------- */
+const LANGS = [["en", "English"], ["de", "Deutsch"], ["fr", "Français"], ["es", "Español"], ["ru", "Русский"]];
+const UI = {
+  en: { all: "All", horror: "Horror", thriller: "Thriller", romance: "Romance",
+    fear: ["Uneasy", "Creepy", "Scary", "Terrifying", "Nightmare"],
+    top: "Top this week", pull: "Pull up for a random story", keep: "Keep pulling", release: "Release for a random story",
+    remove: "Remove", swipe: "Swipe a story left to remove it", emptyT: "It's empty in here :(", emptyS: "Hold your finger on a story",
+    search: "Search", cancel: "Cancel", noScary: "No stories this scary yet", nothing: "Nothing found",
+    menu: ["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"],
+    subOn: "Demo: subscribed — no tap limit", subOff: "Demo: free reader — {n} taps", inApp: "{x} — in the iPhone app",
+    read: "Read", by: "Written by {a}", part: "Part {n}", partOver: "Part {n} starts over", storyOver: "Story starts over", allOver: "All parts start over",
+    min: "{n} min", online: "online", typing: "typing…", recA: "recording audio…", recV: "recording video…", sending: "sending…",
+    tap: "Tap to continue", ask: "What do you say?", next: "Next part", startOver: "Start over", readAgain: "Read again", turns: "Back to a choice",
+    ending: "Ending {n} of {m}", payT: "You've used your free taps", payB: "Subscribe to keep reading", back: "Back" },
+  de: { all: "Alle", horror: "Horror", thriller: "Thriller", romance: "Romantik",
+    fear: ["Beklemmend", "Unheimlich", "Gruselig", "Furchtbar", "Albtraum"],
+    top: "Top der Woche", pull: "Nach oben ziehen für eine Zufallsstory", keep: "Weiterziehen", release: "Loslassen für eine Zufallsstory",
+    remove: "Entfernen", swipe: "Wische eine Story nach links, um sie zu entfernen", emptyT: "Hier ist es leer :(", emptyS: "Halte den Finger auf eine Story",
+    search: "Suchen", cancel: "Abbrechen", noScary: "Noch keine Storys mit dieser Stufe", nothing: "Nichts gefunden",
+    menu: ["Abo", "Käufe wiederherstellen", "Sprache", "Story vorschlagen", "E-Mail-Support"],
+    subOn: "Demo: Abo aktiv — unbegrenzt tippen", subOff: "Demo: kostenlos — {n} Taps", inApp: "{x} — in der iPhone-App",
+    read: "Lesen", by: "Geschrieben von {a}", part: "Teil {n}", partOver: "Teil {n} beginnt von vorn", storyOver: "Story beginnt von vorn", allOver: "Alle Teile beginnen von vorn",
+    min: "{n} Min.", online: "online", typing: "schreibt…", recA: "nimmt Audio auf…", recV: "nimmt Video auf…", sending: "sendet…",
+    tap: "Tippen zum Weiterlesen", ask: "Was schreibst du?", next: "Nächster Teil", startOver: "Neu beginnen", readAgain: "Nochmal lesen", turns: "Zurück zur Wahl",
+    ending: "Ende {n} von {m}", payT: "Deine Gratis-Taps sind aufgebraucht", payB: "Abonnieren und weiterlesen", back: "Zurück" },
+  fr: { all: "Tout", horror: "Horreur", thriller: "Thriller", romance: "Romance",
+    fear: ["Troublant", "Glauque", "Effrayant", "Terrifiant", "Cauchemar"],
+    top: "Top de la semaine", pull: "Tirez vers le haut : histoire au hasard", keep: "Continuez", release: "Relâchez : histoire au hasard",
+    remove: "Retirer", swipe: "Glissez une histoire vers la gauche pour la retirer", emptyT: "C'est vide ici :(", emptyS: "Gardez le doigt appuyé sur une histoire",
+    search: "Rechercher", cancel: "Annuler", noScary: "Pas encore d'histoire aussi effrayante", nothing: "Aucun résultat",
+    menu: ["Abonnement", "Restaurer les achats", "Langue", "Proposer une histoire", "Assistance par e-mail"],
+    subOn: "Démo : abonné — sans limite", subOff: "Démo : lecture gratuite — {n} touches", inApp: "{x} — dans l'app iPhone",
+    read: "Lire", by: "Écrit par {a}", part: "Partie {n}", partOver: "La partie {n} recommence", storyOver: "L'histoire recommence", allOver: "Toutes les parties recommencent",
+    min: "{n} min", online: "en ligne", typing: "écrit…", recA: "enregistre un audio…", recV: "enregistre une vidéo…", sending: "envoi…",
+    tap: "Touchez pour continuer", ask: "Que réponds-tu ?", next: "Partie suivante", startOver: "Recommencer", readAgain: "Relire", turns: "Revenir à un choix",
+    ending: "Fin {n} sur {m}", payT: "Vos touches gratuites sont épuisées", payB: "Abonnez-vous pour continuer", back: "Retour" },
+  es: { all: "Todo", horror: "Terror", thriller: "Suspense", romance: "Romance",
+    fear: ["Inquietante", "Escalofriante", "Da miedo", "Aterrador", "Pesadilla"],
+    top: "Top de la semana", pull: "Desliza hacia arriba: historia al azar", keep: "Sigue deslizando", release: "Suelta: historia al azar",
+    remove: "Quitar", swipe: "Desliza una historia a la izquierda para quitarla", emptyT: "Aquí no hay nada :(", emptyS: "Mantén el dedo sobre una historia",
+    search: "Buscar", cancel: "Cancelar", noScary: "Aún no hay historias tan aterradoras", nothing: "No se encontró nada",
+    menu: ["Suscripción", "Restaurar compras", "Idioma", "Sugerir una historia", "Soporte por correo"],
+    subOn: "Demo: suscrito — sin límite de toques", subOff: "Demo: lector gratis — {n} toques", inApp: "{x} — en la app de iPhone",
+    read: "Leer", by: "Escrita por {a}", part: "Parte {n}", partOver: "La parte {n} empieza de nuevo", storyOver: "La historia empieza de nuevo", allOver: "Todas las partes empiezan de nuevo",
+    min: "{n} min", online: "en línea", typing: "escribiendo…", recA: "grabando audio…", recV: "grabando video…", sending: "enviando…",
+    tap: "Toca para continuar", ask: "¿Qué respondes?", next: "Siguiente parte", startOver: "Empezar de nuevo", readAgain: "Leer de nuevo", turns: "Volver a una elección",
+    ending: "Final {n} de {m}", payT: "Ya usaste tus toques gratis", payB: "Suscríbete para seguir leyendo", back: "Atrás" },
+  ru: { all: "Все", horror: "Ужасы", thriller: "Триллер", romance: "Романтика",
+    fear: ["Тревожно", "Жутко", "Страшно", "Ужасающе", "Кошмар"],
+    top: "Топ недели", pull: "Потяните вверх — случайная история", keep: "Тяните дальше", release: "Отпустите — случайная история",
+    remove: "Удалить", swipe: "Смахните историю влево, чтобы удалить", emptyT: "Здесь пусто :(", emptyS: "Удерживайте палец на истории",
+    search: "Поиск", cancel: "Отмена", noScary: "Пока нет таких страшных историй", nothing: "Ничего не найдено",
+    menu: ["Подписка", "Восстановить покупки", "Язык", "Предложить историю", "Написать в поддержку"],
+    subOn: "Демо: подписка — без ограничений", subOff: "Демо: бесплатно — {n} нажатий", inApp: "{x} — в приложении для iPhone",
+    read: "Читать", by: "Автор: {a}", part: "Часть {n}", partOver: "Часть {n} начнётся заново", storyOver: "История начнётся заново", allOver: "Все части начнутся заново",
+    min: "{n} мин", online: "в сети", typing: "печатает…", recA: "записывает аудио…", recV: "записывает видео…", sending: "отправляет…",
+    tap: "Нажмите, чтобы продолжить", ask: "Что ответишь?", next: "Следующая часть", startOver: "Начать заново", readAgain: "Читать снова", turns: "Вернуться к выбору",
+    ending: "Концовка {n} из {m}", payT: "Бесплатные нажатия закончились", payB: "Оформите подписку, чтобы читать дальше", back: "Назад" },
+};
+let LANG = "en";
+/* one word of the interface in the current language; {n}, {m}, {a}, {x} are filled in */
+const trA = k => (UI[LANG] && UI[LANG][k]) || UI.en[k];      // a list (fear levels, menu rows)
+const tr = (k, v = {}) => String((UI[LANG] && UI[LANG][k]) ?? UI.en[k]).replace(/\{(\w)\}/g, (_, x) => v[x] ?? "");
+/* the stories of the current language (the same objects stay in the same array, so everything that holds
+   STORIES sees the change); a story not yet translated falls back to English */
+function setLang(l) {
+  LANG = UI[l] ? l : "en";
+  const pick = STORIES_ALL[LANG] || STORIES_ALL.en, byId = Object.fromEntries((pick || []).map(s => [s.id, s]));
+  STORIES.splice(0, STORIES.length, ...STORIES_ALL.en.map(s => byId[s.id] || s));
+  Object.assign(GENRES, { all: tr("all"), horror: tr("horror"), thriller: tr("thriller"), romance: tr("romance") });
+  FEAR.splice(0, FEAR.length, ...trA("fear"));
+  document.documentElement.lang = LANG;
+}
 const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ICON = {
   pad: '<svg viewBox="0 1.6 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.5 2.5 0 0 1-4.3.9L14.7 16H9.3l-1.9 2.3a2.5 2.5 0 0 1-4.3-.9l-.9-3A5 5 0 0 1 7 8z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="15.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/></svg>',
@@ -618,7 +703,7 @@ const msgWait = m => (m.voice || m.video) ? (m.dur || 3) * 1000 + 1100 : Math.mi
    reader can choose (2026-11-09: an interactive story's time is the time to read all of it) */
 const partAll = e => !e.nodes ? e.messages : Object.values(e.nodes).flatMap(n => [...n.messages, ...(n.choices || []).map(c => ({ from: e.right, text: c.text }))]);
 const partSec = e => partAll(e).reduce((t, m) => t + READ_SEC + (m.from === e.right ? 0 : msgWait(m) / 1000), 0);
-const fmtMin = sec => Math.max(1, Math.round(sec / 60)) + " min";
+const fmtMin = sec => tr("min", { n: Math.max(1, Math.round(sec / 60)) });
 const readMin = s => fmtMin(s.episodes.reduce((t, e) => t + partSec(e), 0));
 const partMin = (s, k) => fmtMin(partSec(s.episodes[k]));
 function progress(s) {
@@ -810,14 +895,15 @@ function home() {
 function homeContent() {
   const list = STORIES.filter(s => genre === "all" || s.genre === genre), f = favs(), TOP = topOfWeek();
   const heroHTML = h => { const L = LETTERING[h.id];
-    const art = L ? `<span class="lt" style="${L.box}"><b class="art" style="${L.css}">${L.html ? L.html(esc(h.title)) : esc(h.title)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
+    const inner = LANG !== "en" && LOCAL_LETTERING[h.id] ? LOCAL_LETTERING[h.id](esc(h.title)) : L && L.html ? L.html(esc(h.title)) : esc(h.title);
+    const art = L ? `<span class="lt" style="${withFallback(L.box)}"><b class="art" style="${withFallback(L.css)}">${withFallback(inner)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
     return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}</button>`; };
-  return (`<span class="label">Top this week</span>
+  return (`<span class="label">${tr("top")}</span>
     <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
     <div class="chips" role="group" aria-label="Genre"><span class="chip-ind" aria-hidden="true"></span>${Object.entries(GENRES).map(([k, v]) => `<button class="chip${k === genre ? " near" : ""}" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}"><span>${v}</span></button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
-    <p class="hint pull-hint" id="pull-hint">Pull up for a random story</p>`);
+    <p class="hint pull-hint" id="pull-hint">${tr("pull")}</p>`);
 }
 
 function wireHome() {
@@ -1046,7 +1132,7 @@ function pullForRandom() {
     rnd.classList.toggle("ready", k >= 1);
     /* one line of words, always in the hint's place: pull up… → keep pulling → release */
     const hint = document.getElementById("pull-hint");
-    if (hint && !(busy && liftAs == null && raw)) hint.textContent = !raw ? "Pull up for a random story" : k >= 1 ? "Release for a random story" : "Keep pulling";
+    if (hint && !(busy && liftAs == null && raw)) hint.textContent = !raw ? tr("pull") : k >= 1 ? tr("release") : tr("keep");
     if (raw) setStrip(offset + (spin ?? raw * .9));                 // the reel turns with your finger
   };
   /* sinking back is a spring that can be caught: a new touch takes the reel from where it is */
@@ -1292,6 +1378,30 @@ const LETTERING = {
   "under-wrong-hands": { box: "left:22px;top:50%;transform:translateY(-50%)", css: "font-family:'Anton',sans-serif;font-size:36px;letter-spacing:.06em;color:#f2eef4;line-height:1.05;text-transform:uppercase",
     html: () => `<span style="display:block">Under</span><span style="display:block;width:max-content;transform:rotate(180deg);color:#d4606b">Wrong</span><span style="display:block">Hands</span>` },
 };
+/* Other languages (2026-11-09): the hand-set English lettering above is rebuilt from the translated title in
+   the same spirit: the leading words take the small line, the last word the big one, with the same faces,
+   colours and tricks. Faces without the letters needed (Cyrillic) borrow them, letter by letter, from a
+   face of the same kind (FONT_FALLBACK). */
+const twoParts = t => { const w = t.split(" "); return w.length > 1 ? [w.slice(0, -1).join(" "), w.at(-1)] : ["", t]; };
+const LOCAL_LETTERING = {
+  "nobodys-home": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-size:15px;letter-spacing:.6em;margin-right:-.6em;opacity:.75">${a}</span>` : ""}<span style="display:block;font-size:40px;letter-spacing:.3em;margin-right:-.3em;opacity:.85">${b}</span>`; },
+  "first-impressions": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-size:20px;opacity:.75">${a}</span>` : ""}<span style="display:block;font-size:40px">${b}</span>`; },
+  "love-till-death": t => { const [a, b] = twoParts(t); return `${a} <span style="color:#d4606b">${b}</span>`; },
+  "the-crossroad": t => { const [a, b] = twoParts(t), m = Math.ceil(b.length / 2); return `${a ? `<span style="display:block;font-size:16px;letter-spacing:.3em;opacity:.7;margin-bottom:2px">${a.toUpperCase()}</span>` : ""}<span style="transform:rotate(-8deg) translateY(-6px);transform-origin:right bottom">${b.slice(0, m)}</span><span style="transform:rotate(9deg) translateY(4px);transform-origin:left bottom">${b.slice(m)}</span>`; },
+  "unwanted-guest": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;text-align:center;font-size:24px;letter-spacing:.12em">${a.toUpperCase()}</span>` : ""}<span style="display:block;text-align:right;font-size:36px;padding-right:18px">${b.toUpperCase()}</span>`; },
+  "clinical-love": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-family:'Major Mono Display',monospace;font-size:14px;letter-spacing:.32em;opacity:.75;margin-bottom:2px">${a.toLowerCase()}</span>` : ""}<span style="display:block;font-family:'Pinyon Script',cursive;font-size:48px;color:#f6d6dc">${b}</span>`; },
+  "frenemy": t => { const u = t.toUpperCase(), m = Math.ceil(u.length * .55); return `${u.slice(0, m)}<span style="color:#d4606b">${u.slice(m)}</span>`; },
+  "perfect-match": t => `<span style="display:block">${t}</span><span style="display:block;transform:scaleY(-1);opacity:.28;-webkit-mask-image:linear-gradient(to top,#000,transparent 80%);mask-image:linear-gradient(to top,#000,transparent 80%)">${t}</span>`,
+  "the-crushing-love": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-family:'Cormorant SC',serif;font-size:14px;letter-spacing:.4em;opacity:.7">${a}</span>` : ""}<span style="display:block;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:48px;text-transform:uppercase;letter-spacing:-.06em;transform:scaleX(.82);transform-origin:right">${b}</span>`; },
+  "mystery-girlfriend": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-family:'Cinzel',serif;font-weight:600;font-size:26px;letter-spacing:.18em">${letters(a.toUpperCase(), k => k % 2 ? "filter:blur(2.2px);opacity:.8" : "")}</span>` : ""}<span style="display:block;font-family:'Caveat',cursive;font-weight:700;font-size:40px;margin-top:2px">${b}</span>`; },
+  "the-reunion-affair": t => { const [a, b] = twoParts(t); return `${a ? `<span style="display:block;font-family:'Cormorant SC',serif;font-weight:500;font-size:22px;letter-spacing:.3em;margin-right:-.3em">${a}</span>` : ""}<span style="display:block;font-family:'Pinyon Script',cursive;font-size:44px;margin-top:-2px">${b}</span>`; },
+  "two-knocks": t => { const [a, b] = twoParts(t), u = b.toUpperCase(), j = (c, d) => `<span style="display:inline-block;transform:translate(${d * 3}px,${d * 2}px) rotate(${d * 6}deg)">${c}</span>`;
+    return `${a ? `<span style="display:block;font-family:'Cormorant SC',serif;font-weight:500;font-size:16px;letter-spacing:.6em;margin-right:-.6em;opacity:.7">${a.toLowerCase()}</span>` : ""}<span style="display:block;font-family:'Anton',sans-serif;font-size:50px;letter-spacing:.12em;margin-right:-.12em">${u.length > 2 ? j(u[0], -1) + u.slice(1, -1) + j(u.at(-1), 1) : u}</span>`; },
+  "under-wrong-hands": t => t.split(" ").map((w, i, all) => `<span style="display:block;${all.length > 2 && i === 1 ? "width:max-content;transform:rotate(180deg);color:#d4606b" : ""}">${w}</span>`).join(""),
+};
+const FONT_FALLBACK = { "Anton": "Oswald", "Big Shoulders Display": "Oswald", "Cinzel": "Cormorant SC", "DM Serif Display": "Playfair Display", "IM Fell English": "Playfair Display",
+  "Major Mono Display": "PT Mono", "Special Elite": "PT Mono", "Monoton": "Russo One", "Pinyon Script": "Marck Script" };
+const withFallback = s => s.replace(/font-family:'([^']+)'/g, (m, f) => FONT_FALLBACK[f] ? `font-family:'${f}','${FONT_FALLBACK[f]}'` : m);
 /* Guard: a title must always fit inside its card, whatever the font, word length or screen width. After
    the fonts load, each title is measured (with all its tilted and shifted letters) and, if any part
    would stick out past a 12 px margin, shrunk until it fits. */
@@ -1399,12 +1509,12 @@ function startSlider() {
 
 function favourites() {
   const f = favs(), list = STORIES.filter(s => f.includes(s.id));
-  if (!list.length) return shell(`<div class="empty"><svg viewBox="-22 -2 132 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g class="held"><g filter="url(#lift)"><rect class="sq" x="48" y="4.00" width="56.00" height="56.00" rx="10.3"/></g><g class="hb"><circle cx="91.17" cy="16.83" r="9.74" fill="#7b57c9"/><g transform="translate(85.92 11.37) scale(0.437)"><path class="hf" fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/><path class="hs" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></g></g></svg><b>It's empty in here :(</b><span>Hold your finger on a story</span></div>`);
+  if (!list.length) return shell(`<div class="empty"><svg viewBox="-22 -2 132 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g class="held"><g filter="url(#lift)"><rect class="sq" x="48" y="4.00" width="56.00" height="56.00" rx="10.3"/></g><g class="hb"><circle cx="91.17" cy="16.83" r="9.74" fill="#7b57c9"/><g transform="translate(85.92 11.37) scale(0.437)"><path class="hf" fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/><path class="hs" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></g></g></svg><b>${tr("emptyT")}</b><span>${tr("emptyS")}</span></div>`);
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
   shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
-    `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>Remove</span></button>
+    `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>${tr("remove")}</span></button>
       <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}<div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button></div>`).join("")).join("") +
-    `<p class="hint">Swipe a story left to remove it</p>`);
+    `<p class="hint">${tr("swipe")}</p>`);
   /* iPhone-style swipe: the row follows the finger, the red button stretches with it;
      pull past ~60% and let go to remove at once, or stop halfway to leave the button open. */
   const OPEN = 96, GAP = 8;
@@ -1472,6 +1582,7 @@ function favourites() {
 /* How scary a story is, 1 to 5. A stand-in until stories get their own rating: horror sits high,
    thriller in the middle, romance low, with a little spread inside each. */
 const FEAR = ["Uneasy", "Creepy", "Scary", "Terrifying", "Nightmare"];
+setLang(store.get("lang", ((navigator.languages || [navigator.language || "en"]).map(x => String(x).slice(0, 2).toLowerCase()).find(x => UI[x])) || "en"));
 const FEAR_COL = ["#7b57c9", "#8c5baf", "#9d5f94", "#a95a78", "#b5525b"];   // the old dial's arc, violet-blue to red, read at each level
 /* fear level 1–5 is internal: set per story in its data ("fear"), used only by the fear dial in Search,
    never shown as a label. A story without one counts as 3. */
@@ -1481,7 +1592,8 @@ let fearLevel = 3;
 /* Search forgives one typo, never more: a title matches if it contains what you typed, or a piece of
    it that is one letter off (one wrong, missing, extra, or two swapped letters). Short queries (under
    3 letters) must match exactly. Exact matches come first. */
-const norm = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’'`]/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+/* any alphabet (Cyrillic too); accents do not matter (é = e, ü = u, ё = е); ß = ss */
+const norm = t => t.toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’'`]/g, "").replace(/[^\p{L}\p{N} ]+/gu, " ").replace(/\s+/g, " ").trim();
 function oneEditAway(a, b) {                     // Damerau-Levenshtein distance <= 1
   if (a === b) return true;
   const la = a.length, lb = b.length;
@@ -1504,12 +1616,14 @@ function matchScore(title, q) {
   return 0;
 }
 function searchStories(q) {
-  return STORIES.map(s => [s, matchScore(s.title, q)]).filter(x => x[1]).sort((a, b) => b[1] - a[1]).map(x => x[0]);
+  /* the title in the reader's language, and the original English one too */
+  const en = Object.fromEntries((STORIES_ALL.en || []).map(s => [s.id, s.title]));
+  return STORIES.map(s => [s, Math.max(matchScore(s.title, q), en[s.id] && en[s.id] !== s.title ? matchScore(en[s.id], q) : 0)]).filter(x => x[1]).sort((a, b) => b[1] - a[1]).map(x => x[0]);
 }
 
 function search() {
   const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button>`;
-  shell(`<div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="Search" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">Cancel</button></div>
+  shell(`<div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="${tr("search")}" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">${tr("cancel")}</button></div>
     <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="How scary">
       <div class="lv" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">${FEAR.map((n, i) => `<button tabindex="-1" data-lvl="${i + 1}" style="color:${FEAR_COL[i]}">${n}</button>`).join("")}</div>
     </section>
@@ -1564,13 +1678,13 @@ function search() {
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
   const showLevel = () => {
     const list = STORIES.filter(s => fearOf(s) === fearLevel);
-    results.innerHTML = list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">No stories this scary yet</p>`;   // only this level
+    results.innerHTML = list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">${tr("noScary")}</p>`;   // only this level
     lv.setAttribute("aria-valuenow", fearLevel); lv.setAttribute("aria-valuetext", FEAR[fearLevel - 1]);
     wire();
   };
   const showSearch = () => {
     const found = searchStories(query);
-    results.innerHTML = `<div class="list">${found.map(row).join("") || '<p class="hint">Nothing found</p>'}</div>`; wire();
+    results.innerHTML = `<div class="list">${found.map(row).join("") || `<p class="hint">${tr("nothing")}</p>`}</div>`; wire();
   };
   /* the row of names: each grows and brightens as it nears the middle; the one in the middle wears its colour.
      When the row comes to rest, that level becomes the filter. */
@@ -1638,12 +1752,48 @@ function menu() {
     mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>'),
     idea: I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'),
   };
-  const row = name => `<button class="m-row" data-m="${name}">${name}</button>`;
-  shell(["Subscription", "Restore Purchases", "Language", "Suggest a Story", "E-mail Support"].map(row).join("").replace('class="m-row" data-m="Subscription"', 'class="m-row sub" data-m="Subscription"'));
-  app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => {
-    if (b.dataset.m === "Subscription") { const on = !premium(); store.set("premium", on); if (!on) store.set("taps", FREE_TAPS);
-      return toast(on ? "Demo: subscribed — no tap limit" : "Demo: free reader — " + FREE_TAPS + " taps"); }
-    toast(b.dataset.m + " — in the iPhone app");
+  /* five rows; Language turns the same five places into the five languages: the words evaporate (0.5 s)
+     and the languages appear where they stood; the current one carries a tick; the usual back arrow
+     (top left) brings the menu back the same way. A tap on a language switches the whole app at once
+     (2026-11-09) */
+  const KEYS = ["sub", "restore", "lang", "idea", "mail"];
+  shell(`<button class="m-back" id="m-back" aria-label="${tr("back")}" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`
+    + KEYS.map((k, i) => `<button class="m-row${k === "sub" ? " sub" : ""}" data-m="${k}" data-i="${i}"><span>${esc(trA("menu")[i])}</span></button>`).join(""));
+  const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back");
+  let mode = "menu", busy = false;
+  const fill = () => rows.forEach((b, i) => {
+    const sp = b.querySelector("span");
+    if (mode === "menu") { b.dataset.m = KEYS[i]; b.classList.toggle("sub", i === 0); b.classList.remove("cur"); sp.textContent = trA("menu")[i]; b.removeAttribute("lang"); }
+    else { const [code, name] = LANGS[i]; b.dataset.m = "l:" + code; b.classList.remove("sub"); b.classList.toggle("cur", code === LANG); sp.textContent = name; b.setAttribute("lang", code); }
+  });
+  const swap = to => {
+    if (busy || mode === to) return; busy = true;
+    const quick = reduce() || !rows[0].animate;
+    const out = [{ opacity: 1, filter: "blur(0)", transform: "none" }, { opacity: 0, filter: "blur(6px)", transform: "translateY(-6px) scale(1.04)" }];
+    const inn = [{ opacity: 0, filter: "blur(6px)", transform: "translateY(6px) scale(.97)" }, { opacity: 1, filter: "blur(0)", transform: "none" }];
+    back.classList.toggle("on", to === "lang");
+    if (quick) { mode = to; fill(); busy = false; return; }
+    rows.forEach((b, i) => b.animate(out, { duration: 500, delay: i * 30, easing: "ease-in", fill: "forwards" }));
+    setTimeout(() => { mode = to; fill();
+      rows.forEach((b, i) => { b.getAnimations().forEach(a => a.cancel()); b.animate(inn, { duration: 350, delay: i * 30, easing: "ease-out", fill: "backwards" }); });
+      setTimeout(() => { busy = false; }, 350 + rows.length * 30); }, 500 + (rows.length - 1) * 30);
+  };
+  back.onclick = () => swap("menu");
+  rows.forEach(b => b.onclick = () => {
+    const m = b.dataset.m;
+    if (busy) return;
+    if (m.startsWith("l:")) {                                      // a language: the app speaks it from now on
+      const code = m.slice(2); if (code === LANG) return;
+      store.set("lang", code); setLang(code);
+      rows.forEach((x, i) => x.classList.toggle("cur", LANGS[i][0] === code));
+      app.querySelectorAll("[data-tab]").forEach(x => { const lab = { home: "Stories", fav: "Favourites", search: "Search", menu: "Menu" }[x.dataset.tab]; if (lab) x.setAttribute("aria-label", lab); });
+      back.setAttribute("aria-label", tr("back")); haptic.tap?.();
+      return;
+    }
+    if (m === "lang") return swap("lang");
+    if (m === "sub") { const on = !premium(); store.set("premium", on); if (!on) store.set("taps", FREE_TAPS);
+      return toast(on ? tr("subOn") : tr("subOff", { n: FREE_TAPS })); }
+    toast(tr("inApp", { x: b.textContent }));
   });
 }
 
@@ -1731,14 +1881,14 @@ function sheetHTML(s) {
   const fillAt = partPct(s, pr, at) >= 1 ? 0 : partPct(s, pr, at);
   const PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
   const AGAIN = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const readLabel = "Read";   // the part is chosen above; the button just reads
+  const readLabel = tr("read");   // the part is chosen above; the button just reads
   return `<div class="scroll">
     <div class="pv-cover">${cover(s)}<span class="shade"></span>
       <div class="cap"><small>${GENRES[s.genre]}<span class="dot" aria-hidden="true"></span><span id="pv-time">${readMin(s)}</span>${padMark(s, true)}</small><h1>${esc(s.title)}</h1></div></div>
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
-      ${s.author ? `<span class="by">Written by ${esc(s.author)}</span>` : ""}
-      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms">${WAVES}</i></span>` : ""}<span>Part ${i + 1}</span></button>`).join("")}</div>` : ""}
+      ${s.author ? `<span class="by">${esc(tr("by", { a: s.author }))}</span>` : ""}
+      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms">${WAVES}</i></span>` : ""}<span>${tr("part", { n: i + 1 })}</span></button>`).join("")}</div>` : ""}
       <button class="read" id="pv-read">${readLabel}</button>
     </div></div>
     <div class="chrome">
@@ -1910,7 +2060,7 @@ function wire(sheet, s) {
     const one = () => {
       const pr = prog(s), k = sel ?? pr.ep;                         // the part selected below, not the one last read
       pr.pos[k] = 0; if (s.episodes[k].nodes) delete pr.path; setProg(s, pr);
-      redraw(multi ? `Part ${k + 1} starts over` : "Story starts over", [k]);
+      redraw(multi ? tr("partOver", { n: k + 1 }) : tr("storyOver"), [k]);
     };
     reset.addEventListener("pointerdown", e => {
       e.preventDefault(); e.stopPropagation(); down = true; longDone = false; ringOn = false;
@@ -1923,7 +2073,7 @@ function wire(sheet, s) {
           longDone = true; reset.classList.add("done"); reset.classList.remove("holding");
           sheet._ringAt = performance.now();
           store.set("p:" + s.id, { ep: 0, pos: s.episodes.map(() => 0) });
-          redraw("All parts start over", s.episodes.map((_, i) => i));
+          redraw(tr("allOver"), s.episodes.map((_, i) => i));
         }, 300); }, 150);
     });
     const stop = () => { clearTimeout(beatT); clearTimeout(holdT); reset.classList.remove("holding"); if (!longDone) haptic.stop(); };
@@ -2438,7 +2588,7 @@ function openStory(id, epIndex) {
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
-        <div class="who"><b>${esc(ep.left)}</b><small id="status">online</small></div>
+        <div class="who"><b>${esc(ep.left)}</b><small id="status">${tr("online")}</small></div>
         <button class="undo-test" id="undo-test" aria-label="Test: back one message">↶</button><!-- TEST-UNDO -->
         ${s.episodes.length > 1 ? `<div class="ep-seg" role="tablist" aria-label="Parts"><span class="ep-ind" style="transform:translateX(${st.ep * SEG_STEP}px)"></span>${s.episodes.map((e, k) => `<button role="tab" data-ep="${k}" aria-selected="${k === st.ep}" aria-label="Part ${k + 1}">${k + 1}</button>`).join("")}</div>` : ""}</div>
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.prologue || "")}</div></div>
@@ -2630,7 +2780,7 @@ function openStory(id, epIndex) {
     const node = path && base.nodes[path.at(-1)];
     if (node && node.choices && st.i >= ep.messages.length) {          // your turn: pick what you write
       foot.classList.remove("hint", "idle"); foot.classList.add("choose"); foot.onclick = null;
-      foot.innerHTML = `<span class="ask">What do you say?</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}" style="animation-delay:${k * 70}ms">${esc(c.text)}</button>`).join("");
+      foot.innerHTML = `<span class="ask">${tr("ask")}</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}" style="animation-delay:${k * 70}ms">${esc(c.text)}</button>`).join("");
       let picked = false;
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
@@ -2706,11 +2856,11 @@ function openStory(id, epIndex) {
           const o = scr.getBoundingClientRect();                         // in the chat screen's own coordinates
           Object.assign(g.style, { position: "fixed", left: (r.left - o.left) + "px", top: (r.top - o.top) + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
           scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 250, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
-      log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
+      log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · " + tr("part", { n: st.ep + 1 }) : ""}</span>${path ? `<em>${tr("ending", { n: which, m: endings.length })} · ${esc(node.ending)}</em>` : ""}</div>`);
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
       foot.classList.remove("hint"); foot.classList.add("endfoot"); foot.onclick = null;
-      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap again" id="again">${path ? "Start over" : "Read again"}</button>`;
+      foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">${tr("next")}</button>`}<button class="tap again" id="again">${path ? tr("startOver") : tr("readAgain")}</button>`;
       const next = foot.querySelector("#next");
       if (next) next.onclick = () => openStory(id, st.ep + 1);
       foot.querySelector("#again").onclick = () => {
@@ -2725,7 +2875,7 @@ function openStory(id, epIndex) {
         const turns = path.slice(0, -1).map((n, k) => ({ k, upto: path.slice(0, k + 1) }));
         if (turns.length) {
           foot.classList.add("ended");
-          foot.insertAdjacentHTML("afterbegin", `<div class="turns"><span>Back to a choice</span>${turns.map((t, j) =>
+          foot.insertAdjacentHTML("afterbegin", `<div class="turns"><span>${tr("turns")}</span>${turns.map((t, j) =>
             `<button class="turn" data-k="${t.k}" aria-label="Back to choice ${j + 1}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 2.5 6.5 6 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6.5h6.5a4 4 0 0 1 0 8H7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>${j + 1}</button>`).join("")}</div>`);
           foot.querySelectorAll(".turn").forEach(b => b.onclick = e => {
             e.stopPropagation();
@@ -2741,14 +2891,14 @@ function openStory(id, epIndex) {
     }
     foot.classList.add("hint");
     if (!premium() && freeTaps() <= 0) return showPaywall();
-    foot.innerHTML = `<span class="cont">Tap to continue</span>`;   // free taps are counted quietly, never shown
+    foot.innerHTML = `<span class="cont">${tr("tap")}</span>`;   // free taps are counted quietly, never shown
     foot.onclick = step;
     nudge();
   }
   function showPaywall() {
     foot.classList.remove("hint"); foot.onclick = null;
-    foot.innerHTML = `<div class="paywall"><span>You've used your free taps</span><button id="pay">Subscribe to keep reading</button></div>`;
-    foot.querySelector("#pay").onclick = e => { e.stopPropagation(); toast("Subscription — in the iPhone app"); };
+    foot.innerHTML = `<div class="paywall"><span>${tr("payT")}</span><button id="pay">${tr("payB")}</button></div>`;
+    foot.querySelector("#pay").onclick = e => { e.stopPropagation(); toast(tr("inApp", { x: trA("menu")[0] })); };
   }
   /* one free tap is spent per message shown, silently */
   function spendTap() {
@@ -2764,7 +2914,7 @@ function openStory(id, epIndex) {
     if (free !== true && !spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); glideDown(); return controls(); }
-    busy = true; status.textContent = m.video ? "recording video…" : m.voice ? "recording audio…" : "typing…";
+    busy = true; status.textContent = m.video ? tr("recV") : m.voice ? tr("recA") : tr("typing");
     const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
     /* a voice message is "recorded" first: a bubble with a microphone and a running timer, for exactly as
        long as the message lasts; then the voice message itself appears */
@@ -2776,12 +2926,12 @@ function openStory(id, epIndex) {
       rec = setInterval(() => {
         const sec = Math.min(m.dur || 3, Math.floor((Date.now() - t0) / 1000));
         lab.textContent = "0:" + String(sec).padStart(2, "0");
-        if (sec >= (m.dur || 3) && !t.classList.contains("sending")) { t.classList.add("sending"); status.textContent = "sending…"; }   // recorded: about a second to send
+        if (sec >= (m.dur || 3) && !t.classList.contains("sending")) { t.classList.add("sending"); status.textContent = tr("sending"); }   // recorded: about a second to send
       }, 250);
     }
     log.appendChild(t); glideDown();
     const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
-    timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return; t.remove(); add(m); st.i++; save(); status.textContent = "online"; busy = false; glideDown(); controls(); }, delay);
+    timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return; t.remove(); add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
   }
   log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
   controls();

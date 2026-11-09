@@ -1,0 +1,315 @@
+{
+ "id": "the-crushing-love",
+ "title": "Erdrückende Liebe",
+ "author": "Asjad Ullah",
+ "genre": "romance",
+ "fear": 1,
+ "description": "Henna vertraut ihrem besten Freund Ben ein Geheimnis über ihre verdrehte Liebesgeschichte an. Nur um herauszufinden, dass ihre Beziehung noch mehr Wendungen hat, als sie ahnt.",
+ "parts": [
+  {
+   "prologue": "Henna und Ben sind beste Freunde seit ihrer ersten Woche an der Uni. Sie erzählen sich alles. Fast alles.",
+   "left": "Henna",
+   "right": "Ben",
+   "wallpaper": [
+    "heart",
+    "coffee",
+    "book",
+    "ring",
+    "phone",
+    "lock",
+    "star",
+    "music"
+   ],
+   "messages": [
+    {
+     "from": "Henna",
+     "text": "Hi Ben, wie geht's dir?"
+    },
+    {
+     "from": "Ben",
+     "text": "Hi Henna, mir geht's gut."
+    },
+    {
+     "from": "Ben",
+     "text": "Und dir?"
+    },
+    {
+     "from": "Henna",
+     "text": "Mir auch."
+    },
+    {
+     "from": "Henna",
+     "text": "Und, was gibt's?"
+    },
+    {
+     "from": "Ben",
+     "text": "Nicht viel."
+    },
+    {
+     "from": "Ben",
+     "text": "Ich wollte gerade los, mich mit Harry treffen."
+    },
+    {
+     "from": "Henna",
+     "text": "Hmm. Harry, dein großer Freund, oder?"
+    },
+    {
+     "from": "Ben",
+     "text": "Ja, kennst du ihn?"
+    },
+    {
+     "from": "Henna",
+     "text": "Ähm. Ja."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich meine, nein."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich meine, ja, ich weiß, dass er dein Freund ist."
+    },
+    {
+     "from": "Ben",
+     "text": "Du wirkst irgendwie komisch."
+    },
+    {
+     "from": "Ben",
+     "text": "Was ist los, Henna?"
+    },
+    {
+     "from": "Henna",
+     "text": "Nicht viel."
+    },
+    {
+     "from": "Ben",
+     "text": "Komm schon, ich bin dein bester Freund."
+    },
+    {
+     "from": "Henna",
+     "text": "Danke, Ben."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich bin mir nicht sicher."
+    },
+    {
+     "from": "Ben",
+     "text": "Nicht sicher worüber, Henna?"
+    },
+    {
+     "from": "Henna",
+     "text": "Ich bin verletzt, Ben."
+    },
+    {
+     "from": "Henna",
+     "text": "Aber versprich mir zuerst, dass du es niemandem erzählst."
+    },
+    {
+     "from": "Ben",
+     "text": "Natürlich, Henna, wir sind jetzt seit zwei Jahren befreundet."
+    },
+    {
+     "from": "Henna",
+     "text": "Aber ich hab noch niemandem davon erzählt."
+    },
+    {
+     "from": "Henna",
+     "text": "Nicht mal meiner Schwester."
+    },
+    {
+     "from": "Ben",
+     "text": "Dann muss es was sehr Ernstes sein."
+    },
+    {
+     "from": "Henna",
+     "text": "Ja."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich fürchte, das könnte zu einer Scheidung führen."
+    },
+    {
+     "from": "Ben",
+     "text": "Wow!"
+    },
+    {
+     "from": "Ben",
+     "text": "Das ist ziemlich ernst."
+    },
+    {
+     "from": "Henna",
+     "text": "Ja, ich weiß."
+    },
+    {
+     "from": "Henna",
+     "text": "Deshalb hab ich auch solche Angst."
+    },
+    {
+     "from": "Ben",
+     "text": "Lass alles raus, Liebes."
+    },
+    {
+     "from": "Ben",
+     "text": "Dann geht's dir viel besser."
+    },
+    {
+     "from": "Henna",
+     "text": "Okay, also."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich hab vor ein paar Monaten einen Typen kennengelernt."
+    },
+    {
+     "from": "Henna",
+     "text": "Und ich mochte ihn."
+    },
+    {
+     "from": "Henna",
+     "text": "Wir hatten gemeinsame Interessen."
+    },
+    {
+     "from": "Ben",
+     "text": "Okay, UND."
+    },
+    {
+     "from": "Henna",
+     "text": "Wir haben angefangen, nach der Uni was zusammen zu machen."
+    },
+    {
+     "from": "Henna",
+     "text": "Es wurde mehr, und wir sind zusammengekommen."
+    },
+    {
+     "from": "Ben",
+     "text": "Du hattest also endlich eine Affäre. Gut zu wissen."
+    },
+    {
+     "from": "Henna",
+     "text": "Ja. Und dann haben wir uns richtig ineinander verliebt."
+    },
+    {
+     "from": "Henna",
+     "text": "Unsere Beziehung war total leidenschaftlich."
+    },
+    {
+     "from": "Henna",
+     "text": "Wir konnten einfach nicht genug voneinander kriegen."
+    },
+    {
+     "from": "Ben",
+     "text": "Wenn das so ist, warum bist du dann so fertig?"
+    },
+    {
+     "from": "Henna",
+     "text": "Dann kam was Übles ans Licht."
+    },
+    {
+     "from": "Ben",
+     "text": "Was?"
+    },
+    {
+     "from": "Henna",
+     "text": "Er hat mir gesagt, dass er schon verheiratet ist."
+    },
+    {
+     "from": "Ben",
+     "text": "WAS?"
+    },
+    {
+     "from": "Ben",
+     "text": "Ich bring diesen Mistkerl um."
+    },
+    {
+     "from": "Ben",
+     "text": "Wie heißt er?"
+    },
+    {
+     "from": "Henna",
+     "text": "Nein, Ben, ich will nicht, dass es sich rumspricht."
+    },
+    {
+     "from": "Ben",
+     "text": "Sag mir einfach seinen Namen."
+    },
+    {
+     "from": "Ben",
+     "text": "Ich lass ihn nicht in Frieden leben."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich kann dir seinen Namen nicht sagen."
+    },
+    {
+     "from": "Ben",
+     "text": "WARUM? SAG MIR DEN NAMEN, Henna."
+    },
+    {
+     "from": "Henna",
+     "text": "Versprich mir zuerst, dass du ihm nichts tust."
+    },
+    {
+     "from": "Henna",
+     "text": "Er hat gesagt, sein Ehepartner ist ein Psychopath."
+    },
+    {
+     "from": "Henna",
+     "text": "Und dass er mich immer noch liebt."
+    },
+    {
+     "from": "Ben",
+     "text": "SAG MIR EINFACH DEN NAMEN, Henna."
+    },
+    {
+     "from": "Henna",
+     "text": "Ich wusste, ich hätte es dir nie erzählen sollen."
+    },
+    {
+     "from": "Henna",
+     "text": "Bitte tu ihm nichts."
+    },
+    {
+     "from": "Henna",
+     "text": "Es ist dein Freund Harry."
+    },
+    {
+     "from": "Ben",
+     "text": "WAS?"
+    },
+    {
+     "from": "Ben",
+     "text": "WIE ZUR HÖLLE?"
+    },
+    {
+     "from": "Henna",
+     "text": "Ich weiß, ich hätte es dir sagen sollen, als ich gemerkt hab, dass du mit ihm befreundet bist."
+    },
+    {
+     "from": "Henna",
+     "text": "Es tut mir so leid, Ben."
+    },
+    {
+     "from": "Ben",
+     "text": "Wie konnte er mir das überhaupt antun?"
+    },
+    {
+     "from": "Henna",
+     "text": "Dir? Ich bin hier die Betrogene."
+    },
+    {
+     "from": "Ben",
+     "text": "Psychopathischer Ehepartner? Hat er mich einen Psychopathen genannt?"
+    },
+    {
+     "from": "Ben",
+     "text": "Hat er dir nie erzählt, dass er ein Homo ist?"
+    },
+    {
+     "from": "Ben",
+     "text": "Ihr werdet beide für das bezahlen, was ihr getan habt."
+    }
+   ]
+  }
+ ]
+}

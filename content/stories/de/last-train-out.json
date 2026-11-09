@@ -1,0 +1,356 @@
+{
+ "id": "last-train-out",
+ "title": "Der letzte Zug",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 2,
+ "description": "Darla und Andrew wollen mitten in einer Revolution den letzten Zug außer Landes nehmen, doch an der Grenze werden sie angehalten. Wachen beginnen mit einer Kontrolle.",
+ "parts": [
+  {
+   "prologue": "Die Revolution hat die Hauptstadt vor drei Tagen erreicht. Jeder Zug Richtung Süden ist voll mit Menschen, die gefälschte Papiere und geliehene Namen bei sich tragen. Darla und Andrew haben beides.",
+   "left": "Darla",
+   "right": "Andrew",
+   "wallpaper": [
+    "train",
+    "suitcase",
+    "passport",
+    "ticket",
+    "clock",
+    "star",
+    "key",
+    "moon",
+    "road"
+   ],
+   "messages": [
+    {
+     "from": "Darla",
+     "text": "Der Zug hat angehalten"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ich weiß."
+    },
+    {
+     "from": "Darla",
+     "text": "Wieso hat der Zug angehalten?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Wir sind an der Grenze."
+    },
+    {
+     "from": "Darla",
+     "text": "Glaubst du, die kontrollieren?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ja. Gerade jetzt, mit der Revolution."
+    },
+    {
+     "from": "Darla",
+     "text": "Was machen wir?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Bleib einfach ruhig."
+    },
+    {
+     "from": "Darla",
+     "text": "Und wenn sie den ganzen Zug durchsuchen?"
+    },
+    {
+     "from": "Darla",
+     "text": "Und wenn sie Papiere kontrollieren?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Bis jetzt haben sie das nicht gemacht."
+    },
+    {
+     "from": "Andrew",
+     "text": "Vielleicht haben wir Glück."
+    },
+    {
+     "from": "Darla",
+     "text": "Aber was, wenn doch?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Tu einfach so, als würdest du deine Papiere suchen. Als hättest du sie verlegt."
+    },
+    {
+     "from": "Andrew",
+     "text": "Die halten nicht den ganzen Zug wegen einer Person auf."
+    },
+    {
+     "from": "Darla",
+     "text": "Wissen die, wie wir aussehen?"
+    },
+    {
+     "from": "Darla",
+     "text": "Die müssen Fotos von uns haben."
+    },
+    {
+     "from": "Andrew",
+     "text": "Weiß ich nicht. Das sind sowieso nur Wachen."
+    },
+    {
+     "from": "Andrew",
+     "text": "So weit hier draußen haben die keine Fotos von uns."
+    },
+    {
+     "from": "Darla",
+     "text": "Aber die haben Waffen."
+    },
+    {
+     "from": "Andrew",
+     "text": "Keine Panik."
+    },
+    {
+     "from": "Darla",
+     "text": "Sie steigen in den Zug."
+    },
+    {
+     "from": "Darla",
+     "text": "Bist du noch im dritten Wagen?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Ja, bist du noch im ersten?"
+    },
+    {
+     "from": "Darla",
+     "text": "Ja"
+    },
+    {
+     "from": "Darla",
+     "text": "Die sehen ernst aus."
+    },
+    {
+     "from": "Andrew",
+     "text": "Das ist ihr Job."
+    },
+    {
+     "from": "Darla",
+     "text": "Ernst auszusehen?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Dir Angst zu machen."
+    },
+    {
+     "from": "Darla",
+     "text": "Na, den Job machen sie gut."
+    },
+    {
+     "from": "Andrew",
+     "text": "Denk dran, spiel einfach die Nervöse."
+    },
+    {
+     "from": "Darla",
+     "text": "Da muss ich nichts spielen."
+    },
+    {
+     "from": "Andrew",
+     "text": "Durchwühl einfach weiter deine Sachen."
+    },
+    {
+     "from": "Andrew",
+     "text": "Die werden sauer, aber schnell wird’s ihnen langweilig."
+    },
+    {
+     "from": "Andrew",
+     "text": "Und dann gehen sie weiter."
+    },
+    {
+     "from": "Darla",
+     "text": "Und was ist mit dir?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Irgendwann kommen sie auch zu mir."
+    },
+    {
+     "from": "Darla",
+     "text": "Du kannst nicht dasselbe machen."
+    },
+    {
+     "from": "Andrew",
+     "text": "Mir fällt schon was ein. Die Typen sind nicht besonders schlau."
+    },
+    {
+     "from": "Darla",
+     "text": "Sie sind gleich hier."
+    },
+    {
+     "from": "Andrew",
+     "text": "Du schaffst das. Keine Sorge."
+    },
+    {
+     "from": "Andrew",
+     "text": "Alles okay bei dir?"
+    },
+    {
+     "from": "Darla",
+     "text": "Das war leichter als gedacht."
+    },
+    {
+     "from": "Darla",
+     "text": "Es schien sie nicht zu interessieren. Jedenfalls nicht sehr."
+    },
+    {
+     "from": "Andrew",
+     "text": "Gut. Ich glaub, wir kommen durch."
+    },
+    {
+     "from": "Darla",
+     "text": "Wenn sie zu dir kommen, tu einfach so, als würdest du die Sprache nicht sprechen."
+    },
+    {
+     "from": "Darla",
+     "text": "Und als würdest du sie nicht verstehen."
+    },
+    {
+     "from": "Darla",
+     "text": "Dann gehen sie einfach weiter."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ich glaub nicht mal, dass ich das muss."
+    },
+    {
+     "from": "Darla",
+     "text": "In ein paar Minuten sind sie an deinem Platz."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ich mach mir keine Sorgen."
+    },
+    {
+     "from": "Darla",
+     "text": "Musst du auch nicht. Die kontrollieren echt nicht so genau."
+    },
+    {
+     "from": "Darla",
+     "text": "An deiner Stelle wäre ich einfach freundlich."
+    },
+    {
+     "from": "Andrew",
+     "text": "Na ja, ob freundlich …"
+    },
+    {
+     "from": "Darla",
+     "text": "Freundlich ist gut. Die haben Waffen, vergiss das nicht."
+    },
+    {
+     "from": "Darla",
+     "text": "Du darfst natürlich nichts versuchen."
+    },
+    {
+     "from": "Andrew",
+     "text": "Hab ich auch nicht vor."
+    },
+    {
+     "from": "Andrew",
+     "text": "Sie haben gerade die Tür zu meinem Wagen aufgemacht."
+    },
+    {
+     "from": "Darla",
+     "text": "Sind sie gleich bei dir?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Na ja, ich sitz ganz hinten, die müssen erst alle vor mir kontrollieren."
+    },
+    {
+     "from": "Darla",
+     "text": "Ja, kann ein paar Minuten dauern."
+    },
+    {
+     "from": "Andrew",
+     "text": "Komisch."
+    },
+    {
+     "from": "Darla",
+     "text": "Was?"
+    },
+    {
+     "from": "Andrew",
+     "text": "Die kontrollieren eigentlich niemanden."
+    },
+    {
+     "from": "Andrew",
+     "text": "Sie schauen die Leute an, aber sie kontrollieren keine Papiere."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ich glaub, sie suchen jemand Bestimmtes."
+    },
+    {
+     "from": "Darla",
+     "text": "Wahrscheinlich."
+    },
+    {
+     "from": "Andrew",
+     "text": "Ich schätze, sie haben noch nicht gefunden, wen sie suchen."
+    },
+    {
+     "from": "Darla",
+     "text": "Noch nicht."
+    },
+    {
+     "from": "Andrew",
+     "text": "Gleich sind sie damit durch. Das war knapp!"
+    },
+    {
+     "from": "Darla",
+     "text": "Denk dran, Andrew. Sei freundlich."
+    },
+    {
+     "from": "Darla",
+     "text": "Am besten wehrst du dich nicht."
+    },
+    {
+     "from": "Andrew",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Darla",
+     "text": "Sie suchen dich, Andrew."
+    },
+    {
+     "from": "Andrew",
+     "text": "Wie meinst du das????"
+    },
+    {
+     "from": "Darla",
+     "text": "Geh einfach mit ihnen. Dir passiert nichts."
+    },
+    {
+     "from": "Andrew",
+     "text": "Moment … hast du davon gewusst?"
+    },
+    {
+     "from": "Darla",
+     "text": "Ich weiß über dich Bescheid, Andrew."
+    },
+    {
+     "from": "Darla",
+     "text": "Ich weiß schon lange über dich Bescheid."
+    },
+    {
+     "from": "Darla",
+     "text": "Niemand mag einen Verräter, Andrew."
+    },
+    {
+     "from": "Darla",
+     "text": "Jetzt tu, was man dir sagt, und geh mit den Wachen."
+    },
+    {
+     "from": "Darla",
+     "text": "Verstanden?"
+    }
+   ]
+  }
+ ]
+}

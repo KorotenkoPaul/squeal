@@ -1,0 +1,400 @@
+{
+ "id": "reunion",
+ "title": "Wiedersehen",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 3,
+ "description": "Eines Mittags läuft Emily jemandem über den Weg, den sie vor Jahren aus der Mittelstufe kannte. Erst nachdem sie ihn zu einer Party eingeladen hat, erfährt sie, dass er ein Serienmörder ist.",
+ "parts": [
+  {
+   "prologue": "Die Mittelstufe ist lange her. Emily denkt gern daran zurück – die Partys, die Freunde, der stille Junge, den alle nur Kenny den Creep nannten. Sie hat seit Jahren nicht mehr an ihn gedacht.",
+   "left": "Mike",
+   "right": "Emily",
+   "wallpaper": [
+    "book",
+    "cutlery",
+    "balloon",
+    "music",
+    "phone",
+    "star",
+    "question",
+    "coffee",
+    "house"
+   ],
+   "messages": [
+    {
+     "from": "Mike",
+     "text": "Emily! Ich hab ewig nichts von dir gehört!"
+    },
+    {
+     "from": "Emily",
+     "text": "Hey, Mike. Ich MUSSTE dir das einfach erzählen …"
+    },
+    {
+     "from": "Emily",
+     "text": "Du wirst NIE glauben, wen ich heute beim Mittagessen getroffen hab."
+    },
+    {
+     "from": "Mike",
+     "text": "Wen?"
+    },
+    {
+     "from": "Emily",
+     "text": "Rate!"
+    },
+    {
+     "from": "Mike",
+     "text": "Keine Ahnung."
+    },
+    {
+     "from": "Emily",
+     "text": "Nein, rate!"
+    },
+    {
+     "from": "Mike",
+     "text": "Charlie?"
+    },
+    {
+     "from": "Emily",
+     "text": "Hä? Nein, wieso denn Charlie?"
+    },
+    {
+     "from": "Mike",
+     "text": "Keine Ahnung. Er arbeitet in der Innenstadt."
+    },
+    {
+     "from": "Emily",
+     "text": "Nicht Charlie."
+    },
+    {
+     "from": "Emily",
+     "text": "Rate noch mal."
+    },
+    {
+     "from": "Mike",
+     "text": "Wieso machst du so ein Riesending daraus?"
+    },
+    {
+     "from": "Emily",
+     "text": "Weil es der Wahnsinn ist. Ich hab ihn heute Abend zur Party eingeladen."
+    },
+    {
+     "from": "Mike",
+     "text": "WEN?"
+    },
+    {
+     "from": "Emily",
+     "text": "Erinnerst du dich an den kleinen Kenny … aus der Mittelstufe? Den Nerd?"
+    },
+    {
+     "from": "Mike",
+     "text": "WAS?"
+    },
+    {
+     "from": "Emily",
+     "text": "Ich bin ihm über den Weg gelaufen!"
+    },
+    {
+     "from": "Emily",
+     "text": "Ist das nicht der Wahnsinn?"
+    },
+    {
+     "from": "Mike",
+     "text": "Nein, das ist NICHT der Wahnsinn."
+    },
+    {
+     "from": "Mike",
+     "text": "Du weißt nichts über ihn, oder?"
+    },
+    {
+     "from": "Emily",
+     "text": "Wie meinst du das?"
+    },
+    {
+     "from": "Mike",
+     "text": "Ich dachte, du hättest davon gehört."
+    },
+    {
+     "from": "Mike",
+     "text": "Es kommt überall in den Nachrichten: Er wird gesucht."
+    },
+    {
+     "from": "Emily",
+     "text": "Was heißt „gesucht“?"
+    },
+    {
+     "from": "Mike",
+     "text": "Von der Polizei. Vom FBI."
+    },
+    {
+     "from": "Emily",
+     "text": "Das ist ja irre!"
+    },
+    {
+     "from": "Mike",
+     "text": "Wie kannst du das NICHT wissen?"
+    },
+    {
+     "from": "Emily",
+     "text": "Du machst Witze."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily, sie suchen ihn wegen Mordes."
+    },
+    {
+     "from": "Emily",
+     "text": "Das ist irre. Ich weiß, dass er komisch war, aber das ist lange her."
+    },
+    {
+     "from": "Mike",
+     "text": "Ich mein’s ernst! Es kam in den Nachrichten!"
+    },
+    {
+     "from": "Emily",
+     "text": "Ich schau keine Nachrichten."
+    },
+    {
+     "from": "Mike",
+     "text": "Du lädst ihn echt zu dir ein?"
+    },
+    {
+     "from": "Mike",
+     "text": "Er weiß, wo du wohnst?"
+    },
+    {
+     "from": "Emily",
+     "text": "Ich hab dir doch gesagt, ich mach eine Party. In ein paar Stunden."
+    },
+    {
+     "from": "Emily",
+     "text": "Und außerdem sah er nicht aus wie jemand, der gesucht wird."
+    },
+    {
+     "from": "Emily",
+     "text": "Also liegst du vielleicht falsch."
+    },
+    {
+     "from": "Emily",
+     "text": "Vielleicht war’s nur jemand mit demselben Namen."
+    },
+    {
+     "from": "Mike",
+     "text": "Er WAR es. Weißt du nicht mehr, wie komisch er war?"
+    },
+    {
+     "from": "Emily",
+     "text": "Moment … Haustür."
+    },
+    {
+     "from": "Mike",
+     "text": "Ist er das???"
+    },
+    {
+     "from": "Mike",
+     "text": "Er ist schon da?"
+    },
+    {
+     "from": "Mike",
+     "text": "Ich dachte, er kommt erst später!!"
+    },
+    {
+     "from": "Emily",
+     "text": "Na ja … er ist früher gekommen."
+    },
+    {
+     "from": "Mike",
+     "text": "Er ist da?"
+    },
+    {
+     "from": "Emily",
+     "text": "Ja."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily, du musst da weg!"
+    },
+    {
+     "from": "Emily",
+     "text": "Bist du dir sicher mit ihm?"
+    },
+    {
+     "from": "Mike",
+     "text": "Ja!"
+    },
+    {
+     "from": "Emily",
+     "text": "Ich glaub echt, du irrst dich. Er sitzt mir direkt gegenüber."
+    },
+    {
+     "from": "Mike",
+     "text": "Kommst du da raus?"
+    },
+    {
+     "from": "Emily",
+     "text": "Mach mich nicht nervös."
+    },
+    {
+     "from": "Mike",
+     "text": "Bleib ruhig. Was sagt er?"
+    },
+    {
+     "from": "Emily",
+     "text": "Er fragt, wie’s mir geht."
+    },
+    {
+     "from": "Mike",
+     "text": "Sag ihm, dir geht’s gut."
+    },
+    {
+     "from": "Emily",
+     "text": "Hab ich, und ich hab ihm gesagt, dass ich meiner Mutter schreibe."
+    },
+    {
+     "from": "Emily",
+     "text": "Ich glaub, er mochte dich damals nicht."
+    },
+    {
+     "from": "Mike",
+     "text": "Ich ruf die Polizei"
+    },
+    {
+     "from": "Emily",
+     "text": "Er hat doch nichts getan."
+    },
+    {
+     "from": "Mike",
+     "text": "Außer Mord! Hau ab, solange du noch kannst!"
+    },
+    {
+     "from": "Emily",
+     "text": "Mach ich nicht."
+    },
+    {
+     "from": "Emily",
+     "text": "Er ist höflich."
+    },
+    {
+     "from": "Emily",
+     "text": "Er hat gesagt, er freut sich, mich zu sehen. Siehst du, er ist nett."
+    },
+    {
+     "from": "Mike",
+     "text": "Hä?"
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, er hat nicht viele Leute aus der Mittelstufe wiedergesehen."
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, das war keine schöne Zeit für ihn."
+    },
+    {
+     "from": "Mike",
+     "text": "Ja. Er war ein Nerd."
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, keiner mochte ihn."
+    },
+    {
+     "from": "Emily",
+     "text": "Mike … er wird wütend, wenn er davon redet."
+    },
+    {
+     "from": "Mike",
+     "text": "Bleib ruhig."
+    },
+    {
+     "from": "Emily",
+     "text": "Ich seh’s ihm im Gesicht an."
+    },
+    {
+     "from": "Mike",
+     "text": "Was siehst du?"
+    },
+    {
+     "from": "Emily",
+     "text": "Wie wütend er ist. Sein Gesicht ist ganz rot."
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, er hat alle gehasst."
+    },
+    {
+     "from": "Emily",
+     "text": "Aber er sagt, er wird nicht mehr hassen."
+    },
+    {
+     "from": "Mike",
+     "text": "Was meint er damit?"
+    },
+    {
+     "from": "Emily",
+     "text": "Na ja …"
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, es wird besser."
+    },
+    {
+     "from": "Emily",
+     "text": "Er hat die schlechten Menschen beseitigt, sagt er."
+    },
+    {
+     "from": "Emily",
+     "text": "… die meisten schlechten Menschen"
+    },
+    {
+     "from": "Mike",
+     "text": "BESEITIGT?"
+    },
+    {
+     "from": "Emily",
+     "text": "Hat er gesagt."
+    },
+    {
+     "from": "Emily",
+     "text": "„Die meisten.“"
+    },
+    {
+     "from": "Emily",
+     "text": "Er sagt, ein paar sind noch übrig."
+    },
+    {
+     "from": "Mike",
+     "text": "Ein paar …"
+    },
+    {
+     "from": "Emily",
+     "text": "Leute, die er nicht mochte. Aus der Mittelstufe."
+    },
+    {
+     "from": "Mike",
+     "text": "Welche Leute?"
+    },
+    {
+     "from": "Mike",
+     "text": "Wir waren doch nett zu ihm, oder?"
+    },
+    {
+     "from": "Mike",
+     "text": "Ich weiß es nicht mehr genau."
+    },
+    {
+     "from": "Mike",
+     "text": "Emily?"
+    },
+    {
+     "from": "Mike",
+     "text": "Waren wir nicht nett zu ihm?"
+    },
+    {
+     "from": "Mike",
+     "text": "Emily?"
+    }
+   ]
+  }
+ ]
+}

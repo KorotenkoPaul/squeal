@@ -1,0 +1,336 @@
+{
+ "id": "slice",
+ "title": "En tranches",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Un tueur en série écrit à Colin pour lui annoncer qu'il sera sa prochaine victime. Colin n'y croit pas au début, mais le tueur semble en savoir un peu trop sur lui… et sur l'endroit où il se trouve.",
+ "parts": [
+  {
+   "prologue": "Colin fait ses courses tard, quand le supermarché est presque vide. Il aime le calme. Il n'a jamais remarqué la personne qui l'aime aussi.",
+   "left": "Inconnu",
+   "right": "Colin",
+   "wallpaper": [
+    "cart",
+    "apple",
+    "car",
+    "key",
+    "moon",
+    "phone",
+    "clock",
+    "lamp",
+    "question"
+   ],
+   "messages": [
+    {
+     "from": "Inconnu",
+     "text": "Tu es ma prochaine victime."
+    },
+    {
+     "from": "Colin",
+     "text": "Quoi ? C'est qui ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "C'est toi que je découpe ensuite."
+    },
+    {
+     "from": "Colin",
+     "text": "Jack, c'est toi ? C'est une blague débile."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Ce n'est pas une blague."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je vais te découper en tout petits morceaux."
+    },
+    {
+     "from": "Colin",
+     "text": "Très drôle."
+    },
+    {
+     "from": "Inconnu",
+     "text": "C'est très sérieux."
+    },
+    {
+     "from": "Colin",
+     "text": "Mais bien sûr."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je suis très doué pour ça. Pour découper, je veux dire."
+    },
+    {
+     "from": "Colin",
+     "text": "J'en suis sûr MDR"
+    },
+    {
+     "from": "Inconnu",
+     "text": "J'attends juste le bon moment…"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Et ensuite, je me mettrai au travail."
+    },
+    {
+     "from": "Colin",
+     "text": "Ton travail ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je croyais que tu avais compris, depuis le temps. Je vais te découper."
+    },
+    {
+     "from": "Colin",
+     "text": "C'est ça – en tout petits morceaux."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Au moment parfait."
+    },
+    {
+     "from": "Colin",
+     "text": "Et c'est quand, ça ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je le saurai quand je le verrai."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Par exemple, je ne commencerais pas maintenant, pendant que tu es au supermarché."
+    },
+    {
+     "from": "Inconnu",
+     "text": "PHOTO DE COLIN (18-22 ans) AU SUPERMARCHÉ"
+    },
+    {
+     "from": "Colin",
+     "text": "Tu me suis ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Et la station-service que tu viens de quitter, il y avait trop de monde."
+    },
+    {
+     "from": "Colin",
+     "text": "On ne suit pas les gens comme ça."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Si tes colocs Tom et Alan ne sont pas là, je le ferai peut-être quand tu rentreras."
+    },
+    {
+     "from": "Colin",
+     "text": "Ok, ça va trop loin. Jack, c'est toi ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je ne suis pas Jack."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu ne me connais pas."
+    },
+    {
+     "from": "Colin",
+     "text": "Si je ne te connais pas, pourquoi tu voudrais me découper ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu as une tête à te faire découper."
+    },
+    {
+     "from": "Colin",
+     "text": "C'est juste bizarre."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu regardes vraiment les fruits et légumes, là ?"
+    },
+    {
+     "from": "Colin",
+     "text": "Tu me suis ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Les fruits et légumes ne sont pas terribles, je te préviens."
+    },
+    {
+     "from": "Colin",
+     "text": "T'es où ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "De toute façon, je trouve que tu as vraiment trop rempli ton caddie."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je crois que tu as fait assez de courses pour aujourd'hui."
+    },
+    {
+     "from": "Colin",
+     "text": "Ça commence à être lourd."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Pourquoi tu regardes cette vieille dame ? Tu crois que ça pourrait être moi ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "MDR"
+    },
+    {
+     "from": "Colin",
+     "text": "Tu pourrais être n'importe qui."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Exactement."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu ne me trouveras jamais."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Mais moi, je te trouverai MDR"
+    },
+    {
+     "from": "Colin",
+     "text": "Si tu crois que je vais croire que t'es un genre de tueur en série, tu te trompes."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Je ne sais pas si « tueur en série » serait le bon terme."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Ce n'est pas une bonne idée de payer tes courses par carte bancaire."
+    },
+    {
+     "from": "Colin",
+     "text": "Arrête de m'observer."
+    },
+    {
+     "from": "Inconnu",
+     "text": "J'essaie juste de te donner un petit conseil."
+    },
+    {
+     "from": "Colin",
+     "text": "Pourquoi, si tu comptes me tuer ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "La force de l'habitude, j'imagine !"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Ça fait longtemps que tu es dans ce supermarché."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu te rends compte qu'il fait déjà nuit dehors ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "J'adore cette période de l'année."
+    },
+    {
+     "from": "Colin",
+     "text": "Tant mieux pour toi."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Dommage qu'ils n'aient pas allumé les lumières du parking."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Enfin, dommage pour toi."
+    },
+    {
+     "from": "Colin",
+     "text": "Ça veut dire quoi, ça ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Bah, c'est bien pour moi, évidemment"
+    },
+    {
+     "from": "Colin",
+     "text": "Évidemment."
+    },
+    {
+     "from": "Colin",
+     "text": "Ma voiture a des phares. Je ne suis pas dans le noir complet."
+    },
+    {
+     "from": "Inconnu",
+     "text": "C'est vrai, mais tu ne peux quand même pas voir ce qui pourrait surgir du noir."
+    },
+    {
+     "from": "Colin",
+     "text": "Je ferai attention."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Il n'y a même pas de lune ce soir."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Il fait très, très noir."
+    },
+    {
+     "from": "Colin",
+     "text": "Il y a du monde sur ce parking."
+    },
+    {
+     "from": "Inconnu",
+     "text": "C'est un parking plongé dans le noir.."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Et franchement, je n'ai pas besoin de beaucoup de temps pour faire mon travail."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Et je le vois bien, tu es du genre dont la viande se détache toute seule de l'os."
+    },
+    {
+     "from": "Colin",
+     "text": "Tu le vois bien ?"
+    },
+    {
+     "from": "Inconnu",
+     "text": "On peut dire que je suis un peu un expert."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Et regarde-moi ça, ton coffre est presque plein de courses. Et il t'en reste encore !"
+    },
+    {
+     "from": "Inconnu",
+     "text": "Tu peux sûrement faire un peu plus de place… penche-toi juste là-dedans."
+    },
+    {
+     "from": "Colin",
+     "text": "C'est ce que je fais."
+    },
+    {
+     "from": "Inconnu",
+     "text": "C'est ce que j'espérais."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Comme je le pensais."
+    },
+    {
+     "from": "Inconnu",
+     "text": "Elle se détache toute seule de l'os."
+    }
+   ]
+  }
+ ]
+}

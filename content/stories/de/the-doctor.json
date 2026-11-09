@@ -1,0 +1,488 @@
+{
+ "id": "the-doctor",
+ "title": "Der Doktor",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Josh campt allein, meilenweit von jeder Zivilisation entfernt, ist verletzt und braucht dringend ärztliche Hilfe. Zu Fuß kommt er nicht in Sicherheit, also organisiert sein Freund einen Arzt, der ihn per SMS berät.",
+ "parts": [
+  {
+   "prologue": "Josh ist für eine Woche in die Berge gegangen, um allein zu sein – keine Menschen, keine Pläne, kein Netz. An Tag vier ist er gestürzt. Auf dem Grat über seinem Zelt gibt es genau einen Balken.",
+   "left": "Doktor",
+   "right": "Josh",
+   "wallpaper": [
+    "tent",
+    "tree",
+    "bandage",
+    "lamp",
+    "backpack",
+    "compass",
+    "moon",
+    "phone",
+    "drop"
+   ],
+   "messages": [
+    {
+     "from": "Doktor",
+     "text": "Hallo, Josh. Ich bin Doktor Beslow"
+    },
+    {
+     "from": "Josh",
+     "text": "Hi, Doc – danke, dass Sie mir schreiben."
+    },
+    {
+     "from": "Doktor",
+     "text": "Dein Freund Johnny hat mir von dir erzählt, dass du ein Problem hast."
+    },
+    {
+     "from": "Josh",
+     "text": "Ja, ein übles Problem. Ich bin campen. Ich bin quasi mitten im Nirgendwo."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich meine, echt weit weg."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich hab mich wohl verletzt."
+    },
+    {
+     "from": "Doktor",
+     "text": "Inwiefern?"
+    },
+    {
+     "from": "Josh",
+     "text": "Ich weiß nicht genau, irgendwo an den Rippen."
+    },
+    {
+     "from": "Doktor",
+     "text": "Und niemand kann dir helfen?"
+    },
+    {
+     "from": "Josh",
+     "text": "Ich bin allein. Sie würden Tage brauchen, um hierherzukommen."
+    },
+    {
+     "from": "Josh",
+     "text": "Und es tut echt übel weh."
+    },
+    {
+     "from": "Josh",
+     "text": "Deshalb hat Johnny Sie gefunden."
+    },
+    {
+     "from": "Doktor",
+     "text": "Du sagst, es ist an den Rippen?"
+    },
+    {
+     "from": "Josh",
+     "text": "Alles voller Blutergüsse."
+    },
+    {
+     "from": "Doktor",
+     "text": "Klingt ziemlich schlimm."
+    },
+    {
+     "from": "Josh",
+     "text": "Ja, ich weiß. Was soll ich machen."
+    },
+    {
+     "from": "Doktor",
+     "text": "Nun, gut, dass du nicht versucht hast, rauszuwandern."
+    },
+    {
+     "from": "Josh",
+     "text": "Aber es tut trotzdem weh."
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich muss mir das genauer ansehen."
+    },
+    {
+     "from": "Josh",
+     "text": "Wie meinen Sie das?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Hast du ein Messer."
+    },
+    {
+     "from": "Josh",
+     "text": "Mein Jagdmesser … wieso?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Du musst etwas für mich tun."
+    },
+    {
+     "from": "Josh",
+     "text": "Was heißt „etwas tun“?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Du musst einen Schnitt machen."
+    },
+    {
+     "from": "Josh",
+     "text": "WAS? Das kann ich nicht!"
+    },
+    {
+     "from": "Doktor",
+     "text": "Willst du da draußen sterben?"
+    },
+    {
+     "from": "Josh",
+     "text": "Nein."
+    },
+    {
+     "from": "Doktor",
+     "text": "Dann musst du einen Schnitt machen."
+    },
+    {
+     "from": "Josh",
+     "text": "Und wenn es blutet?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Mach dir darüber keine Sorgen."
+    },
+    {
+     "from": "Josh",
+     "text": "Wie meinen Sie das?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Wer ist hier der Arzt?"
+    },
+    {
+     "from": "Josh",
+     "text": "Sie, aber blutet das nicht?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Natürlich blutet es, aber das ist meine Sache."
+    },
+    {
+     "from": "Doktor",
+     "text": "Mach den Schnitt."
+    },
+    {
+     "from": "Doktor",
+     "text": "Von links nach rechts."
+    },
+    {
+     "from": "Doktor",
+     "text": "Acht … nein, zehn Zentimeter lang."
+    },
+    {
+     "from": "Doktor",
+     "text": "Dann zeig mir, was du gemacht hast."
+    },
+    {
+     "from": "Josh",
+     "text": "Sind Sie sich da sicher?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Absolut sicher. Ich bin Arzt, schon vergessen?"
+    },
+    {
+     "from": "Josh",
+     "text": "Sind Sie sicher, dass es keinen anderen Weg gibt?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Mach den Schnitt, Josh."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich versuch’s"
+    },
+    {
+     "from": "Josh",
+     "text": "Okay, ich hab den Schnitt gemacht."
+    },
+    {
+     "from": "Doktor",
+     "text": "Sehr gut."
+    },
+    {
+     "from": "Doktor",
+     "text": "Jetzt zieh ihn auseinander."
+    },
+    {
+     "from": "Josh",
+     "text": "Was?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Zieh ihn auseinander, damit du unter die Haut sehen kannst."
+    },
+    {
+     "from": "Josh",
+     "text": "Aber das tut doch weh!"
+    },
+    {
+     "from": "Doktor",
+     "text": "Willst du lieber sterben?"
+    },
+    {
+     "from": "Josh",
+     "text": "Nein."
+    },
+    {
+     "from": "Doktor",
+     "text": "Zieh die Haut auseinander."
+    },
+    {
+     "from": "Josh",
+     "text": "Das wird so wehtun."
+    },
+    {
+     "from": "Doktor",
+     "text": "Willst du lieber sterben?"
+    },
+    {
+     "from": "Josh",
+     "text": "Nein."
+    },
+    {
+     "from": "Doktor",
+     "text": "Zieh sie auseinander."
+    },
+    {
+     "from": "Doktor",
+     "text": "So weit du kannst!"
+    },
+    {
+     "from": "Josh",
+     "text": "Es geht nicht so weit auf."
+    },
+    {
+     "from": "Doktor",
+     "text": "Du musst den Schnitt größer machen."
+    },
+    {
+     "from": "Josh",
+     "text": "GRÖSSER???"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ungefähr doppelt so lang."
+    },
+    {
+     "from": "Josh",
+     "text": "Bitte, lieber nicht."
+    },
+    {
+     "from": "Doktor",
+     "text": "Du musst."
+    },
+    {
+     "from": "Doktor",
+     "text": "Mach es einfach schnell."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich blute überall."
+    },
+    {
+     "from": "Doktor",
+     "text": "Hast du es gemacht?"
+    },
+    {
+     "from": "Josh",
+     "text": "Ja."
+    },
+    {
+     "from": "Doktor",
+     "text": "Gut."
+    },
+    {
+     "from": "Josh",
+     "text": "Was glauben Sie, was mit mir los ist, Doktor?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Du hast eine ziemlich schlimme Verletzung."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich weiß, aber was soll ich jetzt machen?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich glaube, wir müssen operieren."
+    },
+    {
+     "from": "Josh",
+     "text": "Operieren? Wie denn?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Du musst dich selbst operieren."
+    },
+    {
+     "from": "Josh",
+     "text": "Was???"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich glaube, du schaffst das."
+    },
+    {
+     "from": "Doktor",
+     "text": "Du hast keine Wahl. Bei so einer Wunde kannst du verbluten."
+    },
+    {
+     "from": "Josh",
+     "text": "Aber Sie haben mir doch gesagt, ich soll das machen!"
+    },
+    {
+     "from": "Doktor",
+     "text": "Und jetzt will ich, dass du tust, was ich sage."
+    },
+    {
+     "from": "Josh",
+     "text": "Ich kann mich nicht selbst operieren!"
+    },
+    {
+     "from": "Josh",
+     "text": "Können Sie nicht mit dem Hubschrauber kommen und es selbst machen?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Sei nicht albern."
+    },
+    {
+     "from": "Josh",
+     "text": "Alberner als ich, der sich selbst operiert?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Es braucht nur ein bisschen Konzentration."
+    },
+    {
+     "from": "Josh",
+     "text": "Es braucht VIEL mehr als das!"
+    },
+    {
+     "from": "Doktor",
+     "text": "Tu, was ich sage! Ich bin der Arzt!"
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Was für ein Arzt?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Stellst du mich infrage?"
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ja. Was für ein Arzt?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Vielleicht sollte ich dich einfach so liegen lassen."
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Das würden Sie tun?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich bin Arzt."
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich glaube nicht, dass Sie das sind."
+    },
+    {
+     "from": "Doktor",
+     "text": "Du hast einen großen Schnitt im Bauch."
+    },
+    {
+     "from": "Doktor",
+     "text": "Also hoffst du besser, dass ich Arzt bin."
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Sind Sie Arzt?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Ich bin deine einzige Chance."
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Aber sind Sie Arzt?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Jetzt schick mir noch ein Foto."
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Wieso antworten Sie mir nicht?"
+    },
+    {
+     "from": "Doktor",
+     "text": "Wieso sonst sollte ich dich bitten, dich aufzuschneiden?"
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "BITTE sagen Sie mir, dass Sie Arzt sind"
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Hallo?"
+    },
+    {
+     "from": "Doktor",
+     "text": "John"
+    },
+    {
+     "from": "Doktor",
+     "text": "Hallo?"
+    }
+   ]
+  }
+ ]
+}

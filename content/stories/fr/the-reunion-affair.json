@@ -1,0 +1,288 @@
+{
+ "id": "the-reunion-affair",
+ "title": "Amours de promo",
+ "author": "Patricia Johnson",
+ "genre": "romance",
+ "fear": 2,
+ "description": "Mary et Bill étaient amoureux au lycée, mais la guerre les a séparés. Chacun en a épousé un autre, mais lors des retrouvailles de leur promo, ils ont découvert que l’étincelle était toujours là.",
+ "parts": [
+  {
+   "prologue": "Mary et Bill étaient le couple dont tout le monde attendait le mariage. Puis il y a eu la guerre, et un télégramme. Soixante ans plus tard, leur promo organise des retrouvailles.",
+   "left": "Bill",
+   "right": "Mary",
+   "wallpaper": [
+    "heart",
+    "glasses",
+    "ring",
+    "rose",
+    "music",
+    "plane",
+    "car",
+    "clock",
+    "envelope"
+   ],
+   "messages": [
+    {
+     "from": "Bill",
+     "text": "Est-ce un mauvais moment pour t’écrire, Mary ?"
+    },
+    {
+     "from": "Mary",
+     "text": "Non, Bill. Jack est parti travailler."
+    },
+    {
+     "from": "Bill",
+     "text": "C’était vraiment bon de te revoir aux retrouvailles."
+    },
+    {
+     "from": "Mary",
+     "text": "Oui. Tu n’as pas changé du tout."
+    },
+    {
+     "from": "Bill",
+     "text": "Alors il te faut des lunettes."
+    },
+    {
+     "from": "Mary",
+     "text": "Pour moi, tu es toujours le bel homme que j’aimais."
+    },
+    {
+     "from": "Bill",
+     "text": "Et toi, tu es toujours la pom-pom girl sexy."
+    },
+    {
+     "from": "Mary",
+     "text": "Qui a besoin de lunettes, maintenant ?"
+    },
+    {
+     "from": "Bill",
+     "text": "Tu veux bien me retrouver ce soir ?"
+    },
+    {
+     "from": "Mary",
+     "text": "Je suis mariée, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Moi aussi, mais l’étincelle est toujours là."
+    },
+    {
+     "from": "Mary",
+     "text": "Oui, mais nous sommes mariés tous les deux."
+    },
+    {
+     "from": "Bill",
+     "text": "Je sais. Tu me l’as assez rappelé."
+    },
+    {
+     "from": "Mary",
+     "text": "Nous n’aurions pas dû nous embrasser."
+    },
+    {
+     "from": "Bill",
+     "text": "Si, il le fallait. C’était juste."
+    },
+    {
+     "from": "Mary",
+     "text": "Je n’ai jamais trompé Jack."
+    },
+    {
+     "from": "Bill",
+     "text": "Et moi, je n’ai jamais trompé Sue."
+    },
+    {
+     "from": "Mary",
+     "text": "Alors pourquoi en parlons-nous ?"
+    },
+    {
+     "from": "Bill",
+     "text": "Parce que nous nous désirons toujours."
+    },
+    {
+     "from": "Mary",
+     "text": "C’est peut-être vrai, mais ça ne rend pas la chose juste."
+    },
+    {
+     "from": "Bill",
+     "text": "La guerre nous a séparés."
+    },
+    {
+     "from": "Mary",
+     "text": "Nous aurions dû nous marier avant que tu partes au front."
+    },
+    {
+     "from": "Bill",
+     "text": "Nous ne l’avons pas fait, mais tu aurais dû m’attendre. Tu avais promis."
+    },
+    {
+     "from": "Mary",
+     "text": "Ils ont dit que tu étais mort. Je t’ai pleuré pendant un an."
+    },
+    {
+     "from": "Bill",
+     "text": "Tu aurais dû attendre plus longtemps."
+    },
+    {
+     "from": "Mary",
+     "text": "Je sais, mais je me sentais seule."
+    },
+    {
+     "from": "Bill",
+     "text": "Je regrette de m’être plié aux règles de l’époque."
+    },
+    {
+     "from": "Mary",
+     "text": "Moi aussi. Mais j’avais peur de tomber enceinte"
+    },
+    {
+     "from": "Bill",
+     "text": "Je t’aurais épousée."
+    },
+    {
+     "from": "Mary",
+     "text": "Je sais, mais je ne voulais pas d’un « mariage forcé »."
+    },
+    {
+     "from": "Bill",
+     "text": "C’est le passé. On est maintenant. Retrouve-moi."
+    },
+    {
+     "from": "Mary",
+     "text": "Je n’ai jamais connu d’autre homme."
+    },
+    {
+     "from": "Bill",
+     "text": "J’aimerais pouvoir en dire autant, mais je ne peux pas."
+    },
+    {
+     "from": "Mary",
+     "text": "Je ne sais pas, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Ne me repousse pas encore comme le soir du bal de fin d’année."
+    },
+    {
+     "from": "Mary",
+     "text": "D’accord, je viendrai te retrouver."
+    },
+    {
+     "from": "Bill",
+     "text": "C’est vrai ? Ça me rend heureux."
+    },
+    {
+     "from": "Mary",
+     "text": "À midi, au motel de l’aéroport."
+    },
+    {
+     "from": "Bill",
+     "text": "Ne te dégonfle pas encore."
+    },
+    {
+     "from": "Mary",
+     "text": "Promis."
+    },
+    {
+     "from": "Bill",
+     "text": "Je t’aime. J’ai des préservatifs."
+    },
+    {
+     "from": "Mary",
+     "text": "Je t’aime. Quelle chambre ?"
+    },
+    {
+     "from": "Bill",
+     "text": "Chambre 13."
+    },
+    {
+     "from": "Mary",
+     "text": "Je pars maintenant."
+    },
+    {
+     "from": "Bill",
+     "text": "À tout de suite, ma chérie."
+    },
+    {
+     "from": "Mary",
+     "text": "Bill, la voiture ne démarre pas. Je vais être en retard."
+    },
+    {
+     "from": "Bill",
+     "text": "Désolé, mais je dois prendre mon avion."
+    },
+    {
+     "from": "Mary",
+     "text": "Attends, s’il te plaît."
+    },
+    {
+     "from": "Bill",
+     "text": "Je ne peux pas attendre. Je dois partir."
+    },
+    {
+     "from": "Mary",
+     "text": "Non !"
+    },
+    {
+     "from": "Bill",
+     "text": "Notre amour n’était pas destiné à être consommé."
+    },
+    {
+     "from": "Mary",
+     "text": "Je t’aimerai toujours, Bill."
+    },
+    {
+     "from": "Bill",
+     "text": "Je t’aimerai toujours, Mary."
+    },
+    {
+     "from": "Mary",
+     "text": "C’est tellement injuste."
+    },
+    {
+     "from": "Bill",
+     "text": "Oui, mais la vie n’est pas juste."
+    },
+    {
+     "from": "Mary",
+     "text": "Attends, je veux partir avec toi."
+    },
+    {
+     "from": "Bill",
+     "text": "Tu ne peux pas, Mary. Ce n’est pas ton heure."
+    },
+    {
+     "from": "Mary",
+     "text": "Pas mon heure. Qu’est-ce que tu veux dire ?"
+    },
+    {
+     "from": "Bill",
+     "text": "Regarde sur ton oreiller."
+    },
+    {
+     "from": "Mary",
+     "text": "Ta plaque d’identité ? Mais ça veut dire…"
+    },
+    {
+     "from": "Bill",
+     "text": "Oui, je suis mort."
+    },
+    {
+     "from": "Mary",
+     "text": "Mais ton corps…"
+    },
+    {
+     "from": "Bill",
+     "text": "Sur les plages de Normandie… une fosse commune."
+    },
+    {
+     "from": "Mary",
+     "text": "Mais tout ça semblait si réel… les retrouvailles."
+    },
+    {
+     "from": "Bill",
+     "text": "Mon esprit… venu te dire je t’aime, et adieu mon amour."
+    }
+   ]
+  }
+ ]
+}

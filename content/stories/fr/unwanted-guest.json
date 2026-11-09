@@ -1,0 +1,324 @@
+{
+ "id": "unwanted-guest",
+ "title": "L’Intrus",
+ "author": "Rich Samuels",
+ "genre": "thriller",
+ "fear": 4,
+ "description": "Sharon n’aime pas rester seule la nuit. Quand elle découvre que sa porte d’entrée n’est pas verrouillée, elle s’imagine que quelqu’un d’autre est dans la maison avec elle.",
+ "parts": [
+  {
+   "prologue": "Sharon dort seule depuis que Darrell travaille de nuit. Elle vérifie chaque serrure avant d’aller se coucher. Ce soir, elle ne se souvient plus si elle l’a fait.",
+   "left": "Darrell",
+   "right": "Sharon",
+   "wallpaper": [
+    "door",
+    "key",
+    "lock",
+    "bulb",
+    "moon",
+    "house",
+    "phone",
+    "clock",
+    "stairs"
+   ],
+   "messages": [
+    {
+     "from": "Darrell",
+     "text": "T’as toujours tellement peur !"
+    },
+    {
+     "from": "Sharon",
+     "text": "J’aime pas être seule, c’est tout. Surtout la nuit."
+    },
+    {
+     "from": "Darrell",
+     "text": "Écoute, y a pas de quoi s’inquiéter."
+    },
+    {
+     "from": "Sharon",
+     "text": "Viens, c’est tout."
+    },
+    {
+     "from": "Darrell",
+     "text": "Je suis au boulot, tu sais bien que je peux pas."
+    },
+    {
+     "from": "Sharon",
+     "text": "Dis que t’es malade."
+    },
+    {
+     "from": "Darrell",
+     "text": "Je vais pas faire ça."
+    },
+    {
+     "from": "Sharon",
+     "text": "S’il te plaît ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Allume toutes les lumières, ça va aller."
+    },
+    {
+     "from": "Sharon",
+     "text": "J’ai déjà allumé toutes les lumières."
+    },
+    {
+     "from": "Darrell",
+     "text": "Alors t’inquiète pas."
+    },
+    {
+     "from": "Darrell",
+     "text": "T’as fermé les portes à clé, hein ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Oui."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je crois."
+    },
+    {
+     "from": "Sharon",
+     "text": "J’essaie de me rappeler."
+    },
+    {
+     "from": "Darrell",
+     "text": "Je suis sûr que oui."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je ferais mieux de vérifier."
+    },
+    {
+     "from": "Sharon",
+     "text": "La porte de derrière est fermée à clé."
+    },
+    {
+     "from": "Darrell",
+     "text": "C’est toi-même qui l’as fermée."
+    },
+    {
+     "from": "Sharon",
+     "text": "La baie vitrée de la véranda, c’est bon."
+    },
+    {
+     "from": "Sharon",
+     "text": "Les fenêtres du salon télé, c’est bon"
+    },
+    {
+     "from": "Darrell",
+     "text": "Tu vois, ça va aller."
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Faut que tu viennes."
+    },
+    {
+     "from": "Sharon",
+     "text": "Vite."
+    },
+    {
+     "from": "Darrell",
+     "text": "Pourquoi ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "La porte d’entrée."
+    },
+    {
+     "from": "Darrell",
+     "text": "Elle était pas fermée à clé ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Elle était ouverte."
+    },
+    {
+     "from": "Darrell",
+     "text": "Grande ouverte ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Assez ouverte."
+    },
+    {
+     "from": "Darrell",
+     "text": "T’as juste oublié de la vérifier, c’est tout."
+    },
+    {
+     "from": "Sharon",
+     "text": "Non ! La porte d’entrée, c’est la PREMIÈRE chose que je vréifie."
+    },
+    {
+     "from": "Darrell",
+     "text": "T’étais peut-être distraite."
+    },
+    {
+     "from": "Sharon",
+     "text": "J’étais pas distraite."
+    },
+    {
+     "from": "Sharon",
+     "text": "Elle était ouverte"
+    },
+    {
+     "from": "Darrell",
+     "text": "Bon, tu l’as fermée à clé ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Et s’il y a quelqu’un dans la maison ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Y a personne dans la maison."
+    },
+    {
+     "from": "Sharon",
+     "text": "Et s’il y a quelqu’un ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Je sais pas… va chez un voisin ou un truc comme ça."
+    },
+    {
+     "from": "Sharon",
+     "text": "Il fait tout noir dehors."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je sais pas quoi faire."
+    },
+    {
+     "from": "Darrell",
+     "text": "T’inquiète pas."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je M’INQUIÈTE !"
+    },
+    {
+     "from": "Darrell",
+     "text": "Écoute, quelles sont les chances qu’un cambrioleur ait vu que la porte était pas fermée à clé ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Et si c’était pas moi ? Et si c’était EUX qui l’avaient ouverte ???"
+    },
+    {
+     "from": "Darrell",
+     "text": "T’es ridicule."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je crois que j’ai entendu un truc."
+    },
+    {
+     "from": "Darrell",
+     "text": "C’était ton imagination."
+    },
+    {
+     "from": "Sharon",
+     "text": "Non…"
+    },
+    {
+     "from": "Darrell",
+     "text": "SI."
+    },
+    {
+     "from": "Sharon",
+     "text": "Y a quelqu’un dans la maison !"
+    },
+    {
+     "from": "Darrell",
+     "text": "Y a personne dans la maison."
+    },
+    {
+     "from": "Sharon",
+     "text": "Faut que tu viennes ici."
+    },
+    {
+     "from": "Darrell",
+     "text": "Je bosse."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je dis la vérité."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je suis cachée sous mon lit."
+    },
+    {
+     "from": "Sharon",
+     "text": "Je crois qu’il est dans ma chambre !"
+    },
+    {
+     "from": "Darrell",
+     "text": "Y a personne !"
+    },
+    {
+     "from": "Sharon",
+     "text": "PHOTO : LES JAMBES D’UN HOMME DANS UNE CHAMBRE, PRISES DE SOUS LE LIT"
+    },
+    {
+     "from": "Sharon",
+     "text": "Maintenant, tu me crois ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Darrell ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Tu me crois, maintenant ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "Réponds-moi !"
+    },
+    {
+     "from": "Sharon",
+     "text": "Attends... c’est toi ?"
+    },
+    {
+     "from": "Sharon",
+     "text": "C’est une grosse blague ? Je me cache pour rien ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Désolé, j’avais un client."
+    },
+    {
+     "from": "Darrell",
+     "text": "Attends… QUOI ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon, t’es là ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Sharon ?"
+    },
+    {
+     "from": "Darrell",
+     "text": "Réponds-moi !"
+    },
+    {
+     "from": "Darrell",
+     "text": "C’EST PAS MOI !"
+    }
+   ]
+  }
+ ]
+}

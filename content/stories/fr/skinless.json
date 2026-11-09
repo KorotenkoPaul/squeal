@@ -1,0 +1,391 @@
+{
+ "id": "skinless",
+ "title": "Écorché",
+ "author": "Rich Samuels",
+ "genre": "horror",
+ "fear": 5,
+ "description": "Joe découvre qu'il peut arracher une croûte sur son bras sans avoir mal. Forcément, il continue de peler, et de peler… et de peler… juste pour voir ce qui va se passer. Ça commence à devenir un peu collant.",
+ "parts": [
+  {
+   "prologue": "Joe a toujours tout gratté — les étiquettes, les croûtes, les disputes. Ses potes trouvent ça agaçant. Ce soir, il a trouvé un truc qu'il n'arrive plus à s'arrêter de gratter.",
+   "left": "Joe",
+   "right": "Marcus",
+   "wallpaper": [
+    "bandage",
+    "drop",
+    "chair",
+    "magnifier",
+    "moon",
+    "phone",
+    "question",
+    "clock"
+   ],
+   "messages": [
+    {
+     "from": "Joe",
+     "text": "Je viens de découvrir un truc."
+    },
+    {
+     "from": "Marcus",
+     "text": "Quoi ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ça va paraître bizarre – je te préviens."
+    },
+    {
+     "from": "Marcus",
+     "text": "C'est quoi ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Bah, tu vois, j'ai cette croûte sur le bras depuis une éternité."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ouais, et ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Tu sais, comme quand on gratte une croûte des fois ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ouais."
+    },
+    {
+     "from": "Joe",
+     "text": "Bah je le faisais et ça s'est un peu ouvert."
+    },
+    {
+     "from": "Marcus",
+     "text": "Comment ça ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Tu sais, genre ça s'est ouvert sur la plaie."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ça a dû faire mal."
+    },
+    {
+     "from": "Joe",
+     "text": "Bah justement, c'est ça le truc. Non."
+    },
+    {
+     "from": "Marcus",
+     "text": "C'était pas cicatrisé ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Là, on voyait la partie avec le sang en dessous."
+    },
+    {
+     "from": "Marcus",
+     "text": "Bizarre"
+    },
+    {
+     "from": "Joe",
+     "text": "Du coup, comme ça faisait pas mal, j'ai pelé encore un peu."
+    },
+    {
+     "from": "Marcus",
+     "text": "Pelé ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Genre, à côté de la plaie."
+    },
+    {
+     "from": "Marcus",
+     "text": "Comment ça"
+    },
+    {
+     "from": "Joe",
+     "text": "Genre là où il y a juste de la peau."
+    },
+    {
+     "from": "Marcus",
+     "text": "T'as pelé ta peau ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ouais, et ça faisait pas mal !"
+    },
+    {
+     "from": "Marcus",
+     "text": "T'as pelé combien ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Pour l'instant ? Genre jusqu'à la moitié du bras."
+    },
+    {
+     "from": "Marcus",
+     "text": "Et ça fait pas mal ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Non."
+    },
+    {
+     "from": "Marcus",
+     "text": "T'as arraché la moitié de la peau de ton bras ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ouais. C'est plutôt stylé, en fait."
+    },
+    {
+     "from": "Joe",
+     "text": "Tout rouge et brillant."
+    },
+    {
+     "from": "Marcus",
+     "text": "Je sais pas si tu devrais faire ça."
+    },
+    {
+     "from": "Joe",
+     "text": "Mais ça fait pas mal."
+    },
+    {
+     "from": "Joe",
+     "text": "Je suis presque à l'épaule, là."
+    },
+    {
+     "from": "Marcus",
+     "text": "Tu devrais vraiment pas faire ça."
+    },
+    {
+     "from": "Joe",
+     "text": "Bah faut que je fasse l'autre bras maintenant, pour que ce soit symétrique."
+    },
+    {
+     "from": "Marcus",
+     "text": "Tu devrais peut-être arrêter."
+    },
+    {
+     "from": "Joe",
+     "text": "J'ADORE ça !"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ça a l'air dégueu."
+    },
+    {
+     "from": "Joe",
+     "text": "C'est comme le tatouage le plus génial qui existe."
+    },
+    {
+     "from": "Joe",
+     "text": "Tu sais ce que je devrais faire ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Quoi"
+    },
+    {
+     "from": "Joe",
+     "text": "Peler mon visage !"
+    },
+    {
+     "from": "Marcus",
+     "text": "Et si ça repousse pas ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Je m'en fiche. Ça va être trop beau."
+    },
+    {
+     "from": "Joe",
+     "text": "Tu devrais essayer."
+    },
+    {
+     "from": "Marcus",
+     "text": "Je crois pas, non."
+    },
+    {
+     "from": "Joe",
+     "text": "Si, essaie ! Pèle !"
+    },
+    {
+     "from": "Joe",
+     "text": "Mon visage est trop beau"
+    },
+    {
+     "from": "Marcus",
+     "text": "Je sais pas."
+    },
+    {
+     "from": "Joe",
+     "text": "Faut que tu viennes."
+    },
+    {
+     "from": "Marcus",
+     "text": "Pourquoi ? Je vais pas le faire."
+    },
+    {
+     "from": "Joe",
+     "text": "Je veux tout peler. J'ai besoin que tu m'aides."
+    },
+    {
+     "from": "Marcus",
+     "text": "Tu veux que je t'aide à t'arracher la peau."
+    },
+    {
+     "from": "Joe",
+     "text": "Ouais !"
+    },
+    {
+     "from": "Marcus",
+     "text": "Je crois pas que je pourrais faire ça."
+    },
+    {
+     "from": "Joe",
+     "text": "Mais si, tu peux."
+    },
+    {
+     "from": "Joe",
+     "text": "Je veux être complètement SANS PEAU."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ça a juste l'air dégueu."
+    },
+    {
+     "from": "Joe",
+     "text": "T'as pas envie d'être sans peau, toi ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Non."
+    },
+    {
+     "from": "Joe",
+     "text": "Moi si. Je veux être complètement sans peau."
+    },
+    {
+     "from": "Joe",
+     "text": "C'est un peu collant, mais je pourrais m'y faire."
+    },
+    {
+     "from": "Joe",
+     "text": "Alors tu viens ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Je sais pas…"
+    },
+    {
+     "from": "Joe",
+     "text": "Alors c'est moi qui viens !"
+    },
+    {
+     "from": "Marcus",
+     "text": "Non… c'est peut-être pas une bonne idée."
+    },
+    {
+     "from": "Joe",
+     "text": "Pourquoi pas ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Tu sais… les voisins."
+    },
+    {
+     "from": "Joe",
+     "text": "Quoi, les voisins ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Ton allure risque de pas leur plaire."
+    },
+    {
+     "from": "Joe",
+     "text": "Bah c'est pas très juste."
+    },
+    {
+     "from": "Marcus",
+     "text": "C'est un peu dégueu, quand même."
+    },
+    {
+     "from": "Joe",
+     "text": "T'es injuste."
+    },
+    {
+     "from": "Joe",
+     "text": "Juste parce que je suis sans peau."
+    },
+    {
+     "from": "Joe",
+     "text": "Je viens de finir mes jambes."
+    },
+    {
+     "from": "Joe",
+     "text": "Mais ça colle toujours."
+    },
+    {
+     "from": "Marcus",
+     "text": "Ça colle ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Oui, tu sais, c'est plein de sang et tout collant."
+    },
+    {
+     "from": "Joe",
+     "text": "Je suis collé à la chaise."
+    },
+    {
+     "from": "Marcus",
+     "text": "Tu peux pas juste te décoller ?"
+    },
+    {
+     "from": "Joe",
+     "text": "C'est comme de la colle."
+    },
+    {
+     "from": "Marcus",
+     "text": "Et si tu tires dessus ?"
+    },
+    {
+     "from": "Joe",
+     "text": "J'essaie."
+    },
+    {
+     "from": "Marcus",
+     "text": "Et ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ça se décolle pas."
+    },
+    {
+     "from": "Marcus",
+     "text": "Tire un coup sec."
+    },
+    {
+     "from": "Joe",
+     "text": "Euh je viens de le faire."
+    },
+    {
+     "from": "Marcus",
+     "text": "Et ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ça se décolle pas de la chaise ?"
+    },
+    {
+     "from": "Marcus",
+     "text": "Alors ça fait quoi ?"
+    },
+    {
+     "from": "Joe",
+     "text": "Ça se décolle de l'os."
+    }
+   ]
+  }
+ ]
+}
