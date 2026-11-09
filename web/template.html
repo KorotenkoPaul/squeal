@@ -2388,9 +2388,10 @@ function openStory(id, epIndex) {
     if (pi && pc) { const r = pi.getBoundingClientRect(), c = pc.getBoundingClientRect(); prevIntro = { text: pi.textContent, left: r.left - c.left, top: r.top - c.top, width: r.width, o: +getComputedStyle(pi).opacity }; } }
   if (!(prev && prev._story === id)) WALL.chat = null;               // another story (or a fresh open): start clean
   const prevEp = prev && prev._story === id ? prev._ep : null;
-  /* a part switch: the old conversation (description and messages, as it stood, scrolled where it was) is kept
-     as a still picture that fades out over 0.5 s, while the new part's conversation, already laid out with its
-     description's room kept, fades in — nothing jumps, nothing pops, nothing overlaps (2026-11-09) */
+  /* a part switch: the old conversation (as it stood, scrolled where it was) is kept as a still picture whose
+     messages slide out to their own sides (the other side's to the left, the reader's to the right), then the
+     new part's conversation — already laid out, the description's room kept — slides in the same way, at the
+     speed of the answer choices; only what is on screen moves (2026-11-09) */
   let oldLog = null, oldTop = 0;
   if (prev && prevEp != null && prevEp !== st.ep && !reduce()) { const ol = prev.querySelector(".log"); if (ol) { oldLog = ol.cloneNode(true); oldTop = ol.scrollTop; prevIntro = null; } }
   prev?.remove();
@@ -2497,8 +2498,19 @@ function openStory(id, epIndex) {
     oldLog.querySelectorAll("[id]").forEach(x => x.removeAttribute("id"));
     Object.assign(oldLog.style, { top: log.offsetTop + "px", height: log.clientHeight + "px" });
     log.parentNode.insertBefore(oldLog, log.nextSibling); oldLog.scrollTop = oldTop;
-    oldLog.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, easing: "ease-out", fill: "forwards" }).onfinish = () => oldLog.remove();
-    log.animate([{ opacity: 0 }, { opacity: 0, offset: .4 }, { opacity: 1 }], { duration: 850, easing: "ease-out" });
+    const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
+    const side = el => el.classList.contains("me") ? 1 : el.classList.contains("them") ? -1 : 0;
+    const off = el => `translateX(${side(el) * (el.offsetWidth + 40)}px)`;
+    let outEnd = 0;
+    [...oldLog.children].filter(el => seen(oldLog, el)).reverse().forEach((el, k) => {          // nearest the bottom first
+      const delay = Math.min(k * 25, 200); outEnd = Math.max(outEnd, delay + 240);
+      el.animate(side(el) ? [{ transform: "none", opacity: 1 }, { transform: off(el), opacity: 0 }] : [{ opacity: 1 }, { opacity: 0 }],
+        { duration: 240, delay, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" }); });
+    setTimeout(() => oldLog.remove(), outEnd + 20);
+    const start = Math.max(120, outEnd - 120);
+    [...log.querySelectorAll(".msg, .end")].filter(el => seen(log, el)).reverse().forEach((el, k) => {
+      el.animate(side(el) ? [{ transform: off(el), opacity: 0 }, { transform: "none", opacity: 1 }] : [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 340, delay: start + Math.min(k * 25, 200), easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }); });
   }
   let busy = false;
   const save = () => { const p = prog(s); p.ep = st.ep; p.pos[st.ep] = st.i;
