@@ -374,7 +374,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .slot .say { transition: none; }
 /* the window is exactly one story tall and as wide as the page; rows look like search results */
 .reel { position: relative; flex: none; width: calc(100% - 2 * max(18px, env(safe-area-inset-left, 0px))); height: 84px; overflow: hidden;
-  border-radius: 16px; background: transparent; transition: transform .35s cubic-bezier(.25,.8,.25,1); }   /* rows look like search results: no plate */
+  border-radius: 16px; background: var(--field); transition: transform .35s cubic-bezier(.25,.8,.25,1); }
 .reel .strip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 .reel .row { height: 84px; display: flex; align-items: center; gap: 14px; padding: 0 10px; }
 .reel .row .th { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: none; background: var(--deep); }
@@ -382,9 +382,10 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .reel .row .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .reel .row b { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .reel .row small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
-/* picked: no outline; the row's plate blinks in (on, off, on) and stays, then the page opens */
-.reel.chosen { transform: scale(1.04); animation: reelBlink .36s linear both; }
-@keyframes reelBlink { 0% { background: transparent } 22% { background: var(--field) } 45% { background: transparent } 68%, 100% { background: var(--field) } }
+/* picked: the same thin outline as the selected part in the preview; no fill, no glow */
+.reel::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px #9b7ff0; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.reel.chosen { transform: scale(1.04); }
+.reel.chosen::after { opacity: 1; }
 .view.lift { transition: none; }
 .view.drop { transition: transform .35s cubic-bezier(.32,.72,0,1); }
 
@@ -419,6 +420,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chat.doodles { background-repeat: repeat; background-size: 280px 280px; }
 /* no scroll bar in the chat (it still scrolls) */
 .log { scrollbar-width: none; }
+.view.s-tab { scrollbar-width: none; }
+.view.s-tab::-webkit-scrollbar { display: none; }
+.view .give { flex: none; pointer-events: none; }
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
@@ -1252,6 +1256,17 @@ function search() {
     <div id="results"></div>`);
   const fear = document.getElementById("fear"), lv = fear.querySelector(".lv"), names = [...lv.children];
   const results = document.getElementById("results");
+  /* like any iPhone list: as soon as there is a story on screen the page can be pulled up and down and
+     springs back, even when everything fits on one screen (it is kept 1 px taller than the screen);
+     no scroll bar ever shows */
+  const sv = document.getElementById("view"), give = document.createElement("div");
+  sv.classList.add("s-tab"); give.className = "give"; sv.appendChild(give);
+  const bounce = () => { give.style.height = "0px";
+    if (!results.querySelector("[data-id]")) return;
+    const bottom = give.getBoundingClientRect().top - sv.getBoundingClientRect().top + sv.scrollTop + parseFloat(getComputedStyle(sv).paddingBottom);
+    give.style.height = Math.max(0, sv.clientHeight - bottom + 1) + "px"; };
+  new MutationObserver(bounce).observe(results, { childList: true, subtree: true });
+  if (window.ResizeObserver) { const ro = new ResizeObserver(bounce); ro.observe(sv); ro.observe(results); ro.observe(fear); }
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
   const showLevel = () => {
     const list = STORIES.filter(s => fearOf(s) === fearLevel);
