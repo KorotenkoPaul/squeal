@@ -498,7 +498,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .paywall button { padding: 13px 28px; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 16px; }
 .cont { color: var(--muted); opacity: .9; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 /* after 10 s without a tap it starts to breathe, as a gentle nudge */
-.foot > * { transition: opacity .5s ease-out; }                 /* after a picked answer lands, what comes next fades in over 0.5 s */
+.foot > * { transition: opacity .25s ease-out; }                /* after a picked answer lands, what comes next fades in over 0.25 s (2026-11-09: twice faster) */
 .foot.wait > * { opacity: 0 !important; animation: none !important; pointer-events: none; transition: none; }
 .foot.idle .cont { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: .9 } 50% { opacity: .4 } }
@@ -2563,10 +2563,9 @@ function openStory(id, epIndex) {
     const h1 = foot.getBoundingClientRect().height, glide = wantGlide; wantGlide = false;
     if (footFirst) { footFirst = false; return; }
     const ending = endIn; endIn = null;
-    /* the end: "Tap to continue" fades out while the conversation moves up by exactly the room the ending's
-       title and buttons need; only then do they fade in, so nothing ever lies over anything (2026-11-09) */
-    if (ending) setTimeout(() => { if (!scr.isConnected) return; foot.classList.remove("wait");
-      ending.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: "ease-out" }); ending.style.opacity = ""; }, Math.max(300, (Math.abs(h1 - h0) < 2 ? 0 : 400)));
+    /* the end: the story's / ending's title comes up from below with the conversation, like a message; meanwhile
+       "Tap to continue" fades out (0.25 s) and the panel makes room; then the buttons fade in (0.25 s) (2026-11-09) */
+    if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 250);   // "Tap to continue" out in 0.25 s, then the buttons in, 0.25 s
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) { if (glide || gliding) glideDown(); return; }
     footAnim?.cancel();
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
@@ -2651,9 +2650,9 @@ function openStory(id, epIndex) {
       if (calm) { const old = foot.querySelector(".cont");               // "Tap to continue" fades out where it stands
         if (old) { const r = old.getBoundingClientRect(), g = old.cloneNode(true);
           Object.assign(g.style, { position: "fixed", left: r.left + "px", top: r.top + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
-          scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 300, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
+          scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 250, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
       log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · Part " + (st.ep + 1) : ""}</span>${path ? `<em>Ending ${which} of ${endings.length} · ${esc(node.ending)}</em>` : ""}</div>`);
-      if (calm) { endIn = log.lastElementChild; endIn.style.opacity = 0; foot.classList.add("wait"); }   // shown once there is room
+      if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
       foot.classList.remove("hint"); foot.onclick = null;
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">Next part</button>`}<button class="tap" id="again">${path ? "Start over" : "Read again"}</button>`;
