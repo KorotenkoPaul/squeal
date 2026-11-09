@@ -1019,7 +1019,7 @@ function pullForRandom() {
   };
   const setStrip = o => { const span = list.length * ROW; strip.style.transform = `translateY(${-(((o % span) + span) % span) - span}px)`; };   // rows move up
   let lastLift = 0, spin = null;
-  /* pulled on past the top (2026-11-09): the reel stays put in its place and stops turning; the whole page
+  /* pulled on past the top (2026-11-09): the reel stays put in its place (its rows go on turning with the finger); the whole page
      stretches on up with growing resistance, like the search list, and springs back when let go */
   let ov = 0;                                                       // finger travel past the top
   const OVC = 110, OVK = 220;
@@ -1072,7 +1072,7 @@ function pullForRandom() {
     let eff = d + s;
     if (eff > full) { ov += eff - full; eff = full; }               // past the top: the page stretches, the reel holds
     eff = Math.max(0, eff);
-    spin += (eff - d) * .9;                                        // the rows turn only while the reel itself moves
+    spin += step * .9;                                             // the rows turn with every move of the finger, stretched or not (2026-11-09)
     if (eff <= 0 && !ov) { d = 0; spin = 0; show(0); return; }
     d = eff; show(d);
   };
