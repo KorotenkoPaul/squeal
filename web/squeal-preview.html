@@ -405,6 +405,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ptr svg { position: absolute; left: 50%; top: 29px; width: 74px; height: auto; margin-left: -37px; display: block; overflow: visible; }
 .view.settle { transition: transform .38s cubic-bezier(.32,.72,0,1); }
 .refreshed > * { animation: up .45s cubic-bezier(.25,.8,.25,1) both; }
+.refreshed > .chips { animation: none; }   /* the genre row stays put through a refresh: the chosen genre never blinks (2026-11-09) */
 .refreshed > :nth-child(2) { animation-delay: .04s } .refreshed > :nth-child(3) { animation-delay: .08s } .refreshed > :nth-child(4) { animation-delay: .12s } .refreshed > :nth-child(n+5) { animation-delay: .16s }
 /* Chat */
 .chat { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; }
@@ -796,7 +797,11 @@ function wireHome() {
     if (hit && row.contains(hit)) glideTo(chips.indexOf(hit));
   };
   row.addEventListener("pointerup", up);
-  row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null; if (GESTURE === "genre") GESTURE = null; glideTo(chips.findIndex(c => c.dataset.g === genre)); });
+  /* once the oval has moved, the phone must not take the touch for a scroll (that would cancel the drag
+     and let the page pull down for a refresh): the rest of this touch is the oval's */
+  row.addEventListener("touchmove", e => { if (moved && px0 != null && e.cancelable) e.preventDefault(); }, { passive: false });
+  row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null;            // the phone took the touch anyway:
+    if (!moved) return; const g = slots(); let k = 0; g.forEach((s, j) => { if (Math.abs(s.c - pos) < Math.abs(g[k].c - pos)) k = j; }); glideTo(k); });   // settle where it is, not back
   chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
   wireCards(app);
   startSlider();
