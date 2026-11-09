@@ -2,3 +2,4 @@
 GoogleService-Info.plist
 *.orig
 xcuserdata/
+__pycache__/
