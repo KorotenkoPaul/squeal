@@ -908,7 +908,7 @@ function homeContent() {
     const art = L ? `<span class="lt" style="${withFallback(L.box)}"><b class="art" style="${withFallback(L.css)}">${withFallback(inner)}</b></span>` : `<div><b>${esc(h.title)}</b></div>`;
     return `<button class="hero" id="h-${h.id}" data-id="${h.id}" aria-label="${esc(h.title)}">${cover(h)}<span class="shade"></span>${art}</button>`; };
   return (`<span class="label">${tr("top")}</span>
-    <div class="slider" id="slider" aria-label="Top 5 stories this week">${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
+    <div class="slider" id="slider" aria-label="Top 5 stories this week">${heroHTML(TOP[TOP.length - 1]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}${TOP.map(heroHTML).join("")}${heroHTML(TOP[0]).replace('class="hero"', 'class="hero loop" aria-hidden="true" tabindex="-1"').replace(/id="h-[^"]*"/, "")}</div>
     <div class="dots" id="dots" aria-hidden="true">${TOP.map(() => "<i></i>").join("")}<span class="worm"><b></b></span></div>
     <div class="chips" role="group" aria-label="Genre"><span class="chip-ind" aria-hidden="true"></span>${Object.entries(GENRES).map(([k, v]) => `<button class="chip${k === genre ? " near" : ""}" id="g-${k}" data-g="${k}" aria-pressed="${k === genre}"><span>${v}</span></button>`).join("")}</div>
     <div class="grid" id="grid">${tilesHTML(list, f)}</div>
@@ -1456,8 +1456,8 @@ function startSlider() {
     at = (SL.at + Math.floor(total / SLIDE)) % n; since -= total % SLIDE;
   }
   /* a rebuilt home page shows the right card from its very first frame (not the first card for a frame) */
-  if (at && n > 1) { const step0 = el.children[1].offsetLeft - el.children[0].offsetLeft;
-    if (step0 > 0) { el.style.scrollBehavior = "auto"; el.scrollLeft = at * step0; el.style.scrollBehavior = ""; placed = true; } }
+  if (n > 1) { const step0 = el.children[1].offsetLeft - el.children[0].offsetLeft;
+    if (step0 > 0) { el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step0; el.style.scrollBehavior = ""; placed = true; } }
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
   /* a finger can be lifted outside the slider (or a pull gesture can take over): release anywhere */
   const bye = new AbortController();
@@ -1469,9 +1469,14 @@ function startSlider() {
   const frame = now => {
     if (!document.body.contains(el)) return bye.abort();
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
-    if (!placed) { placed = true; if (at) { el.style.scrollBehavior = "auto"; el.scrollLeft = at * step; el.style.scrollBehavior = ""; } }
-    let p = Math.max(0, Math.min(n, el.scrollLeft / step));
-    if (p >= n - .001 && !held) { el.scrollLeft -= n * step; p = 0; }                     // on the copy: back to the real first
+    if (!placed) { placed = true; el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step; el.style.scrollBehavior = ""; }
+    /* a copy of the last card sits before the first and a copy of the first after the last (2026-11-09): from the
+       first card a swipe to the right goes on to the last one; on either copy, once no finger holds it, the slider
+       quietly jumps to the real card (they look the same) */
+    let raw = el.scrollLeft / step - 1;
+    if (raw >= n - .001 && !held) { el.scrollLeft -= n * step; raw -= n; }
+    else if (raw <= -.999 && !held) { el.scrollLeft += n * step; raw += n; }
+    let p = Math.max(0, Math.min(n, raw < 0 ? raw + n : raw));          // first→last backwards looks like last→first
     const wrap = p > n - 1;                                                               // between the last card and the copy
     const i = Math.min(n - 2, Math.floor(Math.min(p, n - 1))), f = n > 1 ? Math.min(p, n - 1) - i : 0;
     /* the slot under the pill is as wide as the pill, so every gap (dot-dot and pill-dot) is the same;
@@ -1496,7 +1501,7 @@ function startSlider() {
     /* guard: if the slider ever comes to rest between two cards (an interrupted swipe or smooth scroll,
        a resize), glide it to the nearest card */
     if (el.scrollLeft !== lastLeft) { lastLeft = el.scrollLeft; stillSince = now; }
-    else if (!held && !settled && now - stillSince > 300) { stillSince = now; el.scrollTo({ left: Math.round(p) * step, behavior: still ? "auto" : "smooth" }); }
+    else if (!held && !settled && now - stillSince > 300) { stillSince = now; el.scrollTo({ left: (Math.round(raw) + 1) * step, behavior: still ? "auto" : "smooth" }); }
     if (!PULLING) SL.keep = false;
     /* also while the slide is still gliding into place after a swipe: the clock picks up once it has settled */
     const busy = document.hidden || layer.childElementCount || held || PULLING || !settled;
@@ -1510,7 +1515,7 @@ function startSlider() {
     const away = Math.min(1, Math.abs(p - at), at === 0 ? Math.abs(n - p) : 1);
     fill.style.width = (W * t * (1 - away)).toFixed(2) + "px";
     fill.style.transform = `translateX(${(L[at] - left).toFixed(2)}px)`;
-    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
+    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (Math.round(raw) + 2) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
   frame(performance.now());                                  // the dots and the white line are right from the first frame
@@ -1778,16 +1783,17 @@ function menu() {
   const swap = to => {
     if (busy || mode === to) return; busy = true;
     const quick = reduce() || !rows[0].animate;
-    const out = [{ opacity: 1, filter: "blur(0)", transform: "none" }, { opacity: 0, filter: "blur(6px)", transform: "translateY(-6px) scale(1.04)" }];
-    const inn = [{ opacity: 0, filter: "blur(6px)", transform: "translateY(6px) scale(.97)" }, { opacity: 1, filter: "blur(0)", transform: "none" }];
+    /* no blur (2026-11-09): the words simply fade with a small lift */
+    const out = [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-6px)" }];
+    const inn = [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }];
     back.classList.toggle("on", to === "lang");
     if (quick) { mode = to; fill(); busy = false; return; }
     rows.forEach(b => b.getAnimations().forEach(a => a.cancel()));      // still appearing? go from where it is
     rows.forEach((b, i) => { const at = b.style.transform || "";                // a swipe leaves the words where the finger took them
-      b.animate([{ ...out[0], transform: at || "none" }, { ...out[1], transform: at + " " + out[1].transform }], { duration: 250, delay: i * 15, easing: "ease-in", fill: "forwards" }); });   // twice as fast as at first (2026-11-09)
+      b.animate([{ ...out[0], transform: at || "none" }, { ...out[1], transform: at + " " + out[1].transform }], { duration: 125, delay: i * 8, easing: "ease-in", fill: "forwards" }); });   // 0.125 s (2026-11-09: twice as fast, then twice again)
     setTimeout(() => { mode = to; fill(); rows.forEach(b => b.style.transform = "");
-      rows.forEach((b, i) => { b.getAnimations().forEach(a => a.cancel()); b.animate(inn, { duration: 175, delay: i * 15, easing: "ease-out", fill: "backwards" }); });
-      busy = false; }, 250 + (rows.length - 1) * 15);                 // the new words take taps as soon as they start to show
+      rows.forEach((b, i) => { b.getAnimations().forEach(a => a.cancel()); b.animate(inn, { duration: 90, delay: i * 8, easing: "ease-out", fill: "backwards" }); });
+      busy = false; }, 125 + (rows.length - 1) * 8);                 // the new words take taps as soon as they start to show
   };
   back.onclick = () => swap("menu");
   /* …or a swipe from left to right anywhere on the page (2026-11-09): the words follow the finger a little,
@@ -1812,7 +1818,7 @@ function menu() {
       const code = m.slice(2); if (code === LANG) return;
       store.set("lang", code); setLang(code);
       rows.forEach((x, i) => x.classList.toggle("cur", LANGS[i][0] === code));
-      setTimeout(() => swap("menu"), 120);                        // the tick moves, then the list folds back into the menu (in the new language)
+      setTimeout(() => swap("menu"), 90);                        // the tick moves, then the list folds back into the menu (in the new language)
       app.querySelectorAll("[data-tab]").forEach(x => { const lab = { home: "Stories", fav: "Favourites", search: "Search", menu: "Menu" }[x.dataset.tab]; if (lab) x.setAttribute("aria-label", lab); });
       back.setAttribute("aria-label", tr("back")); haptic.tap?.();
       return;
