@@ -439,6 +439,10 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .ep-seg.drag .ep-ind { transition: none; }
 /* chat wallpaper: a part's doodles, very faint, behind the messages; it stays put while they scroll */
 .chat.doodles { background-repeat: repeat; background-size: 280px 280px; }
+.chat { isolation: isolate; }
+.wpfx { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.wpfx .wpi { position: absolute; left: 0; top: 0; will-change: transform; }
+.wpfx .wpi svg { display: block; }
 /* no scroll bar in the chat (it still scrolls) */
 .log { scrollbar-width: none; }
 /* search: the page itself never moves; only the list of stories scrolls (and springs) */
@@ -2061,19 +2065,69 @@ const DOODLE = {
   coffee: '<path d="M5 9h11v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.5 1 2.5 0 4M12 3c-1 1.5 1 2.5 0 4"/>',
   fork: '<path d="M8 3v6a2 2 0 0 0 4 0V3M10 3v18M16 21V3c2 2 2 6 0 8"/>',
 };
-function wallpaper(names, seed) {
-  if (!names || !names.length) return "";
+/* the doodles of one 280 px tile: name, place, size, turn (the same numbers draw the wallpaper and the
+   falling / arriving doodles of a part switch) */
+const WALL_T = 280;
+function wallItems(names, seed) {
+  if (!names || !names.length) return [];
   let x = [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
   const rnd = () => (x = (x * 1664525 + 1013904223) >>> 0) / 4294967296;
-  const T = 280, N = 5, C = T / N; let g = "";
+  const T = WALL_T, N = 5, C = T / N, out = [];
   for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
     const name = names[(r * N + c + r * 2) % names.length], s = 22 + rnd() * 10;
     const px = c * C + (C - s) / 2 + (rnd() - .5) * 18 + (r % 2) * C / 2, py = r * C + (C - s) / 2 + (rnd() - .5) * 18, rot = (rnd() - .5) * 50;
+    out.push({ name, s, px, py, rot });
+  }
+  return out;
+}
+function wallpaper(names, seed) {
+  if (!names || !names.length) return "";
+  const T = WALL_T; let g = "";
+  for (const { name, s, px, py, rot } of wallItems(names, seed)) {
     const k = s / 24;
     for (const dx of [0, -T]) g += `<g transform="translate(${(px + dx).toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(0)} ${s / 2} ${s / 2}) scale(${k.toFixed(3)})">${DOODLE[name] || ""}</g>`;
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${T}" height="${T}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`;
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+/* Switching parts in the chat (2026-11-09): the old part's doodles fall off the bottom of the screen, as
+   under gravity (accelerating), not all at once; then the new part's doodles come in from all four sides
+   and settle exactly where the wallpaper has them (so they never overlap). It all runs behind the
+   messages and takes no taps: the chat can be read at once. At the end the wallpaper itself is back. */
+function wallSwap(chat, from, to, bg) {
+  const W = chat.clientWidth, H = chat.clientHeight, T = WALL_T;
+  const lay = (names, seed) => { const out = [];
+    for (const it of wallItems(names, seed)) for (let ox = -T; ox < W + T; ox += T) for (let oy = 0; oy < H + T; oy += T) {
+      const x = ox + it.px, y = oy + it.py; if (x > -it.s && x < W && y > -it.s && y < H) out.push({ ...it, x, y }); }
+    return out; };
+  const draw = it => `<svg viewBox="0 0 24 24" width="${it.s.toFixed(1)}" height="${it.s.toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".075" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${DOODLE[it.name] || ""}</svg>`;
+  const fx = document.createElement("div"); fx.className = "wpfx"; fx.setAttribute("aria-hidden", "true");
+  chat.querySelector(".wpfx")?.remove(); chat.prepend(fx);
+  chat.style.backgroundImage = "none";
+  let seedN = 9; const rnd = () => (seedN = (seedN * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const at = (it, dx = 0, dy = 0, r = 0) => `translate(${(it.x + dx).toFixed(1)}px, ${(it.y + dy).toFixed(1)}px) rotate(${(it.rot + r).toFixed(1)}deg)`;
+  const size = (el, it) => { el.style.width = el.style.height = it.s.toFixed(1) + "px"; };   // turns about its own centre, as in the wallpaper
+  const G = 2800;                                                         // px/s²: a brisk, natural fall on a phone screen
+  let fallEnd = 0;
+  for (const it of lay(from.names, from.seed)) {
+    const el = document.createElement("span"); el.className = "wpi"; el.innerHTML = draw(it); size(el, it); el.style.transform = at(it); fx.appendChild(el);
+    const d = H - it.y + 30, ms = Math.sqrt(2 * d / G) * 1000, delay = rnd() * 700, spin = (rnd() - .5) * 80;
+    fallEnd = Math.max(fallEnd, delay + ms);
+    el.animate([{ transform: at(it) }, { transform: at(it, 0, d, spin) }], { duration: ms, delay, easing: "cubic-bezier(.55,.085,.68,.53)", fill: "both" })
+      .onfinish = () => el.remove();
+  }
+  const start = Math.max(300, fallEnd * .85);
+  let inEnd = 0;
+  const news = lay(to.names, to.seed);
+  for (const it of news) {
+    const el = document.createElement("span"); el.className = "wpi"; el.innerHTML = draw(it); size(el, it); fx.appendChild(el);
+    const side = Math.floor(rnd() * 4), off = it.s + 24;
+    const sx = side === 0 ? -it.x - off : side === 1 ? W - it.x + off : 0, sy = side === 2 ? -it.y - off : side === 3 ? H - it.y + off : 0;
+    const ms = 650 + rnd() * 350, delay = start + rnd() * 900, spin = (rnd() - .5) * 120;
+    inEnd = Math.max(inEnd, delay + ms);
+    el.animate([{ transform: at(it, sx, sy, spin) }, { transform: at(it) }], { duration: ms, delay, easing: "cubic-bezier(.22,.9,.3,1)", fill: "both" });
+  }
+  setTimeout(() => { if (!fx.isConnected) return; chat.style.backgroundImage = bg; fx.remove(); }, inEnd + 30);
 }
 /* interactive stories (you choose what happens) carry a small gamepad next to genre and time */
 const padPill = s => s.interactive ? `<span class="pill pad" aria-label="Interactive story">${ICON.pad}</span>` : "";
@@ -2151,8 +2205,10 @@ function openStory(id, epIndex) {
     return seq;
   };
   if (path) { ep.messages = flatten(); st.i = Math.min(st.i, ep.messages.length); }
-  const prev = layer.querySelector(".screen"); prev?.remove();
-  const scr = document.createElement("section");
+  const prev = layer.querySelector(".screen");
+  const swap = prev && prev._story === id && prev._ep !== st.ep && !reduce() ? { names: prev._wall, seed: id + ":" + prev._ep } : null;
+  prev?.remove();
+  const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
@@ -2161,10 +2217,12 @@ function openStory(id, epIndex) {
       <div class="log" id="log" aria-live="polite"><div class="intro">${esc(ep.prologue || "")}</div></div>
       <div class="foot" id="foot"></div></section>`;
   layer.appendChild(scr);
-  if (scr.animate && !reduce()) scr.animate([prev ? { opacity: 0 } : { transform: "translateX(100%)" }, prev ? { opacity: 1 } : { transform: "none" }], { duration: prev ? 200 : 340, easing: EASE });
+  /* a part switch replaces the chat in place, in the same frame: nothing blinks, the preview never shows */
+  if (scr.animate && !reduce() && !prev) scr.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
   const wp = wallpaper(ep.wallpaper, s.id + ":" + st.ep);
-  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles"); c.style.backgroundImage = wp; }
+  if (wp) { const c = scr.querySelector(".chat"); c.classList.add("doodles"); c.style.backgroundImage = wp;
+    if (swap && swap.names?.length) wallSwap(c, swap, { names: ep.wallpaper, seed: s.id + ":" + st.ep }, wp); }
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
@@ -2203,7 +2261,7 @@ function openStory(id, epIndex) {
       if (sx == null) return;
       seg.classList.remove("drag");
       if (moved) { const x = Math.max(0, Math.min((n - 1) * 34, base + e.clientX - sx)); goPart(Math.round(x / 34)); }
-      else { const b = e.target.closest("[data-ep]"); if (b) goPart(+b.dataset.ep); }
+      else { const b = document.elementFromPoint(e.clientX, e.clientY)?.closest(".ep-seg [data-ep]"); if (b) goPart(+b.dataset.ep); }   // the seg holds the pointer, so find the number under the finger
       sx = null;
     };
     seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", e => { seg.classList.remove("drag"); sx = null; goPart(st.ep); });
