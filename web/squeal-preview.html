@@ -1318,6 +1318,9 @@ function startSlider() {
     const total = SL.elapsed + (SL.keep ? 0 : Math.max(0, Date.now() - SL.seen));   // time while pulled does not count
     at = (SL.at + Math.floor(total / SLIDE)) % n; since -= total % SLIDE;
   }
+  /* a rebuilt home page shows the right card from its very first frame (not the first card for a frame) */
+  if (at && n > 1) { const step0 = el.children[1].offsetLeft - el.children[0].offsetLeft;
+    if (step0 > 0) { el.style.scrollBehavior = "auto"; el.scrollLeft = at * step0; el.style.scrollBehavior = ""; placed = true; } }
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
   /* a finger can be lifted outside the slider (or a pull gesture can take over): release anywhere */
   const bye = new AbortController();
@@ -1373,7 +1376,7 @@ function startSlider() {
     if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (cur + 1) * step, behavior: "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
-  slideTimer = requestAnimationFrame(frame);
+  frame(performance.now());                                  // the dots and the white line are right from the first frame
 }
 
 function favourites() {
