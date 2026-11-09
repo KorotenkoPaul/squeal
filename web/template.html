@@ -2567,6 +2567,9 @@ function openStory(id, epIndex) {
      glides with its edge, as if a new message had pushed it — nothing slips behind an invisible edge (2026-11-09) */
   function controls() {
     const s0 = log.scrollTop, h0 = foot.getBoundingClientRect().height, atBottom = log.scrollHeight - log.clientHeight - log.scrollTop < 8;
+    /* a change still under way (an answer picked while the panel is still opening) is stopped where it stands
+       before measuring the new height, so the new change starts from there (2026-11-09) */
+    footAnim?.cancel(); footAnim = null;
     controlsNow();
     const h1 = foot.getBoundingClientRect().height, glide = wantGlide; wantGlide = false;
     if (footFirst) { footFirst = false; return; }
