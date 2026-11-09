@@ -2437,7 +2437,7 @@ function openStory(id, epIndex) {
   };
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
-    if (reduce()) { setSlack(0); log.scrollTop = log.scrollHeight; return; }
+    if (reduce()) { const n = natural(), top = Math.max(log.scrollTop, n); setSlack(top - n); log.scrollTop = top; return; }   // at once, but still never down
     gT0 = performance.now(); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
     gliding = true; glideRaf = requestAnimationFrame(keep);
   };
@@ -2571,7 +2571,9 @@ function openStory(id, epIndex) {
     /* the end: the story's / ending's title comes up from below with the conversation, like a message; meanwhile
        "Tap to continue" fades out (0.25 s) and the panel makes room; then the buttons fade in (0.25 s) (2026-11-09) */
     if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 250);   // "Tap to continue" out in 0.25 s, then the buttons in, 0.25 s
-    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) { if (glide || gliding) glideDown(); return; }
+    if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
+      if (h1 < h0 - 1) { setSlack(slack + h0 - h1); log.scrollTop = Math.max(log.scrollTop, s0); }   // a shrinking panel: nothing jumps down
+      if (glide || gliding || reduce()) glideDown(); return; }
     footAnim?.cancel();
     /* growing while a new message is still gliding into view: the message settles first, then the panel opens
        (not at the end: there everything moves up together, while "Tap to continue" fades) */
