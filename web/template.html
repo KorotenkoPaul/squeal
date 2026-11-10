@@ -1107,7 +1107,8 @@ function owlEyes() {
 function pullForRandom() {
   const view = document.getElementById("view"), tabs = app.querySelector(".tabs");
   /* Home has its own pulls at both ends (the owl at the top, the reel at the bottom): the phone's own bounce is off
-     here, or both would move the page at once and it would go up in jumps (2026-11-10) */
+     here, or both would move the page at once and it would go up in jumps (2026-11-10). A touch is never refused
+     because the phone has started handling it: on iPhone that is every touch at an edge, and both pulls went dead. */
   view.style.overscrollBehaviorY = "none";
   const rnd = document.createElement("div"); rnd.className = "rnd"; rnd.setAttribute("aria-hidden", "true");
   rnd.innerHTML = `<div class="slot"><span class="say"></span><div class="reel"><div class="strip"></div></div></div>`;
@@ -1188,7 +1189,6 @@ function pullForRandom() {
     vy = .7 * vy + .3 * ((lastY - y) / Math.max(1, now - lastT) * 1000); lastY = y; lastT = now;   // finger speed upwards, px/s
     if (!d && raw <= 0) return;
     if (!atBottom() && !d) { y0 = null; return; }
-    if (!d && !e.cancelable) { y0 = null; return; }                 // the phone is already scrolling this touch: leave it to the phone
     if (e.cancelable) e.preventDefault();
     if (!d) { measureFree(); deal(); spin = 0; }
     const full = geo().full;
@@ -1295,7 +1295,7 @@ function pullToRefresh() {
     const raw = y - y0;
     if (!locked) {
       if (Math.abs(x - x0) < 6 && Math.abs(raw) < 6) return;
-      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0 || GESTURE === "genre" || !e.cancelable) { y0 = null; return; }   // the phone already scrolling: its touch
+      if (Math.abs(x - x0) > Math.abs(raw) || raw < 0 || GESTURE === "genre") { y0 = null; return; }
       locked = true; GESTURE = "refresh"; PULLING = SL.keep = true;
     }
     if (raw <= 0) { if (d) show(d = 0, true); return; }
