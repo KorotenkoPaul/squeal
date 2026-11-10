@@ -22,7 +22,7 @@
   --font: "Avenir Next", Avenir, "Nunito Sans", -apple-system, "Segoe UI", sans-serif;
   color-scheme: dark;
 }
-html, body { height: 100%; }
+html, body { height: 100%; touch-action: manipulation; }   /* no double-tap zoom: quick taps in a chat each read on at once, never wait to see if a second tap comes (2026-11-10) */
 body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; color: inherit; background: none; border: 0; }
 button { cursor: pointer; }
