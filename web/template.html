@@ -1922,6 +1922,11 @@ let lastCard = null;
 document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
 
 function appRect() { const a = app.getBoundingClientRect(); return { left: a.left, top: 0, width: a.width, height: innerHeight }; }
+/* the window changes size (the phone turned, split screen): an open chat and an open story page keep covering the
+   app exactly (2026-11-10: they stayed at the size they were opened with) */
+addEventListener("resize", () => { const r = appRect();
+  layer.querySelectorAll(".screen").forEach(s => { if (!s._leaving) Object.assign(s.style, { left: r.left + "px", width: r.width + "px" }); });
+  const sh = liveSheet(); if (sh && !sh.getAnimations({ subtree: true }).length) Object.assign(sh.style, px(r)); });
 /* The card's own dressing (its gradient, chips, heart) is laid over the card's spot on the sheet
    and fades while the sheet opens, so the first and last frames are exactly the card. */
 function addGhost(sheet, geo, at) {
