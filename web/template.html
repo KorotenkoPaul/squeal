@@ -1182,7 +1182,9 @@ function pullForRandom() {
      page) go down with it — no unwinding of the extra first (2026-11-09). */
   const start = y => {
     if (sinking) { cancelAnimationFrame(sinkRaf); sinking = false; busy = false; ov = 0; y0 = y + d; lastRaw = d; spin = d * .9; view.classList.remove("drop"); view.classList.add("lift"); lastY = y; lastT = performance.now(); vy = 0; return; }
-    if (busy || !atBottom() || view.scrollTop > view.scrollHeight - view.clientHeight + .5) return; y0 = y; d = 0; ov = 0; lastRaw = 0; spin = 0; vy = 0; lastY = y; lastT = performance.now(); view.classList.remove("drop", "settle"); view.classList.add("lift"); };
+    if (busy || !atBottom() || view.scrollTop > view.scrollHeight - view.clientHeight + .5) return; y0 = y; d = 0; ov = 0; lastRaw = 0; spin = 0; vy = 0; lastY = y; lastT = performance.now(); };
+  /* a touch alone changes nothing on the page (2026-11-10): on iPhone any change to the page while it is still
+     bouncing from a fling cuts the bounce short with a jerk; only a real pull takes the page */
   const move = (y, e) => {
     if (y0 == null) return;
     const raw = y0 - y, now = performance.now(), step = raw - lastRaw; lastRaw = raw;
@@ -1190,7 +1192,7 @@ function pullForRandom() {
     if (!d && raw <= 0) return;
     if (!atBottom() && !d) { y0 = null; return; }
     if (e.cancelable) e.preventDefault();
-    if (!d) { measureFree(); deal(); spin = 0; }
+    if (!d) { measureFree(); deal(); spin = 0; view.classList.remove("drop", "settle"); view.classList.add("lift"); }
     const full = geo().full;
     let s = step;
     /* back down after stretching: the page comes down first, 1:1 with the finger on screen, then the reel */
@@ -1204,6 +1206,7 @@ function pullForRandom() {
   };
   const end = async () => {
     if (y0 == null) return; y0 = null;
+    if (!d && !ov && !sinking) { spin = null; return; }             // only touched: nothing to put back
     view.classList.remove("lift");
     if (spin != null) { offset += spin - d * .9; spin = null; }   // the rows keep their turn as the finger lets go
     if (d < LINE()) {                                              // not far enough: the reel sinks back behind the tabs as the page slides down
@@ -1289,7 +1292,7 @@ function pullToRefresh() {
     if (live) eyes.setLids(1 - k * k);                            // the eyes open as you pull
   };
   /* Works from anywhere, the slider too: a mostly-sideways move is left to the slider, a mostly-down one pulls. */
-  const start = (x, y) => { if (busy || Math.abs(view.scrollTop) > .5) return; centreEyes(); y0 = y; x0 = x; d = 0; locked = false; view.classList.remove("settle", "drop"); };
+  const start = (x, y) => { if (busy || Math.abs(view.scrollTop) > .5) return; y0 = y; x0 = x; d = 0; locked = false; };   // a touch alone changes nothing
   const move = (x, y, e) => {
     if (y0 == null) return;
     const raw = y - y0;
@@ -1297,7 +1300,7 @@ function pullToRefresh() {
       if (raw >= 2 && raw > 1.5 * Math.abs(x - x0) && GESTURE !== "genre" && e.cancelable) e.preventDefault();   // clearly down: the phone's bounce never starts under ours
       if (Math.abs(x - x0) < 6 && Math.abs(raw) < 6) return;
       if (Math.abs(x - x0) > Math.abs(raw) || raw < 0 || GESTURE === "genre") { y0 = null; return; }
-      locked = true; GESTURE = "refresh"; PULLING = SL.keep = true;
+      locked = true; GESTURE = "refresh"; PULLING = SL.keep = true; centreEyes(); view.classList.remove("settle", "drop");
     }
     if (raw <= 0) { if (d) show(d = 0, true); return; }
     if (view.scrollTop > 0) { y0 = null; return; }
