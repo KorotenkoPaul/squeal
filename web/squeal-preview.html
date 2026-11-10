@@ -23,6 +23,9 @@
   color-scheme: dark;
 }
 html, body { height: 100%; touch-action: manipulation; }   /* no double-tap zoom: quick taps in a chat each read on at once, never wait to see if a second tap comes (2026-11-10) */
+/* the page itself never scrolls or bounces, has no margin, and a tap never flashes the phone's grey highlight: only the
+   app's own lists scroll (2026-11-10: the page could be dragged 8 px and rubber-band as a whole) */
+html, body { margin: 0; overflow: hidden; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
 /* like an app (2026-11-10): a long press never selects words or brings up the phone's menu ("Copy", "Save photo") —
    in the chat, on the tabs, on covers (a long press on a card is a like); the search field stays editable */
 body { -webkit-touch-callout: none; }
