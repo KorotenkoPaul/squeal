@@ -500,7 +500,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .view.s-tab #results::-webkit-scrollbar { display: none; }
 .view.s-tab #results > * { flex: none; }
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
-.log { overscroll-behavior-y: none; }
+.log { overscroll-behavior-y: contain; }   /* as in Search: a fling into the top or the end bounces with the phone's own spring, description and all (2026-11-10) */
 .view.rubber { overscroll-behavior-y: none; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* the phone's own bounce would move the description too: the chat does its own (below) */
 .log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
@@ -1645,6 +1645,7 @@ function rubberBand(sc, o = {}) {
     if (y0 == null) return;
     const y = e.touches[0].clientY, dy = y - y0, dx = e.touches[0].clientX - x0, max = sc.scrollHeight - sc.clientHeight;
     if (!mine) {
+      if (sc.scrollTop < 0 || sc.scrollTop > max) { y0 = null; return; }            // the phone springs it itself (as in Search)
       if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 8) y0 = null; return; }
       const atTop = sc.scrollTop <= 0 && dy > 0, atEnd = sc.scrollTop >= max - .5 && dy < 0;
       if (!(atTop || atEnd) || Math.abs(dy) < 6) return;
