@@ -2313,7 +2313,7 @@ function wire(sheet, s) {
     let p0 = null, base = 0, moved = false, pressed = -1;
     const coord = e => row() ? e.clientX : e.clientY;
     box.addEventListener("pointerdown", e => { const b = e.target.closest(".part"); if (!b) return; e.stopPropagation();
-      p0 = coord(e); moved = false; box.setPointerCapture(e.pointerId);
+      p0 = coord(e); moved = false; try { box.setPointerCapture(e.pointerId); } catch {}
       pressed = parts.indexOf(b); base = cells()[pressed].c;
       if (pressed !== nearestPart()) glideTo(pressed); });            // another part: the frame goes there at once
     box.addEventListener("pointermove", e => { if (p0 == null) return; const d = coord(e) - p0;
