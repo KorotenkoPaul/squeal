@@ -511,7 +511,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .log { overscroll-behavior-y: contain; }   /* as in Search: a fling into the top or the end bounces with the phone's own spring, description and all (2026-11-10) */
 .view.rubber { overscroll-behavior-y: none; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* the phone's own bounce would move the description too: the chat does its own (below) */
-.log { flex: 1; overflow-y: auto; padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
+.log { flex: 1; overflow-y: auto; overflow-x: hidden;   /* never scrolls sideways: messages sliding in from off the edge must not make it pannable (2026-11-10: a swipe back during a part switch scrolled the chat sideways instead) */
+   padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 /* a new message (or the typing / recording bubble) grows out of its own bottom corner, like WhatsApp */
 .msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; transform-origin: 0 100%; }
@@ -2370,9 +2371,11 @@ function wire(sheet, s) {
   sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
   sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   sheet.addEventListener("touchend", e => { if (!e.touches.length) end(); }); sheet.addEventListener("touchcancel", end);   // ends with the last finger
-  sheet.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
-  sheet.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
-  sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
+  let byMouse = false;                                                // the mouse ends only a drag made with the mouse (2026-11-10)
+  sheet.addEventListener("touchstart", () => { byMouse = false; }, { passive: true, capture: true });
+  sheet.addEventListener("mousedown", e => { if (e.sourceCapabilities?.firesTouchEvents) return; byMouse = true; start(e.clientX, e.clientY, e.target); });
+  sheet.addEventListener("mousemove", e => { if (byMouse) move(e.clientX, e.clientY, e); });
+  sheet.addEventListener("mouseup", () => { if (byMouse) end(); }); sheet.addEventListener("mouseleave", () => { if (byMouse) end(); });
 }
 
 /* What the tab underneath shows about a story; if it did not change, the tab is left untouched. */
@@ -3284,9 +3287,13 @@ function swipeBack(scr) {
   scr.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
   scr.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
   scr.addEventListener("touchend", e => { if (!e.touches.length) end(); }); scr.addEventListener("touchcancel", end);   // ends with the last finger
-  scr.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
-  scr.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
-  scr.addEventListener("mouseup", end); scr.addEventListener("mouseleave", end);
+  /* the mouse ends only a drag made with the mouse (2026-11-10): a finger swipe was cut short when the chat slid away
+     from under a resting mouse pointer ("mouseleave") */
+  let byMouse = false;
+  scr.addEventListener("touchstart", () => { byMouse = false; }, { passive: true, capture: true });
+  scr.addEventListener("mousedown", e => { if (e.sourceCapabilities?.firesTouchEvents) return; byMouse = true; start(e.clientX, e.clientY, e.target); });
+  scr.addEventListener("mousemove", e => { if (byMouse) move(e.clientX, e.clientY, e); });
+  scr.addEventListener("mouseup", () => { if (byMouse) end(); }); scr.addEventListener("mouseleave", () => { if (byMouse) end(); });
 }
 
 render();
