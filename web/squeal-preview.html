@@ -796,10 +796,14 @@ function shell(content) {
 }
 
 /* Progress on a cover: a thin line along the bottom that fills as you read the story (all parts together) */
+/* the line fills (0.9 s) only when the progress is new to the eye (2026-11-10): coming back to a tab, the same progress
+   is simply there — it used to fill again from nothing on every return */
+const BAR_SEEN = new Map();
 function tileProgress(s) {
   const f = progress(s) / 100;
   if (!(f > 0)) return "";
-  return `<span class="bar" style="--f:${Math.max(.03, f).toFixed(3)}" aria-label="${f >= 1 ? "Read" : Math.round(f * 100) + "% read"}"><i></i></span>`;
+  const seen = BAR_SEEN.get(s.id) === f; setTimeout(() => BAR_SEEN.set(s.id, f), 0);   // the same story twice on one page: both fill, or neither
+  return `<span class="bar${seen ? " still" : ""}" style="--f:${Math.max(.03, f).toFixed(3)}" aria-label="${f >= 1 ? "Read" : Math.round(f * 100) + "% read"}"><i></i></span>`;
 }
 /* after reading: every progress line on the page catches up with what was saved, in place */
 function syncBars(root = document) {
