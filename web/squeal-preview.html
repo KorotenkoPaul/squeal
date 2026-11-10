@@ -1105,6 +1105,7 @@ function owlEyes() {
   };
 }
 
+let REEL_BYE = null, SLIDER_BYE = null;
 function pullForRandom() {
   const view = document.getElementById("view"), tabs = app.querySelector(".tabs");
   /* Home and the phone's own bounce (2026-11-10, last): a fling into the top or the bottom bounces natively, as
@@ -1255,7 +1256,8 @@ function pullForRandom() {
   view.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
   view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
   view.addEventListener("mousedown", e => start(e.clientY));
-  window.addEventListener("mousemove", e => move(e.clientY, e)); window.addEventListener("mouseup", end);
+  REEL_BYE?.abort(); REEL_BYE = new AbortController();               // only the current home page listens (2026-11-10: they piled up)
+  window.addEventListener("mousemove", e => move(e.clientY, e), { signal: REEL_BYE.signal }); window.addEventListener("mouseup", end, { signal: REEL_BYE.signal });
 }
 
 /* how many fingers are on the screen right now (one set of listeners for the whole app) */
@@ -1496,7 +1498,8 @@ function startSlider() {
     if (step0 > 0) { el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step0; el.style.scrollBehavior = ""; placed = true; } }
   ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
   /* a finger can be lifted outside the slider (or a pull gesture can take over): release anywhere */
-  const bye = new AbortController();
+  SLIDER_BYE?.abort();                                   // the home page drawn before: its slider's window listeners go (2026-11-10: they piled up)
+  const bye = SLIDER_BYE = new AbortController();
   /* not "pointercancel": the phone sends it as soon as the slider starts moving under the finger, while the
      finger is still down; the clock must stand still until the finger is really lifted (2026-11-09) */
   ["touchend", "touchcancel", "blur"].forEach(e => window.addEventListener(e, ev => { if (!ev.touches || !ev.touches.length) held = false; }, { passive: true, signal: bye.signal }));
