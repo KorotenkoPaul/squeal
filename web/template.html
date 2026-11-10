@@ -2874,8 +2874,9 @@ function openStory(id, epIndex) {
     /* a chat shorter than the screen: the bubble just grows in its own place; a full chat: it grows at the bottom
        edge and pushes the conversation up as it grows */
     const over = log.scrollHeight - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room), over) : 0;   // just the part that does not fit
-    /* always from small, out of its pointed corner: bottom left for theirs, bottom right for yours (2026-11-09) */
-    el.animate([{ transform: "scale(.35)", opacity: 0, marginTop: m0 + "px" }, { transform: "none", opacity: 1, marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" }); };
+    /* from nothing (scale 0, 2026-11-10: from 35% it overlapped the message above), out of its pointed corner: bottom
+       left for theirs, bottom right for yours; it is never taller than the room already opened for it (2026-11-09) */
+    el.animate([{ transform: "scale(0)", opacity: 0, marginTop: m0 + "px" }, { transform: "none", opacity: 1, marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" }); };
   /* "typing…" turns into the message (2026-11-09): the same bubble stretches from its size to the message's, from its
      pointed corner, while the words fade in — no second bubble grows */
   const morph = (el, from) => { if (reduce() || !el.animate) return;
