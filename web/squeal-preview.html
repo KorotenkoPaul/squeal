@@ -2808,6 +2808,7 @@ function openStory(id, epIndex) {
      on from where it is */
   const keepSeg = prev && prev._story === id ? prev.querySelector(".ep-seg") : null;
   keepSeg?.remove();
+  prev?._stop?.();                                                // whatever the old chat was typing or recording stops with it (2026-11-10)
   prev?.remove();
   const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper; scr._born = performance.now();
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
