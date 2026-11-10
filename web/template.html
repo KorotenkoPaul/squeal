@@ -3165,7 +3165,10 @@ function openStory(id, epIndex) {
     foot.classList.add("hint");
     if (!premium() && freeTaps() <= 0) return showPaywall();
     foot.innerHTML = `<span class="cont">${tr("tap")}</span>`;   // free taps are counted quietly, never shown
-    foot.onclick = step;
+    /* for its first 0.35 s the bottom panel takes no taps: the second tap of a double tap on "Read again", "Next part"
+       or "Read" lands here, on the new chat, and must not read its first message (2026-11-10); a tap on the chat
+       itself reads on at once */
+    foot.onclick = () => { if (performance.now() - scr._born >= 350) step(); };
     nudge();
   }
   function showPaywall() {
@@ -3184,9 +3187,6 @@ function openStory(id, epIndex) {
   function step(free) {
     /* a chat on its way out (back, swipe, another part) takes no more taps: nothing new is read or saved there (2026-11-09) */
     if (busy || st.i >= ep.messages.length || scr._leaving || !scr.isConnected) return;
-    /* the first 0.35 s of a chat take no reading taps: the second tap of a double tap on "Read again", "Next part" or
-       "Read" lands on the new chat and must not read its first message (2026-11-10) */
-    if (free !== true && performance.now() - scr._born < 350) return;
     if (free !== true && !spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); glideDown(); return controls(); }
