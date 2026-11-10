@@ -2772,7 +2772,9 @@ function slideGhostGone(g) { const t = setInterval(() => { if ([...g.children].s
 function openStory(id, epIndex) {
   const s = STORIES.find(x => x.id === id);
   store.set("recent", [id, ...store.get("recent", []).filter(x => x !== id)].slice(0, 3));
-  countRead(id);
+  /* one opening of a story is one read (2026-11-10): switching parts, "Read again", "Next part", going back to a
+     choice inside the same chat do not count again (they lifted a story up the week's top) */
+  if (layer.querySelector(".screen:not([style*='pointer-events: none'])")?._story !== id) countRead(id);
   const pr = prog(s), N = s.episodes.length, len = k => s.episodes[k].messages.length;
   let k0 = epIndex;
   if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
