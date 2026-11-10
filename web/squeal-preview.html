@@ -2795,7 +2795,7 @@ function openStory(id, epIndex) {
   const keepSeg = prev && prev._story === id ? prev.querySelector(".ep-seg") : null;
   keepSeg?.remove();
   prev?.remove();
-  const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper;
+  const scr = document.createElement("section"); scr._story = id; scr._ep = st.ep; scr._wall = ep.wallpaper; scr._born = performance.now();
   scr.className = "screen"; Object.assign(scr.style, { left: appRect().left + "px", width: appRect().width + "px" });
   scr.innerHTML = `<section class="chat">
       <div class="head"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 16 16" aria-hidden="true" style="width:16px;height:16px"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="avatar">${esc(ep.left[0])}</div>
@@ -3170,6 +3170,9 @@ function openStory(id, epIndex) {
   function step(free) {
     /* a chat on its way out (back, swipe, another part) takes no more taps: nothing new is read or saved there (2026-11-09) */
     if (busy || st.i >= ep.messages.length || scr._leaving || !scr.isConnected) return;
+    /* the first 0.35 s of a chat take no reading taps: the second tap of a double tap on "Read again", "Next part" or
+       "Read" lands on the new chat and must not read its first message (2026-11-10) */
+    if (free !== true && performance.now() - scr._born < 350) return;
     if (free !== true && !spendTap()) return;
     const m = ep.messages[st.i];
     if (m.from === ep.right) { add(m); st.i++; save(); glideDown(); return controls(); }
