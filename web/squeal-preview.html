@@ -3065,7 +3065,7 @@ function openStory(id, epIndex) {
       let picked = false;
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
-        if (picked || busy || scr._leaving) return;
+        if (picked || busy || scr._leaving || performance.now() - scr._born < 350) return;   // the second tap of a double tap on "back to a choice" lands here: it never picks an answer (2026-11-10)
         if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
         picked = true; busy = true;
         const c = node.choices[+b.dataset.k];
