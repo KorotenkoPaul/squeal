@@ -2675,7 +2675,9 @@ const SLIDE = { items: new Set(), raf: 0, t: 0 };
 const SLIDE_IN = 14, SLIDE_OUT = 9;      // spring rates: an arrival is 99% home in 0.33 s; a leaver starts softly and is off in ≈0.19 s
 const slideSide = el => el.classList.contains("me") ? 1 : el.matches(".them, .typing") ? -1 : 0;
 function slideTick(now) {
-  const dt = Math.max(0, Math.min(.1, (now - SLIDE.t) / 1000)); SLIDE.t = now;
+  /* at most two frames' worth per step (2026-11-10): after a long frame (the new part's chat being built, a busy phone)
+     the messages carry on from where they were instead of jumping ahead — a jump read as "it suddenly vanished" */
+  const dt = Math.max(0, Math.min(1 / 30, (now - SLIDE.t) / 1000)); SLIDE.t = now;
   const leaving = [...SLIDE.items].some(s => s.goal);
   for (const s of SLIDE.items) {
     if (!s.el.isConnected) { SLIDE.items.delete(s); continue; }
@@ -2692,6 +2694,7 @@ function slideTick(now) {
 function slideRun(s) { SLIDE.items.add(s); if (!SLIDE.raf) { SLIDE.t = performance.now(); SLIDE.raf = requestAnimationFrame(slideTick); } }
 /* how far it must go to be fully off the screen (box: the chat's rectangle) */
 function slidePrep(el, box) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }), r = el.getBoundingClientRect();
+  box = { left: Math.min(box.left, 0), right: Math.max(box.right, document.documentElement.clientWidth) };   // past the chat's edge and the window's: never gone while still in view
   s.need = (slideSide(el) < 0 ? r.right - s.x - box.left : box.right - r.left + s.x) + 12; return s; }
 function slideOut(el, box, lag) { const s = slidePrep(el, box); s.goal = slideSide(el) * s.need * 2; s.wait = false; s.at = lag ? performance.now() + lag : 0; slideRun(s); }
 function slideIn(el, box, lag, wait) { const s = slidePrep(el, box);
