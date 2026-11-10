@@ -1256,9 +1256,11 @@ function pullForRandom() {
     const sh = liveSheet(); if (sh) sh._origin = null;   // closing: the reel is gone by then, so it just fades
     reel.classList.remove("chosen"); view.classList.add("drop"); busy = false; ov = 0; show(d = 0);
   };
-  view.addEventListener("touchstart", e => start(e.touches[0].clientY), { passive: true });
+  /* one finger at a time (2026-11-10): a second finger never restarts the pull (the page stayed pulled up for good);
+     the pull ends when the last finger lifts */
+  view.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientY); }, { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
-  view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
+  view.addEventListener("touchend", e => { if (!e.touches.length) end(); }); view.addEventListener("touchcancel", end);
   view.addEventListener("mousedown", e => start(e.clientY));
   REEL_BYE?.abort(); REEL_BYE = new AbortController();               // only the current home page listens (2026-11-10: they piled up)
   window.addEventListener("mousemove", e => move(e.clientY, e), { signal: REEL_BYE.signal }); window.addEventListener("mouseup", end, { signal: REEL_BYE.signal });
@@ -1355,9 +1357,9 @@ function pullToRefresh() {
     eyes.reset();
     busy = false; PULLING = false;
   };
-  view.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
+  view.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the pull (2026-11-10)
   view.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
-  view.addEventListener("touchend", end); view.addEventListener("touchcancel", end);
+  view.addEventListener("touchend", e => { if (!e.touches.length) end(); }); view.addEventListener("touchcancel", end);
   view.addEventListener("mousedown", e => start(e.clientX, e.clientY));
   window.onmousemove = e => move(e.clientX, e.clientY, e); window.onmouseup = end;
 }
@@ -2353,9 +2355,9 @@ function wire(sheet, s) {
     sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`; sheet._leaving = true;
     setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
-  sheet.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
+  sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
   sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
-  sheet.addEventListener("touchend", end); sheet.addEventListener("touchcancel", end);
+  sheet.addEventListener("touchend", e => { if (!e.touches.length) end(); }); sheet.addEventListener("touchcancel", end);   // ends with the last finger
   sheet.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
   sheet.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
   sheet.addEventListener("mouseup", end); sheet.addEventListener("mouseleave", end);
@@ -3262,9 +3264,9 @@ function swipeBack(scr) {
       if (under?.isConnected) { if (liveSheet()) under.remove(); else { under.style.visibility = ""; closeSheet(under); } }
     }, 300);
   };
-  scr.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
+  scr.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
   scr.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
-  scr.addEventListener("touchend", end); scr.addEventListener("touchcancel", end);
+  scr.addEventListener("touchend", e => { if (!e.touches.length) end(); }); scr.addEventListener("touchcancel", end);   // ends with the last finger
   scr.addEventListener("mousedown", e => start(e.clientX, e.clientY, e.target));
   scr.addEventListener("mousemove", e => move(e.clientX, e.clientY, e));
   scr.addEventListener("mouseup", end); scr.addEventListener("mouseleave", end);
