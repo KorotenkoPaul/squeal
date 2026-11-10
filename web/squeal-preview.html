@@ -1011,7 +1011,7 @@ function wireHome() {
       place(x); if (pull) glide = requestAnimationFrame(step); };
     glide = requestAnimationFrame(step); };
   row.addEventListener("pointerdown", e => {
-    cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; moved = false; pull = null; row.setPointerCapture(e.pointerId);
+    cancelAnimationFrame(glide); px0 = e.clientX; py0 = e.clientY; moved = false; pull = null; try { row.setPointerCapture(e.pointerId); } catch {}
     const hit = e.target.closest?.(".chip"), k = hit ? chips.indexOf(hit) : -1;
     base = target = pos; clearTimeout(slideT);
     /* the slide-over to a pressed chip waits a blink (90 ms) or the first sideways move, so a touch that
@@ -1639,7 +1639,7 @@ function favourites() {
     card.addEventListener("pointermove", e => {
       if (x0 == null) return;
       const dx = e.clientX - x0, dy = e.clientY - y0;
-      if (!dragging) { if (Math.abs(dx) < 8) return; if (Math.abs(dy) > Math.abs(dx)) { x0 = null; return; } dragging = true; card._moved = true; card.setPointerCapture?.(e.pointerId); }
+      if (!dragging) { if (Math.abs(dx) < 8) return; if (Math.abs(dy) > Math.abs(dx)) { x0 = null; return; } dragging = true; card._moved = true; try { card.setPointerCapture?.(e.pointerId); } catch {} }
       const dt = e.timeStamp - lastT; if (dt > 0) vx = .7 * vx + .3 * (e.clientX - lastX) / dt; lastX = e.clientX; lastT = e.timeStamp;
       let x = base + dx;
       if (x > 0) x = x / 4;                     // a little resistance to the right
