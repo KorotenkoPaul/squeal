@@ -2677,33 +2677,46 @@ let OPEN_FROM = "right";                                            // where a n
    Nothing fades — a message is fully there all the way; only the description and an ending's title fade. Arrivals
    wait until everything leaving has gone off the screen, then come in nearest the bottom first, 25 ms apart. */
 const SLIDE = { items: new Set(), raf: 0, t: 0 };
-const SLIDE_IN = 14, SLIDE_OUT = 9;      // spring rates: an arrival is 99% home in 0.33 s; a leaver starts softly and is off in ≈0.19 s
+const SLIDE_IN = 16, SLIDE_OUT = 12;      // spring rates (2026-11-10): an arrival is home in ≈0.4 s, a leaver off in ≈0.15 s, both start softly; turned back, ≤20 px run-on
 const slideSide = el => el.classList.contains("me") ? 1 : el.matches(".them, .typing") ? -1 : 0;
+/* how far a message has to go from its own place to be wholly off the screen — measured afresh on every frame from
+   where it sits in the layout (2026-11-10: a bubble can re-wrap while it moves; a measure taken once let a message
+   count as gone while its edge still showed, and it vanished) */
+function slideNeed(s, rects) { const el = s.el, p = el.offsetParent; if (!p) return s.need || 0;
+  let pr = rects.get(p); if (!pr) rects.set(p, pr = p.getBoundingClientRect());
+  const left = pr.left + el.offsetLeft;
+  return (slideSide(el) < 0 ? left + el.offsetWidth : document.documentElement.clientWidth - left) + 12; }
 function slideTick(now) {
   /* at most two frames' worth per step (2026-11-10): after a long frame (the new part's chat being built, a busy phone)
      the messages carry on from where they were instead of jumping ahead — a jump read as "it suddenly vanished" */
   const dt = Math.max(0, Math.min(1 / 30, (now - SLIDE.t) / 1000)); SLIDE.t = now;
-  const leaving = [...SLIDE.items].some(s => s.goal);
+  const leaving = [...SLIDE.items].some(s => s.goal), rects = new Map();
+  for (const s of SLIDE.items) { if (!s.el.isConnected) SLIDE.items.delete(s); else if (!s.fade) s.need = slideNeed(s, rects); }   // all the measuring first
   for (const s of SLIDE.items) {
-    if (!s.el.isConnected) { SLIDE.items.delete(s); continue; }
-    if (s.wait) { if (leaving) continue; s.wait = false; s.at = s.lag ? now + s.lag : 0; }
-    if (now < s.at) continue;
+    if (s.launch) s.x = slideSide(s.el) * s.need;                  // not set off yet: it waits right at the edge, out of sight
+    if (s.wait) { if (leaving) { if (!s.fade) s.el.style.setProperty("--sx", s.x.toFixed(2) + "px"); continue; } s.wait = false; s.at = s.lag ? now + s.lag : 0; }
+    if (now < s.at) { if (!s.fade) s.el.style.setProperty("--sx", s.x.toFixed(2) + "px"); continue; }
+    s.launch = false;                                              // set off: from standing, softly (2026-11-10: a fast start, turned back, ran on ~80 px)
     if (s.fade) { s.el.style.opacity = ""; s.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 340 }); SLIDE.items.delete(s); continue; }
+    if (s.goal) s.goal = slideSide(s.el) * Math.max(Math.abs(s.goal), 1.3 * s.need);   // always aiming well past the edge
     const w = s.goal ? SLIDE_OUT : SLIDE_IN, y = s.x - s.goal, c = s.v + w * y, e = Math.exp(-w * dt);      // a critically damped spring, exact for any frame length
     s.x = s.goal + (y + c * dt) * e; s.v = (c - w * (y + c * dt)) * e;
-    if (s.goal ? Math.abs(s.x) >= s.need : Math.abs(s.x) < .3 && Math.abs(s.v) < 20) { if (!s.goal) s.x = s.v = 0; SLIDE.items.delete(s); }   // off the screen / home
+    if (s.goal ? Math.abs(s.x) >= s.need : Math.abs(s.x) < .3 && Math.abs(s.v) < 20) { if (!s.goal) s.x = s.v = 0; SLIDE.items.delete(s); }   // wholly off the screen / home
     s.el.style.setProperty("--sx", s.x.toFixed(2) + "px");
   }
   SLIDE.raf = SLIDE.items.size ? requestAnimationFrame(slideTick) : 0;
 }
 function slideRun(s) { SLIDE.items.add(s); if (!SLIDE.raf) { SLIDE.t = performance.now(); SLIDE.raf = requestAnimationFrame(slideTick); } }
-/* how far it must go to be fully off the screen (box: the chat's rectangle) */
-function slidePrep(el, box) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }), r = el.getBoundingClientRect();
-  box = { left: Math.min(box.left, 0), right: Math.max(box.right, document.documentElement.clientWidth) };   // past the chat's edge and the window's: never gone while still in view
-  s.need = (slideSide(el) < 0 ? r.right - s.x - box.left : box.right - r.left + s.x) + 12; return s; }
-function slideOut(el, box, lag) { const s = slidePrep(el, box); s.goal = slideSide(el) * s.need * 2; s.wait = false; s.at = lag ? performance.now() + lag : 0; slideRun(s); }
-function slideIn(el, box, lag, wait) { const s = slidePrep(el, box);
-  s.x = slideSide(el) * s.need; s.v = -SLIDE_IN * s.x; s.goal = 0;                   // with this start speed it slows all the way home
+function slidePrep(el) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }); s.need = slideNeed(s, new Map()); return s; }
+/* off to its own side: from where it is, at the speed it has; one still off the screen stays off */
+function slideOut(el, lag) { const s = slidePrep(el); s.goal = slideSide(el) * s.need * 1.5; s.wait = s.launch = false;
+  if (Math.abs(s.x) >= s.need) s.v = 0;
+  s.at = lag ? performance.now() + lag : 0; slideRun(s); }
+/* in from its own side: it waits at the edge standing still and sets off softly only when its turn comes (2026-11-10:
+   it used to wait already holding its speed, so a switch made meanwhile sent it flying onto the screen); turned back
+   on the way in, it runs on only a little (≈20 px) before going back out */
+function slideIn(el, lag, wait) { const s = slidePrep(el);
+  s.x = slideSide(el) * s.need; s.v = 0; s.launch = true; s.goal = 0;
   s.wait = wait; s.lag = lag; s.at = lag ? performance.now() + lag : 0; el.style.setProperty("--sx", s.x.toFixed(2) + "px"); slideRun(s); }
 function slideFadeIn(el, lag, wait) { el.style.opacity = 0; el._fd = { el, fade: true, goal: 0, wait, lag, at: lag ? performance.now() + lag : 0 }; slideRun(el._fd); }
 function slideFadeOut(el) { if (el._fd) SLIDE.items.delete(el._fd); const op = +getComputedStyle(el).opacity;
@@ -2906,12 +2919,11 @@ function openStory(id, epIndex) {
      and the messages really on screen known. Sliding: see SLIDE above openStory (2026-11-09, rewritten simply). */
   const seen = (box, el) => { const a = box.getBoundingClientRect(), r = el.getBoundingClientRect(); return r.bottom > a.top && r.top < a.bottom; };
   const slides = () => {
-    const box = scr.querySelector(".chat").getBoundingClientRect();
     /* the messages on screen come in from their own sides, nearest the bottom first; the description (and an
        ending's title) only fades — and on opening a chat the description is simply there */
     const arrive = (lag, wait, intro) => { let k = 0;
       [...log.children].reverse().forEach(el => { if (!seen(log, el)) return;
-        if (slideSide(el)) slideIn(el, box, lag + Math.min(k++ * 25, 150), wait); else if (intro || !el.classList.contains("intro")) slideFadeIn(el, lag, wait); }); };
+        if (slideSide(el)) slideIn(el, lag + Math.min(k++ * 25, 150), wait); else if (intro || !el.classList.contains("intro")) slideFadeIn(el, lag, wait); }); };
     if (!prev) { if (!reduce()) arrive(240, false, false); return; }
     if (!oldLog) return;
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
@@ -2928,7 +2940,7 @@ function openStory(id, epIndex) {
     [...oldLog.children].reverse().forEach(el => {
       if (!slideSide(el)) return slideFadeOut(el);
       if (!seen(oldLog, el)) { if (el._sl) SLIDE.items.delete(el._sl); el.style.visibility = "hidden"; return; }
-      slideOut(el, box, el._sl && SLIDE.items.has(el._sl) ? 0 : Math.min(k++ * 25, 150)); });
+      slideOut(el, el._sl && SLIDE.items.has(el._sl) ? 0 : Math.min(k++ * 25, 150)); });
     slideGhostGone(oldLog);
     arrive(0, true, true);                                          // the new ones: as soon as the old ones are off screen
   };
