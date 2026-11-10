@@ -1269,9 +1269,17 @@ let FINGERS = 0;
 /* which gesture owns the current touch ("genre" oval or "refresh" pull), so the two never run together */
 let GESTURE = null;
 ["touchend", "touchcancel", "pointerup", "pointercancel", "mouseup"].forEach(n => window.addEventListener(n, () => { setTimeout(() => { if (!FINGERS) GESTURE = null; }, 0); }, true));
-window.addEventListener("touchstart", e => { FINGERS = e.touches.length; }, { passive: true, capture: true });
+/* the lift is also heard on the very element the finger is on (2026-11-10): when that element is replaced while the
+   finger rests on it (a refresh swaps the cards under it), the lift never reaches the window, a "finger" stayed down
+   for good and the refreshed home page waited, pulled down, until the next touch */
+const fingerUp = e => { FINGERS = e.touches.length; if (!FINGERS) window.dispatchEvent(new Event("fingersup")); };
+window.addEventListener("touchstart", e => { FINGERS = e.touches.length;
+  ["touchend", "touchcancel"].forEach(n => e.target.addEventListener(n, ev => { if (!e.target.isConnected) fingerUp(ev); }, { once: true, passive: true })); }, { passive: true, capture: true });
 ["touchend", "touchcancel"].forEach(n => window.addEventListener(n, e => { FINGERS = e.touches.length; }, { passive: true, capture: true }));
-window.addEventListener("mousedown", () => { FINGERS = 1; }, true); window.addEventListener("mouseup", () => { FINGERS = 0; }, true);
+/* a mouse counts as a finger only when it really is a mouse (2026-11-10): the phone's own copies of a tap as mouse
+   events could leave a "finger" down for good, and the refreshed home page then waited, pulled down, for it to lift */
+window.addEventListener("pointerdown", e => { if (e.pointerType === "mouse") FINGERS = 1; }, true);
+["pointerup", "pointercancel"].forEach(n => window.addEventListener(n, e => { if (e.pointerType === "mouse") FINGERS = 0; }, true));
 function pullToRefresh() {
   const view = document.getElementById("view"), LINE = 64, REST = 76;
   app.style.position = "relative";
@@ -1340,8 +1348,8 @@ function pullToRefresh() {
     cancelAnimationFrame(slideTimer); startSlider();
     /* a finger resting on the screen holds the page down; the eyes wait with it, and both go up together
        once the finger lifts (2026-11-09) */
-    while (FINGERS) await new Promise(r => { const go = () => { if (!FINGERS) { ["touchend", "touchcancel", "mouseup"].forEach(n => window.removeEventListener(n, go, true)); r(); } };
-      ["touchend", "touchcancel", "mouseup"].forEach(n => window.addEventListener(n, go, true)); });
+    while (FINGERS) await new Promise(r => { const go = () => { if (!FINGERS) { ["touchend", "touchcancel", "pointerup", "fingersup"].forEach(n => window.removeEventListener(n, go, true)); r(); } };
+      ["touchend", "touchcancel", "pointerup", "fingersup"].forEach(n => window.addEventListener(n, go, true)); });
     show(0);
     await wait(380);
     eyes.reset();
