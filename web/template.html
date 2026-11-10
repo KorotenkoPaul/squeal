@@ -1543,7 +1543,9 @@ function startSlider() {
     /* across the wrap (last ⇄ first, either way) the pill stays on the card you are leaving and shrinks with its
        slot, its white line with it, while the other end's dot lights up (2026-11-09: the line used to vanish) */
     const kc = at === 0 ? 0 : n - 1;
-    worm.style.opacity = 1;
+    /* across the wrap the pill, once shrunk to a dot, fades out (2026-11-10): at the far end it is gone, so when the slider
+       quietly jumps to the real card nothing changes on screen (it used to stay lit as a dot for a frame) */
+    worm.style.opacity = wrap ? Math.max(0, Math.min(1, (kc === 0 ? p - (n - 1) : n - p) / .15)).toFixed(3) : 1;   // only the last bit, when it is already a dot: the white line stays seen while it shrinks
     const right = wrap ? R[kc] : n > 1 ? lerp(R[i], R[i + 1], Math.min(1, f * 2)) : R[0];
     const left = wrap ? L[kc] : n > 1 ? lerp(L[i], L[i + 1], Math.max(0, f * 2 - 1)) : L[0];
     worm.style.transform = `translateX(${left}px)`; worm.style.width = (right - left) + "px";
