@@ -2682,16 +2682,17 @@ const slideSide = el => el.classList.contains("me") ? 1 : el.matches(".them, .ty
 /* how far a message has to go from its own place to be wholly off the screen — measured afresh on every frame from
    where it sits in the layout (2026-11-10: a bubble can re-wrap while it moves; a measure taken once let a message
    count as gone while its edge still showed, and it vanished) */
-function slideNeed(s, rects) { const el = s.el, p = el.offsetParent; if (!p) return s.need || 0;
-  let pr = rects.get(p); if (!pr) rects.set(p, pr = p.getBoundingClientRect());
-  const left = pr.left + el.offsetLeft;
+function slideNeed(s) { const el = s.el; if (!el.offsetParent) return s.need || 0;
+  /* its own place in the page's layout — offsets ignore any moving ancestor (2026-11-10: measured on screen while the
+     whole chat was still sliding in from the right, the edge came out wrong and the messages stood in view) */
+  let left = 0; for (let n = el; n; n = n.offsetParent) left += n.offsetLeft;
   return (slideSide(el) < 0 ? left + el.offsetWidth : document.documentElement.clientWidth - left) + 12; }
 function slideTick(now) {
   /* at most two frames' worth per step (2026-11-10): after a long frame (the new part's chat being built, a busy phone)
      the messages carry on from where they were instead of jumping ahead — a jump read as "it suddenly vanished" */
   const dt = Math.max(0, Math.min(1 / 30, (now - SLIDE.t) / 1000)); SLIDE.t = now;
-  const leaving = [...SLIDE.items].some(s => s.goal), rects = new Map();
-  for (const s of SLIDE.items) { if (!s.el.isConnected) SLIDE.items.delete(s); else if (!s.fade) s.need = slideNeed(s, rects); }   // all the measuring first
+  const leaving = [...SLIDE.items].some(s => s.goal);
+  for (const s of SLIDE.items) { if (!s.el.isConnected) SLIDE.items.delete(s); else if (!s.fade) s.need = slideNeed(s); }   // all the measuring first
   for (const s of SLIDE.items) {
     if (s.launch) s.x = slideSide(s.el) * s.need;                  // not set off yet: it waits right at the edge, out of sight
     if (s.wait) { if (leaving) { if (!s.fade) s.el.style.setProperty("--sx", s.x.toFixed(2) + "px"); continue; } s.wait = false; s.at = s.lag ? now + s.lag : 0; }
@@ -2707,7 +2708,7 @@ function slideTick(now) {
   SLIDE.raf = SLIDE.items.size ? requestAnimationFrame(slideTick) : 0;
 }
 function slideRun(s) { SLIDE.items.add(s); if (!SLIDE.raf) { SLIDE.t = performance.now(); SLIDE.raf = requestAnimationFrame(slideTick); } }
-function slidePrep(el) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }); s.need = slideNeed(s, new Map()); return s; }
+function slidePrep(el) { const s = el._sl || (el._sl = { el, x: 0, v: 0 }); s.need = slideNeed(s); return s; }
 /* off to its own side: from where it is, at the speed it has; one still off the screen stays off */
 function slideOut(el, lag) { const s = slidePrep(el); s.goal = slideSide(el) * s.need * 1.5; s.wait = s.launch = false;
   if (Math.abs(s.x) >= s.need) s.v = 0;
