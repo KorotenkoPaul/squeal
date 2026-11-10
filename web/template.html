@@ -2854,9 +2854,11 @@ function openStory(id, epIndex) {
   let rec = null;
   scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
-    scr._leaving = true; scr._stop();
-    const finish = () => { scr.remove(); syncBars(); const sh = liveSheet(); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
-    const sh = liveSheet(); if (sh) sh.style.visibility = "hidden";
+    scr._leaving = true; scr._stop(); scr.style.pointerEvents = "none";   // on its way out it takes no touches: a card tapped meanwhile opens (2026-11-10)
+    /* the story page under this chat — taken now: a page opened meanwhile (a card tapped while the chat slides away)
+       is not the one to close (2026-11-10) */
+    const sh = liveSheet(); if (sh) { sh.style.visibility = "hidden"; sh._leaving = true; }
+    const finish = () => { scr.remove(); syncBars(); if (sh?.isConnected) { if (liveSheet()) sh.remove(); else { sh.style.visibility = ""; closeSheet(sh); } } };   // a new page already open: the old one just goes
     if (!scr.animate || reduce()) return finish();
     scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 300, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = finish;
   };
@@ -3230,10 +3232,11 @@ function swipeBack(scr) {
     scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
     if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { scr._dragged = false; }, 60);   // the next tap reads on
       setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
-    scr._leaving = true; scr._stop?.(); setX(W());
+    scr._leaving = true; scr._stop?.(); scr.style.pointerEvents = "none"; setX(W());
+    const under = sheetOf(); if (under) under._leaving = true;         // taken now, not when the chat has gone (2026-11-10)
     setTimeout(() => {
       scr.remove(); syncBars();
-      const sh = sheetOf(); if (sh) { sh.style.visibility = ""; closeSheet(sh); }
+      if (under?.isConnected) { if (liveSheet()) under.remove(); else { under.style.visibility = ""; closeSheet(under); } }
     }, 300);
   };
   scr.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
