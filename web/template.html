@@ -1830,7 +1830,11 @@ function search() {
      open the story that is now there */
   let eatClick = false;
   view.addEventListener("pointerdown", e => {
-    if (document.activeElement === q && !e.target.closest(".sbar")) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700); q.blur(); }
+    if (document.activeElement !== q || e.target.closest(".sbar")) return;
+    /* only with nothing typed does the list change under the finger; with matches showing, a tap on one opens it
+       straight away (and puts the keyboard away), as in any iPhone search (2026-11-10) */
+    if (!query) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700); }
+    q.blur();
   });
   view.addEventListener("click", e => { if (eatClick) { eatClick = false; e.preventDefault(); e.stopPropagation(); } }, true);
   if (!query) { centreTo(fearLevel, false); showLevel(); }
