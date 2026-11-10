@@ -1249,7 +1249,7 @@ function pullForRandom() {
     const row = [...strip.children].find(r => { const b = r.getBoundingClientRect(), w = reel.getBoundingClientRect(); return b.top >= w.top - 2 && b.bottom <= w.bottom + 2; });
     lastCard = row || null;
     preview(pick.id);
-    const sh = layer.querySelector(".sheet"); if (sh) sh._origin = null;   // closing: the reel is gone by then, so it just fades
+    const sh = liveSheet(); if (sh) sh._origin = null;   // closing: the reel is gone by then, so it just fades
     reel.classList.remove("chosen"); view.classList.add("drop"); busy = false; ov = 0; show(d = 0);
   };
   view.addEventListener("touchstart", e => start(e.touches[0].clientY), { passive: true });
@@ -2060,8 +2060,11 @@ function morph(sheet, geo, opening, o, from) {
 /* The card-morph opening (card grows into the page) is kept but switched off for now; true brings it back. */
 const CARD_MORPH = false;
 
+/* the story page that is open — not one already on its way out (2026-11-10: a card tapped while the last page was
+   still sliding away after a swipe was ignored) */
+const liveSheet = () => [...layer.querySelectorAll(".sheet")].find(s => !s._closing && !s._leaving) || null;
 function preview(id) {
-  if (layer.querySelector(".sheet")) return;
+  if (liveSheet()) return;
   const s = STORIES.find(x => x.id === id);
   const card = lastCard && document.body.contains(lastCard) && !layer.contains(lastCard) ? lastCard : null; lastCard = null;
   const sheet = document.createElement("section");
@@ -2328,7 +2331,7 @@ function wire(sheet, s) {
     const size = axis === "x" ? sheet.offsetWidth : sheet.offsetHeight, d = axis === "x" ? dx : dy, go = d > size * .33 || v > .5;
     sheet.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
     if (!go) { sheet.style.transform = ""; return; }
-    sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`;
+    sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`; sheet._leaving = true;
     setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
   sheet.addEventListener("touchstart", e => start(e.touches[0].clientX, e.touches[0].clientY, e.target), { passive: true });
@@ -2852,8 +2855,8 @@ function openStory(id, epIndex) {
   scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
     scr._leaving = true; scr._stop();
-    const finish = () => { scr.remove(); syncBars(); const sh = layer.querySelector(".sheet"); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
-    const sh = layer.querySelector(".sheet"); if (sh) sh.style.visibility = "hidden";
+    const finish = () => { scr.remove(); syncBars(); const sh = liveSheet(); if (sh) { sh.style.visibility = ""; closeSheet(sh); } };
+    const sh = liveSheet(); if (sh) sh.style.visibility = "hidden";
     if (!scr.animate || reduce()) return finish();
     scr.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { duration: 300, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = finish;
   };
@@ -3200,7 +3203,7 @@ function openStory(id, epIndex) {
 function swipeBack(scr) {
   let x0 = null, y0 = 0, dx = 0, locked = false, lastX = 0, lastT = 0, vx = 0;
   const W = () => scr.offsetWidth;
-  const sheetOf = () => layer.querySelector(".sheet");
+  const sheetOf = () => liveSheet();
   const setX = x => { scr.style.transform = x ? `translateX(${x}px)` : ""; };
   /* like iOS messengers: the swipe has to begin at the very left edge of the conversation; the top bar
      (back, name, part numbers) never closes the chat */
