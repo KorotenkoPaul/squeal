@@ -3053,7 +3053,7 @@ function openStory(id, epIndex) {
     const upper = ending ? [...foot.children].filter(c => c.id !== "again") : [];
     upper.forEach(c => c.style.opacity = "0");
     const showUpper = ms => setTimeout(() => upper.forEach(c => c.style.opacity = ""), ms);
-    if (ending) setTimeout(() => { if (scr.isConnected) foot.classList.remove("wait"); }, 125);
+    if (ending) setTimeout(() => { if (scr.isConnected && !scr._flying) foot.classList.remove("wait"); }, 125);
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
       if (glide || gliding || reduce()) glideDown(); showUpper(125); return; }
     footAnim?.cancel();
@@ -3132,6 +3132,7 @@ function openStory(id, epIndex) {
              under the flying answer (2026-11-10); it scrolls again the moment the answer lands */
           log.style.overflowY = "hidden";
           foot.classList.add("wait");                                  // "Tap to continue" waits until the message has landed
+          scr._flying = true;                                          // an ending reached by this answer: its buttons wait for the landing too (2026-11-11)
           const msg = commit(); msg.getAnimations().forEach(a => a.cancel()); msg.style.visibility = "hidden"; busy = true;
           /* the move takes 1 s; the water takes 3 s from the pick, so it goes on filling the message after it
              has landed (the chat is usable and the other side answers as soon as it lands) (2026-11-09) */
@@ -3149,7 +3150,7 @@ function openStory(id, epIndex) {
             txt.style.padding = `${lerp(12, pt1, e)}px ${lerp(14, pl1, e)}px`; txt.style.fontSize = lerp(15, fs1, e) + "px"; tw.style.width = (+b.dataset.w * lerp(15, fs1, e) / +b.dataset.fs + .5) + "px"; txt.style.lineHeight = lerp(15 * 1.3, lh1, e) + "px";
             if (landed) {                                                                    // riding on the message as the chat scrolls: never over the header or the foot
               const L = log.getBoundingClientRect(); g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; }
-            if (q >= 1 && !landed) { landed = true; foot.classList.remove("wait"); log.style.overflowY = ""; log.addEventListener("scroll", ride, { passive: true });
+            if (q >= 1 && !landed) { landed = true; scr._flying = false; foot.classList.remove("wait"); log.style.overflowY = ""; log.addEventListener("scroll", ride, { passive: true });
               /* the other side starts typing 1 s after the answer has landed (not waiting for the water; 2026-11-09);
                  meanwhile a tap does not hurry it */
               const nx = ep.messages[st.i];
