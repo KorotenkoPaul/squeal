@@ -699,7 +699,7 @@ function weekKey(d = new Date()) {
 }
 function weekReads() {
   let r = store.get("reads", null);
-  if (!r || r.week !== weekKey()) r = { week: weekKey(), n: {} };
+  if (!r || r.week !== weekKey() || !r.n || typeof r.n !== "object") r = { week: weekKey(), n: {} };
   return r;
 }
 function countRead(id) { const r = weekReads(); r.n[id] = (r.n[id] || 0) + 1; store.set("reads", r); }
@@ -729,6 +729,12 @@ function prog(s) {
 }
 const setProg = (s, p) => store.set("p:" + s.id, { ...p, v: s.v });
 const partPct = (s, p, k) => p.pos[k] / s.episodes[k].messages.length;
+/* the part to carry on with: the current one or the next unfinished after it; else an unfinished one before it
+   (part 3 read to the end while part 1 waits half read); all read: the part last read (2026-11-11) */
+function nextPart(s, p) { const N = s.episodes.length, open = k => partPct(s, p, k) < 1;
+  for (let k = p.ep; k < N; k++) if (open(k)) return k;
+  for (let k = 0; k < p.ep; k++) if (open(k)) return k;
+  return p.ep; }
 /* Reading time as the chat really plays: the other side "types" before each of its messages
    (the same delay the chat uses), plus about a second to read each message and tap on. */
 /* Reading time (rule set 2026-11-09): the time spent waiting, plus the time spent reading.
@@ -749,7 +755,9 @@ const readMin = s => fmtMin(s.episodes.reduce((t, e) => t + partSec(e), 0));
 const partMin = (s, k) => fmtMin(partSec(s.episodes[k]));
 function progress(s) {
   const p = prog(s);
-  return Math.min(100, Math.round(p.pos.reduce((a, b) => a + b, 0) * 100 / totalOf(s)));
+  /* 100 only when every message is read, and never 0 once one is (229 of 230 rounded up to "read", 2026-11-11) */
+  const n = p.pos.reduce((a, b) => a + b, 0), t = totalOf(s), r = n * 100 / t;
+  return n >= t ? 100 : n ? Math.max(1, Math.min(99, Math.round(r))) : 0;
 }
 function toast(text) {
   const gone = el => { el.style.animation = "toastOut .2s ease-in both"; setTimeout(() => el.remove(), 200); };
@@ -2048,7 +2056,7 @@ const WAVES = `<svg class="w2" viewBox="0 0 200 10" preserveAspectRatio="none"><
 function sheetHTML(s) {
   const pct = progress(s), total = totalOf(s), liked = favs().includes(s.id), pr = prog(s), multi = s.episodes.length > 1;
   /* the part a tap on the main button opens: the current one, or the next unfinished */
-  let at = pr.ep; while (at < s.episodes.length - 1 && partPct(s, pr, at) >= 1) at++;
+  const at = nextPart(s, pr);
   const fillAt = partPct(s, pr, at) >= 1 ? 0 : partPct(s, pr, at);
   const PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .6.7 1 1.2.6l8-5.2c.5-.3.5-1 0-1.3l-8-5.1c-.5-.4-1.2 0-1.2.6z" fill="currentColor"/></svg>';
   const AGAIN = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.5-3.6M3 2.5V5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -2059,7 +2067,7 @@ function sheetHTML(s) {
     <div class="pv-body">
       <p class="desc">${esc(s.description)}</p>
       ${s.author ? `<span class="by">${esc(tr("by", { a: s.author }))}</span>` : ""}
-      ${multi ? `<div class="parts">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms">${WAVES}</i></span>` : ""}<span>${tr("part", { n: i + 1 })}</span></button>`).join("")}</div>` : ""}
+      ${multi ? `<div class="parts" data-at="${at}">${s.episodes.map((e, i) => `<button class="part${i === at && pct < 100 ? " here" : ""}${partPct(s, pr, i) >= 1 ? " done" : ""}" data-ep="${i}" style="--f:${partPct(s, pr, i)}">${partPct(s, pr, i) > 0 ? `<span class="water" aria-hidden="true"><i style="animation-delay:${i * 90}ms">${WAVES}</i></span>` : ""}<span>${tr("part", { n: i + 1 })}</span></button>`).join("")}</div>` : ""}
       <button class="read" id="pv-read">${readLabel}</button>
     </div></div>
     <div class="chrome">
@@ -2300,7 +2308,7 @@ function wire(sheet, s) {
   };
   /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
   const read = sheet.querySelector("#pv-read"), parts = [...sheet.querySelectorAll(".part[data-ep]")];
-  let sel = parts.length ? (sheet._keepSel ?? +((parts.find(b => b.classList.contains("here")) || parts[0]).dataset.ep)) : null;
+  let sel = parts.length ? (sheet._keepSel ?? +(sheet.querySelector(".parts")?.dataset.at ?? parts[0].dataset.ep)) : null;   // all read: the part last read, not part 1 (2026-11-11)
   const selectPart = (k, wake = false) => {
     /* chosen by hand: a part with water whose waves have calmed down plays them again (same as on opening); if they
        are still moving, nothing changes (2026-11-09) */
@@ -2811,7 +2819,7 @@ function openStory(id, epIndex) {
   const pr = prog(s), N = s.episodes.length, len = k => s.episodes[k].messages.length;
   let k0 = epIndex;
   if (k0 == null) {                                   // carry on: the current part, or the next unfinished one
-    k0 = pr.ep; while (k0 < N - 1 && pr.pos[k0] >= len(k0)) k0++;
+    k0 = nextPart(s, pr);
     /* all read (2026-11-09): it opens where the reader left it — the end of the chat, with "Read again" — so the
        progress on its card and what opens always agree; it starts over only with "Read again" or the reset button */
   }                                                   // a finished part opened on purpose shows whole, still marked read
@@ -2820,7 +2828,7 @@ function openStory(id, epIndex) {
   /* interactive: the chat is the path you chose through the story's nodes; your choice is sent as your
      own message. The path is saved with the progress, so you come back to where you were. */
   const base = s.episodes[st.ep], ep = { ...base };
-  let path = base.nodes ? (st.i > 0 && pr.path ? pr.path.slice() : [base.start]) : null;
+  let path = base.nodes ? (st.i > 0 && Array.isArray(pr.path) ? pr.path.slice() : [base.start]) : null;
   /* a saved path from an older version of the story (branches renamed or removed): start fresh */
   if (path && (path[0] !== base.start || path.some((n, k) => !base.nodes[n] || (k && !(base.nodes[path[k - 1]].choices || []).some(c => c.next === n))))) { path = [base.start]; st.i = 0; }
   const flatten = () => {
@@ -2917,7 +2925,7 @@ function openStory(id, epIndex) {
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
-  scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (scr._leaving) clearTimeout(PART_T); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
+  scr._stop = () => { if (scr._paid) { scr._paid = false; store.set("taps", freeTaps() + 1); } clearTimeout(timer); clearInterval(rec); if (scr._leaving) clearTimeout(PART_T); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
     scr._leaving = true; scr._stop(); scr.style.pointerEvents = "none";   // on its way out it takes no touches: a card tapped meanwhile opens (2026-11-10)
     /* the story page under this chat — taken now: a page opened meanwhile (a card tapped while the chat slides away)
@@ -3189,9 +3197,12 @@ function openStory(id, epIndex) {
       foot.querySelector("#again").onclick = () => {
         if (early()) return;
         const p = prog(s);
-        if (last) { p.pos = p.pos.map(() => 0); p.ep = 0; } else p.pos[st.ep] = 0;   // the end: whole story again; else this part
+        /* the end of the last part with every part read: the whole story again; else this part only (part 3 read again
+           never wipes a half-read part 1, 2026-11-11) */
+        const whole = last && p.pos.every((n, k) => k === st.ep || n >= s.episodes[k].messages.length);
+        if (whole) { p.pos = p.pos.map(() => 0); p.ep = 0; } else p.pos[st.ep] = 0;
         delete p.path;                                                              // interactive: choose again
-        setProg(s, p); openStory(id, last ? 0 : st.ep);
+        setProg(s, p); openStory(id, whole ? 0 : st.ep);
       };
       /* interactive: jump straight back to any turning point on the path just read (one button per choice
          made on the way to this ending), instead of rereading from the start */
@@ -3237,8 +3248,9 @@ function openStory(id, epIndex) {
     /* a chat on its way out (back, swipe, another part) takes no more taps: nothing new is read or saved there (2026-11-09) */
     if (busy || st.i >= ep.messages.length || scr._leaving || !scr.isConnected) return;
     if (free !== true && !spendTap()) return;
+    scr._paid = free !== true && !premium();                         // paid for a message not yet shown: given back if the chat closes first (2026-11-11)
     const m = ep.messages[st.i];
-    if (m.from === ep.right) { add(m); st.i++; save(); glideDown(); return controls(); }
+    if (m.from === ep.right) { scr._paid = false; add(m); st.i++; save(); glideDown(); return controls(); }
     busy = true; status.textContent = m.video ? tr("recV") : m.voice ? tr("recA") : tr("typing");
     const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
     /* a voice message is "recorded" first: a bubble with a microphone and a running timer, for exactly as
@@ -3257,7 +3269,7 @@ function openStory(id, epIndex) {
     log.appendChild(t); inflate(t); glideDown();
     const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
     timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return;
-      fromTyping = t.getBoundingClientRect(); t.remove(); add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
+      fromTyping = t.getBoundingClientRect(); t.remove(); scr._paid = false; add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
   }
   /* the rubber band: exactly the one of Search and Favourites (2026-11-09) — the whole chat, the description too */
   rubberBand(log, { move: x => log.style.setProperty("--ry", Math.abs(x) > .05 ? x.toFixed(2) + "px" : "0px"),
