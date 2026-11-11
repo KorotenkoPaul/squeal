@@ -1341,7 +1341,7 @@ function pullToRefresh() {
       locked = true; GESTURE = "refresh"; PULLING = SL.keep = true; centreEyes(); view.classList.remove("settle", "drop");
     }
     if (raw <= 0) { if (d) show(d = 0, true); return; }
-    if (view.scrollTop > 0) { y0 = null; return; }
+    if (view.scrollTop > 0) { y0 = null; if (d) show(d = 0); if (!busy) PULLING = false; return; }   // the page was not quite at its top: the pull is off, and so is its hold on the slider (2026-11-11)
     if (e.cancelable) e.preventDefault();
     d = 150 * (1 - Math.exp(-raw / 170));           // rubber band: easy at first, then stiffer
     show(d, true);
@@ -1369,7 +1369,8 @@ function pullToRefresh() {
     /* another tab opened meanwhile: the old page is gone, nothing is redrawn or wired into the new one (2026-11-11) */
     await eyes.blink(loaded, () => { if (view.isConnected) refreshHome(view); });
     await wait(500);
-    if (view.isConnected) { cancelAnimationFrame(slideTimer); startSlider(); }
+    /* (the slider was started anew by the redraw itself; started a second time here it jumped back under a finger
+       already turning it, 2026-11-11) */
     /* a finger resting on the screen holds the page down; the eyes wait with it, and both go up together
        once the finger lifts (2026-11-09) */
     while (FINGERS) await new Promise(r => { const go = () => { if (!FINGERS) { ["touchend", "touchcancel", "pointerup", "fingersup"].forEach(n => window.removeEventListener(n, go, true)); r(); } };
@@ -1532,10 +1533,10 @@ function startSlider() {
   /* a rebuilt home page shows the right card from its very first frame (not the first card for a frame) */
   if (n > 1) { const step0 = el.children[1].offsetLeft - el.children[0].offsetLeft;
     if (step0 > 0) { el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step0; el.style.scrollBehavior = ""; placed = true; } }
-  ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true }));
   /* a finger can be lifted outside the slider (or a pull gesture can take over): release anywhere */
   SLIDER_BYE?.abort();                                   // the home page drawn before: its slider's window listeners go (2026-11-10: they piled up)
   const bye = SLIDER_BYE = new AbortController();
+  ["pointerdown", "touchstart"].forEach(e => el.addEventListener(e, () => held = true, { passive: true, signal: bye.signal }));   // and the slider's own (2026-11-11)
   /* not "pointercancel": the phone sends it as soon as the slider starts moving under the finger, while the
      finger is still down; the clock must stand still until the finger is really lifted (2026-11-09) */
   ["touchend", "touchcancel", "blur"].forEach(e => window.addEventListener(e, ev => { if (!ev.touches || !ev.touches.length) held = false; }, { passive: true, signal: bye.signal }));
@@ -1866,7 +1867,7 @@ function search() {
   const backToPlace = () => { if (backY === null) return; const y = backY; backY = null;
     results.scrollTop = y; requestAnimationFrame(() => { results.scrollTop = y; }); };
   q.onfocus = () => { if (backY === null) backY = results.scrollTop;
-    bar.classList.add("active"); clearTimeout(outT); fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; results.scrollTop = 0; };
+    bar.classList.add("active"); clearTimeout(outT); clearTimeout(settleT); /* a dial still gliding never puts its list over the search (2026-11-11) */ fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; results.scrollTop = 0; };
   q.onblur = () => { if (!query) { bar.classList.remove("active"); showDial(); showLevel(); backToPlace(); } };
   document.getElementById("s-cancel").onclick = () => {
     query = ""; q.value = ""; bar.classList.remove("active");
@@ -2129,7 +2130,7 @@ function preview(id) {
   Object.assign(sheet.style, px(full));
   Object.assign(photo.style, { left: 0, top: 0, width: "100%", height: "100%" });
   const geo = card ? cardGeometry(card) : null;
-  sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s);
+  sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s); sheet._tab = tab;
   wire(sheet, s);
   if (!CARD_MORPH) { sheet.classList.add("still"); return; }   // appears at once, full screen
   if (!geo || !sheet.animate || reduce()) {
@@ -2151,7 +2152,7 @@ function closeSheet(sheet, dragged) {
   const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
   const finish = () => { (sheet._hide || []).forEach(e => e.style.visibility = ""); sheet.remove();
     syncBars();                                                    // a reset in the page: the search rows' lines follow too (2026-11-11)
-    if (sheet._sig === sig(sheet._story)) return;
+    if (sheet._tab !== tab || sheet._sig === sig(sheet._story)) return;   // another tab opened meanwhile: it is fresh, never redrawn under the finger (2026-11-11)
     if (tab === "home") syncHearts(); else refresh(); };
   sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
   sheet.querySelector(".scroll").scrollTop = 0;
