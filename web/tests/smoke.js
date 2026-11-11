@@ -27,7 +27,8 @@ const path = require('path');
   for (const w of [320, 390, 430]) {
     await p.setViewportSize({ width: w, height: 844 });
     await p.evaluate(() => { document.querySelector('.screen')?.remove(); document.querySelector('.sheet')?.remove(); tab = 'home'; render(); });
-    await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(300);
+    /* every title's own font, also of the stories not on the slider now (else the stand-in font is measured) */
+    await p.evaluate(() => Promise.all([...document.fonts].filter(f => /U\+0-FF\b/i.test(f.unicodeRange)).map(f => f.load().catch(() => {})))); await p.waitForTimeout(300);
     const bad = await p.evaluate(() => { const h = document.querySelector('#slider .hero'), tpl = h.cloneNode(true), out = [];
       Object.keys(LETTERING).forEach(id => { const s = STORIES.find(x => x.id === id), L = LETTERING[id];
         tpl.querySelector('.lt').outerHTML; tpl.querySelector('.lt').remove();

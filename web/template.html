@@ -36,6 +36,8 @@ button, input { font: inherit; color: inherit; background: none; border: 0; }
 button { cursor: pointer; }
 button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; }
+/* the first launch shows the app once its fonts are in (at most 1.5 s), fading in, so nothing jumps when they arrive (2026-11-11) */
+.app.boot { opacity: 0; } .app.shown { transition: opacity .25s ease-out; }
 .view { flex: 1; overflow-y: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 18px 24px; display: flex; flex-direction: column; gap: 14px; overscroll-behavior-y: contain; }
 .label { color: var(--muted); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-top: 6px; }
 
@@ -562,7 +564,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg, .typing { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
 </style>
 
-<div class="app" id="app"></div>
+<div class="app boot" id="app"></div>
 
 <script>
 const STORIES_ALL = /*STORIES*/{};
@@ -1878,6 +1880,9 @@ function search() {
 }
 
 function menu() {
+  /* the Russian letters of the app's fonts come only when first needed: get them now, before a language is picked,
+     so the menu and the slider titles do not jump when they arrive (2026-11-11) */
+  document.fonts?.forEach(f => { if (f.status === "unloaded" && /U\+400-45F/i.test(f.unicodeRange)) f.load().catch(() => {}); });
   const I = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const ic = {
     sub: I('<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>'),
@@ -3300,4 +3305,8 @@ function swipeBack(scr) {
 }
 
 render();
+/* the slider titles, the genre chips and the text are measured in their own fonts: with the phone's stand-in fonts they
+   jumped when the real ones arrived (2026-11-11) */
+Promise.race([document.fonts?.ready, new Promise(r => setTimeout(r, 1500))]).then(() =>
+  requestAnimationFrame(() => requestAnimationFrame(() => { app.classList.add("shown"); app.classList.remove("boot"); })));
 </script>
