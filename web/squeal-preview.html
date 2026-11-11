@@ -3200,13 +3200,8 @@ function openStory(id, epIndex) {
     foot.classList.add("hint");
     if (!premium() && freeTaps() <= 0) return showPaywall();
     foot.innerHTML = `<span class="cont">${tr("tap")}</span>`;   // free taps are counted quietly, never shown
-    /* for its first 0.35 s the bottom panel takes no taps: the second tap of a double tap on "Read again", "Next part"
-       or "Read" lands here, on the new chat, and must not read its first message (2026-11-10); a tap on the chat
-       itself reads on at once */
-    /* a triple tap: a tap that follows an ignored one within 0.3 s is part of the same burst and is ignored too (2026-11-11) */
-    foot.onclick = () => { const t = performance.now();
-      if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200)) { scr._skipT = t; return; }
-      step(); };
+    /* a tap that is still part of the double tap which opened this chat does not read on (see early()) (2026-11-10) */
+    foot.onclick = () => { if (!early()) step(); };
     nudge();
   }
   function showPaywall() {
@@ -3252,7 +3247,13 @@ function openStory(id, epIndex) {
   rubberBand(log, { move: x => log.style.setProperty("--ry", Math.abs(x) > .05 ? x.toFixed(2) + "px" : "0px"),
     skip: () => !!scr.querySelector(".choice-ghost"),                          // not while a picked answer is flying
     pulled: () => { scr._dragged = true; setTimeout(() => { scr._dragged = false; }, 80); } });   // the tap that ends a pull does not read on
-  log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } step(); };
+  log.onclick = e => { if (scr._dragged) { scr._dragged = false; return; } if (!early()) step(); };
+  /* the second tap of a double tap on "Next part", "Read again", "Read" or a tile lands on the new chat (on its
+     panel, or on the conversation when the button stood higher) and must not read its first message: for its first
+     0.35 s the chat takes no taps, and a tap within 0.3 s of an ignored one belongs to the same burst (a triple tap) (2026-11-11) */
+  function early() { const t = performance.now();
+    if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200)) { scr._skipT = t; return true; }
+    return false; }
   controls();
   log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
   slides();
