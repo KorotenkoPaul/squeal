@@ -850,11 +850,15 @@ function wireCards(root) {
       });
     });
     /* the card sinks a little while the finger holds it */
-    b.addEventListener("pointerdown", () => b.classList.add("pressing"));
+    b.addEventListener("pointerdown", () => { b.classList.add("pressing"); if (b.matches(".hero")) HERO_DOWN = { id: b.dataset.id, t: performance.now() }; });
     ["pointerup", "pointerleave", "pointercancel"].forEach(ev => b.addEventListener(ev, () => b.classList.remove("pressing")));
-    b.onclick = () => { if (!pressed()) preview(b.dataset.id); };
+    /* a slider card opens the story the finger came down on: tapped while the slider was still turning by itself, the
+       card under the finger at the lift can already be the next one (2026-11-11) */
+    b.onclick = () => { if (pressed()) return;
+      const id = b.matches(".hero") && HERO_DOWN && performance.now() - HERO_DOWN.t < 1000 ? HERO_DOWN.id : b.dataset.id; HERO_DOWN = null; preview(id); };
   });
 }
+let HERO_DOWN = null;
 
 /* Liked: the card swells clearly and settles back; the heart badge bursts into its corner (overshoots,
    wobbles, settles). Unliked: the card swells a little and the badge shrinks away. */
@@ -3097,7 +3101,7 @@ function openStory(id, epIndex) {
         /* 1) the other answers slide back out to the right */
         foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
         foot.querySelector(".ask")?.classList.add("leave");             // "What do you say?" fades with them, never just vanishes (2026-11-09)
-        const hasOthers = node.choices.length > 1;
+        const hasOthers = node.choices.length > 1, pickT = performance.now();
         /* scrolled up to reread? the chat first glides down to its end while the other answers leave, so no
            message slides past under the flying answer (2026-11-09) */
         const away = log.scrollHeight - log.clientHeight - log.scrollTop > 8;
@@ -3119,7 +3123,7 @@ function openStory(id, epIndex) {
           const msg = commit(); msg.getAnimations().forEach(a => a.cancel()); msg.style.visibility = "hidden"; busy = true;
           /* the move takes 1 s; the water takes 3 s from the pick, so it goes on filling the message after it
              has landed (the chat is usable and the other side answers as soon as it lands) (2026-11-09) */
-          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), tw = g.querySelector(".tw"), t0 = performance.now(), ms = 500, WATER = 1500;   // 2026-11-09: flight 0.5 s (was 1), water 1.5 s (was 3, then 2)
+          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), tw = g.querySelector(".tw"), t0 = performance.now(), ms = 500, WATER = Math.max(ms, 1500 - (t0 - pickT));   // 2026-11-09: flight 0.5 s (was 1), water 1.5 s (was 3, then 2) — full 1.5 s after the pick itself, the others' leaving included (2026-11-11)
           let landed = false;
           /* the words grow into the message's own type and padding on the way, so at the end the two match exactly */
           const mcs = getComputedStyle(msg), fs1 = parseFloat(mcs.fontSize), lh1 = parseFloat(mcs.lineHeight) || fs1 * 1.38, pt1 = parseFloat(mcs.paddingTop), pl1 = parseFloat(mcs.paddingLeft);
