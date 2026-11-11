@@ -1534,6 +1534,9 @@ function startSlider() {
   let lastLeft = -1, stillSince = 0;
   const frame = now => {
     if (!document.body.contains(el)) return bye.abort();
+    /* covered by a chat or a preview (and no finger on the home page): the slider cannot change, its clock stands
+       still; skip the layout reads and style writes, so the home page underneath costs nothing each frame (2026-11-11) */
+    if (layer.childElementCount && !held && !PULLING && placed) { since += now - last; last = now; SL.seen = Date.now(); slideTimer = requestAnimationFrame(frame); return; }
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
     if (!placed) { placed = true; el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step; el.style.scrollBehavior = ""; }
     /* a copy of the last card sits before the first and a copy of the first after the last (2026-11-09): from the
