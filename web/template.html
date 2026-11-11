@@ -1066,7 +1066,9 @@ function wireHome() {
      and let the page pull down for a refresh): the rest of this touch is the oval's */
   row.addEventListener("touchmove", e => { if (moved && px0 != null && e.cancelable) e.preventDefault(); }, { passive: false });
   row.addEventListener("pointercancel", () => { if (px0 == null) return; px0 = null;            // the phone took the touch anyway:
-    pull = null; if (!moved) return; glideTo(nearest()); });   // settle where it is, not back
+    pull = null; clearTimeout(slideT); pending = -1;
+    if (!moved) { const k = chips.findIndex(c => c.dataset.g === genre); if (k >= 0) glideTo(k); return; }   // only pressed: the oval goes back to the genre shown (2026-11-11)
+    glideTo(nearest()); });   // settle where it is, not back
   chips.forEach((c, k) => c.onclick = e => { if (e.detail === 0) glideTo(k); });   // keyboard
   }
   wireCards(app);
@@ -1237,12 +1239,12 @@ function pullForRandom() {
     if (eff <= 0 && !ov) { d = 0; spin = 0; show(0); return; }
     d = eff; show(d);
   };
-  const end = async () => {
+  const end = async cancel => {
     if (y0 == null) return; y0 = null;
     if (!d && !ov && !sinking) { spin = null; return; }             // only touched: nothing to put back
     view.classList.remove("lift");
     if (spin != null) { offset += spin - d * .9; spin = null; }   // the rows keep their turn as the finger lets go
-    if (d < LINE()) {                                              // not far enough: the reel sinks back behind the tabs as the page slides down
+    if (d < LINE() || cancel === true) {                           // (the phone took the touch — a call, the home bar: nothing is picked, 2026-11-11)                                              // not far enough: the reel sinks back behind the tabs as the page slides down
       /* Pulled past the point where the reel is fully up, more pull changes nothing on screen: start the
          way back from what you see (the reel's turn keeps its place), so it moves the moment you let go.
          Then a critically damped spring from the finger's own speed: no drop, no snap. Page and reel
@@ -1289,7 +1291,7 @@ function pullForRandom() {
      the pull ends when the last finger lifts */
   view.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientY); }, { passive: true });
   view.addEventListener("touchmove", e => move(e.touches[0].clientY, e), { passive: false });
-  view.addEventListener("touchend", e => { if (!e.touches.length) end(); }); view.addEventListener("touchcancel", end);
+  view.addEventListener("touchend", e => { if (!e.touches.length) end(); }); view.addEventListener("touchcancel", () => end(true));
   view.addEventListener("mousedown", e => start(e.clientY));
   REEL_BYE?.abort(); REEL_BYE = new AbortController();               // only the current home page listens (2026-11-10: they piled up)
   window.addEventListener("mousemove", e => move(e.clientY, e), { signal: REEL_BYE.signal }); window.addEventListener("mouseup", end, { signal: REEL_BYE.signal });
@@ -1599,7 +1601,7 @@ function startSlider() {
     if (!PULLING) SL.keep = false;
     /* also while the slide is still gliding into place after a swipe: the clock picks up once it has settled */
     const busy = document.hidden || layer.childElementCount || held || PULLING || !settled;
-    if (busy) since += now - last;                                     // hidden, covered or held: time stands still
+    if (busy || now - last > 250) since += now - last;                // hidden, covered or held: time stands still (and a gap with no frames is the app in the background, 2026-11-11)
     last = now;
     const t = Math.max(0, Math.min(1, (now - since) / SLIDE));
     SL.at = at; SL.elapsed = Math.max(0, Math.min(SLIDE, now - since)); SL.seen = Date.now();
@@ -1675,10 +1677,11 @@ function favourites() {
       if (x > 0) x = x / 4;                     // a little resistance to the right
       set(card, x);
     });
-    const end = () => {
+    const end = e => {
       if (x0 == null) return; x0 = null;
       if (!dragging) return;
       const x = card._x;
+      if (e?.type === "pointercancel") return snap(card, 0);         // the phone took the touch: nothing is removed without a lift (2026-11-11)
       if (-x > card.offsetWidth * .6) return removeRow(card);
       const open = vx < -.4 ? true : vx > .4 ? false : -x > OPEN / 2;   // a flick wins over position
       snap(card, open ? -(OPEN + GAP) : 0);
@@ -2735,6 +2738,7 @@ function videoCircle(d, m) {
   const stop = () => { d.classList.remove("playing"); v.muted = true; v.loop = true; v.play().catch(() => {}); paint(); };
   v.ontimeupdate = paint;
   v.onended = () => { stop(); nowPlaying = null; };
+  v.onpause = () => { if (d.classList.contains("playing") && !v.ended) { stop(); if (nowPlaying === stop) nowPlaying = null; } };   // paused by the phone (a call, the background): back to the silent loop, not stuck "playing" (2026-11-11)
   d.querySelector(".vc").onclick = e => {
     e.stopPropagation();
     if (d.classList.contains("playing")) { stop(); nowPlaying = null; return; }
@@ -2755,7 +2759,8 @@ function voiceBubble(d, m) {
   const stop = () => { if (!audio) return; audio.pause(); audio.currentTime = 0; d.classList.remove("playing"); paint(); };
   btn.onclick = e => {
     e.stopPropagation();
-    if (!audio) { audio = new Audio(m.voice); audio.ontimeupdate = paint; audio.onended = () => { d.classList.remove("playing"); audio.currentTime = 0; paint(); nowPlaying = null; }; }
+    if (!audio) { audio = new Audio(m.voice); audio.ontimeupdate = paint; audio.onended = () => { d.classList.remove("playing"); audio.currentTime = 0; paint(); nowPlaying = null; };
+      audio.onpause = () => { if (!audio.ended) { d.classList.remove("playing"); paint(); } }; }   // paused by the phone too: the play icon comes back (2026-11-11)
     if (!audio.paused) { audio.pause(); d.classList.remove("playing"); return; }
     if (nowPlaying && nowPlaying !== stop) nowPlaying();
     nowPlaying = stop; d.classList.add("playing"); audio.play().catch(() => d.classList.remove("playing"));
