@@ -1268,6 +1268,8 @@ function pullForRandom() {
     await tween(Math.round(120 + 90 * Math.abs(to - from) / ROW), t => 1 - Math.pow(1 - t, 3), t => setStrip(lerp(from, to, t)));
     reel.classList.add("chosen");                                  // the chosen one pops forward a little
     await wait(380);
+    /* another tab opened while the reel settled: no story page pops up over it (2026-11-11) */
+    if (!view.isConnected) { busy = false; ov = 0; return; }
     /* the page grows out of the chosen row (not out of whatever card the finger started on) */
     const row = [...strip.children].find(r => { const b = r.getBoundingClientRect(), w = reel.getBoundingClientRect(); return b.top >= w.top - 2 && b.bottom <= w.bottom + 2; });
     lastCard = row || null;
@@ -1364,9 +1366,10 @@ function pullToRefresh() {
     /* white eyes, closed eyes, red eyes: nothing else */
     await eyes.open(from);
     await wait(380);
-    await eyes.blink(loaded, () => refreshHome(view));
+    /* another tab opened meanwhile: the old page is gone, nothing is redrawn or wired into the new one (2026-11-11) */
+    await eyes.blink(loaded, () => { if (view.isConnected) refreshHome(view); });
     await wait(500);
-    cancelAnimationFrame(slideTimer); startSlider();
+    if (view.isConnected) { cancelAnimationFrame(slideTimer); startSlider(); }
     /* a finger resting on the screen holds the page down; the eyes wait with it, and both go up together
        once the finger lifts (2026-11-09) */
     while (FINGERS) await new Promise(r => { const go = () => { if (!FINGERS) { ["touchend", "touchcancel", "pointerup", "fingersup"].forEach(n => window.removeEventListener(n, go, true)); r(); } };
@@ -2173,6 +2176,8 @@ function fitStill(sheet) {
 }
 
 function wire(sheet, s) {
+  /* a reset redraws the page and wires it again: the swipe listeners on the page itself are replaced, never added on top (2026-11-11) */
+  sheet._wired?.abort(); const sig = (sheet._wired = new AbortController()).signal;
   requestAnimationFrame(() => fitStill(sheet));
   const id = s.id, scroller = sheet.querySelector(".scroll");
   /* the cross closes the moment it is touched (no waiting for the finger to lift; holding means nothing) */
@@ -2380,14 +2385,14 @@ function wire(sheet, s) {
     sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`; sheet._leaving = true;
     setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
-  sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
-  sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
-  sheet.addEventListener("touchend", e => { if (!e.touches.length) end(); }); sheet.addEventListener("touchcancel", end);   // ends with the last finger
+  sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true, signal: sig });   // a second finger never restarts the swipe (2026-11-10)
+  sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false, signal: sig });
+  sheet.addEventListener("touchend", e => { if (!e.touches.length) end(); }, { signal: sig }); sheet.addEventListener("touchcancel", end, { signal: sig });   // ends with the last finger
   let byMouse = false;                                                // the mouse ends only a drag made with the mouse (2026-11-10)
-  sheet.addEventListener("touchstart", () => { byMouse = false; }, { passive: true, capture: true });
-  sheet.addEventListener("mousedown", e => { if (e.sourceCapabilities?.firesTouchEvents) return; byMouse = true; start(e.clientX, e.clientY, e.target); });
-  sheet.addEventListener("mousemove", e => { if (byMouse) move(e.clientX, e.clientY, e); });
-  sheet.addEventListener("mouseup", () => { if (byMouse) end(); }); sheet.addEventListener("mouseleave", () => { if (byMouse) end(); });
+  sheet.addEventListener("touchstart", () => { byMouse = false; }, { passive: true, capture: true, signal: sig });
+  sheet.addEventListener("mousedown", e => { if (e.sourceCapabilities?.firesTouchEvents) return; byMouse = true; start(e.clientX, e.clientY, e.target); }, { signal: sig });
+  sheet.addEventListener("mousemove", e => { if (byMouse) move(e.clientX, e.clientY, e); }, { signal: sig });
+  sheet.addEventListener("mouseup", () => { if (byMouse) end(); }, { signal: sig }); sheet.addEventListener("mouseleave", () => { if (byMouse) end(); }, { signal: sig });
 }
 
 /* What the tab underneath shows about a story; if it did not change, the tab is left untouched. */
@@ -2903,7 +2908,7 @@ function openStory(id, epIndex) {
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
-  scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
+  scr._stop = () => { clearTimeout(timer); clearInterval(rec); if (scr._leaving) clearTimeout(PART_T); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
   scr.querySelector("#back").onclick = () => {
     scr._leaving = true; scr._stop(); scr.style.pointerEvents = "none";   // on its way out it takes no touches: a card tapped meanwhile opens (2026-11-10)
     /* the story page under this chat — taken now: a page opened meanwhile (a card tapped while the chat slides away)
@@ -2929,7 +2934,7 @@ function openStory(id, epIndex) {
       seg.querySelector(".ep-ind").style.transform = `translateX(${k * SEG_STEP}px)`;
       clearTimeout(PART_T);                                          // only the last choice counts, however quick the taps
       if (k === openNow()) return;                                   // back on the open part: nothing was stopped, it reads on
-      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);
+      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected && !sc._leaving) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);   // closed meanwhile (back, swipe): no part opens (2026-11-11)
     };
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
     let sx = null, base = 0, moved = false;
@@ -3107,7 +3112,7 @@ function openStory(id, epIndex) {
         const away = log.scrollHeight - log.clientHeight - log.scrollTop > 8;
         if (away) glideDown();
         setTimeout(() => {
-          if (!scr.isConnected) return;
+          if (!scr.isConnected || scr._leaving) return;                  // closed meanwhile (back, swipe): nothing is sent (2026-11-11)
           const r = b.getBoundingClientRect();
           /* 2) the picked one travels to its place as a sent message, filling with water on the way */
           const g = document.createElement("div"); g.className = "choice-ghost";
@@ -3292,7 +3297,7 @@ function swipeBack(scr) {
     const go = dx > W() * .35 || vx > .5;
     scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
     if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { scr._dragged = false; }, 60);   // the next tap reads on
-      setTimeout(() => { if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }
+      setTimeout(() => { if (scr._leaving || locked) return; if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }   // back or a new swipe meanwhile: the page under stays hidden (2026-11-11)
     scr._leaving = true; scr._stop?.(); scr.style.pointerEvents = "none"; setX(W());
     const under = sheetOf(); if (under) under._leaving = true;         // taken now, not when the chat has gone (2026-11-10)
     setTimeout(() => {
