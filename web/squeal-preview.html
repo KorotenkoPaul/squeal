@@ -512,7 +512,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .view.s-tab #results > * { flex: none; }
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .log { overscroll-behavior-y: contain; }   /* as in Search: a fling into the top or the end bounces with the phone's own spring, description and all (2026-11-10) */
-.view.rubber { overscroll-behavior-y: none; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* the phone's own bounce would move the description too: the chat does its own (below) */
+.view.rubber { overscroll-behavior-y: contain; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* Favourites as Search: a fling into the top or the end bounces with the phone's own spring; a finger pull springs by our own (2026-11-11) */
 .log { flex: 1; overflow-y: auto; overflow-x: hidden;   /* never scrolls sideways: messages sliding in from off the edge must not make it pannable (2026-11-10: a swipe back during a part switch scrolled the chat sideways instead) */
    padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
@@ -2644,7 +2644,7 @@ function wallBring(chat, cfg, seed, vis, now) {
   const W = chat.clientWidth, H = chat.clientHeight;
   let fallEnd = now;
   for (const d of WALL.items) if (d.phase === "fall") fallEnd = Math.max(fallEnd, d.ft0 + Math.sqrt(2 * Math.max(0, H + 40 - d.fy0) / WALL_G) * 1000);
-  const start = WALL.items.some(d => d.phase === "fall") ? Math.max(now + 200, fallEnd - 150) : now + 120;
+  const start = WALL.items.some(d => d.phase === "fall") ? Math.max(now + 200, fallEnd) : now + 120;   // the new ones set off when the fall has ended (IDEAS; was 0.15 s before, 2026-11-11)
   let inEnd = start;
   for (const it of wallLay(cfg, seed, W, H, vis)) {
     const side = Math.floor(wallRnd() * 4), off = it.s + 24;
@@ -2782,7 +2782,7 @@ function slideTick(now) {
     if (s.wait) { if (leaving) { if (!s.fade) s.el.style.setProperty("--sx", s.x.toFixed(2) + "px"); continue; } s.wait = false; s.at = s.lag ? now + s.lag : 0; }
     if (now < s.at) { if (!s.fade) s.el.style.setProperty("--sx", s.x.toFixed(2) + "px"); continue; }
     s.launch = false;                                              // set off: from standing, softly (2026-11-10: a fast start, turned back, ran on ~80 px)
-    if (s.fade) { s.el.style.opacity = ""; s.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 340 }); SLIDE.items.delete(s); continue; }
+    if (s.fade) { s.el.style.opacity = ""; s.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: s.ms || 340 }); SLIDE.items.delete(s); continue; }
     if (s.goal) s.goal = slideSide(s.el) * Math.max(Math.abs(s.goal), 1.3 * s.need);   // always aiming well past the edge
     const w = s.goal ? SLIDE_OUT : SLIDE_IN, y = s.x - s.goal, c = s.v + w * y, e = Math.exp(-w * dt);      // a critically damped spring, exact for any frame length
     s.x = s.goal + (y + c * dt) * e; s.v = (c - w * (y + c * dt)) * e;
@@ -2803,9 +2803,11 @@ function slideOut(el, lag) { const s = slidePrep(el); s.goal = slideSide(el) * s
 function slideIn(el, lag, wait) { const s = slidePrep(el);
   s.x = slideSide(el) * s.need; s.v = 0; s.launch = true; s.goal = 0;
   s.wait = wait; s.lag = lag; s.at = lag ? performance.now() + lag : 0; el.style.setProperty("--sx", s.x.toFixed(2) + "px"); slideRun(s); }
-function slideFadeIn(el, lag, wait) { el.style.opacity = 0; el._fd = { el, fade: true, goal: 0, wait, lag, at: lag ? performance.now() + lag : 0 }; slideRun(el._fd); }
-function slideFadeOut(el) { if (el._fd) SLIDE.items.delete(el._fd); const op = +getComputedStyle(el).opacity;
-  el.getAnimations().forEach(a => a.cancel()); el.style.opacity = 0; if (op > .02) el.animate([{ opacity: op }, { opacity: 0 }], { duration: 200 * op }); }
+/* the description fades for exactly as long as the messages take: in, while the new ones come in (≈0.4 s + their
+   25 ms steps); out, while the old ones go (≈0.15 s + their steps) (IDEAS, 2026-11-09/10; tied together 2026-11-11) */
+function slideFadeIn(el, lag, wait, ms = 340) { el.style.opacity = 0; el._fd = { el, fade: true, goal: 0, wait, lag, ms, at: lag ? performance.now() + lag : 0 }; slideRun(el._fd); }
+function slideFadeOut(el, ms = 200) { if (el._fd) SLIDE.items.delete(el._fd); const op = +getComputedStyle(el).opacity;
+  el.getAnimations().forEach(a => a.cancel()); el.style.opacity = 0; if (op > .02) el.animate([{ opacity: op }, { opacity: 0 }], { duration: ms * op }); }
 /* an old part's conversation goes once nothing in it moves any more */
 function slideGhostGone(g) { const t = setInterval(() => { if ([...g.children].some(c => (c._sl && SLIDE.items.has(c._sl)) || c.getAnimations().some(a => a.playState === "running"))) return; clearInterval(t); g.remove(); }, 50); }
 
@@ -3014,7 +3016,7 @@ function openStory(id, epIndex) {
        ending's title) only fades — and on opening a chat the description is simply there */
     const arrive = (lag, wait, intro) => { let k = 0;
       [...log.children].reverse().forEach(el => { if (!seen(log, el)) return;
-        if (slideSide(el)) slideIn(el, lag + Math.min(k++ * 25, 150), wait); else if (intro || !el.classList.contains("intro")) slideFadeIn(el, lag, wait); }); };
+        if (slideSide(el)) slideIn(el, lag + Math.min(k++ * 25, 150), wait); else if (intro || !el.classList.contains("intro")) slideFadeIn(el, lag, wait, 400 + Math.min(Math.max(0, k - 1) * 25, 150)); }); };
     if (!prev) { if (!reduce()) arrive(240, false, false); return; }
     if (!oldLog) return;
     oldLog.removeAttribute("id"); oldLog.classList.add("log-ghost"); oldLog.setAttribute("aria-hidden", "true");
@@ -3029,7 +3031,7 @@ function openStory(id, epIndex) {
        start softly (nearest the bottom first); the ones not on screen are simply hidden */
     let k = 0;
     [...oldLog.children].reverse().forEach(el => {
-      if (!slideSide(el)) return slideFadeOut(el);
+      if (!slideSide(el)) return slideFadeOut(el, 150 + Math.min(Math.max(0, k - 1) * 25, 150));
       if (!seen(oldLog, el)) { if (el._sl) SLIDE.items.delete(el._sl); el.style.visibility = "hidden"; return; }
       slideOut(el, el._sl && SLIDE.items.has(el._sl) ? 0 : Math.min(k++ * 25, 150)); });
     slideGhostGone(oldLog);
