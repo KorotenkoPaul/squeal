@@ -2134,12 +2134,15 @@ const liveSheet = () => [...layer.querySelectorAll(".sheet")].find(s => !s._clos
    not open what lies under it (a card, a tab, the search field). Only near that spot and only for 0.4 s, so a card
    tapped elsewhere while the page goes still opens (2026-11-11) */
 let CLOSE_TAP = null;
-function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() }; }
-["pointerdown", "mousedown", "touchstart", "click"].forEach(n => window.addEventListener(n, e => {
+function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() };
+  /* the touch listener that can hold a touch back is there only for these 0.4 s: the rest of the time scrolling never waits for it */
+  window.addEventListener("touchstart", eatCloseTap, { capture: true, passive: false }); setTimeout(() => window.removeEventListener("touchstart", eatCloseTap, true), 450); }
+function eatCloseTap(e) {
   if (!CLOSE_TAP || performance.now() - CLOSE_TAP.t > 400) return;
   const p = e.touches ? e.touches[0] : e; if (!p || Math.hypot(p.clientX - CLOSE_TAP.x, p.clientY - CLOSE_TAP.y) > 44) return;
   if (e.target.closest?.("#pv-back, .screen:not([style*='pointer-events: none']) #back")) return;   // the button itself, still there, handles its own
-  e.preventDefault(); e.stopPropagation(); }, { capture: true, passive: false }));
+  e.preventDefault(); e.stopPropagation(); }
+["pointerdown", "mousedown", "click"].forEach(n => window.addEventListener(n, eatCloseTap, { capture: true }));
 function preview(id) {
   if (liveSheet()) return;
   const s = STORIES.find(x => x.id === id);
@@ -2244,7 +2247,9 @@ function wire(sheet, s) {
         w.querySelectorAll("svg").forEach(sv => sv.animate([{ scale: "1 1", opacity: 1 }, { scale: "1 1", opacity: 1, offset: .85 }, { scale: "1 0", opacity: 0 }], { duration: DRAIN, fill: "forwards" })); });
       return any ? DRAIN : 0;
     };
-    const redraw = (msg, ks = []) => { setTimeout(() => {   // the arrow does not spin (2026-11-09)
+    const redraw = (msg, ks = []) => { const run = () => {   // the arrow does not spin (2026-11-09)
+      if (sheet._closing || sheet._leaving || !sheet.isConnected) return;
+      if (sheet._swiping?.()) return setTimeout(run, 120);
       stop();                                                       // a hold begun on the old button ends with it: no reset of its own (2026-11-11)
       sheet._keepSel = sel;                                        // the part selected now stays selected (picked while the water drained too, 2026-11-11)
       sheet.innerHTML = sheetHTML(s); wire(sheet, s);
@@ -2252,7 +2257,7 @@ function wire(sheet, s) {
       const n = document.createElement("div"); n.className = "note"; n.textContent = msg; n.setAttribute("role", "status");
       sheet.querySelector(".chrome").appendChild(n);
       setTimeout(() => { n.classList.add("out"); setTimeout(() => n.remove(), 300); }, 1800);
-    }, Math.max(380, drain(ks))); };
+    }; setTimeout(run, Math.max(380, drain(ks))); };
     /* A tap starts the selected part over (no ring). Holding: after a short beat (0.2 s, so a tap never
        shows it) the ring starts round the button; when it closes (0.6 s) every part starts over. Let go
        before it closes and nothing happens at all (no reset, no note); the ring winds back. Holding only
@@ -2386,6 +2391,7 @@ function wire(sheet, s) {
      or with a quick flick, and it slides off that way; otherwise it settles back. */
   let x0 = null, y0 = 0, dx = 0, dy = 0, axis = null, v = 0, lastP = 0, lastT = 0;
   /* a touch that starts on any button never swipes the page away */
+  sheet._swiping = () => x0 != null && !!axis;                       // a reset's redraw waits until a swipe under way ends (2026-11-11)
   const start = (x, y, target) => { if (sheet._closing || target?.closest?.("button")) return; x0 = x; y0 = y; dx = dy = 0; axis = null; v = 0; lastT = performance.now(); };
   const move = (x, y, e) => {
     if (x0 == null) return;
@@ -2970,7 +2976,7 @@ function openStory(id, epIndex) {
       seg.querySelector(".ep-ind").style.transform = `translateX(${k * SEG_STEP}px)`;
       clearTimeout(PART_T);                                          // only the last choice counts, however quick the taps
       if (k === openNow()) return;                                   // back on the open part: nothing was stopped, it reads on
-      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected && !sc._leaving && !sc._dragged) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);   // closed meanwhile (back, swipe): no part opens (2026-11-11)
+      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected && !sc._leaving && !sc._swipe) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);   // closed meanwhile (back, swipe): no part opens (2026-11-11)
     };
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
     let sx = null, base = 0, moved = false;
@@ -3329,7 +3335,7 @@ function swipeBack(scr) {
     if (!locked) {
       if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
       if (ddx <= 0 || Math.abs(ddy) > Math.abs(ddx)) { x0 = null; return; }      // vertical scroll or leftwards: not ours
-      locked = true; scr._dragged = true;     // the message being typed keeps coming: the swipe may be called off
+      locked = true; scr._dragged = true; scr._swipe = true;     // the message being typed keeps coming: the swipe may be called off
       const sh = sheetOf(); if (sh) sh.style.visibility = "hidden";             // show the screen you came from
       scr.style.transition = "none";
     }
@@ -3338,12 +3344,12 @@ function swipeBack(scr) {
     dx = Math.max(0, ddx); setX(dx);
   };
   const end = () => {
-    if (x0 == null) return; x0 = null;
+    if (x0 == null) return; x0 = null; scr._swipe = false;
     if (!locked) return;
     const go = dx > W() * .35 || vx > .5;
     scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
     if (!go) { setX(0); const sh = sheetOf(); setTimeout(() => { scr._dragged = false; }, 60);   // the next tap reads on
-      setTimeout(() => { if (scr._leaving || locked) return; if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }   // back or a new swipe meanwhile: the page under stays hidden (2026-11-11)
+      setTimeout(() => { if (scr._leaving || (x0 != null && locked)) return; if (sh) sh.style.visibility = ""; scr.style.transition = ""; }, 300); return; }   // back or a new swipe meanwhile: the page under stays hidden (2026-11-11)
     scr._leaving = true; scr._stop?.(); scr.style.pointerEvents = "none"; setX(W());
     const under = sheetOf(); if (under) under._leaving = true;         // taken now, not when the chat has gone (2026-11-10)
     setTimeout(() => {
