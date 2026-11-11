@@ -2127,6 +2127,16 @@ const CARD_MORPH = false;
 /* the story page that is open — not one already on its way out (2026-11-10: a card tapped while the last page was
    still sliding away after a swipe was ignored) */
 const liveSheet = () => [...layer.querySelectorAll(".sheet")].find(s => !s._closing && !s._leaving) || null;
+/* a double tap on ✕ or on the chat's back arrow: the second tap lands where the button stood a moment ago and must
+   not open what lies under it (a card, a tab, the search field). Only near that spot and only for 0.4 s, so a card
+   tapped elsewhere while the page goes still opens (2026-11-11) */
+let CLOSE_TAP = null;
+function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() }; }
+["pointerdown", "mousedown", "touchstart", "click"].forEach(n => window.addEventListener(n, e => {
+  if (!CLOSE_TAP || performance.now() - CLOSE_TAP.t > 400) return;
+  const p = e.touches ? e.touches[0] : e; if (!p || Math.hypot(p.clientX - CLOSE_TAP.x, p.clientY - CLOSE_TAP.y) > 44) return;
+  if (e.target.closest?.("#pv-back, .screen:not([style*='pointer-events: none']) #back")) return;   // the button itself, still there, handles its own
+  e.preventDefault(); e.stopPropagation(); }, { capture: true, passive: false }));
 function preview(id) {
   if (liveSheet()) return;
   const s = STORIES.find(x => x.id === id);
@@ -2189,6 +2199,7 @@ function fitStill(sheet) {
   if (!desc) return;
   let n = 14; desc.style.setProperty("--lines", n);
   while (sc.scrollHeight > sc.clientHeight + 1 && n > 2) desc.style.setProperty("--lines", --n);
+  sc.style.overflowY = sc.scrollHeight > sc.clientHeight + 1 ? "auto" : "";   // still too tall (landscape, a small phone): it scrolls, "Read" is never cut off (2026-11-11)
 }
 
 function wire(sheet, s) {
@@ -2200,7 +2211,7 @@ function wire(sheet, s) {
   const back = sheet.querySelector("#pv-back");
   /* …and the lift of that same finger must not land as a tap on whatever lies under the cross once the
      preview is gone (a card behind it opened another story; 2026-11-09) */
-  back.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation();
+  back.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); closeTapAt(e);
     const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
     window.addEventListener("click", eat, { capture: true, once: true });
     const done = () => { window.removeEventListener("click", eat, true); };
@@ -2661,7 +2672,7 @@ const wallRun = () => { if (!WALL.raf) WALL.raf = requestAnimationFrame(wallTick
 function wallTo(chat, { cfg, seed, vis, intro, prevIntro, same }) {
   if (!wallItems(cfg, seed).length) return;
   const now = performance.now();
-  if (reduce()) { WALL.rest = { cfg, seed }; WALL.vis = vis; chat.style.backgroundImage = wallpaper(cfg, seed, vis); return; }
+  if (reduce()) { WALL.chat = chat; WALL.rest = { cfg, seed }; WALL.vis = vis; chat.style.backgroundImage = wallpaper(cfg, seed, vis); return; }   // (kept, so a choice can still drop closed endings' doodles, 2026-11-11)
   const switching = WALL.chat && !WALL.chat.isConnected && WALL.rest && WALL.fx;   // the same story's chat was just replaced
   if (switching && same) {
     /* the same part again (read again, back to a choice, start over): it carries on here; only the endings
@@ -2929,7 +2940,7 @@ function openStory(id, epIndex) {
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
   let rec = null;
   scr._stop = () => { if (scr._paid) { scr._paid = false; store.set("taps", freeTaps() + 1); } clearTimeout(timer); clearInterval(rec); if (scr._leaving) clearTimeout(PART_T); if (nowPlaying) { nowPlaying(); nowPlaying = null; } };   // and a playing voice note stops
-  scr.querySelector("#back").onclick = () => {
+  scr.querySelector("#back").onclick = e => { closeTapAt(e);
     scr._leaving = true; scr._stop(); scr.style.pointerEvents = "none";   // on its way out it takes no touches: a card tapped meanwhile opens (2026-11-10)
     /* the story page under this chat — taken now: a page opened meanwhile (a card tapped while the chat slides away)
        is not the one to close (2026-11-10) */
@@ -2976,7 +2987,8 @@ function openStory(id, epIndex) {
       sx = null;
     };
     seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", () => { seg.classList.remove("drag"); sx = null; goPart(openNow()); });
-    seg.addEventListener("click", e => e.stopPropagation());
+    seg.addEventListener("click", e => { e.stopPropagation();
+      if (e.detail === 0) { const b = e.target.closest?.("[data-ep]"); if (b) goPart(+b.dataset.ep); } });   // keyboard / assistive tech: Enter or Space switches too (2026-11-11)
   }
   /* like WhatsApp (2026-11-09): a new bubble does not come up from under the bottom panel, it grows out of its
      own corner, small to full size (0.26 s), and the chat makes room for it as it grows */
