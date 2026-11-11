@@ -1986,7 +1986,7 @@ function appRect() { const a = app.getBoundingClientRect(); return { left: a.lef
 /* the window changes size (the phone turned, split screen): an open chat and an open story page keep covering the
    app exactly (2026-11-10: they stayed at the size they were opened with) */
 addEventListener("resize", () => { const r = appRect();
-  layer.querySelectorAll(".screen").forEach(s => { if (!s._leaving) Object.assign(s.style, { left: r.left + "px", width: r.width + "px" }); });
+  layer.querySelectorAll(".screen").forEach(s => { if (!s._leaving) { Object.assign(s.style, { left: r.left + "px", width: r.width + "px" }); s._remeasure?.(); } });
   /* not while the page is opening or closing; the parts' water (its waves, its finished settle) does not count (2026-11-11) */
   const sh = liveSheet(); if (sh && !sh.getAnimations({ subtree: true }).some(a => a.playState === "running" && !a.effect?.target?.closest?.(".water"))) { Object.assign(sh.style, px(r)); fitStill(sh); } });
 /* The card's own dressing (its gradient, chips, heart) is laid over the card's spot on the sheet
@@ -3120,6 +3120,9 @@ function openStory(id, epIndex) {
       const sent = node.choices.map(c => asSent(c.text));
       foot.innerHTML = `<span class="ask">${tr("ask")}</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}" data-w="${sent[k].w}" data-fs="${sent[k].fs}" style="animation-delay:${k * 70}ms"><span class="ct" style="width:${sent[k].w * 15 / sent[k].fs + .5}px">${esc(c.text)}</span></button>`).join("");
       let picked = false;
+      /* the phone turned while the answers wait: they are set in lines again for the new width (2026-11-11) */
+      scr._remeasure = () => { if (picked) return; foot.querySelectorAll(".choice").forEach(b => { const m = asSent(node.choices[+b.dataset.k].text);
+        b.dataset.w = m.w; b.dataset.fs = m.fs; const ct = b.querySelector(".ct"); if (ct) ct.style.width = (m.w * 15 / m.fs + .5) + "px"; }); };
       foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
         e.stopPropagation();
         if (picked || busy || scr._leaving || performance.now() - scr._born < 600) return;   // (0.6 s: the answers are still sliding in) the second tap of a double tap on "back to a choice" lands here: it never picks an answer (2026-11-10)
