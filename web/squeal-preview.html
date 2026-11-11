@@ -1534,7 +1534,7 @@ function startSlider() {
      reaching the copy it quietly jumps back to the real first card (they look the same) */
   const W = 22, DOT = 6, GAP = 10, SLIDE = 4000, n = dots.length;
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let at = 0, since = performance.now(), last = since, held = false, placed = false;
+  let at = 0, since = performance.now(), last = since, held = false, placed = false, painted = false;
   if (SL.seen) {                                          // catch up on the time spent away
     const total = SL.elapsed + (SL.keep ? 0 : Math.max(0, Date.now() - SL.seen));   // time while pulled does not count
     at = (SL.at + Math.floor(total / SLIDE)) % n; since -= total % SLIDE;
@@ -1555,7 +1555,8 @@ function startSlider() {
     if (!document.body.contains(el)) return bye.abort();
     /* covered by a chat or a preview (and no finger on the home page): the slider cannot change, its clock stands
        still; skip the layout reads and style writes, so the home page underneath costs nothing each frame (2026-11-11) */
-    if (layer.childElementCount && !held && !PULLING && placed) { since += now - last; last = now; SL.seen = Date.now(); slideTimer = requestAnimationFrame(frame); return; }
+    if (layer.childElementCount && !held && !PULLING && placed && painted) { since += now - last; last = now; SL.seen = Date.now(); slideTimer = requestAnimationFrame(frame); return; }
+    painted = true;                                       // the first frame always draws the dots and the pill, covered or not (#71 with #126, 2026-11-11)
     const step = n > 1 ? el.children[1].offsetLeft - el.children[0].offsetLeft : el.clientWidth;   // slide + gap
     if (!placed) { placed = true; el.style.scrollBehavior = "auto"; el.scrollLeft = (at + 1) * step; el.style.scrollBehavior = ""; }
     /* a copy of the last card sits before the first and a copy of the first after the last (2026-11-09): from the
