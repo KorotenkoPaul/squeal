@@ -1297,7 +1297,8 @@ let GESTURE = null;
    for good and the refreshed home page waited, pulled down, until the next touch */
 const fingerUp = e => { FINGERS = e.touches.length; if (!FINGERS) window.dispatchEvent(new Event("fingersup")); };
 window.addEventListener("touchstart", e => { FINGERS = e.touches.length;
-  ["touchend", "touchcancel"].forEach(n => e.target.addEventListener(n, ev => { if (!e.target.isConnected) fingerUp(ev); }, { once: true, passive: true })); }, { passive: true, capture: true });
+  const t = e.target, ac = new AbortController();                    // whichever of the two comes, both go (2026-11-11: the other piled up)
+  ["touchend", "touchcancel"].forEach(n => t.addEventListener(n, ev => { ac.abort(); if (!t.isConnected) fingerUp(ev); }, { passive: true, signal: ac.signal })); }, { passive: true, capture: true });
 ["touchend", "touchcancel"].forEach(n => window.addEventListener(n, e => { FINGERS = e.touches.length; }, { passive: true, capture: true }));
 /* a mouse counts as a finger only when it really is a mouse (2026-11-10): the phone's own copies of a tap as mouse
    events could leave a "finger" down for good, and the refreshed home page then waited, pulled down, for it to lift */
