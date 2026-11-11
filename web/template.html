@@ -1629,6 +1629,7 @@ function favourites() {
   /* the card slides away; if it was the last of its genre, the genre's heading fades with it; then
      everything below glides up into the space (each item from where it was to where it now belongs) */
   const removeRow = card => {
+    if (card._removing) return; card._removing = true;               // a second tap on "Remove" never puts the story back (2026-11-11)
     snap(card, -card.offsetWidth - GAP);
     const prev = card.previousElementSibling, next = card.nextElementSibling;
     const label = prev?.classList.contains("label") && !next?.classList.contains("row-card") ? prev : null;
@@ -1650,7 +1651,8 @@ function favourites() {
     card._x = 0;
     let x0 = null, y0 = 0, base = 0, dragging = false, vx = 0, lastX = 0, lastT = 0;
     card.addEventListener("pointerdown", e => {
-      cards.forEach(c => c !== card && c._x && snap(c, 0));
+      if (card._removing) { x0 = null; return; }
+      cards.forEach(c => c !== card && c._x && !c._removing && snap(c, 0));   // a row on its way out keeps going (2026-11-11)
       x0 = e.clientX; y0 = e.clientY; base = card._x; dragging = false; card._moved = false; vx = 0; lastX = e.clientX; lastT = e.timeStamp;
     });
     card.addEventListener("pointermove", e => {
@@ -1674,6 +1676,7 @@ function favourites() {
   });
   app.querySelectorAll("[data-open]").forEach(b => b.onclick = e => {
     const card = b.closest(".row-card");
+    if (card._removing) return;
     if (card._moved) { card._moved = false; return; }
     if (card._x) return snap(card, 0);
     preview(b.dataset.open); });
@@ -1970,7 +1973,8 @@ function appRect() { const a = app.getBoundingClientRect(); return { left: a.lef
    app exactly (2026-11-10: they stayed at the size they were opened with) */
 addEventListener("resize", () => { const r = appRect();
   layer.querySelectorAll(".screen").forEach(s => { if (!s._leaving) Object.assign(s.style, { left: r.left + "px", width: r.width + "px" }); });
-  const sh = liveSheet(); if (sh && !sh.getAnimations({ subtree: true }).length) Object.assign(sh.style, px(r)); });
+  /* not while the page is opening or closing; the parts' water (its waves, its finished settle) does not count (2026-11-11) */
+  const sh = liveSheet(); if (sh && !sh.getAnimations({ subtree: true }).some(a => a.playState === "running" && !a.effect?.target?.closest?.(".water"))) { Object.assign(sh.style, px(r)); fitStill(sh); } });
 /* The card's own dressing (its gradient, chips, heart) is laid over the card's spot on the sheet
    and fades while the sheet opens, so the first and last frames are exactly the card. */
 function addGhost(sheet, geo, at) {
@@ -2146,6 +2150,7 @@ function closeSheet(sheet, dragged) {
   if (sheet._closing) return; sheet._closing = true;
   const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
   const finish = () => { (sheet._hide || []).forEach(e => e.style.visibility = ""); sheet.remove();
+    syncBars();                                                    // a reset in the page: the search rows' lines follow too (2026-11-11)
     if (sheet._sig === sig(sheet._story)) return;
     if (tab === "home") syncHearts(); else refresh(); };
   sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
@@ -2214,8 +2219,9 @@ function wire(sheet, s) {
         w.querySelectorAll("svg").forEach(sv => sv.animate([{ scale: "1 1", opacity: 1 }, { scale: "1 1", opacity: 1, offset: .85 }, { scale: "1 0", opacity: 0 }], { duration: DRAIN, fill: "forwards" })); });
       return any ? DRAIN : 0;
     };
-    const redraw = (msg, ks = []) => { const keep = sel; setTimeout(() => {   // the arrow does not spin (2026-11-09)
-      sheet._keepSel = keep;                                       // the part you had selected stays selected
+    const redraw = (msg, ks = []) => { setTimeout(() => {   // the arrow does not spin (2026-11-09)
+      stop();                                                       // a hold begun on the old button ends with it: no reset of its own (2026-11-11)
+      sheet._keepSel = sel;                                        // the part selected now stays selected (picked while the water drained too, 2026-11-11)
       sheet.innerHTML = sheetHTML(s); wire(sheet, s);
       sheet.querySelector(".parts")?.classList.add("still");        // redrawn after a reset: the parts' water just stands, no wave plays (2026-11-09)
       const n = document.createElement("div"); n.className = "note"; n.textContent = msg; n.setAttribute("role", "status");
@@ -2271,7 +2277,7 @@ function wire(sheet, s) {
     /* the cards under the preview change right now, silently: when the preview closes they already show it (2026-11-09) */
     document.querySelectorAll(`.tile[data-id="${id}"]`).forEach(tl => { const h = tl.querySelector(".fav");
       if (on && !h) tl.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`); if (!on && h) h.remove(); });
-    btn.getAnimations({ subtree: true }).forEach(a => a.cancel()); clearTimeout(btn._t);
+    btn.getAnimations({ subtree: true }).forEach(a => a.cancel()); clearTimeout(btn._t); btn.style.transition = "";   // a quick like-unlike: the circle still fades (2026-11-11)
     /* a like: a white line is drawn round the grey heart and it fills with white, as on the cards (0.39 s; the circle
        turns purple meanwhile) (2026-11-09) */
     if (on) { btn.setAttribute("aria-pressed", true);
