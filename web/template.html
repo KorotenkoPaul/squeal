@@ -3203,7 +3203,10 @@ function openStory(id, epIndex) {
     /* for its first 0.35 s the bottom panel takes no taps: the second tap of a double tap on "Read again", "Next part"
        or "Read" lands here, on the new chat, and must not read its first message (2026-11-10); a tap on the chat
        itself reads on at once */
-    foot.onclick = () => { if (performance.now() - scr._born >= 350) step(); };
+    /* a triple tap: a tap that follows an ignored one within 0.3 s is part of the same burst and is ignored too (2026-11-11) */
+    foot.onclick = () => { const t = performance.now();
+      if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200)) { scr._skipT = t; return; }
+      step(); };
     nudge();
   }
   function showPaywall() {
