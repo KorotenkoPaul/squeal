@@ -2958,7 +2958,7 @@ function openStory(id, epIndex) {
   let gT0 = 0, gOff = 0;
   const natural = () => log.scrollHeight - log.clientHeight;               // the scroll that shows the very bottom
   const keep = now => {
-    const n = natural(), q = Math.min(1, (now - gT0) / 260);
+    const n = natural(), q = Math.max(0, Math.min(1, (now - gT0) / 260));
     const top = Math.max(log.scrollTop, n - gOff * Math.pow(1 - q, 3));   // never down
     log.scrollTop = top;
     gliding = q < 1 || now < footEnd; if (gliding) glideRaf = requestAnimationFrame(keep);
@@ -2966,7 +2966,9 @@ function openStory(id, epIndex) {
   const glideDown = () => {
     cancelAnimationFrame(glideRaf);
     if (reduce()) { log.scrollTop = Math.max(log.scrollTop, natural()); return; }   // at once, but still never down
-    gT0 = performance.now(); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
+    /* a glide already under way goes straight on into the new one: no frame standing still between them (it stalled
+       for a frame when a message arrived mid-glide, 2026-11-12) */
+    gT0 = performance.now() - (gliding ? 17 : 0); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
     gliding = true; glideRaf = requestAnimationFrame(keep);
   };
   /* only a real scroll (a finger moving, a wheel) stops the glide; a quick tap to read on must not freeze the
