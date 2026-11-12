@@ -3216,7 +3216,12 @@ function openStory(id, epIndex) {
           const o = scr.getBoundingClientRect();                         // in the chat screen's own coordinates
           Object.assign(g.style, { position: "fixed", left: (r.left - o.left) + "px", top: (r.top - o.top) + "px", margin: 0, zIndex: 5, pointerEvents: "none" });
           scr.appendChild(g); g.animate([{ opacity: getComputedStyle(old).opacity }, { opacity: 0 }], { duration: 125, easing: "ease-out", fill: "forwards" }).onfinish = () => g.remove(); } }
-      log.insertAdjacentHTML("beforeend", `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · " + tr("part", { n: st.ep + 1 }) : ""}</span>${path ? `<em>${tr("ending", { n: which, m: endings.length })} · ${esc(node.ending)}</em>` : ""}</div>`);
+      /* the title comes in once the message before it has grown (a video circle grows 210 px in 0.26 s; the title added in
+         the same frame made the chat jump, BUGS #151, 2026-11-12), then rides up with the conversation */
+      const endHTML = `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · " + tr("part", { n: st.ep + 1 }) : ""}</span>${path ? `<em>${tr("ending", { n: which, m: endings.length })} · ${esc(node.ending)}</em>` : ""}</div>`;
+      const lastMsg = log.lastElementChild, growing = calm && lastMsg?.offsetHeight > 120 && lastMsg.getAnimations?.().some(a => a.playState === "running");   // only a tall one (video, voice, photo): text endings stay as they are
+      const putEnd = () => { if (!scr.isConnected || scr._leaving) return; log.insertAdjacentHTML("beforeend", endHTML); if (growing) { inflate(log.lastElementChild); glideDown(); } };
+      if (growing) setTimeout(putEnd, 270); else putEnd();
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
       foot.classList.remove("hint"); foot.classList.add("endfoot"); foot.onclick = null;
