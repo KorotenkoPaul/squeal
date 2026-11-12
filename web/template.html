@@ -1649,6 +1649,7 @@ function favourites() {
     label?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
     setTimeout(() => {
       toggleFav(card.dataset.id);
+      if (tab !== "fav" || !card.isConnected) return;               // another tab opened meanwhile: it is not redrawn (2026-11-12)
       if (!favs().length) return refresh();                          // nothing left: the empty picture fades in
       /* every item glides from where it was to where it now is — those below up into the space, and, when the list
          was scrolled to its end, those above down (the page could not stay where it was): never a jump (2026-11-09) */
@@ -2976,7 +2977,8 @@ function openStory(id, epIndex) {
       seg.querySelector(".ep-ind").style.transform = `translateX(${k * SEG_STEP}px)`;
       clearTimeout(PART_T);                                          // only the last choice counts, however quick the taps
       if (k === openNow()) return;                                   // back on the open part: nothing was stopped, it reads on
-      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected && !sc._leaving && !sc._swipe) { sc._stop(); openStory(id, k); } }, reduce() ? 0 : 260);   // closed meanwhile (back, swipe): no part opens (2026-11-11)
+      PART_T = setTimeout(() => { const sc = here(); if (sc && sc.isConnected && !sc._leaving && !sc._swipe) { sc._stop(); openStory(id, k); }
+        else if (sc?.isConnected && !sc._leaving) { const o = openNow(); seg.querySelectorAll("[data-ep]").forEach(x => x.setAttribute("aria-selected", +x.dataset.ep === o)); ind.style.transform = `translateX(${o * SEG_STEP}px)`; } }, reduce() ? 0 : 260);   // dropped for a swipe: the disc goes back to the open part (2026-11-12)   // closed meanwhile (back, swipe): no part opens (2026-11-11)
     };
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
     let sx = null, base = 0, moved = false;
@@ -3118,6 +3120,7 @@ function openStory(id, epIndex) {
   function controlsNow() {
     const node = path && base.nodes[path.at(-1)];
     if (node && node.choices && st.i >= ep.messages.length) {          // your turn: pick what you write
+      if (!premium() && freeTaps() <= 0) return showPaywall();         // no taps left: the paywall, not answers that cannot be picked (2026-11-12)
       foot.classList.remove("hint", "idle"); foot.classList.add("choose"); foot.onclick = null;
       /* each answer is set in lines exactly as it will stand once sent (2026-11-09): measured as a sent message,
          its text box is that wide (scaled to the answer's smaller type), so nothing re-wraps when it is picked */
