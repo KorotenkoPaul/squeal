@@ -82,7 +82,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
 .chrome .back.rb svg { width: 21px; height: 21px; }
 .chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
-.head .back { padding: 0; display: grid; place-items: center; line-height: 0; }
+.head .back { padding: 0; display: grid; place-items: center; line-height: 0; position: relative; }
+.head .back::after { content: ""; position: absolute; inset: -14px -12px; }   /* a 44 px target round the small arrow (2026-11-12) */
 .head .undo-test { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.08); color: var(--muted); font-size: 17px; line-height: 1; display: grid; place-items: center; flex: none; }   /* TEST-UNDO */
 .head .undo-test { margin-left: 4px; }   /* TEST-UNDO */
 @media (max-width: 380px) { .head { position: relative; } .head .undo-test { position: absolute; top: calc(100% + 8px); right: 12px; z-index: 3; width: 30px; height: 30px; margin: 0; background: var(--tabbar); } .head .undo-test + .ep-seg { margin-left: auto; } }   /* TEST-UNDO: on a narrow phone it hangs just under the header, leaving the name its room */
@@ -115,7 +116,11 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chrome .note { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 104px); height: 40px; box-sizing: border-box;
   display: flex; align-items: center; padding: 0 16px; border-radius: 20px;
   background: rgba(23,18,44,.6); color: var(--muted); font-size: 15px; font-weight: 400; line-height: 1.45;   /* the arrow's and the plain heart's colour (2026-11-09) */
-  white-space: nowrap; transform-origin: right center; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both; }
+  white-space: nowrap; transform-origin: right center; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both;
+  /* never over the ✕ (long notes in de/es/fr/ru ran over it and took its taps): it keeps clear of it, wraps to two
+     lines when it must, and takes no touches (2026-11-12) */
+  max-width: calc(100% - 2 * max(12px, env(safe-area-inset-right, 0px)) - 104px - 48px); pointer-events: none; }
+.chrome .note.two { white-space: normal; height: auto; min-height: 40px; padding-block: 4px; line-height: 1.2; font-size: 14px; text-align: right; }
 .chrome .note.out { animation: noteOut .25s ease-in both; }
 @keyframes noteIn { from { opacity: 0; transform: translateX(8px) scale(.96); } to { opacity: 1; transform: none; } }
 @keyframes noteOut { to { opacity: 0; transform: translateX(6px); } }
@@ -181,6 +186,8 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hero small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
 .chips { flex: none; display: flex; gap: 8px; overflow-x: auto; position: relative; scrollbar-width: none; touch-action: pan-y; }
 .chips::-webkit-scrollbar { display: none; }
+.turn::after { content: ""; position: absolute; inset: -6px 0; }   /* a taller target (≈45 px) with the same look (2026-11-12) */
+.turn { position: relative; }
 .chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; transition: color .15s; }
 /* the genre pill (like the part disc in the chat): one oval that slides along the chips under the words,
    taking on each chip's width as it nears it; drag it with a finger or tap a chip (2026-11-09) */
@@ -540,7 +547,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
 .paywall { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
 .paywall span { color: var(--muted); font-size: 14px; }
-.paywall button { padding: 13px 28px; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 16px; }
+.paywall button { padding: 13px 22px; max-width: 100%; line-height: 1.25; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 16px; }
 .cont { color: var(--muted); opacity: .9; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 /* after 10 s without a tap it starts to breathe, as a gentle nudge */
 .foot > * { transition: opacity .25s ease-out; }                /* after a picked answer lands, what comes next fades in over 0.25 s (2026-11-09: twice faster) */
@@ -558,7 +565,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .end { align-self: center; text-align: center; padding: 16px 8px 4px; display: flex; flex-direction: column; gap: 4px; }
 .end strong { font-size: 26px; font-weight: 700; }
 .end span { color: var(--muted); font-size: 13px; }
-.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
+.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; max-width: calc(100% - 32px); box-sizing: border-box; width: max-content; white-space: normal; text-align: center; }   /* long toasts (ru) wrap instead of running off both edges (2026-11-12) */
 @keyframes msgIn { from { opacity: 0; transform: translateY(8px) scale(.9) } to { opacity: 1; transform: none } }   /* was "rise", which clashed with the water's "rise" */
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
 @media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg, .typing { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
@@ -2256,7 +2263,7 @@ function wire(sheet, s) {
       sheet.innerHTML = sheetHTML(s); wire(sheet, s);
       sheet.querySelector(".parts")?.classList.add("still");        // redrawn after a reset: the parts' water just stands, no wave plays (2026-11-09)
       const n = document.createElement("div"); n.className = "note"; n.textContent = msg; n.setAttribute("role", "status");
-      sheet.querySelector(".chrome").appendChild(n);
+      sheet.querySelector(".chrome").appendChild(n); if (n.scrollWidth > n.clientWidth + 1) n.classList.add("two");   // too long for one line beside the ✕
       setTimeout(() => { n.classList.add("out"); setTimeout(() => n.remove(), 300); }, 1800);
     }; setTimeout(run, Math.max(380, drain(ks))); };
     /* A tap starts the selected part over (no ring). Holding: after a short beat (0.2 s, so a tap never
