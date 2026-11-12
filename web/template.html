@@ -1367,11 +1367,10 @@ function pullToRefresh() {
   const end = async cancel => {
     if (y0 == null) return; y0 = null;
     if (!locked) return;
-    if (cancel === true) d = 0;                                    // the phone took the touch: no refresh without a lift (2026-11-12)
     const eat = e => { e.stopPropagation(); e.preventDefault(); };   // the pull is not a tap
     window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 60);
     view.classList.add("settle");
-    if (d < LINE) {                                                // not far enough: eyes shut, page glides back
+    if (d < LINE || cancel === true) {                             // not far enough (or the phone took the touch, 2026-11-12): eyes shut, page glides back
       const from = 1 - Math.min(1, d / LINE) ** 2;
       tween(200, easeOut, t => eyes.setLids(lerp(from, 1, t)));
       show(d = 0); setTimeout(() => { if (!busy && !(locked && y0 != null)) PULLING = false; }, 380); return;   // the page is back: the clock runs again
@@ -1657,7 +1656,8 @@ function favourites() {
     label?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
     setTimeout(() => {
       toggleFav(card.dataset.id);
-      if (tab !== "fav" || !card.isConnected) return;               // another tab opened meanwhile: it is not redrawn (2026-11-12)
+      if (tab !== "fav") { if (tab === "home") syncHearts(); return; }   // another tab opened meanwhile: only its hearts follow, no redraw (2026-11-12)
+      if (!card.isConnected) return refresh();
       if (!favs().length) return refresh();                          // nothing left: the empty picture fades in
       /* every item glides from where it was to where it now is — those below up into the space, and, when the list
          was scrolled to its end, those above down (the page could not stay where it was): never a jump (2026-11-09) */
@@ -1714,6 +1714,9 @@ function favourites() {
 /* a sideways gesture (a favourites row, the chat's swipe back, the story page's swipe right) holds the touch: the lists'
    own vertical spring keeps out of it, and the other way round (2026-11-12) */
 let HSWIPE = false;
+/* a touch that only stopped a moving spring is not a tap: its click goes nowhere (as on iPhone lists, 2026-11-12) */
+function eatNextClick() { const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
+  window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 80); }
 ["touchend", "touchcancel"].forEach(n => window.addEventListener(n, e => { if (!e.touches.length) setTimeout(() => { HSWIPE = false; }, 0); }, { passive: true }));
 function rubberBand(sc, o = {}) {
   if (!sc) return;
@@ -1723,8 +1726,9 @@ function rubberBand(sc, o = {}) {
   const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
   const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
   const set = x => { pull = x; if (o.move) return o.move(x); for (const c of sc.children) c.style.translate = Math.abs(x) > .05 ? `0 ${x.toFixed(2)}px` : ""; };
-  sc.addEventListener("touchstart", e => { if (o.skip?.()) return; cancelAnimationFrame(spring); base = pull ? unrubber(pull) : 0;
-    y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; mine = false; caught = !!pull; v = 0; lastY = y0; lastT = e.timeStamp; }, { passive: true });
+  let hadSpring = false;
+  sc.addEventListener("touchstart", e => { if (o.skip?.() || e.touches.length > 1) return; cancelAnimationFrame(spring); base = pull ? unrubber(pull) : 0;
+    y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; mine = false; caught = hadSpring = !!pull; v = 0; lastY = y0; lastT = e.timeStamp; }, { passive: true });
   sc.addEventListener("touchmove", e => {
     if (y0 == null) return;
     const y = e.touches[0].clientY, dy = y - y0, dx = e.touches[0].clientX - x0, max = sc.scrollHeight - sc.clientHeight;
@@ -1755,10 +1759,12 @@ function rubberBand(sc, o = {}) {
     const f = now => { const t = (now - t0) / 1000, x = (x0_ + (v0 + w * x0_) * t) * Math.exp(-w * t);
       if (t > .1 && Math.abs(x) < .3) return set(0); set(x); spring = requestAnimationFrame(f); };
     spring = requestAnimationFrame(f); };
-  const let_go = () => {
+  const let_go = e => {
+    if (e?.touches?.length) return;                                // the pull ends with the last finger
     sc._pulling = false;
-    if (y0 == null) { if (caught && pull) settle(0); caught = false; return; } y0 = null; caught = false; if (!mine && !pull) return; if (mine) o.pulled?.();
-    settle(performance.now() - lastT > 100 ? 0 : v);              // (stopped before lifting: no fling, 2026-11-12)
+    if (hadSpring) { o.pulled?.(); eatNextClick(); }               // a touch that stopped the spring is not a tap (it does not read on)
+    if (y0 == null) { if (caught && pull) settle(0); caught = hadSpring = false; return; } y0 = null; caught = hadSpring = false; if (!mine && !pull) return; if (mine) o.pulled?.();
+    settle((e?.timeStamp ?? performance.now()) - lastT > 100 ? 0 : v);   // (stopped before lifting: no fling, 2026-11-12)
   };
   sc.addEventListener("touchend", let_go); sc.addEventListener("touchcancel", let_go);
 }
@@ -1827,18 +1833,24 @@ function search() {
   /* the rubber band: the further you pull, the stiffer it gets; let go and a critically damped spring brings
      the list home from the finger's own speed, frame by frame (no CSS transition to skip or snap). Grab it
      again on the way back and it carries on from where it is. */
-  let ry0 = null, rpull = 0, rmine = false, rbase = 0, rv = 0, rlastY = 0, rlastT = 0, rspring = 0;
+  let ry0 = null, rx0 = 0, rpull = 0, rmine = false, rcaught = false, rbase = 0, rv = 0, rlastY = 0, rlastT = 0, rspring = 0;
   const K = .55, H = () => results.clientHeight || 1;
   const rubber = d => Math.sign(d) * (1 - 1 / (Math.abs(d) * K / H() + 1)) * H();
   const unrubber = x => Math.sign(x) * (H() / K) * (1 / (1 - Math.min(.95, Math.abs(x) / H())) - 1);
   const rinner = () => results.firstElementChild;
   const rset = x => { rpull = x; const i = rinner(); if (i) i.style.transform = Math.abs(x) > .05 ? `translate3d(0,${x.toFixed(2)}px,0)` : ""; };
-  results.addEventListener("touchstart", e => { if (!results.querySelector("[data-id]")) return;
-    cancelAnimationFrame(rspring); rbase = rpull ? unrubber(rpull) : 0;            // caught mid-spring: carry on from here
-    ry0 = e.touches[0].clientY; rmine = !!rpull; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
+  let rhad = false;
+  results.addEventListener("touchstart", e => { if (!results.querySelector("[data-id]") || e.touches.length > 1) return;
+    cancelAnimationFrame(rspring); rhad = !!rpull; rbase = rpull ? unrubber(rpull) : 0;            // caught mid-spring: carry on from here
+    ry0 = e.touches[0].clientY; rx0 = e.touches[0].clientX; rmine = false; rcaught = !!rpull; rv = 0; rlastY = ry0; rlastT = e.timeStamp; }, { passive: true });
   results.addEventListener("touchmove", e => {
     if (ry0 == null) return;
-    const y = e.touches[0].clientY, dy = y - ry0, max = results.scrollHeight - results.clientHeight;
+    const y = e.touches[0].clientY, dy = y - ry0, dx = e.touches[0].clientX - rx0, max = results.scrollHeight - results.clientHeight;
+    if (!rmine && rcaught) {                                         // the spring caught on its way back: only the same way keeps it (2026-11-12)
+      if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      rcaught = false;
+      if (Math.abs(dy) >= Math.abs(dx) && Math.sign(dy) === Math.sign(rpull)) rmine = true; else { ry0 = null; rsettle(0); return; }
+    }
     if (!rmine) {
       if (results.scrollTop < 0 || results.scrollTop > max) { ry0 = null; return; }            // the phone springs it itself
       const atTop = results.scrollTop <= 0 && dy > 0, atEnd = results.scrollTop >= max - .5 && dy < 0;
@@ -1851,12 +1863,16 @@ function search() {
     if ((d > 0 && results.scrollTop > 0) || (d < 0 && results.scrollTop < max - .5)) return rset(0);
     rset(rubber(d));
   }, { passive: false });
-  const rlet = () => {
-    if (ry0 == null) return; ry0 = null; if (!rmine && !rpull) return;
-    const w = 13, x0 = rpull, v0 = Math.max(-2500, Math.min(2500, rv * (1 - Math.abs(rpull) / H()) * .5)), t0 = performance.now();
+  const rsettle = vel => { cancelAnimationFrame(rspring);
+    const w = 13, x0 = rpull, v0 = Math.max(-2500, Math.min(2500, vel * (1 - Math.abs(rpull) / H()) * .5)), t0 = performance.now();
     const f = now => { const t = (now - t0) / 1000, x = (x0 + (v0 + w * x0) * t) * Math.exp(-w * t);
       if (t > .1 && Math.abs(x) < .3) return rset(0); rset(x); rspring = requestAnimationFrame(f); };
-    rspring = requestAnimationFrame(f);
+    rspring = requestAnimationFrame(f); };
+  const rlet = e => {
+    if (e?.touches?.length) return;
+    if (rhad) { rhad = false; eatNextClick(); }
+    if (ry0 == null) { if (rcaught && rpull) rsettle(0); rcaught = false; return; } ry0 = null; rcaught = false; if (!rmine && !rpull) return;
+    rsettle((e?.timeStamp ?? performance.now()) - rlastT > 100 ? 0 : rv);
   };
   results.addEventListener("touchend", rlet); results.addEventListener("touchcancel", rlet);
   const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
@@ -2439,11 +2455,11 @@ function wire(sheet, s) {
     dx = Math.max(0, ddx); dy = Math.max(0, ddy);
     sheet.style.transform = axis === "x" ? (dx ? `translateX(${dx}px)` : "") : (dy ? `translateY(${dy}px)` : "");
   };
-  const end = cancel => {
+  const end = (cancel, ev) => {
     if (x0 == null) return; x0 = null;
     if (!axis) return;
     HSWIPE = false;
-    if (performance.now() - lastT > 100) v = 0;                    // the finger stopped before it lifted: no flick (2026-11-12)
+    if ((ev?.timeStamp ?? performance.now()) - lastT > 100) v = 0;                    // the finger stopped before it lifted: no flick (2026-11-12)
     if (cancel === true) { v = 0; dx = dy = 0; }                   // the phone took the touch: the page settles back
     const size = axis === "x" ? sheet.offsetWidth : sheet.offsetHeight, d = axis === "x" ? dx : dy, go = d > size * .33 || v > .5;
     sheet.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
@@ -2453,7 +2469,7 @@ function wire(sheet, s) {
   };
   sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true, signal: sig });   // a second finger never restarts the swipe (2026-11-10)
   sheet.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false, signal: sig });
-  sheet.addEventListener("touchend", e => { if (!e.touches.length) end(); }, { signal: sig }); sheet.addEventListener("touchcancel", () => end(true), { signal: sig });   // ends with the last finger
+  sheet.addEventListener("touchend", e => { if (!e.touches.length) end(false, e); }, { signal: sig }); sheet.addEventListener("touchcancel", () => end(true), { signal: sig });   // ends with the last finger
   let byMouse = false;                                                // the mouse ends only a drag made with the mouse (2026-11-10)
   sheet.addEventListener("touchstart", () => { byMouse = false; }, { passive: true, capture: true, signal: sig });
   sheet.addEventListener("mousedown", e => { if (e.sourceCapabilities?.firesTouchEvents) return; byMouse = true; start(e.clientX, e.clientY, e.target); }, { signal: sig });
@@ -3121,7 +3137,7 @@ function openStory(id, epIndex) {
     const upper = ending ? [...foot.children].filter(c => c.id !== "again") : [];
     upper.forEach(c => c.style.opacity = "0");
     const showUpper = ms => setTimeout(() => upper.forEach(c => c.style.opacity = ""), ms);
-    if (ending) setTimeout(() => { if (scr.isConnected && !scr._flying) foot.classList.remove("wait"); }, 125);
+    if (ending) setTimeout(() => { if (scr.isConnected && !scr._flying) foot.classList.remove("wait"); }, scr._endLate ? 400 : 125);   // the title first, then the buttons (2026-11-12)
     if (reduce() || !foot.animate || Math.abs(h1 - h0) < 2) {
       if (glide || gliding || reduce()) glideDown(); showUpper(125); return; }
     footAnim?.cancel();
@@ -3253,8 +3269,8 @@ function openStory(id, epIndex) {
          the same frame made the chat jump, BUGS #151, 2026-11-12), then rides up with the conversation */
       const endHTML = `<div class="end"><span>${esc(s.title)}${s.episodes.length > 1 ? " · " + tr("part", { n: st.ep + 1 }) : ""}</span>${path ? `<em>${tr("ending", { n: which, m: endings.length })} · ${esc(node.ending)}</em>` : ""}</div>`;
       const lastMsg = log.lastElementChild, growing = calm && lastMsg?.offsetHeight > 120 && lastMsg.getAnimations?.().some(a => a.playState === "running");   // only a tall one (video, voice, photo): text endings stay as they are
-      const putEnd = () => { if (!scr.isConnected || scr._leaving) return; log.insertAdjacentHTML("beforeend", endHTML); if (growing) { inflate(log.lastElementChild); glideDown(); } };
-      if (growing) setTimeout(putEnd, 270); else putEnd();
+      const putEnd = () => { if (!scr.isConnected || scr._leaving) return; log.insertAdjacentHTML("beforeend", endHTML); if (growing) { inflate(log.lastElementChild); if (log.scrollHeight - log.clientHeight - log.scrollTop < 140) glideDown(); } };   // (scrolled up meanwhile: left where it is)
+      scr._endLate = growing; if (growing) setTimeout(putEnd, 270); else putEnd();
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
       foot.classList.remove("hint"); foot.classList.add("endfoot"); foot.onclick = null;
@@ -3381,10 +3397,10 @@ function swipeBack(scr) {
     const now = e?.timeStamp || performance.now(); vx = .7 * vx + .3 * (x - lastX) / Math.max(8, now - lastT); lastX = x; lastT = now;
     dx = Math.max(0, ddx); setX(dx);
   };
-  const end = cancel => {
+  const end = (cancel, ev) => {
     if (x0 == null) return; x0 = null; scr._swipe = false; HSWIPE = false;
     if (!locked) return;
-    if (performance.now() - lastT > 100 || cancel === true) vx = 0;   // stopped before lifting, or the phone took the touch: no flick (2026-11-12)
+    if ((ev?.timeStamp ?? performance.now()) - lastT > 100 || cancel === true) vx = 0;   // stopped before lifting, or the phone took the touch: no flick (2026-11-12)
     if (cancel === true) dx = 0;
     const go = dx > W() * .35 || vx > .5;
     scr.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
@@ -3399,7 +3415,7 @@ function swipeBack(scr) {
   };
   scr.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true });   // a second finger never restarts the swipe (2026-11-10)
   scr.addEventListener("touchmove", e => move(e.touches[0].clientX, e.touches[0].clientY, e), { passive: false });
-  scr.addEventListener("touchend", e => { if (!e.touches.length) end(); }); scr.addEventListener("touchcancel", () => end(true));   // ends with the last finger
+  scr.addEventListener("touchend", e => { if (!e.touches.length) end(false, e); }); scr.addEventListener("touchcancel", () => end(true));   // ends with the last finger
   /* the mouse ends only a drag made with the mouse (2026-11-10): a finger swipe was cut short when the chat slid away
      from under a resting mouse pointer ("mouseleave") */
   let byMouse = false;
