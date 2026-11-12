@@ -793,9 +793,10 @@ const haptic = (() => {
     stop: () => { rampT.forEach(clearTimeout); rampT = []; if (navigator.vibrate) navigator.vibrate(0); },
   };
 })();
-function toggleFav(id) {
-  const f = favs(), on = f.includes(id);
-  store.set("favs", on ? f.filter(x => x !== id) : [...f, id]);
+/* `want`: the state the reader asked for, as seen on screen (saved data changed elsewhere must not flip it the other way, 2026-11-12) */
+function toggleFav(id, want) {
+  const f = favs(), on = want === undefined ? !f.includes(id) : want;
+  store.set("favs", on ? (f.includes(id) ? f : [...f, id]) : f.filter(x => x !== id));
   haptic.tap();                                            // like or unlike, from any screen: one light tap
 }
 function longPress(el, fn) {
@@ -855,7 +856,7 @@ function wireCards(root) {
   root.querySelectorAll("[data-id]").forEach(b => {
     /* the slider's cards only open; holding one does not like it (2026-11-09) */
     const pressed = b.matches(".hero") ? () => false : longPress(b, () => {
-      toggleFav(b.dataset.id);
+      toggleFav(b.dataset.id, b.matches(".tile") ? !b.querySelector(".fav") : undefined);   // a tile with a heart is "liked" on screen: the hold unlikes it
       const on = favs().includes(b.dataset.id);
       b.classList.remove("pressing");
       favBeat(b, on);
@@ -1656,7 +1657,7 @@ function favourites() {
     const label = prev?.classList.contains("label") && !next?.classList.contains("row-card") ? prev : null;
     label?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
     setTimeout(() => {
-      toggleFav(card.dataset.id);
+      toggleFav(card.dataset.id, false);
       if (tab !== "fav") { if (tab === "home") syncHearts(); return; }   // another tab opened meanwhile: only its hearts follow, no redraw (2026-11-12)
       if (!card.isConnected) return refresh();
       if (!favs().length) return refresh();                          // nothing left: the empty picture fades in
@@ -1929,7 +1930,7 @@ function search() {
     query = ""; q.value = ""; bar.classList.remove("active");
     if (document.activeElement === q) q.blur(); else { showDial(); showLevel(); backToPlace(); }
   };
-  q.oninput = () => { query = q.value; query ? showSearch() : (results.innerHTML = ""); };
+  q.oninput = () => { query = q.value.trim(); query ? showSearch() : (results.innerHTML = ""); };   // spaces alone are no query (2026-11-12)
   /* tap anywhere but the field: the keyboard goes away (and, with nothing typed, the dial comes back) */
   /* that tap only puts the keyboard away: the list comes back under the finger, and the same tap must not
      open the story that is now there */
@@ -2346,7 +2347,7 @@ function wire(sheet, s) {
   /* the same heart as on the home tiles: a like draws it with a pen stroke and fills it; an unlike cracks it
      like the broken-heart emoji, the halves part a little and fade, and the plain (unliked) heart returns */
   sheet.querySelector("#pv-like").onclick = e => {
-    const btn = e.currentTarget; toggleFav(id); const on = favs().includes(id);
+    const btn = e.currentTarget; toggleFav(id, btn.getAttribute("aria-pressed") !== "true"); const on = favs().includes(id);
     /* the cards under the preview change right now, silently: when the preview closes they already show it (2026-11-09) */
     document.querySelectorAll(`.tile[data-id="${id}"]`).forEach(tl => { const h = tl.querySelector(".fav");
       if (on && !h) tl.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`); if (!on && h) h.remove(); });
