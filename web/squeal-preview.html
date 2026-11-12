@@ -520,7 +520,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .log { overscroll-behavior-y: contain; }   /* as in Search: a fling into the top or the end bounces with the phone's own spring, description and all (2026-11-10) */
 .view.rubber { overscroll-behavior-y: contain; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* Favourites as Search: a fling into the top or the end bounces with the phone's own spring; a finger pull springs by our own (2026-11-11) */
-.log { flex: 1; overflow-y: auto; overflow-x: hidden;   /* never scrolls sideways: messages sliding in from off the edge must not make it pannable (2026-11-10: a swipe back during a part switch scrolled the chat sideways instead) */
+.log { isolation: isolate; flex: 1; overflow-y: auto; overflow-x: hidden;   /* one stacking context: messages are not layered one by one over the doodles (iPhone memory, 2026-11-12) */   /* never scrolls sideways: messages sliding in from off the edge must not make it pannable (2026-11-10: a swipe back during a part switch scrolled the chat sideways instead) */
    padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
 .intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
 /* a new message (or the typing / recording bubble) grows out of its own bottom corner, like WhatsApp */
@@ -2687,8 +2687,13 @@ function wallTick(now) {
   if (WALL.intro) { const q = Math.max(0, Math.min(1, (now - WALL.introAt) / 500)); WALL.intro.style.opacity = q.toFixed(3); if (q < 1) busy = true; else WALL.intro.style.opacity = ""; }
   if (busy) { WALL.raf = requestAnimationFrame(wallTick); return; }
   /* all landed: the plain wallpaper (of what is in reach) takes over */
-  WALL.raf = 0; chat.style.backgroundImage = wallBg(WALL.vis) || "none"; WALL.bgVis = WALL.vis;
-  WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true;
+  /* the picture is decoded first and only then swapped in, with the flying doodles removed in that same frame: on
+     iPhone a fresh background is drawn a moment late, and the wallpaper blinked (2026-11-12) */
+  WALL.raf = 0; const bg = wallBg(WALL.vis) || "none", vis = WALL.vis, tok = WALL.swapTok = {};
+  const swap = () => { if (WALL.swapTok !== tok || WALL.chat !== chat || !chat.isConnected || WALL.raf || WALL.items.some(d => d.phase !== "rest")) return;
+    chat.style.backgroundImage = bg; WALL.bgVis = vis; WALL.items.forEach(d => d.el.remove()); WALL.items = []; WALL.restOn = true; };
+  const src = /^url\("(.*)"\)$/.exec(bg)?.[1], im = src && window.Image ? new Image() : null;
+  if (im?.decode) { im.src = src; im.decode().then(() => requestAnimationFrame(swap), swap); } else swap();
 }
 /* the doodles drawn by the plain wallpaper come back as pieces at rest, so they can move */
 /* WALL.bgVis: what the plain wallpaper draws right now — null = every doodle (a story without endings),
