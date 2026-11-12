@@ -713,7 +713,7 @@ function countRead(id) { const r = weekReads(); r.n[id] = (r.n[id] || 0) + 1; st
 const enTitle = s => (STORIES_ALL.en || []).find(x => x.id === s.id)?.title || s.title;
 function topOfWeek() {
   const n = weekReads().n;
-  const top = [...STORIES].sort((a, b) => (n[b.id] || 0) - (n[a.id] || 0) || rating(b) - rating(a) || enTitle(a).localeCompare(enTitle(b)));   // ties by the English title: the same five in every language (2026-11-12)
+  const top = [...STORIES].sort((a, b) => (n[b.id] || 0) - (n[a.id] || 0) || rating(b) - rating(a) || enTitle(a).localeCompare(enTitle(b), "en"));   // ties by the English title: the same five in every language (2026-11-12)
   const pinned = STORIES.filter(s => s.featured);                 // a new story we feature always has a slide
   return [...pinned, ...top.filter(s => !s.featured)].slice(0, 5);
 }
@@ -2958,6 +2958,7 @@ function openStory(id, epIndex) {
   let gT0 = 0, gOff = 0;
   const natural = () => log.scrollHeight - log.clientHeight;               // the scroll that shows the very bottom
   const keep = now => {
+    if (gT0 < 0) gT0 = now - (gT0 === -2 ? 16.7 : 0);                 // anchored to its first frame: a glide carried on moves one frame's worth at once
     const n = natural(), q = Math.max(0, Math.min(1, (now - gT0) / 260));
     const top = Math.max(log.scrollTop, n - gOff * Math.pow(1 - q, 3));   // never down
     log.scrollTop = top;
@@ -2968,7 +2969,7 @@ function openStory(id, epIndex) {
     if (reduce()) { log.scrollTop = Math.max(log.scrollTop, natural()); return; }   // at once, but still never down
     /* a glide already under way goes straight on into the new one: no frame standing still between them (it stalled
        for a frame when a message arrived mid-glide, 2026-11-12) */
-    gT0 = performance.now() - (gliding ? 17 : 0); glideEnd = gT0 + 260; gOff = Math.max(0, natural() - log.scrollTop);
+    gT0 = gliding ? -2 : -1; glideEnd = performance.now() + 260; gOff = Math.max(0, natural() - log.scrollTop);
     gliding = true; glideRaf = requestAnimationFrame(keep);
   };
   /* only a real scroll (a finger moving, a wheel) stops the glide; a quick tap to read on must not freeze the
