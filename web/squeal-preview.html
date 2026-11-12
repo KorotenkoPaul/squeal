@@ -710,9 +710,10 @@ function weekReads() {
   return r;
 }
 function countRead(id) { const r = weekReads(); r.n[id] = (r.n[id] || 0) + 1; store.set("reads", r); }
+const enTitle = s => (STORIES_ALL.en || []).find(x => x.id === s.id)?.title || s.title;
 function topOfWeek() {
   const n = weekReads().n;
-  const top = [...STORIES].sort((a, b) => (n[b.id] || 0) - (n[a.id] || 0) || rating(b) - rating(a) || a.title.localeCompare(b.title));
+  const top = [...STORIES].sort((a, b) => (n[b.id] || 0) - (n[a.id] || 0) || rating(b) - rating(a) || enTitle(a).localeCompare(enTitle(b)));   // ties by the English title: the same five in every language (2026-11-12)
   const pinned = STORIES.filter(s => s.featured);                 // a new story we feature always has a slide
   return [...pinned, ...top.filter(s => !s.featured)].slice(0, 5);
 }
@@ -1607,7 +1608,7 @@ function startSlider() {
     else if (!held && !settled && now - stillSince > 300) { stillSince = now; el.scrollTo({ left: (Math.round(raw) + 1) * step, behavior: still ? "auto" : "smooth" }); }
     if (!PULLING) SL.keep = false;
     /* also while the slide is still gliding into place after a swipe: the clock picks up once it has settled */
-    const busy = document.hidden || layer.childElementCount || held || PULLING || !settled;
+    const busy = document.hidden || layer.childElementCount || held || PULLING || !settled || app.classList.contains("boot");   // (still invisible at launch: the first card's 4 s start when it shows, 2026-11-12)
     if (busy || now - last > 250) since += now - last;                // hidden, covered or held: time stands still (and a gap with no frames is the app in the background, 2026-11-11)
     last = now;
     const t = Math.max(0, Math.min(1, (now - since) / SLIDE));
@@ -1781,7 +1782,7 @@ let fearLevel = 3;
 
 /* Search forgives one typo, never more: a title matches if it contains what you typed, or a piece of
    it that is one letter off (one wrong, missing, extra, or two swapped letters). Short queries (under
-   3 letters) must match exactly. Exact matches come first. */
+   4 letters, 2026-11-12) must match exactly. Exact matches come first. */
 /* any alphabet (Cyrillic too); accents do not matter (é = e, ü = u, ё = е); ß = ss */
 const norm = t => t.toLowerCase().replace(/ß/g, "ss").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’'`]/g, "").replace(/[^\p{L}\p{N} ]+/gu, " ").replace(/\s+/g, " ").trim();
 function oneEditAway(a, b) {                     // Damerau-Levenshtein distance <= 1
@@ -1800,7 +1801,7 @@ function matchScore(title, q) {
   const t = norm(title), w = norm(q);
   if (!w) return 0;
   if (t.includes(w)) return 2;                   // exact
-  if (w.length < 3) return 0;
+  if (w.length < 4) return 0;                    // (2026-11-12: from 3 letters, "cat" or "red" found a third of all stories)
   for (let len = w.length - 1; len <= w.length + 1; len++)
     for (let i = 0; i + len <= t.length; i++) if (oneEditAway(t.slice(i, i + len), w)) return 1;   // one typo
   return 0;
