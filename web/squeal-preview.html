@@ -1920,7 +1920,8 @@ function search() {
     lv.scrollTo({ left: n.offsetLeft + n.offsetWidth / 2 - lv.clientWidth / 2, behavior: smooth ? "smooth" : "instant" }); paint(); };
   const settle = () => { if (near !== fearLevel) { fearLevel = near; showLevel(); } };
   lv.addEventListener("scroll", () => { requestAnimationFrame(paint); clearTimeout(settleT); settleT = setTimeout(settle, 140); }, { passive: true });
-  names.forEach(n => n.onclick = () => centreTo(+n.dataset.lvl, true));     // tap a neighbour: it slides to the middle
+  let nameT = 0;
+  names.forEach(n => n.onclick = () => { const t = performance.now(); if (t - nameT < 350) return; nameT = t; centreTo(+n.dataset.lvl, true); });     // tap a neighbour: it slides to the middle (a quick double tap moves one step, 2026-11-13)
   lv.addEventListener("keydown", e => {
     if (e.key === "ArrowRight" || e.key === "ArrowUp") { e.preventDefault(); centreTo(Math.min(5, near + 1), true); }
     if (e.key === "ArrowLeft" || e.key === "ArrowDown") { e.preventDefault(); centreTo(Math.max(1, near - 1), true); }
@@ -1955,6 +1956,7 @@ function search() {
     /* only with nothing typed does the list change under the finger; with matches showing, a tap on one opens it
        straight away (and puts the keyboard away), as in any iPhone search (2026-11-10) */
     if (!query) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700);
+      SPOT = { x: e.clientX, y: e.clientY, t: performance.now(), el: null, pin: true };   // nor does a second tap there (2026-11-13)
       const off = () => { eatClick = false; }; window.addEventListener("pointercancel", off, { capture: true, once: true });   // a scroll: no click comes, the next real tap is not eaten (2026-11-13)
       window.addEventListener("pointerup", () => setTimeout(off, 60), { capture: true, once: true }); }
     q.blur();
@@ -2201,13 +2203,33 @@ let CLOSE_TAP = null;
 function openTapAt(e) { if (e && e.clientX != null && (e.clientX || e.clientY)) { closeTapAt({ clientX: e.clientX, clientY: e.clientY }); CLOSE_TAP.open = true; } }
 function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() };
   /* the touch listener that can hold a touch back is there only for these 0.4 s: the rest of the time scrolling never waits for it */
-  window.addEventListener("touchstart", eatCloseTap, { capture: true, passive: false }); setTimeout(() => window.removeEventListener("touchstart", eatCloseTap, true), 450); }
+  window.addEventListener("touchstart", eatCloseTap, { capture: true, passive: false }); setTimeout(() => window.removeEventListener("touchstart", eatCloseTap, true), 750); }
 function eatCloseTap(e) {
-  if (!CLOSE_TAP || performance.now() - CLOSE_TAP.t > 400) return;
+  if (!CLOSE_TAP || performance.now() - CLOSE_TAP.t > 700) return;
   const p = e.touches ? e.touches[0] : e; if (!p || Math.hypot(p.clientX - CLOSE_TAP.x, p.clientY - CLOSE_TAP.y) > 44) return;
   if (!CLOSE_TAP.open && e.target.closest?.("#pv-back, .screen:not([style*='pointer-events: none']) #back")) return;   // the button itself, still there, handles its own (not the ✕ of a page just opened by that same double tap)
   e.preventDefault(); e.stopPropagation(); }
 ["pointerdown", "mousedown", "click"].forEach(n => window.addEventListener(n, eatCloseTap, { capture: true }));
+/* one rule for every double tap (2026-11-13): a tap that lands, within 0.8 s and ±40 px of the tap before it, on a
+   DIFFERENT control from the one that tap pressed is the second half of that double tap, not a choice: a control has
+   just appeared or slid under the finger ("Read again" after the last message, an answer after "back to a choice",
+   the story page's buttons over a card, the row sliding up after "Remove", the next fear name, the card under a
+   heart that has just gone). It does nothing. The same control again (a heart, play, Tap to continue) still works. */
+const SPOT_SEL = ".fav, button, [role=button], a[href], input, textarea, label, [data-open], [data-id], [data-lvl], [data-tab]";
+let SPOT = null, SPOT_EAT = null;
+const spotCtl = t => t?.closest?.(SPOT_SEL) || null;
+let SPOT_DOWN = null;
+window.addEventListener("pointerdown", e => { SPOT_EAT = null; SPOT_DOWN = { x: e.clientX, y: e.clientY };
+  if (!SPOT || !e.isPrimary || performance.now() - SPOT.t > 800 || Math.hypot(e.clientX - SPOT.x, e.clientY - SPOT.y) > 40) return;
+  const c = spotCtl(e.target); if (c ? c === SPOT.el : !SPOT.el || SPOT.el.contains(e.target)) return;   // (no control under the finger: eaten only when the first tap pressed one, e.g. "Read" → the new chat)
+  SPOT_EAT = e.pointerId; e.stopPropagation(); }, true);
+window.addEventListener("pointerup", e => { if (SPOT_EAT != null && e.pointerId === SPOT_EAT) e.stopPropagation(); }, true);
+window.addEventListener("click", e => {
+  if (!e.isTrusted || !e.detail) return;                            // keyboard, and the haptic's own synthetic click
+  if (SPOT_EAT != null) { SPOT_EAT = null; e.preventDefault(); e.stopImmediatePropagation(); return; }
+  if (SPOT_DOWN && Math.hypot(e.clientX - SPOT_DOWN.x, e.clientY - SPOT_DOWN.y) > 10) { SPOT = null; return; }   // the end of a slide is no tap
+  if (SPOT?.pin && performance.now() - SPOT.t < 700) return;       // the tap that only put the search keyboard away keeps its mark
+  SPOT = { x: e.clientX, y: e.clientY, t: performance.now(), el: spotCtl(e.target) }; }, true);
 function preview(id) {
   if (liveSheet()) return;
   const s = STORIES.find(x => x.id === id);
@@ -3418,7 +3440,7 @@ function openStory(id, epIndex) {
      0.35 s the chat takes no taps, and a tap within 0.3 s of an ignored one belongs to the same burst (a triple tap) (2026-11-11) */
   const endEarly = () => performance.now() - (scr._endShown || 0) < 450;
   function early() { const t = performance.now();
-    if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200) || (scr._pickT && t - scr._pickT < 450)) { scr._skipT = t; return true; }
+    if (t - scr._born < 500 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200) || (scr._pickT && t - scr._pickT < 450)) { scr._skipT = t; return true; }
     return false; }
   controls();
   log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
