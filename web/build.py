@@ -128,18 +128,26 @@ for st in stories:
         N = ep.get("nodes")
         if not N: continue
         if ep.get("start") not in N: problems.append("%s: start %r is not a node" % (at, ep.get("start"))); continue
-        seen, todo, longest = set(), [(ep["start"], 0)], 0
-        while todo:
-            n, depth = todo.pop()
+        seen, todo, reported = set(), [ep["start"]], set()
+        while todo:   # reachability and each node's own shape
+            n = todo.pop()
+            if n in seen: continue
             node = N.get(n)
-            if node is None: problems.append("%s: a choice leads to a missing node %r" % (at, n)); continue
-            depth += len(node["messages"]) + (1 if n != ep["start"] else 0)   # + the answer sent to get here
-            ch = node.get("choices") or []
+            if node is None:
+                if n not in reported: problems.append("%s: a choice leads to a missing node %r" % (at, n)); reported.add(n)
+                continue
+            seen.add(n); ch = node.get("choices") or []
             if node.get("ending") and ch: problems.append("%s: node %r is an ending and has choices" % (at, n))
             if not node.get("ending") and not ch: problems.append("%s: node %r is a dead end (no choices, not an ending)" % (at, n))
-            if node.get("ending"): longest = max(longest, depth)
-            if n in seen: continue
-            seen.add(n); todo += [(c.get("next"), depth) for c in ch]
+            todo += [c.get("next") for c in ch]
+        memo = {}
+        def far(n, stack=()):   # the most messages from this node to an ending (branches that merge are counted on every path)
+            if n in memo: return memo[n]
+            if n in stack or n not in N: return 0
+            node = N[n]; ch = node.get("choices") or []
+            best = len(node["messages"]) + max([1 + far(c.get("next"), stack + (n,)) for c in ch] or [0])
+            memo[n] = best; return best
+        longest = far(ep["start"])
         for n in set(N) - seen: problems.append("%s: node %r can never be reached" % (at, n))
         if longest and len(ep["messages"]) != longest: problems.append("%s: messages must be the longest path (%d), not %d" % (at, longest, len(ep["messages"])))
 if problems:

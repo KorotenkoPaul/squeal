@@ -2833,6 +2833,7 @@ const FREE_TAPS = 100;
 const premium = () => store.get("premium", true);   // prototype: the owner reads as a subscriber by default (Menu → Subscription switches it)
 const freeTaps = () => store.get("taps", FREE_TAPS);
 let timer = null;
+let UNDO_OPEN = false;                                              // TEST-UNDO reopened the chat
 let OPEN_FROM = "right";                                            // where a new chat slides in from ("Read" and a swipe left: right; a swipe up: bottom)
 /* Messages sliding sideways (a part switch, a chat opening) — rewritten simply, like the doodles (2026-11-09):
    every message has one sideways offset pulled by a spring towards its goal: home (0) or just past its own side of
@@ -2998,7 +2999,7 @@ function openStory(id, epIndex) {
     e.stopPropagation();
     if (st.i <= 0) return;                        // nothing to take back: whatever is being typed goes on
     /* something under way ("typing…", recording, an answer picked but not yet flying): ↶ cancels just that (2026-11-13) */
-    const pending = !!log.querySelector(".typing") || (!!foot.querySelector(".choice.leave") && !scr.querySelector(".choice-ghost"));
+    const pending = !!log.querySelector(".typing") || !!scr._picking;
     scr._stop(); busy = false;
     const n = pending ? st.i : st.i - 1, p = prog(s);
     if (path) {                                   // where each chosen branch starts in the chat: drop the ones undone
@@ -3007,7 +3008,7 @@ function openStory(id, epIndex) {
       p.path = keep;
     }
     p.ep = st.ep; p.pos[st.ep] = n; setProg(s, p);
-    openStory(id, st.ep);
+    UNDO_OPEN = true; openStory(id, st.ep);                         // (its reply does not come by itself: ↶ again steps over the answer)
   };
   /* back: same as the swipe: the chat slides away right and you land where you opened the story */
   /* leaving the chat (back, swipe, another part): the message being typed or recorded is dropped */
@@ -3214,7 +3215,7 @@ function openStory(id, epIndex) {
         picked = true; busy = true;
         const c = node.choices[+b.dataset.k];
         /* the choice is the tap: the other side answers on its own, no extra tap */
-        const commit = () => {
+        const commit = () => { scr._picking = false;
           path.push(c.next); ep.messages = flatten();
           wallVis(inReach());                                          // the endings this choice closed off: their doodles fall
           foot._h0 = foot.getBoundingClientRect().height;               // its height as shown, before the answers' layout goes
@@ -3226,7 +3227,7 @@ function openStory(id, epIndex) {
         };
         const reply = () => { const nx = ep.messages[st.i];
           if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, 0); };   // straight away
-        scr._pickT = performance.now();                                  // the second tap of a double tap on an answer reads nothing (2026-11-13)
+        scr._pickT = performance.now(); scr._picking = true;             // the second tap of a double tap on an answer reads nothing (2026-11-13)
         if (reduce() || !b.animate) { commit(); return reply(); }
         /* 1) the other answers slide back out to the right */
         foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
@@ -3405,8 +3406,10 @@ function openStory(id, epIndex) {
   swipeBack(scr);
   /* opened just after the reader's own answer (left before the reply came, or ↶ over the reply): the other side answers
      by itself, 1 s on, free — as it does right after picking (2026-11-13) */
-  if (path && st.i > 0 && ep.messages[st.i - 1]?.answer && ep.messages[st.i] && ep.messages[st.i].from !== ep.right) {
-    const at = st.i; setTimeout(() => { if (scr.isConnected && !scr._leaving && !busy && st.i === at) step(true); }, 1000); }
+  if (path && !UNDO_OPEN && st.i > 0 && ep.messages[st.i - 1]?.answer && ep.messages[st.i] && ep.messages[st.i].from !== ep.right) {
+    const at = st.i; busy = true;                                   // a tap meanwhile does not read (it would cost a free tap for a free reply)
+    setTimeout(() => { busy = false; if (scr.isConnected && !scr._leaving && st.i === at) step(true); }, 1000); }
+  UNDO_OPEN = false;
 }
 
 /* Messenger-style swipe back: drag the chat to the right; it follows the finger and, let go far enough
