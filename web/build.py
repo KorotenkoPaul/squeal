@@ -107,6 +107,41 @@ for st in [s for l in ALL.values() for s in l]:
                 problems.append("%s part %d: bad %s speaker %r" % (st["id"], k + 1, field, ep[field]))
     if "\\" in st["description"] or "|" in st["description"]:
         problems.append("%s: markup in description" % st["id"])
+# Guard (2026-11-13): the story's shape — anything here would crash or silently misbehave in the app
+_ids = [st["id"] for st in stories]
+for i in set(x for x in _ids if _ids.count(x) > 1): problems.append("duplicate story id %r" % i)
+for _f in (ROOT / "content" / "stories" / "en").glob("*.json"):
+    if json.loads(_f.read_text())["id"] != _f.stem: problems.append("%s: id does not match the file name" % _f.name)
+for st in stories:
+    if st["genre"] not in ("horror", "thriller", "romance"): problems.append("%s: unknown genre %r" % (st["id"], st["genre"]))
+    if not (isinstance(st["fear"], int) and 1 <= st["fear"] <= 5): problems.append("%s: fear must be a whole number 1-5 (%r)" % (st["id"], st["fear"]))
+    if st["id"] not in COVERS: problems.append("%s: no cover in COVERS" % st["id"])
+    elif not (ROOT / "web" / "covers" / ("%s.jpg" % COVERS[st["id"]])).exists(): problems.append("%s: cover file missing" % st["id"])
+    if not st["episodes"]: problems.append("%s: no parts" % st["id"])
+    for k, ep in enumerate(st["episodes"]):
+        at = "%s part %d" % (st["id"], k + 1)
+        if ep["left"] == ep["right"]: problems.append("%s: left and right are the same speaker" % at)
+        if not ep["messages"]: problems.append("%s: no messages" % at)
+        for m in ep["messages"] + [m for nd in (ep.get("nodes") or {}).values() for m in nd["messages"]]:
+            if "dur" in m and not isinstance(m["dur"], int): problems.append("%s: dur must be whole seconds (%r)" % (at, m["dur"]))
+            if m.get("voice") and m.get("video"): problems.append("%s: a message is both voice and video" % at)
+        N = ep.get("nodes")
+        if not N: continue
+        if ep.get("start") not in N: problems.append("%s: start %r is not a node" % (at, ep.get("start"))); continue
+        seen, todo, longest = set(), [(ep["start"], 0)], 0
+        while todo:
+            n, depth = todo.pop()
+            node = N.get(n)
+            if node is None: problems.append("%s: a choice leads to a missing node %r" % (at, n)); continue
+            depth += len(node["messages"]) + (1 if n != ep["start"] else 0)   # + the answer sent to get here
+            ch = node.get("choices") or []
+            if node.get("ending") and ch: problems.append("%s: node %r is an ending and has choices" % (at, n))
+            if not node.get("ending") and not ch: problems.append("%s: node %r is a dead end (no choices, not an ending)" % (at, n))
+            if node.get("ending"): longest = max(longest, depth)
+            if n in seen: continue
+            seen.add(n); todo += [(c.get("next"), depth) for c in ch]
+        for n in set(N) - seen: problems.append("%s: node %r can never be reached" % (at, n))
+        if longest and len(ep["messages"]) != longest: problems.append("%s: messages must be the longest path (%d), not %d" % (at, longest, len(ep["messages"])))
 if problems:
     raise SystemExit("Broken story text, fix content/ first:\n  " + "\n  ".join(problems[:40]))
 
