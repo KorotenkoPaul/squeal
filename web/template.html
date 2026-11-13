@@ -873,7 +873,7 @@ function wireCards(root) {
     ["pointerup", "pointerleave", "pointercancel"].forEach(ev => b.addEventListener(ev, () => b.classList.remove("pressing")));
     /* a slider card opens the story the finger came down on: tapped while the slider was still turning by itself, the
        card under the finger at the lift can already be the next one (2026-11-11) */
-    b.onclick = () => { if (pressed()) return;
+    b.onclick = e => { if (pressed()) return; openTapAt(e);
       const id = b.matches(".hero") && HERO_DOWN && performance.now() - HERO_DOWN.t < 1000 ? HERO_DOWN.id : b.dataset.id; HERO_DOWN = null; preview(id); };
   });
 }
@@ -1675,6 +1675,15 @@ function favourites() {
     }, 220);
   };
   const cards = [...app.querySelectorAll(".row-card")];
+  /* as on iPhone: with a row's "Remove" open, the next touch anywhere else (another row, an empty spot, a scroll) only
+     closes it — nothing under that touch opens (2026-11-13) */
+  app.querySelector("#view")?.addEventListener("pointerdown", e => {
+    const open = cards.find(c => c._x && !c._removing && c.isConnected); if (!open || e.target.closest?.("[data-remove]")) return;
+    if (e.target.closest?.(".row-card") === open) return;                // its own face: its click closes it
+    snap(open, 0);
+    const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
+    window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 700);
+  }, { capture: true });
   cards.forEach(card => {
     card._x = 0;
     let x0 = null, y0 = 0, base = 0, dragging = false, vx = 0, lastX = 0, lastT = 0;
@@ -1709,7 +1718,7 @@ function favourites() {
     if (card._removing) return;
     if (card._moved) { card._moved = false; return; }
     if (card._x) return snap(card, 0);
-    preview(b.dataset.open); });
+    openTapAt(e); preview(b.dataset.open); });
   app.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => removeRow(b.closest(".row-card")));
   rubberBand(app.querySelector("#view"));
 }
@@ -1881,7 +1890,7 @@ function search() {
     rsettle((e?.timeStamp ?? performance.now()) - rlastT > 100 ? 0 : rv);
   };
   results.addEventListener("touchend", rlet); results.addEventListener("touchcancel", rlet);
-  const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = () => preview(b.dataset.id));
+  const wire = () => results.querySelectorAll("[data-id]").forEach(b => b.onclick = e => { openTapAt(e); preview(b.dataset.id); });
   const showLevel = () => {
     const list = STORIES.filter(s => fearOf(s) === fearLevel);
     results.innerHTML = list.length ? `<div class="list">${list.map(row).join("")}</div>` : `<p class="hint">${tr("noScary")}</p>`;   // only this level
@@ -2182,6 +2191,9 @@ const liveSheet = () => [...layer.querySelectorAll(".sheet")].find(s => !s._clos
    not open what lies under it (a card, a tab, the search field). Only near that spot and only for 0.4 s, so a card
    tapped elsewhere while the page goes still opens (2026-11-11) */
 let CLOSE_TAP = null;
+/* the same for a story page opened by a tap: it appears at once, and the second tap of a double tap on a card must not
+   press "Read" or a part that now lies under the finger (2026-11-13) */
+function openTapAt(e) { if (e && e.clientX != null && (e.clientX || e.clientY)) closeTapAt({ clientX: e.clientX, clientY: e.clientY }); }
 function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() };
   /* the touch listener that can hold a touch back is there only for these 0.4 s: the rest of the time scrolling never waits for it */
   window.addEventListener("touchstart", eatCloseTap, { capture: true, passive: false }); setTimeout(() => window.removeEventListener("touchstart", eatCloseTap, true), 450); }
@@ -2818,15 +2830,15 @@ function voiceBubble(d, m) {
   const btn = d.querySelector(".vplay"), ticks = [...d.querySelectorAll(".wave i")], dur = d.querySelector(".vdur");
   let audio = null;
   const paint = () => { const f = audio && audio.duration ? audio.currentTime / audio.duration : 0; const n = Math.round(f * ticks.length);
-    ticks.forEach((t, k) => t.classList.toggle("on", k < n)); dur.textContent = fmt(audio && !audio.paused ? Math.min(m.dur || 99, Math.round(audio.currentTime)) : m.dur || 0); };   // counts up to the length shown (it stopped at 0:09 of 0:10, 2026-11-13)
+    ticks.forEach((t, k) => t.classList.toggle("on", k < n)); dur.textContent = fmt(audio && (d.classList.contains("playing") || audio.currentTime > 0) && !audio.ended ? Math.min(m.dur || 99, Math.round(audio.currentTime)) : m.dur || 0); };   // paused half way: the time reached, matching the bars (2026-11-13)   // counts up to the length shown (it stopped at 0:09 of 0:10, 2026-11-13)
   const stop = () => { if (!audio) return; audio.pause(); audio.currentTime = 0; d.classList.remove("playing"); paint(); };
   btn.onclick = e => {
     e.stopPropagation();
     if (!audio) { audio = new Audio(m.voice); audio.ontimeupdate = paint; audio.onended = () => { d.classList.remove("playing"); audio.currentTime = 0; paint(); nowPlaying = null; };
       audio.onpause = () => { if (!audio.ended) { d.classList.remove("playing"); paint(); } }; }   // paused by the phone too: the play icon comes back (2026-11-11)
-    if (!audio.paused) { audio.pause(); d.classList.remove("playing"); return; }
+    if (!audio.paused) { audio.pause(); d.classList.remove("playing"); paint(); return; }
     if (nowPlaying && nowPlaying !== stop) nowPlaying();
-    nowPlaying = stop; d.classList.add("playing"); audio.play().catch(() => d.classList.remove("playing"));
+    nowPlaying = stop; d.classList.add("playing"); paint(); audio.play().catch(() => { d.classList.remove("playing"); paint(); });   // the time shows at once (2026-11-13)
   };
 }
 const FREE_TAPS = 100;
