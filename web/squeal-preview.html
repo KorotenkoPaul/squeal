@@ -2797,7 +2797,7 @@ function videoCircle(d, m) {
   const v = d.querySelector("video"), ring = d.querySelector(".ring circle"), lab = d.querySelector(".vcdur"), L = 2 * Math.PI * 48.5;
   ring.style.strokeDasharray = L; ring.style.strokeDashoffset = L;
   const paint = () => { ring.style.strokeDashoffset = d.classList.contains("playing") && v.duration ? L * (1 - v.currentTime / v.duration) : L;
-    lab.textContent = "0:" + String(Math.floor(d.classList.contains("playing") ? v.currentTime : m.dur || 0)).padStart(2, "0"); };
+    lab.textContent = "0:" + String(d.classList.contains("playing") ? Math.min(m.dur || 99, Math.round(v.currentTime)) : m.dur || 0).padStart(2, "0"); };
   const stop = () => { d.classList.remove("playing"); v.muted = true; v.loop = true; v.play().catch(() => {}); paint(); };
   v.ontimeupdate = paint;
   v.onended = () => { stop(); nowPlaying = null; };
@@ -2818,7 +2818,7 @@ function voiceBubble(d, m) {
   const btn = d.querySelector(".vplay"), ticks = [...d.querySelectorAll(".wave i")], dur = d.querySelector(".vdur");
   let audio = null;
   const paint = () => { const f = audio && audio.duration ? audio.currentTime / audio.duration : 0; const n = Math.round(f * ticks.length);
-    ticks.forEach((t, k) => t.classList.toggle("on", k < n)); dur.textContent = fmt(audio && !audio.paused ? audio.currentTime : m.dur || 0); };
+    ticks.forEach((t, k) => t.classList.toggle("on", k < n)); dur.textContent = fmt(audio && !audio.paused ? Math.min(m.dur || 99, Math.round(audio.currentTime)) : m.dur || 0); };   // counts up to the length shown (it stopped at 0:09 of 0:10, 2026-11-13)
   const stop = () => { if (!audio) return; audio.pause(); audio.currentTime = 0; d.classList.remove("playing"); paint(); };
   btn.onclick = e => {
     e.stopPropagation();
@@ -3090,7 +3090,9 @@ function openStory(id, epIndex) {
   const morph = (el, from) => { if (reduce() || !el.animate) return;
     const r = el.getBoundingClientRect(), sx = Math.min(1, from.width / r.width), sy = Math.min(1, from.height / r.height);
     const over = log.scrollHeight - log.clientHeight - 8, grow = Math.max(0, r.height - from.height);
-    el.animate([{ transform: `scale(${sx}, ${sy})`, marginTop: -Math.min(grow, Math.max(grow, over > 0 ? grow : grow)) + "px" }, { transform: "none", marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" });
+    /* a tall one (a video circle, 170 px of growth) starts a little softer: the same 0.26 s ease-out, but the chat is not
+       pushed 50–75 px in its first frame (2026-11-13) */
+    el.animate([{ transform: `scale(${sx}, ${sy})`, marginTop: -Math.min(grow, Math.max(grow, over > 0 ? grow : grow)) + "px" }, { transform: "none", marginTop: "0px" }], { duration: 260, easing: grow > 100 ? "cubic-bezier(.3,.6,.3,1)" : "cubic-bezier(.2,.9,.3,1)" });
     const fade = [{ opacity: 0 }, { opacity: 0, offset: .3 }, { opacity: 1 }];
     if (el.children.length) [...el.children].forEach(c => c.animate(fade, { duration: 260 }));
     else el.animate([{ color: "transparent" }, { color: "transparent", offset: .3 }, {}], { duration: 260 }); };
