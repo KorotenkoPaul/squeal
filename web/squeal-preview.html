@@ -568,7 +568,9 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; max-width: calc(100% - 32px); box-sizing: border-box; width: max-content; white-space: normal; text-align: center; }   /* long toasts (ru) wrap instead of running off both edges (2026-11-12) */
 @keyframes msgIn { from { opacity: 0; transform: translateY(8px) scale(.9) } to { opacity: 1; transform: none } }   /* was "rise", which clashed with the water's "rise" */
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
-@media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg, .typing { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none } }
+@media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg, .typing { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none }
+  /* nothing else slides, rises or pulses either (2026-11-13) */
+  .choice, .ask, .grid.swap .tile, .toast, .chrome .note, .typing.rec svg, .foot.idle .cont { animation: none !important; } }
 </style>
 
 <div class="app boot" id="app"></div>
@@ -1622,7 +1624,7 @@ function startSlider() {
     /* inside the pill itself (2026-11-09, last): it starts at the pill's left end and moves with the pill under the
        finger, shrinking within it — never left behind where the pill stood */
     fill.style.transform = "";
-    if (!still && settled && !busy && t >= 1) { since = now; el.scrollTo({ left: (Math.round(raw) + 2) * step, behavior: "smooth" }); }   // always one step right
+    if (settled && !busy && t >= 1) { /* Reduce Motion: it turns at once instead of sliding — it never turned at all (2026-11-13) */ since = now; el.scrollTo({ left: (Math.round(raw) + 2) * step, behavior: still ? "auto" : "smooth" }); }   // always one step right
     slideTimer = requestAnimationFrame(frame);
   };
   frame(performance.now());                                  // the dots and the white line are right from the first frame
@@ -3220,6 +3222,7 @@ function openStory(id, epIndex) {
         };
         const reply = () => { const nx = ep.messages[st.i];
           if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, 0); };   // straight away
+        scr._pickT = performance.now();                                  // the second tap of a double tap on an answer reads nothing (2026-11-13)
         if (reduce() || !b.animate) { commit(); return reply(); }
         /* 1) the other answers slide back out to the right */
         foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
@@ -3297,11 +3300,14 @@ function openStory(id, epIndex) {
       if (calm) { endIn = true; foot.classList.add("wait"); }          // the title rides up with the conversation; the buttons wait
       wantGlide = true;
       foot.classList.remove("hint"); foot.classList.add("endfoot"); foot.onclick = null;
+      /* the end buttons take no tap for their first 0.45 s on screen: tapping fast through to the end, the next tap lands
+         where "Tap to continue" stood — on "Read again" — and wiped the part (2026-11-13) */
+      scr._endShown = performance.now() + (calm ? (scr._endLate ? 400 : 125) : 0);
       foot.innerHTML = `${last ? "" : `<button class="tap primary" id="next">${tr("next")}</button>`}<button class="tap again" id="again">${path ? tr("startOver") : tr("readAgain")}</button>`;
       const next = foot.querySelector("#next");
-      if (next) next.onclick = () => { if (!early()) openStory(id, st.ep + 1); };   // the second tap of the tap that opened this chat never skips a part (2026-11-11)
+      if (next) next.onclick = () => { if (!early() && !endEarly()) openStory(id, st.ep + 1); };   // the second tap of the tap that opened this chat never skips a part (2026-11-11)
       foot.querySelector("#again").onclick = () => {
-        if (early()) return;
+        if (early() || endEarly()) return;
         const p = prog(s);
         /* the end of the last part with every part read: the whole story again; else this part only (part 3 read again
            never wipes a half-read part 1, 2026-11-11) */
@@ -3319,7 +3325,7 @@ function openStory(id, epIndex) {
           foot.insertAdjacentHTML("afterbegin", `<div class="turns"><span>${tr("turns")}</span>${turns.map((t, j) =>
             `<button class="turn" data-k="${t.k}" aria-label="Back to choice ${j + 1}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 2.5 6.5 6 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6.5h6.5a4 4 0 0 1 0 8H7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>${j + 1}</button>`).join("")}</div>`);
           foot.querySelectorAll(".turn").forEach(b => b.onclick = e => {
-            e.stopPropagation(); if (early()) return;
+            e.stopPropagation(); if (early() || endEarly()) return;
             path = path.slice(0, +b.dataset.k + 1);
             const n = flatten().length, p = prog(s);
             p.ep = st.ep; p.pos[st.ep] = n; p.path = path; setProg(s, p);
@@ -3373,7 +3379,7 @@ function openStory(id, epIndex) {
       }, 250);
     }
     log.appendChild(t); inflate(t); glideDown();
-    const delay = reduce() ? 150 : msgWait(m);                     // the same delays the reading time counts
+    const delay = msgWait(m);                          // the same with Reduce Motion: "typing…" and recording are pacing, not motion (2026-11-13)                     // the same delays the reading time counts
     timer = setTimeout(() => { clearInterval(rec); if (scr._leaving || !scr.isConnected) return;
       fromTyping = t.getBoundingClientRect(); t.remove(); scr._paid = false; add(m); st.i++; save(); status.textContent = tr("online"); busy = false; glideDown(); controls(); }, delay);
   }
@@ -3385,8 +3391,9 @@ function openStory(id, epIndex) {
   /* the second tap of a double tap on "Next part", "Read again", "Read" or a tile lands on the new chat (on its
      panel, or on the conversation when the button stood higher) and must not read its first message: for its first
      0.35 s the chat takes no taps, and a tap within 0.3 s of an ignored one belongs to the same burst (a triple tap) (2026-11-11) */
+  const endEarly = () => performance.now() - (scr._endShown || 0) < 450;
   function early() { const t = performance.now();
-    if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200)) { scr._skipT = t; return true; }
+    if (t - scr._born < 350 || (scr._skipT && t - scr._skipT < 300 && t - scr._born < 1200) || (scr._pickT && t - scr._pickT < 450)) { scr._skipT = t; return true; }
     return false; }
   controls();
   log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
