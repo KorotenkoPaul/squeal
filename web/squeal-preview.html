@@ -2193,14 +2193,14 @@ const liveSheet = () => [...layer.querySelectorAll(".sheet")].find(s => !s._clos
 let CLOSE_TAP = null;
 /* the same for a story page opened by a tap: it appears at once, and the second tap of a double tap on a card must not
    press "Read" or a part that now lies under the finger (2026-11-13) */
-function openTapAt(e) { if (e && e.clientX != null && (e.clientX || e.clientY)) closeTapAt({ clientX: e.clientX, clientY: e.clientY }); }
+function openTapAt(e) { if (e && e.clientX != null && (e.clientX || e.clientY)) { closeTapAt({ clientX: e.clientX, clientY: e.clientY }); CLOSE_TAP.open = true; } }
 function closeTapAt(e) { const r = e.currentTarget?.getBoundingClientRect?.(); CLOSE_TAP = { x: r ? r.left + r.width / 2 : e.clientX, y: r ? r.top + r.height / 2 : e.clientY, t: performance.now() };
   /* the touch listener that can hold a touch back is there only for these 0.4 s: the rest of the time scrolling never waits for it */
   window.addEventListener("touchstart", eatCloseTap, { capture: true, passive: false }); setTimeout(() => window.removeEventListener("touchstart", eatCloseTap, true), 450); }
 function eatCloseTap(e) {
   if (!CLOSE_TAP || performance.now() - CLOSE_TAP.t > 400) return;
   const p = e.touches ? e.touches[0] : e; if (!p || Math.hypot(p.clientX - CLOSE_TAP.x, p.clientY - CLOSE_TAP.y) > 44) return;
-  if (e.target.closest?.("#pv-back, .screen:not([style*='pointer-events: none']) #back")) return;   // the button itself, still there, handles its own
+  if (!CLOSE_TAP.open && e.target.closest?.("#pv-back, .screen:not([style*='pointer-events: none']) #back")) return;   // the button itself, still there, handles its own (not the ✕ of a page just opened by that same double tap)
   e.preventDefault(); e.stopPropagation(); }
 ["pointerdown", "mousedown", "click"].forEach(n => window.addEventListener(n, eatCloseTap, { capture: true }));
 function preview(id) {
