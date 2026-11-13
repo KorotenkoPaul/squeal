@@ -1681,8 +1681,10 @@ function favourites() {
     const open = cards.find(c => c._x && !c._removing && c.isConnected); if (!open || e.target.closest?.("[data-remove]")) return;
     if (e.target.closest?.(".row-card") === open) return;                // its own face: its click closes it
     snap(open, 0);
-    const eat = ev => { ev.stopPropagation(); ev.preventDefault(); };
-    window.addEventListener("click", eat, { capture: true, once: true }); setTimeout(() => window.removeEventListener("click", eat, true), 700);
+    const eat = ev => { ev.stopPropagation(); ev.preventDefault(); }, done = () => window.removeEventListener("click", eat, true);
+    window.addEventListener("click", eat, { capture: true, once: true });            // only this touch's own click (a scroll makes none)
+    window.addEventListener("pointerup", () => setTimeout(done, 60), { capture: true, once: true });
+    window.addEventListener("pointercancel", done, { capture: true, once: true }); setTimeout(done, 700);
   }, { capture: true });
   cards.forEach(card => {
     card._x = 0;
@@ -1939,7 +1941,7 @@ function search() {
   q.onfocus = () => { if (backY === null) backY = results.scrollTop;
     bar.classList.add("active"); clearTimeout(outT); clearTimeout(settleT); /* a dial still gliding never puts its list over the search (2026-11-11) */ fear.classList.add("gone", "out"); if (!query) results.innerHTML = ""; results.scrollTop = 0; };
   q.onblur = () => { if (!query) { bar.classList.remove("active"); showDial(); showLevel(); backToPlace(); } };
-  document.getElementById("s-cancel").onclick = () => {
+  document.getElementById("s-cancel").onclick = e => { openTapAt(e);   // the field grows under the finger: a second tap there does not bring the keyboard back (2026-11-13)
     query = ""; q.value = ""; bar.classList.remove("active");
     if (document.activeElement === q) q.blur(); else { showDial(); showLevel(); backToPlace(); }
   };
@@ -1952,7 +1954,9 @@ function search() {
     if (document.activeElement !== q || e.target.closest(".sbar")) return;
     /* only with nothing typed does the list change under the finger; with matches showing, a tap on one opens it
        straight away (and puts the keyboard away), as in any iPhone search (2026-11-10) */
-    if (!query) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700); }
+    if (!query) { e.preventDefault(); eatClick = true; setTimeout(() => { eatClick = false; }, 700);
+      const off = () => { eatClick = false; }; window.addEventListener("pointercancel", off, { capture: true, once: true });   // a scroll: no click comes, the next real tap is not eaten (2026-11-13)
+      window.addEventListener("pointerup", () => setTimeout(off, 60), { capture: true, once: true }); }
     q.blur();
   });
   view.addEventListener("click", e => { if (eatClick) { eatClick = false; e.preventDefault(); e.stopPropagation(); } }, true);
@@ -1991,8 +1995,9 @@ function menu() {
   /* menu ⇄ languages (2026-11-09): the words fade out where they stand (0.3 s) and the others fade in in the very
      same places (0.3 s); nothing moves. Back: the arrow, or a swipe from left to right anywhere on the page —
      the words do not follow the finger, the swipe just starts the same change */
+  let swapAt = -1e9;
   const swap = to => {
-    if (busy || mode === to) return; busy = true;
+    if (busy || mode === to) return; busy = true; swapAt = performance.now();
     back.classList.toggle("on", to === "lang");
     if (reduce() || !rows[0].animate) { mode = to; fill(); busy = false; return; }
     rows.forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
@@ -2014,7 +2019,7 @@ function menu() {
   view.addEventListener("touchend", let_go); view.addEventListener("touchcancel", () => { sx = null; });   // the phone took the touch: nothing (2026-11-12)
   rows.forEach(b => b.onclick = () => {
     const m = b.dataset.m;
-    if (busy) return;
+    if (busy || performance.now() - swapAt < 750) return;          // the rows that just faded in take no tap yet: a double tap never picks a language or the subscription (2026-11-13)
     if (m.startsWith("l:")) {                                      // a language: the app speaks it from now on
       const code = m.slice(2); if (code === LANG) return;
       store.set("lang", code); setLang(code);
@@ -2282,6 +2287,7 @@ function wire(sheet, s) {
     window.addEventListener("click", eat, { capture: true, once: true });
     const done = () => { window.removeEventListener("click", eat, true); };
     window.addEventListener("pointerup", () => setTimeout(done, 50), { capture: true, once: true });
+    window.addEventListener("pointercancel", done, { capture: true, once: true });   // the finger slid off: no click will come, nothing to eat (2026-11-13: the next tap anywhere was lost)
     setTimeout(done, 1500);
     closeSheet(sheet); });
   back.onclick = e => { if (e.detail === 0) closeSheet(sheet); };            // keyboard
@@ -3363,7 +3369,9 @@ function openStory(id, epIndex) {
   function showPaywall() {
     foot.classList.remove("hint"); foot.onclick = null;
     foot.innerHTML = `<div class="paywall"><span>${tr("payT")}</span><button id="pay">${tr("payB")}</button></div>`;
-    foot.querySelector("#pay").onclick = e => { e.stopPropagation(); toast(tr("inApp", { x: trA("menu")[0] })); };
+    const payAt = performance.now();
+    foot.querySelector("#pay").onclick = e => { e.stopPropagation(); if (performance.now() - payAt < 450) return;   // fast reading into the paywall never presses it (2026-11-13)
+      toast(tr("inApp", { x: trA("menu")[0] })); };
   }
   /* one free tap is spent per message shown, silently */
   function spendTap() {
