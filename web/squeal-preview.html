@@ -2915,7 +2915,7 @@ function openStory(id, epIndex) {
   if (path && (path[0] !== base.start || path.some((n, k) => !base.nodes[n] || (k && !(base.nodes[path[k - 1]].choices || []).some(c => c.next === n))))) { path = [base.start]; st.i = 0; }
   const flatten = () => {
     const seq = [];
-    path.forEach((n, k) => { if (k) { const c = base.nodes[path[k - 1]].choices.find(c => c.next === n); seq.push({ from: base.right, text: c.text }); }
+    path.forEach((n, k) => { if (k) { const c = base.nodes[path[k - 1]].choices.find(c => c.next === n); seq.push({ from: base.right, text: c.text, answer: true }); }
       seq.push(...base.nodes[n].messages); });
     return seq;
   };
@@ -2997,8 +2997,10 @@ function openStory(id, epIndex) {
   scr.querySelector("#undo-test").onclick = e => {
     e.stopPropagation();
     if (st.i <= 0) return;                        // nothing to take back: whatever is being typed goes on
+    /* something under way ("typing…", recording, an answer picked but not yet flying): ↶ cancels just that (2026-11-13) */
+    const pending = !!log.querySelector(".typing") || (!!foot.querySelector(".choice.leave") && !scr.querySelector(".choice-ghost"));
     scr._stop(); busy = false;
-    const n = st.i - 1, p = prog(s);
+    const n = pending ? st.i : st.i - 1, p = prog(s);
     if (path) {                                   // where each chosen branch starts in the chat: drop the ones undone
       let at = 0; const keep = [];
       for (let k = 0; k < path.length; k++) { if (k) { if (n <= at) break; at++; } keep.push(path[k]); at += base.nodes[path[k]].messages.length; }
@@ -3401,6 +3403,10 @@ function openStory(id, epIndex) {
   log.scrollTop = log.scrollHeight;                                // the panel is in: land on the last message read
   slides();
   swipeBack(scr);
+  /* opened just after the reader's own answer (left before the reply came, or ↶ over the reply): the other side answers
+     by itself, 1 s on, free — as it does right after picking (2026-11-13) */
+  if (path && st.i > 0 && ep.messages[st.i - 1]?.answer && ep.messages[st.i] && ep.messages[st.i].from !== ep.right) {
+    const at = st.i; setTimeout(() => { if (scr.isConnected && !scr._leaving && !busy && st.i === at) step(true); }, 1000); }
 }
 
 /* Messenger-style swipe back: drag the chat to the right; it follows the finger and, let go far enough
