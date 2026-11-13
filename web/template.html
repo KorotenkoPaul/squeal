@@ -1653,7 +1653,9 @@ function favourites() {
   const removeRow = card => {
     if (card._removing) return; card._removing = true;               // a second tap on "Remove" never puts the story back (2026-11-11)
     snap(card, -card.offsetWidth - GAP);
-    const prev = card.previousElementSibling, next = card.nextElementSibling;
+    /* rows already on their way out do not count: the second of two quick removals takes the genre heading (2026-11-13) */
+    let prev = card.previousElementSibling, next = card.nextElementSibling;
+    while (prev?._removing) prev = prev.previousElementSibling; while (next?._removing) next = next.nextElementSibling;
     const label = prev?.classList.contains("label") && !next?.classList.contains("row-card") ? prev : null;
     label?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
     setTimeout(() => {
@@ -2347,7 +2349,7 @@ function wire(sheet, s) {
   /* the same heart as on the home tiles: a like draws it with a pen stroke and fills it; an unlike cracks it
      like the broken-heart emoji, the halves part a little and fade, and the plain (unliked) heart returns */
   sheet.querySelector("#pv-like").onclick = e => {
-    const btn = e.currentTarget; toggleFav(id, btn.getAttribute("aria-pressed") !== "true"); const on = favs().includes(id);
+    const btn = e.currentTarget; toggleFav(id, btn.getAttribute("aria-pressed") !== "true" || btn.dataset.off === "1"); delete btn.dataset.off; const on = favs().includes(id);
     /* the cards under the preview change right now, silently: when the preview closes they already show it (2026-11-09) */
     document.querySelectorAll(`.tile[data-id="${id}"]`).forEach(tl => { const h = tl.querySelector(".fav");
       if (on && !h) tl.insertAdjacentHTML("beforeend", `<span class="fav">${ICON.heartDrawn}</span>`); if (!on && h) h.remove(); });
@@ -2362,12 +2364,13 @@ function wire(sheet, s) {
       drawHeart(btn, 390);
       btn._t = setTimeout(() => { btn.style.transition = ""; }, 420); return; }
     if (reduce() || !btn.animate) { btn.setAttribute("aria-pressed", false); btn.innerHTML = ICON.heartDrawn; return; }
+    btn.dataset.off = "1";                                             // unliked now (a quick second tap likes again, 2026-11-13); the circle dims after the crack
     /* it cracks while still lit; then the circle dims and the plain heart comes back */
     const s = btn.querySelector("svg"), ms = 320;
     btn.innerHTML = cracked(btn.offsetWidth, s.getBoundingClientRect().width, s.outerHTML);
     const [l, r] = btn.children; crackOpen(l, r, ms);
     [l, r].forEach(x => x.animate([{ opacity: 1 }, { opacity: 1, offset: .45 }, { opacity: 0 }], { duration: ms, easing: "ease-in", fill: "forwards" }));
-    btn._t = setTimeout(() => { if (favs().includes(id)) return; btn.setAttribute("aria-pressed", false); btn.innerHTML = ICON.heartDrawn;
+    btn._t = setTimeout(() => { delete btn.dataset.off; if (favs().includes(id)) return; btn.setAttribute("aria-pressed", false); btn.innerHTML = ICON.heartDrawn;
       btn.querySelector("svg").animate?.([{ opacity: 0, transform: "scale(.7)" }, { opacity: 1, transform: "none" }], { duration: 180, easing: "ease-out" }); }, ms);
   };
   /* parts only select; the main button then opens the selected part (it starts on the one you'd carry on with) */
@@ -3036,8 +3039,15 @@ function openStory(id, epIndex) {
     };
     const ind = seg.querySelector(".ep-ind"), n = s.episodes.length;
     let sx = null, base = 0, moved = false;
-    seg.addEventListener("pointerdown", e => { e.stopPropagation(); sx = e.clientX; base = openNow() * SEG_STEP; moved = false; try { seg.setPointerCapture(e.pointerId); } catch {} });
-    seg.addEventListener("pointermove", e => {
+    /* the finger is followed on the window too: the disc moves into the new chat when a part opens, which drops the
+       pointer capture — a drag going on over that moment still ends (it stuck half way, 2026-11-13) */
+    let segBye = null;
+    seg.addEventListener("pointerdown", e => { e.stopPropagation(); sx = e.clientX; base = openNow() * SEG_STEP; moved = false; try { seg.setPointerCapture(e.pointerId); } catch {}
+      segBye?.abort(); segBye = new AbortController(); const o = { signal: segBye.signal };
+      addEventListener("pointermove", ev => { if (ev.pointerId === e.pointerId && !seg.hasPointerCapture?.(e.pointerId)) move(ev); }, o);
+      addEventListener("pointerup", ev => { if (ev.pointerId === e.pointerId) up(ev); }, o);
+      addEventListener("pointercancel", ev => { if (ev.pointerId === e.pointerId) cancel(); }, o); });
+    const move = e => {
       if (sx == null) return;
       const dx = e.clientX - sx;
       if (!moved && Math.abs(dx) < 4) return;
@@ -3047,15 +3057,18 @@ function openStory(id, epIndex) {
       const x = Math.max(0, Math.min((n - 1) * SEG_STEP, base + dx));
       ind.style.transform = `translateX(${x}px)`;
       seg.querySelectorAll("[data-ep]").forEach(b => b.setAttribute("aria-selected", +b.dataset.ep === Math.round(x / SEG_STEP)));
-    });
+    };
+    seg.addEventListener("pointermove", move);
     const up = e => {
+      segBye?.abort(); segBye = null;
       if (sx == null) return;
       seg.classList.remove("drag");
       if (moved) { const x = Math.max(0, Math.min((n - 1) * SEG_STEP, base + e.clientX - sx)); goPart(Math.round(x / SEG_STEP)); }
       else { const b = document.elementFromPoint(e.clientX, e.clientY)?.closest(".ep-seg [data-ep]"); if (b) goPart(+b.dataset.ep); }   // the seg holds the pointer, so find the number under the finger
       sx = null;
     };
-    seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", () => { seg.classList.remove("drag"); sx = null; goPart(openNow()); });
+    const cancel = () => { segBye?.abort(); segBye = null; if (sx == null) return; seg.classList.remove("drag"); sx = null; goPart(openNow()); };
+    seg.addEventListener("pointerup", up); seg.addEventListener("pointercancel", cancel);
     seg.addEventListener("click", e => { e.stopPropagation();
       if (e.detail === 0) { const b = e.target.closest?.("[data-ep]"); if (b) goPart(+b.dataset.ep); } });   // keyboard / assistive tech: Enter or Space switches too (2026-11-11)
   }
