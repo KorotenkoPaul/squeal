@@ -59,7 +59,7 @@ const path = require('path');
       await p.evaluate(id => { const s = STORIES.find(x => x.id === id), e = s.episodes[0];
         localStorage.setItem('squeal:p:' + id, JSON.stringify({ ep: 0, pos: [e.nodes[e.start].messages.length], path: [e.start], v: s.v })); document.querySelector('.screen')?.remove(); WALL.chat = null; openStory(id, 0); }, inter);
       await p.waitForTimeout(4200);
-      await p.locator('.screen .choice').first().click(); await p.waitForTimeout(400);
+      await p.locator('.screen .draft').first().click(); await p.waitForTimeout(400);
       const fell = await p.evaluate(() => [...new Set(WALL.items.filter(d => d.phase === 'fall').map(d => d.g))]);
       if (!fell.length || fell.includes('*')) fails.push(`doodles: a choice in ${inter} should drop only closed-off endings' doodles, fell: ${JSON.stringify(fell)}`);
     }

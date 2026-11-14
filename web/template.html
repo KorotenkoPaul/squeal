@@ -253,6 +253,13 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .foot.choose .ask { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; text-align: center; margin-bottom: 2px; }
 /* end of an interactive story: small buttons back to each turning point of the path just read */
 .foot.ended { flex-wrap: wrap; }
+/* an answer to choose: a draft of your own message, outlined, in the chat itself (2026-11-14) */
+.msg.me.draft { box-sizing: content-box; font: inherit; color: var(--text); text-align: left; border: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  background: transparent; box-shadow: inset 0 0 0 1.5px var(--me); border-bottom-right-radius: 18px;
+  transition: background-color .24s ease-out, border-bottom-right-radius .24s ease-out; }
+.msg.me.draft:active { background: rgba(106,75,184,.25); }
+.msg.me.draft.on { background: var(--me); border-bottom-right-radius: 5px; }
+.foot .cont.gone { opacity: 0; }
 .turns { flex: 1 0 100%; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px; }
 .turns span { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-right: 4px; }
 .turn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px 7px 10px; border-radius: 999px; border: 1.5px solid #9b7ff0; color: var(--text); font-weight: 700; font-size: 14px; }
@@ -3017,7 +3024,7 @@ function openStory(id, epIndex) {
      shrinks while the answer arrives at the bottom: the two make one smooth movement, so the answer lands exactly
      where every sent message does (no empty room left under it) and nothing above it jerks */
   let gT0 = 0, gOff = 0;
-  const natural = () => log.scrollHeight - log.clientHeight;               // the scroll that shows the very bottom
+  const natural = () => { log._hold?.sync(); return log.scrollHeight - log.clientHeight; };   // the scroll that shows the very bottom (the room kept after a choice is settled first)
   const keep = now => {
     if (gT0 < 0) gT0 = now - (gT0 === -2 ? 16.7 : 0);                 // anchored to its first frame: a glide carried on moves one frame's worth at once
     const n = natural(), q = Math.max(0, Math.min(1, (now - gT0) / 260));
@@ -3133,7 +3140,7 @@ function openStory(id, epIndex) {
     const h = el.getBoundingClientRect().height, gap = parseFloat(getComputedStyle(log).rowGap) || 6;
     /* a chat shorter than the screen: the bubble just grows in its own place; a full chat: it grows at the bottom
        edge and pushes the conversation up as it grows */
-    const over = log.scrollHeight - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room), over) : 0;   // just the part that does not fit
+    const over = log.scrollHeight - log.clientHeight - 8, m0 = over > 0 ? -Math.min(Math.max(0, h + gap - room - (log._hold?.room || 0)), over) : 0;   // (the room kept after a choice counts as standing room)   // just the part that does not fit
     /* from nothing (scale 0, 2026-11-10: from 35% it overlapped the message above), out of its pointed corner: bottom
        left for theirs, bottom right for yours; it is never taller than the room already opened for it (2026-11-09) */
     el.animate([{ transform: "scale(0)", opacity: 0, marginTop: m0 + "px" }, { transform: "none", opacity: 1, marginTop: "0px" }], { duration: 260, easing: "cubic-bezier(.2,.9,.3,1)" }); };
@@ -3141,13 +3148,22 @@ function openStory(id, epIndex) {
      pointed corner, while the words fade in — no second bubble grows */
   const morph = (el, from) => { if (reduce() || !el.animate) return;
     const r = el.getBoundingClientRect(), sx = Math.min(1, from.width / r.width), sy = Math.min(1, from.height / r.height);
-    const over = log.scrollHeight - log.clientHeight - 8, grow = Math.max(0, r.height - from.height);
+    const over = log.scrollHeight - log.clientHeight - 8, grow = Math.max(0, r.height - from.height - (log._hold?.room || 0));
     /* a tall one (a video circle, 170 px of growth) starts a little softer: the same 0.26 s ease-out, but the chat is not
        pushed 50–75 px in its first frame (2026-11-13) */
     el.animate([{ transform: `scale(${sx}, ${sy})`, marginTop: -Math.min(grow, Math.max(grow, over > 0 ? grow : grow)) + "px" }, { transform: "none", marginTop: "0px" }], { duration: 260, easing: grow > 100 ? "cubic-bezier(.3,.6,.3,1)" : "cubic-bezier(.2,.9,.3,1)" });
     const fade = [{ opacity: 0 }, { opacity: 0, offset: .3 }, { opacity: 1 }];
     if (el.children.length) [...el.children].forEach(c => c.animate(fade, { duration: 260 }));
     else el.animate([{ color: "transparent" }, { color: "transparent", offset: .3 }, {}], { duration: 260 }); };
+  /* the room left by the answers not chosen (2026-11-14): the chat keeps its height — an empty space under the sent
+     answer — and every new message (and "typing…") takes its place from that space instead of pushing the chat up;
+     once it is used up, the chat scrolls as usual */
+  const holdHeight = H => { log._hold?.stop(); let raf = 0, x = 0;
+    const base = parseFloat(getComputedStyle(log).paddingBottom) || 0;
+    const sync = () => { const nat = log.scrollHeight - x; x = Math.max(0, H - nat); log.style.paddingBottom = x ? (base + x) + "px" : "";
+      if (!x) return stop(); raf = requestAnimationFrame(sync); };
+    const stop = () => { cancelAnimationFrame(raf); if (log._hold === api) log._hold = null; x = 0; log.style.paddingBottom = ""; };
+    const api = { stop, sync: () => { if (log._hold === api) { cancelAnimationFrame(raf); sync(); } }, get room() { return x; } }; log._hold = api; sync(); };
   let room = 0, fromTyping = null;
   let fresh = false;                                                 // messages read before are simply there
   const add = m => {
@@ -3246,91 +3262,50 @@ function openStory(id, epIndex) {
     const node = path && base.nodes[path.at(-1)];
     if (node && node.choices && st.i >= ep.messages.length) {          // your turn: pick what you write
       if (!premium() && freeTaps() <= 0) return showPaywall();         // no taps left: the paywall, not answers that cannot be picked (2026-11-12)
-      foot.classList.remove("hint", "idle"); foot.classList.add("choose"); foot.onclick = null;
-      /* each answer is set in lines exactly as it will stand once sent (2026-11-09): measured as a sent message,
-         its text box is that wide (scaled to the answer's smaller type), so nothing re-wraps when it is picked */
-      const asSent = text => { const pr = document.createElement("div"); pr.className = "msg me"; pr.style.visibility = "hidden"; pr.textContent = text;
-        log.appendChild(pr); const cs = getComputedStyle(pr), w = pr.getBoundingClientRect().width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), fs = parseFloat(cs.fontSize); pr.remove(); return { w, fs }; };
-      const sent = node.choices.map(c => asSent(c.text));
-      foot.innerHTML = `<span class="ask">${tr("ask")}</span>` + node.choices.map((c, k) => `<button class="choice" data-k="${k}" data-w="${sent[k].w}" data-fs="${sent[k].fs}" style="animation-delay:${k * 70}ms"><span class="ct" style="width:${sent[k].w * 15 / sent[k].fs + .5}px">${esc(c.text)}</span></button>`).join("");
+      /* DRAFTS (2026-11-14, owner: the chat jumped too much at a choice). The answers are not a panel that grows
+         under the chat: they come into the chat itself, on your side, as outlined drafts of your own message —
+         the very size and place they will have once sent. The bottom panel keeps its height ("Tap to continue"
+         becomes "What do you say?"), so the chat only moves as it does for any new message. A tap fills the
+         chosen draft with colour and it is sent where it stands; the others melt away and leave their room
+         empty, and the next messages come into that room — the chat does not move at all. */
+      foot.classList.remove("idle"); foot.classList.add("hint"); foot.onclick = null;
+      foot.innerHTML = `<span class="cont">${tr("ask")}</span>`;
+      log.querySelectorAll(".draft").forEach(x => x.remove());
+      const drafts = node.choices.map((c, k) => { const d = document.createElement("button"); d.className = "msg me draft"; d.dataset.k = k; d.textContent = c.text;
+        log.appendChild(d); return d; });
+      /* a full chat first glides up to open their room (as for any message, 0.26 s); then they slide in from the right, one by one */
+      const lag = log.scrollHeight - log.clientHeight - log.scrollTop > 8 ? 260 : 60;
+      if (fresh && !footFirst && !reduce()) drafts.forEach((d, k) => d.animate?.([{ transform: "translateX(calc(100% + 40px))", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 340, delay: lag + k * 70, easing: "cubic-bezier(.2,.9,.3,1)", fill: "backwards" }));
       let picked = false;
-      /* the phone turned while the answers wait: they are set in lines again for the new width (2026-11-11) */
-      scr._remeasure = () => { if (picked) return; foot.querySelectorAll(".choice").forEach(b => { const m = asSent(node.choices[+b.dataset.k].text);
-        b.dataset.w = m.w; b.dataset.fs = m.fs; const ct = b.querySelector(".ct"); if (ct) ct.style.width = (m.w * 15 / m.fs + .5) + "px"; }); };
-      foot.querySelectorAll(".choice").forEach(b => b.onclick = e => {
+      scr._remeasure = () => { if (log._hold) log._hold.stop(); };   // the phone turned: the kept room no longer fits, let it go
+      drafts.forEach(b => b.onclick = e => {
         e.stopPropagation();
-        if (picked || busy || scr._leaving || performance.now() - scr._born < 600) return;   // (0.6 s: the answers are still sliding in) the second tap of a double tap on "back to a choice" lands here: it never picks an answer (2026-11-10)
+        if (picked || busy || scr._leaving || performance.now() - scr._born < 600) return;   // (0.6 s: still coming in) the second tap of a double tap on "back to a choice" never picks (2026-11-10)
         if (!premium() && freeTaps() <= 0) return showPaywall();          // out of taps: the choice is not made
         picked = true; busy = true;
         const c = node.choices[+b.dataset.k];
-        /* the choice is the tap: the other side answers on its own, no extra tap */
-        const commit = () => { scr._picking = false;
-          path.push(c.next); ep.messages = flatten();
-          wallVis(inReach());                                          // the endings this choice closed off: their doodles fall
-          foot._h0 = foot.getBoundingClientRect().height;               // its height as shown, before the answers' layout goes
-          const s0 = log.scrollTop;                                    // (measuring on the way may clamp the scroll for a moment)
-          foot.classList.remove("choose"); busy = false;
-          fresh = false; growNext = true; step(); fresh = true;
-          log.scrollTop = Math.max(log.scrollTop, s0);                 // the panel is held at its old height again: back where it stood                         // the sent answer does not grow: the flying answer becomes it
-          return log.lastElementChild;                                 // the sent message
-        };
-        const reply = () => { const nx = ep.messages[st.i];
-          if (nx && nx.from !== ep.right) setTimeout(() => { if (scr.isConnected && !busy) step(true); }, 0); };   // straight away
         scr._pickT = performance.now(); scr._picking = true;             // the second tap of a double tap on an answer reads nothing (2026-11-13)
-        if (reduce() || !b.animate) { commit(); return reply(); }
-        /* 1) the other answers slide back out to the right */
-        foot.querySelectorAll(".choice").forEach(x => { if (x !== b) x.classList.add("leave"); });
-        foot.querySelector(".ask")?.classList.add("leave");             // "What do you say?" fades with them, never just vanishes (2026-11-09)
-        const hasOthers = node.choices.length > 1, pickT = performance.now();
-        /* scrolled up to reread? the chat first glides down to its end while the other answers leave, so no
-           message slides past under the flying answer (2026-11-09) */
+        const H = log.scrollHeight;                                      // the chat keeps exactly this height: nothing moves
         const away = log.scrollHeight - log.clientHeight - log.scrollTop > 8;
-        if (away) glideDown();
+        if (away) glideDown();                                           // scrolled up to reread: it first comes down to the drafts
+        b.classList.add("on");                                           // the chosen one fills with colour
+        foot.querySelector(".cont")?.classList.add("gone");
+        drafts.forEach(x => { if (x !== b) { x.style.pointerEvents = "none"; x.animate?.([{ opacity: 1 }, { opacity: 0, transform: "translateX(24px)" }], { duration: reduce() ? 0 : 240, easing: "ease-in", fill: "forwards" }); } });
         setTimeout(() => {
-          if (!scr.isConnected || scr._leaving) return;                  // closed meanwhile (back, swipe): nothing is sent (2026-11-11)
-          const r = b.getBoundingClientRect();
-          /* 2) the picked one travels to its place as a sent message, filling with water on the way */
-          const g = document.createElement("div"); g.className = "choice-ghost";
-          g.innerHTML = `<span class="water"><i>${WAVES}</i></span><span class="t"><span class="tw" style="width:${+b.dataset.w * 15 / +b.dataset.fs + .5}px">${esc(c.text)}</span></span>`;
-          /* the chat screen is the ghost's frame (it can sit off the window's edge): place it in the screen's own coordinates */
-          const O = () => scr.getBoundingClientRect(), o0 = O();
-          Object.assign(g.style, { left: (r.left - o0.left) + "px", top: (r.top - o0.top) + "px", width: r.width + "px", height: r.height + "px" });
-          scr.appendChild(g); b.style.visibility = "hidden";
-          /* while the answer flies to its place (0.5 s) the chat does not scroll: scrolled meanwhile, the messages slid
-             under the flying answer (2026-11-10); it scrolls again the moment the answer lands */
-          log.style.overflowY = "hidden";
-          foot.classList.add("wait");                                  // "Tap to continue" waits until the message has landed
-          scr._flying = true;                                          // an ending reached by this answer: its buttons wait for the landing too (2026-11-11)
-          const msg = commit(); msg.getAnimations().forEach(a => a.cancel()); msg.style.visibility = "hidden"; busy = true;
-          /* the move takes 1 s; the water takes 3 s from the pick, so it goes on filling the message after it
-             has landed (the chat is usable and the other side answers as soon as it lands) (2026-11-09) */
-          const fill = g.querySelector(".water i"), txt = g.querySelector(".t"), tw = g.querySelector(".tw"), t0 = performance.now(), ms = 500, WATER = Math.max(ms, 1500 - (t0 - pickT));   // 2026-11-09: flight 0.5 s (was 1), water 1.5 s (was 3, then 2) — full 1.5 s after the pick itself, the others' leaving included (2026-11-11)
-          let landed = false;
-          /* the words grow into the message's own type and padding on the way, so at the end the two match exactly */
-          const mcs = getComputedStyle(msg), fs1 = parseFloat(mcs.fontSize), lh1 = parseFloat(mcs.lineHeight) || fs1 * 1.38, pt1 = parseFloat(mcs.paddingTop), pl1 = parseFloat(mcs.paddingLeft);
-          const f = now => {
-            if (!scr.isConnected || !msg.isConnected) { foot.classList.remove("wait"); log.style.overflowY = ""; msg.style.visibility = ""; return g.remove(); }   // a part switch mid-flight: the old conversation slides away with the answer in it (2026-11-11)
-            const q = Math.min(1, (now - t0) / ms), e = q < .5 ? 4 * q * q * q : 1 - Math.pow(-2 * q + 2, 3) / 2, m = msg.getBoundingClientRect();
-            const o = O(); g.style.left = (lerp(r.left, m.left, e) - o.left) + "px"; g.style.top = (lerp(r.top, m.top, e) - o.top) + "px";
-            g.style.width = lerp(r.width, m.width, e) + "px"; g.style.height = lerp(r.height, m.height, e) + "px";
-            g.style.borderRadius = `${lerp(16, 18, e)}px ${lerp(16, 18, e)}px ${lerp(16, 5, e)}px ${lerp(16, 18, e)}px`;
-            const w = Math.min(1, (now - t0) / WATER); fill.style.height = (100 * (1 - Math.pow(1 - w, 1.6))) + "%";
-            txt.style.padding = `${lerp(12, pt1, e)}px ${lerp(14, pl1, e)}px`; txt.style.fontSize = lerp(15, fs1, e) + "px"; tw.style.width = (+b.dataset.w * lerp(15, fs1, e) / +b.dataset.fs + .5) + "px"; txt.style.lineHeight = lerp(15 * 1.3, lh1, e) + "px";
-            if (landed) {                                                                    // riding on the message as the chat scrolls: never over the header or the foot
-              const L = log.getBoundingClientRect(); g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; }
-            if (q >= 1 && !landed) { landed = true; scr._flying = false; foot.classList.remove("wait"); log.style.overflowY = ""; log.addEventListener("scroll", ride, { passive: true });
-              /* the other side starts typing 1 s after the answer has landed (not waiting for the water; 2026-11-09);
-                 meanwhile a tap does not hurry it */
-              const nx = ep.messages[st.i];
-              if (nx && nx.from !== ep.right) setTimeout(() => { if (!scr.isConnected || scr._leaving) return; busy = false; reply(); }, 1000); else busy = false; }   // 1 s (2026-11-09; was 0.5)   // landed: tap on, the reply comes
-            if (w < 1) return requestAnimationFrame(f);
-            msg.style.visibility = ""; g.remove(); log.removeEventListener("scroll", ride);   // full: the message simply takes over
-          };
-          /* after landing it sticks to its message in the very same frame the chat scrolls */
-          const ride = () => { if (!g.isConnected) return; const m = msg.getBoundingClientRect(), L = log.getBoundingClientRect();
-            const o = O(); g.style.left = (m.left - o.left) + "px"; g.style.top = (m.top - o.top) + "px"; g.style.clipPath = `inset(${Math.max(0, L.top - m.top)}px 0 ${Math.max(0, m.bottom - L.bottom)}px 0)`; };
-          requestAnimationFrame(f);
-        }, away ? 280 : hasOthers ? 240 : 0);
+          if (!scr.isConnected || scr._leaving) return;                  // closed meanwhile: nothing is sent (2026-11-11)
+          const y0 = b.getBoundingClientRect().top, s0 = log.scrollTop;
+          drafts.forEach(x => x.remove());
+          holdHeight(H); log.scrollTop = s0;                                                  // the room the drafts took stays, empty, until new messages fill it
+          path.push(c.next); ep.messages = flatten();
+          wallVis(inReach());                                            // the endings this choice closed off: their doodles fall
+          scr._picking = false; busy = false;
+          fresh = false; step(); fresh = true;                           // the pick is the tap (one free tap, as before)
+          const msg = log.lastElementChild, dy = y0 - msg.getBoundingClientRect().top;
+          if (dy && !reduce()) msg.animate?.([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1)" });   // a lower one glides up to the first place
+          const nx = ep.messages[st.i];
+          if (nx && nx.from !== ep.right) { busy = true;                 // the other side answers by itself, 1 s on; a tap meanwhile does not hurry it
+            setTimeout(() => { if (!scr.isConnected || scr._leaving) return; busy = false; step(true); }, 1000); }
+        }, away ? 280 : reduce() ? 0 : 240);
       });
       wantGlide = true;
       return;
