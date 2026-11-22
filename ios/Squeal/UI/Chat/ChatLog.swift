@@ -236,7 +236,7 @@ final class ScrollPin: NSObject {
         let q = max(0, min(1, (now - t0) / 0.26))
         let rest = off * CGFloat(pow(1 - q, 3))
         top = max(top, n - rest)                               // never down
-        gliding = q < 1 || now < footEnd
+        gliding = q < 1 || now < footEnd || now < glideEnd + 0.06      // (a bubble's last frame of growing is still followed)
         if !gliding { loop.stop() }
     }
 }
