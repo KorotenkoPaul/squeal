@@ -1,0 +1,42 @@
+name: ios
+on:
+  push:
+    branches: [master]
+    paths: ["ios/**", "content/**", ".github/workflows/ios.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: ios, cancel-in-progress: true }
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: brew install xcodegen
+      - name: Project
+        run: cd ios && xcodegen generate
+      - name: Build
+        run: |
+          cd ios
+          xcodebuild -project Squeal.xcodeproj -scheme Squeal -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build 2>&1 | tail -80
+          test -d build/Build/Products/Debug-iphonesimulator/Squeal.app
+      - name: Run on simulator and take a screenshot
+        run: |
+          set -x
+          UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for k,v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone 16') ))")
+          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl install "$UDID" ios/build/Build/Products/Debug-iphonesimulator/Squeal.app
+          xcrun simctl launch "$UDID" app.squeal.Squeal
+          sleep 6
+          mkdir -p shots && xcrun simctl io "$UDID" screenshot shots/launch.png
+      - name: Publish screenshots to the ci-shots branch
+        run: |
+          git config user.name ci; git config user.email ci@users.noreply.github.com
+          SHA=$(git rev-parse --short HEAD)
+          git fetch origin ci-shots || true
+          git switch --orphan tmp-shots
+          git rm -rfq . || true
+          mkdir -p $SHA && cp ../shots/*.png $SHA/ 2>/dev/null || cp -r shots/* $SHA/ 2>/dev/null || true
+          git add $SHA && git commit -qm "shots $SHA" && git push -f origin HEAD:ci-shots
