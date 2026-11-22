@@ -23,7 +23,7 @@ struct FavouritesView: View {
                                 FavRow(story: s, rows: rows)
                             }
                         }
-                        HintLine(text: model.tr("swipe"))
+                        HintText(text: model.tr("swipe"))
                     }
                     .padding(.horizontal, 18).padding(.top, 18).padding(.bottom, 24)
                     .background(ScrollFinder { rows.attach($0) })

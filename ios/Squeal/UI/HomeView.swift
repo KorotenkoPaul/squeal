@@ -122,5 +122,5 @@ struct HomeShift<Content: View>: View {
 struct PullHint: View {
     @EnvironmentObject var model: AppModel
     @ObservedObject var pulls: HomePulls
-    var body: some View { HintLine(text: model.tr(pulls.hintKey)) }
+    var body: some View { HintText(text: model.tr(pulls.hintKey)) }
 }

@@ -113,7 +113,7 @@ struct SearchView: View {
                     }
                     .accessibilityElement(children: .combine).accessibilityAddTraits(.isButton)
                 }
-                if let hint { HintLine(text: hint) }
+                if let hint { HintText(text: hint) }
             }
             .padding(.horizontal, 18).padding(.bottom, 24 + keyboard)     // the last match can be scrolled up from under the keyboard
             .frame(maxWidth: .infinity, alignment: .leading)

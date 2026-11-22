@@ -8,10 +8,12 @@ enum Shelf {
     /// Favourites: the liked stories in the stories' own order, grouped by genre in the genres' order
     static func favourites(_ stories: [Story], favs: [String]) -> [(genre: String, stories: [Story])] {
         let list = stories.filter { favs.contains($0.id) }
-        return genres.compactMap { g in
+        var out: [(genre: String, stories: [Story])] = []
+        for g in genres {
             let of = list.filter { $0.genre == g }
-            return of.isEmpty ? nil : (g, of)
+            if !of.isEmpty { out.append((g, of)) }
         }
+        return out
     }
 
     /// The reel's candidates (deal()): only from the genre you are looking at; stories you have not started, else the

@@ -32,7 +32,7 @@ struct SectionLabel: View {
 }
 
 /// p.hint: a muted line in the middle (with a paragraph's own 13 px above and below)
-struct HintLine: View {
+struct HintText: View {
     let text: String
     var body: some View {
         Text(text).font(AppFont.ui(13)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
