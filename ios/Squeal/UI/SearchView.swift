@@ -192,6 +192,7 @@ struct FearRow: View {
     @State private var settleToken = 0
     @State private var nameT = 0.0
     @State private var ready = false
+    @State private var watch = FearWatch()
 
     var body: some View {
         let names = L10n.list(model.lang, "fear")
@@ -218,17 +219,11 @@ struct FearRow: View {
                     }
                 }
                 .scrollTargetLayout()
-                .background(GeometryReader { c in
-                    // how far the row is scrolled: 0 = the first name stands in the middle
-                    Color.clear.preference(key: FearScroll.self, value: g.frame(in: .global).minX + side - c.frame(in: .global).minX)
-                })
+                .background(ScrollFinder { sv in watch.attach(sv) { x in if abs(x - scroll) > 0.01 { scroll = x; moved() } } })
             }
             .contentMargins(.horizontal, side, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $centred, anchor: .center)
-            .onPreferenceChange(FearScroll.self) { x in
-                if abs(x - scroll) > 0.01 { scroll = x; moved() }
-            }
             .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.24), .init(color: .black, location: 0.76), .init(color: .clear, location: 1)],
                                  startPoint: .leading, endPoint: .trailing))
         }
@@ -258,7 +253,16 @@ struct FearRow: View {
     }
 }
 
-private struct FearScroll: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
+/// How far the fear row is scrolled, read from the scroll view itself: 0 = the first name stands in the middle.
+final class FearWatch {
+    private var observation: NSKeyValueObservation?
+    private weak var sv: UIScrollView?
+    func attach(_ s: UIScrollView, _ moved: @escaping (CGFloat) -> Void) {
+        guard sv !== s else { return }
+        sv = s
+        observation = s.observe(\.contentOffset, options: [.initial, .new]) { v, _ in
+            let x = v.contentOffset.x + v.adjustedContentInset.left
+            DispatchQueue.main.async { moved(x) }
+        }
+    }
 }
