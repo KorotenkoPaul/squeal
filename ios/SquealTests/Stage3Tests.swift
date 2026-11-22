@@ -64,7 +64,7 @@ final class Stage3Tests: XCTestCase {
         let en = Self.library.stories("en")
         for c in Self.fx["reel"] as! [[String: Any]] {
             let save = c["save"] as! [String: Any], genre = c["genre"] as! String, name = "\(c["name"]!) / \(genre)"
-            let prog: (Story) -> Progress = { Reading.prog($0, raw: save["p:" + $0.id]) }
+            let prog: (Story) -> Squeal.Progress = { Reading.prog($0, raw: save["p:" + $0.id]) }
             let pool = Shelf.randomPool(en, genre: genre, started: { prog($0).pos.contains { $0 != 0 } }, percent: { Reading.percent($0, prog($0)) })
             XCTAssertEqual(pool.map(\.id).sorted(), c["pool"] as! [String], name)
             let g = ReelGeometry(tabsTop: (c["tabsTop"] as! NSNumber).doubleValue, hintBottom: (c["hintBottom"] as! NSNumber).doubleValue, hintGap: (c["hintGap"] as! NSNumber).doubleValue)
