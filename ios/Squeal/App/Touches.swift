@@ -1,13 +1,23 @@
 import SwiftUI
 import UIKit
 
-/// Every touch of the app passes here before anything else sees it (Info.plist NSPrincipalClass), as the web's
-/// window-level capture listeners do: the one rule for double taps needs to know where each finger came down.
-@objc(TouchApplication)
-final class TouchApplication: UIApplication {
-    override func sendEvent(_ event: UIEvent) {
+/// Every touch of the app passes here before anything else hears of it, as the web's window-level capture listeners
+/// do: the one rule for double taps needs to know where each finger came down. (UIWindow.sendEvent is exchanged for
+/// ours once, at launch — a SwiftUI app has no window class of its own to override it in.)
+extension UIWindow {
+    private static var watching = false
+    static var watchesTouches: Bool { watching }
+
+    static func watchTouches() {
+        guard !watching, let a = class_getInstanceMethod(UIWindow.self, #selector(UIWindow.sendEvent(_:))),
+              let b = class_getInstanceMethod(UIWindow.self, #selector(UIWindow.squeal_sendEvent(_:))) else { return }
+        method_exchangeImplementations(a, b)
+        watching = true
+    }
+
+    @objc func squeal_sendEvent(_ event: UIEvent) {
         if event.type == .touches, let all = event.allTouches { MainActor.assumeIsolated { Taps.shared.see(all) } }
-        super.sendEvent(event)
+        squeal_sendEvent(event)                 // the original (the two are exchanged)
     }
 }
 

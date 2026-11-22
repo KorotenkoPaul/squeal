@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 @main
 struct SquealApp: App {
@@ -8,6 +9,7 @@ struct SquealApp: App {
 
     init() {
         Lettering.register()
+        UIWindow.watchTouches()
         let args = LaunchArgs(ProcessInfo.processInfo.arguments)
         let store = Store()
         args.prepare(store)

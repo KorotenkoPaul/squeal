@@ -226,9 +226,8 @@ struct FearRow: View {
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $centred, anchor: .center)
             .onPreferenceChange(FearScroll.self) { x in
-                // -side: the first name in the middle
-                let s = x + side
-                if abs(s - scroll) > 0.01 { scroll = s; moved() }
+                // 0: the first name in the middle (the row's own margins are not counted)
+                if abs(x - scroll) > 0.01 { scroll = x; moved() }
             }
             .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.24), .init(color: .black, location: 0.76), .init(color: .clear, location: 1)],
                                  startPoint: .leading, endPoint: .trailing))

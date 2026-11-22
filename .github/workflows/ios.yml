@@ -68,38 +68,32 @@ jobs:
             xcrun simctl bootstatus "$udid" -b >/dev/null
             xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 || true
             xcrun simctl install "$udid" "$APP"
+            # both phones: one of each screen (the same states ios/tools/web-shots.js takes of the web prototype)
             shoot "$udid" $dev home 3 -lang en
-            shoot "$udid" $dev home-scrolled 4 -lang en -scroll 600
             shoot "$udid" $dev preview-multi 5 -lang en -preview nobodys-home
-            shoot "$udid" $dev preview-interactive 3 -lang en -preview two-knocks
-            shoot "$udid" $dev home-ru 4 -lang ru
-            # stage 3: Favourites, Search, Menu, the two pulls of Home (the same states ios/tools/web-shots.js takes of the web)
             shoot "$udid" $dev fav 4 -lang en -tab fav -favs clown,the-doctor,two-knocks
-            shoot "$udid" $dev fav-empty 5 -lang ru -tab fav -favs none
             shoot "$udid" $dev search 4 -lang en -tab search
-            shoot "$udid" $dev search-typed-ru 4 -lang ru -tab search -query дом
-            shoot "$udid" $dev menu 3 -lang en -tab menu
             shoot "$udid" $dev menu-lang-ru 3 -lang ru -tab menu -menu lang
-            shoot "$udid" $dev home-reel 5 -lang en -reel 100
-            # the chat in fixed states (the same ones ios/tools/web-shots.js takes of the web prototype)
             shoot "$udid" $dev chat-mid 11 -lang en -chat nobodys-home -part 0 -pos 22 -autotap 3
-            shoot "$udid" $dev chat-choice-ru 5 -lang ru -chat two-knocks -pos 16 -path start
-            if [ "$dev" = iphone16 ]; then      # the big phone: every state (the small one: half of them, to keep the run short)
+            if [ "$dev" = iphone16 ]; then      # the big phone: every state
+              shoot "$udid" $dev home-ru 4 -lang ru
+              shoot "$udid" $dev preview-interactive 3 -lang en -preview two-knocks
               shoot "$udid" $dev fav-ru 4 -lang ru -tab fav -favs clown,the-doctor,two-knocks,frenemy
-              shoot "$udid" $dev fav-empty-en 5 -lang en -tab fav -favs none
+              shoot "$udid" $dev fav-empty 5 -lang ru -tab fav -favs none
               shoot "$udid" $dev search-ru 4 -lang ru -tab search -fear 5
               shoot "$udid" $dev search-level1 4 -lang en -tab search -fear 1
               shoot "$udid" $dev search-typed 4 -lang en -tab search -query the
+              shoot "$udid" $dev search-typed-ru 4 -lang ru -tab search -query дом
               shoot "$udid" $dev search-none 4 -lang en -tab search -query xyzzy
-              shoot "$udid" $dev menu-ru 3 -lang ru -tab menu
-              shoot "$udid" $dev menu-lang 3 -lang en -tab menu -menu lang
+              shoot "$udid" $dev menu 3 -lang en -tab menu
               shoot "$udid" $dev menu-sub-off 2 -lang en -tab menu -menutap 0
               shoot "$udid" $dev home-pull 4 -lang en -pull 120
+              shoot "$udid" $dev home-reel 5 -lang en -reel 100
               shoot "$udid" $dev home-reel-ru 5 -lang ru -reel 60
-              shoot "$udid" $dev chat-paywall-off 5 -lang en -chat nobodys-home -part 0 -pos 8 -premium 0 -taps 0
-              shoot "$udid" $dev chat-switch 8 -lang en -chat nobodys-home -part 0 -pos 22,9 -autopart 1
+              shoot "$udid" $dev chat-choice-ru 5 -lang ru -chat two-knocks -pos 16 -path start
               shoot "$udid" $dev chat-ending 5 -lang en -chat two-knocks -pos 37 -path start,stay,hide
-              shoot "$udid" $dev chat-start-ru 5 -lang ru -chat nobodys-home -part 0 -pos 0
+              shoot "$udid" $dev chat-paywall-ru 5 -lang ru -chat nobodys-home -part 0 -pos 8 -premium 0 -taps 0
+              shoot "$udid" $dev chat-switch 8 -lang en -chat nobodys-home -part 0 -pos 22,9 -autopart 1
             fi
             # every slider title in en and ru: only when run by hand (Actions → ios → Run workflow)
             if [ "$dev" = iphone16 ] && [ "${{ github.event_name }}" = workflow_dispatch ]; then

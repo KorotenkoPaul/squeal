@@ -65,3 +65,35 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
   - Launch args (CI): `-chat <id> [-part N] [-pos N] [-path a,b] [-premium 0 -taps N] [-autotap N] [-autopick K] [-autopart K]`.
   - Not ported on purpose: the web's test button ↶ (IDEAS.md: «В Swift не переносить»). The web's own rubber band is the
     phone's native bounce here. Haptics: the web chat has none.
+- 2026-11-22: stage 3 done — Favourites, Search, Menu, Home's two pulls, one rule for double taps app-wide
+  (unit tests against the web, screenshots iPhone 16 + iPhone SE in en and ru).
+  - Logic, no screen (`ios/Squeal/Core`): `Search.swift` (norm / oneEditAway / matchScore / searchStories; `Fear` = the fear
+    row's levels, colours and paint()); `Shelf.swift` (`Shelf.favourites` = rows under their genres, `Shelf.randomPool` =
+    the reel's deal(); `ReelGeometry` = pullForRandom's geo() / show() / stretch / settle / sink spring; `RefreshPull` = the
+    owl pull's rubber band and lids; `RowSwipe` = a Favourites row under the finger); `SpotRule.swift` = the web's SPOT
+    (0.8 s, 40 pt, a different control or no control after one; nothing armed after a slide over 10 pt; the pin of the
+    tap that only put the search keyboard away) and CLOSE_TAP (0.7 s, 44 pt, after ✕ / back / a page opened by a tap).
+  - `ios/Squeal/App/Touches.swift`: `Taps.shared` — every control asks `Taps.shared.allows("its name")` (or uses
+    `.tap("name") { … }`) before it acts; the tab bar, tiles and their hearts, slider cards, genre chips, the story
+    page (✕, ↺, heart, parts, Read), Favourites rows and Remove, Search (field, Cancel, rows, fear names), Menu rows and
+    back arrow, the chat's back arrow, part numbers and all chat controls (stage 2's `spotAllows` now asks the same rule).
+    It learns where each finger came down from `UIWindow.sendEvent`, exchanged for ours once at launch
+    (`UIWindow.watchTouches()`); a tap on no control is noted by itself. `onDown` / `eatThisTouch()` = the web's
+    capture-phase pointerdown listeners (an open "Remove" closes on the next touch anywhere; the touch that puts the
+    search keyboard away does nothing else); `fingers` / `onFingersUp` = the web's FINGERS.
+  - Screens (`ios/Squeal/UI`): `FavouritesView` (rows, swipe-to-remove with the stretching red button, removal, the
+    empty page's acted-out like); `SearchView` (field + Cancel, `FearRow`, the list; the place scrolled to comes back on
+    Cancel); `MenuView` (five rows ⇄ five languages by a 0.3 + 0.3 s fade, tick, back arrow, swipe back, Subscription
+    switch → `squeal:premium` / `squeal:taps`, toast); `HomePulls` (the owl's eyes: `OwlEyes`; the random-story reel:
+    `ReelView`; both pulls are one UIKit pan on Home's own UIScrollView — `HeldPan` in `Shared.swift` — which the scroll
+    view's pan waits for, so a pull of ours never scrolls and a fling still bounces natively); `Shared.swift` (caption
+    line, section label, hint, thumb). The app's toast lives in `AppModel` (`showToast`). A tap on the tab bar draws
+    its page afresh (`AppModel.show(tab:)`, the web's render()); the tab is remembered in `squeal:tab`.
+  - The owl's art is bundled from `web/brand` (folder `brand`).
+  - Tests: `ios/SquealTests/Stage3Tests.swift` — search in 5 languages (285 queries), norm, one-typo, fear levels and the
+    row's look, Favourites order, the reel's candidates and geometry, 16 double-tap scenarios recorded with real clicks
+    (web-expected.json: "search", "norm", "oneEdit", "fear", "fearPaint", "favs", "reel", "spot").
+  - Launch args (CI): `-tab fav|search|menu`, `-favs a,b|none`, `-query text`, `-fear N`, `-menu lang`, `-menutap N`,
+    `-pull N`, `-reel N`. Web reference shots: `ONLY=fav node ios/tools/web-shots.js <dir>` (fav / search / menu / home).
+  - Not in the web either, so not built: a list of recent stories (`squeal:recent` is written and never read, BUGS #156).
+    The web's own rubber band of Favourites and Search is the phone's native bounce here (as in the chat).

@@ -75,7 +75,9 @@ final class Stage3Tests: XCTestCase {
                 XCTAssertEqual(g.top(d), (a["top"] as! NSNumber).doubleValue, accuracy: 0.01, "top at \(raw), \(name)")
                 XCTAssertEqual(g.lift(d) + ReelGeometry.ovPx(ov), (a["shift"] as! NSNumber).doubleValue, accuracy: 0.01, "page at \(raw), \(name)")
                 XCTAssertEqual(d >= g.line ? "Release for a random story" : "Keep pulling", a["hint"] as! String, "words at \(raw), \(name)")
-                XCTAssertEqual((a["strip"] as! NSNumber).doubleValue - first, 0.9 * (raw - 5), accuracy: 0.01, "rows at \(raw), \(name)")
+                // the rows have turned 0.9 of the finger's way (the strip goes round: whole turns do not count)
+                let turned = ReelGeometry.wrap((a["strip"] as! NSNumber).doubleValue - first - 0.9 * (raw - 5), rows: (c["n"] as! NSNumber).intValue)
+                XCTAssertTrue(turned < 0.01 || turned > Double((c["n"] as! NSNumber).intValue) * 84 - 0.01, "rows at \(raw), \(name)")
             }
         }
         XCTAssertEqual(ReelGeometry.ovInv(ReelGeometry.ovPx(73)), 73, accuracy: 1e-9)
@@ -156,7 +158,16 @@ final class Stage3Tests: XCTestCase {
         XCTAssertEqual(m.tr("cancel"), "Отмена"); XCTAssertEqual(store.lang, "ru")
     }
 
-    @MainActor func testEveryTouchPassesTheAppsOwnApplicationClass() {
-        XCTAssertTrue(UIApplication.shared is TouchApplication, "Info.plist NSPrincipalClass must name TouchApplication")
+    @MainActor func testTheAppWatchesItsTouchesAndATapWithNoTouchIsJudgedByItsPlace() {
+        XCTAssertTrue(UIWindow.watchesTouches)
+        let t = Taps.shared
+        t.reset()
+        let p = CGPoint(x: 50, y: 50)
+        XCTAssertTrue(t.allows("a", at: p))
+        XCTAssertFalse(t.allows("b", at: CGPoint(x: 60, y: 50)))        // the second half of a double tap
+        XCTAssertTrue(t.allows("a", at: p))
+        XCTAssertTrue(t.allows("b", at: CGPoint(x: 200, y: 50)))
+        XCTAssertFalse(t.allows(nil, at: CGPoint(x: 200, y: 60)))
+        t.reset()
     }
 }
