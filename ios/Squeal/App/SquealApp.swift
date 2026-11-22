@@ -4,6 +4,7 @@ import SwiftUI
 struct SquealApp: App {
     @StateObject private var model: AppModel
     private let homeScroll: CGFloat?
+    private let letterings: Int?
 
     init() {
         Lettering.register()
@@ -14,12 +15,17 @@ struct SquealApp: App {
         if let id = args.value("-preview") { m.previewID = id }
         if let t = args.value("-tab") { m.tab = t }
         _model = StateObject(wrappedValue: m)
+        letterings = args.value("-letterings").flatMap { Int($0) }
         homeScroll = args.value("-scroll").flatMap { Double($0) }.map { CGFloat($0) }
     }
 
     var body: some Scene {
         WindowGroup {
-            RootView(homeScroll: homeScroll).environmentObject(model)
+            if let p = letterings {
+                LetteringPages(page: p).environmentObject(model)
+            } else {
+                RootView(homeScroll: homeScroll).environmentObject(model)
+            }
         }
     }
 }
@@ -30,6 +36,7 @@ struct SquealApp: App {
 ///   -lang ru          the language
 ///   -scroll 600       Home scrolled this far down
 ///   -preview <id>     the story page of <id> open
+///   -letterings <p>   page p of all slider cards (four a page)
 struct LaunchArgs {
     let args: [String]
     init(_ a: [String]) { args = a }

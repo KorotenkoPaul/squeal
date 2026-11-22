@@ -32,11 +32,9 @@ struct HeroLettering: View {
         return content
             .fixedSize(horizontal: !spec.fullWidth, vertical: true)
             .frame(width: spec.fullWidth ? W : nil)
-            .background(GeometryReader { g in Color.clear.preference(key: SizeKey.self, value: g.size) })
-            .onPreferenceChange(SizeKey.self) { natural = $0 }
+            .onGeometryChange(for: CGSize.self, of: { $0.size }, action: { natural = $0 })
             .scaleEffect(s)
             .position(x: x + sw / 2, y: y + sh / 2)
-            .opacity(natural == .zero ? 0 : 1)
             .allowsHitTesting(false)
     }
 

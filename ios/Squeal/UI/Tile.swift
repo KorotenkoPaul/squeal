@@ -12,7 +12,7 @@ struct FlowRow: Layout {
             if x > 0 && x + z.width > maxW { y += line + spacing; x = 0; line = 0 }
             x += z.width + spacing; line = max(line, z.height); w = max(w, x - spacing)
         }
-        return CGSize(width: w, height: y + line)
+        return CGSize(width: maxW.isFinite ? maxW : w, height: y + line)
     }
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         var x = bounds.minX, y = bounds.minY, line: CGFloat = 0

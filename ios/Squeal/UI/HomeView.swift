@@ -21,6 +21,10 @@ struct HomeView: View {
             let tileW = (W - 2 * side - 12) / 2
             ScrollViewReader { reader in
                 ScrollView(.vertical, showsIndicators: false) {
+                    ZStack(alignment: .topLeading) {
+                    if let y = scrollTo {      // screenshots: a mark `scrollTo` points down the page
+                        VStack(spacing: 0) { Color.clear.frame(width: 1, height: y); Color.clear.frame(width: 1, height: 1).id("shot") }
+                    }
                     VStack(alignment: .leading, spacing: 14) {
                         Text(model.tr("top").uppercased())
                             .font(AppFont.ui(13, 700)).tracking(13 * 0.06).foregroundStyle(Theme.muted)
@@ -40,8 +44,6 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, side)
                     .padding(.top, 18).padding(.bottom, 24)
-                    .overlay(alignment: .topLeading) {      // screenshots: a mark `scrollTo` points down the page
-                        if let y = scrollTo { Color.clear.frame(width: 1, height: 1).id("shot").padding(.top, y) }
                     }
                 }
                 .onAppear {

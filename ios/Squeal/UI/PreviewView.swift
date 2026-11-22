@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// A button that acts on lift inside it and keeps its touch (a swipe that starts on it never moves the page).
 struct PressArea<Content: View>: View {
@@ -53,9 +54,14 @@ struct PreviewView: View {
 
     private var multi: Bool { story.parts.count > 1 }
 
+    /// the phone's safe area (the page itself runs under the status bar and the home indicator)
+    static var windowSafeArea: UIEdgeInsets {
+        (UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first?.windows.first?.safeAreaInsets) ?? .zero
+    }
+
     var body: some View {
         GeometryReader { g in
-            let safe = g.safeAreaInsets
+            let safe = Self.windowSafeArea
             ZStack(alignment: .top) {
                 VStack(spacing: 0) {
                     cover

@@ -131,3 +131,22 @@ struct ChatPlaceholder: View {
         withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.34)) { model.chat = nil }
     }
 }
+
+/// CI only (-letterings <page>): four slider cards per page, every story in turn, to check each title's lettering.
+struct LetteringPages: View {
+    @EnvironmentObject var model: AppModel
+    let page: Int
+    var body: some View {
+        GeometryReader { g in
+            let W = g.size.width - 36
+            VStack(spacing: 14) {
+                ForEach(Array(model.stories.dropFirst(page * 4).prefix(4))) { s in
+                    HeroCard(story: s, size: CGSize(width: W, height: 190))
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 18).padding(.top, 10)
+        }
+        .background(Theme.bg.ignoresSafeArea())
+    }
+}
