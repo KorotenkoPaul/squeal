@@ -37,6 +37,7 @@ final class SliderEngine: ObservableObject {
             elapsed = total.truncatingRemainder(dividingBy: Self.slideTime)
         } else { at = 0; elapsed = 0 }
         pos = Double(at); tween = nil
+        log("start n=\(n)")
         fill = elapsed / Self.slideTime
         last = CACurrentMediaTime()
         if link == nil {
@@ -46,7 +47,7 @@ final class SliderEngine: ObservableObject {
         }
     }
 
-    func stop() { link?.invalidate(); link = nil; save() }
+    func stop() { log("stop"); link?.invalidate(); link = nil; save() }
 
     private func save() { clock.at = at; clock.elapsed = elapsed; clock.seen = Date() }
 
@@ -67,7 +68,19 @@ final class SliderEngine: ObservableObject {
 
     func cardIndex(at x: Double) -> Int { ((Int(x.rounded()) % n) + n) % n }
 
+    /// CI diagnostics (DEBUG builds): what the slider did, written to Documents/slider.log
+    static let t0 = CACurrentMediaTime()
+    func log(_ what: String) {
+        #if DEBUG
+        let line = String(format: "%.3f %@ pos=%.3f at=%d elapsed=%.3f held=%d covered=%d\n", CACurrentMediaTime() - Self.t0, what, pos, at, elapsed, held ? 1 : 0, covered ? 1 : 0)
+        guard let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("slider.log") else { return }
+        if let h = try? FileHandle(forWritingTo: url) { h.seekToEndOfFile(); h.write(line.data(using: .utf8)!); try? h.close() }
+        else { try? line.data(using: .utf8)!.write(to: url) }
+        #endif
+    }
+
     private func glide(to: Double, dur: Double, curve: CubicBezier) {
+        log("glide to \(to) dur \(dur)")
         tween = (pos, to, CACurrentMediaTime(), dur, curve)
     }
 
@@ -87,7 +100,7 @@ final class SliderEngine: ObservableObject {
         p = max(0, min(Double(n), p))
         let cur = Int(p.rounded()) % n
         let settled = abs(p - p.rounded()) < 0.02
-        if cur != at && settled && !held && !dragging { at = cur; elapsed = 0 }
+        if cur != at && settled && !held && !dragging { at = cur; elapsed = 0; log("arrived") }
         // guard: never left resting between two cards (BUGS #1)
         if pos != lastPos { lastPos = pos; stillSince = now }
         else if !held && !dragging && !settled && tween == nil && now - stillSince > 0.3 { stillSince = now; glide(to: pos.rounded(), dur: 0.3, curve: .sheet) }

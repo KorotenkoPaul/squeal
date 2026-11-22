@@ -19,7 +19,7 @@ struct HeroLettering: View {
         let w = spec.fullWidth ? W : natural.width, h = natural.height
         var s: CGFloat = 1
         if w > 0 && h > 0 {
-            let room = min((W - 2 * M) / w, (H - 2 * M) / h)
+            let room = min(spec.fullWidth ? .infinity : (W - 2 * M) / w, (H - 2 * M) / h)   // a full-width block: its words decide, not its box
             if room < 1 { s = room * 0.98 }
         }
         let sw = w * s, sh = h * s
