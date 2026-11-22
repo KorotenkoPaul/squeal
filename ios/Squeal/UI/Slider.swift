@@ -217,31 +217,51 @@ struct SliderDots: View {
 
     private func layout(_ boxW: CGFloat) -> M {
         let nn = Double(n), raw = engine.pos, at = engine.at
-        let p = max(0, min(nn, raw < 0 ? raw + nn : raw))
+        let unwrapped: Double = raw < 0 ? raw + nn : raw
+        let p: Double = max(0, min(nn, unwrapped))
         let wrap = p > nn - 1
         let i = n > 1 ? min(n - 2, Int(min(p, nn - 1))) : 0
         let f = n > 1 ? min(p, nn - 1) - Double(i) : 0
-        let ws = (0..<n).map { k in DOT + (W - DOT) * CGFloat(max(0, 1 - abs(p - Double(k)), k == 0 ? 1 - abs(p - nn) : 0)) }
-        let total = ws.reduce(0, +) + GAP * CGFloat(n - 1)
+        var ws: [CGFloat] = []
+        for k in 0..<n {
+            let near: Double = 1 - abs(p - Double(k))
+            let wrapNear: Double = k == 0 ? 1 - abs(p - nn) : 0
+            let share: Double = max(0, near, wrapNear)
+            ws.append(DOT + (W - DOT) * CGFloat(share))
+        }
+        let gaps: CGFloat = GAP * CGFloat(n - 1)
+        let total: CGFloat = ws.reduce(0, +) + gaps
         var L: [CGFloat] = [], R: [CGFloat] = []
         var x = (boxW - total) / 2
         for w in ws { L.append(x); R.append(x + w); x += w + GAP }
         let kc = at == 0 ? 0 : n - 1
         let dotColor = (0..<n).map { k -> Color in
             guard wrap && (k == n - 1 || k == 0) else { return Color(hex: 0x4a4670) }
-            let share = k == 0 ? p - (nn - 1) : nn - p
+            let share: Double = k == 0 ? p - (nn - 1) : nn - p
             return mix(Color(hex: 0x5d5888), Color(hex: 0x4a4670), share)
         }
-        let wormOpacity = wrap ? max(0, min(1, (kc == 0 ? p - (nn - 1) : nn - p) / 0.15)) : 1
-        let right = wrap ? R[kc] : n > 1 ? R[i] + (R[i + 1] - R[i]) * CGFloat(min(1, f * 2)) : R[0]
-        let left = wrap ? L[kc] : n > 1 ? L[i] + (L[i + 1] - L[i]) * CGFloat(max(0, f * 2 - 1)) : L[0]
-        let away = min(1, abs(p - Double(at)), at == 0 ? abs(nn - p) : 1)
-        return M(ws: ws, L: L, left: left, right: right, fill: W * CGFloat(engine.fill * (1 - away)), wormOpacity: wormOpacity, dotColor: dotColor)
+        let edgeShare: Double = kc == 0 ? p - (nn - 1) : nn - p
+        let wormOpacity: Double = wrap ? max(0, min(1, edgeShare / 0.15)) : 1
+        var right: CGFloat = R[0], left: CGFloat = L[0]
+        if wrap { right = R[kc]; left = L[kc] }
+        else if n > 1 {
+            let head = CGFloat(min(1, f * 2)), tail = CGFloat(max(0, f * 2 - 1))
+            right = R[i] + (R[i + 1] - R[i]) * head
+            left = L[i] + (L[i + 1] - L[i]) * tail
+        }
+        let wrapAway: Double = at == 0 ? abs(nn - p) : 1
+        let away: Double = min(1, abs(p - Double(at)), wrapAway)
+        let fillW: CGFloat = W * CGFloat(engine.fill * (1 - away))
+        return M(ws: ws, L: L, left: left, right: right, fill: fillW, wormOpacity: wormOpacity, dotColor: dotColor)
     }
 
     private func mix(_ a: Color, _ b: Color, _ t: Double) -> Color {
-        let ca = UIColor(a).cgColor.components ?? [0, 0, 0, 1], cb = UIColor(b).cgColor.components ?? [0, 0, 0, 1]
-        let t = max(0, min(1, t))
-        return Color(red: ca[0] * t + cb[0] * (1 - t), green: ca[1] * t + cb[1] * (1 - t), blue: ca[2] * t + cb[2] * (1 - t))
+        let ca: [CGFloat] = UIColor(a).cgColor.components ?? [0, 0, 0, 1]
+        let cb: [CGFloat] = UIColor(b).cgColor.components ?? [0, 0, 0, 1]
+        let u = CGFloat(max(0, min(1, t))), v = 1 - u
+        let r: CGFloat = ca[0] * u + cb[0] * v
+        let g: CGFloat = ca[1] * u + cb[1] * v
+        let bl: CGFloat = ca[2] * u + cb[2] * v
+        return Color(red: Double(r), green: Double(g), blue: Double(bl))
     }
 }
