@@ -218,15 +218,14 @@ struct FearRow: View {
                 }
                 .scrollTargetLayout()
                 .background(GeometryReader { c in
-                    Color.clear.preference(key: FearScroll.self, value: -c.frame(in: .named("fear")).minX)
+                    // how far the row is scrolled: 0 = the first name stands in the middle
+                    Color.clear.preference(key: FearScroll.self, value: g.frame(in: .global).minX + side - c.frame(in: .global).minX)
                 })
             }
-            .coordinateSpace(name: "fear")
             .contentMargins(.horizontal, side, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $centred, anchor: .center)
             .onPreferenceChange(FearScroll.self) { x in
-                // 0: the first name in the middle (the row's own margins are not counted)
                 if abs(x - scroll) > 0.01 { scroll = x; moved() }
             }
             .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.24), .init(color: .black, location: 0.76), .init(color: .clear, location: 1)],
