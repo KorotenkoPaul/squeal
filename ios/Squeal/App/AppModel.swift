@@ -10,6 +10,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var lang: String
     @Published private(set) var stories: [Story] = []
     @Published var tab: String { didSet { store.set("tab", tab) } }
+    /// bumped by every tap on the tab bar: the page is drawn afresh
+    @Published private(set) var tabRev = 0
     @Published var genre: String = "all"
     @Published private(set) var favs: [String]
     /// bumped whenever saved progress changes, so every screen redraws its bars
@@ -18,6 +20,15 @@ final class AppModel: ObservableObject {
     @Published var previewID: String? = nil
     /// the chat on screen
     @Published var chat: ChatRoute? = nil
+
+    /// Search: what is typed, and the fear level in the middle of the row (both live as long as the app does)
+    @Published var query = ""
+    @Published var fearLevel = 3
+    /// the one line over the tab bar ("Demo: subscribed…")
+    @Published private(set) var toast: String? = nil
+    private var toastWork: DispatchWorkItem? = nil
+    /// bumped by a pull to refresh: Home's fresh content fades in where it stands
+    @Published private(set) var refreshRev = 0
 
     let slider = SliderClock()
 
@@ -41,6 +52,37 @@ final class AppModel: ObservableObject {
 
     func story(_ id: String) -> Story? { stories.first { $0.id == id } }
     var english: [Story] { library.stories("en") }
+
+    /// a tap on the tab bar: that page, drawn afresh and remembered ("squeal:tab")
+    func show(tab t: String) { tab = t; tabRev += 1 }
+
+    // MARK: menu
+    /// Menu → Subscription: the demo subscription on and off; a free reader starts with all the free taps again
+    func toggleSubscription() {
+        let on = !store.premium
+        store.set("premium", on)
+        if !on { store.set("taps", Store.freeTaps) }
+        showToast(on ? tr("subOn") : tr("subOff", ["n": String(Store.freeTaps)]))
+    }
+
+    /// toast(): one line for 1.8 s; a new one takes the old one's place
+    func showToast(_ text: String) {
+        toastWork?.cancel()
+        withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.28)) { toast = text }
+        let work = DispatchWorkItem { [weak self] in withAnimation(.timingCurve(0.42, 0, 1, 1, duration: 0.2)) { self?.toast = nil } }
+        toastWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: work)
+    }
+
+    /// Fetch fresh stories (pull to refresh). The stories are built in, so this only reads them again; with a server
+    /// it is the real request.
+    func reload() async {
+        try? await Task.sleep(nanoseconds: UInt64.random(in: 300_000_000...600_000_000))
+    }
+    func showFresh() {
+        stories = library.stories(lang)
+        refreshRev += 1
+    }
 
     // MARK: favourites
     func isFav(_ id: String) -> Bool { favs.contains(id) }

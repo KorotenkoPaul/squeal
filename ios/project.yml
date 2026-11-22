@@ -24,6 +24,10 @@ targets:
       - path: ../web/video
         type: folder
         buildPhase: resources
+      # the owl's eyes of pull-to-refresh (web/brand/eyes-*.png), as the folder `brand`
+      - path: ../web/brand
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.squeal.Squeal
@@ -31,6 +35,8 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_CFBundleDisplayName: Squeal
+        # every touch passes TouchApplication first (the one rule for double taps, App/Touches.swift)
+        INFOPLIST_KEY_NSPrincipalClass: TouchApplication
         MARKETING_VERSION: "0.1"
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.0"

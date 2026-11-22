@@ -44,7 +44,7 @@ struct GenreChips: View {
                                 .animation(.linear(duration: 0.15), value: near)
                                 .frame(width: ws[k], height: height)
                                 .contentShape(Rectangle().inset(by: -6))
-                                .onTapGesture { glideTo(k) }
+                                .tap("chip:\(k)") { glideTo(k) }
                                 .accessibilityAddTraits(k == index ? [.isButton, .isSelected] : .isButton)
                         }
                     }
@@ -58,14 +58,14 @@ struct GenreChips: View {
         .simultaneousGesture(
             DragGesture(minimumDistance: 6)
                 .onChanged { v in
-                    if horizontal == nil { horizontal = abs(v.translation.width) > abs(v.translation.height) }
+                    if horizontal == nil { horizontal = abs(v.translation.width) > abs(v.translation.height); GestureOwner.genre = horizontal == true }
                     guard horizontal == true else { return }
                     glide += 1
                     if dragBase == nil { dragBase = at }
                     pos = min(cs.last!, max(cs.first!, dragBase! + v.translation.width))
                 }
                 .onEnded { _ in
-                    defer { horizontal = nil; dragBase = nil }
+                    defer { horizontal = nil; dragBase = nil; GestureOwner.genre = false }
                     guard horizontal == true else { return }
                     let k = cs.enumerated().min { abs($0.element - pos) < abs($1.element - pos) }!.offset
                     glideTo(k)

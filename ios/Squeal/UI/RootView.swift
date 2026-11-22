@@ -12,23 +12,32 @@ struct RootView: View {
             VStack(spacing: 0) {
                 Group {
                     switch model.tab {
-                    case "fav": PlaceholderTab(title: model.tr("tabFav"))
-                    case "search": PlaceholderTab(title: model.tr("search"))
-                    case "menu": MenuPlaceholder()
+                    case "fav": FavouritesView()
+                    case "search": SearchView()
+                    case "menu": MenuView()
                     default: HomeView(clock: model.slider, scrollTo: homeScroll)
                     }
                 }
+                .id(model.tabRev)                      // a tap on a tab draws its page afresh, the tab you are on too (the web's render())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 TabBar()
+                    .zIndex(6)
+            }
+            .ignoresSafeArea(.keyboard)                // the keyboard comes up over the page: nothing is squeezed
+            if let text = model.toast {
+                ToastLine(text: text)
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+                    .padding(.bottom, 84)
+                    .zIndex(1)
             }
             if let id = model.previewID, let s = model.story(id) {
                 PreviewView(story: s).id(id)
-                    .zIndex(1)
+                    .zIndex(2)
             }
             if let c = model.chat, let s = model.story(c.storyID) {
                 ChatScreen(model: model, story: s, route: c)
                     .id(c.token)
-                    .zIndex(2)
+                    .zIndex(3)
             }
         }
         .preferredColorScheme(.dark)
@@ -55,39 +64,9 @@ struct TabBar: View {
             .padding(6)
             .frame(maxWidth: .infinity)
             .contentShape(Rectangle())
-            .onTapGesture { model.tab = key }
+            .tap("tab:" + key) { model.show(tab: key) }
             .accessibilityElement().accessibilityLabel(model.tr(label))
             .accessibilityAddTraits(model.tab == key ? [.isButton, .isSelected] : .isButton)
-    }
-}
-
-/// Favourites and Search come in stage 3 of ios/PLAN.md.
-struct PlaceholderTab: View {
-    let title: String
-    var body: some View {
-        Text(title).font(AppFont.ui(20, 600)).foregroundStyle(Theme.muted)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-/// Menu (stage 3); for now just the language list, so every language can be seen.
-struct MenuPlaceholder: View {
-    @EnvironmentObject var model: AppModel
-    var body: some View {
-        VStack(spacing: 44) {
-            ForEach(L10n.langNames, id: \.0) { code, name in
-                Text(name).font(AppFont.ui(20, 600)).foregroundStyle(.white)
-                    .padding(.horizontal, 16).padding(.vertical, 4)
-                    .overlay(alignment: .trailing) {
-                        if model.lang == code {
-                            StrokeIcon(paths: ["M4.5 12.5l5 5L20 7"], width: 2.6, size: 18).foregroundStyle(Theme.me).offset(x: 20)
-                        }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture { model.setLang(code) }
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

@@ -57,7 +57,7 @@ struct ChatHead: View {
 
     var body: some View {
         HStack(spacing: narrow ? 7 : 12) {
-            Button { chat.close() } label: {
+            Button { if Taps.shared.allows("chat-back") { Taps.shared.closeTap(); chat.close() } } label: {
                 StrokeIcon(paths: ["M10 3 5 8l5 5"], viewBox: CGRect(x: 0, y: 0, width: 16, height: 16), width: 2, size: 16)
                     .foregroundStyle(.white)
                     .padding(.horizontal, 12).padding(.vertical, 14).contentShape(Rectangle())     // a 44 pt target round the small arrow
@@ -131,7 +131,8 @@ struct PartDisc: View {
                         chat.discDragging = false
                         chat.goPart(Int((x / step).rounded()))
                     } else {
-                        chat.goPart(Int(((v.location.x - 3) / step).rounded(.down)))     // the number under the finger
+                        let k = Int(((v.location.x - 3) / step).rounded(.down))            // the number under the finger
+                        if Taps.shared.allows("disc\(k)") { chat.goPart(k) }
                     }
                     moved = false
                 }

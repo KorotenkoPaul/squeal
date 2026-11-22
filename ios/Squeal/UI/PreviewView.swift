@@ -118,7 +118,7 @@ struct PreviewView: View {
                 Text(model.tr("by", ["a": story.author])).font(AppFont.ui(14)).foregroundStyle(Theme.muted)
             }
             if multi { parts }
-            PressArea(onUp: { inside in if inside { read(from: .trailing) } }) { pressed in
+            PressArea(onUp: { inside in if inside && Taps.shared.allows("read") { read(from: .trailing) } }) { pressed in
                 Text(model.tr("read")).font(AppFont.ui(17, 700)).foregroundStyle(.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Theme.accent))
@@ -171,6 +171,7 @@ struct PreviewView: View {
             .contentShape(Rectangle())
             .gesture(DragGesture(minimumDistance: 0)
                 .onChanged { v in
+                    guard Taps.shared.allows("part\(max(0, min(n - 1, Int(v.startLocation.x / stepX))))") else { return }
                     if frameDragBase == nil {
                         let k = max(0, min(n - 1, Int(v.startLocation.x / stepX)))
                         frameDragBase = centre(k)
@@ -183,6 +184,7 @@ struct PreviewView: View {
                 }
                 .onEnded { v in
                     defer { frameDragBase = nil }
+                    guard frameDragBase != nil else { return }
                     if abs(v.translation.width) >= 5 {
                         let k = (0..<n).min { abs(centre($0) - framePos) < abs(centre($1) - framePos) }!
                         glide(to: k, from: framePos, centre: centre)
@@ -233,7 +235,7 @@ struct PreviewView: View {
             Icons.close(21).foregroundStyle(.white)
                 .frame(width: 40, height: 40).background(Circle().fill(Theme.chrome))
                 .frame(width: 56, height: 56).contentShape(Rectangle())
-                .gesture(DragGesture(minimumDistance: 0).onChanged { _ in close() })
+                .gesture(DragGesture(minimumDistance: 0).onChanged { _ in if Taps.shared.allows("pv-back") { Taps.shared.closeTap(); close() } })
                 .offset(x: 12 - 8, y: 10 - 8)
                 .accessibilityElement().accessibilityLabel(model.tr("close")).accessibilityAddTraits(.isButton)
                 .accessibilityAction { close() }
@@ -261,7 +263,7 @@ struct PreviewView: View {
         .scaleEffect(resetPressed ? 0.88 : (bounce["reset"] == true ? 1.08 : 1))
         .frame(width: 56, height: 56).contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 0)
-            .onChanged { _ in if holdState == 0 { resetDown() } }
+            .onChanged { _ in if holdState == 0, Taps.shared.allows("pv-reset") { resetDown() } }
             .onEnded { _ in resetUp() })
         .accessibilityElement().accessibilityLabel(model.tr(multi ? "resetMulti" : "reset")).accessibilityAddTraits(.isButton)
         .accessibilityAction { resetOne() }
@@ -277,7 +279,7 @@ struct PreviewView: View {
                 .onChanged { _ in if !likePressed { withAnimation(.easeOut(duration: 0.12)) { likePressed = true } } }
                 .onEnded { v in
                     release("like") { likePressed = false }
-                    if CGRect(x: -20, y: -20, width: 96, height: 96).contains(v.location) { toggleLike() }
+                    if CGRect(x: -20, y: -20, width: 96, height: 96).contains(v.location), Taps.shared.allows("pv-like") { toggleLike() }
                 })
             .accessibilityElement().accessibilityLabel(model.tr("favourite"))
             .accessibilityAddTraits(liked ? [.isButton, .isSelected] : .isButton)

@@ -150,7 +150,7 @@ struct TopSlider: View {
                 }
                 .onEnded { v in
                     if axis == true { engine.dragEnded(predicted: v.predictedEndTranslation.width, step: step) }
-                    else if axis == nil, let k = downCard { model.previewID = stories[k].id }   // a tap opens the card the finger came down on (BUGS #128)
+                    else if axis == nil, let k = downCard, Taps.shared.allows("hero:\(k)") { Taps.shared.openTap(); model.previewID = stories[k].id }   // a tap opens the card the finger came down on (BUGS #128)
                     axis = nil; downCard = nil
                 })
         .onChange(of: touching) { _, t in

@@ -14,6 +14,8 @@ struct SquealApp: App {
         let m = AppModel(store: store)
         if let id = args.value("-preview") { m.previewID = id }
         if let t = args.value("-tab") { m.tab = t }
+        if let q = args.value("-query") { m.query = q }
+        if let f = args.value("-fear").flatMap({ Int($0) }) { m.fearLevel = max(1, min(5, f)) }
         ChatDebug.autotap = args.value("-autotap").flatMap { Int($0) } ?? 0
         ChatDebug.autopick = args.value("-autopick").flatMap { Int($0) }
         ChatDebug.autopart = args.value("-autopart").flatMap { Int($0) }
@@ -42,6 +44,10 @@ struct SquealApp: App {
 ///   -preview <id>     the story page of <id> open
 ///   -letterings <p>   page p of all slider cards (four a page)
 ///   -still 1          the slider does not turn by itself
+///   -tab fav|search|menu   that tab; -favs a,b,c (or "none"): the liked stories
+///   -query text       Search with that typed; -fear N: the fear row on level N
+///   -menu lang        the menu showing the languages; -menutap N: row N of the menu is tapped a second after it shows
+///   -pull N           Home pulled down N pt (the owl's eyes); -reel N: the random-story reel pulled up N pt
 ///   -chat <id>        the chat of <id> open (-part N: that part, counted from 0; else where the reader is)
 ///   -pos N            N messages of that part already read (or N,M,…: part by part); -path a,b,c: the branches taken (interactive)
 ///   -premium 0        a free reader, with -taps N free taps left
@@ -64,6 +70,7 @@ struct LaunchArgs {
             store.set("p:clown", ["ep": 0, "pos": [20]])
         }
         if let l = value("-lang") { store.set("lang", l) }
+        if let f = value("-favs") { store.set("favs", f == "none" ? [String]() : f.split(separator: ",").map(String.init)) }
         if let id = value("-chat"), let pos = value("-pos") {
             let part = value("-part").flatMap { Int($0) } ?? 0
             let ns = pos.split(separator: ",").compactMap { Int($0) }              // "22": that part; "22,9": part by part

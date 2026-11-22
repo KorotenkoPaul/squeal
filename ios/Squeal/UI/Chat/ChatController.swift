@@ -97,7 +97,6 @@ final class ChatController: ObservableObject {
     private var toastWork: DispatchWorkItem? = nil
     private var autoTimer: Timer? = nil
     private var autoLeft = 0, autoLast = -1
-    private var spot: (p: CGPoint, t: Double, control: String?)? = nil
 
     init(model: AppModel, story: Story, route: ChatRoute) {
         self.model = model
@@ -279,13 +278,7 @@ final class ChatController: ObservableObject {
     /// after "back to a choice" or after the tap that read the last message). It does nothing. The same control again
     /// (a voice message's play, the conversation itself) still works. `control` nil: the conversation or the hint.
     func spotAllows(_ control: String?, at p: CGPoint) -> Bool {
-        let now = chatNow()
-        if let s = spot, now - s.t < 0.8, hypot(p.x - s.p.x, p.y - s.p.y) <= 40 {
-            if let control { if control != s.control { return false } }
-            else if s.control != nil { return false }
-        }
-        spot = (p, now, control)
-        return true
+        Taps.shared.allows(control.map { "chat:" + $0 }, at: p)       // the app's one rule (SpotRule), shared with every screen
     }
 
     func logTapped(at p: CGPoint) {

@@ -1,4 +1,4 @@
-// Adds the "chat" section to ios/SquealTests/web-expected.json: stories walked through in the web prototype itself
+// Adds the "chat" section (and, for stage 3, "search", "fear", "favs", "reel", "spot") to ios/SquealTests/web-expected.json: stories walked through in the web prototype itself
 // (web/squeal-preview.html in Chromium, time faked so nothing waits), with what is saved and shown after every step.
 // The app's ChatReader must come out the same (ios/SquealTests/ChatTests.swift).
 // Usage: node ios/tools/web-expected.js     (after python3 web/build.py; needs Playwright's own Chromium)
@@ -104,11 +104,116 @@ const SCENARIOS = [
   // a voice message's waveform (voiceBubble): the bar heights the web draws for a clip
   const voiceBars = await wp.evaluate(() => { const d = document.createElement('div'); voiceBubble(d, { voice: 'voice/two-knocks-door.mp3', dur: 10, text: '' });
     return [...d.querySelectorAll('.wave i')].map(i => parseInt(i.style.height)); });
+
+  // ---- stage 3: Search, the fear row, Favourites, the random reel, the one rule for double taps ----
+  const QUERIES = ['clown', 'CLOWN', 'clwon', 'clow', 'clo', 'cl', 'nobody', "nobody's", 'nobodys home', 'the', 'doctor', 'docter', 'doctr', 'dcotor', 'knocks', 'two  knocks',
+    'tow knocks', 'xyz', ' ', '', 'home', 'hom', 'homee', 'gravee', 'grav', 'reunion', 'réunion', 'haunted', 'hauntd', 'last train', 'train out', 'frenemy', 'frenmy',
+    'клоун', 'КЛОУН', 'клуон', 'доктор', 'ёлка', 'елка', 'дом', 'дома', 'стука', 'docteur', 'médecin', 'medecin', 'arzt', 'payaso', 'süß', 'suss', 'cross', 'crossroad', 'croosroad', 'match', 'perfect match', 'perfcet'];
+  const search = {};
+  for (const lang of ['en', 'de', 'fr', 'es', 'ru']) {
+    search[lang] = await wp.evaluate(([lang, qs]) => { setLang(lang); return qs.map(q => [q, searchStories(q).map(s => s.id)]); }, [lang, QUERIES]);
+  }
+  await wp.evaluate(() => setLang('en'));
+  const norm = await wp.evaluate(list => list.map(t => [t, norm(t)]), ["Nobody’s Home", "  Two   Knocks ", 'Süßes — Gift!', 'Ёлка, ёж & Йод', 'Réunion (l’été)', 'A-B_c.d', 'İstanbul ǅ', "it's `ok`", '３ ½ x²']);
+  const oneEdit = await wp.evaluate(list => list.map(([a, b]) => [a, b, oneEditAway(a, b)]), [['abc', 'abc'], ['abc', 'abd'], ['abc', 'acb'], ['abc', 'ab'], ['abc', 'abcd'], ['abc', 'xabc'], ['abcd', 'badc'],
+    ['abc', 'cba'], ['', 'a'], ['a', ''], ['ab', 'ba'], ['abcd', 'abdc'], ['abcd', 'acbd'], ['abcd', 'abxy'], ['abc', 'abcde'], ['клоун', 'клуон'], ['aa', 'aaa'], ['abca', 'abac']]);
+  const fear = await wp.evaluate(() => [1, 2, 3, 4, 5].map(l => STORIES.filter(s => fearOf(s) === l).map(s => s.id)));
+  // the fear row's look for a few scroll positions (px past the first name standing in the middle)
+  const fp = await (await browser.newContext({ viewport: { width: 393, height: 852 } })).newPage();
+  await fp.addInitScript(() => { localStorage.clear(); localStorage.setItem('squeal:lang', '"en"'); localStorage.setItem('squeal:tab', '"search"'); });
+  await fp.goto(url); await fp.waitForTimeout(600);
+  const paint = [];
+  for (const x of [0, 30, 66, 67, 132, 200, 264, 300, 396, 461, 528]) {
+    paint.push(await fp.evaluate(async x => { const lv = document.querySelector('.fear .lv'); lv.style.scrollSnapType = 'none'; lv.scrollLeft = x; await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const b = [...lv.querySelectorAll('button')]; return { x: lv.scrollLeft, s: b.map(n => +n.style.getPropertyValue('--s')), o: b.map(n => +n.style.getPropertyValue('--o')) }; }, x));
+  }
+  await fp.context().close();
+  // Favourites: what stands under which heading, for a few sets of likes (in the order they were liked)
+  const favs = [];
+  for (const set of [['clown', 'the-doctor', 'two-knocks'], ['two-knocks', 'clown', 'frenemy', 'nobodys-home', 'grave'], ['frenemy'], [], ['reunion', 'haunted', 'gone-now-what'], ['no-such-story', 'clown']]) {
+    const p = await (await browser.newContext({ viewport: { width: 393, height: 852 } })).newPage();
+    await p.addInitScript(set => { localStorage.clear(); localStorage.setItem('squeal:lang', '"en"'); localStorage.setItem('squeal:tab', '"fav"'); localStorage.setItem('squeal:favs', JSON.stringify(set)); }, set);
+    await p.goto(url); await p.waitForTimeout(400);
+    favs.push({ favs: set, rows: await p.evaluate(() => [...document.querySelectorAll('#view > .label, #view > .row-card')].map(e => e.classList.contains('label') ? '#' + e.textContent : e.dataset.id), ),
+      empty: await p.evaluate(() => !!document.querySelector('.empty')) });
+    await p.context().close();
+  }
+  // the random reel: the candidates it holds (deal()) for a genre and some reading done, and where it stands for a pull
+  const reel = [];
+  const allRead = await wp.evaluate(() => Object.fromEntries(STORIES.map(s => ['p:' + s.id, { ep: 0, pos: s.episodes.map(() => 9999), v: s.v }])));
+  const someRead = await wp.evaluate(() => Object.fromEntries(STORIES.filter((s, i) => i % 2 === 0).map(s => ['p:' + s.id, { ep: 0, pos: s.episodes.map(() => 9999), v: s.v }])));
+  const halfHorror = await wp.evaluate(() => Object.fromEntries(STORIES.filter(s => s.genre === 'horror').map((s, i) => ['p:' + s.id, { ep: 0, pos: s.episodes.map((e, k) => k === 0 ? (i % 2 ? 9999 : 8) : (i % 2 ? 9999 : 0)), v: s.v }])));
+  const romanceLeft1 = await wp.evaluate(() => Object.fromEntries(STORIES.filter(s => s.genre === 'romance').slice(1).map(s => ['p:' + s.id, { ep: 0, pos: s.episodes.map(() => 9999), v: s.v }])));
+  for (const [name, genre, save] of [['nothing read', 'all', {}], ['nothing read', 'horror', {}], ['nothing read', 'romance', {}], ['all read', 'all', allRead], ['all read', 'thriller', allRead],
+    ['every other read', 'all', someRead], ['every other read', 'thriller', someRead], ['horror: read or begun', 'horror', halfHorror], ['one romance left', 'romance', romanceLeft1]]) {
+    const p = await (await browser.newContext({ viewport: { width: 393, height: 852 }, hasTouch: true })).newPage();
+    await p.addInitScript(save => { localStorage.clear(); localStorage.setItem('squeal:lang', '"en"'); for (const k in save) localStorage.setItem('squeal:' + k, JSON.stringify(save[k])); }, save);
+    await p.goto(url); await p.waitForTimeout(500);
+    reel.push(await p.evaluate(async ([name, genre]) => {
+      if (genre !== 'all') { document.getElementById('g-' + genre).dispatchEvent(new MouseEvent('click', { detail: 0, bubbles: true })); await new Promise(r => setTimeout(r, 500)); }
+      const view = document.getElementById('view'), tabs = document.querySelector('.tabs'); view.scrollTop = view.scrollHeight; await new Promise(r => setTimeout(r, 100));
+      const touch = (type, y) => view.dispatchEvent(new TouchEvent(type, { bubbles: true, cancelable: true, touches: type === 'touchend' ? [] : [new Touch({ identifier: 1, target: view, clientX: 200, clientY: y })] }));
+      const hint = document.getElementById('pull-hint').getBoundingClientRect(), last = Math.max(...[...view.querySelectorAll('.tile')].map(t => t.getBoundingClientRect().bottom));
+      const T = tabs.getBoundingClientRect().top, rTop = document.querySelector('.rnd').getBoundingClientRect().top;
+      touch('touchstart', 700);
+      const at = [];
+      for (const raw of [5, 10, 11, 40, 60, 99, 100, 101, 150, 260, 400, 300, 200, 100, 50]) { touch('touchmove', 700 - raw);
+        at.push({ raw, top: parseFloat(document.querySelector('.slot').style.getPropertyValue('--top')) + rTop, shift: -new DOMMatrix(getComputedStyle(view).transform).m42, hint: document.getElementById('pull-hint').textContent,
+          strip: -new DOMMatrix(getComputedStyle(document.querySelector('.strip')).transform).m42 }); }
+      const rows = [...document.querySelectorAll('.strip .row b')].map(b => b.textContent), n = rows.length / 8;
+      const pool = rows.slice(0, n).map(t => STORIES.find(s => s.title === t).id).sort();
+      return { name, genre, pool, n, tabsTop: T, hintBottom: hint.bottom, hintGap: Math.max(8, hint.top - last), at };
+    }, [name, genre]));
+    reel[reel.length - 1].save = save;
+    await p.context().close();
+  }
+  // the one rule for double taps (SPOT): real clicks on three buttons and the empty space round them, time faked
+  const A = [118, 130], B = [132, 130];
+  const TAPS = [
+    [{ at: [70, 130] }, { ms: 200, at: [70, 130] }],
+    [{ at: A }, { ms: 200, at: B }],
+    [{ at: A }, { ms: 900, at: B }],
+    [{ at: [100, 130] }, { ms: 200, at: [145, 130] }],
+    [{ at: [70, 300] }, { ms: 200, at: [75, 300] }],
+    [{ at: [70, 155] }, { ms: 200, at: [70, 165] }],
+    [{ at: [70, 165] }, { ms: 200, at: [70, 155] }],
+    [{ at: A }, { ms: 200, at: B }, { ms: 200, at: B }, { ms: 500, at: B }, { ms: 100, at: B }],
+    [{ at: [40, 130], to: [100, 130] }, { ms: 100, at: B }],
+    [{ at: [110, 130], to: [117, 130] }, { ms: 100, at: B }],
+    [{ at: A }, { ms: 650, at: B }],
+    [{ at: A }, { ms: 950, at: B }],
+    [{ at: [100, 130] }, { ms: 100, at: [138, 130] }],
+    [{ at: [100, 130] }, { ms: 100, at: [142, 130] }],
+    [{ at: [70, 158] }, { ms: 300, at: [70, 172] }, { ms: 300, at: [70, 158] }, { ms: 300, at: [70, 158] }],
+    [{ at: [70, 300] }, { ms: 300, at: [70, 228] }, { ms: 1000, at: [70, 228] }, { ms: 100, at: [70, 232] }, { ms: 100, at: [70, 232] }],
+  ];
+  const spot = [];
+  for (const taps of TAPS) {
+    const p = await (await browser.newContext({ viewport: { width: 393, height: 852 } })).newPage();
+    await p.clock.install();
+    await p.goto(url); await p.clock.fastForward(1000);
+    await p.evaluate(() => { const o = document.createElement('div'); o.id = 'spot-test'; o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#000';
+      o.innerHTML = [['a', 20, 100], ['b', 130, 100], ['c', 20, 170]].map(([n, x, y]) => `<button data-n="${n}" style="position:absolute;left:${x}px;top:${y}px;width:100px;height:60px;padding:0;background:#333"></button>`).join('');
+      document.body.appendChild(o); window.GOT = []; o.addEventListener('click', e => window.GOT.push(e.target.dataset.n || null)); });
+    const out = [];
+    for (const t of taps) {
+      if (t.ms) await p.clock.fastForward(t.ms);
+      await p.evaluate(() => { window.GOT = []; });
+      await p.mouse.move(t.at[0], t.at[1]); await p.mouse.down();
+      if (t.to) await p.mouse.move(t.to[0], t.to[1], { steps: 4 });
+      await p.mouse.up();
+      const got = await p.evaluate(() => window.GOT);
+      out.push({ ms: t.ms || 0, at: t.at, to: t.to || null, got: got.length > 0 });
+    }
+    spot.push(out);
+    await p.context().close();
+  }
   await browser.close();
   const all = JSON.parse(fs.readFileSync(file, 'utf8'));
   all.chat = out;
   all.wall = wall;
   all.voiceBars = voiceBars;
+  Object.assign(all, { search, norm, oneEdit, fear, fearPaint: paint, favs, reel, spot, spotButtons: { a: [20, 100, 100, 60], b: [130, 100, 100, 60], c: [20, 170, 100, 60] } });
   fs.writeFileSync(file, JSON.stringify(all, null, 1) + '\n');
   console.log(out.length + ' scenarios, ' + out.reduce((a, s) => a + s.steps.length, 0) + ' steps');
 })();

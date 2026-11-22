@@ -133,14 +133,14 @@ struct TileView: View {
                 HeartBadge(box: 39, heart: 21, circle: Theme.accent, motion: motion)
                     .padding(9)
                     .contentShape(Rectangle().inset(by: -10))
-                    .onTapGesture { unlikeByTap() }
+                    .tap("fav:" + story.id) { unlikeByTap() }
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: 14))
         .scaleEffect(pressing ? 0.96 : beat)
         .animation(.timingCurve(0.25, 0.8, 0.25, 1, duration: pressing ? 0.5 : 0.3), value: pressing)
-        .onTapGesture { model.previewID = story.id }
+        .tap("tile:" + story.id) { Taps.shared.openTap(); model.previewID = story.id }
         .onLongPressGesture(minimumDuration: 0.38, maximumDistance: 8, perform: holdLike, onPressingChanged: { pressing = $0 })
         .onAppear { badge = model.isFav(story.id) }
         .onChange(of: model.favs) { _, f in
@@ -155,6 +155,7 @@ struct TileView: View {
     /// hold: like (the card swells, the badge pops and the heart is drawn) or unlike (the heart cracks)
     private func holdLike() {
         pressing = false
+        guard Taps.shared.allows("tile:" + story.id) else { return }
         model.toggleFav(story.id, want: !badge)
         let on = model.isFav(story.id)
         playBeat(on)
