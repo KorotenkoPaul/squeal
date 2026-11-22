@@ -191,6 +191,7 @@ struct FearRow: View {
     @State private var centred: Int? = nil
     @State private var settleToken = 0
     @State private var nameT = 0.0
+    @State private var ready = false
 
     var body: some View {
         let names = L10n.list(model.lang, "fear")
@@ -232,7 +233,10 @@ struct FearRow: View {
                                  startPoint: .leading, endPoint: .trailing))
         }
         .frame(height: 50)
-        .onAppear { centred = model.fearLevel - 1 }
+        .onAppear {
+            centred = model.fearLevel - 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { ready = true }
+        }
         .accessibilityElement()
         .accessibilityLabel(names.indices.contains(model.fearLevel - 1) ? names[model.fearLevel - 1] : "")
         .accessibilityAdjustableAction { d in
@@ -243,6 +247,8 @@ struct FearRow: View {
 
     /// when the row comes to rest (140 ms without moving), the name in the middle becomes the filter
     private func moved() {
+        // until the row stands on the level it opens with, where it is says nothing yet
+        if !ready { if abs(scroll - CGFloat(model.fearLevel - 1) * 132) < 1 { ready = true }; return }
         settleToken += 1; let my = settleToken
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
             guard my == settleToken else { return }
