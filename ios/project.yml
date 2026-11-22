@@ -17,6 +17,13 @@ targets:
       - path: ../web/covers
         type: folder
         buildPhase: resources
+      # the chat's voice messages and round videos (web/voice/*.mp3, web/video/*.mp4), as the folders `voice` and `video`
+      - path: ../web/voice
+        type: folder
+        buildPhase: resources
+      - path: ../web/video
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.squeal.Squeal

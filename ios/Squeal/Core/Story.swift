@@ -11,7 +11,7 @@ struct Story: Identifiable, Equatable {
     let description: String
     let interactive: Bool
     let featured: Bool
-    let parts: [Part]
+    var parts: [Part]
     var v: String = ""         // content version: same in every language (English text)
     var cover: String? = nil   // file name in the bundle's covers/ folder, e.g. "legs-doorway.jpg"
     var coverFix: String? = nil
@@ -28,6 +28,17 @@ struct Part: Equatable {
     let start: String?
     let nodes: [String: Node]?
     let messages: [Message]    // interactive: the longest path
+    /// the keys of `nodes` and of `wallpaperEndings` in the order the file has them (the web reads them in that
+    /// order: "Ending 2 of 3", and which ending's doodles go where on the wallpaper)
+    var nodeOrder: [String] = []
+    var endingsOrder: [String] = []
+
+    /// the endings of an interactive part, in the file's order
+    var endingIDs: [String] {
+        guard let nodes else { return [] }
+        let order = nodeOrder.count == nodes.count ? nodeOrder : nodes.keys.sorted()
+        return order.filter { !(nodes[$0]?.ending ?? "").isEmpty }
+    }
 }
 
 struct Node: Equatable {
@@ -89,6 +100,17 @@ enum StoryParse {
     }
 
     private static func truthy(_ x: Any?) -> Bool { (x as? NSNumber)?.boolValue ?? false }
+
+    /// JSONSerialization forgets the order of an object's keys; the order of `nodes` and `wallpaperEndings` is read
+    /// from the file's own text.
+    static func ordered(_ s: Story, json: Data) -> Story {
+        var s = s
+        for k in s.parts.indices where s.parts[k].nodes != nil {
+            s.parts[k].nodeOrder = JSONOrder.keys(json, at: ["parts", k, "nodes"])
+            s.parts[k].endingsOrder = JSONOrder.keys(json, at: ["parts", k, "wallpaperEndings"])
+        }
+        return s
+    }
 
     /// build.py: sha1 of json.dumps([[part.messages, part.nodes or None] ...], ensure_ascii=False, sort_keys=True)[:10]
     static func version(_ d: [String: Any]) -> String {

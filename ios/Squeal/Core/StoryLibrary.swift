@@ -62,7 +62,8 @@ final class StoryLibrary {
         for f in json {
             guard let data = try? Data(contentsOf: f),
                   let d = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  var s = StoryParse.story(d) else { continue }
+                  let parsed = StoryParse.story(d) else { continue }
+            var s = StoryParse.ordered(parsed, json: data)
             if let en = english {
                 guard let e = en[s.id] else { continue }        // a translation of a story that does not exist in English
                 s.v = e.v; s.cover = e.cover; s.coverFix = e.coverFix

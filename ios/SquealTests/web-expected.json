@@ -2310,5 +2310,6963 @@
   "two-knocks": 4.2,
   "under-wrong-hands": 4.5,
   "unwanted-guest": 4.5
- }
+ },
+ "chat": [
+  {
+   "name": "five messages, then back",
+   "id": "nobodys-home",
+   "save": null,
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      2,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 2,
+     "last": "Where do you think? I’m at home.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      3,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 3,
+     "last": "Why are you at home?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       4,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      4,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 4,
+     "last": "Where else would I be?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 5,
+     "last": "Sandra’s, where do you think?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "three messages are no progress once the chat is left",
+   "id": "nobodys-home",
+   "save": null,
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      2,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 2,
+     "last": "Where do you think? I’m at home.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      3,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 3,
+     "last": "Why are you at home?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "the end of a part, the next part, back to part 1, read again",
+   "id": "nobodys-home",
+   "save": {
+    "nobodys-home": {
+     "ep": 0,
+     "pos": [
+      79,
+      0,
+      0
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       79,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      79,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 34,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 79,
+     "last": "What?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       80,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      80,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 35,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 80,
+     "last": "My key won’t work. I can’t get in my own house.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       81,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      81,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 35,
+     "next": 1,
+     "taps": 100,
+     "open": 0,
+     "shown": 81,
+     "last": "I can’t get in my own house!",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": true,
+     "turns": 0,
+     "end": "Nobody’s Home · Part 1"
+    },
+    {
+     "do": "next",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 35,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       1,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      1,
+      0
+     ],
+     "path": null,
+     "pct": 36,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 1,
+     "last": "This makes no sense.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       2,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      2,
+      0
+     ],
+     "path": null,
+     "pct": 36,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 2,
+     "last": "Maybe you’re on the wrong street.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       3,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      3,
+      0
+     ],
+     "path": null,
+     "pct": 37,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 3,
+     "last": "I’m not.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 37,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 4,
+     "last": "This is weird. Everything’s so quiet.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "open": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       81,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      81,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 37,
+     "next": 1,
+     "taps": 100,
+     "open": 0,
+     "shown": 81,
+     "last": "I can’t get in my own house!",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": true,
+     "turns": 0,
+     "end": "Nobody’s Home · Part 1"
+    },
+    {
+     "do": "again",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "open": 1
+     },
+     "saved": {
+      "ep": 1,
+      "pos": [
+       1,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      0,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 4,
+     "last": "This is weird. Everything’s so quiet.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       1,
+       4,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      0,
+      4,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 1,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "a short visit to another part is dropped on leaving it",
+   "id": "nobodys-home",
+   "save": {
+    "nobodys-home": {
+     "ep": 0,
+     "pos": [
+      30,
+      0,
+      0
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       30,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      30,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 30,
+     "last": "Well, where are you guys?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "open": 1
+     },
+     "saved": {
+      "ep": 1,
+      "pos": [
+       30,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      30,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       30,
+       1,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      30,
+      1,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 1,
+     "last": "This makes no sense.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       30,
+       2,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      30,
+      2,
+      0
+     ],
+     "path": null,
+     "pct": 14,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 2,
+     "last": "Maybe you’re on the wrong street.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "open": 2
+     },
+     "saved": {
+      "ep": 2,
+      "pos": [
+       30,
+       2,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      30,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 2,
+     "taps": 100,
+     "open": 2,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 2,
+      "pos": [
+       30,
+       0,
+       1
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      30,
+      0,
+      1
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 2,
+     "taps": 100,
+     "open": 2,
+     "shown": 1,
+     "last": "I’m not dead.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "open": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       30,
+       0,
+       1
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      30,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 30,
+     "last": "Well, where are you guys?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       31,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      31,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 31,
+     "last": "We’re inside, and in the backyard.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       31,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      31,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 13,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "all read: opens at the end; read again starts the whole story",
+   "id": "nobodys-home",
+   "save": {
+    "nobodys-home": {
+     "ep": 2,
+     "pos": [
+      81,
+      79,
+      70
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 2,
+      "pos": [
+       81,
+       79,
+       70
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      81,
+      79,
+      70
+     ],
+     "path": null,
+     "pct": 100,
+     "next": 2,
+     "taps": 100,
+     "open": 2,
+     "shown": 70,
+     "last": "…then they’re just like you.",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 0,
+     "end": "Nobody’s Home · Part 3"
+    },
+    {
+     "do": "again",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "last part read, part 1 half read: read again wipes this part only",
+   "id": "nobodys-home",
+   "save": {
+    "nobodys-home": {
+     "ep": 2,
+     "pos": [
+      40,
+      79,
+      70
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": 2
+     },
+     "saved": {
+      "ep": 2,
+      "pos": [
+       40,
+       79,
+       70
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      40,
+      79,
+      70
+     ],
+     "path": null,
+     "pct": 82,
+     "next": 0,
+     "taps": 100,
+     "open": 2,
+     "shown": 70,
+     "last": "…then they’re just like you.",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 0,
+     "end": "Nobody’s Home · Part 3"
+    },
+    {
+     "do": "again",
+     "saved": {
+      "ep": 2,
+      "pos": [
+       40,
+       79,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      40,
+      79,
+      0
+     ],
+     "path": null,
+     "pct": 52,
+     "next": 2,
+     "taps": 100,
+     "open": 2,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 2,
+      "pos": [
+       40,
+       79,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      40,
+      79,
+      0
+     ],
+     "path": null,
+     "pct": 52,
+     "next": 2,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 2,
+      "pos": [
+       40,
+       79,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 2,
+     "pos": [
+      40,
+      79,
+      0
+     ],
+     "path": null,
+     "pct": 52,
+     "next": 2,
+     "taps": 100,
+     "open": 2,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "an old save { ep, i }",
+   "id": "nobodys-home",
+   "save": {
+    "nobodys-home": {
+     "ep": 1,
+     "i": 12
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       12,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      12,
+      0
+     ],
+     "path": null,
+     "pct": 40,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 12,
+     "last": "Yeah, I’m sure. We have a red mailbox, remember?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       13,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      13,
+      0
+     ],
+     "path": null,
+     "pct": 41,
+     "next": 1,
+     "taps": 100,
+     "open": 1,
+     "shown": 13,
+     "last": "I’m right in front of it.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 1,
+      "pos": [
+       81,
+       13,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 1,
+     "pos": [
+      81,
+      13,
+      0
+     ],
+     "path": null,
+     "pct": 41,
+     "next": 1,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: open it",
+   "id": "two-knocks",
+   "save": null,
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      1
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 3,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Sam, are you awake?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      2
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 5,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 2,
+     "last": "barely. it's 3am. what's wrong",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      3
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 8,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 3,
+     "last": "someone just knocked on my door. twice.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       4
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      4
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 11,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 4,
+     "last": "our knock.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      5
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 14,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 5,
+     "last": "Lil, I'm at home. I'm in bed.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       6
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      6
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 16,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 6,
+     "last": "I know. I can see you typing.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       7
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      7
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 19,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 7,
+     "last": "but he's out there saying he's you. says he lost his phone.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       8
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      8
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 22,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 8,
+     "last": "Sam, it's your voice. exactly your voice.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       9
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      9
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 24,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 9,
+     "last": "who else knows our knock?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       10
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      10
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 27,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 10,
+     "last": "nobody. unless someone's been listening",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       11
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      11
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 30,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 11,
+     "last": "the flat next door's empty. Mrs Hale moved out in June",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       12
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      12
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 32,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 12,
+     "last": "nobody saw her move out. her things are still in there",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       13
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      13
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 35,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 13,
+     "last": "and for weeks I've heard someone in there at night. repeating my phone calls through the wall. word for word.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       14
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      14
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 38,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 14,
+     "last": "in my voice",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       15
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      15
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 41,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 15,
+     "last": "he's knocking again. listen",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [
+      "Open it. Let's see who it is. I'm right here with you.",
+      "Don't open. Whatever it is, it isn't me."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       18
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      18
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 49,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 18,
+     "last": "ok. unlocking",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 19,
+     "last": "there's no one there",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       20
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 54,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 20,
+     "last": "Mrs Hale's door is open. smells like wet soil",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       21
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      21
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 57,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 21,
+     "last": "behind me",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       22
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      22
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 59,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 22,
+     "last": "Lily?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       23
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      23
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 62,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 23,
+     "last": "Lily what's behind you",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       24
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      24
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 65,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 24,
+     "last": "LILY",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       25
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      25
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 68,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 25,
+     "last": "sorry. dropped my phone. all fine, it was just the pipes :)",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       26
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      26
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 70,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 26,
+     "last": "you never use smileys",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       27
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      27
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 73,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 27,
+     "last": "come over. I can't sleep",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 28,
+     "last": "knock twice so I know it's you",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 1,
+     "end": "Two Knocks | Ending 1 of 3 · Invited In"
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 28,
+     "last": "knock twice so I know it's you",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 1,
+     "end": "Two Knocks | Ending 1 of 3 · Invited In"
+    }
+   ]
+  },
+  {
+   "name": "interactive: stay, hide; back to each choice; start over",
+   "id": "two-knocks",
+   "save": null,
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      1
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 3,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Sam, are you awake?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      2
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 5,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 2,
+     "last": "barely. it's 3am. what's wrong",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      3
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 8,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 3,
+     "last": "someone just knocked on my door. twice.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       4
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      4
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 11,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 4,
+     "last": "our knock.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      5
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 14,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 5,
+     "last": "Lil, I'm at home. I'm in bed.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       6
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      6
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 16,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 6,
+     "last": "I know. I can see you typing.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       7
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      7
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 19,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 7,
+     "last": "but he's out there saying he's you. says he lost his phone.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       8
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      8
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 22,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 8,
+     "last": "Sam, it's your voice. exactly your voice.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       9
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      9
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 24,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 9,
+     "last": "who else knows our knock?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       10
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      10
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 27,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 10,
+     "last": "nobody. unless someone's been listening",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       11
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      11
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 30,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 11,
+     "last": "the flat next door's empty. Mrs Hale moved out in June",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       12
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      12
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 32,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 12,
+     "last": "nobody saw her move out. her things are still in there",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       13
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      13
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 35,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 13,
+     "last": "and for weeks I've heard someone in there at night. repeating my phone calls through the wall. word for word.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       14
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      14
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 38,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 14,
+     "last": "in my voice",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       15
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      15
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 41,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 15,
+     "last": "he's knocking again. listen",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [
+      "Open it. Let's see who it is. I'm right here with you.",
+      "Don't open. Whatever it is, it isn't me."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 1
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       18
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      18
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 49,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 18,
+     "last": "ok. not opening",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 19,
+     "last": "he stopped",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       20
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 54,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 20,
+     "last": "now it's my mum's voice. then a little kid crying. then you again",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       21
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      21
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 57,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 21,
+     "last": "it's trying voices. like keys on a ring",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       22
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      22
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 59,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 22,
+     "last": "Sam the scratching moved. it's in the wall. the wall between me and Mrs Hale's flat",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       23
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      23
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 62,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 23,
+     "last": "they put that wall up in June. it's just plasterboard",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       24
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      24
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 65,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 24,
+     "last": "it's coming through. what do I do??",
+     "drafts": [
+      "Run. Get out of the building, now.",
+      "Lock yourself in the bathroom and call the police."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 1
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       26
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      26
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 70,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 26,
+     "last": "in the bathroom. door locked",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       27
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      27
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 73,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 27,
+     "last": "called 999. a woman answered. she's so calm",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       28
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      28
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 76,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 28,
+     "last": "she says officers are on their way up. they'll knock twice so I know it's them",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       29
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      29
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 78,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 29,
+     "last": "twice? did you tell her about our knock?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       30
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      30
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 81,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 30,
+     "last": "no",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       31
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      31
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 84,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 31,
+     "last": "why would she know that",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       32
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      32
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 86,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 32,
+     "last": "her voice. Sam, I know her voice",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       33
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      33
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 89,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 33,
+     "last": "it's Mrs Hale",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 34,
+     "last": "0:10",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 2,
+     "end": "Two Knocks | Ending 3 of 3 · The Call"
+    },
+    {
+     "do": {
+      "turn": 1
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       24
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      24
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 65,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 24,
+     "last": "it's coming through. what do I do??",
+     "drafts": [
+      "Run. Get out of the building, now.",
+      "Lock yourself in the bathroom and call the police."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       26
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      26
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 70,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 26,
+     "last": "running",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       27
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      27
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 73,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 27,
+     "last": "Lily?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       28
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      28
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 76,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 28,
+     "last": "Lil, answer me",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       29
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      29
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 78,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 29,
+     "last": "please",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       30
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      30
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 81,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 30,
+     "last": "outside",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       31
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      31
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 84,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 31,
+     "last": "I'm outside Sam. I'm ok",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       32
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      32
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 86,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 32,
+     "last": "her door was wide open. I saw her wall. there's a hole in it. right where my bed is",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       33
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      33
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 89,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 33,
+     "last": "go to the all-night shop on the corner. I'm coming",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       34
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      34
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 92,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 34,
+     "last": "ok",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       35
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      35
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 95,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 35,
+     "last": "Sam",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       36
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      36
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 97,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 36,
+     "last": "the light just came on in my flat",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "stay",
+       "run"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "stay",
+      "run"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 37,
+     "last": "someone's standing at my window. waving",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 2,
+     "end": "Two Knocks | Ending 2 of 3 · Out Alive"
+    },
+    {
+     "do": {
+      "turn": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [
+      "Open it. Let's see who it is. I'm right here with you.",
+      "Don't open. Whatever it is, it isn't me."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [
+      "Open it. Let's see who it is. I'm right here with you.",
+      "Don't open. Whatever it is, it isn't me."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 0
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       18
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      18
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 49,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 18,
+     "last": "ok. unlocking",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 19,
+     "last": "there's no one there",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 19,
+     "last": "there's no one there",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       20
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 54,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 20,
+     "last": "Mrs Hale's door is open. smells like wet soil",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       21
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      21
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 57,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 21,
+     "last": "behind me",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       22
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      22
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 59,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 22,
+     "last": "Lily?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       23
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      23
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 62,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 23,
+     "last": "Lily what's behind you",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       24
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      24
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 65,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 24,
+     "last": "LILY",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       25
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      25
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 68,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 25,
+     "last": "sorry. dropped my phone. all fine, it was just the pipes :)",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       26
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      26
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 70,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 26,
+     "last": "you never use smileys",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       27
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      27
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 73,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 27,
+     "last": "come over. I can't sleep",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start",
+       "open"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "open"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 28,
+     "last": "knock twice so I know it's you",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 1,
+     "end": "Two Knocks | Ending 1 of 3 · Invited In"
+    },
+    {
+     "do": "again",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      1
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 3,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Sam, are you awake?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      2
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 5,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 2,
+     "last": "barely. it's 3am. what's wrong",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      0
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 0,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: left right after the answer, the reply comes by itself",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      17
+     ],
+     "path": [
+      "start",
+      "stay"
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       18
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      18
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 49,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 18,
+     "last": "ok. not opening",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 19,
+     "last": "he stopped",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: a saved path with a branch that is gone",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "nope"
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       20
+      ],
+      "path": [
+       "start",
+       "nope"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "nope"
+     ],
+     "pct": 54,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1
+      ],
+      "path": [
+       "start"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      1
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 3,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 1,
+     "last": "Sam, are you awake?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: a saved path that jumps a choice",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "run"
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       20
+      ],
+      "path": [
+       "start",
+       "run"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      20
+     ],
+     "path": [
+      "start",
+      "run"
+     ],
+     "pct": 54,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: a save with no path",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      5
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      5
+     ],
+     "path": null,
+     "pct": 14,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 5,
+     "last": "Lil, I'm at home. I'm in bed.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       6
+      ],
+      "v": "8694f06cb9",
+      "path": [
+       "start"
+      ]
+     },
+     "ep": 0,
+     "pos": [
+      6
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 16,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 6,
+     "last": "I know. I can see you typing.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "interactive: finished, opened again",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ]
+    }
+   },
+   "premium": true,
+   "taps": null,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": 0,
+     "shown": 34,
+     "last": "0:10",
+     "drafts": [],
+     "foot": "end",
+     "nextButton": false,
+     "turns": 2,
+     "end": "Two Knocks | Ending 3 of 3 · The Call"
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       37
+      ],
+      "path": [
+       "start",
+       "stay",
+       "hide"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      37
+     ],
+     "path": [
+      "start",
+      "stay",
+      "hide"
+     ],
+     "pct": 100,
+     "next": 0,
+     "taps": 100,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "free reader: five taps, then the paywall",
+   "id": "nobodys-home",
+   "save": null,
+   "premium": false,
+   "taps": 5,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 5,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 4,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      2,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 3,
+     "open": 0,
+     "shown": 2,
+     "last": "Where do you think? I’m at home.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       3,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      3,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 2,
+     "open": 0,
+     "shown": 3,
+     "last": "Why are you at home?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       4,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      4,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 1,
+     "open": 0,
+     "shown": 4,
+     "last": "Where else would I be?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 5,
+     "last": "Sandra’s, where do you think?",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 5,
+     "last": "Sandra’s, where do you think?",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 5,
+     "last": "Sandra’s, where do you think?",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "back",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 0,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       5,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      5,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 2,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 5,
+     "last": "Sandra’s, where do you think?",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "free reader: a tap is given back when the chat closes before the message comes",
+   "id": "nobodys-home",
+   "save": null,
+   "premium": false,
+   "taps": 5,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 5,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 4,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tapback",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 3,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    },
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 3,
+     "open": 0,
+     "shown": 0,
+     "last": null,
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       1,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      1,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 2,
+     "open": 0,
+     "shown": 1,
+     "last": "Where are you?",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      2,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 1,
+     "next": 0,
+     "taps": 1,
+     "open": 0,
+     "shown": 2,
+     "last": "Where do you think? I’m at home.",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tapback",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       2,
+       0,
+       0
+      ],
+      "v": "8c2ddc19d0"
+     },
+     "ep": 0,
+     "pos": [
+      0,
+      0,
+      0
+     ],
+     "path": null,
+     "pct": 0,
+     "next": 0,
+     "taps": 1,
+     "open": null,
+     "shown": null,
+     "last": null,
+     "drafts": null,
+     "foot": null,
+     "nextButton": null,
+     "turns": null,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "free reader: an answer costs one tap, its reply none",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ]
+    }
+   },
+   "premium": false,
+   "taps": 2,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "path": [
+       "start"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 2,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [
+      "Open it. Let's see who it is. I'm right here with you.",
+      "Don't open. Whatever it is, it isn't me."
+     ],
+     "foot": "ask",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": {
+      "pick": 1
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       18
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      18
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 49,
+     "next": 0,
+     "taps": 1,
+     "open": 0,
+     "shown": 18,
+     "last": "ok. not opening",
+     "drafts": [],
+     "foot": "tap",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 19,
+     "last": "he stopped",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 19,
+     "last": "he stopped",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    },
+    {
+     "do": "tap",
+     "saved": {
+      "ep": 0,
+      "pos": [
+       19
+      ],
+      "path": [
+       "start",
+       "stay"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      19
+     ],
+     "path": [
+      "start",
+      "stay"
+     ],
+     "pct": 51,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 19,
+     "last": "he stopped",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  },
+  {
+   "name": "free reader: no taps at a choice",
+   "id": "two-knocks",
+   "save": {
+    "two-knocks": {
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ]
+    }
+   },
+   "premium": false,
+   "taps": 0,
+   "steps": [
+    {
+     "do": {
+      "open": null
+     },
+     "saved": {
+      "ep": 0,
+      "pos": [
+       16
+      ],
+      "path": [
+       "start"
+      ],
+      "v": "8694f06cb9"
+     },
+     "ep": 0,
+     "pos": [
+      16
+     ],
+     "path": [
+      "start"
+     ],
+     "pct": 43,
+     "next": 0,
+     "taps": 0,
+     "open": 0,
+     "shown": 16,
+     "last": "0:10Sam… Sam, listen… listen… he won't stop… it sounds like you… (behind the door: Lil, it's me, it's Sam… just open the door)",
+     "drafts": [],
+     "foot": "pay",
+     "nextButton": false,
+     "turns": 0,
+     "end": null
+    }
+   ]
+  }
+ ],
+ "wall": [
+  {
+   "id": "nobodys-home",
+   "ep": 0,
+   "items": [
+    [
+     "house",
+     "*",
+     24.891749823465943,
+     10.578176968265325,
+     21.758902763947845,
+     21.69398922706023
+    ],
+    [
+     "key",
+     "*",
+     26.844314213842154,
+     69.63729850342497,
+     9.17687766160816,
+     23.88141566189006
+    ],
+    [
+     "balloon",
+     "*",
+     22.041601238772273,
+     135.57196424389258,
+     17.162471897900105,
+     5.377942754421383
+    ],
+    [
+     "music",
+     "*",
+     23.39334037899971,
+     179.3623914080672,
+     13.05824361834675,
+     19.87563717411831
+    ],
+    [
+     "bulb",
+     "*",
+     28.354129584506154,
+     246.6561289099045,
+     5.819242576137185,
+     -6.1900185770355165
+    ],
+    [
+     "phone",
+     "*",
+     31.226291719824076,
+     41.4409699565731,
+     70.76551257353276,
+     18.550425593275577
+    ],
+    [
+     "mailbox",
+     "*",
+     28.792809134349227,
+     93.97665370861068,
+     66.67932046577334,
+     -1.5008577494882047
+    ],
+    [
+     "lamp",
+     "*",
+     26.31158635765314,
+     156.00098100258037,
+     76.63773672748357,
+     -6.620765558909625
+    ],
+    [
+     "house",
+     "*",
+     23.402290919795632,
+     204.47596913622692,
+     68.22119258157909,
+     5.493646825198084
+    ],
+    [
+     "key",
+     "*",
+     31.857022296637297,
+     259.38967071613297,
+     60.988638690672815,
+     -24.76397006539628
+    ],
+    [
+     "bulb",
+     "*",
+     29.90605898015201,
+     13.379281567875296,
+     129.35993041098118,
+     10.634807555470616
+    ],
+    [
+     "moon",
+     "*",
+     29.969933673739433,
+     71.19116270868108,
+     121.29606460873038,
+     -10.78830276383087
+    ],
+    [
+     "door",
+     "*",
+     29.429086612537503,
+     121.24340138258412,
+     121.41789303906262,
+     -17.064066079910845
+    ],
+    [
+     "phone",
+     "*",
+     26.44234700873494,
+     173.80653615808114,
+     129.4539372874424,
+     19.555446703452617
+    ],
+    [
+     "mailbox",
+     "*",
+     25.34549262188375,
+     245.56807108828798,
+     130.15793027356267,
+     6.086238718125969
+    ],
+    [
+     "key",
+     "*",
+     28.661137454211712,
+     36.596403933595866,
+     183.08670931775123,
+     2.7412201394326985
+    ],
+    [
+     "balloon",
+     "*",
+     25.25119757093489,
+     93.96979344682768,
+     176.87908576987684,
+     -1.9202556810341775
+    ],
+    [
+     "music",
+     "*",
+     26.643185045570135,
+     163.5859907208942,
+     175.92631620075554,
+     -1.34090295759961
+    ],
+    [
+     "bulb",
+     "*",
+     26.06158003024757,
+     208.9181595989503,
+     186.57480015605688,
+     8.969188912305981
+    ],
+    [
+     "moon",
+     "*",
+     27.195530951023102,
+     263.7327111470513,
+     178.2516294727102,
+     -10.068299144040793
+    ],
+    [
+     "mailbox",
+     "*",
+     22.234132828190923,
+     12.03467718930915,
+     249.1536141578108,
+     -3.25506724184379
+    ],
+    [
+     "lamp",
+     "*",
+     31.200533721596003,
+     60.75624790554866,
+     228.39040983002633,
+     9.355605219025165
+    ],
+    [
+     "house",
+     "*",
+     27.116119300946593,
+     118.95409849146381,
+     246.72237172350287,
+     -18.661135563161224
+    ],
+    [
+     "key",
+     "*",
+     24.026025541126728,
+     179.53112988127396,
+     240.28376025427133,
+     -4.53225978417322
+    ],
+    [
+     "balloon",
+     "*",
+     27.41722954250872,
+     240.7482485328801,
+     242.9319231491536,
+     -23.246692901011556
+    ]
+   ]
+  },
+  {
+   "id": "nobodys-home",
+   "ep": 2,
+   "items": [
+    [
+     "rock",
+     "*",
+     24.899500872008502,
+     13.839636989869177,
+     10.404525043908507,
+     -24.604374181944877
+    ],
+    [
+     "shards",
+     "*",
+     30.17363936919719,
+     76.89022714085877,
+     5.029548245947808,
+     15.496711840387434
+    ],
+    [
+     "balloon",
+     "*",
+     22.215903907082975,
+     137.55295867752284,
+     15.40944390418008,
+     23.859159729909152
+    ],
+    [
+     "cup",
+     "*",
+     22.930565134622157,
+     177.85921344533563,
+     21.509391700383276,
+     16.485159599687904
+    ],
+    [
+     "camera",
+     "*",
+     31.417213830165565,
+     227.67179800290614,
+     15.036732113454491,
+     -17.5119457882829
+    ],
+    [
+     "music",
+     "*",
+     25.04803140927106,
+     46.791938250884414,
+     79.98301964206621,
+     -24.278632702771574
+    ],
+    [
+     "house",
+     "*",
+     31.14076355751604,
+     90.70787562336773,
+     69.08111508982256,
+     -24.793339997995645
+    ],
+    [
+     "nostar",
+     "*",
+     22.50864698830992,
+     162.1256898418069,
+     81.69294191291556,
+     8.89146545669064
+    ],
+    [
+     "rock",
+     "*",
+     22.66853932570666,
+     208.67297323141247,
+     64.89353163028136,
+     -2.231448527891189
+    ],
+    [
+     "shards",
+     "*",
+     28.988502112217247,
+     272.41598160006106,
+     76.76698329625651,
+     -10.112238640431315
+    ],
+    [
+     "camera",
+     "*",
+     24.556086941622198,
+     12.080886679701507,
+     134.1799620357342,
+     16.291682876180857
+    ],
+    [
+     "door",
+     "*",
+     22.04857471678406,
+     75.11975513026118,
+     121.54836164182052,
+     13.406395295169204
+    ],
+    [
+     "moon",
+     "*",
+     25.386418032459915,
+     136.01187910605222,
+     130.36275623599067,
+     18.918544601183385
+    ],
+    [
+     "music",
+     "*",
+     27.451136683113873,
+     183.44108338467777,
+     121.48826599074528,
+     10.669996810611337
+    ],
+    [
+     "house",
+     "*",
+     24.648916295729578,
+     248.23963405843824,
+     123.50446191476658,
+     20.601319416891783
+    ],
+    [
+     "shards",
+     "*",
+     31.601160087622702,
+     37.23937378823757,
+     181.60093470057473,
+     18.275340960826725
+    ],
+    [
+     "balloon",
+     "*",
+     31.743243749253452,
+     96.42070861998945,
+     181.794152634684,
+     21.012038725893945
+    ],
+    [
+     "cup",
+     "*",
+     22.112723452039063,
+     154.0000713635236,
+     184.48123357025906,
+     0.16600455855950713
+    ],
+    [
+     "camera",
+     "*",
+     23.108246981166303,
+     216.346486533992,
+     179.59625596227124,
+     15.577738813590258
+    ],
+    [
+     "door",
+     "*",
+     26.50041799340397,
+     258.8678618557751,
+     178.88473396515474,
+     22.730022424366325
+    ],
+    [
+     "house",
+     "*",
+     27.475863399915397,
+     12.257631328888237,
+     233.0618815929629,
+     9.640617098193616
+    ],
+    [
+     "nostar",
+     "*",
+     28.995753874070942,
+     77.74237485788763,
+     238.87029094202444,
+     -16.97745636338368
+    ],
+    [
+     "rock",
+     "*",
+     29.2500274842605,
+     124.22103944327682,
+     230.30264947609976,
+     -14.256811619270593
+    ],
+    [
+     "shards",
+     "*",
+     25.488566451705992,
+     189.43638693541288,
+     241.50512137403712,
+     -9.88651221850887
+    ],
+    [
+     "balloon",
+     "*",
+     30.010577033273876,
+     242.56929335091263,
+     236.12701793992892,
+     24.038441095035523
+    ]
+   ]
+  },
+  {
+   "id": "two-knocks",
+   "ep": 0,
+   "items": [
+    [
+     "stairs",
+     "run",
+     28.60298151895404,
+     5.010839299764484,
+     14.139591715298593,
+     -13.734585035126656
+    ],
+    [
+     "bath",
+     "hide",
+     27.329560888931155,
+     78.79400970274583,
+     16.25423012673855,
+     3.6673807189799845
+    ],
+    [
+     "door",
+     "*",
+     28.738931760191917,
+     121.57839784352109,
+     5.744311296381056,
+     -13.322503014933318
+    ],
+    [
+     "key",
+     "*",
+     31.494493352249265,
+     178.2868517083116,
+     16.11533053405583,
+     -15.055557934101671
+    ],
+    [
+     "keyhole",
+     "open",
+     28.846627611666918,
+     237.91146748280153,
+     7.650374854914844,
+     -8.702067832928151
+    ],
+    [
+     "window",
+     "run",
+     27.46875878237188,
+     47.79685371229425,
+     76.2964144833386,
+     -23.824398720171303
+    ],
+    [
+     "drop",
+     "hide",
+     27.90474110096693,
+     91.8228095243685,
+     63.91094591934234,
+     -2.5106658111326396
+    ],
+    [
+     "moon",
+     "*",
+     26.158824617043138,
+     163.75204191403463,
+     65.50961156748235,
+     -13.287697394844145
+    ],
+    [
+     "clock",
+     "*",
+     28.459449138492346,
+     213.25854709139094,
+     75.40542092826217,
+     24.46795442374423
+    ],
+    [
+     "sms",
+     "open",
+     23.728116301819682,
+     268.4022808917798,
+     64.38019835203886,
+     -18.59779389342293
+    ],
+    [
+     "stairs",
+     "run",
+     30.784589767456055,
+     6.5657432484440506,
+     128.27888235542923,
+     12.620088190305978
+    ],
+    [
+     "phone",
+     "hide",
+     29.819673540070653,
+     68.1181017276831,
+     128.66730150021613,
+     6.4680939191021025
+    ],
+    [
+     "door",
+     "*",
+     30.166818413883448,
+     126.32247912650928,
+     121.44405183475465,
+     0.9434810024686158
+    ],
+    [
+     "key",
+     "*",
+     28.90380654297769,
+     174.25203013280407,
+     118.54710089787841,
+     -6.488223501946777
+    ],
+    [
+     "keyhole",
+     "open",
+     27.315764136612415,
+     237.73043204797432,
+     134.1457432853058,
+     -17.38626518053934
+    ],
+    [
+     "window",
+     "run",
+     24.750752279534936,
+     49.56241457210854,
+     186.9585327785462,
+     -8.357001130934805
+    ],
+    [
+     "lock",
+     "hide",
+     31.89918587729335,
+     95.56995365163311,
+     179.58781603630632,
+     -11.324285704176873
+    ],
+    [
+     "moon",
+     "*",
+     28.02833072654903,
+     162.19975438946858,
+     183.0114928483963,
+     -22.266653121914715
+    ],
+    [
+     "clock",
+     "*",
+     29.203128710389137,
+     200.71764801768586,
+     189.6226279521361,
+     -0.14004696859046817
+    ],
+    [
+     "sms",
+     "open",
+     27.02460111863911,
+     269.2555279326625,
+     188.45753941126168,
+     -5.204846558626741
+    ],
+    [
+     "stairs",
+     "run",
+     29.917080093175173,
+     4.226449792739004,
+     244.50298855733126,
+     -13.47594017861411
+    ],
+    [
+     "bath",
+     "hide",
+     31.495518198236823,
+     76.87352067837492,
+     238.2230964936316,
+     18.48540479550138
+    ],
+    [
+     "door",
+     "*",
+     23.044126115739346,
+     130.96820231480524,
+     241.6966121615842,
+     -23.280875093769282
+    ],
+    [
+     "key",
+     "*",
+     29.637588465586305,
+     188.9236533571966,
+     243.00515696965158,
+     1.734646747354418
+    ],
+    [
+     "keyhole",
+     "open",
+     31.936107750982046,
+     230.8387357383035,
+     241.76307098474354,
+     2.3811262217350304
+    ]
+   ]
+  },
+  {
+   "id": "clown",
+   "ep": 0,
+   "items": [
+    [
+     "balloon",
+     "*",
+     24.23154454259202,
+     14.157015604199842,
+     10.371910971356556,
+     19.996388256549835
+    ],
+    [
+     "nose",
+     "*",
+     26.993226451333612,
+     66.21864123106934,
+     20.677209021290764,
+     -6.319887330755591
+    ],
+    [
+     "flower",
+     "*",
+     27.26883453829214,
+     133.87253754516132,
+     22.577091253129765,
+     4.089624155312777
+    ],
+    [
+     "hat",
+     "*",
+     25.69010412832722,
+     179.43773840763606,
+     23.214243795489892,
+     21.3611479382962
+    ],
+    [
+     "door",
+     "*",
+     22.31507822452113,
+     246.13869226095267,
+     14.618182153208181,
+     7.4684107676148415
+    ],
+    [
+     "star",
+     "*",
+     30.6472725472413,
+     38.33164152340032,
+     74.20067357062362,
+     5.813095020130277
+    ],
+    [
+     "music",
+     "*",
+     27.75835619820282,
+     89.50150979612954,
+     75.8888547073584,
+     2.934433426707983
+    ],
+    [
+     "balloon",
+     "*",
+     26.92059794953093,
+     146.7324218826834,
+     69.47416962659918,
+     -15.005805576220155
+    ],
+    [
+     "nose",
+     "*",
+     31.655328157823533,
+     212.60498162102886,
+     68.00525309587829,
+     24.193308129906654
+    ],
+    [
+     "flower",
+     "*",
+     22.603666303213686,
+     259.72343252808787,
+     75.30288420035504,
+     -7.223617052659392
+    ],
+    [
+     "house",
+     "*",
+     31.1257641534321,
+     12.325826256768778,
+     118.92513526859693,
+     14.780362788587809
+    ],
+    [
+     "phone",
+     "*",
+     26.034814552869648,
+     65.68032386549748,
+     132.16084111086093,
+     -21.816425072029233
+    ],
+    [
+     "star",
+     "*",
+     22.37207583663985,
+     123.22075490024872,
+     131.8795135698747,
+     -7.388581521809101
+    ],
+    [
+     "music",
+     "*",
+     23.629161869641393,
+     180.6245592890773,
+     122.31582638411783,
+     -9.745056508108974
+    ],
+    [
+     "balloon",
+     "*",
+     31.323847710620612,
+     245.28623704914935,
+     124.11679536360316,
+     -19.84142931178212
+    ],
+    [
+     "hat",
+     "*",
+     28.335640901234,
+     41.889430806273594,
+     190.22977887815796,
+     -21.46679819561541
+    ],
+    [
+     "door",
+     "*",
+     24.90736838011071,
+     108.03076612693258,
+     183.4594236582052,
+     0.2509705722332001
+    ],
+    [
+     "house",
+     "*",
+     28.71902902191505,
+     152.09857466281392,
+     184.7716809080448,
+     9.177884319797158
+    ],
+    [
+     "phone",
+     "*",
+     22.940161801408976,
+     212.85962510784157,
+     190.6730177316349,
+     -12.499393802136183
+    ],
+    [
+     "star",
+     "*",
+     28.666979582514614,
+     268.45698696770705,
+     176.24294887087308,
+     -3.2963719684630632
+    ],
+    [
+     "nose",
+     "*",
+     30.650518532376736,
+     15.772152141900733,
+     237.64801375637762,
+     15.353083796799183
+    ],
+    [
+     "flower",
+     "*",
+     27.722053160425276,
+     66.35453931824304,
+     237.21532387076877,
+     1.3434537220746279
+    ],
+    [
+     "hat",
+     "*",
+     31.82202698243782,
+     118.37150617991574,
+     239.39380542444997,
+     -11.23659098520875
+    ],
+    [
+     "door",
+     "*",
+     22.03874880960211,
+     177.28199442499317,
+     241.1812623438891,
+     -7.962952787056565
+    ],
+    [
+     "house",
+     "*",
+     22.563104662578553,
+     239.1869325984735,
+     231.84538457239978,
+     2.4967681616544724
+    ]
+   ]
+  },
+  {
+   "id": "the-doctor",
+   "ep": 0,
+   "items": [
+    [
+     "tent",
+     "*",
+     29.699813225772232,
+     11.296648241812363,
+     21.618833884363994,
+     12.570579862222075
+    ],
+    [
+     "tree",
+     "*",
+     28.249712768476456,
+     70.78707401943393,
+     9.07953952695243,
+     20.4258281737566
+    ],
+    [
+     "bandage",
+     "*",
+     29.688864169176668,
+     132.3409492543433,
+     20.277976581593975,
+     4.261946165934205
+    ],
+    [
+     "lamp",
+     "*",
+     22.54905005497858,
+     193.55167227913626,
+     9.046509369043633,
+     -22.144132014364004
+    ],
+    [
+     "backpack",
+     "*",
+     27.09243787964806,
+     233.99392270692624,
+     14.977561566745862,
+     5.547004891559482
+    ],
+    [
+     "phone",
+     "*",
+     25.024104337673634,
+     51.827970513375476,
+     75.99228075961582,
+     8.380433730781078
+    ],
+    [
+     "drop",
+     "*",
+     27.651825403328985,
+     101.84636793122627,
+     75.34377330332063,
+     -11.537023959681392
+    ],
+    [
+     "tent",
+     "*",
+     26.39938199473545,
+     152.41614915733226,
+     77.3830345000606,
+     -18.3115822263062
+    ],
+    [
+     "tree",
+     "*",
+     22.079631262924522,
+     205.01966287218966,
+     64.66569908685051,
+     11.488119652494788
+    ],
+    [
+     "bandage",
+     "*",
+     31.833593505900353,
+     263.3471625719685,
+     66.22773703630082,
+     -21.236731857061386
+    ],
+    [
+     "compass",
+     "*",
+     25.14180470770225,
+     15.144279713043943,
+     129.10821966989897,
+     -14.344982942566276
+    ],
+    [
+     "moon",
+     "*",
+     22.814184702467173,
+     69.2675046690274,
+     132.44728108379059,
+     3.308769781142473
+    ],
+    [
+     "phone",
+     "*",
+     25.364670963492244,
+     120.65080050029792,
+     131.73739988706075,
+     6.28885212354362
+    ],
+    [
+     "drop",
+     "*",
+     29.676868017297238,
+     174.13647453603335,
+     119.05612625251524,
+     8.799825794994831
+    ],
+    [
+     "tent",
+     "*",
+     25.366962482687086,
+     240.37343276874162,
+     125.35837927996181,
+     0.3706925082951784
+    ],
+    [
+     "lamp",
+     "*",
+     24.750153734814376,
+     38.23594206129201,
+     178.1564396719914,
+     -8.84176129475236
+    ],
+    [
+     "backpack",
+     "*",
+     22.81685019424185,
+     109.46602516644634,
+     179.1657627222594,
+     -10.474229091778398
+    ],
+    [
+     "compass",
+     "*",
+     26.124881241004914,
+     146.4926135588903,
+     175.7447366162669,
+     -2.946508303284645
+    ],
+    [
+     "moon",
+     "*",
+     22.01397475367412,
+     210.63058307976462,
+     182.20651104464196,
+     18.636766308918595
+    ],
+    [
+     "phone",
+     "*",
+     22.04875027341768,
+     275.1127973936964,
+     180.33102112892084,
+     -2.171470131725073
+    ],
+    [
+     "tree",
+     "*",
+     26.09647779306397,
+     9.65828425833024,
+     244.65533165982924,
+     0.08208523504436016
+    ],
+    [
+     "bandage",
+     "*",
+     25.945852171164006,
+     65.52966960635968,
+     246.37042664806359,
+     -20.94945851713419
+    ],
+    [
+     "lamp",
+     "*",
+     29.873033171053976,
+     121.28299444005825,
+     232.90256918757223,
+     23.5991430003196
+    ],
+    [
+     "backpack",
+     "*",
+     22.061201124917716,
+     181.66303953831084,
+     244.50735663133673,
+     -4.313260782510042
+    ],
+    [
+     "compass",
+     "*",
+     23.27987822284922,
+     234.34728297614492,
+     239.45459607965313,
+     -18.22735504247248
+    ]
+   ]
+  }
+ ],
+ "voiceBars": [
+  11,
+  8,
+  4,
+  11,
+  11,
+  6,
+  10,
+  14,
+  10,
+  10,
+  9,
+  14,
+  12,
+  16,
+  7,
+  4,
+  4,
+  7,
+  12,
+  12,
+  4,
+  7,
+  15,
+  13,
+  14,
+  5,
+  7,
+  12,
+  10,
+  8
+ ]
 }

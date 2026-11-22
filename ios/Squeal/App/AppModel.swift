@@ -16,7 +16,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var progressRev = 0
     /// the story whose preview is open
     @Published var previewID: String? = nil
-    /// the chat on screen (stage 1: a placeholder)
+    /// the chat on screen
     @Published var chat: ChatRoute? = nil
 
     let slider = SliderClock()
@@ -54,7 +54,11 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: progress
-    func prog(_ s: Story) -> Progress { Reading.prog(s, raw: store.progressRaw(s.id), liveEp: chat?.storyID == s.id ? chat?.ep : nil) }
+    /// (a part of 3 messages or fewer keeps its count only while it is the part open in the chat — and not on its way out)
+    func prog(_ s: Story) -> Progress {
+        let live = chat.flatMap { $0.storyID == s.id && $0.live ? $0.ep : nil }
+        return Reading.prog(s, raw: store.progressRaw(s.id), liveEp: live)
+    }
     func percent(_ s: Story) -> Int { Reading.percent(s, prog(s)) }
     func setProg(_ s: Story, _ p: Progress) { store.set("p:" + s.id, p.saved(v: s.v)); progressRev += 1 }
     func resetAll(_ s: Story) { store.set("p:" + s.id, ["ep": 0, "pos": s.parts.map { _ in 0 }]); progressRev += 1 }
@@ -66,20 +70,47 @@ final class AppModel: ObservableObject {
     }
 
     // MARK: opening a story
+    /// The chat of a story comes up over everything (ChatScreen): `part` nil = carry on where the reader is.
     func openStory(_ id: String, part: Int?, from: Edge = .trailing) {
         guard let s = story(id) else { return }
-        TopWeek.countRead(id, store: store)            // one opening, one read (BUGS #121)
+        let recent = [id] + store.strings("recent").filter { $0 != id }
+        store.set("recent", Array(recent.prefix(3)))
+        if chat?.storyID != id || chat?.live != true { TopWeek.countRead(id, store: store) }   // one opening, one read (BUGS #121)
         let p = prog(s)
-        withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.4)) {
-            chat = ChatRoute(storyID: id, ep: part ?? Reading.nextPart(s, p), from: from)
-        }
+        chat = ChatRoute(storyID: id, ep: part ?? Reading.nextPart(s, p), asked: part, from: from)
+    }
+
+    /// the open chat shows this part now (it alone keeps a count of 3 messages or fewer)
+    func chatShows(part: Int) {
+        guard var c = chat else { return }
+        c.ep = part; c.live = true
+        chat = c
+    }
+
+    /// the chat is on its way out: its part's progress counts as any other's from this moment
+    func chatLeaves() {
+        guard var c = chat else { return }
+        c.live = false
+        chat = c
+        progressRev += 1
+    }
+
+    /// the chat has slid away (unless another one was opened meanwhile)
+    func chatGone(_ token: UUID?) {
+        if chat?.token == token { chat = nil }
+        progressRev += 1
     }
 }
 
 struct ChatRoute: Equatable {
     let storyID: String
     var ep: Int
+    /// the part asked for (nil: carry on)
+    var asked: Int? = nil
     var from: Edge
+    /// its conversation is up and it is not leaving
+    var live = false
+    let token = UUID()
 }
 
 /// The slider's own clock: it lives outside the home screen, so coming back to Home it is where it has got to (BUGS #2).
