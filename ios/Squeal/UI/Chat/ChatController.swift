@@ -96,6 +96,7 @@ final class ChatController: ObservableObject {
     private var toastWork: DispatchWorkItem? = nil
     private var autoTimer: Timer? = nil
     private var autoLeft = 0, autoLast = -1
+    private var spot: (p: CGPoint, t: Double, control: String?)? = nil
 
     init(model: AppModel, story: Story, route: ChatRoute) {
         self.model = model
@@ -271,14 +272,30 @@ final class ChatController: ObservableObject {
     /// the end's buttons take no tap for their first 0.45 s on screen (tapping fast through to the end)
     private func endEarly() -> Bool { chatNow() - endShown < 0.45 }
 
-    func logTapped() {
+    /// One rule for every double tap (the web's SPOT, 2026-11-13): a tap that lands, within 0.8 s and 40 pt of the tap
+    /// before it, on a DIFFERENT control from the one that tap pressed is the second half of that double tap, not a
+    /// choice — a control has just appeared or slid under the finger ("Read again" after the last message, an answer
+    /// after "back to a choice" or after the tap that read the last message). It does nothing. The same control again
+    /// (a voice message's play, the conversation itself) still works. `control` nil: the conversation or the hint.
+    func spotAllows(_ control: String?, at p: CGPoint) -> Bool {
+        let now = chatNow()
+        if let s = spot, now - s.t < 0.8, hypot(p.x - s.p.x, p.y - s.p.y) <= 40 {
+            if let control { if control != s.control { return false } }
+            else if s.control != nil { return false }
+        }
+        spot = (p, now, control)
+        return true
+    }
+
+    func logTapped(at p: CGPoint) {
         nudge()
+        guard spotAllows(nil, at: p) else { return }
         if !early() { step() }
     }
 
-    func footTapped() {
+    func footTapped(at p: CGPoint) {
         nudge()
-        guard foot.mode == .tap else { return }
+        guard spotAllows(nil, at: p), foot.mode == .tap else { return }
         if !early() { step() }
     }
 

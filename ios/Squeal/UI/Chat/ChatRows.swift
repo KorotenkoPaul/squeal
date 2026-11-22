@@ -263,3 +263,15 @@ struct RowView: View {
         }
     }
 }
+
+extension View {
+    /// A chat control's tap, under the one rule for double taps (ChatController.spotAllows). Put on a Button with an
+    /// empty action: the button gives the pressed look and VoiceOver's "button", this does the work.
+    func spotTap(_ chat: ChatController, _ control: String, perform action: @escaping () -> Void) -> some View {
+        self
+            .simultaneousGesture(SpatialTapGesture(coordinateSpace: .global).onEnded { v in
+                if chat.spotAllows(control, at: v.location) { action() }
+            })
+            .accessibilityAction { action() }
+    }
+}

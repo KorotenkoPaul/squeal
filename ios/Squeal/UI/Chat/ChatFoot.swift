@@ -17,7 +17,7 @@ struct FootLayout: Layout {
             let e = CGFloat(1 - pow(1 - q, 3))
             h = a.h0 + (s.height - a.h0) * e
         }
-        box.shown = h
+        if let w = proposal.width, w.isFinite, w > 50 { box.shown = h }       // (a real layout pass, not a probe)
         return CGSize(width: proposal.width ?? s.width, height: max(0, h))
     }
 
@@ -55,7 +55,7 @@ struct ChatFoot: View {
                 .padding(.vertical, 26).padding(.horizontal, ChatMetrics.side)
                 .frame(maxWidth: .infinity)
                 .contentShape(Rectangle())
-                .onTapGesture { chat.footTapped() }
+                .onTapGesture(coordinateSpace: .global) { p in chat.footTapped(at: p) }
                 .accessibilityAddTraits(chat.foot.mode == .tap ? .isButton : [])
         case .end(let end):
             EndButtons(chat: chat, end: end)
@@ -65,7 +65,7 @@ struct ChatFoot: View {
         case .paywall:
             VStack(spacing: 12) {
                 Text(chat.model.tr("payT")).font(AppFont.ui(14)).foregroundStyle(Theme.muted)
-                Button { chat.payTapped() } label: {
+                Button { } label: {
                     Text(chat.model.tr("payB"))
                         .cssText(AppFont.uiFont(16, 800), lineHeight: 20)
                         .foregroundStyle(.white).multilineTextAlignment(.center)
@@ -73,6 +73,7 @@ struct ChatFoot: View {
                         .background(Capsule().fill(Theme.red))
                 }
                 .buttonStyle(.plain)
+                .spotTap(chat, "pay") { chat.payTapped() }
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 10).padding(.bottom, 12).padding(.horizontal, ChatMetrics.side)
@@ -121,7 +122,7 @@ private struct EndButtons: View {
                         .font(AppFont.ui(12, 700)).tracking(12 * 0.1).foregroundStyle(Theme.muted)
                         .padding(.trailing, 4)
                     ForEach(0..<end.turns, id: \.self) { k in
-                        Button { chat.turnTapped(k) } label: {
+                        Button { } label: {
                             HStack(spacing: 5) {
                                 StrokeIcon(paths: ["M6 3 2.5 6.5 6 10", "M3 6.5h6.5a4 4 0 0 1 0 8H7"], viewBox: CGRect(x: 0, y: 0, width: 16, height: 16), width: 1.6, size: 14)
                                 Text(String(k + 1)).font(AppFont.ui(14, 700))
@@ -130,6 +131,7 @@ private struct EndButtons: View {
                             .padding(.leading, 10).padding(.trailing, 13).padding(.vertical, 7)
                         }
                         .buttonStyle(TurnStyle())
+                        .spotTap(chat, "turn\(k)") { chat.turnTapped(k) }
                         .accessibilityLabel(chat.model.tr("a11yBackChoice", ["n": String(k + 1)]))
                     }
                 }
@@ -137,20 +139,22 @@ private struct EndButtons: View {
                 .padding(.bottom, 2)
             }
             if !end.last {
-                Button { chat.nextTapped() } label: {
+                Button { } label: {
                     Text(chat.model.tr("next")).font(AppFont.ui(16, 600)).foregroundStyle(.white)
                         .frame(maxWidth: .infinity).padding(14)
                         .background(RoundedRectangle(cornerRadius: 14).fill(Theme.accent))
                 }
                 .buttonStyle(.plain)
+                .spotTap(chat, "next") { chat.nextTapped() }
             }
-            Button { chat.againTapped() } label: {
+            Button { } label: {
                 Text(chat.model.tr(end.interactive ? "startOver" : "readAgain").uppercased())
                     .font(AppFont.ui(14, 700)).tracking(14 * 0.14).foregroundStyle(Theme.muted)
                     .frame(maxWidth: .infinity).padding(14)
                     .background(RoundedRectangle(cornerRadius: 14).fill(Theme.field))
             }
             .buttonStyle(.plain)
+            .spotTap(chat, "again") { chat.againTapped() }
         }
     }
 }

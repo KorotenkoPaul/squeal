@@ -99,7 +99,7 @@ struct DraftBubble: View {
     let chat: ChatController
 
     var body: some View {
-        Button { chat.pickDraft(row) } label: {
+        Button { } label: {
             Text(text)
                 .cssText(ChatMetrics.bubbleFont, lineHeight: ChatMetrics.lineHeight)
                 .foregroundStyle(.white)
@@ -108,6 +108,7 @@ struct DraftBubble: View {
                 .padding(.horizontal, 14).padding(.vertical, 9)
         }
         .buttonStyle(DraftStyle(chosen: row.chosen))
+        .spotTap(chat, "answer\(index)") { chat.pickDraft(row) }
         .modifier(EnterEffect(p: row.enter))
         .opacity(row.enter)
         .offset(x: row.melted ? 24 : 0)

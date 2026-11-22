@@ -76,16 +76,18 @@ jobs:
             # the chat in fixed states (the same ones ios/tools/web-shots.js takes of the web prototype)
             shoot "$udid" $dev chat-start 5 -lang en -chat nobodys-home -part 0 -pos 0
             shoot "$udid" $dev chat-mid 11 -lang en -chat nobodys-home -part 0 -pos 22 -autotap 3
-            shoot "$udid" $dev chat-part2 5 -lang en -chat nobodys-home -part 1 -pos 9
-            shoot "$udid" $dev chat-choice 5 -lang en -chat two-knocks -pos 16 -path start
             shoot "$udid" $dev chat-picked 10 -lang en -chat two-knocks -pos 16 -path start -autopick 1
-            shoot "$udid" $dev chat-ending 5 -lang en -chat two-knocks -pos 37 -path start,stay,hide
-            shoot "$udid" $dev chat-end-part 5 -lang en -chat nobodys-home -part 0 -pos 999
-            shoot "$udid" $dev chat-paywall 5 -lang en -chat nobodys-home -part 0 -pos 8 -premium 0 -taps 0
-            shoot "$udid" $dev chat-start-ru 5 -lang ru -chat nobodys-home -part 0 -pos 0
             shoot "$udid" $dev chat-choice-ru 5 -lang ru -chat two-knocks -pos 16 -path start
             shoot "$udid" $dev chat-ending-ru 5 -lang ru -chat two-knocks -pos 37 -path start,stay,hide
             shoot "$udid" $dev chat-paywall-ru 5 -lang ru -chat nobodys-home -part 0 -pos 8 -premium 0 -taps 0
+            if [ "$dev" = iphone16 ]; then      # the big phone: every state (the small one: half of them, to keep the run short)
+              shoot "$udid" $dev chat-part2 5 -lang en -chat nobodys-home -part 1 -pos 9
+              shoot "$udid" $dev chat-choice 5 -lang en -chat two-knocks -pos 16 -path start
+              shoot "$udid" $dev chat-ending 5 -lang en -chat two-knocks -pos 37 -path start,stay,hide
+              shoot "$udid" $dev chat-end-part 5 -lang en -chat nobodys-home -part 0 -pos 999
+              shoot "$udid" $dev chat-paywall 5 -lang en -chat nobodys-home -part 0 -pos 8 -premium 0 -taps 0
+              shoot "$udid" $dev chat-start-ru 5 -lang ru -chat nobodys-home -part 0 -pos 0
+            fi
             # every slider title in en and ru: only when run by hand (Actions → ios → Run workflow)
             if [ "$dev" = iphone16 ] && [ "${{ github.event_name }}" = workflow_dispatch ]; then
               for p in 0 1 2 3 4 5; do shoot "$udid" $dev letterings-en-$p 3 -lang en -letterings $p; shoot "$udid" $dev letterings-ru-$p 3 -lang ru -letterings $p; done

@@ -78,7 +78,7 @@ struct LogView: View {
                 .frame(minHeight: max(g.size.height, log.hold ?? 0), alignment: .top)
                 .coordinateSpace(name: LogView.space)
                 .contentShape(Rectangle())
-                .onTapGesture { if !log.ghost { chat.logTapped() } }
+                .onTapGesture(coordinateSpace: .global) { p in if !log.ghost { chat.logTapped(at: p) } }
                 .background(ScrollFinder { log.attached($0) })
             }
             .onAppear { log.viewport = g.size.height; log.width = g.size.width }

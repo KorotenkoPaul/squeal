@@ -165,15 +165,14 @@ struct VoiceBubble: View {
         let lit = Int(Reading.jsRound(clip.fraction * Double(bars.count)))
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 10) {
-                Button {
-                    clip.toggle(file: file, media: chat.media)
-                } label: {
+                Button { } label: {
                     Circle().fill(Color.white.opacity(0.14)).frame(width: 34, height: 34)
                         .overlay(
                             SVGShape(d: clip.playing ? "M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" : "M8 5.5v13l11-6.5z")
                                 .fill(Color.white).frame(width: 16, height: 16))
                 }
                 .buttonStyle(.plain)
+                .spotTap(chat, "voice:" + file) { clip.toggle(file: file, media: chat.media) }
                 .accessibilityLabel(chat.model.tr(clip.playing ? "a11yPause" : "a11yPlayVoice"))
                 HStack(spacing: 2) {
                     ForEach(bars.indices, id: \.self) { k in
