@@ -7,14 +7,48 @@ targets:
   Squeal:
     type: application
     platform: iOS
-    sources: [Squeal]
+    sources:
+      - path: Squeal
+      # the stories, exactly as in the repo (content/stories/<lang>/*.json), as the folder `stories` in the app
+      - path: ../content/stories
+        type: folder
+        buildPhase: resources
+      # the cover photos (web/covers/*.jpg), as the folder `covers`
+      - path: ../web/covers
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.squeal.Squeal
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_CFBundleDisplayName: Squeal
         MARKETING_VERSION: "0.1"
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGNING_ALLOWED: NO
+  SquealTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [SquealTests]
+    dependencies:
+      - target: Squeal
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: app.squeal.SquealTests
+        SWIFT_VERSION: "5.0"
+        CODE_SIGNING_ALLOWED: NO
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Squeal.app/Squeal"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+schemes:
+  Squeal:
+    build:
+      targets:
+        Squeal: all
+        SquealTests: [test]
+    test:
+      targets: [SquealTests]
+      gatherCoverageData: false

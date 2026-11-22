@@ -2,7 +2,7 @@ name: ios
 on:
   push:
     branches: [master]
-    paths: ["ios/**", "content/**", ".github/workflows/ios.yml"]
+    paths: ["ios/**", "content/**", "web/covers/**", ".github/workflows/ios.yml"]
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,32 +11,82 @@ jobs:
   build:
     runs-on: macos-15
     timeout-minutes: 60
+    env:
+      SHOTS: ${{ github.workspace }}/../shots
     steps:
       - uses: actions/checkout@v4
       - name: Tools
         run: brew install xcodegen
       - name: Project
         run: cd ios && xcodegen generate
+      - name: Simulators
+        run: |
+          mkdir -p "$SHOTS"
+          python3 - <<'EOF' >> "$GITHUB_ENV"
+          import json, subprocess
+          d = json.loads(subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "-j"]))["devices"]
+          rt = sorted([k for k in d if "iOS" in k], key=lambda k: [int(x) for x in k.split("iOS-")[1].split("-")])
+          def find(name, prefix):
+              for test in (lambda n: n == name, lambda n: n.startswith(prefix)):
+                  for k in reversed(rt):
+                      for x in d[k]:
+                          if test(x["name"]): return x["udid"]
+              return ""
+          print("SIM16=" + find("iPhone 16", "iPhone 16"))
+          print("SIMSE=" + find("iPhone SE (3rd generation)", "iPhone SE"))
+          EOF
+          cat "$GITHUB_ENV"
+          xcrun simctl boot "$SIM16" || true
+          if [ -n "$SIMSE" ]; then xcrun simctl boot "$SIMSE" || true; fi
       - name: Build
         run: |
+          set -o pipefail
           cd ios
-          xcodebuild -project Squeal.xcodeproj -scheme Squeal -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build 2>&1 | tail -80
-          test -d build/Build/Products/Debug-iphonesimulator/Squeal.app
-      - name: Run on simulator and take a screenshot
+          xcodebuild -project Squeal.xcodeproj -scheme Squeal -destination "id=$SIM16" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO build-for-testing 2>&1 | tee "$SHOTS/build.log" | grep -E "error:|BUILD|warning: .*(deprecated|never)" | head -120
+      - name: Unit tests
+        id: tests
+        continue-on-error: true
         run: |
-          set -x
-          UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for k,v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone 16') ))")
-          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b
-          xcrun simctl install "$UDID" ios/build/Build/Products/Debug-iphonesimulator/Squeal.app
-          xcrun simctl launch "$UDID" app.squeal.Squeal
-          sleep 6
-          mkdir -p shots && xcrun simctl io "$UDID" screenshot shots/launch.png
+          set -o pipefail
+          cd ios
+          xcodebuild -project Squeal.xcodeproj -scheme Squeal -destination "id=$SIM16" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO test-without-building 2>&1 | tee "$SHOTS/tests.log" | grep -E "error|failed|passed|Executed|TEST" | head -200
+      - name: Screenshots
+        run: |
+          APP=ios/build/Build/Products/Debug-iphonesimulator/Squeal.app
+          shoot() {  # device-udid device-name shot-name wait args...
+            local udid=$1 dev=$2 name=$3 wait=$4; shift 4
+            xcrun simctl terminate "$udid" app.squeal.Squeal 2>/dev/null || true
+            xcrun simctl launch "$udid" app.squeal.Squeal -reset 1 -demo 1 "$@" >/dev/null
+            sleep "$wait"
+            xcrun simctl io "$udid" screenshot "$SHOTS/$dev-$name.png" >/dev/null 2>&1
+          }
+          for pair in "$SIM16:iphone16" "$SIMSE:iphonese"; do
+            udid=${pair%%:*}; dev=${pair##*:}
+            [ -n "$udid" ] || continue
+            xcrun simctl bootstatus "$udid" -b >/dev/null
+            xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 || true
+            xcrun simctl install "$udid" "$APP"
+            shoot "$udid" $dev home 4 -lang en
+            shoot "$udid" $dev home-scrolled 4 -lang en -scroll 600
+            shoot "$udid" $dev preview-multi 5 -lang en -preview nobodys-home
+            shoot "$udid" $dev preview-interactive 3 -lang en -preview two-knocks
+            shoot "$udid" $dev home-ru 4 -lang ru
+          done
+          ls -la "$SHOTS"
       - name: Publish screenshots to the ci-shots branch
+        if: always()
         run: |
           git config user.name ci; git config user.email ci@users.noreply.github.com
           SHA=$(git rev-parse --short HEAD)
-          git fetch origin ci-shots || true
+          grep -E "error:" "$SHOTS/build.log" > "$SHOTS/build-errors.txt" 2>/dev/null || true
+          grep -E "error|failed|passed|Executed" "$SHOTS/tests.log" > "$SHOTS/tests.txt" 2>/dev/null || true
+          rm -f "$SHOTS/build.log" "$SHOTS/tests.log"
           git switch --orphan tmp-shots
-          git rm -rfq . || true
-          mkdir -p $SHA && cp ../shots/*.png $SHA/ 2>/dev/null || cp -r shots/* $SHA/ 2>/dev/null || true
-          git add $SHA && git commit -qm "shots $SHA" && git push -f origin HEAD:ci-shots
+          git rm -rfq . 2>/dev/null || true
+          mkdir -p "$SHA" && cp "$SHOTS"/* "$SHA"/ 2>/dev/null || true
+          git add "$SHA" && git commit -qm "shots $SHA" && git push -f origin HEAD:ci-shots
+      - name: Fail if unit tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
