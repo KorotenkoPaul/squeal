@@ -5,6 +5,7 @@ import UIKit
 enum ChatDebug {
     static var autotap = 0          // -autotap N: N more messages are read, one after another
     static var autopick: Int? = nil // -autopick K: at a choice, answer K is picked
+    static var autopart: Int? = nil // -autopart K: 2 s on, part K is picked on the disc
 }
 
 /// What the bottom panel shows.
@@ -619,6 +620,7 @@ final class ChatController: ObservableObject {
     // MARK: - CI screenshots
 
     private func autoplay() {
+        if let k = ChatDebug.autopart { after(2) { [weak self] in self?.goPart(k) } }
         guard ChatDebug.autotap > 0 || ChatDebug.autopick != nil else { return }
         autoLeft = ChatDebug.autotap
         autoLast = -1

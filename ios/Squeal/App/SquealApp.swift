@@ -16,6 +16,7 @@ struct SquealApp: App {
         if let t = args.value("-tab") { m.tab = t }
         ChatDebug.autotap = args.value("-autotap").flatMap { Int($0) } ?? 0
         ChatDebug.autopick = args.value("-autopick").flatMap { Int($0) }
+        ChatDebug.autopart = args.value("-autopart").flatMap { Int($0) }
         if let id = args.value("-chat") { m.openStory(id, part: args.value("-part").flatMap { Int($0) }) }
         _model = StateObject(wrappedValue: m)
         letterings = args.value("-letterings").flatMap { Int($0) }
@@ -42,9 +43,10 @@ struct SquealApp: App {
 ///   -letterings <p>   page p of all slider cards (four a page)
 ///   -still 1          the slider does not turn by itself
 ///   -chat <id>        the chat of <id> open (-part N: that part, counted from 0; else where the reader is)
-///   -pos N            N messages of that part already read; -path a,b,c: the branches taken (interactive)
+///   -pos N            N messages of that part already read (or N,M,…: part by part); -path a,b,c: the branches taken (interactive)
 ///   -premium 0        a free reader, with -taps N free taps left
 ///   -autotap N        the open chat reads N more messages by itself; -autopick K: then picks answer K at a choice
+///   -autopart K       2 s after the chat opens, part K is picked on the part disc (a part switch)
 struct LaunchArgs {
     let args: [String]
     init(_ a: [String]) { args = a }
@@ -62,9 +64,11 @@ struct LaunchArgs {
             store.set("p:clown", ["ep": 0, "pos": [20]])
         }
         if let l = value("-lang") { store.set("lang", l) }
-        if let id = value("-chat"), let n = value("-pos").flatMap({ Int($0) }) {
+        if let id = value("-chat"), let pos = value("-pos") {
             let part = value("-part").flatMap { Int($0) } ?? 0
-            var save: [String: Any] = ["ep": part, "pos": (0...part).map { $0 == part ? n : 0 }]
+            let ns = pos.split(separator: ",").compactMap { Int($0) }              // "22": that part; "22,9": part by part
+            let all: [Int] = ns.count > 1 ? ns : (0...part).map { $0 == part ? (ns.first ?? 0) : 0 }
+            var save: [String: Any] = ["ep": part, "pos": all]
             if let path = value("-path") { save["path"] = path.split(separator: ",").map(String.init) }
             store.set("p:" + id, save)
         }

@@ -62,6 +62,6 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
     (adds "chat", "wall", "voiceBars" to web-expected.json; time is faked, it takes under a minute): saved state, progress
     on every screen, free taps, what the chat shows, after every step; the wallpaper layout of 5 parts; the waveform.
   - Reference pictures of the web: `node ios/tools/web-shots.js <dir> [width height]` (same states as the CI shots).
-  - Launch args (CI): `-chat <id> [-part N] [-pos N] [-path a,b] [-premium 0 -taps N] [-autotap N] [-autopick K]`.
+  - Launch args (CI): `-chat <id> [-part N] [-pos N] [-path a,b] [-premium 0 -taps N] [-autotap N] [-autopick K] [-autopart K]`.
   - Not ported on purpose: the web's test button ↶ (IDEAS.md: «В Swift не переносить»). The web's own rubber band is the
     phone's native bounce here. Haptics: the web chat has none.
