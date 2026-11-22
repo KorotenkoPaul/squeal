@@ -37,6 +37,7 @@ struct SquealApp: App {
 ///   -scroll 600       Home scrolled this far down
 ///   -preview <id>     the story page of <id> open
 ///   -letterings <p>   page p of all slider cards (four a page)
+///   -still 1          the slider does not turn by itself
 struct LaunchArgs {
     let args: [String]
     init(_ a: [String]) { args = a }

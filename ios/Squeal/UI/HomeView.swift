@@ -50,7 +50,7 @@ struct HomeView: View {
                     if scrollTo != nil { DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { reader.scrollTo("shot", anchor: .top) } }
                 }
             }
-            .onAppear { engine.start(count: top.count); engine.covered = covered; gridGenre = model.genre }
+            .onAppear { engine.start(count: top.count); engine.covered = covered; engine.frozen = ProcessInfo.processInfo.arguments.contains("-still"); gridGenre = model.genre }
             .onDisappear { engine.stop() }
             .onChange(of: covered) { _, c in engine.covered = c }
             .onChange(of: top.map(\.id)) { _, ids in engine.start(count: ids.count) }

@@ -26,3 +26,16 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
 
 ## Progress log
 - 2026-11-22: skeleton + CI pipeline working (simulator screenshot on ci-shots).
+- 2026-11-22: stage 1 done (green CI, 12 unit tests, screenshots iPhone 16 + iPhone SE 3rd gen).
+  - Code: `ios/Squeal/Core` — plain logic (Story model + `StoryLibrary` loader with build.py rules: order, English
+    version/cover, fallback to English; `PyJSON` reproduces build.py's version fingerprint; `Reading` = prog()/percent/
+    nextPart/reading time; `Store` = web `store` on UserDefaults, same keys "squeal:*" as JSON text; `TopWeek`; `L10n`
+    = the web UI strings in 5 languages + VoiceOver labels). `ios/Squeal/App` — `AppModel` (shared state), launch args.
+    `ios/Squeal/UI` — Theme (colours, Avenir Next as on iPhone Safari, bundled OFL lettering fonts with Cyrillic
+    fallbacks), SVG path reader (icons from the web's own path data), Home (slider engine with CADisplayLink, worm dots,
+    genre oval, tiles with hearts and progress line), Preview (water, reset tap/hold ring, like/unlike, swipes),
+    placeholders for Favourites/Search/Menu and the chat.
+  - Content is bundled straight from `content/stories` and `web/covers` (folder references in project.yml): no copies.
+  - Tests: `ios/SquealTests/web-expected.json` is produced by running web/squeal-preview.html in Chromium (versions,
+    minutes in all languages, 100 progress cases, top of the week); regenerate it when content or the rules change.
+  - CI screenshots: launch args `-reset 1 -demo 1 -still 1 -lang en|ru -scroll 600 -preview <id> -letterings <page>`.
