@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// The app shell: the tab's page over the indigo background, the tab bar (Home, Favourites, Search, Menu),
 /// and the story page and chat over everything.
@@ -40,6 +41,7 @@ struct RootView: View {
                     .zIndex(3)
             }
         }
+        .overlay(alignment: .topLeading) { if TouchProbe.on { TouchProbe() } }
         .preferredColorScheme(.dark)
         .environment(\.locale, Locale(identifier: model.lang))
     }
@@ -66,7 +68,33 @@ struct TabBar: View {
             .contentShape(Rectangle())
             .tap("tab:" + key) { model.show(tab: key) }
             .accessibilityElement().accessibilityLabel(model.tr(label))
+            .accessibilityIdentifier("tab-" + key)
+            .accessibilityAction { model.show(tab: key) }
             .accessibilityAddTraits(model.tab == key ? [.isButton, .isSelected] : .isButton)
+    }
+}
+
+/// UI tests only (-uitest 1): one invisible element whose value says what the app knows — how many touches the
+/// window watcher has seen (so a broken watcher fails a test, not a reader), and the saved state the tests check.
+struct TouchProbe: View {
+    @EnvironmentObject var model: AppModel
+    static let on = ProcessInfo.processInfo.arguments.contains("-uitest")
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 0.25)) { _ in
+            Color.clear.frame(width: 2, height: 2)
+                .accessibilityElement()
+                .accessibilityIdentifier("probe")
+                .accessibilityLabel("probe")
+                .accessibilityValue(text)
+        }
+        .allowsHitTesting(false)
+    }
+    private var text: String {
+        let chat = model.chat.map { $0.storyID + ":" + String($0.ep) } ?? "-"
+        return ["touches=" + String(Taps.shared.seen), "watching=" + (UIWindow.watchesTouches ? "1" : "0"),
+                "tab=" + model.tab, "lang=" + model.lang, "genre=" + model.genre, "fear=" + String(model.fearLevel),
+                "favs=" + model.favs.joined(separator: ","), "premium=" + (model.store.premium ? "1" : "0"),
+                "taps=" + String(model.store.taps), "pv=" + (model.previewID ?? "-"), "chat=" + chat].joined(separator: ";")
     }
 }
 

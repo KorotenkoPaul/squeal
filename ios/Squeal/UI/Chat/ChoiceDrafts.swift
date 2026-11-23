@@ -115,6 +115,7 @@ struct DraftBubble: View {
         .opacity(row.melted ? 0 : 1)
         .allowsHitTesting(!row.melted && !row.chosen)
         .accessibilityHint(chat.model.tr("a11yAnswer"))
+        .accessibilityIdentifier("draft-\(index + 1)")
     }
 }
 

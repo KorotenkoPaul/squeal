@@ -34,6 +34,7 @@ struct ChatScreen: View {
                 if let text = chat.toast {
                     Text(text)
                         .font(AppFont.ui(14)).foregroundStyle(.white).multilineTextAlignment(.center)
+                        .accessibilityIdentifier("toast")
                         .padding(.horizontal, 16).padding(.vertical, 10)
                         .background(RoundedRectangle(cornerRadius: 12).fill(Theme.field))
                         .padding(.horizontal, 16).padding(.bottom, 84)
@@ -44,6 +45,7 @@ struct ChatScreen: View {
             .background(EdgeSwipe(chat: chat, headHeight: g.safeAreaInsets.top + 60))
         }
         .offset(chat.offset)
+        .overlay(alignment: .topLeading) { if TouchProbe.on { TouchProbe().environmentObject(chat.model) } }
         .accessibilityAddTraits(.isModal)
         .onAppear { chat.start(part: asked) }
     }

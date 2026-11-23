@@ -255,7 +255,7 @@ final class Stage4Tests: XCTestCase {
         t.reset()
     }
 
-    func testTheWindowsSendEventIsOursAndStillUIKits() {
+    @MainActor func testTheWindowsSendEventIsOursAndStillUIKits() {
         XCTAssertTrue(UIWindow.watchesTouches)
         // exchanged, not replaced: the two selectors now run each other's code
         let a = class_getInstanceMethod(UIWindow.self, #selector(UIWindow.sendEvent(_:)))!
@@ -267,7 +267,7 @@ final class Stage4Tests: XCTestCase {
 
     // MARK: - this stage's own pieces
 
-    func testAVoiceBubbleIsAsWideAsItsCaptionWithinItsLimits() {
+    @MainActor func testAVoiceBubbleIsAsWideAsItsCaptionWithinItsLimits() {
         let most: CGFloat = 278                                          // 78 % of a 393 pt phone's log
         XCTAssertEqual(VoiceBubble.contentWidth("Hi.", maxBubble: most), 230)
         XCTAssertEqual(VoiceBubble.contentWidth(String(repeating: "a long caption ", count: 12), maxBubble: most), most - 28)

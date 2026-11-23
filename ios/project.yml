@@ -30,15 +30,23 @@ targets:
         buildPhase: resources
     settings:
       base:
+        # The app as the App Store knows it. The bundle id is the owner's to register (ios/TESTFLIGHT.md); the
+        # TestFlight workflow can override it, the version and the build number from the command line.
         PRODUCT_BUNDLE_IDENTIFIER: app.squeal.Squeal
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
-        INFOPLIST_KEY_CFBundleDisplayName: Squeal
-        MARKETING_VERSION: "0.1"
+        MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
+        # Info.plist: generated from these keys, plus what only a file can say (the launch screen's colour)
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: Support/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: Squeal
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait      # portrait only
+        INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+        # no encryption of its own (it makes no network calls at all): no export-compliance question on every upload
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         SWIFT_VERSION: "5.0"
-        TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY: "1"                                                          # iPhone
+        # simulator builds (CI) are not signed; the TestFlight workflow turns signing on
         CODE_SIGNING_ALLOWED: NO
   SquealTests:
     type: bundle.unit-test
@@ -54,12 +62,28 @@ targets:
         CODE_SIGNING_ALLOWED: NO
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Squeal.app/Squeal"
         BUNDLE_LOADER: "$(TEST_HOST)"
+  # The real app driven on the simulator through its main flows (ios/SquealUITests): the only way to exercise
+  # gestures without a phone.
+  SquealUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [SquealUITests]
+    dependencies:
+      - target: Squeal
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: app.squeal.SquealUITests
+        SWIFT_VERSION: "5.0"
+        CODE_SIGNING_ALLOWED: NO
+        TEST_TARGET_NAME: Squeal
 schemes:
   Squeal:
     build:
       targets:
         Squeal: all
         SquealTests: [test]
+        SquealUITests: [test]
     test:
-      targets: [SquealTests]
+      targets: [SquealTests, SquealUITests]
       gatherCoverageData: false

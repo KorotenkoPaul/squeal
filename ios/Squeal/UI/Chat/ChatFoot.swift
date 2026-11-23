@@ -56,7 +56,10 @@ struct ChatFoot: View {
                 .frame(maxWidth: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture(coordinateSpace: .global) { p in chat.footTapped(at: p) }
+                .accessibilityElement(children: .combine)
                 .accessibilityAddTraits(chat.foot.mode == .tap ? .isButton : [])
+                .accessibilityIdentifier(chat.foot.mode == .tap ? "chat-tap" : "chat-ask")
+                .accessibilityAction { if chat.foot.mode == .tap { chat.step() } }
         case .end(let end):
             EndButtons(chat: chat, end: end)
                 .opacity(chat.foot.wait ? 0 : 1)
@@ -74,6 +77,7 @@ struct ChatFoot: View {
                 }
                 .buttonStyle(.plain)
                 .spotTap(chat, "pay") { chat.payTapped() }
+                .accessibilityIdentifier("chat-pay")
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 10).padding(.bottom, 12).padding(.horizontal, ChatMetrics.side)
@@ -132,6 +136,7 @@ private struct EndButtons: View {
                         }
                         .buttonStyle(TurnStyle())
                         .spotTap(chat, "turn\(k)") { chat.turnTapped(k) }
+                        .accessibilityIdentifier("chat-turn-\(k + 1)")
                         .accessibilityLabel(chat.model.tr("a11yBackChoice", ["n": String(k + 1)]))
                     }
                 }
@@ -146,6 +151,7 @@ private struct EndButtons: View {
                 }
                 .buttonStyle(.plain)
                 .spotTap(chat, "next") { chat.nextTapped() }
+                .accessibilityIdentifier("chat-next")
             }
             Button { } label: {
                 Text(chat.model.tr(end.interactive ? "startOver" : "readAgain").uppercased())
@@ -155,6 +161,7 @@ private struct EndButtons: View {
             }
             .buttonStyle(.plain)
             .spotTap(chat, "again") { chat.againTapped() }
+            .accessibilityIdentifier("chat-again")
         }
     }
 }

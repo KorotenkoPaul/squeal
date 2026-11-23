@@ -95,6 +95,7 @@ struct PreviewView: View {
             }
         }
         .ignoresSafeArea()
+        .overlay(alignment: .topLeading) { if TouchProbe.on { TouchProbe() } }      // (UI tests: a modal page hides the one outside it)
         .accessibilityAddTraits(.isModal)                     // VoiceOver stays on the story page, not on the tab under it (BUGS #148)
         .onAppear(perform: setup)
     }
@@ -119,6 +120,7 @@ struct PreviewView: View {
                 Text(story.title).font(AppFont.ui(32, 700)).foregroundStyle(.white)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityAddTraits(.isHeader)
+                    .accessibilityIdentifier("pv-title")
             }
             .padding(18)
         }
@@ -145,6 +147,7 @@ struct PreviewView: View {
             }
             .frame(height: 14 * 2 + ceil(AppFont.uiFont(17, 700).lineHeight))
             .accessibilityElement().accessibilityLabel(model.tr("read")).accessibilityAddTraits(.isButton)
+            .accessibilityIdentifier("pv-read")
             .accessibilityAction { read(from: .trailing) }
         }
         .padding(.top, 4).padding(.horizontal, 18).padding(.bottom, bottom)
@@ -179,6 +182,8 @@ struct PreviewView: View {
                         .frame(width: w, height: g.size.height)
                         .accessibilityElement().accessibilityLabel(model.tr("part", ["n": "\(k + 1)"]))
                         .accessibilityAddTraits(k == sel ? [.isButton, .isSelected] : .isButton)
+                        .accessibilityIdentifier("pv-part-\(k + 1)")
+                        .accessibilityValue(String(Int((f * 100).rounded())) + " %")
                         .accessibilityAction { select(k, wakeUp: true) }
                     }
                 }
@@ -265,6 +270,7 @@ struct PreviewView: View {
                 .gesture(DragGesture(minimumDistance: 0).onChanged { _ in if Taps.shared.allows("pv-back") { Taps.shared.closeTap(); close() } })
                 .offset(x: 12 - 8, y: 10 - 8)
                 .accessibilityElement().accessibilityLabel(model.tr("close")).accessibilityAddTraits(.isButton)
+                .accessibilityIdentifier("pv-close")
                 .accessibilityAction { close() }
             if let note {
                 noteView(note, width: width)
@@ -295,6 +301,7 @@ struct PreviewView: View {
             .onEnded { _ in resetUp() })
         .onChange(of: resetLive) { _, on in if !on { DispatchQueue.main.async { resetCalledOff() } } }
         .accessibilityElement().accessibilityLabel(model.tr(multi ? "resetMulti" : "reset")).accessibilityAddTraits(.isButton)
+        .accessibilityIdentifier("pv-reset")
         .accessibilityAction { resetOne() }
     }
 
@@ -314,6 +321,7 @@ struct PreviewView: View {
                 })
             .accessibilityElement().accessibilityLabel(model.tr("favourite"))
             .accessibilityAddTraits(liked ? [.isButton, .isSelected] : .isButton)
+            .accessibilityIdentifier("pv-like")
             .accessibilityAction { toggleLike() }
     }
 

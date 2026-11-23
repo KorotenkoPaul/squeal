@@ -139,6 +139,7 @@ struct ToastLine: View {
     var body: some View {
         Text(text)
             .font(AppFont.ui(14)).foregroundStyle(.white).multilineTextAlignment(.center)
+            .accessibilityIdentifier("toast")
             .padding(.horizontal, 16).padding(.vertical, 10)
             .background(RoundedRectangle(cornerRadius: 12).fill(Theme.field))
             .padding(.horizontal, 16)

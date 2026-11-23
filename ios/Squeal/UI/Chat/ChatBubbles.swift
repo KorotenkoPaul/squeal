@@ -50,6 +50,7 @@ struct MessageBubble: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 14).padding(.vertical, 9)
                 .background(bubbleShape(mine: mine).fill(mine ? Theme.me : Theme.them))
+                .accessibilityIdentifier(mine ? "msg-me" : "msg-them")
         }
     }
 }
@@ -139,6 +140,8 @@ struct EndTitle: View {
         .multilineTextAlignment(.center)
         .padding(.top, 16).padding(.horizontal, 8).padding(.bottom, 4)
         .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("chat-end")
     }
 }
 

@@ -180,6 +180,7 @@ struct FavRow: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(story.title)
         .accessibilityAddTraits(.isButton)
+        .accessibilityIdentifier("fav-row-" + story.id)
         .accessibilityAction { model.previewID = story.id }
         .accessibilityAction(named: Text(model.tr("remove"))) { rows.remove(story.id) }
     }
@@ -236,6 +237,7 @@ struct EmptyFavourites: View {
             .modifier(EmptyIn(shown: shown, delay: 0))
             .accessibilityHidden(true)
             Text(model.tr("emptyT")).font(AppFont.ui(20, 700)).foregroundStyle(.white).multilineTextAlignment(.center)
+                .accessibilityIdentifier("fav-empty")
                 .padding(.top, 20)
                 .modifier(EmptyIn(shown: shown, delay: 0.1))
             Text(model.tr("emptyS")).font(AppFont.ui(16)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)

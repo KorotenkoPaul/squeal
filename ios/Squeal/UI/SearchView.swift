@@ -55,6 +55,7 @@ struct SearchView: View {
                     .autocorrectionDisabled().textInputAutocapitalization(.never)
                     .frame(height: 24)
                     .accessibilityLabel(model.tr("search"))
+                    .accessibilityIdentifier("search-field")
             }
             .padding(.horizontal, 12).padding(.vertical, 10)
             .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Theme.field))
@@ -74,6 +75,7 @@ struct SearchView: View {
                 .tap("s-cancel") { cancel() }
                 .allowsHitTesting(active)
                 .accessibilityAddTraits(.isButton).accessibilityHidden(!active)
+                .accessibilityIdentifier("search-cancel")
         }
         .animation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.28), value: active)
         .padding(.top, 18).padding(.bottom, 6).padding(.horizontal, 18)
@@ -112,8 +114,10 @@ struct SearchView: View {
                         model.previewID = s.id
                     }
                     .accessibilityElement(children: .combine).accessibilityAddTraits(.isButton)
+                    .accessibilityIdentifier("result-" + s.id)
+                    .accessibilityAction { focused = false; model.previewID = s.id }
                 }
-                if let hint { HintText(text: hint) }
+                if let hint { HintText(text: hint).accessibilityIdentifier("search-hint") }
             }
             .padding(.horizontal, 18).padding(.bottom, 24 + keyboard)     // the last match can be scrolled up from under the keyboard
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -233,6 +237,7 @@ struct FearRow: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { ready = true }
         }
         .accessibilityElement()
+        .accessibilityIdentifier("fear-row")
         .accessibilityLabel(names.indices.contains(model.fearLevel - 1) ? names[model.fearLevel - 1] : "")
         .accessibilityAdjustableAction { d in
             let k = max(1, min(5, model.fearLevel + (d == .increment ? 1 : -1)))

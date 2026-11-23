@@ -6,10 +6,10 @@ import UIKit
 func tween(_ ms: Double, _ ease: @escaping (Double) -> Double, _ step: @escaping (Double) -> Void) async {
     await withCheckedContinuation { (done: CheckedContinuation<Void, Never>) in
         let t0 = CACurrentMediaTime()
-        let ms = reduceMotion() ? 0 : ms                     // Reduce Motion: nothing glides, it is simply there
+        let length = reduceMotion() ? 0 : ms                 // Reduce Motion: nothing glides, it is simply there
         var loop: FrameLoop?
         loop = FrameLoop { now in
-            let t = max(0, min(1, (now - t0) * 1000 / max(1, ms)))
+            let t = max(0, min(1, (now - t0) * 1000 / max(1, length)))
             step(ease(t))
             if t >= 1 { loop?.stop(); loop = nil; done.resume() }
         }

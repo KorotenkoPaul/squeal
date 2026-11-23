@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Everything else (bundle id, name, version, orientations…) comes from project.yml (INFOPLIST_KEY_* and the
+	     build settings); this file only holds what a build setting cannot say. -->
+	<!-- The launch screen: the app's own indigo, so the app appears out of the very colour it opens on. -->
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
+</dict>
+</plist>

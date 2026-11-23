@@ -36,6 +36,7 @@ jobs:
           print("SIMSE=" + find("iPhone SE (3rd generation)", "iPhone SE"))
           EOF
           cat "$GITHUB_ENV"
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false      # the UI tests type on the phone's own keyboard
           xcrun simctl boot "$SIM16" || true      # the small phone boots later, after the tests (one simulator at a time is much faster)
       - name: Build
         run: |
@@ -50,7 +51,17 @@ jobs:
           set -o pipefail
           cd ios
           xcodebuild -project Squeal.xcodeproj -scheme Squeal -destination "id=$SIM16" -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO -parallel-testing-enabled NO test-without-building 2>&1 | tee "$SHOTS/tests.log" | grep -E "error|failed|passed|Executed|TEST" | head -200
+            CODE_SIGNING_ALLOWED=NO -parallel-testing-enabled NO -only-testing:SquealTests test-without-building 2>&1 | tee "$SHOTS/tests.log" | grep -E "error|failed|passed|Executed|TEST" | head -200
+      # the real app, driven by real touches through its main flows (ios/SquealUITests)
+      - name: UI tests
+        id: uitests
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          set -o pipefail
+          cd ios
+          xcodebuild -project Squeal.xcodeproj -scheme Squeal -destination "id=$SIM16" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO -parallel-testing-enabled NO -only-testing:SquealUITests test-without-building 2>&1 | tee "$SHOTS/ui-tests.log" | grep -E "error|failed|passed|Executed|TEST" | head -200
       - name: Screenshots
         run: |
           APP=ios/build/Build/Products/Debug-iphonesimulator/Squeal.app
@@ -109,11 +120,12 @@ jobs:
           SHA=$(git rev-parse --short HEAD)
           grep -E "error:" "$SHOTS/build.log" > "$SHOTS/build-errors.txt" 2>/dev/null || true
           grep -E "error|failed|passed|Executed" "$SHOTS/tests.log" > "$SHOTS/tests.txt" 2>/dev/null || true
-          rm -f "$SHOTS/build.log" "$SHOTS/tests.log"
+          grep -E "error|failed|passed|Executed|Assert|never|still there" "$SHOTS/ui-tests.log" > "$SHOTS/ui-tests.txt" 2>/dev/null || true
+          rm -f "$SHOTS/build.log" "$SHOTS/tests.log" "$SHOTS/ui-tests.log"
           git switch --orphan tmp-shots
           git rm -rfq . 2>/dev/null || true
           mkdir -p "$SHA" && cp "$SHOTS"/* "$SHA"/ 2>/dev/null || true
           git add "$SHA" && git commit -qm "shots $SHA" && git push -f origin HEAD:ci-shots
-      - name: Fail if unit tests failed
-        if: steps.tests.outcome == 'failure'
+      - name: Fail if unit tests or UI tests failed
+        if: steps.tests.outcome == 'failure' || steps.uitests.outcome == 'failure'
         run: exit 1

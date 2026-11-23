@@ -136,6 +136,7 @@ struct TopSlider: View {
                 if x > -cardW - step && x < width + step {
                     HeroCard(story: s, size: CGSize(width: cardW, height: 190), pressing: touching && downCard == ((k % n) + n) % n)
                         .accessibilityIdentifier("hero-" + s.id)
+                        .accessibilityAction { model.previewID = s.id }
                         .offset(x: x)
                         .accessibilityHidden(k < 0 || k >= n)
                 }
@@ -184,6 +185,7 @@ struct HeroCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .scaleEffect(pressing ? 0.96 : 1)
         .animation(.timingCurve(0.25, 0.8, 0.25, 1, duration: pressing ? 0.5 : 0.3), value: pressing)
+        .accessibilityElement(children: .ignore)              // one element: the lettering's letters are not read one by one
         .accessibilityLabel(story.title)
         .accessibilityAddTraits(.isButton)
     }
