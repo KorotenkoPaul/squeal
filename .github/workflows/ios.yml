@@ -9,12 +9,18 @@ permissions:
 concurrency: { group: ios, cancel-in-progress: true }
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26              # the phone's own system: Xcode 26, an iOS 26 simulator (as TestFlight builds it)
     timeout-minutes: 60
     env:
       SHOTS: ${{ github.workspace }}/../shots
     steps:
       - uses: actions/checkout@v4
+      - name: Xcode 26
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | grep -v -i beta | sort -V | tail -1)
+          [ -n "$X" ] || { echo "::error::No Xcode 26 on this runner"; ls /Applications | grep -i xcode; exit 1; }
+          sudo xcode-select -s "$X"
+          xcodebuild -version
       - name: Tools
         run: brew install xcodegen
       - name: Project
@@ -25,17 +31,20 @@ jobs:
           python3 - <<'EOF' >> "$GITHUB_ENV"
           import json, subprocess
           d = json.loads(subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "-j"]))["devices"]
-          rt = sorted([k for k in d if "iOS" in k], key=lambda k: [int(x) for x in k.split("iOS-")[1].split("-")])
-          def find(name, prefix):
-              for test in (lambda n: n == name, lambda n: n.startswith(prefix)):
-                  for k in reversed(rt):
-                      for x in d[k]:
-                          if test(x["name"]): return x["udid"]
+          # iOS 26 runtimes only: the system the phones run (an older one hid a gesture bug from the tests)
+          rt = sorted([k for k in d if "iOS-26" in k], key=lambda k: [int(x) for x in k.split("iOS-")[1].split("-")])
+          def find(*names):
+              for name in names:
+                  for test in (lambda n: n == name, lambda n: n.startswith(name)):
+                      for k in reversed(rt):
+                          for x in d[k]:
+                              if test(x["name"]): return x["udid"]
               return ""
-          print("SIM16=" + find("iPhone 16", "iPhone 16"))
-          print("SIMSE=" + find("iPhone SE (3rd generation)", "iPhone SE"))
+          print("SIM16=" + find("iPhone 17", "iPhone 16"))
+          print("SIMSE=" + find("iPhone SE"))      # a small phone, if this Xcode has one on iOS 26 (else skipped)
           EOF
           cat "$GITHUB_ENV"
+          grep -q "^SIM16=." "$GITHUB_ENV" || { echo "::error::No iPhone 17/16 simulator on iOS 26"; xcrun simctl list devices available; exit 1; }
           defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false      # the UI tests type on the phone's own keyboard
           xcrun simctl boot "$SIM16" || true      # the small phone boots later, after the tests (one simulator at a time is much faster)
       - name: Build

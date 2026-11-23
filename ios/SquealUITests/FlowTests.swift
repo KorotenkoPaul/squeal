@@ -65,6 +65,31 @@ final class FlowTests: XCTestCase {
         w.coordinate(withNormalizedOffset: a).press(forDuration: 0.05, thenDragTo: w.coordinate(withNormalizedOffset: b), withVelocity: .slow, thenHoldForDuration: hold)
     }
 
+    /// A real finger: down ON the element (a moment's rest), then straight up by `dy` points, resting before it lifts.
+    /// (Not swipeUp(): the touch must begin on the element itself — that is where a gesture of the element's own can
+    /// keep the page from scrolling, BUGS #169.)
+    private func dragUp(_ e: XCUIElement, by dy: CGFloat) {
+        let a = e.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        a.press(forDuration: 0.05, thenDragTo: a.withOffset(CGVector(dx: 0, dy: -dy)), withVelocity: .slow, thenHoldForDuration: 0.2)
+    }
+
+    /// a vertical drag that starts on `start` moves the page up with the finger: `mark` (on the same page) goes up too
+    private func scrolls(from start: XCUIElement, by dy: CGFloat, mark: XCUIElement, _ what: String, file: StaticString = #filePath, line: UInt = #line) {
+        let y0 = mark.frame.minY
+        dragUp(start, by: dy)
+        usleep(800_000)
+        let moved = y0 - mark.frame.minY
+        XCTAssertGreaterThan(moved, dy * 0.5, "a drag up that starts on \(what) did not scroll the page (it moved \(Int(moved)) pt of \(Int(dy)))", file: file, line: line)
+        XCTAssertEqual(probe()["pv"], "-", "a drag up on \(what) opened a story", file: file, line: line)
+    }
+
+    /// the first element whose id starts with `prefix` and whose middle is between these fractions of the screen
+    private func onScreen(_ prefix: String, between a: CGFloat, _ b: CGFloat) -> XCUIElement? {
+        let h = app.windows.firstMatch.frame.height
+        let all = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH %@", prefix))
+        return all.allElementsBoundByIndex.first { $0.exists && $0.frame.midY > h * a && $0.frame.midY < h * b && $0.frame.width > 40 }
+    }
+
     // MARK: reading
 
     func testOpenAStoryReadAndComeBack() {
@@ -392,5 +417,47 @@ final class FlowTests: XCTestCase {
         sleep(2)
         XCTAssertEqual(probe()["pv"], "-")
         XCTAssertEqual(probe()["tab"], "home")
+    }
+
+    // MARK: scrolling: a drag up that starts on a card, a slider card, the genre row or a list row scrolls the page
+
+    func testHomeScrollsFromATileASliderCardAndTheGenreRow() {
+        // on a card of the grid
+        launch()
+        appear("tile-clown")
+        sleep(1)
+        guard let tile = onScreen("tile-", between: 0.45, 0.8) else { return XCTFail("no card in the lower half of Home") }
+        scrolls(from: tile, by: min(320, tile.frame.midY - 120), mark: tile, "a card")
+        XCTAssertEqual(probe()["favs"], "", "a drag up on a card liked it")
+
+        // on the slider's card (straight up: the slider does not turn, the page goes up)
+        launch()
+        let heroes = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'hero-'"))
+        until(5, "the slider is there") { heroes.count > 0 }
+        sleep(1)
+        let mid = app.windows.firstMatch.frame.midX
+        guard let hero = heroes.allElementsBoundByIndex.first(where: { $0.exists && abs($0.frame.midX - mid) < 40 }) else { return XCTFail("no slider card in the middle") }
+        scrolls(from: hero, by: max(110, hero.frame.midY - 50), mark: appear("genre-all"), "a slider card")
+
+        // on the genre row
+        launch()
+        let genre = appear("genre-horror")
+        sleep(1)
+        scrolls(from: genre, by: min(320, genre.frame.midY - 70), mark: genre, "the genre row")
+        XCTAssertEqual(probe()["genre"], "all", "a drag up on the genre row changed the genre")
+    }
+
+    func testFavouritesAndSearchListsScrollFromARow() {
+        launch(["-tab", "fav", "-favs", "clown,the-doctor,two-knocks,frenemy,grave,haunted,slice,skinless,reunion,perfect-match"])
+        appear("fav-row-clown")
+        sleep(1)
+        guard let row = onScreen("fav-row-", between: 0.4, 0.75) else { return XCTFail("no Favourites row in the middle") }
+        scrolls(from: row, by: min(320, row.frame.midY - 120), mark: row, "a Favourites row")
+        XCTAssertFalse((probe()["row"] ?? "-").contains(":-"), "a drag up moved a row sideways")
+
+        launch(["-tab", "search", "-query", "e"])
+        until(6, "search results") { self.onScreen("result-", between: 0.3, 0.7) != nil }
+        guard let item = onScreen("result-", between: 0.25, 0.55) else { return XCTFail("no search result in the middle") }
+        scrolls(from: item, by: min(260, item.frame.midY - 110), mark: item, "a search result")
     }
 }
