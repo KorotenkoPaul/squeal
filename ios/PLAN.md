@@ -99,3 +99,49 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
     `-pull N`, `-reel N`. Web reference shots: `ONLY=fav node ios/tools/web-shots.js <dir>` (fav / search / menu / home).
   - Not in the web either, so not built: a list of recent stories (`squeal:recent` is written and never read, BUGS #156).
     The web's own rubber band of Favourites and Search is the phone's native bounce here (as in the chat).
+- 2026-11-23: stage 4 done — the pass over BUGS.md and IDEAS.md, the gaps of stages 1–3, UI tests, TestFlight readiness.
+  - The checklist: `ios/BUGS_PASS.md` — every BUGS.md entry (1–168) and every IDEAS.md UI decision (I1–I47) with its
+    verdict (holds / fixed / n/a / device) and where it lives; what Reduce Motion does; what is not ported on purpose.
+  - One touch, one job on Home: the genre oval's and the slider's sideways drags are no longer SwiftUI gestures but two
+    more modes of Home's own UIKit pan (`HomePulls`: `.genre`, `.slider`, beside `.refresh` and `.reel`), which the
+    page's scrolling waits for. `GenreOval` (in `GenreChips.swift`) = the web's wireHome: 1:1 drag, a press on another
+    genre brings the oval over (0.18 s, after 90 ms or the first sideways move), settles on the nearest; at rest it is
+    simply "the chosen genre's oval" (a language change cannot misplace it).
+  - A tile's tap and hold are one finger-watching gesture (`TileView`, the web's longPress): the UI tests showed that
+    a tap recogniser and a long-press recogniser side by side never liked.
+  - Touches the phone takes away (a call, the home bar, a second gesture): SwiftUI never calls `onEnded` for them, so
+    every drag that leaves something moved has a `@GestureState` "a touch is on it" and a clean-up when it drops
+    (story page swipe, part frame, ↺, heart, Read, part disc, menu swipe, tiles, slider).
+  - Reduce Motion is honoured everywhere (list in BUGS_PASS.md), the owl pull and the reel included.
+  - Smaller: voice bubble as wide as its caption (230 pt … 78 %); wallpaper doodles cut at their tile's edge like the
+    web's repeated tile; `SliderEngine` publishes only what changed (Home costs nothing under a chat, BUGS #126);
+    Favourites glides its scroll when its last row goes (BUGS #84); the hint's 10 s "breathing" timer is put off by any
+    touch on the chat; a finger sliding off ↺ resets nothing; the plain heart's return after an unlike; VoiceOver: tile
+    progress and "Favourite" action, modal story page, arriving messages read out.
+  - A language change with a chat open cannot happen (Menu is unreachable from under a chat or a story page, both
+    cover the tab bar); `AppModel.setLang` drops an open chat and story page all the same (unit test).
+  - The tap rule's watcher (`UIWindow.sendEvent` exchanged, `Touches.swift`): kept (it is the only place that sees a
+    touch before every control), now with safeguards — no touch known or only a stale one ⇒ `Taps.allows` says yes
+    (taps simply work, `Stage4Tests`), the exchange is checked in the running app, and the UI tests read the number
+    of touches seen back from the app (`TouchProbe`, `-uitest 1`).
+  - Tests. Unit (`ios/SquealTests/Stage4Tests.swift`): the builder's checks on the bundled stories in 5 languages
+    (speakers, markup, private-use characters, branches, longest path, covers, doodle names), every story × 9 saved
+    states × every part opens and reads on, broken saves in every key, the wallpaper's falls (part switch, a choice,
+    back), the tap watcher, the genre oval, the voice bubble's width, the slider's silence.
+    UI (`ios/SquealUITests/FlowTests.swift`, XCUITest on the iPhone 16 simulator, ≈5 min): open a story, read by taps
+    on the panel and on the conversation, back, reopen (progress kept), swipe back from the edge; a double tap on a
+    card and on ✕; answers at a choice, an ending, back to a choice; "Next part" and the part disc; like / unlike by
+    hold and on the story page, Favourites (swipe, Remove, open, empty); Search (fear row, typing, open, Cancel,
+    nothing found); language and the subscription switch; a free reader and the paywall; genres (tap, drag), the
+    slider (swipe, tap); pull to refresh and the random-story reel. Accessibility identifiers were added for them
+    (`tile-<id>`, `pv-read`, `chat-tap`, `draft-N`, …).
+  - CI (`.github/workflows/ios.yml`): build-for-testing once → unit tests → UI tests → screenshots; results on
+    `ci-shots/<sha>/` (`tests.txt`, `ui-tests.txt`, `build-errors.txt`, the pictures). A run takes ≈30 min.
+  - TestFlight: icon (`design/icon/squeal-icon-1024.png`, alpha removed → `Assets.xcassets/AppIcon`), launch screen
+    (the app's indigo, `Support/Info.plist` + `LaunchBackground`), display name, bundle id `app.squeal.Squeal`, version
+    1.0 (1), portrait, iPhone only, `ITSAppUsesNonExemptEncryption = NO`, `PrivacyInfo.xcprivacy` (UserDefaults only),
+    no permissions asked. `.github/workflows/testflight.yml` (manual only, secrets only, cloud signing) — written but
+    NOT RUN: there is no Apple developer account yet. The owner's steps: `ios/TESTFLIGHT.md`.
+  - Only a real iPhone can tell (the owner's first checks are listed in `ios/TESTFLIGHT.md`): BUGS #52 (the chosen
+    genre on refresh), how the pulls, the reel and the bounce feel, haptics, sound, performance, VoiceOver.
+

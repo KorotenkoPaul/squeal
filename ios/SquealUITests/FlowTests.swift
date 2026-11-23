@@ -195,7 +195,7 @@ final class FlowTests: XCTestCase {
         let heart = appear("pv-like")
         XCTAssertFalse(heart.isSelected)
         usleep(900_000)                                          // (a page just opened by a tap takes none at that place)
-        heart.tap()
+        press("pv-like")
         until(4, "liked on the story page") { self.el("pv-like").isSelected }
         el("pv-close").tap()
         gone("pv-read")
@@ -207,20 +207,34 @@ final class FlowTests: XCTestCase {
         tab("fav")
         let row = appear("fav-row-clown")
         appear("fav-row-nobodys-home")
-        // swipe the row left: "Remove" opens behind it; a tap on it removes the story
-        row.swipeLeft(velocity: .slow)
-        usleep(600_000)
-        if probe()["favs"] == "clown,nobodys-home" {             // (not swiped past the line: Remove stands open)
-            row.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
-        }
+        // swipe the row a third of its width to the left and rest: "Remove" stands open beside it
+        row.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)).press(forDuration: 0.05, thenDragTo: row.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.5)), withVelocity: .slow, thenHoldForDuration: 0.3)
+        usleep(700_000)
+        XCTAssertEqual(probe()["pv"], "-", "the swipe opened the story instead of moving the row")
+        XCTAssertEqual(probe()["row"], "clown:-104", "the row did not stay open after the swipe")
+        XCTAssertEqual(probe()["favs"], "clown,nobodys-home")
+        // a touch anywhere else only closes it: nothing opens, nothing is removed
+        el("fav-row-nobodys-home").coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5)).tap()
+        usleep(700_000)
+        XCTAssertEqual(probe()["row"], "clown:0", "a touch elsewhere did not close the open row")
+        XCTAssertEqual(probe()["pv"], "-", "the touch that closed an open row also opened a story")
+        // open it again; a tap on "Remove" removes the story
+        sleep(1)
+        row.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)).press(forDuration: 0.05, thenDragTo: row.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.5)), withVelocity: .slow, thenHoldForDuration: 0.3)
+        usleep(700_000)
+        XCTAssertEqual(probe()["row"], "clown:-104")
+        let w = app.windows.firstMatch.frame.width
+        app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: (w - 18 - 48) / w, dy: row.frame.midY / app.windows.firstMatch.frame.height)).tap()
+        let limit = Date().addingTimeInterval(4)
+        while Date() < limit, probe()["favs"] != "nobodys-home" { usleep(200_000) }
+        XCTAssertEqual(probe()["favs"], "nobodys-home", "Remove did not remove the story (row: \(probe()["row"] ?? "?"), page: \(probe()["pv"] ?? "?"))")
         gone("fav-row-clown")
-        XCTAssertEqual(probe()["favs"], "nobodys-home")
         // a tap on a row opens its story page
         usleep(900_000)
-        el("fav-row-nobodys-home").tap()
+        press("fav-row-nobodys-home")
         appear("pv-read")
         usleep(900_000)
-        appear("pv-like").tap()                                  // unliked here: the row is gone when the page closes
+        press("pv-like")                                         // unliked here: the row is gone when the page closes
         until(4, "unliked on the story page") { (self.probe()["favs"] ?? "x") == "" || !self.el("pv-like").isSelected }
         el("pv-close").tap()
         appear("fav-empty")
@@ -333,7 +347,9 @@ final class FlowTests: XCTestCase {
             return heroes.allElementsBoundByIndex.first { $0.exists && abs($0.frame.midX - mid) < 40 }?.identifier
         }
         guard let before = front() else { return XCTFail("no card in the middle of the slider") }
-        el(before).swipeLeft(velocity: .slow)
+        // across most of the card (a short slow move that stops half way comes back, as it should)
+        let card = el(before)
+        card.coordinate(withNormalizedOffset: CGVector(dx: 0.85, dy: 0.5)).press(forDuration: 0.05, thenDragTo: card.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5)), withVelocity: .default, thenHoldForDuration: 0)
         until(5, "the slider turned") { front() != nil && front() != before }
         let now = front()!
         el(now).tap()

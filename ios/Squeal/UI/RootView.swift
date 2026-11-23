@@ -94,7 +94,8 @@ struct TouchProbe: View {
         return ["touches=" + String(Taps.shared.seen), "watching=" + (UIWindow.watchesTouches ? "1" : "0"),
                 "tab=" + model.tab, "lang=" + model.lang, "genre=" + model.genre, "fear=" + String(model.fearLevel),
                 "favs=" + model.favs.joined(separator: ","), "premium=" + (model.store.premium ? "1" : "0"),
-                "taps=" + String(model.store.taps), "pv=" + (model.previewID ?? "-"), "chat=" + chat].joined(separator: ";")
+                "taps=" + String(model.store.taps), "pv=" + (model.previewID ?? "-"), "chat=" + chat,
+                "row=" + FavRows.probe].joined(separator: ";")
     }
 }
 

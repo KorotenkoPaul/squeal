@@ -73,8 +73,14 @@ final class FavRows: ObservableObject {
     }
     func unlisten() { Taps.shared.onDown["fav"] = nil; pan.detach() }
 
-    func set(_ id: String, _ v: CGFloat) { x[id] = v }
-    func snap(_ id: String, _ v: CGFloat) { withAnimation(reduceMotion() ? nil : Self.snapCurve) { x[id] = v } }
+    /// UI tests: the row last moved and where it was put ("clown:-104")
+    static var probe = "-"
+
+    func set(_ id: String, _ v: CGFloat) { x[id] = v; Self.probe = id + ":" + String(Int(v.rounded())) }
+    func snap(_ id: String, _ v: CGFloat) {
+        withAnimation(reduceMotion() ? nil : Self.snapCurve) { x[id] = v }
+        Self.probe = id + ":" + String(Int(v.rounded()))
+    }
 
     private func begins(_ m: HeldPan.Move) -> Bool {
         guard abs(m.translation.x) > abs(m.translation.y) else { return false }       // up or down: the list scrolls
@@ -157,9 +163,11 @@ struct FavRow: View {
         let w = CGFloat(RowSwipe.buttonWidth(Double(x))), lab = RowSwipe.label(Double(x))
         let f = Double(model.percent(story)) / 100
         let _ = model.progressRev
+        // "Remove" stands over the row, not behind it: it only ever shows where the face has slid away (8 pt beside
+        // its edge), so it looks the same — and nothing can lie between it and the finger
         face(f)
             .offset(x: x)
-            .background(alignment: .trailing) {
+            .overlay(alignment: .trailing) {
                 if w > 0 {
                     Text(model.tr("remove")).font(AppFont.ui(16, 600)).foregroundStyle(.white)
                         .fixedSize()
@@ -169,6 +177,7 @@ struct FavRow: View {
                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                         .contentShape(Rectangle())
                         .tap("remove:" + story.id) { rows.remove(story.id) }
+                        .accessibilityIdentifier("fav-remove")
                 }
             }
         .frame(maxWidth: .infinity, minHeight: 110)
