@@ -431,7 +431,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* 2026-11-23 owner: no "Menu" title — our owl sits on top of the Subscription tile instead (its feet on the tile's edge);
    the languages bring the title "Language" back in its place and the owl fades out with the tiles */
 .group { position: relative; }
-.m-owl { position: absolute; left: 22px; top: -57px; width: 54px; pointer-events: none; z-index: 1; }
+.m-owl { position: absolute; left: 22px; top: -50px; width: 54px; pointer-events: none; z-index: 1; }
 .m-owl svg { display: block; width: 100%; height: auto; }
 .m-title.gone { visibility: hidden; }
 .m-back { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(4px, env(safe-area-inset-left, 0px)); width: 44px; height: 44px; border-radius: 50%;
@@ -765,6 +765,8 @@ const ICON = {
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.3"/><path d="M15.3 15.3l4.7 4.7"/></svg>',
 };
 const OWL = '<svg viewBox="0 0 150 160" aria-hidden="true"><path fill="#a7a3bb" d="M30 30q45-14 90 0l-2 8q30 20 26 62-6 38-69 40-63-2-69-40-4-42 26-62z"/><circle cx="52" cy="70" r="20" fill="#26243f"/><circle cx="98" cy="70" r="20" fill="#26243f"/><circle cx="52" cy="70" r="15" fill="#a7a3bb"/><circle cx="98" cy="70" r="15" fill="#a7a3bb"/><circle cx="50" cy="76" r="6" fill="#26243f"/><circle cx="96" cy="76" r="6" fill="#26243f"/><path d="M68 84l7 9 7-9" fill="none" stroke="#26243f" stroke-width="4" stroke-linejoin="round"/><path d="M58 140v14l-6 6M58 154l6 6M92 140v14l-6 6M92 154l6 6" stroke="#a7a3bb" stroke-width="5" stroke-linecap="round" fill="none"/></svg>';
+/* the owl sitting on an edge, legs hanging over it (menu, 2026-11-23): the same owl, its feet replaced by dangling legs; the edge is at y = 138 */
+const OWL_SIT = '<svg viewBox="0 0 150 200" aria-hidden="true"><path fill="#a7a3bb" d="M30 30q45-14 90 0l-2 8q30 20 26 62-6 38-69 40-63-2-69-40-4-42 26-62z"/><circle cx="52" cy="70" r="20" fill="#26243f"/><circle cx="98" cy="70" r="20" fill="#26243f"/><circle cx="52" cy="70" r="15" fill="#a7a3bb"/><circle cx="98" cy="70" r="15" fill="#a7a3bb"/><circle cx="50" cy="76" r="6" fill="#26243f"/><circle cx="96" cy="76" r="6" fill="#26243f"/><path d="M68 84l7 9 7-9" fill="none" stroke="#26243f" stroke-width="4" stroke-linejoin="round"/><path d="M57 134q-1 22-3 42M54 176l-6 8M54 176l0 9M54 176l6 8M93 134q2 20 5 40M98 174l-5 9M98 174l2 9M98 174l7 7" stroke="#a7a3bb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
 
 /* Procedural cover scenes, so no third-party film stills are used. */
 function cover(story) {
@@ -2102,7 +2104,7 @@ function menu() {
   const art = k => `<svg class="m-art" viewBox="0 0 140 110" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ART[k]}</svg>`;
   shell(`<button class="m-back" id="m-back" aria-label="${tr("back")}" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <h1 class="big m-title" id="m-title">${esc(trA("tabs")[3])}</h1>
-    <div class="group"><span class="m-owl" aria-hidden="true">${OWL.replace(/#26243f/g, "#0e0c19")}</span>${KEYS.map((k, i) => `<button class="m-row${i === 0 ? " wide" : ""}" data-m="${k}" data-i="${i}"${i === 0 ? '' : ''}>${art(k)}${TICK}<span class="m-t"></span><span class="m-v"></span></button>`).join("")}</div>
+    <div class="group"><span class="m-owl" aria-hidden="true">${OWL_SIT.replace(/#26243f/g, "#0e0c19")}</span>${KEYS.map((k, i) => `<button class="m-row${i === 0 ? " wide" : ""}" data-m="${k}" data-i="${i}"${i === 0 ? '' : ''}>${art(k)}${TICK}<span class="m-t"></span><span class="m-v"></span></button>`).join("")}</div>
 `);
   const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back"), title = app.querySelector("#m-title"), owl = app.querySelector(".m-owl");
   let mode = "menu", busy = false;
