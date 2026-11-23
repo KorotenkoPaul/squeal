@@ -4,6 +4,13 @@ Verdicts: **holds** (the Swift code already does it) · **fixed** (changed in st
 native app, with the reason) · **device** (the code follows the rule, but only a real iPhone can confirm how it feels).
 "tests" = covered by unit tests recorded from the web (`ios/SquealTests`), "ui" = covered by the XCUITest target.
 
+## Summary
+
+- BUGS.md, 168 entries (1–168, the special #52 counted once): **124 hold**, **20 fixed now**, **15 not applicable**, **9 hold in code but need a real iPhone to confirm** (52, 34, 44, 46, 98, 103, 104, 105, 159).
+- IDEAS.md UI decisions, 47: **36 hold**, **5 fixed now**, **2 not applicable**, **4 need a real iPhone to confirm** (I6, I17, I18, I44).
+- "Fixed" in the BUGS table means two things: the code was changed — BUGS 19, 48, 50, 54, 84, 114, 118, 126, 136, 148, 149, 155, 161 (13) — or the rule already held and is now guarded by a new test — BUGS 6, 16, 33, 58, 62, 113, 162 (7). IDEAS changed in code: I8, I15, I26, I45, I46.
+- Green at the end: 40 unit tests, 10 UI test flows (`ios/SquealUITests`), screenshots on `ci-shots`.
+
 ## BUGS.md
 
 | # | Entry | Verdict | Where / why |
@@ -26,9 +33,9 @@ native app, with the reason) · **device** (the code follows the rule, but only 
 | 15 | Tap counter never shown, limit works | holds | `ChatReader` (tests); ui (paywall) |
 | 16 | Table markup in message text | fixed | new `DataTests.testStoryTextIsClean` (no `|`, `\!`, private-use characters, empty messages, unknown speakers) |
 | 17 | A character "reveals a real name": sides must hold | holds | sides come from `from == part.right` only; `DataTests` checks every speaker is left or right |
-| 18 | Favourites removal jerked | holds | `FavRows.remove` |
-| 19 | Unlike by hold / by a tap on the heart | holds | `TileView.holdLike`, `unlikeByTap`; ui |
-| 20 | No "Added" toast; a visible like | holds | `HeartBadge` draw + `playBeat` |
+| 18 | Favourites removal jerked | holds | `FavRows.remove`; ui |
+| 19 | Unlike by hold / by a tap on the heart | fixed | found by the UI tests: with a tap recogniser and a long-press recogniser side by side on a tile, a hold never liked. Tap and hold are now one gesture that watches the finger (`TileView`, the web's longPress: 0.38 s, 8 pt); the heart's own tap still unlikes without opening the card; ui |
+| 20 | No "Added" toast; a visible like | holds | `HeartBadge` draw + `playBeat`; ui (see 19) |
 | 21 | Reel showed from under the tab bar | holds | `TabBar` zIndex over the page |
 | 22 | Reel not pulled far enough must sink | holds | `HomePulls.sinkFrame` |
 | 23 | Chosen reel row: thin outline only | holds | `ReelView` |
@@ -143,7 +150,7 @@ native app, with the reason) · **device** (the code follows the rule, but only 
 | 133 | Story page flashed under the leaving chat | holds | the page is dropped for good |
 | 134 | Refresh, then another tab: stray handlers | holds | `showFresh` only on Home |
 | 135 | Reel, then another tab: story page popped up | holds | `onHome` check |
-| 136 | Double "Remove" put the story back | fixed | already guarded; now the removal also completes if the tab is left within 0.22 s |
+| 136 | Double "Remove" put the story back | fixed | already guarded; now the removal also completes if the tab is left within 0.22 s, and "Remove" stands over the row instead of behind it (nothing can lie between it and the finger); ui |
 | 137 | Story page after rotation | n/a | portrait only |
 | 138 | Search row progress stale after reset | holds | `progressRev` |
 | 139 | Part picked while water drains | holds | `redraw` never touches the selection |
@@ -173,7 +180,7 @@ native app, with the reason) · **device** (the code follows the rule, but only 
 | 163 | Counter stopped at 0:09; tall bubble pushed the chat | holds | `jsRound`, soft curve |
 | 164 | Reply owed after coming back | holds | `ChatReader.owesReply` |
 | 165 | Follow-ups | holds | |
-| 166 | Double tap on a low card; open "Remove"; voice counter | holds | `openTap`, `FavRows.listen` |
+| 166 | Double tap on a low card; open "Remove"; voice counter | holds | `openTap`, `FavRows.listen`; ui (a touch elsewhere only closes an open "Remove") |
 | 167 | Double-tap guards that ate real taps | holds | guards are per touch |
 | 168 | One rule for double taps | holds | `SpotRule` (tests), now also guarded if the touch watcher is missing |
 

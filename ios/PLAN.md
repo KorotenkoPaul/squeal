@@ -109,6 +109,7 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
     simply "the chosen genre's oval" (a language change cannot misplace it).
   - A tile's tap and hold are one finger-watching gesture (`TileView`, the web's longPress): the UI tests showed that
     a tap recogniser and a long-press recogniser side by side never liked.
+    Favourites' "Remove" now stands over the row, not behind it.
   - Touches the phone takes away (a call, the home bar, a second gesture): SwiftUI never calls `onEnded` for them, so
     every drag that leaves something moved has a `@GestureState` "a touch is on it" and a clean-up when it drops
     (story page swipe, part frame, ↺, heart, Read, part disc, menu swipe, tiles, slider).
@@ -137,6 +138,7 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
     (`tile-<id>`, `pv-read`, `chat-tap`, `draft-N`, …).
   - CI (`.github/workflows/ios.yml`): build-for-testing once → unit tests → UI tests → screenshots; results on
     `ci-shots/<sha>/` (`tests.txt`, `ui-tests.txt`, `build-errors.txt`, the pictures). A run takes ≈30 min.
+    Green: 40 unit tests, 10 UI test flows.
   - TestFlight: icon (`design/icon/squeal-icon-1024.png`, alpha removed → `Assets.xcassets/AppIcon`), launch screen
     (the app's indigo, `Support/Info.plist` + `LaunchBackground`), display name, bundle id `app.squeal.Squeal`, version
     1.0 (1), portrait, iPhone only, `ITSAppUsesNonExemptEncryption = NO`, `PrivacyInfo.xcprivacy` (UserDefaults only),
