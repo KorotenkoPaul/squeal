@@ -414,7 +414,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .m-row.wide { grid-column: 1 / -1; height: 96px; }
 .m-row.sub { background: linear-gradient(135deg, #6c4dd8, #3a2a80); }
 .m-art { position: absolute; right: -14px; bottom: -12px; width: 128px; height: auto; color: rgba(255,255,255,.075); pointer-events: none; transition: color .4s; }
-.m-row.sub .m-art { width: 124px; right: 78px; bottom: -18px; color: rgba(255,255,255,.16); }   /* left of the switch */
+.m-row.sub .m-art { width: 150px; right: -6px; bottom: -26px; color: rgba(255,255,255,.16); }
 .m-row.sub.on .m-art { color: var(--red); }
 .m-row.l .m-art { display: none; }
 .m-t { position: relative; max-width: 100%; font-size: 16px; font-weight: 600; line-height: 21px; }   /* a word wider than the tile makes the words smaller (to 12 px), never breaks */
@@ -428,8 +428,12 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .switch i { position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.25), 0 1px 1px rgba(0,0,0,.16); transition: transform .3s var(--ease); }
 .switch.on { background: var(--accent); }
 .switch.on i { transform: translateX(20px); }
-.m-foot { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 18px; color: var(--faint); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-.m-foot svg { width: 46px; height: auto; opacity: .45; }
+/* 2026-11-23 owner: no "Menu" title — our owl sits on top of the Subscription tile instead (its feet on the tile's edge);
+   the languages bring the title "Language" back in its place and the owl fades out with the tiles */
+.group { position: relative; }
+.m-owl { position: absolute; left: 22px; top: -57px; width: 54px; pointer-events: none; z-index: 1; }
+.m-owl svg { display: block; width: 100%; height: auto; }
+.m-title.gone { visibility: hidden; }
 .m-back { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(4px, env(safe-area-inset-left, 0px)); width: 44px; height: 44px; border-radius: 50%;
   display: grid; place-items: center; color: var(--accent-hi); opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 2; }
 .m-back svg { width: 22px; height: 22px; }
@@ -2098,15 +2102,15 @@ function menu() {
   const art = k => `<svg class="m-art" viewBox="0 0 140 110" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ART[k]}</svg>`;
   shell(`<button class="m-back" id="m-back" aria-label="${tr("back")}" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <h1 class="big m-title" id="m-title">${esc(trA("tabs")[3])}</h1>
-    <div class="group">${KEYS.map((k, i) => `<button class="m-row${i === 0 ? " wide" : ""}" data-m="${k}" data-i="${i}"${i === 0 ? '' : ''}>${art(k)}${TICK}<span class="m-t"></span><span class="m-v"></span></button>`).join("")}</div>
-    <div class="m-foot" aria-hidden="true">${OWL.replace(/#26243f/g, "#0e0c19")}<span>Squeal</span></div>`);
-  const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back"), title = app.querySelector("#m-title");
+    <div class="group"><span class="m-owl" aria-hidden="true">${OWL.replace(/#26243f/g, "#0e0c19")}</span>${KEYS.map((k, i) => `<button class="m-row${i === 0 ? " wide" : ""}" data-m="${k}" data-i="${i}"${i === 0 ? '' : ''}>${art(k)}${TICK}<span class="m-t"></span><span class="m-v"></span></button>`).join("")}</div>
+`);
+  const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back"), title = app.querySelector("#m-title"), owl = app.querySelector(".m-owl");
   let mode = "menu", busy = false;
-  const fill = () => { title.textContent = mode === "menu" ? trA("tabs")[3] : trA("menu")[2]; title.classList.toggle("with-back", mode !== "menu");
+  const fill = () => { title.textContent = mode === "menu" ? trA("tabs")[3] : trA("menu")[2]; title.classList.toggle("with-back", mode !== "menu"); title.classList.toggle("gone", mode === "menu"); owl.style.visibility = mode === "menu" ? "" : "hidden";
     rows.forEach((b, i) => {
     const t = b.querySelector(".m-t"), v = b.querySelector(".m-v");
     if (mode === "menu") { const k = KEYS[i]; b.dataset.m = k; b.classList.toggle("sub", i === 0); b.classList.toggle("on", i === 0 && premium()); b.classList.remove("cur", "l"); t.textContent = trA("menu")[LBL[k]]; b.removeAttribute("lang");
-      v.innerHTML = k === "sub" ? `<span class="switch${premium() ? " on" : ""}" aria-hidden="true"><i></i></span>` : k === "lang" ? esc(LANGS.find(l => l[0] === LANG)[1]) : "";
+      v.innerHTML = k === "sub" ? "" : k === "lang" ? esc(LANGS.find(l => l[0] === LANG)[1]) : "";
       if (k === "sub") { b.setAttribute("role", "switch"); b.setAttribute("aria-checked", premium()); } else b.removeAttribute("role"); }
     else { const [code, name] = LANGS[i]; b.dataset.m = "l:" + code; b.classList.remove("sub"); b.classList.add("l"); b.classList.toggle("cur", code === LANG); t.textContent = name; b.setAttribute("lang", code);
       b.classList.remove("on"); b.removeAttribute("role"); b.removeAttribute("aria-checked"); v.innerHTML = ""; }
@@ -2122,9 +2126,9 @@ function menu() {
     if (busy || mode === to) return; busy = true; swapAt = performance.now();
     back.classList.toggle("on", to === "lang");
     if (reduce() || !rows[0].animate) { mode = to; fill(); busy = false; return; }
-    [title, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
+    [title, owl, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
     setTimeout(() => { mode = to; fill();
-      [title, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "backwards" }); });
+      [title, owl, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "backwards" }); });
       busy = false; }, 300);
   };
   back.onclick = () => swap("menu");
@@ -2153,7 +2157,7 @@ function menu() {
     }
     if (m === "lang") return swap("lang");
     if (m === "sub") { const on = !premium(); store.set("premium", on); if (!on) store.set("taps", FREE_TAPS);
-      b.querySelector(".switch")?.classList.toggle("on", on); b.classList.toggle("on", on); b.setAttribute("aria-checked", on); haptic.tap?.();   // the crown turns red with it
+      b.classList.toggle("on", on); b.setAttribute("aria-checked", on); haptic.tap?.();   // the crown turns red with it
       return toast(on ? tr("subOn") : tr("subOff", { n: FREE_TAPS })); }
     toast(tr("inApp", { x: b.querySelector(".m-t").textContent }));
   });

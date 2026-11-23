@@ -95,7 +95,7 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     }
     await tapEl('.m-row[data-m="lang"]'); await sleep(1100); await drag(40, 400, 260, 405, 8); await sleep(1100);
     ok(await p.evaluate(() => document.querySelector('.m-row').dataset.m === 'sub'), `${name}: swipe back from languages`);
-    await tapEl('.m-row[data-i="0"]'); await sleep(600); ok(await p.evaluate(() => !premium() && !document.querySelector('.switch').classList.contains('on')), `${name}: subscription off`);
+    await tapEl('.m-row[data-i="0"]'); await sleep(600); ok(await p.evaluate(() => !premium() && !document.querySelector('.m-row.sub').classList.contains('on')), `${name}: subscription off`);
     await p.evaluate(() => localStorage.setItem('squeal:taps', '0')); await p.evaluate(() => openStory('grave', 0)); await sleep(1500); await tap(W / 2, H * .45); await sleep(700);
     ok(await has('#pay'), `${name}: no paywall at 0 taps`);
     await tapEl('#back'); await sleep(900); await tapEl('.m-row[data-i="0"]'); await sleep(600); ok(await p.evaluate(() => premium()), `${name}: subscription on again`);
