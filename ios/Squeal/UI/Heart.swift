@@ -45,6 +45,8 @@ struct HeartBadge: View {
     var motion: HeartMotion = .still
     /// the preview's unlike: the halves fade out while the circle stays lit
     var fadeHalves = false
+    /// the plain heart coming back after that unlike: 0 (unseen, at 70 % of its size) … 1 (there)
+    var heartIn: Double = 1
 
     var body: some View {
         if motion == .still {
@@ -63,6 +65,7 @@ struct HeartBadge: View {
             ZStack {
                 Circle().fill(circle)
                 SVGShape(d: IconPath.heart).fill(ink).frame(width: heart, height: heart)
+                    .opacity(heartIn).scaleEffect(0.7 + 0.3 * heartIn)
             }.frame(width: box, height: box)
         case .draw:
             let e = CubicBezier.easeOut(t)

@@ -62,6 +62,7 @@ struct PreviewView: View {
     @GestureState private var frameLive = false
     @GestureState private var resetLive = false
     @GestureState private var likeLive = false
+    @State private var likeBack = 1.0                // the plain heart coming back after an unlike
     @State private var resetOff = false              // the finger has slid off ↺ during this touch
 
     private var multi: Bool { story.parts.count > 1 }
@@ -317,7 +318,7 @@ struct PreviewView: View {
 
     private func likeButton(_ liked: Bool) -> some View {
         HeartBadge(box: 40, heart: 27, circle: likeLit ? Theme.accent : Theme.chrome, ink: likeLit ? .white : Theme.muted,
-                   motion: likeMotion, fadeHalves: true)
+                   motion: likeMotion, fadeHalves: true, heartIn: likeBack)
             .animation(.easeInOut(duration: 0.2), value: likeLit)
             .scaleEffect(likePressed ? 0.88 : (bounce["like"] == true ? 1.08 : 1))
             .frame(width: 56, height: 56).contentShape(Rectangle())
@@ -404,6 +405,10 @@ struct PreviewView: View {
                 guard holdToken == my else { return }
                 likeMotion = .still
                 likeLit = model.isFav(story.id)
+                // the plain heart comes back: from 70 % of its size, fading in (0.18 s)
+                var t = Transaction(); t.disablesAnimations = true
+                withTransaction(t) { likeBack = 0 }
+                DispatchQueue.main.async { withAnimation(.easeOut(duration: 0.18)) { likeBack = 1 } }
             }
         }
     }

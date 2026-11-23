@@ -369,6 +369,10 @@ final class ChatController: ObservableObject {
         reader.arrived()
         status = .online
         busy = false
+        // the web's conversation is a live region: VoiceOver reads a message as it comes
+        if UIAccessibility.isVoiceOverRunning {
+            UIAccessibility.post(notification: .announcement, argument: (m.video != nil ? model.tr("a11yVideo") + ": " : "") + m.text)
+        }
         glideDown()
         controls()
     }
