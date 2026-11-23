@@ -2,24 +2,42 @@
 <title>Squeal</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
 <!-- slider titles: each story's name is drawn in its own lettering -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@800&family=Caveat:wght@700&family=Cinzel:wght@600&family=Cormorant+SC:wght@500&family=DM+Serif+Display:ital@1&family=IM+Fell+English:ital@1&family=Major+Mono+Display&family=Monoton&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=Rubik+Distressed&family=Rubik+Wet+Paint&family=Special+Elite&family=Oswald:wght@600&family=Marck+Script&family=PT+Mono&family=Russo+One&display=swap">
 <style>
-/* Layout: the original 2018 Squeal design — indigo night, four tabs (menu, home, favourites, search) and a full-screen chat reader. */
+/* Layout: Squeal's indigo night, redesigned 2026-11 (on trial) after iOS 26: the system font (SF on iPhone), Apple's
+   type scale, one material for every bar (frosted glass over the content), deeper ink background so the covers glow,
+   one motion language (the iOS sheet curve), 44 pt targets. Four tabs (home, favourites, search, menu) and a
+   full-screen chat reader. The 2018 design: web/snapshots/. */
 :root {
-  --bg: #26243f;          /* indigo night, from the original mockups */
-  --deep: #17122c;        /* card shade behind covers */
-  --tabbar: #1f1d36;
-  --field: #34315a;       /* search field, chips */
-  --text: #ffffff;
-  --muted: #9b97b3;       /* lavender captions */
-  --accent: #7b57c9;      /* favourite heart, active states */
+  --bg: #0e0c19;          /* ink-indigo night: the old indigo, much deeper, so covers and bubbles carry the colour */
+  --bg-rgb: 14, 12, 25;
+  --deep: #17142a;        /* behind covers (while they load), raised cards */
+  --tabbar: #1a1730;      /* solid stand-in for the glass where blur is missing */
+  --field: #1f1b36;       /* filled controls: search field, parts, the reel */
+  --fill: rgba(150, 136, 230, .14);   /* tinted system fill: chips, small buttons */
+  --sep: rgba(255, 255, 255, .08);    /* hairlines */
+  --glass: rgba(24, 21, 42, .62);     /* bars: frosted over what scrolls under them */
+  --glass-line: rgba(255, 255, 255, .09);
+  --text: #f6f4ff;
+  --muted: #9a95b8;       /* secondary text (lavender grey, 6.9:1 on the background) */
+  --faint: #6c6788;       /* tertiary: inactive tabs, hints */
+  --accent: #7d5ce8;      /* favourite heart, active states, primary buttons */
+  --accent-hi: #a993ff;   /* outlines and links on dark */
   --danger: #b5525b;      /* remove */
   --red: #b5525b;         /* "red" in Squeal: the pale red of the owl's eyes (blood fill, remove) */
-  --them: #36335a;
-  --me: #6a4bb8;
-  --font: "Avenir Next", Avenir, "Nunito Sans", -apple-system, "Segoe UI", sans-serif;
+  --them: #221f38;
+  --me: #6c4dd8;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Helvetica Neue", "Segoe UI", Roboto, system-ui, sans-serif;
+  --display: -apple-system-headline, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, system-ui, sans-serif;
+  /* motion: one curve for everything that moves into place (the iOS sheet/spring feel), one for presses */
+  --ease: cubic-bezier(.32, .72, 0, 1);
+  --ease-out: cubic-bezier(.25, .8, .25, 1);
+  --press: .97;
+  --r-card: 18px;         /* corner radii: big cards, tiles, rows */
+  --r-ctl: 12px;          /* fields, buttons */
+  --disc: rgba(16, 13, 30, .5);  /* the round glass buttons over a photo */
+  --tabs-space: calc(84px + env(safe-area-inset-bottom, 0px));   /* room the floating tab bar takes at the bottom */
   color-scheme: dark;
 }
 html, body { height: 100%; touch-action: manipulation; }   /* no double-tap zoom: quick taps in a chat each read on at once, never wait to see if a second tap comes (2026-11-10) */
@@ -31,22 +49,48 @@ html, body { margin: 0; overflow: hidden; overscroll-behavior: none; -webkit-tap
 body { -webkit-touch-callout: none; }
 .screen, .tabs, #app img { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 input, textarea { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; -webkit-font-smoothing: antialiased; }
-button, input { font: inherit; color: inherit; background: none; border: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 17px; letter-spacing: -.012em; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+button, input { font: inherit; color: inherit; background: none; border: 0; letter-spacing: inherit; }
 button { cursor: pointer; }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; }
+button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+/* desktop: the phone-wide app sits in the middle of a quiet backdrop */
+@media (min-width: 520px) { html { background: #08070f; } body { background: radial-gradient(120% 80% at 50% 0%, #1a1534 0%, #08070f 60%); }
+  .app { box-shadow: 0 0 0 1px var(--sep), 0 30px 80px rgba(0,0,0,.5); background: var(--bg); } }
+.app { max-width: 480px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden; }
 /* the first launch shows the app once its fonts are in (at most 1.5 s), fading in, so nothing jumps when they arrive (2026-11-11) */
 .app.boot { opacity: 0; pointer-events: none; } .app.shown { transition: opacity .25s ease-out; }
-.view { flex: 1; overflow-y: auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 18px 24px; display: flex; flex-direction: column; gap: 14px; overscroll-behavior-y: contain; }
-.label { color: var(--muted); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-top: 6px; }
+.view { flex: 1; overflow-y: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: calc(10px + env(safe-area-inset-top, 0px)); padding-bottom: calc(var(--tabs-space) + 16px); display: flex; flex-direction: column; gap: 14px; overscroll-behavior-y: contain; }
+/* large title, as at the top of every iOS tab (34 pt bold) */
+.big { flex: none; margin: 6px 0 -2px; font-family: var(--display); font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -.022em; }
+/* section header (title 3: 20 pt semibold) */
+.label { flex: none; color: var(--text); font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 28px; letter-spacing: -.02em; margin-top: 4px; }
+.label.small { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--muted); letter-spacing: .02em; text-transform: uppercase; margin: 10px 0 -6px 4px; }
 
-/* Tab bar */
-.tabs { position: relative; z-index: 6; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--tabbar);
-  padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
-.tabs button { display: grid; place-items: center; padding: 6px; color: #6f6b8c; }
+/* Tab bar (iOS 26): a floating capsule of frosted glass; the content scrolls on under it. Each tab: icon over its
+   name; the open one is lit and sits on a soft pill. */
+.tabs { position: absolute; z-index: 6; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: max(10px, env(safe-area-inset-bottom, 0px)); height: 62px; box-sizing: border-box; padding: 4px;
+  display: grid; grid-template-columns: repeat(4, 1fr); border-radius: 31px;
+  background: var(--tabbar); box-shadow: inset 0 0 0 .5px var(--glass-line), inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.45); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .tabs { background: rgba(28, 24, 50, .55); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); } }
+/* the content fades out under the bar instead of being cut by it */
+.app::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--tabs-space) + 8px); z-index: 5; pointer-events: none;
+  background: linear-gradient(rgba(var(--bg-rgb), 0), rgba(var(--bg-rgb), .78) 70%); }
+.tabs button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 0; border-radius: 27px;
+  color: var(--faint); font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: .01em; transition: color .2s, transform .2s var(--ease); }
+.tabs button span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+.tabs button::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: rgba(255,255,255,.09); opacity: 0; transform: scale(.85); transition: opacity .3s var(--ease), transform .4s var(--ease); z-index: -1; }
+.tabs button { isolation: isolate; }
 .tabs button[aria-current="page"] { color: var(--text); }
-.tabs svg { width: 26px; height: 26px; }
+.tabs button[aria-current="page"]::before { opacity: 1; transform: none; }
+.tabs button:active { transform: scale(.94); }
+.tabs svg { width: 24px; height: 24px; }
+.tabs svg .tf { transition: fill .2s; }
+.tabs button[aria-current="page"] svg .tf { fill: currentColor; }
+.tabs button[aria-current="page"] svg .tk { fill: #1d1934; stroke: #1d1934; }
+.tabs button[aria-current="page"] svg { stroke-width: 2.3; }
 
 /* Covers: drawn scenes, one per story */
 .cover { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -56,30 +100,30 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 /* Home */
 /* the slider runs edge to edge of the screen, so whole cards slide out left and the next comes in
    from the right, whether you swipe or it turns by itself (it used to clip inside a rounded frame) */
-.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: max(18px, env(safe-area-inset-left, 0px)); scrollbar-width: none;
-  margin-inline: calc(-1 * max(18px, env(safe-area-inset-left, 0px))); padding-inline: max(18px, env(safe-area-inset-left, 0px));
-  scroll-padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
+.slider { flex: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  scroll-padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
 .slider::-webkit-scrollbar { display: none; }
 .slider .hero { flex: 0 0 100%; scroll-snap-align: center; }
 /* Slider dots: a "worm". The active pill stretches its head to the next dot as the slide moves,
    then pulls its tail after it; inside, a bright fill runs out the time to the next slide. */
 .dots { flex: none; position: relative; display: flex; justify-content: center; gap: 10px; height: 6px; margin-top: -2px; }
 .dots i { flex: none; }
-.dots i { width: 6px; height: 6px; border-radius: 3px; background: #4a4670; }
-.dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: #5d5888;
+.dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.16); }
+.dots .worm { position: absolute; top: 0; left: 0; z-index: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.26);
   overflow: hidden; will-change: transform, width; }
 .dots .worm b { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 3px;
-  background: linear-gradient(90deg, #b9a3ff, #fff); box-shadow: 0 0 10px rgba(185,163,255,.65); }
+  background: #fff; }
 .preview { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); overscroll-behavior-y: contain; transform-origin: 50% 0; }
 .pull { position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: rgba(255,255,255,.35); z-index: 2; }
-.pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 18px max(18px, env(safe-area-inset-left, 0px)); }
-.pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 4%, rgba(38,36,63,0) 70%); }
-.pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; padding: 0 0 3px; }
+.pv-cover { position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 18px max(16px, env(safe-area-inset-right, 0px)) 18px max(16px, env(safe-area-inset-left, 0px)); }
+.pv-cover .shade { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 2%, rgba(var(--bg-rgb),.6) 30%, rgba(var(--bg-rgb),0) 62%), linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0) 90px); }
+.pv-cover .back { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 38px; height: 38px; border-radius: 50%; background: var(--disc); display: grid; place-items: center; padding: 0 0 3px; }
 /* the round buttons over the photo: no padding (iPhone gives buttons some by default, which pushed the
    icons off centre), each icon an SVG centred in its circle */
 /* preview buttons (close, start over, favourite): icons 1.5x, circles about as before (40 px), and each
    takes taps in an invisible 56 px area — about twice the icon (2026-11-09) */
-.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); color: #fff; }
+.chrome .back.rb { position: absolute; top: 10px; left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%; background: var(--disc); color: #fff; }
 .chrome .back.rb svg { width: 21px; height: 21px; }
 .chrome .back.rb::after, .chrome .reset::after, .chrome .like::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
 .head .back { padding: 0; display: grid; place-items: center; line-height: 0; position: relative; }
@@ -88,17 +132,19 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .head .undo-test { margin-left: 4px; }   /* TEST-UNDO */
 @media (max-width: 380px) { .head { position: relative; } .head .undo-test { position: absolute; top: calc(100% + 8px); right: 12px; z-index: 3; width: 30px; height: 30px; margin: 0; background: var(--tabbar); } .head .undo-test + .ep-seg { margin-left: auto; } }   /* TEST-UNDO: on a narrow phone it hangs just under the header, leaving the name its room */
 .head .undo-test + .ep-seg { margin-left: 8px; }   /* TEST-UNDO */
-.chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; }
+.chrome .rb, .chrome .reset, .chrome .like { padding: 0; display: grid; place-items: center; line-height: 0; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.14); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .chrome .rb, .chrome .reset, .chrome .like, .chrome .note { -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); } }
 .chrome .like svg { transform: translateY(-.5px); }
 .chrome .like .ph { grid-area: 1 / 1; display: grid; place-items: center; } .chrome .like .ph-base { color: var(--muted); } .chrome .like .ph-top { color: #fff; }
-.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 50%; background: rgba(23,18,44,.6); display: grid; place-items: center; color: var(--muted); }
+.pv-cover .like, .chrome .like { position: absolute; top: 10px; right: max(12px, env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 50%; background: var(--disc); display: grid; place-items: center; color: var(--muted); }
 .pv-cover .like[aria-pressed="true"], .chrome .like[aria-pressed="true"] { color: var(--text); background: var(--accent); }
 .pv-cover .like svg, .chrome .like svg { width: 27px; height: 27px; }
 .sheet .cap small { display: flex; align-items: center; line-height: 1; }
 .cap small .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; margin: 0 9px; opacity: .7; flex: none; transform: translateY(-.5px); }
 /* start over: tap clears the part being read; hold (a ring fills round the button) clears every part */
 .chrome .reset { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 52px); width: 40px; height: 40px;
-  border-radius: 50%; background: rgba(23,18,44,.6); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
+  border-radius: 50%; background: var(--disc); color: var(--muted); display: grid; place-items: center; touch-action: none; -webkit-user-select: none; user-select: none; }
 .chrome .reset svg { width: 25px; height: 25px; transition: transform .45s cubic-bezier(.32,.72,0,1); }
 .chrome .reset .hold { position: absolute; inset: 0; width: 40px; height: 40px; transform: rotate(-90deg); fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
   stroke-dasharray: 110; stroke-dashoffset: 110; opacity: 0;
@@ -115,7 +161,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
    gap to the reset button as between reset and heart, and the preview description's type */
 .chrome .note { position: absolute; top: 10px; right: calc(max(12px, env(safe-area-inset-right, 0px)) + 104px); height: 40px; box-sizing: border-box;
   display: flex; align-items: center; padding: 0 16px; border-radius: 20px;
-  background: rgba(23,18,44,.6); color: var(--muted); font-size: 15px; font-weight: 400; line-height: 1.45;   /* the arrow's and the plain heart's colour (2026-11-09) */
+  background: var(--disc); color: var(--muted); font-size: 15px; font-weight: 400; line-height: 1.45;   /* the arrow's and the plain heart's colour (2026-11-09) */
   white-space: nowrap; transform-origin: right center; animation: noteIn .3s cubic-bezier(.32,.72,0,1) both;
   /* never over the ✕ (long notes in de/es/fr/ru ran over it and took its taps): it keeps clear of it, wraps to two
      lines when it must, and takes no touches (2026-11-12) */
@@ -130,17 +176,18 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pv-body > * { animation: up .5s cubic-bezier(.2,.9,.2,1) both; }
 .pv-body > *:nth-child(2) { animation-delay: .06s } .pv-body > *:nth-child(3) { animation-delay: .12s } .pv-body > *:nth-child(n+4) { animation-delay: .18s }
 @keyframes up { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
-.pv-body { padding: 4px max(18px, env(safe-area-inset-right, 0px)) 24px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.pv-body { padding: 4px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .stat { background: var(--field); border-radius: 12px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
 .stat b { font-size: 17px; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
-.desc { margin: 0; line-height: 1.55; color: #dcd9ea; max-width: 60ch; }
+.desc { margin: 0; line-height: 1.5; color: #d6d2e8; max-width: 60ch; letter-spacing: -.01em; }
 .by { color: var(--muted); font-size: 14px; }
 .parts { display: flex; flex-direction: column; gap: 8px; }
-.part { display: flex; justify-content: space-between; align-items: center; background: var(--field); border-radius: 12px; padding: 12px 14px; text-align: left; }
+.part { display: flex; justify-content: space-between; align-items: center; background: var(--field); border-radius: 14px; padding: 12px 14px; text-align: left; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); }
 .part small { color: var(--muted); }
-.read { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px; border-radius: 14px; background: var(--accent); font-weight: 700; font-size: 17px; }
+.read { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 16px; border-radius: 999px; background: linear-gradient(180deg, #8a6cf0, #6f4fdc); font-weight: 600; font-size: 17px; box-shadow: 0 8px 24px rgba(110,80,230,.35), inset 0 1px 0 rgba(255,255,255,.18); transition: transform .3s var(--ease), filter .2s; }
+.read:active { transform: scale(var(--press)); filter: brightness(.92); transition-duration: .1s; }
 .read::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.16); transform-origin: left; transform: scaleX(var(--f, 0)); }
 .read svg, .read span { position: relative; } .read svg { width: 16px; height: 16px; }
 .part { position: relative; overflow: hidden; }
@@ -166,17 +213,17 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @keyframes roll2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @keyframes settle { to { scale: 1 0; opacity: .0; } }        /* the surface goes flat and still */
 @media (prefers-reduced-motion: reduce) { .part .water i, .part .water svg { animation: none; } .part .water svg { display: none; } }
-.part.here::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px #9b7ff0; pointer-events: none; }   /* above the water */
+.part.here::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px var(--accent-hi); pointer-events: none; }   /* above the water */
 /* the draggable outline (one frame for all parts) replaces each part's own outline */
 .parts.ind { position: relative; touch-action: none; }
 .parts.ind .part.here::after { display: none; }
-.part-ind { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2; border-radius: 12px; box-shadow: inset 0 0 0 1.5px #9b7ff0; pointer-events: none; will-change: transform; }
+.part-ind { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2; border-radius: 14px; box-shadow: inset 0 0 0 1.5px var(--accent-hi); pointer-events: none; will-change: transform; }
 .part { transition: box-shadow .2s, transform .15s; }
 .part:active { transform: scale(.97); }
-.part .ok { font-style: normal; color: #b9a3ff; font-size: 12px; }
+.part .ok { font-style: normal; color: var(--accent-hi); font-size: 12px; }
 .demo { color: #6f6b8c; font-size: 11px; text-align: center; }
-.hero { position: relative; border-radius: 14px; overflow: hidden; min-height: 190px; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
-.hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.95) 10%, rgba(23,18,44,0) 75%); }
+.hero { position: relative; border-radius: var(--r-card); overflow: hidden; min-height: 200px; box-shadow: 0 12px 32px rgba(0,0,0,.45), inset 0 0 0 .5px rgba(255,255,255,.08); background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 18px; }
+.hero .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(var(--bg-rgb),.9) 0%, rgba(var(--bg-rgb),.35) 45%, rgba(var(--bg-rgb),0) 75%); }
 .hero div { position: relative; display: flex; flex-direction: column; gap: 4px; }
 .hero b { font-size: 26px; font-weight: 600; text-wrap: balance; }
 /* slider: the title is lettering, not a label; no rating, genre or time */
@@ -188,7 +235,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chips::-webkit-scrollbar { display: none; }
 .turn::after { content: ""; position: absolute; inset: -6px 0; }   /* a taller target (≈45 px) with the same look (2026-11-12) */
 .turn { position: relative; }
-.chip { flex: none; padding: 7px 16px; border-radius: 999px; background: var(--field); color: var(--muted); font-size: 14px; font-weight: 600; transition: color .15s; }
+.chip { flex: none; padding: 8px 16px; border-radius: 999px; background: var(--fill); color: var(--muted); font-size: 15px; line-height: 20px; font-weight: 600; transition: color .15s; }
 /* the genre pill (like the part disc in the chat): one oval that slides along the chips under the words,
    taking on each chip's width as it nears it; drag it with a finger or tap a chip (2026-11-09) */
 .chip > span { position: relative; z-index: 1; }
@@ -200,14 +247,14 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .chip > span { display: inline-block; -webkit-transform: translateZ(0); transform: translateZ(0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .chip.near { color: var(--text); }
 .chip-ind { position: absolute; top: 0; bottom: 0; left: 0; width: 0; z-index: 0; border-radius: 999px; background: var(--accent); pointer-events: none; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.tile { position: relative; aspect-ratio: 1 / 1.15; border-radius: 14px; overflow: hidden; background: var(--deep); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
-.tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,18,44,.96) 15%, rgba(23,18,44,.05) 70%); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+.tile { position: relative; aspect-ratio: 1 / 1.22; border-radius: var(--r-card); overflow: hidden; background: var(--deep); box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 0 0 .5px rgba(255,255,255,.07); text-align: left; display: flex; align-items: flex-end; padding: 12px; }
+.tile .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(var(--bg-rgb),.94) 8%, rgba(var(--bg-rgb),.55) 40%, rgba(var(--bg-rgb),0) 68%); }
 .tile div { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; }   /* whole words, as many lines as needed, never a hyphen (2026-11-09) */
-.pills { display: flex; gap: 6px; flex-wrap: wrap; }
-.pill { font-size: 11px; color: var(--muted); background: rgba(52,49,90,.85); padding: 4px 8px 2px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
-.tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
+.tile b { font-size: 17px; font-weight: 600; line-height: 1.2; letter-spacing: -.02em; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; }   /* whole words, as many lines as needed, never a hyphen (2026-11-09) */
+.pills { display: flex; gap: 5px; flex-wrap: wrap; }
+.pill { font-size: 11px; font-weight: 600; letter-spacing: .01em; color: rgba(240,236,255,.78); background: rgba(255,255,255,.12); padding: 4px 7px 3px; border-radius: 999px; }   /* 1px more on top: the letters sit high in their line, this centres them in the pill */
+.tile .fav { position: absolute; top: 9px; right: 9px; width: 39px; height: 39px; border-radius: 50%; background: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,.35); display: grid; place-items: center; }   /* 1.5x (2026-11-09) */
 .tile .fav svg { width: 21px; height: 21px; overflow: visible; }
 .tile .fav .hs { stroke-dasharray: 1; stroke-dashoffset: 0; }
 /* breaking heart (unlike): the two halves of the heart, each a cut-out copy */
@@ -220,7 +267,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .tile .fav.pop { animation: favPop .34s cubic-bezier(.3,1.6,.5,1) both; }
 .tile .fav.out { animation: favOut .2s ease-in both; }
 .tile .fav { cursor: pointer; }
-.pill.pad { display: inline-grid; place-items: center; padding: 3px 8px; }
+.pill.pad { display: inline-grid; place-items: center; padding: 3px 7px; }
 .pill.pad svg { width: 17px; height: 17px; display: block; }
 .padmark { display: inline-flex; vertical-align: -.3em; }
 .padmark svg { width: 1.3em; height: 1.3em; }
@@ -262,7 +309,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .foot .cont.gone { opacity: 0; }
 .turns { flex: 1 0 100%; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px; }
 .turns span { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-right: 4px; }
-.turn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px 7px 10px; border-radius: 999px; border: 1.5px solid #9b7ff0; color: var(--text); font-weight: 700; font-size: 14px; }
+.turn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px 7px 10px; border-radius: 999px; border: 1.5px solid var(--accent-hi); color: var(--text); font-weight: 700; font-size: 14px; }
 .turn svg { width: 14px; height: 14px; }
 .turn:active { background: rgba(123,87,201,.25); }
 /* round video message */
@@ -296,42 +343,45 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .hint { color: var(--muted); font-size: 13px; text-align: center; }
 
 /* Favourites */
-.row-card { position: relative; border-radius: 14px; overflow: visible; touch-action: pan-y; }   /* the whole card slides, not its picture inside a frame */
-.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; padding: 0; visibility: hidden; background: var(--danger); color: var(--text); font-weight: 600; border-radius: 14px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
+.row-card { position: relative; border-radius: var(--r-card); overflow: visible; touch-action: pan-y; }   /* the whole card slides, not its picture inside a frame */
+.row-card .remove { position: absolute; inset: 0 0 0 auto; width: 0; padding: 0; visibility: hidden; background: var(--danger); color: var(--text); font-weight: 600; font-size: 15px; border-radius: var(--r-card); overflow: hidden; white-space: nowrap; display: flex; align-items: center; justify-content: center; }
 .row-card .remove span { display: block; flex: none; }
 .row-card.snap .face, .row-card.snap .remove, .row-card.snap .remove span { transition: transform .34s cubic-bezier(.32,.72,0,1), width .34s cubic-bezier(.32,.72,0,1), opacity .2s; }
 .row-card.gone { transition: height .26s ease, margin .26s ease, opacity .2s; overflow: hidden; }
-.row-card .face { position: relative; display: flex; align-items: center; min-height: 110px; padding: 20px; background: var(--deep); border-radius: 14px; width: 100%; text-align: left; overflow: hidden; will-change: transform; }
+.row-card .face { position: relative; display: flex; align-items: center; min-height: 104px; padding: 18px; background: var(--deep); border-radius: var(--r-card); box-shadow: inset 0 0 0 .5px rgba(255,255,255,.07); width: 100%; text-align: left; overflow: hidden; will-change: transform; }
 .row-card .face svg.cover { left: 40%; width: 60%; }
-.row-card .face .shade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--deep) 42%, rgba(23,18,44,0) 85%); }
+.row-card .face .shade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--deep) 40%, rgba(23,20,42,.6) 62%, rgba(23,20,42,0) 88%); }
 .row-card .face div { position: relative; display: flex; flex-direction: column; gap: 4px; }
-.row-card b { font-size: 24px; font-weight: 600; }
-.row-card small { color: var(--muted); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+.row-card b { font-family: var(--display); font-size: 22px; line-height: 27px; font-weight: 700; letter-spacing: -.02em; }
+.row-card small { color: var(--muted); font-size: 14px; letter-spacing: 0; }
 
 /* Search */
-.search { display: flex; align-items: center; gap: 8px; background: var(--field); border-radius: 12px; padding: 10px 12px; color: var(--muted); }
+.search { display: flex; align-items: center; gap: 7px; height: 40px; box-sizing: border-box; background: var(--fill); border-radius: 12px; padding: 0 11px; color: var(--muted); }
 .search svg { width: 18px; height: 18px; flex: none; }
 .search input { flex: 1; min-width: 0; color: var(--text); outline: none; }
 .search { transition: box-shadow .2s; }
-.search:focus-within { box-shadow: 0 0 0 1.5px #9b7ff0; }
+.search:focus-within { box-shadow: 0 0 0 1.5px rgba(169,147,255,.7); }
+.search input { height: 100%; font-size: 17px; caret-color: var(--accent-hi); }
 /* the search field stays put at the top; the dial and the stories scroll away underneath it */
-.sbar { position: sticky; top: -18px; z-index: 3; margin-top: -18px; padding-top: 18px; padding-bottom: 6px; background: var(--bg); }
+.sbar { position: relative; z-index: 3; padding-bottom: 2px; background: var(--bg); flex: none; }
 .sbar { display: flex; align-items: center; gap: 0; }
 .sbar .search { flex: 1; min-width: 0; }
 .sbar input::-webkit-search-cancel-button { display: none; }
 /* Cancel: slides in beside the field while searching; one tap clears the text, drops the keyboard,
    and brings the fear dial back */
-.s-cancel { flex: none; max-width: 0; overflow: hidden; opacity: 0; white-space: nowrap; color: #b9a3ff; font-size: 16px; font-weight: 600;
+.s-cancel { flex: none; max-width: 0; overflow: hidden; opacity: 0; white-space: nowrap; color: var(--accent-hi); font-size: 17px; font-weight: 400;
   transition: max-width .28s cubic-bezier(.32,.72,0,1), opacity .2s, margin .28s cubic-bezier(.32,.72,0,1); }
 .sbar.active .s-cancel { max-width: 90px; opacity: 1; margin-left: 12px; }
-.sbar::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; background: linear-gradient(var(--bg), rgba(38,36,63,0)); pointer-events: none; }
+.sbar::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; background: linear-gradient(var(--bg), rgba(var(--bg-rgb),0)); pointer-events: none; }
 .search input::placeholder { color: var(--muted); }
-.list { display: flex; flex-direction: column; gap: 12px; }
-.item { display: flex; align-items: center; gap: 14px; text-align: left; }
-.thumb { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: none; background: var(--deep); }
+.list { display: flex; flex-direction: column; gap: 0; }
+.item { position: relative; display: flex; align-items: center; gap: 14px; text-align: left; padding: 8px 0; border-radius: 14px; transition: transform .25s var(--ease), opacity .2s; }
+.item:active { transform: scale(var(--press)); opacity: .75; }
+.item + .item::before { content: ""; position: absolute; top: 0; left: 74px; right: 0; height: .5px; background: var(--sep); }   /* inset hairline, as in an iOS list */
+.thumb { position: relative; width: 60px; height: 60px; border-radius: 12px; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.08); overflow: hidden; flex: none; background: var(--deep); }
 .item div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.item b { font-size: 18px; font-weight: 600; }
-.item small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+.item b { font-size: 17px; line-height: 22px; font-weight: 600; }
+.item small { color: var(--muted); font-size: 14px; line-height: 19px; letter-spacing: 0; }
 /* Fear filter: one row of the five level names. Swipe it left or right; the name that stops in the middle
    is the filter, a little bigger and in its own colour, with one neighbour faintly on each side. It fades
    away while you type a search. (The half-round dial it replaced: see git, 2026-11-08.) */
@@ -339,7 +389,7 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .fear.gone { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 .fear.out { display: none; }
 .fear .lv { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
-  margin-inline: calc(-1 * max(18px, env(safe-area-inset-left, 0px)));
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent); mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
   -webkit-user-select: none; user-select: none; }
 .fear .lv::-webkit-scrollbar { display: none; }
@@ -352,21 +402,35 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
   font-size: 24px; font-weight: 800; letter-spacing: .01em; transform: scale(var(--s, .66)); opacity: var(--o, .55); }   /* each level in its own colour */
 #results { display: flex; flex-direction: column; gap: 14px; }
 
-/* Menu */
-/* Menu: plain white words, centred, evenly spaced. Nothing else. */
-.view.menu { justify-content: center; align-items: center; gap: 44px; padding-block: 24px; }
-.m-row.sub { color: var(--red); }                                /* Subscription in the app's red */
-.m-row { flex: none; padding: 4px 16px; font-size: 20px; font-weight: 600; color: #fff; transition: opacity .15s; }
-.m-row:active { opacity: .5; }
-.m-row { position: relative; }
-.m-row.cur::after { content: ""; position: absolute; left: 100%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 2px;   /* the tick sits beside the word, the word stays centred */
-  background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L20 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L20 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; color: var(--me, #8a6be0); }
-.m-back { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); left: max(12px, env(safe-area-inset-left, 0px)); width: 40px; height: 40px; border-radius: 50%;
-  display: grid; place-items: center; color: var(--text); opacity: 0; pointer-events: none; transition: opacity .35s; }
-.m-back svg { width: 18px; height: 18px; }
+/* Menu (2026-11 redesign): an iOS grouped list, as in Settings */
+.view.menu { gap: 14px; }
+.m-title { transition: none; } .m-title.with-back { padding-left: 30px; }   /* the languages: the back chevron stands before the title */
+.group { flex: none; display: flex; flex-direction: column; border-radius: 14px; background: var(--deep); overflow: hidden; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); }
+.m-row { position: relative; flex: none; display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 16px; text-align: left; font-size: 17px; font-weight: 400; color: var(--text); transition: background-color .25s; }
+.m-row:active { background: rgba(255,255,255,.07); transition: none; }
+.m-row + .m-row::before { content: ""; position: absolute; top: 0; right: 0; left: 59px; height: .5px; background: var(--sep); }
+.m-row.l + .m-row::before { left: 16px; }
+.m-ic { flex: none; width: 29px; height: 29px; border-radius: 8px; display: grid; place-items: center; color: #fff; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.15); }
+.m-ic svg { width: 18px; height: 18px; }
+.m-row.l .m-ic { display: none; }
+.m-t { flex: 1; min-width: 0; padding: 14px 0; line-height: 22px; }
+.m-row.sub .m-t { color: #e2858d; }                               /* Subscription in the app's red (a lighter tint of it, for contrast) */
+.m-v { flex: none; display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.m-chev { width: 8px; height: 14px; color: var(--faint); }
+.m-tick { width: 20px; height: 20px; color: var(--accent-hi); opacity: 0; transform: scale(.6); transition: opacity .2s, transform .3s var(--ease); }
+.m-row.cur .m-tick { opacity: 1; transform: none; }
+/* the iOS switch: 51 × 31, the knob slides with the sheet curve */
+.switch { position: relative; width: 51px; height: 31px; border-radius: 16px; background: rgba(120,116,150,.32); transition: background-color .25s; }
+.switch i { position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.25), 0 1px 1px rgba(0,0,0,.16); transition: transform .3s var(--ease); }
+.switch.on { background: var(--accent); }
+.switch.on i { transform: translateX(20px); }
+.m-foot { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 18px; color: var(--faint); font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.m-foot svg { width: 46px; height: auto; opacity: .45; }
+.m-back { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(4px, env(safe-area-inset-left, 0px)); width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--accent-hi); opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 2; }
+.m-back svg { width: 22px; height: 22px; }
 .m-back.on { opacity: 1; pointer-events: auto; }
-.m-back::after { content: ""; position: absolute; inset: -8px; }
+.m-back:active { opacity: .5; }
 
 /* Empty states */
 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding-block: 40px; }
@@ -394,15 +458,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 @keyframes emptyIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 /* adding a favourite, minimal: the card sinks under the finger while held, settles back when it
    takes, and the heart fades in */
-.tile, .hero { transition: transform .3s cubic-bezier(.25,.8,.25,1); }
-.tile.pressing, .hero.pressing { transform: scale(.96); transition-duration: .5s; }
+.tile, .hero { transition: transform .35s var(--ease); }
+.tile.pressing, .hero.pressing { transform: scale(.96); transition-duration: .45s; }
 .tile .fav { z-index: 2; }
 /* progress, the same everywhere: one thin line along the bottom edge of a cover (tiles, the slider,
    favourites, search, the random reel) and under each part number in the chat. It always shows the same
    saved progress, so every screen agrees. */
 .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 2; background: rgba(255,255,255,.12); pointer-events: none; overflow: hidden; }
 .thumb .bar, .reel .th .bar { height: 2px; }
-.bar i { position: absolute; inset: 0; background: #9b7ff0; transform-origin: left; transform: scaleX(var(--f)); animation: barIn .9s cubic-bezier(.25,.8,.25,1) .15s both; }
+.bar i { position: absolute; inset: 0; background: linear-gradient(90deg, #8f74f5, #b9a6ff); transform-origin: left; transform: scaleX(var(--f)); animation: barIn .9s cubic-bezier(.25,.8,.25,1) .15s both; }
 @keyframes barIn { from { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { .bar i { animation: none; } }
 .bar.still i { animation: none; }
@@ -434,15 +498,15 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .sheet.still .stat { padding: 8px 4px; }
 .sheet.still .desc { font-size: 15px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: var(--lines, 14); -webkit-box-orient: vertical; overflow: hidden; }
 .sheet.still .parts { flex-direction: row; }
-.sheet.still .part { flex: 1; justify-content: center; padding: 13px 8px; font-weight: 700; font-size: 15px; }
+.sheet.still .part { flex: 1; justify-content: center; padding: 13px 8px; font-weight: 600; font-size: 15px; }
 .sheet.still .part small { font-size: 12px; }
-.sheet.still .read { padding: 14px; }
+.sheet.still .read { padding: 15px; }
 .sheet.still .demo { display: none; }
 .sheet .pv-cover img.cover, .sheet .pv-cover svg.cover { position: absolute; will-change: transform; }
 
-.sheet .cap { position: absolute; left: 18px; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 10px; transform-origin: 0 100%; }
-.sheet .cap small { color: var(--muted); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
-.sheet .cap h1 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.1; text-wrap: balance; }
+.sheet .cap { position: absolute; left: 16px; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 10px; transform-origin: 0 100%; }
+.sheet .cap small { color: rgba(236,232,255,.72); font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.sheet .cap h1 { margin: 0; font-family: var(--display); font-size: 34px; font-weight: 700; line-height: 1.08; letter-spacing: -.025em; text-wrap: balance; text-shadow: 0 2px 20px rgba(0,0,0,.4); }
 .sheet .chrome { position: absolute; inset: 0 0 auto; height: 64px; pointer-events: none; }
 .sheet .chrome > * { pointer-events: auto; }
 .sheet .cap.one h1 { white-space: nowrap; text-wrap: nowrap; }
@@ -456,24 +520,25 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .pull-hint.hide { visibility: hidden; }
 #pull-hint { transition: opacity .2s; }
 .view { -webkit-user-select: none; user-select: none; }
-.rnd { position: absolute; left: 0; right: 0; top: 0; bottom: var(--tabs-h, 64px); z-index: 5; pointer-events: none; overflow: hidden; visibility: hidden; }
+.rnd { position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 4;   /* rises from the very bottom, under the fade and the glass tab bar */
+  pointer-events: none; overflow: hidden; visibility: hidden; }
 .rnd.on { visibility: visible; }
 .slot { position: absolute; left: 0; right: 0; bottom: 0; top: var(--top, 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px;
   transform: translateY(var(--rise, 100%)); will-change: transform; }
 .slot .say { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .2s; flex: none; }
 .slot .say { display: none; }   /* the words are the hint line under the cards (2026-11-09) */
 /* the window is exactly one story tall and as wide as the page; rows look like search results */
-.reel { position: relative; flex: none; width: calc(100% - 2 * max(18px, env(safe-area-inset-left, 0px))); height: 84px; overflow: hidden;
-  border-radius: 16px; background: var(--field); transition: transform .35s cubic-bezier(.25,.8,.25,1); }
+.reel { position: relative; flex: none; width: calc(100% - 2 * max(16px, env(safe-area-inset-left, 0px))); height: 84px; overflow: hidden;
+  border-radius: var(--r-card); background: var(--field); box-shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 0 0 .5px rgba(255,255,255,.08); transition: transform .35s cubic-bezier(.25,.8,.25,1); }
 .reel .strip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 .reel .row { height: 84px; display: flex; align-items: center; gap: 14px; padding: 0 10px; }
-.reel .row .th { position: relative; width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: none; background: var(--deep); }
+.reel .row .th { position: relative; width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex: none; background: var(--deep); }
 .reel .row .th .cover { position: absolute; inset: 0; width: 100%; height: 100%; }
 .reel .row .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.reel .row b { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.reel .row small { color: var(--muted); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+.reel .row b { font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reel .row small { color: var(--muted); font-size: 14px; }
 /* picked: the same thin outline as the selected part in the preview; no fill, no glow */
-.reel::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px #9b7ff0; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.reel::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px var(--accent-hi); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .reel.chosen { transform: scale(1.04); }
 .reel.chosen::after { opacity: 1; }
 .view.lift { transition: none; }
@@ -489,23 +554,29 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .refreshed > .chips { animation: none; }   /* the genre row stays put through a refresh: the chosen genre never blinks (2026-11-09) */
 /* Chat */
 .chat { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; }
-.head { display: flex; align-items: center; gap: 12px; padding: 12px max(18px, env(safe-area-inset-right, 0px)) 12px max(18px, env(safe-area-inset-left, 0px)); background: var(--tabbar); }
-@media (max-width: 340px) { .head { gap: 7px; padding-left: 12px; padding-right: 12px; } }   /* the smallest iPhones: the name is never cut to "Ja…" next to the part numbers (2026-11-10) */
-.back { font-size: 30px; line-height: 1; padding: 0 6px 2px 0; color: var(--text); }
-.avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-weight: 700; flex: none; }
+/* the chat's top bar (2026-11 redesign): frosted glass over the conversation, which scrolls on under it, as in Messages */
+.head { position: absolute; z-index: 4; top: 0; left: 0; right: 0; height: calc(62px + env(safe-area-inset-top, 0px)); box-sizing: border-box; display: flex; align-items: center; gap: 10px;
+  padding: env(safe-area-inset-top, 0px) max(12px, env(safe-area-inset-right, 0px)) 0 max(8px, env(safe-area-inset-left, 0px));
+  background: var(--tabbar); box-shadow: 0 .5px 0 var(--glass-line); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .head { background: rgba(22, 19, 40, .66); -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%); } }
+@media (max-width: 340px) { .head { gap: 7px; padding-left: 6px; padding-right: 10px; } }   /* the smallest iPhones: the name is never cut to "Ja…" next to the part numbers (2026-11-10) */
+.back { font-size: 30px; line-height: 1; padding: 0 6px 2px 0; color: var(--accent-hi); }
+.head .back { width: 32px; height: 44px; margin-right: -4px; } .head .back svg { width: 20px !important; height: 20px !important; } .head .back:active { opacity: .45; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(160deg, #9a80f5, #5a3cc4 60%, #3f2a8f); display: grid; place-items: center; font-size: 17px; font-weight: 600; flex: none; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.2); }
 .who { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
-.who b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* a narrow phone: the name gives way, nothing overlaps it */
-.who small { color: var(--muted); font-size: 12px; }
+.who b { font-size: 16px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* a narrow phone: the name gives way, nothing overlaps it */
+.who small { color: var(--muted); font-size: 12px; line-height: 16px; }
 .ep { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
 /* Part switch: the parts' numbers sit right in the header; a lit disc marks the one you read and
    glides to the one you tap */
-.ep-seg { margin-left: auto; position: relative; display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.06); }
+.ep-seg { margin-left: auto; position: relative; display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); }
 .ep-seg button { position: relative; z-index: 1; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
-  font-size: 15px; font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; transition: color .25s; }
+  font-size: 15px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; transition: color .25s; }
 .ep-seg button[aria-selected="true"] { color: #fff; }
 .ep-seg button:focus-visible { outline: 2px solid #b9a3ff; outline-offset: 1px; }
 .ep-ind { position: absolute; top: 3px; left: 3px; width: 40px; height: 40px; border-radius: 50%;
-  background: var(--accent); transition: transform .32s cubic-bezier(.32,.72,0,1); }
+  background: var(--accent); box-shadow: 0 2px 8px rgba(80,50,200,.35); transition: transform .32s cubic-bezier(.32,.72,0,1); }
 .ep-seg { touch-action: none; }
 .ep-seg.drag .ep-ind { transition: none; }
 /* chat wallpaper: a part's doodles, very faint, behind the messages; it stays put while they scroll */
@@ -520,36 +591,36 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .log { scrollbar-width: none; }
 /* search: the page itself never moves; only the list of stories scrolls (and springs) */
 .view.s-tab { overflow: hidden; padding-bottom: 0; }
-.view.s-tab #results { flex: 1 1 0; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 24px; scrollbar-width: none;
-  margin-inline: calc(-1 * max(18px, env(safe-area-inset-left, 0px))); padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
+.view.s-tab #results { flex: 1 1 0; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: calc(var(--tabs-space) + 16px); scrollbar-width: none;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
 .view.s-tab #results::-webkit-scrollbar { display: none; }
 .view.s-tab #results > * { flex: none; }
 .log::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .log { overscroll-behavior-y: contain; }   /* as in Search: a fling into the top or the end bounces with the phone's own spring, description and all (2026-11-10) */
 .view.rubber { overscroll-behavior-y: contain; scrollbar-width: none; } .view.rubber::-webkit-scrollbar { display: none; width: 0; }   /* Favourites as Search: a fling into the top or the end bounces with the phone's own spring; a finger pull springs by our own (2026-11-11) */
 .log { isolation: isolate; flex: 1; overflow-y: auto; overflow-x: hidden;   /* one stacking context: messages are not layered one by one over the doodles (iPhone memory, 2026-11-12) */   /* never scrolls sideways: messages sliding in from off the edge must not make it pannable (2026-11-10: a swipe back during a part switch scrolled the chat sideways instead) */
-   padding: 16px max(18px, env(safe-area-inset-right, 0px)) 8px max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
-.intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.5; margin-bottom: 10px; }
+   padding: calc(78px + env(safe-area-inset-top, 0px)) max(14px, env(safe-area-inset-right, 0px)) 8px max(14px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 6px; }
+.intro { align-self: center; color: var(--muted); font-size: 13px; text-align: center; max-width: 34ch; line-height: 1.45; margin-bottom: 12px; }
 /* a new message (or the typing / recording bubble) grows out of its own bottom corner, like WhatsApp */
-.msg { max-width: 78%; padding: 9px 14px; border-radius: 18px; line-height: 1.38; overflow-wrap: anywhere; transform-origin: 0 100%; }
+.msg { max-width: 78%; padding: 8px 13px; border-radius: 19px; font-size: 17px; line-height: 1.3; letter-spacing: -.02em; overflow-wrap: anywhere; transform-origin: 0 100%; }
 .msg.me { transform-origin: 100% 100%; }
 .typing { transform-origin: 0 100%; }
-.them { align-self: flex-start; background: var(--them); border-bottom-left-radius: 5px; }
+.them { align-self: flex-start; background: var(--them); border-bottom-left-radius: 5px; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); }
 .me { align-self: flex-end; background: var(--me); border-bottom-right-radius: 5px; }
-.typing { align-self: flex-start; background: var(--them); border-radius: 18px 18px 18px 5px; padding: 12px 14px; display: flex; gap: 4px; }
+.typing { align-self: flex-start; background: var(--them); border-radius: 19px 19px 19px 5px; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); padding: 12px 14px; display: flex; gap: 4px; }
 .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
 .typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
-.typing.rec { align-items: center; gap: 8px; padding: 9px 14px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.typing.rec { align-items: center; gap: 8px; padding: 8px 13px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 .typing.rec svg { width: 18px; height: 18px; fill: currentColor; color: var(--red); animation: blink 1.2s infinite; }
 .typing.rec.sending svg { animation: none; color: var(--muted); }
 /* "typing…" and "recording…" bubbles are exactly as tall as a one-line message (2026-11-09) */
-.typing, .typing.rec { padding: 9px 14px; line-height: 1.38; align-items: center; }
+.typing, .typing.rec { padding: 8px 13px; font-size: 17px; line-height: 1.3; letter-spacing: -.02em; align-items: center; }
 .typing::before { content: "\200b"; width: 0; }                 /* an invisible line of text: exactly as tall as a one-line message, with no measuring (2026-11-09) */
 .typing.rec { font-size: inherit; } .typing.rec span { font-size: 14px; }
 /* the chat is a column that may be longer than the screen: nothing in it may be squeezed to fit (the bubble
    was flattened to a 7 px strip once the chat was longer than the screen; 2026-11-09) */
 .log > * { flex-shrink: 0; translate: var(--sx, 0px) var(--ry, 0px); }   /* --sx: sliding on a part switch; --ry: the rubber band */
-.foot { padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
+.foot { padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); display: flex; gap: 10px; }
 .foot.hint { justify-content: center; padding-top: 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* Free taps are counted quietly (never shown); when they run out, the paywall replaces "Tap to continue" */
 .paywall { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
@@ -562,17 +633,19 @@ img.cover { object-fit: cover; object-position: center 35%; filter: saturate(.85
 .foot.wait > * { opacity: 0 !important; animation: none !important; pointer-events: none; transition: none; }
 .foot.idle .cont { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: .9 } 50% { opacity: .4 } }
-.tap { flex: 1; padding: 14px; border-radius: 14px; background: var(--field); color: var(--muted); font-weight: 600; }
+.tap { flex: 1; padding: 14px; border-radius: 999px; background: var(--fill); color: var(--muted); font-weight: 600; box-shadow: inset 0 0 0 .5px rgba(255,255,255,.06); transition: transform .3s var(--ease), filter .2s; }
+.tap:active { transform: scale(var(--press)); filter: brightness(1.15); transition-duration: .1s; }
 /* the end (2026-11-09): the start-over / read-again button sits at the very bottom, its word exactly where
    "Tap to continue" stood (same place, same type); "Next part" and "Back to a choice" go above it */
 .foot.endfoot { flex-direction: column; flex-wrap: nowrap; }
 .foot.endfoot .tap, .foot.endfoot .turns { flex: none; width: 100%; }
 .tap.again { padding: 14px; line-height: normal; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.tap.primary { background: var(--accent); color: var(--text); }
+.tap.primary { background: linear-gradient(180deg, #8a6cf0, #6f4fdc); color: var(--text); box-shadow: 0 6px 18px rgba(110,80,230,.3), inset 0 1px 0 rgba(255,255,255,.18); }
 .end { align-self: center; text-align: center; padding: 16px 8px 4px; display: flex; flex-direction: column; gap: 4px; }
 .end strong { font-size: 26px; font-weight: 700; }
 .end span { color: var(--muted); font-size: 13px; }
-.toast { position: absolute; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; animation: toastIn .28s cubic-bezier(.25,.8,.25,1) both; background: var(--field); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; white-space: nowrap; max-width: calc(100% - 32px); box-sizing: border-box; width: max-content; white-space: normal; text-align: center; }   /* long toasts (ru) wrap instead of running off both edges (2026-11-12) */
+.toast { position: absolute; left: 50%; bottom: calc(var(--tabs-space) + 14px); transform: translateX(-50%); z-index: 30; animation: toastIn .35s var(--ease) both; background: rgba(40, 35, 68, .92); box-shadow: inset 0 0 0 .5px var(--glass-line), 0 10px 30px rgba(0,0,0,.4); color: var(--text); padding: 11px 18px; border-radius: 20px; font-size: 15px; line-height: 20px; font-weight: 500; white-space: nowrap; max-width: calc(100% - 32px); box-sizing: border-box; width: max-content; white-space: normal; text-align: center; }   /* long toasts (ru) wrap instead of running off both edges (2026-11-12) */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { .toast { background: rgba(40, 35, 68, .7); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); } }
 @keyframes msgIn { from { opacity: 0; transform: translateY(8px) scale(.9) } to { opacity: 1; transform: none } }   /* was "rise", which clashed with the water's "rise" */
 @keyframes blink { 0%, 100% { opacity: .25 } 50% { opacity: 1 } }
 @media (prefers-reduced-motion: reduce) { .pv-body > * { animation: none } .dots i.on::after { animation: none; transform: scaleX(1) } .msg, .typing { animation: none } .typing i { animation: none; opacity: .7 } .row-card .face { transition: none }
@@ -608,7 +681,7 @@ const UI = {
     read: "Read", by: "Written by {a}", part: "Part {n}", partOver: "Part {n} starts over", storyOver: "Story starts over", allOver: "All parts start over",
     min: "{n} min", online: "online", typing: "typing…", recA: "recording audio…", recV: "recording video…", sending: "sending…",
     tap: "Tap to continue", ask: "What do you say?", next: "Next part", startOver: "Start over", readAgain: "Read again", turns: "Back to a choice",
-    ending: "Ending {n} of {m}", payT: "You've used your free taps", payB: "Subscribe to keep reading", back: "Back" },
+    ending: "Ending {n} of {m}", payT: "You've used your free taps", payB: "Subscribe to keep reading", back: "Back", tabs: ["Stories", "Favourites", "Search", "Menu"] },
   de: { all: "Alle", horror: "Horror", thriller: "Thriller", romance: "Romantik",
     fear: ["Beklemmend", "Unheimlich", "Gruselig", "Furchtbar", "Albtraum"],
     top: "Top der Woche", pull: "Nach oben ziehen für eine Zufallsstory", keep: "Weiterziehen", release: "Loslassen für eine Zufallsstory",
@@ -619,7 +692,7 @@ const UI = {
     read: "Lesen", by: "Geschrieben von {a}", part: "Teil {n}", partOver: "Teil {n} beginnt von vorn", storyOver: "Story beginnt von vorn", allOver: "Alle Teile beginnen von vorn",
     min: "{n} Min.", online: "online", typing: "schreibt…", recA: "nimmt Audio auf…", recV: "nimmt Video auf…", sending: "sendet…",
     tap: "Tippen zum Weiterlesen", ask: "Was schreibst du?", next: "Nächster Teil", startOver: "Neu beginnen", readAgain: "Nochmal lesen", turns: "Zurück zur Wahl",
-    ending: "Ende {n} von {m}", payT: "Deine Gratis-Taps sind aufgebraucht", payB: "Abonnieren und weiterlesen", back: "Zurück" },
+    ending: "Ende {n} von {m}", payT: "Deine Gratis-Taps sind aufgebraucht", payB: "Abonnieren und weiterlesen", back: "Zurück", tabs: ["Storys", "Favoriten", "Suche", "Menü"] },
   fr: { all: "Tout", horror: "Horreur", thriller: "Thriller", romance: "Romance",
     fear: ["Troublant", "Glauque", "Effrayant", "Terrifiant", "Cauchemar"],
     top: "Top de la semaine", pull: "Tirez vers le haut : histoire au hasard", keep: "Continuez", release: "Relâchez : histoire au hasard",
@@ -630,7 +703,7 @@ const UI = {
     read: "Lire", by: "Écrit par {a}", part: "Partie {n}", partOver: "La partie {n} recommence", storyOver: "L'histoire recommence", allOver: "Toutes les parties recommencent",
     min: "{n} min", online: "en ligne", typing: "écrit…", recA: "enregistre un audio…", recV: "enregistre une vidéo…", sending: "envoi…",
     tap: "Touchez pour continuer", ask: "Que réponds-tu ?", next: "Partie suivante", startOver: "Recommencer", readAgain: "Relire", turns: "Revenir à un choix",
-    ending: "Fin {n} sur {m}", payT: "Vos touches gratuites sont épuisées", payB: "Abonnez-vous pour continuer", back: "Retour" },
+    ending: "Fin {n} sur {m}", payT: "Vos touches gratuites sont épuisées", payB: "Abonnez-vous pour continuer", back: "Retour", tabs: ["Histoires", "Favoris", "Recherche", "Menu"] },
   es: { all: "Todo", horror: "Terror", thriller: "Suspense", romance: "Romance",
     fear: ["Inquietante", "Escalofriante", "Da miedo", "Aterrador", "Pesadilla"],
     top: "Top de la semana", pull: "Desliza hacia arriba: historia al azar", keep: "Sigue deslizando", release: "Suelta: historia al azar",
@@ -641,7 +714,7 @@ const UI = {
     read: "Leer", by: "Escrita por {a}", part: "Parte {n}", partOver: "La parte {n} empieza de nuevo", storyOver: "La historia empieza de nuevo", allOver: "Todas las partes empiezan de nuevo",
     min: "{n} min", online: "en línea", typing: "escribiendo…", recA: "grabando audio…", recV: "grabando video…", sending: "enviando…",
     tap: "Toca para continuar", ask: "¿Qué respondes?", next: "Siguiente parte", startOver: "Empezar de nuevo", readAgain: "Leer de nuevo", turns: "Volver a una elección",
-    ending: "Final {n} de {m}", payT: "Ya usaste tus toques gratis", payB: "Suscríbete para seguir leyendo", back: "Atrás" },
+    ending: "Final {n} de {m}", payT: "Ya usaste tus toques gratis", payB: "Suscríbete para seguir leyendo", back: "Atrás", tabs: ["Historias", "Favoritas", "Buscar", "Menú"] },
   ru: { all: "Все", horror: "Ужасы", thriller: "Триллер", romance: "Романтика",
     fear: ["Тревожно", "Жутко", "Страшно", "Ужасающе", "Кошмар"],
     top: "Топ недели", pull: "Потяните вверх — случайная история", keep: "Тяните дальше", release: "Отпустите — случайная история",
@@ -652,7 +725,7 @@ const UI = {
     read: "Читать", by: "Автор: {a}", part: "Часть {n}", partOver: "Часть {n} начнётся заново", storyOver: "История начнётся заново", allOver: "Все части начнутся заново",
     min: "{n} мин", online: "в сети", typing: "печатает…", recA: "записывает аудио…", recV: "записывает видео…", sending: "отправляет…",
     tap: "Нажмите, чтобы продолжить", ask: "Что ответишь?", next: "Следующая часть", startOver: "Начать заново", readAgain: "Читать снова", turns: "Вернуться к выбору",
-    ending: "Концовка {n} из {m}", payT: "Бесплатные нажатия закончились", payB: "Оформите подписку, чтобы читать дальше", back: "Назад" },
+    ending: "Концовка {n} из {m}", payT: "Бесплатные нажатия закончились", payB: "Оформите подписку, чтобы читать дальше", back: "Назад", tabs: ["Истории", "Избранное", "Поиск", "Меню"] },
 };
 let LANG = "en";
 /* one word of the interface in the current language; {n}, {m}, {a}, {x} are filled in */
@@ -671,12 +744,13 @@ function setLang(l) {
 const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ICON = {
   pad: '<svg viewBox="0 1.6 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.5 2.5 0 0 1-4.3.9L14.7 16H9.3l-1.9 2.3a2.5 2.5 0 0 1-4.3-.9l-.9-3A5 5 0 0 1 7 8z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="15.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/></svg>',
-  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
-  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3.5" width="14" height="17" rx="2"/><rect x="8.5" y="7" width="7" height="4" rx="1"/></svg>',
-  heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>',
+  /* tab icons (2026-11 redesign): one family, 1.7 stroke; the open tab's icon fills in, as SF Symbols do */
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle class="tf" cx="12" cy="12" r="8.6"/><circle cx="8" cy="12" r=".6" fill="currentColor" class="tk"/><circle cx="12" cy="12" r=".6" fill="currentColor" class="tk"/><circle cx="16" cy="12" r=".6" fill="currentColor" class="tk"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect class="tf" x="4" y="6.5" width="13.5" height="14" rx="2.6"/><path d="M8 3.5h9.4A2.6 2.6 0 0 1 20 6.1v10.4" stroke-linecap="round"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path class="tf" d="M12 20.2s-7.6-4.5-9.2-9.1C1.7 7.9 3.6 4.6 7 4.6c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.3 3.3 4.2 6.5-1.6 4.6-9.2 9.1-9.2 9.1z"/></svg>',
   /* the favourite badge's heart: an outline drawn like a pen stroke from the tip round both lobes, then filled */
   heartDrawn: '<svg viewBox="0 0 24 24"><path class="hf" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="currentColor"/><path class="hs" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>',
-  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.3"/><path d="M15.3 15.3l4.7 4.7"/></svg>',
 };
 const OWL = '<svg viewBox="0 0 150 160" aria-hidden="true"><path fill="#a7a3bb" d="M30 30q45-14 90 0l-2 8q30 20 26 62-6 38-69 40-63-2-69-40-4-42 26-62z"/><circle cx="52" cy="70" r="20" fill="#26243f"/><circle cx="98" cy="70" r="20" fill="#26243f"/><circle cx="52" cy="70" r="15" fill="#a7a3bb"/><circle cx="98" cy="70" r="15" fill="#a7a3bb"/><circle cx="50" cy="76" r="6" fill="#26243f"/><circle cx="96" cy="76" r="6" fill="#26243f"/><path d="M68 84l7 9 7-9" fill="none" stroke="#26243f" stroke-width="4" stroke-linejoin="round"/><path d="M58 140v14l-6 6M58 154l6 6M92 140v14l-6 6M92 154l6 6" stroke="#a7a3bb" stroke-width="5" stroke-linecap="round" fill="none"/></svg>';
 
@@ -828,8 +902,8 @@ function longPress(el, fn) {
 
 function shell(content) {
   app.innerHTML = `<main class="view ${tab === "menu" ? "menu" : ""}" id="view">${content}</main>
-    <nav class="tabs" aria-label="Sections">${[["home", "Stories"], ["fav", "Favourites"], ["search", "Search"], ["menu", "Menu"]].map(([k, n]) =>
-      `<button id="tab-${k}" data-tab="${k}" aria-label="${n}" ${tab === k ? 'aria-current="page"' : ""}>${ICON[k === "fav" ? "heart" : k]}</button>`).join("")}</nav>`;
+    <nav class="tabs" aria-label="Sections">${["home", "fav", "search", "menu"].map((k, i) =>
+      `<button id="tab-${k}" data-tab="${k}" ${tab === k ? 'aria-current="page"' : ""}>${ICON[k === "fav" ? "heart" : k]}<span>${esc(trA("tabs")[i])}</span></button>`).join("")}</nav>`;
   app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; store.set("tab", tab); render(); });
 }
 
@@ -1606,7 +1680,7 @@ function startSlider() {
     /* the worm between slot i and i+1: head leads over the first half, tail follows over the second.
        From the last card to the first it does not crawl back: the last pill shrinks to a dot while the
        first dot grows into the pill (dots light up with their share) */
-    dots.forEach((d, k) => d.style.background = wrap && (k === n - 1 || k === 0) ? `color-mix(in srgb, #5d5888 ${Math.round((k === 0 ? p - (n - 1) : n - p) * 100)}%, #4a4670)` : "");
+    dots.forEach((d, k) => d.style.background = wrap && (k === n - 1 || k === 0) ? `color-mix(in srgb, rgba(255,255,255,.26) ${Math.round((k === 0 ? p - (n - 1) : n - p) * 100)}%, rgba(255,255,255,.16))` : "");
     /* across the wrap (last ⇄ first, either way) the pill stays on the card you are leaving and shrinks with its
        slot, its white line with it, while the other end's dot lights up (2026-11-09: the line used to vanish) */
     const kc = at === 0 ? 0 : n - 1;
@@ -1648,9 +1722,9 @@ function startSlider() {
 
 function favourites() {
   const f = favs(), list = STORIES.filter(s => f.includes(s.id));
-  if (!list.length) return shell(`<div class="empty"><svg viewBox="-22 -2 132 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g class="held"><g filter="url(#lift)"><rect class="sq" x="48" y="4.00" width="56.00" height="56.00" rx="10.3"/></g><g class="hb"><circle cx="91.17" cy="16.83" r="9.74" fill="#7b57c9"/><g transform="translate(85.92 11.37) scale(0.437)"><path class="hf" fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/><path class="hs" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></g></g></svg><b>${tr("emptyT")}</b><span>${tr("emptyS")}</span></div>`);
+  if (!list.length) return shell(`<h1 class="big">${esc(trA("tabs")[1])}</h1><div class="empty"><svg viewBox="-22 -2 132 112" aria-hidden="true"><defs><filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".35"/></filter></defs><rect x="0" y="20" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="0" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><rect x="48" y="68" width="40" height="40" rx="8" fill="#5f5b7d"/><g class="held"><g filter="url(#lift)"><rect class="sq" x="48" y="4.00" width="56.00" height="56.00" rx="10.3"/></g><g class="hb"><circle cx="91.17" cy="16.83" r="9.74" fill="#7b57c9"/><g transform="translate(85.92 11.37) scale(0.437)"><path class="hf" fill="#fff" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/><path class="hs" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" pathLength="1" d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.2 3.4 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.6 0 5.5 3.7 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></g></g></g></svg><b>${tr("emptyT")}</b><span>${tr("emptyS")}</span></div>`);
   const groups = Object.keys(GENRES).filter(g => g !== "all" && list.some(s => s.genre === g));
-  shell(groups.map(g => `<span class="label">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
+  shell(`<h1 class="big">${esc(trA("tabs")[1])}</h1>` + groups.map(g => `<span class="label small">${GENRES[g]}</span>` + list.filter(s => s.genre === g).map(s =>
     `<div class="row-card" id="r-${s.id}" data-id="${s.id}"><button class="remove" data-remove="${s.id}" aria-label="Remove ${esc(s.title)}"><span>${tr("remove")}</span></button>
       <button class="face" data-open="${s.id}">${cover(s)}<span class="shade"></span>${tileProgress(s)}<div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button></div>`).join("")).join("") +
     `<p class="hint">${tr("swipe")}</p>`);
@@ -1846,7 +1920,7 @@ function searchStories(q) {
 
 function search() {
   const row = s => `<button class="item" id="i-${s.id}" data-id="${s.id}"><span class="thumb">${cover(s)}${tileProgress(s)}</span><div><b>${esc(s.title)}</b><small>${GENRES[s.genre]} · ${readMin(s)}${padMark(s)}</small></div></button>`;
-  shell(`<div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="${tr("search")}" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">${tr("cancel")}</button></div>
+  shell(`<h1 class="big">${esc(trA("tabs")[2])}</h1><div class="sbar${query ? " active" : ""}"><label class="search">${ICON.search}<input id="q" type="search" placeholder="${tr("search")}" value="${esc(query)}" autocomplete="off"></label><button class="s-cancel" id="s-cancel" tabindex="-1">${tr("cancel")}</button></div>
     <section class="fear${query ? " gone out" : ""}" id="fear" aria-label="How scary">
       <div class="lv" role="slider" aria-label="Fear level" aria-valuemin="1" aria-valuemax="5" tabindex="0">${FEAR.map((n, i) => `<button tabindex="-1" data-lvl="${i + 1}" style="color:${FEAR_COL[i]}">${n}</button>`).join("")}</div>
     </section>
@@ -2001,15 +2075,30 @@ function menu() {
      (top left) brings the menu back the same way. A tap on a language switches the whole app at once
      (2026-11-09) */
   const KEYS = ["sub", "restore", "lang", "idea", "mail"];
-  shell(`<button class="m-back" id="m-back" aria-label="${tr("back")}" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`
-    + KEYS.map((k, i) => `<button class="m-row${k === "sub" ? " sub" : ""}" data-m="${k}" data-i="${i}"><span>${esc(trA("menu")[i])}</span></button>`).join(""));
-  const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back");
+  /* 2026-11 redesign: the menu is an iOS grouped list (as in Settings): each row an icon on its colour, the words, and
+     on the right a switch (Subscription), the current language (Language) or a chevron. Language turns the same five
+     rows into the five languages exactly as before — the rows fade out where they stand and the languages fade in in
+     their places, the title with them; the open one carries a tick on the right */
+  const CHEV = '<svg class="m-chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1.5 1.5 6.5 7l-5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const TICK = '<svg class="m-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.5l5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const IC = { sub: ["#b5525b", ic.sub], restore: ["#7d5ce8", ic.restore], lang: ["#4f69d6", ic.lang], idea: ["#b9822f", ic.idea], mail: ["#33907f", ic.mail] };
+  shell(`<button class="m-back" id="m-back" aria-label="${tr("back")}" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <h1 class="big m-title" id="m-title">${esc(trA("tabs")[3])}</h1>
+    <div class="group" role="list">${KEYS.map((k, i) => `<button class="m-row" data-m="${k}" data-i="${i}"><span class="m-ic"></span><span class="m-t"></span><span class="m-v"></span></button>`).join("")}</div>
+    <div class="m-foot" aria-hidden="true">${OWL.replace(/#26243f/g, "#0e0c19")}<span>Squeal</span></div>`);
+  const rows = [...app.querySelectorAll(".m-row")], back = app.querySelector("#m-back"), title = app.querySelector("#m-title");
   let mode = "menu", busy = false;
-  const fill = () => rows.forEach((b, i) => {
-    const sp = b.querySelector("span");
-    if (mode === "menu") { b.dataset.m = KEYS[i]; b.classList.toggle("sub", i === 0); b.classList.remove("cur"); sp.textContent = trA("menu")[i]; b.removeAttribute("lang"); }
-    else { const [code, name] = LANGS[i]; b.dataset.m = "l:" + code; b.classList.remove("sub"); b.classList.toggle("cur", code === LANG); sp.textContent = name; b.setAttribute("lang", code); }
-  });
+  const fill = () => { title.textContent = mode === "menu" ? trA("tabs")[3] : trA("menu")[2]; title.classList.toggle("with-back", mode !== "menu");
+    rows.forEach((b, i) => {
+    const t = b.querySelector(".m-t"), v = b.querySelector(".m-v"), ico = b.querySelector(".m-ic");
+    if (mode === "menu") { const k = KEYS[i]; b.dataset.m = k; b.classList.toggle("sub", i === 0); b.classList.remove("cur", "l"); t.textContent = trA("menu")[i]; b.removeAttribute("lang");
+      ico.style.background = IC[k][0]; ico.innerHTML = IC[k][1];
+      v.innerHTML = k === "sub" ? `<span class="switch${premium() ? " on" : ""}" aria-hidden="true"><i></i></span>` : k === "lang" ? `<span>${esc(LANGS.find(l => l[0] === LANG)[1])}</span>${CHEV}` : CHEV;
+      if (k === "sub") { b.setAttribute("role", "switch"); b.setAttribute("aria-checked", premium()); } else b.removeAttribute("role"); }
+    else { const [code, name] = LANGS[i]; b.dataset.m = "l:" + code; b.classList.remove("sub"); b.classList.add("l"); b.classList.toggle("cur", code === LANG); t.textContent = name; b.setAttribute("lang", code);
+      b.removeAttribute("role"); b.removeAttribute("aria-checked"); ico.innerHTML = ""; v.innerHTML = TICK; }
+  }); };
+  fill();
   /* menu ⇄ languages (2026-11-09): the words fade out where they stand (0.3 s) and the others fade in in the very
      same places (0.3 s); nothing moves. Back: the arrow, or a swipe from left to right anywhere on the page —
      the words do not follow the finger, the swipe just starts the same change */
@@ -2018,9 +2107,9 @@ function menu() {
     if (busy || mode === to) return; busy = true; swapAt = performance.now();
     back.classList.toggle("on", to === "lang");
     if (reduce() || !rows[0].animate) { mode = to; fill(); busy = false; return; }
-    rows.forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
+    [title, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "forwards" }); });
     setTimeout(() => { mode = to; fill();
-      rows.forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "backwards" }); });
+      [title, ...rows].forEach(b => { b.getAnimations().forEach(a => a.cancel()); b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out", fill: "backwards" }); });
       busy = false; }, 300);
   };
   back.onclick = () => swap("menu");
@@ -2043,14 +2132,15 @@ function menu() {
       store.set("lang", code); setLang(code);
       rows.forEach((x, i) => x.classList.toggle("cur", LANGS[i][0] === code));
       setTimeout(() => swap("menu"), 150);                        // the tick moves, then the list folds back into the menu (in the new language)
-      app.querySelectorAll("[data-tab]").forEach(x => { const lab = { home: "Stories", fav: "Favourites", search: "Search", menu: "Menu" }[x.dataset.tab]; if (lab) x.setAttribute("aria-label", lab); });
+      app.querySelectorAll("[data-tab]").forEach(x => { const i = ["home", "fav", "search", "menu"].indexOf(x.dataset.tab), sp = x.querySelector("span"); if (sp && i >= 0) sp.textContent = trA("tabs")[i]; });
       back.setAttribute("aria-label", tr("back")); haptic.tap?.();
       return;
     }
     if (m === "lang") return swap("lang");
     if (m === "sub") { const on = !premium(); store.set("premium", on); if (!on) store.set("taps", FREE_TAPS);
+      b.querySelector(".switch")?.classList.toggle("on", on); b.setAttribute("aria-checked", on); haptic.tap?.();
       return toast(on ? tr("subOn") : tr("subOff", { n: FREE_TAPS })); }
-    toast(tr("inApp", { x: b.textContent }));
+    toast(tr("inApp", { x: b.querySelector(".m-t").textContent }));
   });
 }
 
@@ -2062,7 +2152,8 @@ const px = r => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px"
 let lastCard = null;
 document.addEventListener("pointerdown", e => { lastCard = e.target.closest("[data-id],[data-open]"); }, true);
 
-function appRect() { const a = app.getBoundingClientRect(); return { left: a.left, top: 0, width: a.width, height: innerHeight }; }
+/* the app's place on screen by layout, not as drawn: while it sinks back under a story page it is drawn smaller (recede) */
+function appRect() { return { left: app.offsetLeft, top: 0, width: app.offsetWidth, height: innerHeight }; }
 /* the window changes size (the phone turned, split screen): an open chat and an open story page keep covering the
    app exactly (2026-11-10: they stayed at the size they were opened with) */
 addEventListener("resize", () => { const r = appRect();
@@ -2261,7 +2352,11 @@ function preview(id) {
   const geo = card ? cardGeometry(card) : null;
   sheet._origin = geo ? geo.el : null; sheet._hide = geo ? geo.hide : []; sheet._story = s; sheet._sig = sig(s); sheet._tab = tab;
   wire(sheet, s);
-  if (!CARD_MORPH) { sheet.classList.add("still"); return; }   // appears at once, full screen
+  /* 2026-11 redesign: the page comes up from the bottom like an iOS full-screen sheet (0.5 s, the sheet curve) while the
+     tab behind it sinks back a little and dims; the swipes and ✕ send it back the same way */
+  if (!CARD_MORPH) { sheet.classList.add("still");
+    if (sheet.animate && !reduce()) sheet.animate([{ transform: "translateY(100%)" }, { transform: "none" }], { duration: 500, easing: "cubic-bezier(.32,.72,0,1)" });
+    recede(1, 500); return; }
   if (!geo || !sheet.animate || reduce()) {
     if (sheet.animate && !reduce()) sheet.animate([{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: EASE });
     return;
@@ -2276,14 +2371,28 @@ function preview(id) {
   });
 }
 
-function closeSheet(sheet, dragged) {
+/* the tab under an open story page: k = 1 sunk back (a little smaller, dimmer), 0 as normal; ms = 0 follows a finger */
+function recede(k, ms = 0) {
+  if (reduce()) k = 0;
+  app.style.transition = ms ? `transform ${ms}ms cubic-bezier(.32,.72,0,1), opacity ${ms}ms cubic-bezier(.32,.72,0,1), border-radius ${ms}ms` : "none";
+  app.style.transform = k > .001 ? `scale(${(1 - .06 * k).toFixed(4)})` : "";
+  app.style.opacity = k > .001 ? (1 - .5 * k).toFixed(3) : "";
+  app.style.borderRadius = k > .001 ? Math.round(22 * k) + "px" : "";
+}
+function closeSheet(sheet, dragged, slide) {
   if (sheet._closing) return; sheet._closing = true;
+  if (!liveSheet()) recede(0, slide ? 360 : 300);
   const origin = sheet._origin && document.body.contains(sheet._origin) ? sheet._origin : null;
   const finish = () => { (sheet._hide || []).forEach(e => e.style.visibility = ""); sheet.remove();
     syncBars();                                                    // a reset in the page: the search rows' lines follow too (2026-11-11)
     if (sheet._tab !== tab || sheet._sig === sig(sheet._story)) return;   // another tab opened meanwhile: it is fresh, never redrawn under the finger (2026-11-11)
     if (tab === "home") syncHearts(); else refresh(); };
   sheet.getAnimations({ subtree: true }).forEach(a => a.finish());
+  /* ✕ (and the keyboard): the page goes back down the way it came */
+  if (slide && !CARD_MORPH && sheet.animate && !reduce() && sheet.style.visibility !== "hidden") {
+    sheet.style.pointerEvents = "none";
+    sheet.animate([{ transform: "none" }, { transform: "translateY(100%)" }], { duration: 360, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }).onfinish = () => { sheet.querySelector(".scroll").scrollTop = 0; finish(); };
+    return; }
   sheet.querySelector(".scroll").scrollTop = 0;
   if (!CARD_MORPH || !sheet.animate || reduce()) return finish();
   const vis = r => r.width > 0 && r.bottom > 0 && r.top < innerHeight;
@@ -2327,8 +2436,8 @@ function wire(sheet, s) {
     window.addEventListener("pointerup", () => setTimeout(done, 50), { capture: true, once: true });
     window.addEventListener("pointercancel", done, { capture: true, once: true });   // the finger slid off: no click will come, nothing to eat (2026-11-13: the next tap anywhere was lost)
     setTimeout(done, 1500);
-    closeSheet(sheet); });
-  back.onclick = e => { if (e.detail === 0) closeSheet(sheet); };            // keyboard
+    closeSheet(sheet, false, true); });
+  back.onclick = e => { if (e.detail === 0) closeSheet(sheet, false, true); };            // keyboard
   /* closes with the cross, a swipe from left to right, or a swipe down (no tap-anywhere; 2026-11-09) */
   /* start over: a tap clears the part being read; holding for 0.6 s (the ring closes) clears all parts */
   const reset = sheet.querySelector("#pv-reset");
@@ -2517,6 +2626,7 @@ function wire(sheet, s) {
     const p = axis === "x" ? x : y, now = e?.timeStamp || performance.now(); v = .7 * v + .3 * (p - lastP) / Math.max(8, now - lastT); lastP = p; lastT = now;
     dx = Math.max(0, ddx); dy = Math.max(0, ddy);
     sheet.style.transform = axis === "x" ? (dx ? `translateX(${dx}px)` : "") : (dy ? `translateY(${dy}px)` : "");
+    recede(1 - Math.min(1, (axis === "x" ? dx / sheet.offsetWidth : dy / sheet.offsetHeight)));   // the tab behind comes back with the finger
   };
   const end = (cancel, ev) => {
     if (x0 == null) return; x0 = null;
@@ -2526,8 +2636,8 @@ function wire(sheet, s) {
     if (cancel === true) { v = 0; dx = dy = 0; }                   // the phone took the touch: the page settles back
     const size = axis === "x" ? sheet.offsetWidth : sheet.offsetHeight, d = axis === "x" ? dx : dy, go = d > size * .33 || v > .5;
     sheet.style.transition = "transform .3s cubic-bezier(.32,.72,0,1)";
-    if (!go) { sheet.style.transform = ""; return; }
-    sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`; sheet._leaving = true;
+    if (!go) { sheet.style.transform = ""; recede(1, 300); return; }
+    sheet.style.transform = axis === "x" ? `translateX(${size}px)` : `translateY(${size}px)`; sheet._leaving = true; recede(0, 300);
     setTimeout(() => { sheet.style.transition = ""; closeSheet(sheet); }, 300);
   };
   sheet.addEventListener("touchstart", e => { if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY, e.target); }, { passive: true, signal: sig });   // a second finger never restarts the swipe (2026-11-10)
@@ -2553,7 +2663,7 @@ function refresh() {
   if (v2) v2.scrollTop = y; if (s2) s2.scrollLeft = x; if (r2) r2.scrollTop = ry;
 }
 
-function render() { cancelAnimationFrame(slideTimer); ({ menu, home, fav: favourites, search }[tab] || home)(); }
+function render() { cancelAnimationFrame(slideTimer); if (!liveSheet() && app.style.transform) recede(0); ({ menu, home, fav: favourites, search }[tab] || home)(); }
 
 /* ---------- Chat: slides in from the right over the sheet, slides back out. ---------- */
 /* Free readers get a number of taps (one per message); subscribers read without limit. In the web preview
@@ -3013,7 +3123,11 @@ function openStory(id, epIndex) {
       <div class="foot" id="foot"></div></section>`;
   layer.appendChild(scr);
   /* a part switch replaces the chat in place, in the same frame: nothing blinks, the preview never shows */
-  if (scr.animate && !reduce() && !prev) scr.animate([{ transform: OPEN_FROM === "bottom" ? "translateY(100%)" : "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE });
+  if (scr.animate && !reduce() && !prev) scr.animate([{ transform: OPEN_FROM === "bottom" ? "translateY(100%)" : "translateX(100%)" }, { transform: "none" }], { duration: 340, easing: EASE }).onfinish = () => { if (scr.isConnected && !scr._leaving) recede(0); };
+  else if (!prev) recede(0);                                         // the chat covers everything: the tab behind is back to normal, unseen
+  /* pushed from the right, as in iOS navigation: the page under it drifts a third to the left and dims (it snaps back
+     unseen, under the chat, when the push ends) */
+  if (scr.animate && !reduce() && !prev && OPEN_FROM !== "bottom") liveSheet()?.animate([{ transform: "none", opacity: 1 }, { transform: "translateX(-30%)", opacity: .55 }], { duration: 340, easing: EASE });
   const log = scr.querySelector("#log"), foot = scr.querySelector("#foot"), status = scr.querySelector("#status");
   /* like WhatsApp: when something new appears at the bottom, the conversation glides up to make room
      (0.26 s, easing out) instead of jumping; a finger on the chat stops the glide */
