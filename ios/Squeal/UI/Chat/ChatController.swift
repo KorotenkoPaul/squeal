@@ -97,6 +97,7 @@ final class ChatController: ObservableObject {
     private var toastWork: DispatchWorkItem? = nil
     private var autoTimer: Timer? = nil
     private var autoLeft = 0, autoLast = -1
+    private let tapKey = "chat-" + UUID().uuidString
 
     init(model: AppModel, story: Story, route: ChatRoute) {
         self.model = model
@@ -146,8 +147,10 @@ final class ChatController: ObservableObject {
     func start(part: Int?) {
         guard !started else { return }
         started = true
+        // any touch on the chat (a scroll, the header) puts off the hint's "breathing" by another 10 s, as on the web
+        Taps.shared.onDown[tapKey] = { [weak self] _ in self?.nudge() }
         open(part: part, first: true)
-        if offset != .zero { withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.34)) { offset = .zero } }
+        if offset != .zero { withAnimation(reduceMotion() ? nil : .timingCurve(0.25, 0.8, 0.25, 1, duration: 0.34)) { offset = .zero } }
         // the story page under the chat is gone: back returns to the screen the story was opened from
         after(0.4) { [weak self] in if let self, !self.leaving, self.model.chat != nil { self.model.previewID = nil } }
         autoplay()
@@ -386,6 +389,7 @@ final class ChatController: ObservableObject {
 
     /// the hint stays still; only after 10 s with no tap does it start to breathe
     func nudge() {
+        guard !leaving else { return }
         idleWork?.cancel()
         if foot.idle { foot.idle = false }
         let work = DispatchWorkItem { [weak self] in
@@ -520,9 +524,10 @@ final class ChatController: ObservableObject {
 
     func showToast(_ text: String) {
         toastWork?.cancel()
-        withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.28)) { toast = text }
+        let quick = reduceMotion()
+        withAnimation(quick ? nil : .timingCurve(0.25, 0.8, 0.25, 1, duration: 0.28)) { toast = text }
         let work = DispatchWorkItem { [weak self] in
-            withAnimation(.timingCurve(0.42, 0, 1, 1, duration: 0.2)) { self?.toast = nil }
+            withAnimation(quick ? nil : .timingCurve(0.42, 0, 1, 1, duration: 0.2)) { self?.toast = nil }
         }
         toastWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: work)
@@ -580,6 +585,7 @@ final class ChatController: ObservableObject {
         model.previewID = nil
         let width = UIScreen.main.bounds.width
         let token = model.chat?.token
+        Taps.shared.onDown[tapKey] = nil
         let done: () -> Void = { [weak self] in
             guard let self else { return }
             self.slide.dropAll()
@@ -607,7 +613,7 @@ final class ChatController: ObservableObject {
         let width = UIScreen.main.bounds.width
         let go = !cancelled && (dx > width * 0.35 || velocity > 500)
         if go { close(); return }
-        withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) { offset = .zero }
+        withAnimation(reduceMotion() ? nil : .timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) { offset = .zero }
     }
 
     // MARK: - CI screenshots

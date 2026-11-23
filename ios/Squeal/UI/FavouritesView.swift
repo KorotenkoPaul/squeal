@@ -74,7 +74,7 @@ final class FavRows: ObservableObject {
     func unlisten() { Taps.shared.onDown["fav"] = nil; pan.detach() }
 
     func set(_ id: String, _ v: CGFloat) { x[id] = v }
-    func snap(_ id: String, _ v: CGFloat) { withAnimation(Self.snapCurve) { x[id] = v } }
+    func snap(_ id: String, _ v: CGFloat) { withAnimation(reduceMotion() ? nil : Self.snapCurve) { x[id] = v } }
 
     private func begins(_ m: HeldPan.Move) -> Bool {
         guard abs(m.translation.x) > abs(m.translation.y) else { return false }       // up or down: the list scrolls
@@ -114,17 +114,36 @@ final class FavRows: ObservableObject {
         // rows already on their way out do not count: the second of two quick removals takes the genre heading
         let left = model.stories.filter { model.favs.contains($0.id) && $0.genre == s.genre && !removing.contains($0.id) }
         if left.isEmpty { withAnimation(.linear(duration: 0.2)) { _ = fadedLabels.insert(s.genre) } }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) { [weak self] in
-            guard let self, let model = self.model else { return }
-            let onScreen = model.tab == "fav"
+        // how much shorter the page gets: the row and its gap, and its genre's heading with it
+        let gone = (frames[id]?.height ?? 110) + 14 + (left.isEmpty ? labelHeight + 14 : 0)
+        // (the model is held, not this list: the story goes even if another tab is opened before the row has left)
+        DispatchQueue.main.asyncAfter(deadline: .now() + (reduceMotion() ? 0 : 0.22)) { [weak self, model] in
+            let onScreen = model.tab == "fav" && self != nil && !reduceMotion()
+            if onScreen { self?.settleScroll(shorterBy: gone) }
             withAnimation(onScreen ? Self.snapCurve : nil) {
                 model.toggleFav(id, want: false)
-                self.frames[id] = nil
+                self?.frames[id] = nil
             }
-            self.x[id] = nil
-            self.fadedLabels.remove(s.genre)
-            self.removing.remove(id)
+            self?.x[id] = nil
+            self?.fadedLabels.remove(s.genre)
+            self?.removing.remove(id)
         }
+    }
+
+    /// a genre heading's height (13 pt bold + its 6 pt on top)
+    private var labelHeight: CGFloat { ceil(AppFont.uiFont(13, 700).lineHeight) + 6 }
+
+    /// The page is about to get shorter. Scrolled near its end, the list would be cut back in one jump and every row
+    /// above would jerk down (BUGS #84): instead the list's own scroll glides to where it will stand, over the same
+    /// 0.34 s and curve as the rows gliding up — everything arrives together.
+    private func settleScroll(shorterBy gone: CGFloat) {
+        guard let sv = pan.scrollView, !sv.isDragging, !sv.isDecelerating else { return }
+        let top = -sv.adjustedContentInset.top
+        let end = max(top, sv.contentSize.height - gone + sv.adjustedContentInset.bottom - sv.bounds.height)
+        guard sv.contentOffset.y > end + 0.5 else { return }
+        let glide = UIViewPropertyAnimator(duration: 0.34, timingParameters: UICubicTimingParameters(controlPoint1: CGPoint(x: 0.32, y: 0.72), controlPoint2: CGPoint(x: 0, y: 1)))
+        glide.addAnimations { sv.contentOffset.y = end }
+        glide.startAnimation()
     }
 }
 

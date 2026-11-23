@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var gridShown = true
     @State private var rise = false
     @State private var pulls = HomePulls()
+    @StateObject private var oval = GenreOval()
     @State private var fresh = 1.0
     var scrollTo: CGFloat? = nil                 // screenshots: start scrolled this far down
 
@@ -36,12 +37,16 @@ struct HomeView: View {
                             .padding(.top, 6)
                             .opacity(fresh)
                         TopSlider(engine: engine, stories: top, width: W, inset: side)
+                            .background(GeometryReader { s in
+                                Color.clear.onAppear { pulls.sliderFrame = s.frame(in: .global) }
+                                    .onChange(of: s.frame(in: .global)) { _, r in pulls.sliderFrame = r }
+                            })
                             .padding(.horizontal, -side)
                             .opacity(fresh)
                         SliderDots(engine: engine, n: top.count)
                             .padding(.top, -2)
                             .opacity(fresh)
-                        GenreChips()                   // the genre row stays put through a refresh: the chosen genre never blinks
+                        GenreChips(oval: oval)         // the genre row stays put through a refresh: the chosen genre never blinks
                         grid(tileW)
                             .id("grid")
                             .opacity(fresh)
@@ -62,11 +67,12 @@ struct HomeView: View {
             }
             .onAppear {
                 pulls.model = model; pulls.height = g.size.height
+                pulls.genre = oval; pulls.slider = engine; pulls.sliderStep = W - side
                 let a = LaunchArgs(ProcessInfo.processInfo.arguments)
                 let pose = (a.value("-pull").flatMap { Double($0) }, a.value("-reel").flatMap { Double($0) })
                 if pose.0 != nil || pose.1 != nil { DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { pulls.pose(pull: pose.0, reel: pose.1) } }
             }
-            .onChange(of: g.size.height) { _, h in pulls.height = h }
+            .onChange(of: g.size) { _, z in pulls.height = z.height; pulls.sliderStep = z.width - side }
             .onDisappear { pulls.detach() }
             .onReceive(pulls.$pulling) { p in engine.covered = covered || p }
             // fresh content fades in right where it is (0.3 s): nothing rides up at the end
@@ -100,7 +106,9 @@ struct HomeView: View {
     private func swapGrid(_ g: String) {
         withAnimation(.easeIn(duration: 0.12)) { gridShown = false }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+            guard model.genre == g else { return }           // another genre was picked meanwhile: its own swap shows it
             var t = Transaction(); t.disablesAnimations = true
+            if reduceMotion() { withTransaction(t) { gridGenre = g; gridShown = true; rise = false }; return }   // nothing rises
             withTransaction(t) { gridGenre = g; gridShown = true; rise = true }
             withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.32)) { rise = false }
         }

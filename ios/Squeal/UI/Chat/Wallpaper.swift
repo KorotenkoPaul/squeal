@@ -202,8 +202,17 @@ private struct StillWall: View, Equatable {
     let rev: Int
     static func == (a: StillWall, b: StillWall) -> Bool { a.rev == b.rev }
     var body: some View {
-        Canvas { ctx, _ in
-            for p in placed { Doodles.draw(p.item.name, in: &ctx, x: p.x, y: p.y, s: p.item.s, rot: p.item.rot) }
+        // The web's plain wallpaper is one 280 pt tile repeated: a doodle turned so that a corner of it crosses its
+        // tile's top or bottom edge is cut there (sideways it is not: the tile draws it again from the other side).
+        // The same cut here, tile row by tile row, so the wallpaper is the web's to the pixel.
+        Canvas { ctx, size in
+            let T = Double(Doodles.tile)
+            for p in placed {
+                var c = ctx
+                let row = (p.y / T).rounded(.down) * T
+                c.clip(to: Path(CGRect(x: -40, y: row, width: Double(size.width) + 80, height: T)))
+                Doodles.draw(p.item.name, in: &c, x: p.x, y: p.y, s: p.item.s, rot: p.item.rot)
+            }
         }
     }
 }

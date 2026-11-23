@@ -67,7 +67,7 @@ struct ProgressLine: View {
         let target = max(0.03, f)
         let before = BarMemory.seen[id]
         BarMemory.seen[id] = f
-        if before == f { shown = target; return }
+        if before == f || reduceMotion() { shown = target; return }     // (Reduce Motion: the line is simply there)
         if shown < 0 { shown = 0 }
         if let before, before > 0 {
             withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.6)) { shown = target }
@@ -148,8 +148,11 @@ struct TileView: View {
             if motion == .still, on != badge { badge = on }     // changed elsewhere (the preview): no second animation (BUGS #51)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityAddTraits(.isButton)
+        .accessibilityAddTraits(model.isFav(story.id) ? [.isButton, .isSelected] : .isButton)
         .accessibilityLabel(story.title)
+        .accessibilityIdentifier("tile-" + story.id)
+        // VoiceOver cannot hold a card: the like is an action of its own
+        .accessibilityAction(named: Text(model.tr("favourite"))) { model.toggleFav(story.id) }
     }
 
     /// hold: like (the card swells, the badge pops and the heart is drawn) or unlike (the heart cracks)
@@ -158,8 +161,9 @@ struct TileView: View {
         guard Taps.shared.allows("tile:" + story.id) else { return }
         model.toggleFav(story.id, want: !badge)
         let on = model.isFav(story.id)
-        playBeat(on)
         token += 1; let my = token
+        if reduceMotion() { motion = .still; badge = on; return }      // no swell, no drawing, no crack: the heart is on or off
+        playBeat(on)
         if on {
             badge = true; motion = .draw(Date(), 390)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.42) { if token == my { motion = .still } }
@@ -174,6 +178,7 @@ struct TileView: View {
         guard motion == .still || model.isFav(story.id) else { return }
         if model.isFav(story.id) { model.toggleFav(story.id, want: false) }
         token += 1; let my = token
+        if reduceMotion() { motion = .still; badge = false; return }
         motion = .crack(Date(), 200, fadeBadge: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.21) { if token == my { motion = .still; badge = model.isFav(story.id) } }
     }

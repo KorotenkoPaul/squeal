@@ -15,6 +15,7 @@ struct MenuView: View {
     @State private var rowsOpacity = 1.0
     @State private var horiz: Bool? = nil
     @State private var swipeT0 = 0.0
+    @GestureState private var swipeLive = false
 
     static let keys = ["sub", "restore", "lang", "idea", "mail"]
 
@@ -39,6 +40,7 @@ struct MenuView: View {
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(MenuRowStyle())
+                    .accessibilityIdentifier("menu-row-\(i)")
                     .environment(\.locale, Locale(identifier: mode == "lang" ? lang.0 : model.lang))
                     .accessibilityAddTraits(mode == "lang" && lang.0 == model.lang ? .isSelected : [])
                 }
@@ -58,9 +60,12 @@ struct MenuView: View {
             .opacity(backOn ? 1 : 0).animation(.easeInOut(duration: 0.35), value: backOn)
             .allowsHitTesting(backOn)
             .accessibilityLabel(model.tr("back")).accessibilityHidden(!backOn)
+            .accessibilityIdentifier("menu-back")
         }
         .contentShape(Rectangle())
         .gesture(swipeBack)
+        // a swipe the phone took away changes nothing (and the next one starts afresh)
+        .onChange(of: swipeLive) { _, on in if !on { DispatchQueue.main.async { horiz = nil } } }
         .onAppear {
             let a = LaunchArgs(ProcessInfo.processInfo.arguments)        // CI screenshots
             if a.value("-menu") == "lang" { mode = "lang"; backOn = true }
@@ -72,6 +77,7 @@ struct MenuView: View {
     /// the swipe (more than 50 pt, or a short quick one) just starts the same change.
     private var swipeBack: some Gesture {
         DragGesture(minimumDistance: 8)
+            .updating($swipeLive) { _, s, _ in s = true }
             .onChanged { v in
                 guard mode == "lang", !busy else { return }
                 if horiz == nil { horiz = abs(v.translation.width) > abs(v.translation.height) && v.translation.width > 0; swipeT0 = Taps.now() }

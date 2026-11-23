@@ -42,6 +42,11 @@ final class AppModel: ObservableObject {
     }
 
     func setLang(_ l: String) {
+        // The language is changed in Menu only, and a chat (or a story page) covers the whole screen, tab bar and
+        // all: there is no way to Menu from under one. Should that ever change, the open chat — built from the old
+        // language's messages — must not live on over the new one: it and the story page simply go.
+        if chat != nil { chat = nil; progressRev += 1 }
+        previewID = nil
         lang = L10n.text[l] != nil ? l : "en"
         store.set("lang", lang)
         stories = library.stories(lang)
@@ -68,8 +73,9 @@ final class AppModel: ObservableObject {
     /// toast(): one line for 1.8 s; a new one takes the old one's place
     func showToast(_ text: String) {
         toastWork?.cancel()
-        withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.28)) { toast = text }
-        let work = DispatchWorkItem { [weak self] in withAnimation(.timingCurve(0.42, 0, 1, 1, duration: 0.2)) { self?.toast = nil } }
+        let quick = reduceMotion()                             // it is there and gone, it does not rise
+        withAnimation(quick ? nil : .timingCurve(0.25, 0.8, 0.25, 1, duration: 0.28)) { toast = text }
+        let work = DispatchWorkItem { [weak self] in withAnimation(quick ? nil : .timingCurve(0.42, 0, 1, 1, duration: 0.2)) { self?.toast = nil } }
         toastWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.8, execute: work)
     }

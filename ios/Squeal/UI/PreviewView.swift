@@ -7,18 +7,22 @@ struct PressArea<Content: View>: View {
     var onUp: (_ inside: Bool) -> Void
     @ViewBuilder var content: (_ pressed: Bool) -> Content
     @State private var pressed = false
+    @GestureState private var live = false
     var body: some View {
         GeometryReader { g in
             content(pressed)
                 .frame(width: g.size.width, height: g.size.height)
                 .contentShape(Rectangle())
                 .gesture(DragGesture(minimumDistance: 0)
+                    .updating($live) { _, s, _ in s = true }
                     .onChanged { _ in if !pressed { pressed = true; onDown() } }
                     .onEnded { v in
                         pressed = false
                         let inside = CGRect(origin: .zero, size: g.size).insetBy(dx: -20, dy: -20).contains(v.location)
                         onUp(inside)
                     })
+                // a touch the phone took away never lifts: the button lets go and does nothing (BUGS #149)
+                .onChange(of: live) { _, on in if !on { DispatchQueue.main.async { if pressed { pressed = false } } } }
         }
     }
 }
@@ -51,6 +55,13 @@ struct PreviewView: View {
     @State private var dragAxis: String? = nil
     @State private var leaving: CGSize? = nil
     @State private var tick = 0
+    // SwiftUI ends a drag with `onEnded` only when the finger lifts; a touch the phone takes away (a call, the home
+    // bar, a second finger's gesture) just stops. These say "a touch is on it": when one drops with its gesture
+    // still open, the gesture is called off and everything goes back (BUGS #118, #149).
+    @GestureState private var swipeLive = false
+    @GestureState private var frameLive = false
+    @GestureState private var resetLive = false
+    @GestureState private var likeLive = false
 
     private var multi: Bool { story.parts.count > 1 }
 
@@ -75,8 +86,16 @@ struct PreviewView: View {
             .background(Theme.bg)
             .offset(leaving ?? drag)
             .gesture(swipe(g.size))
+            .onChange(of: swipeLive) { _, on in
+                if !on { DispatchQueue.main.async {
+                    guard dragAxis != nil else { return }      // (lifted: onEnded has dealt with it)
+                    dragAxis = nil
+                    if leaving == nil { withAnimation(reduceMotion() ? nil : .timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) { drag = .zero } }
+                } }
+            }
         }
         .ignoresSafeArea()
+        .accessibilityAddTraits(.isModal)                     // VoiceOver stays on the story page, not on the tab under it (BUGS #148)
         .onAppear(perform: setup)
     }
 
@@ -169,7 +188,15 @@ struct PreviewView: View {
                     .allowsHitTesting(false)
             }
             .contentShape(Rectangle())
+            .onChange(of: frameLive) { _, on in
+                if !on { DispatchQueue.main.async {
+                    guard frameDragBase != nil else { return }
+                    frameDragBase = nil                          // taken by the phone: the frame settles on the nearest part
+                    if framePos >= 0 { glide(to: (0..<n).min { abs(centre($0) - framePos) < abs(centre($1) - framePos) }!, from: framePos, centre: centre) }
+                } }
+            }
             .gesture(DragGesture(minimumDistance: 0)
+                .updating($frameLive) { _, s, _ in s = true }
                 .onChanged { v in
                     guard Taps.shared.allows("part\(max(0, min(n - 1, Int(v.startLocation.x / stepX))))") else { return }
                     if frameDragBase == nil {
@@ -197,14 +224,14 @@ struct PreviewView: View {
     private func waterMotion(_ k: Int, done: Bool) -> WaterMotion {
         var m = WaterMotion()
         if let d = drain[k] { m.drainFrom = d.0; m.drainLevel = d.1; return m }
-        if !still { m.riseFrom = waterAt; m.delay = Double(k) * 0.09; if !done { m.wavesFrom = waterAt } }
+        if !still && !reduceMotion() { m.riseFrom = waterAt; m.delay = Double(k) * 0.09; if !done { m.wavesFrom = waterAt } }
         if let w = wake[k], !done { m.wavesFrom = w }
         return m
     }
 
     private func glide(to k: Int, from: CGFloat, centre: @escaping (Int) -> CGFloat) {
         let to = centre(k)
-        let ms = min(320, 150 + abs(to - from) * 0.8) / 1000
+        let ms = reduceMotion() ? 0.0001 : min(320, 150 + abs(to - from) * 0.8) / 1000
         frameGlide += 1; let my = frameGlide
         let t0 = Date()
         func step() {
@@ -219,7 +246,7 @@ struct PreviewView: View {
 
     /// chosen by hand: a part whose waves have calmed down plays them again; still moving — nothing changes
     private func select(_ k: Int, wakeUp: Bool) {
-        if wakeUp {
+        if wakeUp && !reduceMotion() {
             let started = wake[k] ?? (still ? .distantPast : waterAt)
             if Date().timeIntervalSince(started) > 3.3 { wake[k] = Date(); refreshLater(3.5) }
         }
@@ -263,8 +290,10 @@ struct PreviewView: View {
         .scaleEffect(resetPressed ? 0.88 : (bounce["reset"] == true ? 1.08 : 1))
         .frame(width: 56, height: 56).contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 0)
+            .updating($resetLive) { _, s, _ in s = true }
             .onChanged { _ in if holdState == 0, Taps.shared.allows("pv-reset") { resetDown() } }
             .onEnded { _ in resetUp() })
+        .onChange(of: resetLive) { _, on in if !on { DispatchQueue.main.async { resetCalledOff() } } }
         .accessibilityElement().accessibilityLabel(model.tr(multi ? "resetMulti" : "reset")).accessibilityAddTraits(.isButton)
         .accessibilityAction { resetOne() }
     }
@@ -275,7 +304,9 @@ struct PreviewView: View {
             .animation(.easeInOut(duration: 0.2), value: likeLit)
             .scaleEffect(likePressed ? 0.88 : (bounce["like"] == true ? 1.08 : 1))
             .frame(width: 56, height: 56).contentShape(Rectangle())
+            .onChange(of: likeLive) { _, on in if !on { DispatchQueue.main.async { if likePressed { release("like") { likePressed = false } } } } }
             .gesture(DragGesture(minimumDistance: 0)
+                .updating($likeLive) { _, s, _ in s = true }
                 .onChanged { _ in if !likePressed { withAnimation(.easeOut(duration: 0.12)) { likePressed = true } } }
                 .onEnded { v in
                     release("like") { likePressed = false }
@@ -288,6 +319,7 @@ struct PreviewView: View {
 
     /// pressed (.88) → springs back past 1 (1.08) → 1, 0.32 s
     private func release(_ key: String, _ unpress: @escaping () -> Void) {
+        if reduceMotion() { unpress(); return }               // no spring back past its size
         withAnimation(.easeOut(duration: 0.176)) { unpress(); bounce[key] = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.176) { withAnimation(.easeOut(duration: 0.144)) { bounce[key] = false } }
     }
@@ -340,6 +372,7 @@ struct PreviewView: View {
         let wasOn = model.isFav(story.id)
         model.toggleFav(story.id, want: !wasOn)
         holdToken += 1; let my = holdToken
+        if reduceMotion() { likeMotion = .still; likeLit = !wasOn; return }     // the heart is simply on or off
         if !wasOn {
             // one to one the card's like: the purple badge pops up from nothing, a pen draws the white heart, it fills
             var t = Transaction(); t.disablesAnimations = true
@@ -398,6 +431,18 @@ struct PreviewView: View {
         }
     }
 
+    /// the touch on ↺ was taken by the phone: nothing is reset; a ring on its way winds back
+    private func resetCalledOff() {
+        guard holdState == 1 || holdState == 2 else { if holdState == 3 { holdState = 0; release("reset") { resetPressed = false } }; return }
+        let state = holdState
+        holdState = 0; holdToken += 1
+        release("reset") { resetPressed = false }
+        if state == 2 {
+            withAnimation(.timingCurve(0.4, 0, 0.2, 1, duration: 0.3)) { ring = 0 }
+            withAnimation(.linear(duration: 0.12).delay(0.26)) { ringOpacity = 0 }
+        }
+    }
+
     private func resetOne() {
         let before = levels()
         var p = model.prog(story)
@@ -411,18 +456,21 @@ struct PreviewView: View {
     /// the water of the parts being reset drains (1 s), then the page shows the new state with a note beside the buttons
     private func redraw(_ text: String, drained: [Int], before: [Int: Double]) {
         var any = false
-        for k in drained where (before[k] ?? 0) > 0 { drain[k] = (Date(), before[k]!); any = true }
+        if !reduceMotion() {                                  // (Reduce Motion: the water is simply gone)
+            for k in drained where (before[k] ?? 0) > 0 { drain[k] = (Date(), before[k]!); any = true }
+        }
         let wait = max(0.38, any ? 1.0 : 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + wait) {
             drain = [:]; still = true; wake = [:]
             tick += 1
             noteToken += 1; let my = noteToken
             note = text; noteShown = false
-            withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) { noteShown = true }
+            let quick = reduceMotion()                        // the note is there and gone, it does not slide
+            withAnimation(quick ? nil : .timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) { noteShown = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                 guard noteToken == my else { return }
-                withAnimation(.easeIn(duration: 0.25)) { noteShown = false }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { if noteToken == my { note = nil } }
+                withAnimation(quick ? nil : .easeIn(duration: 0.25)) { noteShown = false }
+                DispatchQueue.main.asyncAfter(deadline: .now() + (quick ? 0 : 0.3)) { if noteToken == my { note = nil } }
             }
         }
     }
@@ -437,6 +485,7 @@ struct PreviewView: View {
 
     private func swipe(_ size: CGSize) -> some Gesture {
         DragGesture(minimumDistance: 8)
+            .updating($swipeLive) { _, s, _ in s = true }
             .onChanged { v in
                 let dx = v.translation.width, dy = v.translation.height
                 if dragAxis == nil {
@@ -455,10 +504,11 @@ struct PreviewView: View {
                 let d = x ? drag.width : drag.height, full = x ? size.width : size.height
                 let speed = x ? (v.predictedEndTranslation.width - v.translation.width) : (v.predictedEndTranslation.height - v.translation.height)
                 let go = d > full * 0.33 || speed > 120
-                withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) {
+                let quick = reduceMotion()
+                withAnimation(quick ? nil : .timingCurve(0.32, 0.72, 0, 1, duration: 0.3)) {
                     if go { leaving = x ? CGSize(width: full, height: 0) : CGSize(width: 0, height: full) } else { drag = .zero }
                 }
-                if go { DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { close() } }
+                if go { DispatchQueue.main.asyncAfter(deadline: .now() + (quick ? 0 : 0.3)) { close() } }
             }
     }
 }

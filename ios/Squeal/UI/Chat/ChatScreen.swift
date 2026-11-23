@@ -65,12 +65,14 @@ struct ChatHead: View {
             .buttonStyle(.plain)
             .padding(.horizontal, -12).padding(.vertical, -14)
             .accessibilityLabel(chat.model.tr("back"))
+            .accessibilityIdentifier("chat-back")
             Circle().fill(Theme.accent).frame(width: 38, height: 38)
                 .overlay(Text(String(chat.part.left.prefix(1))).font(AppFont.ui(16, 700)).foregroundStyle(.white))
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 0) {
                 Text(chat.part.left).font(AppFont.ui(16, 600)).foregroundStyle(.white).lineLimit(1).truncationMode(.tail)
                 Text(chat.statusText()).font(AppFont.ui(12)).foregroundStyle(Theme.muted).lineLimit(1)
+                    .accessibilityIdentifier("chat-status")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
@@ -88,6 +90,7 @@ struct PartDisc: View {
     @ObservedObject var chat: ChatController
     @State private var base: CGFloat = 0
     @State private var moved = false
+    @GestureState private var live = false
 
     private let step = ChatController.segStep
 
@@ -103,6 +106,7 @@ struct PartDisc: View {
                         .animation(.easeInOut(duration: 0.25), value: chat.discEp)
                         .frame(width: 40, height: 40)
                         .accessibilityLabel(chat.model.tr("part", ["n": String(k + 1)]))
+                        .accessibilityIdentifier("disc-\(k + 1)")
                         .accessibilityAddTraits(k == chat.discEp ? [.isButton, .isSelected] : .isButton)
                         .accessibilityAction { chat.goPart(k) }
                 }
@@ -111,8 +115,18 @@ struct PartDisc: View {
         .padding(3)
         .background(Capsule().fill(Color.white.opacity(0.06)))
         .contentShape(Capsule())
+        // a drag the phone took away never lifts: the disc goes back to the part that is open (BUGS #149)
+        .onChange(of: live) { _, on in
+            if !on { DispatchQueue.main.async {
+                guard moved else { return }
+                moved = false
+                chat.discDragging = false
+                chat.goPart(chat.ep)
+            } }
+        }
         .gesture(
             DragGesture(minimumDistance: 0)
+                .updating($live) { _, s, _ in s = true }
                 .onChanged { v in
                     let dx = v.translation.width
                     if !moved && abs(dx) < 4 { return }

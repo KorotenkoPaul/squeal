@@ -36,10 +36,12 @@ struct MessageBubble: View {
             VideoCircle(file: video, dur: msg.dur ?? 0, label: msg.text, chat: chat)
                 .opacity(inside)
         } else if let voice = msg.voice {
+            // as wide as its caption on one line: never narrower than 230 pt of content (.msg.voice { min-width }),
+            // never wider than any bubble (78 %); the waveform takes the room there is
             VoiceBubble(file: voice, dur: msg.dur ?? 0, text: msg.text, chat: chat)
                 .opacity(inside)
+                .frame(width: VoiceBubble.contentWidth(msg.text, maxBubble: maxWidth), alignment: .leading)
                 .padding(.horizontal, 14).padding(.vertical, 9)
-                .frame(minWidth: min(258, maxWidth), alignment: .leading)
                 .background(bubbleShape(mine: mine).fill(mine ? Theme.me : Theme.them))
         } else {
             Text(msg.text)
@@ -67,7 +69,7 @@ struct TypingBubble: View {
             case .text:
                 ForEach(0..<3, id: \.self) { k in Blink(period: 1, delay: 0.15 * Double(k)) { Circle().fill(Theme.muted).frame(width: 7, height: 7) } }
             case .voice, .video:
-                Blink(period: 1.2, delay: 0, still: sending) {
+                Blink(period: 1.2, delay: 0, still: sending, calm: 1) {
                     RecIcon(video: kind == .video).frame(width: 18, height: 18).foregroundStyle(sending ? Theme.muted : Theme.red)
                 }
                 Text("0:" + (sec < 10 ? "0" : "") + String(sec))
@@ -86,12 +88,14 @@ struct Blink<Content: View>: View {
     let period: Double
     let delay: Double
     var still = false
+    /// how it stands with Reduce Motion: the dots at 70 %, the recording sign plainly there (as the web)
+    var calm = 0.7
     @ViewBuilder let content: () -> Content
     @State private var born = Date()
 
     var body: some View {
         if still { content() }
-        else if reduceMotion() { content().opacity(0.7) }
+        else if reduceMotion() { content().opacity(calm) }
         else {
             TimelineView(.animation) { tl in
                 let t = tl.date.timeIntervalSince(born) - delay
@@ -160,6 +164,13 @@ struct VoiceBubble: View {
 
     static func time(_ t: Int) -> String { String(t / 60) + ":" + (t % 60 < 10 ? "0" : "") + String(t % 60) }
 
+    static let captionFont = UIFont(name: "AvenirNext-Italic", size: 13) ?? AppFont.uiFont(13)
+    /// the width of what is inside the bubble (its 14 pt padding each side not counted)
+    static func contentWidth(_ caption: String, maxBubble: CGFloat) -> CGFloat {
+        let oneLine = ceil((caption as NSString).size(withAttributes: [.font: captionFont]).width)
+        return max(120, min(maxBubble - 28, max(230, oneLine)))
+    }
+
     var body: some View {
         let bars = Self.bars(file)
         let lit = Int(Reading.jsRound(clip.fraction * Double(bars.count)))
@@ -187,9 +198,10 @@ struct VoiceBubble: View {
                     .frame(minWidth: 12 * 2.4, alignment: .trailing)
             }
             Text(text)
-                .font(Font(UIFont(name: "AvenirNext-Italic", size: 13) ?? AppFont.uiFont(13)))
+                .font(Font(Self.captionFont))
                 .foregroundStyle(Color.white.opacity(0.62))
                 .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .onDisappear { clip.stop() }
     }

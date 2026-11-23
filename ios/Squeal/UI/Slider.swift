@@ -5,6 +5,8 @@ import UIKit
 /// The "Top this week" slider: full-width cards that turn by themselves every 4 s (always one step right), can be
 /// swiped both ways round and round (copies of the last and first card sit at the ends), and a "worm" in the dots
 /// whose white line runs out the time to the next card (template.html startSlider; IDEAS.md «Слайдер»).
+/// The sideways drag itself comes from Home's own UIKit pan (`HomePulls`, mode `.slider`): while the slider has the
+/// touch the page does not scroll, and the clock stands until the finger lifts and the card is home (BUGS #54).
 @MainActor
 final class SliderEngine: ObservableObject {
     static let slideTime = 4.0
@@ -69,6 +71,8 @@ final class SliderEngine: ObservableObject {
     func cardIndex(at x: Double) -> Int { ((Int(x.rounded()) % n) + n) % n }
 
     private func glide(to: Double, dur: Double, curve: CubicBezier) {
+        // Reduce Motion: the card changes at once instead of sliding (BUGS #161: it must still turn)
+        if reduceMotion() { tween = nil; pos = to; return }
         tween = (pos, to, CACurrentMediaTime(), dur, curve)
     }
 
@@ -99,7 +103,9 @@ final class SliderEngine: ObservableObject {
             elapsed = 0
             glide(to: pos.rounded() + 1, dur: 0.5, curve: .easeInOut)           // always one step right
         }
-        fill = t
+        // only what changed is published: with Home covered by a chat or a story page (the clock stands, nothing
+        // moves) no view is redrawn at all (BUGS #126)
+        if fill != t { fill = t }
         save()
     }
 }
@@ -129,6 +135,7 @@ struct TopSlider: View {
                 let x = inset + (CGFloat(k) - CGFloat(engine.pos)) * step
                 if x > -cardW - step && x < width + step {
                     HeroCard(story: s, size: CGSize(width: cardW, height: 190), pressing: touching && downCard == ((k % n) + n) % n)
+                        .accessibilityIdentifier("hero-" + s.id)
                         .offset(x: x)
                         .accessibilityHidden(k < 0 || k >= n)
                 }
@@ -141,22 +148,20 @@ struct TopSlider: View {
             DragGesture(minimumDistance: 0)
                 .updating($touching) { _, st, _ in st = true }
                 .onChanged { v in
+                    // this gesture only presses the card and, lifted without a move, opens it; the drag is Home's pan
                     if downCard == nil { downCard = engine.cardIndex(at: engine.pos) }
                     if axis == nil && (abs(v.translation.width) > 8 || abs(v.translation.height) > 8) {
                         axis = abs(v.translation.width) > abs(v.translation.height)
-                        if axis == true { engine.dragBegan() }
                     }
-                    if axis == true { engine.drag(v.translation.width, step: step) }
                 }
                 .onEnded { v in
-                    if axis == true { engine.dragEnded(predicted: v.predictedEndTranslation.width, step: step) }
-                    else if axis == nil, let k = downCard, Taps.shared.allows("hero:\(k)") { Taps.shared.openTap(); model.previewID = stories[k].id }   // a tap opens the card the finger came down on (BUGS #128)
+                    if axis == nil, !engine.dragging, let k = downCard, Taps.shared.allows("hero:\(k)") { Taps.shared.openTap(); model.previewID = stories[k].id }   // a tap opens the card the finger came down on (BUGS #128)
                     axis = nil; downCard = nil
                 })
         .onChange(of: touching) { _, t in
             engine.held = t
             // the touch was taken away (no onEnded): let go anyway, after onEnded had its chance
-            if !t { DispatchQueue.main.async { if axis == true { engine.dragEnded(predicted: 0, step: step) }; axis = nil; downCard = nil } }
+            if !t { DispatchQueue.main.async { axis = nil; downCard = nil } }
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(model.tr("top5"))

@@ -4,6 +4,13 @@ import UIKit
 /// Every touch of the app passes here before anything else hears of it, as the web's window-level capture listeners
 /// do: the one rule for double taps needs to know where each finger came down. (UIWindow.sendEvent is exchanged for
 /// ours once, at launch — a SwiftUI app has no window class of its own to override it in.)
+///
+/// Safeguards. The watcher only ever adds knowledge; nothing waits for it:
+/// - if the exchange cannot be made, or touches stop arriving here, `Taps.allows` has no touch to judge by and says
+///   yes — every control simply works, without the double-tap rule (unit test `TapsTests`);
+/// - a touch seen long ago is never taken for the tap under way (`Taps.fresh`);
+/// - the exchange itself is checked by a unit test in the running app, and the UI tests press real controls and read
+///   `Taps.seen` back through the screen (`TouchProbe`), so a system update that breaks it fails CI, not a reader.
 extension UIWindow {
     private static var watching = false
     static var watchesTouches: Bool { watching }
@@ -11,6 +18,8 @@ extension UIWindow {
     static func watchTouches() {
         guard !watching, let a = class_getInstanceMethod(UIWindow.self, #selector(UIWindow.sendEvent(_:))),
               let b = class_getInstanceMethod(UIWindow.self, #selector(UIWindow.squeal_sendEvent(_:))) else { return }
+        // exchanged only when both are UIWindow's very own methods of the same shape (never a half-made exchange)
+        guard method_getTypeEncoding(a).map({ String(cString: $0) }) == method_getTypeEncoding(b).map({ String(cString: $0) }) else { return }
         method_exchangeImplementations(a, b)
         watching = true
     }
@@ -43,8 +52,16 @@ final class Taps {
     private var verdict: (seq: Int, control: String?, ok: Bool)? = nil
     private var blank: (seq: Int, before: SpotRule.Spot?)? = nil
     private var eatSeq = -1
+    /// when the watched finger last lifted, and how many touches have been seen at all (tests)
+    private var upT = -1e9
+    private(set) var seen = 0
 
     static func now() -> Double { CACurrentMediaTime() }
+
+    /// Is the touch we know of the tap being judged right now? Yes while its finger is down, and for a moment after
+    /// it lifts (a tap is handled as the finger leaves). Otherwise what we know is an old touch — the watcher has
+    /// missed this one — and it must not be judged by where and when that old touch was.
+    private var fresh: Bool { touch != nil || Self.now() - upT < 0.6 }
 
     fileprivate func see(_ touches: Set<UITouch>) {
         let mine = touches.filter { t in
@@ -56,7 +73,7 @@ final class Taps {
         fingers = mine.filter { $0.phase != .ended && $0.phase != .cancelled }.count
         if before > 0 && fingers == 0 { DispatchQueue.main.async { [self] in if fingers == 0 { onFingersUp.values.forEach { $0() } } } }
         if touch == nil, let t = mine.first(where: { $0.phase == .began }) {            // the first finger only (isPrimary)
-            touch = t; seq += 1; claimed = false
+            touch = t; seq += 1; claimed = false; seen += 1
             let p = t.location(in: nil)
             down = (p, Self.now()); last = p
             onDown.values.forEach { $0(p) }
@@ -64,7 +81,7 @@ final class Taps {
         guard let t = touch, mine.contains(t) else { return }
         last = t.location(in: nil)
         if t.phase == .ended || t.phase == .cancelled {
-            touch = nil
+            touch = nil; upT = Self.now()
             guard t.phase == .ended, let d = down else { return }
             let my = seq, up = last, moved = Double(hypot(up.x - d.p.x, up.y - d.p.y))
             // a tap on no control: noted once every control under the finger has had its say
@@ -81,6 +98,7 @@ final class Taps {
     /// `at`: where the tap is (window coordinates), for a tap that came with no touch of ours (tests).
     func allows(_ control: String?, at: CGPoint? = nil) -> Bool {
         let now = Self.now()
+        if down != nil, !fresh { down = nil; verdict = nil; blank = nil }     // an old touch says nothing about this tap
         if eatSeq == seq, down != nil { return false }
         guard let p = down?.p ?? at else { return true }
         if let b = blank, b.seq == seq { rule.spot = b.before; blank = nil }     // this very tap was noted as one on no control: it is not
@@ -105,7 +123,7 @@ final class Taps {
     func pin() { if let p = down?.p { rule.pin(at: p, now: Self.now()) } }
 
     /// tests
-    func reset() { rule = SpotRule(); down = nil; touch = nil; verdict = nil; blank = nil; eatSeq = -1 }
+    func reset() { rule = SpotRule(); down = nil; touch = nil; verdict = nil; blank = nil; eatSeq = -1; upT = -1e9 }
 }
 
 extension View {

@@ -1,14 +1,12 @@
 import SwiftUI
 import UIKit
 
-/// which gesture owns the touch under way (the genre oval), so a pull never runs together with it
-enum GestureOwner { static var genre = false }
-
 /// Plays `step` frame by frame for `ms` (template.html tween()).
 @MainActor
 func tween(_ ms: Double, _ ease: @escaping (Double) -> Double, _ step: @escaping (Double) -> Void) async {
     await withCheckedContinuation { (done: CheckedContinuation<Void, Never>) in
         let t0 = CACurrentMediaTime()
+        let ms = reduceMotion() ? 0 : ms                     // Reduce Motion: nothing glides, it is simply there
         var loop: FrameLoop?
         loop = FrameLoop { now in
             let t = max(0, min(1, (now - t0) * 1000 / max(1, ms)))
@@ -26,6 +24,11 @@ private let cubicOut: (Double) -> Double = { 1 - pow(1 - $0, 3) }
 /// Home's two pulls (template.html pullToRefresh, pullForRandom). A fling into the top or the bottom bounces with the
 /// phone's own spring; a finger pull at an edge is ours — the owl's eyes at the top, the random-story reel at the
 /// bottom. The two never run at once: once a pull is ours the phone's scrolling never gets that touch.
+///
+/// The same one pan also carries Home's two sideways drags — the genre oval and the slider: one touch, one job
+/// (BUGS #48, #50, #54). The finger's first clear move decides whose the touch is, and it stays theirs to the lift:
+/// sideways on the genre row or on the slider, the page never scrolls or pulls under it; down or up, it is the
+/// page's, and neither the oval nor the slider moves.
 @MainActor
 final class HomePulls: ObservableObject {
     weak var model: AppModel?
@@ -52,8 +55,14 @@ final class HomePulls: ObservableObject {
     @Published private(set) var chosen = false
     @Published private(set) var hintKey = "pull"
 
+    /// the genre oval and the slider (with where the slider is on screen and how far apart its cards are)
+    weak var genre: GenreOval?
+    weak var slider: SliderEngine?
+    var sliderFrame = CGRect.zero
+    var sliderStep: CGFloat = 0
+
     private let pan = HeldPan()
-    private enum Mode { case none, refresh, reel }
+    private enum Mode { case none, refresh, reel, genre, slider }
     private var mode = Mode.none
     private var d = 0.0, ov = 0.0, lastRaw = 0.0, rawBase = 0.0, spin: Double? = nil, offset = 0.0, vy = 0.0, lastLift = 0.0
     private var reelBusy = false, sinking = false, caught = false
@@ -70,7 +79,16 @@ final class HomePulls: ObservableObject {
         pan.attach(sv)
         pan.begins = { [weak self] m in MainActor.assumeIsolated { self?.begins(m) ?? false } }
         pan.changed = { [weak self] m in MainActor.assumeIsolated { self?.changed(m) } }
-        pan.ended = { [weak self] m, c in MainActor.assumeIsolated { self?.ended(cancelled: c) } }
+        pan.ended = { [weak self] m, c in MainActor.assumeIsolated { self?.ended(m, cancelled: c) } }
+        // the genre row hears of a finger the moment it comes down (a press on another genre brings the oval over)
+        Taps.shared.onDown["genre"] = { [weak self] p in
+            guard let self, self.onHome, self.mode == .none else { return }
+            self.genre?.down(at: p)
+        }
+        Taps.shared.onFingersUp["genre"] = { [weak self] in
+            guard let self, self.mode != .genre else { return }
+            self.genre?.lifted()
+        }
         // sinking back is a spring that can be caught: a new touch takes the reel from where it is
         Taps.shared.onDown["reel"] = { [weak self] _ in
             guard let self, self.sinking else { return }
@@ -88,6 +106,7 @@ final class HomePulls: ObservableObject {
         token += 1
         pan.detach(); sinkLoop.stop()
         Taps.shared.onDown["reel"] = nil; Taps.shared.onFingersUp["reel"] = nil
+        Taps.shared.onDown["genre"] = nil; Taps.shared.onFingersUp["genre"] = nil
     }
 
     private var onHome: Bool { model.map { $0.tab == "home" && $0.previewID == nil && $0.chat == nil } ?? false }
@@ -96,10 +115,18 @@ final class HomePulls: ObservableObject {
         guard let sv = pan.scrollView, onHome else { return false }
         let t = m.translation
         if caught { mode = .reel; caught = false; return true }
+        // the genre row and the slider: sideways first, the touch is theirs; down or up first, it is the page's
+        if let g = genre, g.rowFrame.insetBy(dx: 0, dy: -6).contains(m.start) {
+            if abs(t.x) > abs(t.y) { g.dragBegan(); mode = .genre; return true }
+            g.pageTookIt()
+        } else if let s = slider, sliderStep > 0, sliderFrame.contains(m.start), abs(t.x) > abs(t.y) {
+            s.dragBegan(); mode = .slider
+            return true
+        }
         let top = -sv.adjustedContentInset.top, y = sv.contentOffset.y
         let end = max(top, sv.contentSize.height + sv.adjustedContentInset.bottom - sv.bounds.height)
         // while the phone is still bouncing (scrolled past an edge) the touch is left to it
-        if !refreshBusy, abs(y - top) <= 0.5, t.y > 0, t.y >= abs(t.x), !GestureOwner.genre {
+        if !refreshBusy, abs(y - top) <= 0.5, t.y > 0, t.y >= abs(t.x) {
             mode = .refresh; d = 0
             pulling = true; settling = false
             return true
@@ -118,15 +145,21 @@ final class HomePulls: ObservableObject {
             settling = false
             down = CGFloat(d); lids = RefreshPull.lids(d)               // the eyes open as you pull
         case .reel: moveReel(raw: rawBase - Double(m.translation.y), speed: -Double(m.velocity.y))
+        case .genre: genre?.drag(m.translation.x)
+        case .slider: slider?.drag(m.translation.x, step: sliderStep)
         case .none: break
         }
     }
 
-    private func ended(cancelled: Bool) {
+    private func ended(_ m: HeldPan.Move, cancelled: Bool) {
         let was = mode; mode = .none
         switch was {
         case .refresh: endRefresh(cancelled: cancelled)
         case .reel: endReel(cancelled: cancelled)
+        case .genre: genre?.dragEnded()                     // (taken by the phone: it settles where it is, not back)
+        case .slider:
+            // a flick carries on to the next card, as the finger's speed says; a touch the phone took settles on the nearest
+            slider?.dragEnded(predicted: m.translation.x + (cancelled ? 0 : m.velocity.x * 0.25), step: sliderStep)
         case .none: break
         }
     }
@@ -137,6 +170,7 @@ final class HomePulls: ObservableObject {
     // longer) — open red, and the page goes back up with them still open.
 
     private func glide(to v: Double) {
+        if reduceMotion() { settling = false; down = CGFloat(v); return }
         settling = true
         withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.38)) { down = CGFloat(v) }
     }
@@ -147,7 +181,7 @@ final class HomePulls: ObservableObject {
             let from = RefreshPull.lids(d)
             Task { await tween(200, easeOutQuad) { [weak self] t in if let s = self, s.token == my, !s.refreshBusy, s.mode != .refresh { s.lids = lerp(from, 1, t) } } }
             d = 0; glide(to: 0)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.38) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (reduceMotion() ? 0 : 0.38)) { [weak self] in
                 guard let self, !self.refreshBusy, self.mode != .refresh else { return }
                 self.pulling = false                                   // the page is back: the clock runs again
             }
@@ -170,9 +204,11 @@ final class HomePulls: ObservableObject {
             await tween(220, easeOutQuad) { [weak self] t in self?.lids = 1 - t }     // …open, red
             await wait(500)
             // a finger resting on the screen holds the page down; the eyes wait with it, and both go up together
-            while Taps.shared.fingers > 0 && my == token { await wait(50) }
+            // (never for ever: should the end of a touch ever be missed, the page goes back after 8 s — BUGS #114)
+            var held = 0.0
+            while Taps.shared.fingers > 0 && my == token && held < 8000 { await wait(50); held += 50 }
             d = 0; glide(to: 0)
-            await wait(380)
+            await wait(reduceMotion() ? 0 : 380)
             evil = false; lids = 1
             refreshBusy = false; pulling = false
         }
@@ -227,6 +263,7 @@ final class HomePulls: ObservableObject {
         if d < g.line || cancelled {
             // a critically damped spring from the finger's own speed: no drop, no snap; page and reel land together
             if d > g.full { offset += (d - g.full) * 0.9; d = g.full }
+            if reduceMotion() { d = 0; ov = 0; show(0); return }      // Reduce Motion: it is simply gone
             sink = (d, max(-1500, min(1500, vy * 0.6)), CACurrentMediaTime())
             reelBusy = true; sinking = true
             sinkLoop.start()
@@ -248,13 +285,13 @@ final class HomePulls: ObservableObject {
             }
             // no spin: the reel only ever turns with your finger; letting go, it settles on the nearest row in a blink
             await tween(ReelGeometry.settleMs(from: from, to: to), cubicOut) { [weak self] t in self?.strip = lerp(from, to, t) }
-            withAnimation(.timingCurve(0.25, 0.8, 0.25, 1, duration: 0.35)) { chosen = true }       // the chosen one pops forward a little
+            withAnimation(reduceMotion() ? nil : .timingCurve(0.25, 0.8, 0.25, 1, duration: 0.35)) { chosen = true }       // the chosen one pops forward a little
             await wait(380)
             // another tab opened while the reel settled: no story page pops up over it
             if my == token, onHome, let pick { model?.previewID = pick.id }
             chosen = false; reelBusy = false; ov = 0; d = 0
             dropping = true
-            withAnimation(.timingCurve(0.32, 0.72, 0, 1, duration: 0.35)) { show(0) }
+            withAnimation(reduceMotion() ? nil : .timingCurve(0.32, 0.72, 0, 1, duration: 0.35)) { show(0) }
         }
     }
 
@@ -365,7 +402,7 @@ struct ReelView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 // picked: the same thin outline as the selected part in the preview; no fill, no glow
                 .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Theme.line, lineWidth: 1.5).opacity(pulls.chosen ? 1 : 0))
-                .scaleEffect(pulls.chosen ? 1.04 : 1)
+                .scaleEffect(pulls.chosen && !reduceMotion() ? 1.04 : 1)
                 .position(x: g.size.width / 2, y: pulls.reelTop + row / 2)
             }
         }
