@@ -90,10 +90,10 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     // menu: languages, back; subscription off → paywall; on again
     await tapEl('#tab-menu'); await sleep(500);
     for (const [i, code] of [[1, 'de'], [4, 'ru'], [0, 'en']]) {
-      await tapEl('.m-row[data-i="2"]'); await sleep(1100); await tapEl(`.m-row[data-i="${i}"]`); await sleep(1200);
+      await tapEl('.m-row[data-m="lang"]'); await sleep(1100); await tapEl(`.m-row[data-i="${i}"]`); await sleep(1200);
       ok(await p.evaluate(c => LANG === c && document.getElementById('m-title').textContent === trA('tabs')[3] && document.querySelector('#tab-home span').textContent === trA('tabs')[0], code), `${name}: language ${code}`);
     }
-    await tapEl('.m-row[data-i="2"]'); await sleep(1100); await drag(40, 400, 260, 405, 8); await sleep(1100);
+    await tapEl('.m-row[data-m="lang"]'); await sleep(1100); await drag(40, 400, 260, 405, 8); await sleep(1100);
     ok(await p.evaluate(() => document.querySelector('.m-row').dataset.m === 'sub'), `${name}: swipe back from languages`);
     await tapEl('.m-row[data-i="0"]'); await sleep(600); ok(await p.evaluate(() => !premium() && !document.querySelector('.switch').classList.contains('on')), `${name}: subscription off`);
     await p.evaluate(() => localStorage.setItem('squeal:taps', '0')); await p.evaluate(() => openStory('grave', 0)); await sleep(1500); await tap(W / 2, H * .45); await sleep(700);
