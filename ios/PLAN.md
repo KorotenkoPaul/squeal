@@ -83,7 +83,9 @@ The web prototype is the spec. Every fix in `BUGS.md` and every owner decision i
     search keyboard away does nothing else); `fingers` / `onFingersUp` = the web's FINGERS.
   - Screens (`ios/Squeal/UI`): `FavouritesView` (rows, swipe-to-remove with the stretching red button, removal, the
     empty page's acted-out like); `SearchView` (field + Cancel, `FearRow`, the list; the place scrolled to comes back on
-    Cancel); `MenuView` (five rows ⇄ five languages by a 0.3 + 0.3 s fade, tick, back arrow, swipe back, Subscription
+    Cancel; `FearWatch` = how far the fear row is scrolled, read from its UIScrollView's own contentOffset by KVO —
+    the names' look (`Fear.paint`) and, 140 ms after it comes to rest, the level follow that, not SwiftUI's own
+    scroll position, which reports nothing while the row glides); `MenuView` (five rows ⇄ five languages by a 0.3 + 0.3 s fade, tick, back arrow, swipe back, Subscription
     switch → `squeal:premium` / `squeal:taps`, toast); `HomePulls` (the owl's eyes: `OwlEyes`; the random-story reel:
     `ReelView`; both pulls are one UIKit pan on Home's own UIScrollView — `HeldPan` in `Shared.swift` — which the scroll
     view's pan waits for, so a pull of ours never scrolls and a fling still bounces natively); `Shared.swift` (caption
