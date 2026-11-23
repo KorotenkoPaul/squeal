@@ -1,0 +1,56 @@
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+2026-11-23 07:11:51.649899+0000 Squeal[4537:19145] fopen failed for data file: errno = 2 (No such file or directory)
+2026-11-23 07:11:52.074151+0000 Squeal[4537:19145] fopen failed for data file: errno = 2 (No such file or directory)
+2026-11-23 07:11:52.340410+0000 Squeal[4537:19145] [error] building pipeline plane_color-cea15feba4 took 0.690888 seconds
+Test Case '-[SquealTests.ChatTests testANewBubbleOpensOnlyTheRoomItNeeds]' passed (0.008 seconds).
+Test Case '-[SquealTests.ChatTests testChatWalksMatchTheWeb]' passed (0.493 seconds).
+Test Case '-[SquealTests.ChatTests testEveryDoodleOfEveryStoryCanBeDrawn]' passed (0.004 seconds).
+Test Case '-[SquealTests.ChatTests testKeysAreReadInTheFilesOrder]' passed (0.004 seconds).
+Test Case '-[SquealTests.ChatTests testVoiceWaveformIsTheWebs]' passed (0.001 seconds).
+Test Case '-[SquealTests.ChatTests testWallpaperIsLaidOutAsInTheWeb]' passed (1.471 seconds).
+Test Suite 'ChatTests' passed at 2026-11-23 07:12:09.569.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 1.980 (1.996) seconds
+Test Case '-[SquealTests.LogicTests testAllLanguagesLoadInTheWebOrder]' passed (0.054 seconds).
+Test Case '-[SquealTests.LogicTests testCoversAreBundled]' passed (0.015 seconds).
+Test Case '-[SquealTests.LogicTests testFirstLanguage]' passed (0.026 seconds).
+Test Case '-[SquealTests.LogicTests testProgressRulesMatchTheWeb]' passed (0.264 seconds).
+Test Case '-[SquealTests.LogicTests testPyJSONMatchesPython]' passed (0.002 seconds).
+Test Case '-[SquealTests.LogicTests testReadingTimeMatchesTheWebEverywhere]' passed (0.007 seconds).
+Test Case '-[SquealTests.LogicTests testStoreTreatsAWrongKindAsNoValue]' passed (0.021 seconds).
+Test Case '-[SquealTests.LogicTests testSvgPathReaderDrawsTheIcons]' passed (0.001 seconds).
+Test Case '-[SquealTests.LogicTests testThePartOpenInTheChatKeepsAShortCount]' passed (4.930 seconds).
+Test Case '-[SquealTests.LogicTests testTopOfTheWeekIsTheSameInEveryLanguage]' passed (0.003 seconds).
+Test Case '-[SquealTests.LogicTests testVersionFingerprintMatchesBuildPy]' passed (0.001 seconds).
+Test Case '-[SquealTests.LogicTests testWeekKeyIsISO]' passed (0.001 seconds).
+Test Suite 'LogicTests' passed at 2026-11-23 07:12:14.919.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 5.325 (5.342) seconds
+Test Case '-[SquealTests.Stage3Tests testAfterCloseAndAfterOpenTheSamePlaceTakesNoTap]' passed (0.003 seconds).
+Test Case '-[SquealTests.Stage3Tests testFavouritesStandUnderTheirGenresInTheStoriesOrder]' passed (0.002 seconds).
+Test Case '-[SquealTests.Stage3Tests testFearLevelsAndTheRowsLook]' passed (0.001 seconds).
+Test Case '-[SquealTests.Stage3Tests testMenuSubscriptionSwitchWritesWhatTheChatReads]' passed (0.012 seconds).
+Test Case '-[SquealTests.Stage3Tests testNormAndOneTypo]' passed (0.004 seconds).
+Test Case '-[SquealTests.Stage3Tests testPullsAndRowSwipeNumbers]' passed (0.001 seconds).
+Test Case '-[SquealTests.Stage3Tests testSearchFindsWhatTheWebFindsInEveryLanguage]' passed (0.574 seconds).
+Test Case '-[SquealTests.Stage3Tests testTheAppWatchesItsTouchesAndATapWithNoTouchIsJudgedByItsPlace]' passed (0.001 seconds).
+Test Case '-[SquealTests.Stage3Tests testTheOneRuleForDoubleTapsEatsWhatTheWebEats]' passed (0.001 seconds).
+Test Case '-[SquealTests.Stage3Tests testTheReelHoldsTheWebsCandidatesAndStandsWhereTheWebsDoes]' passed (0.003 seconds).
+Test Suite 'Stage3Tests' passed at 2026-11-23 07:12:19.125.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.602 (4.207) seconds
+Test Case '-[SquealTests.Stage4Tests testALanguageChangeDropsAnOpenChat]' passed (0.025 seconds).
+Test Case '-[SquealTests.Stage4Tests testAPartSwitchMakesTheOldDoodlesFallAndAChoiceOnlyTheClosedEndings]' passed (9.749 seconds).
+Test Case '-[SquealTests.Stage4Tests testAVoiceBubbleIsAsWideAsItsCaptionWithinItsLimits]' passed (0.009 seconds).
+Test Case '-[SquealTests.Stage4Tests testBrokenSavesAreIgnored]' passed (0.093 seconds).
+Test Case '-[SquealTests.Stage4Tests testEveryStoryOpensInEveryState]' passed (15.799 seconds).
+Test Case '-[SquealTests.Stage4Tests testStoryShape]' passed (0.029 seconds).
+Test Case '-[SquealTests.Stage4Tests testStoryTextIsClean]' passed (0.104 seconds).
+Test Case '-[SquealTests.Stage4Tests testTheGenreOvalFollowsTheFingerAndSettlesOnTheNearest]' passed (0.617 seconds).
+Test Case '-[SquealTests.Stage4Tests testTheSliderPublishesNothingWhileNothingChanges]' passed (0.836 seconds).
+Test Case '-[SquealTests.Stage4Tests testTheWindowsSendEventIsOursAndStillUIKits]' passed (0.001 seconds).
+Test Case '-[SquealTests.Stage4Tests testWallpaperNamesExist]' passed (0.002 seconds).
+Test Case '-[SquealTests.Stage4Tests testWithNoTouchSeenEveryTapIsAllowed]' passed (0.001 seconds).
+Test Suite 'Stage4Tests' passed at 2026-11-23 07:12:46.401.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 27.265 (27.275) seconds
+Test Suite 'SquealTests.xctest' passed at 2026-11-23 07:12:46.401.
+	 Executed 40 tests, with 0 failures (0 unexpected) in 35.172 (38.829) seconds
+Test Suite 'All tests' passed at 2026-11-23 07:12:46.401.
+	 Executed 40 tests, with 0 failures (0 unexpected) in 35.172 (38.830) seconds

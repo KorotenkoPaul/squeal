@@ -1,0 +1,35 @@
+2026-11-23 07:16:08.670 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+/Users/runner/work/squeal/squeal/ios/SquealUITests/FlowTests.swift:17: error: -[SquealUITests.FlowTests testADoubleTapOnACardOnlyOpensItsPage] : Failed to launch <XCUIApplicationImpl: 0x10715a040 app.squeal.Squeal at /Users/runner/work/squeal/squeal/ios/build/Build/Products/Debug-iphonesimulator/Squeal.app> via Xcode: Timed out while launching application via Xcode.
+Test Case '-[SquealUITests.FlowTests testADoubleTapOnACardOnlyOpensItsPage]' failed (77.378 seconds).
+2026-11-23 07:16:31.406 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testAFreeReaderHitsThePaywall]' passed (33.687 seconds).
+2026-11-23 07:16:58.472 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-11-23 07:17:19.795 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testAnswersAtAChoiceAndAnEndingAndBackToAChoice]' passed (51.726 seconds).
+2026-11-23 07:17:50.151 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-11-23 07:18:05.849 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testFavouritesAndSearchListsScrollFromARow]' passed (28.811 seconds).
+2026-11-23 07:18:18.799 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testGenresAndTheSlider]' passed (27.055 seconds).
+2026-11-23 07:18:45.865 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-11-23 07:20:07.880 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+2026-11-23 07:20:21.784 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testHomeScrollsFromATileASliderCardAndTheGenreRow]' passed (124.837 seconds).
+2026-11-23 07:20:50.746 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testLanguageAndSubscription]' passed (35.772 seconds).
+2026-11-23 07:21:26.508 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testLikeUnlikeAndFavourites]' passed (48.393 seconds).
+2026-11-23 07:22:14.868 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testOpenAStoryReadAndComeBack]' passed (40.683 seconds).
+2026-11-23 07:22:55.568 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testPartsNextPartAndThePartDisc]' passed (24.688 seconds).
+2026-11-23 07:23:20.326 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testPullToRefreshAndTheRandomStoryReel]' passed (45.942 seconds).
+2026-11-23 07:24:06.250 xcodebuild[5042:22313] [MT] IDELaunchParametersSnapshot: The operation couldn’t be completed. (DebuggerLLDB.DebuggerVersionStore.StoreError error 0.)
+Test Case '-[SquealUITests.FlowTests testSearchFindsAndOpensAndCancelBringsTheFearRowBack]' passed (45.029 seconds).
+Test Suite 'FlowTests' failed at 2026-11-23 07:24:50.158.
+	 Executed 12 tests, with 1 failure (0 unexpected) in 584.002 (584.019) seconds
+Test Suite 'SquealUITests.xctest' failed at 2026-11-23 07:24:50.160.
+	 Executed 12 tests, with 1 failure (0 unexpected) in 584.002 (584.021) seconds
+Test Suite 'All tests' failed at 2026-11-23 07:24:50.160.
+	 Executed 12 tests, with 1 failure (0 unexpected) in 584.002 (584.025) seconds
