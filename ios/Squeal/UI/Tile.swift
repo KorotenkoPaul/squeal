@@ -150,6 +150,7 @@ struct TileView: View {
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(model.isFav(story.id) ? [.isButton, .isSelected] : .isButton)
         .accessibilityLabel(story.title)
+        .accessibilityValue(f >= 1 ? model.tr("readAll") : f > 0 ? model.tr("pctRead", ["n": String(model.percent(story))]) : "")
         .accessibilityIdentifier("tile-" + story.id)
         // VoiceOver cannot hold a card: the like is an action of its own
         .accessibilityAction(named: Text(model.tr("favourite"))) { model.toggleFav(story.id) }

@@ -134,7 +134,7 @@ struct TopSlider: View {
                 let s = stories[((k % n) + n) % n]
                 let x = inset + (CGFloat(k) - CGFloat(engine.pos)) * step
                 if x > -cardW - step && x < width + step {
-                    HeroCard(story: s, size: CGSize(width: cardW, height: 190), pressing: touching && downCard == ((k % n) + n) % n)
+                    HeroCard(story: s, size: CGSize(width: cardW, height: 190), pressing: touching && axis == nil && downCard == ((k % n) + n) % n)
                         .accessibilityIdentifier("hero-" + s.id)
                         .accessibilityAction { model.previewID = s.id }
                         .offset(x: x)

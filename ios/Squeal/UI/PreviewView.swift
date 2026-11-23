@@ -62,6 +62,7 @@ struct PreviewView: View {
     @GestureState private var frameLive = false
     @GestureState private var resetLive = false
     @GestureState private var likeLive = false
+    @State private var resetOff = false              // the finger has slid off ↺ during this touch
 
     private var multi: Bool { story.parts.count > 1 }
 
@@ -297,9 +298,18 @@ struct PreviewView: View {
         .frame(width: 56, height: 56).contentShape(Rectangle())
         .gesture(DragGesture(minimumDistance: 0)
             .updating($resetLive) { _, s, _ in s = true }
-            .onChanged { _ in if holdState == 0, Taps.shared.allows("pv-reset") { resetDown() } }
-            .onEnded { _ in resetUp() })
-        .onChange(of: resetLive) { _, on in if !on { DispatchQueue.main.async { resetCalledOff() } } }
+            .onChanged { v in
+                // the finger slid off the button: the press is over, nothing is reset (the web's pointerleave)
+                if !CGRect(x: 0, y: 0, width: 56, height: 56).insetBy(dx: -4, dy: -4).contains(v.location) {
+                    if !resetOff { resetOff = true; resetCalledOff() }
+                    return
+                }
+                if holdState == 0, !resetOff, Taps.shared.allows("pv-reset") { resetDown() }
+            }
+            .onEnded { _ in
+                if resetOff { resetOff = false } else { resetUp() }
+            })
+        .onChange(of: resetLive) { _, on in if !on { DispatchQueue.main.async { resetOff = false; resetCalledOff() } } }
         .accessibilityElement().accessibilityLabel(model.tr(multi ? "resetMulti" : "reset")).accessibilityAddTraits(.isButton)
         .accessibilityIdentifier("pv-reset")
         .accessibilityAction { resetOne() }
