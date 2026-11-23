@@ -54,6 +54,11 @@ final class FlowTests: XCTestCase {
 
     private func tab(_ key: String) { appear("tab-" + key).tap() }
 
+    /// a tap at an element's middle, by its place on screen (no question asked about what is "hittable" there)
+    private func press(_ id: String, file: StaticString = #filePath, line: UInt = #line) {
+        appear(id, file: file, line: line).coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+    }
+
     /// a slow drag from one point of the screen to another (fractions of the window), the finger resting before it lifts
     private func drag(from a: CGVector, to b: CGVector, hold: TimeInterval = 0.3) {
         let w = app.windows.firstMatch
@@ -261,10 +266,11 @@ final class FlowTests: XCTestCase {
         launch()
         tab("menu")
         XCTAssertEqual(appear("menu-row-2").label, "Language")
-        el("menu-row-2").tap()
+        press("menu-row-2")
         until(4, "the languages show") { self.el("menu-row-1").label == "Deutsch" }
+        XCTAssertTrue(el("menu-row-0").isSelected, "English carries the tick")
         sleep(1)                                                 // rows that just faded in take no tap yet
-        el("menu-row-1").tap()
+        press("menu-row-1")
         until(5, "the menu is back, in German") { self.el("menu-row-2").label == "Sprache" }
         XCTAssertEqual(probe()["lang"], "de")
         tab("home")
@@ -275,7 +281,7 @@ final class FlowTests: XCTestCase {
         tab("menu")
         sleep(1)
         XCTAssertEqual(probe()["premium"], "1")
-        appear("menu-row-0").tap()                               // Subscription: the demo switch
+        press("menu-row-0")                                      // Subscription: the demo switch
         XCTAssertTrue(appear("toast").label.hasPrefix("Demo"))
         XCTAssertEqual(probe()["premium"], "0")
         XCTAssertEqual(probe()["taps"], "100")
