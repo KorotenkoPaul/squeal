@@ -105,7 +105,6 @@ struct TileView: View {
     private struct Press { var heart = false, moved = false, fired = false }
     @State private var press: Press? = nil
     @State private var holdToken = 0
-    @GestureState private var touching = false
 
     var body: some View {
         let height = width * 1.15
@@ -138,49 +137,24 @@ struct TileView: View {
             if badge {
                 HeartBadge(box: 39, heart: 21, circle: Theme.accent, motion: motion)
                     .padding(9)
-                    .contentShape(Rectangle().inset(by: -10))
-                    .tap("fav:" + story.id) { unlikeByTap() }
+                    .allowsHitTesting(false)            // its tap is read by the card's own press (onHeart below)
             }
+        }
+        // Tap opens; hold (0.38 s without moving more than 8 pt) likes or unlikes — exactly the web's longPress(): the
+        // card sinks while it is held, a drag is neither a tap nor a hold, and the page scrolls under it natively.
+        // The finger is read by UIKit (PressSurface), as a button in a scroll view is: a SwiftUI drag gesture on the
+        // card kept the page from scrolling on iOS 26 (BUGS #169), and a tap and a long-press recogniser side by side
+        // proved unreliable inside a scroll view (the UI tests' hold never liked).
+        .overlay {
+            PressSurface(began: { p, late in fingerDown(at: p, late: late) },
+                         moved: { t in fingerMoved(t) },
+                         ended: { cancelled in fingerUp(cancelled: cancelled) })
+                .accessibilityHidden(true)
         }
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: 14))
         .scaleEffect(pressing ? 0.96 : beat)
         .animation(.timingCurve(0.25, 0.8, 0.25, 1, duration: pressing ? 0.5 : 0.3), value: pressing)
-        // Tap opens; hold (0.38 s without moving more than 8 pt) likes or unlikes — one gesture that watches the
-        // finger itself, exactly the web's longPress(): the card sinks while it is held, a drag is neither a tap nor
-        // a hold, and the page scrolls under it as ever. (A tap and a long-press recogniser side by side proved
-        // unreliable inside a scroll view: the UI tests' hold never liked.)
-        .simultaneousGesture(DragGesture(minimumDistance: 0)
-            .updating($touching) { _, s, _ in s = true }
-            .onChanged { v in
-                if press == nil {
-                    // on the heart badge (its finger-sized target): the badge's own tap unlikes, the card stays still
-                    let onHeart = badge && v.startLocation.x > width - 68 && v.startLocation.y < 68
-                    press = Press(heart: onHeart)
-                    guard !onHeart else { return }
-                    pressing = true
-                    holdToken += 1; let my = holdToken
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.38) {
-                        guard holdToken == my, let p = press, !p.moved, !p.heart, !p.fired else { return }
-                        press?.fired = true
-                        holdLike()
-                    }
-                }
-                if press?.moved == false, hypot(v.translation.width, v.translation.height) > 8 {
-                    press?.moved = true; holdToken += 1                // a drag is not a long press
-                    pressing = false
-                }
-            }
-            .onEnded { _ in
-                let p = press
-                press = nil; holdToken += 1; pressing = false
-                guard let p, !p.heart, !p.moved, !p.fired else { return }
-                if Taps.shared.allows("tile:" + story.id) { Taps.shared.openTap(); model.previewID = story.id }
-            })
-        // the touch was taken away (a scroll, the phone): no tap, no like
-        .onChange(of: touching) { _, on in
-            if !on { DispatchQueue.main.async { if press != nil { press = nil; holdToken += 1; pressing = false } } }
-        }
         .onAppear { badge = model.isFav(story.id) }
         .onChange(of: model.favs) { _, f in
             let on = f.contains(story.id)
@@ -194,6 +168,41 @@ struct TileView: View {
         .accessibilityAction { model.previewID = story.id }
         // VoiceOver cannot hold a card: the like is an action of its own
         .accessibilityAction(named: Text(model.tr("favourite"))) { model.toggleFav(story.id) }
+    }
+
+    // MARK: the finger (PressSurface)
+
+    private func fingerDown(at p: CGPoint, late: Double) {
+        // on the heart badge (its finger-sized target): the badge's own tap unlikes, the card stays still
+        let onHeart = badge && p.x > width - 68 && p.y < 68
+        press = Press(heart: onHeart)
+        holdToken += 1
+        guard !onHeart else { return }
+        pressing = true
+        let my = holdToken
+        DispatchQueue.main.asyncAfter(deadline: .now() + max(0, 0.38 - late)) {
+            guard holdToken == my, let p = press, !p.moved, !p.heart, !p.fired else { return }
+            press?.fired = true
+            holdLike()
+        }
+    }
+
+    private func fingerMoved(_ t: CGSize) {
+        guard press?.moved == false, hypot(t.width, t.height) > 8 else { return }
+        press?.moved = true; holdToken += 1                    // a drag is not a long press
+        pressing = false
+    }
+
+    /// lifted: a tap opens the card (or, on the badge, unlikes); taken away (the page scrolled, the phone): nothing
+    private func fingerUp(cancelled: Bool) {
+        let p = press
+        press = nil; holdToken += 1; pressing = false
+        guard !cancelled, let p, !p.moved, !p.fired else { return }
+        if p.heart {
+            if Taps.shared.allows("fav:" + story.id) { unlikeByTap() }
+        } else if Taps.shared.allows("tile:" + story.id) {
+            Taps.shared.openTap(); model.previewID = story.id
+        }
     }
 
     /// hold: like (the card swells, the badge pops and the heart is drawn) or unlike (the heart cracks)

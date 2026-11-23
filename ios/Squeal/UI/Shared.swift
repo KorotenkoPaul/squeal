@@ -117,3 +117,55 @@ final class HeldPan: NSObject, UIGestureRecognizerDelegate {
         }
     }
 }
+
+/// A finger on a card (a tile, a slider card), read by UIKit the way a UIButton inside a scroll view reads it: the
+/// press comes down, and the moment the page starts scrolling the scroll view takes the touch away (`cancelled`).
+/// It never holds the page still: a drag up or down that starts on the card scrolls the page natively. (A SwiftUI
+/// `DragGesture(minimumDistance: 0)` on the card — even as a simultaneous gesture — kept the page from scrolling on
+/// iOS 26 when the finger came down on it: BUGS #169.) Points are in the view's own space.
+struct PressSurface: UIViewRepresentable {
+    /// the finger came down here; `late`: how long ago it really touched (the scroll view may hand a still finger over
+    /// a moment late)
+    var began: (_ at: CGPoint, _ late: Double) -> Void
+    var moved: (_ translation: CGSize) -> Void
+    /// lifted (`cancelled` false), or taken away by the scroll view or the phone (`cancelled` true)
+    var ended: (_ cancelled: Bool) -> Void
+
+    func makeUIView(context: Context) -> Surface {
+        let v = Surface()
+        v.backgroundColor = .clear
+        v.isMultipleTouchEnabled = false
+        v.isAccessibilityElement = false
+        v.owner = self
+        return v
+    }
+    func updateUIView(_ v: Surface, context: Context) { v.owner = self }
+
+    final class Surface: UIView {
+        var owner: PressSurface?
+        private weak var finger: UITouch?
+        private var start = CGPoint.zero
+
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard finger == nil, let t = touches.first else { return }
+            finger = t
+            start = t.location(in: self)
+            owner?.began(start, max(0, CACurrentMediaTime() - t.timestamp))
+        }
+        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let t = finger, touches.contains(t) else { return }
+            let p = t.location(in: self)
+            owner?.moved(CGSize(width: p.x - start.x, height: p.y - start.y))
+        }
+        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let t = finger, touches.contains(t) else { return }
+            finger = nil
+            owner?.ended(false)
+        }
+        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let t = finger, touches.contains(t) else { return }
+            finger = nil
+            owner?.ended(true)
+        }
+    }
+}

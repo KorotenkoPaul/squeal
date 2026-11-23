@@ -140,7 +140,9 @@ struct EndTitle: View {
         .multilineTextAlignment(.center)
         .padding(.top, 16).padding(.horizontal, 8).padding(.bottom, 4)
         .fixedSize(horizontal: false, vertical: true)
-        .accessibilityElement(children: .combine)
+        // one element with its own label (a combined one went missing from the accessibility tree on iOS 26)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(sub.map { title + ", " + $0 } ?? title)
         .accessibilityIdentifier("chat-end")
     }
 }

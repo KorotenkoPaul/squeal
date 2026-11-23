@@ -123,7 +123,7 @@ struct TopSlider: View {
     let width: CGFloat              // the screen's width: cards run edge to edge
     let inset: CGFloat              // side margin of a card (18)
 
-    @GestureState private var touching = false
+    @State private var touching = false
     @State private var axis: Bool? = nil           // true: sideways (ours)
     @State private var downCard: Int? = nil
 
@@ -145,24 +145,28 @@ struct TopSlider: View {
         .frame(width: width, height: 190, alignment: .topLeading)
         .clipped()
         .contentShape(Rectangle())
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .updating($touching) { _, st, _ in st = true }
-                .onChanged { v in
-                    // this gesture only presses the card and, lifted without a move, opens it; the drag is Home's pan
-                    if downCard == nil { downCard = engine.cardIndex(at: engine.pos) }
-                    if axis == nil && (abs(v.translation.width) > 8 || abs(v.translation.height) > 8) {
-                        axis = abs(v.translation.width) > abs(v.translation.height)
+        // this only presses the card and, lifted without a move, opens it; the sideways drag is Home's pan, a drag up
+        // or down is the page's own scrolling. The finger is read by UIKit (PressSurface): a SwiftUI drag gesture here
+        // kept the page from scrolling on iOS 26 when the finger came down on a card (BUGS #169).
+        .overlay {
+            PressSurface(
+                began: { _, _ in
+                    touching = true; engine.held = true
+                    downCard = engine.cardIndex(at: engine.pos)
+                    axis = nil
+                },
+                moved: { t in
+                    if axis == nil && (abs(t.width) > 8 || abs(t.height) > 8) { axis = abs(t.width) > abs(t.height) }
+                },
+                ended: { cancelled in
+                    // a tap opens the card the finger came down on (BUGS #128); a touch taken away does nothing
+                    if !cancelled, axis == nil, !engine.dragging, let k = downCard, Taps.shared.allows("hero:\(k)") {
+                        Taps.shared.openTap(); model.previewID = stories[k].id
                     }
-                }
-                .onEnded { v in
-                    if axis == nil, !engine.dragging, let k = downCard, Taps.shared.allows("hero:\(k)") { Taps.shared.openTap(); model.previewID = stories[k].id }   // a tap opens the card the finger came down on (BUGS #128)
+                    touching = false; engine.held = false
                     axis = nil; downCard = nil
                 })
-        .onChange(of: touching) { _, t in
-            engine.held = t
-            // the touch was taken away (no onEnded): let go anyway, after onEnded had its chance
-            if !t { DispatchQueue.main.async { axis = nil; downCard = nil } }
+            .accessibilityHidden(true)
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(model.tr("top5"))

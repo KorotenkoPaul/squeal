@@ -170,7 +170,7 @@ final class FlowTests: XCTestCase {
 
         // an ending: its title, "Start over", and the way back to each choice made
         launch(["-chat", "two-knocks", "-pos", "37", "-path", "start,stay,hide"])
-        let end = appear("chat-end")
+        let end = appear("chat-end", 12)
         XCTAssertTrue(end.label.contains("Ending"), end.label)
         XCTAssertEqual(appear("chat-again").label, "START OVER")
         XCTAssertFalse(el("chat-next").exists)
