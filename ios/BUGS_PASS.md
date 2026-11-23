@@ -156,7 +156,7 @@ native app, with the reason) · **device** (the code follows the rule, but only 
 | 146 | IDEAS cross-check numbers | holds | 0.15 s / 0.4 s fades, Favourites bounce, doodles after the fall |
 | 147 | Dots misplaced when coming back early | holds | `SliderEngine.start` sets them at once |
 | 148 | Double ✕ / back pressed what lay under | fixed | `SpotRule` CLOSE_TAP; the story page is now a VoiceOver modal too |
-| 149 | Interruptions (background, call, system gesture) | fixed | time in the background no longer counts for the slider on any tab; every SwiftUI drag that the phone takes away is put back (`cancelled` handling in story page swipe, part frame, reset, heart, part disc, menu swipe); the genre oval returns |
+| 149 | Interruptions (background, call, system gesture) | fixed | every SwiftUI drag the phone takes away is now put back (`@GestureState` + clean-up in the story page swipe, part frame, ↺, heart, Read, part disc, menu swipe); the genre oval settles (UIKit `cancelled`); time in the background does not run the slider (`applicationState`); media paused by the phone goes back to its plain look (`VoiceClip.paint`, `VideoClip`) |
 | 150 | Follow-ups of 130–149 | holds | |
 | 151 | End title jerk after a video | holds | `showEnd` (`growing`) |
 | 152 | Out of taps at a choice | holds | `ChatReader.foot` (tests); ui |
@@ -176,3 +176,71 @@ native app, with the reason) · **device** (the code follows the rule, but only 
 | 166 | Double tap on a low card; open "Remove"; voice counter | holds | `openTap`, `FavRows.listen` |
 | 167 | Double-tap guards that ate real taps | holds | guards are per touch |
 | 168 | One rule for double taps | holds | `SpotRule` (tests), now also guarded if the touch watcher is missing |
+
+## IDEAS.md → «Решения по интерфейсу — перенести в Swift как есть»
+
+| # | Decision | Verdict | Where / why |
+|---|---|---|---|
+| I1 | The choice: answers are "drafts" in the chat (on trial) | holds | `Chat/ChoiceDrafts.swift`, alone in its file; ui |
+| I2 | Progress: 3 messages or fewer = 0 | holds | `Reading.prog` (tests) |
+| I3 | Like on a tile: 39/21 pt badge, pop, pen, ink, 0.39 s | holds | `HeartBadge` |
+| I4 | Unlike: the crack, 0.32 s / 0.2 s | holds | `HeartBadge.crack` |
+| I5 | Empty Favourites picture and spacing | holds | `EmptyFavourites` |
+| I6 | Random story reel: turns with the finger only, stretch, sink | holds + device | `HomePulls`, `ReelGeometry` (tests); ui |
+| I7 | Search: only the list moves | holds | `SearchView` |
+| I8 | Story page: buttons, swipes, part frame, reset ring, note | fixed | held; now also: a finger that slides off ↺ resets nothing (the web's pointerleave) |
+| I9 | Wallpaper doodles fly in, fall on a part switch | holds | `WallKeeper` (new `Stage4Tests`) |
+| I10 | Interactive wallpaper: endings' doodles fall and come back | holds | `WallKeeper.setVis` (tests) |
+| I11 | Reading time rule (READ_SEC = 3) | holds | `Reading` (tests, 5 languages) |
+| I12 | Line breaks of an answer = of the sent message | holds | a draft is the message |
+| I13 | Answers in the bottom panel, flight, water | n/a | replaced by I1 |
+| I14 | New messages like WhatsApp (0.26 s) | holds | `ScrollPin`, `Grow` |
+| I15 | Genres: the oval, 1:1 drag, press slides it over, one touch one job | fixed | `GenreOval`: the press on another genre now brings the oval over (0.18 s after 90 ms or the first sideways move) and the drag is a held UIKit pan (BUGS #48, #50) |
+| I16 | Slider cards are not liked by a hold | holds | no long press on `HeroCard` |
+| I17 | Refresh: eyes stop where they blink; wait for the finger; clock stands | holds + device | `RefreshPull`, `HomePulls` |
+| I18 | Haptics: light tap on like/unlike; a growing buzz on the reset hold | holds + device | `Haptics.tap`, `Haptics.ramp` |
+| I19 | Slider clock stands while held / gliding | holds | `SliderEngine.tick` |
+| I20 | Slider: the "worm" | holds | `SliderDots` |
+| I21 | Slider turns both ways round and round | holds | copies at both ends; ui |
+| I22 | Story page like (2026-11-09) | holds | superseded by I45 |
+| I23 | Story page reset: still water, the note's look | holds | `PreviewView.redraw`, `noteView` |
+| I24 | Waves 1 s shorter; a picked part wakes them | holds | `WaterFill`, `select(wakeUp:)` |
+| I25 | Slider white line inside the pill | holds | `SliderDots` |
+| I26 | Favourites springs; removal at the end glides | fixed | BUGS #84 |
+| I27 | A finished story opens at its end | holds | `ChatReader` (tests); ui |
+| I28 | Story page swipes: right/down close, left/up open | holds | `PreviewView.swipe` |
+| I29 | Languages (5), menu fade 0.3 + 0.3 s, tick, swipe back | holds | `MenuView`, `L10n`; ui |
+| I30 | Open question: voices are English in every language | n/a | content; paid generation needs the owner's yes |
+| I31 | "typing…" stretches into the message | holds | `Grow.morph` |
+| I32 | "typing…" bubble = one-line message by construction | holds | `TypingBubble` |
+| I33 | A new bubble grows from its pointed corner | holds | `GrowEffect` (from zero: I43) |
+| I34 | Bottom panel height never jumps (0.4 s) | holds | `FootLayout` |
+| I35 | "Start over" exactly where "Tap to continue" stood | holds | `EndButtons` |
+| I36 | Conversation's bottom at the panel's edge | holds | as amended by I1: the chat does not move at a choice |
+| I37 | Chat spring = Search's | holds | native bounce, description is a row |
+| I38 | End buttons move nothing (0.125 s fades) | holds | `showEnd`, `contGhost` |
+| I39 | End title rides up like a message | holds | `showEnd` |
+| I40 | A tap never stops the glide | holds | `ScrollPin` |
+| I41 | Part selector 40 pt, step 44 pt | holds | `PartDisc`; ui |
+| I42 | Part switch: one spring per message | holds | `SlideEngine` (16/s, 12/s) |
+| I43 | A new bubble grows from zero | holds | `Grow` |
+| I44 | Home: native bounce + our pulls, never both | holds + device | `HeldPan` |
+| I45 | Like on the story page = like on a tile | fixed | held; now the plain heart also comes back as on the web after an unlike (from 70 %, 0.18 s) |
+| I46 | VoiceOver labels in all five languages | fixed | held (`L10n.a11y`); now also: a tile says how much is read and offers "Favourite" as an action, the story page is a modal, arriving messages are read out |
+| I47 | Progress line fills only when new | holds | `BarMemory` |
+
+## Reduce Motion (BUGS #69, #161, and the gaps earlier stages left)
+
+With "Reduce Motion" on, direct manipulation still follows the finger; nothing glides, grows, rises or pulses by itself:
+slider (the card changes at once, still every 4 s), genre oval and part frame (at once), tiles after a genre change
+(no rise), likes and unlikes (on or off, no pop, pen or crack), progress lines (there at once), story page (water just
+stands, no drain, note and buttons without motion, a swipe closes at once), toasts, Favourites rows, the empty page,
+menu (words swap at once), chat (opens at once, no slides or growth, "typing…" stands at 70 %, the recording sign
+stands, the hint does not breathe; pauses of typing and recording are pacing and stay), wallpaper (the plain one, closed
+endings just go), owl pull (lids and page at once), reel (settles, sinks and drops at once, no pop).
+
+## Not ported on purpose (prototype only)
+
+TEST-UNDO button ↶ · red ✕ marks on covers to be replaced (`.fix`, build.py COVER_FIX) · the card-morph opening
+(`CARD_MORPH = false` in the web too) · mouse and keyboard handlers (VoiceOver actions instead) · the web's own rubber
+bands (the phone's bounce) · the web haptics work-around · font loading / boot fade · `squeal:recent` (written, never read).
